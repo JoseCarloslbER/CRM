@@ -6,12 +6,13 @@ import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { FUSE_MOCK_API_DEFAULT_DELAY, mockApiInterceptor } from '@fuse/lib/mock-api';
 import { FuseConfig } from '@fuse/services/config';
 import { FUSE_CONFIG } from '@fuse/services/config/config.constants';
-import { FuseConfirmationService } from '@fuse/services/confirmation';
+// import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { fuseLoadingInterceptor, FuseLoadingService } from '@fuse/services/loading';
 import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
 import { FusePlatformService } from '@fuse/services/platform';
 import { FuseSplashScreenService } from '@fuse/services/splash-screen';
 import { FuseUtilsService } from '@fuse/services/utils';
+import { FuseConfirmationService } from './services/confirmation/confirmation.service';
 
 export type FuseProviderConfig = {
     mockApi?: {
