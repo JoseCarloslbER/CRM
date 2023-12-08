@@ -6,6 +6,8 @@ const pageRoutes: Routes = [
 		path: '',
 		component: PagesComponent,
 		children: [
+			{ path: '', pathMatch : 'full', redirectTo: 'catchment' },
+
 			{
 				path: 'catchment',
 				loadChildren: () => import('./catchment/catchment.module').then((m) => m.CatchmentModule),

@@ -8,6 +8,7 @@ const catchmentRoutes: Routes = [
 		// canActivate: [PermisosGuard],
 		component: CatchmentComponent,
 		children: [
+			{ path: '', pathMatch : 'full', redirectTo: 'prospects' },
 			{
 				path: 'prospects',
 				component: ProspectsComponent,
