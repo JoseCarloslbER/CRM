@@ -48,14 +48,7 @@
         </div>
 
     </ng-container>
-    <!-- Navigation footer hook -->
-    <ng-container fuseVerticalNavigationContentFooter>
-        <div class="flex flex-0 items-center justify-center h-16 pr-6 pl-2 mt-2 mb-4 opacity-12">
-            <img
-                class="max-w-36"
-                src="assets/images/logo/logo-text-on-dark.svg">
-        </div>
-    </ng-container>
+
 </fuse-vertical-navigation>
 
 <!-- Wrapper -->
@@ -69,18 +62,14 @@
             (click)="toggleNavigation('mainNavigation')">
             <mat-icon [svgIcon]="'heroicons_outline:bars-3'"></mat-icon>
         </button>
+        
         <!-- Components -->
-        <div class="flex items-center pl-2 ml-auto space-x-0.5 sm:space-x-2">
-            <fuse-fullscreen class="hidden md:block"></fuse-fullscreen>
+        <div class="flex items-center pl-2 ml-auto space-x-0.5 sm:space-x-5">
             <search [appearance]="'bar'"></search>
+            <mat-icon>calendar_today</mat-icon>
             <shortcuts></shortcuts>
             <messages></messages>
-            <button
-                class="lg:hidden"
-                mat-icon-button
-                (click)="quickChat.toggle()">
-                <mat-icon [svgIcon]="'heroicons_outline:chat-bubble-left-right'"></mat-icon>
-            </button>
+            <notifications></notifications>
         </div>
     </div>
 
@@ -92,11 +81,8 @@
     </div>
 
     <!-- Footer -->
-    <!--<div class="relative flex flex-0 items-center justify-start w-full h-14 px-4 md:px-6 z-49 border-t bg-card dark:bg-transparent print:hidden">
+    <div class="relative flex flex-0 items-center justify-start w-full h-14 px-4 md:px-6 z-49 border-t bg-card dark:bg-transparent print:hidden">
         <span class="font-medium text-secondary">Fuse &copy; {{currentYear}}</span>
-    </div>-->
+    </div>
 
 </div>
-
-<!-- Quick chat -->
-<quick-chat #quickChat="quickChat"></quick-chat>

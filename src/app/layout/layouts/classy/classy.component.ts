@@ -3,7 +3,6 @@ import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
-import { FuseFullscreenComponent } from '@fuse/components/fullscreen';
 import { FuseLoadingBarComponent } from '@fuse/components/loading-bar';
 import { FuseNavigationService, FuseVerticalNavigationComponent } from '@fuse/components/navigation';
 import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
@@ -13,7 +12,6 @@ import { UserService } from 'app/core/user/user.service';
 import { User } from 'app/core/user/user.types';
 import { MessagesComponent } from 'app/layout/common/messages/messages.component';
 import { NotificationsComponent } from 'app/layout/common/notifications/notifications.component';
-import { QuickChatComponent } from 'app/layout/common/quick-chat/quick-chat.component';
 import { SearchComponent } from 'app/layout/common/search/search.component';
 import { ShortcutsComponent } from 'app/layout/common/shortcuts/shortcuts.component';
 import { UserComponent } from 'app/layout/common/user/user.component';
@@ -24,7 +22,7 @@ import { Subject, takeUntil } from 'rxjs';
     templateUrl  : './classy.component.html',
     encapsulation: ViewEncapsulation.None,
     standalone   : true,
-    imports      : [FuseLoadingBarComponent, FuseVerticalNavigationComponent, NotificationsComponent, UserComponent, NgIf, MatIconModule, MatButtonModule, FuseFullscreenComponent, SearchComponent, ShortcutsComponent, MessagesComponent, RouterOutlet, QuickChatComponent],
+    imports      : [FuseLoadingBarComponent, FuseVerticalNavigationComponent, NotificationsComponent, UserComponent, NgIf, MatIconModule, MatButtonModule, SearchComponent, ShortcutsComponent, MessagesComponent, RouterOutlet],
     styles: [
         `
         .logo-crm {

@@ -64,6 +64,9 @@ export const appRoutes: Route[] = [
     //     ]
     // },
 
+    // { path: 'home', loadChildren: () => import('./paginas/paginas.module').then((m) => m.PaginasModule) },
+
+
     // Admin routes
     {
         path: '',
