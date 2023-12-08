@@ -2,12 +2,10 @@ import { NgIf } from '@angular/common';
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
+import { RouterOutlet } from '@angular/router';
 import { FuseLoadingBarComponent } from '@fuse/components/loading-bar';
 import { FuseNavigationService, FuseVerticalNavigationComponent } from '@fuse/components/navigation';
 import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
-import { NavigationService } from 'app/core/navigation/navigation.service';
-import { Navigation } from 'app/core/navigation/navigation.types';
 import { UserService } from 'app/core/user/user.service';
 import { User } from 'app/core/user/user.types';
 import { MessagesComponent } from 'app/layout/common/messages/messages.component';
@@ -18,11 +16,11 @@ import { UserComponent } from 'app/layout/common/user/user.component';
 import { Subject, takeUntil } from 'rxjs';
 
 @Component({
-    selector     : 'classy-layout',
-    templateUrl  : './classy.component.html',
+    selector: 'classy-layout',
+    templateUrl: './classy.component.html',
     encapsulation: ViewEncapsulation.None,
-    standalone   : true,
-    imports      : [FuseLoadingBarComponent, FuseVerticalNavigationComponent, NotificationsComponent, UserComponent, NgIf, MatIconModule, MatButtonModule, SearchComponent, ShortcutsComponent, MessagesComponent, RouterOutlet],
+    standalone: true,
+    imports: [FuseLoadingBarComponent, FuseVerticalNavigationComponent, NotificationsComponent, UserComponent, NgIf, MatIconModule, MatButtonModule, SearchComponent, ShortcutsComponent, MessagesComponent, RouterOutlet],
     styles: [
         `
         .logo-crm {
@@ -31,103 +29,185 @@ import { Subject, takeUntil } from 'rxjs';
         `
     ]
 })
-export class ClassyLayoutComponent implements OnInit, OnDestroy
-{
+export class ClassyLayoutComponent implements OnInit, OnDestroy {
     isScreenSmall: boolean;
-    navigation: Navigation;
     user: User;
+
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
-    /**
-     * Constructor
-     */
+    public menu: any = [
+        {
+            id: "1",
+            title: "CAPTACIÓN PENEEEE",
+            type: "group",
+            icon: "heroicons_outline:home",
+            children: [
+                {
+                    id: "dashboards.project",
+                    title: "Prospectos",
+                    type: "basic",
+                    icon: "heroicons_outline:chart-pie",
+                    link: "/dashboards/project"
+                },
+                {
+                    id: "dashboards.analytics",
+                    title: "Leads",
+                    type: "basic",
+                    icon: "manage_accounts",
+                    link: "/dashboards/analytics"
+                },
+                {
+                    id: "dashboards.finance",
+                    title: "Clientes",
+                    type: "basic",
+                    icon: "heroicons_outline:banknotes",
+                    link: "/dashboards/finance"
+                }
+            ]
+        },
+        {
+            id: "2",
+            title: "DASHBOARDS",
+            type: "group",
+            icon: "heroicons_outline:home",
+            children: [
+                {
+                    id: "dashboards.project",
+                    title: "Principal",
+                    type: "basic",
+                    icon: "heroicons_outline:chart-pie",
+                    link: "/dashboards/project"
+                },
+                {
+                    id: "dashboards.analytics",
+                    title: "Pipeline",
+                    type: "basic",
+                    icon: "manage_accounts",
+                    link: "/dashboards/analytics"
+                }
+            ]
+        },
+        {
+            id: "3",
+            title: "CONVERSIÓN",
+            type: "group",
+            icon: "heroicons_outline:home",
+            children: [
+                {
+                    id: "dashboards.project",
+                    title: "Cotizaciones",
+                    type: "basic",
+                    icon: "heroicons_outline:chart-pie",
+                    link: "/dashboards/project"
+                }
+            ]
+        },
+        {
+            id: "4",
+            title: "ADQUISICIÓN",
+            type: "group",
+            icon: "heroicons_outline:home",
+            children: [
+                {
+                    id: "dashboards.project",
+                    title: "Empresas",
+                    type: "basic",
+                    icon: "heroicons_outline:chart-pie",
+                    link: "/dashboards/project"
+                }
+            ]
+        },
+        {
+            id: "5",
+            title: "REACTIVACIÓN",
+            type: "group",
+            icon: "heroicons_outline:home",
+            children: [
+                {
+                    id: "dashboards.project",
+                    title: "Campañas",
+                    type: "basic",
+                    icon: "heroicons_outline:chart-pie",
+                    link: "/dashboards/project"
+                },
+                {
+                    id: "dashboards.project",
+                    title: "Llamadas",
+                    type: "basic",
+                    icon: "heroicons_outline:chart-pie",
+                    link: "/dashboards/project"
+                }
+            ]
+        },
+        {
+            id: "6",
+            title: "GESTIÓN",
+            type: "group",
+            icon: "heroicons_outline:home",
+            children: [
+                {
+                    id: "dashboards.project",
+                    title: "Actividades",
+                    type: "basic",
+                    icon: "heroicons_outline:chart-pie",
+                    link: "/dashboards/project"
+                },
+                {
+                    id: "dashboards.project",
+                    title: "Admin",
+                    type: "basic",
+                    icon: "heroicons_outline:chart-pie",
+                    link: "/dashboards/project"
+                },
+                {
+                    id: "dashboards.project",
+                    title: "Config",
+                    type: "basic",
+                    icon: "heroicons_outline:chart-pie",
+                    link: "/dashboards/project"
+                }
+            ]
+        }
+    ]
     constructor(
-        private _activatedRoute: ActivatedRoute,
-        private _router: Router,
-        private _navigationService: NavigationService,
         private _userService: UserService,
         private _fuseMediaWatcherService: FuseMediaWatcherService,
         private _fuseNavigationService: FuseNavigationService,
-    )
-    {
+    ) {
     }
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Accessors
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * Getter for current year
-     */
-    get currentYear(): number
-    {
+    get currentYear(): number {
         return new Date().getFullYear();
     }
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Lifecycle hooks
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * On init
-     */
-    ngOnInit(): void
-    {
-        // Subscribe to navigation data
-        this._navigationService.navigation$
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((navigation: Navigation) =>
-            {
-                this.navigation = navigation;
-            });
-
-        // Subscribe to the user service
+    ngOnInit(): void {
+        // Subscribe to the user 
         this._userService.user$
             .pipe((takeUntil(this._unsubscribeAll)))
-            .subscribe((user: User) =>
-            {
-                console.log();
-                
+            .subscribe((user: User) => {
                 this.user = user;
             });
 
         // Subscribe to media changes
         this._fuseMediaWatcherService.onMediaChange$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe(({matchingAliases}) =>
-            {
+            .subscribe(({ matchingAliases }) => {
                 // Check if the screen is small
                 this.isScreenSmall = !matchingAliases.includes('md');
             });
     }
 
-    /**
-     * On destroy
-     */
-    ngOnDestroy(): void
-    {
-        // Unsubscribe from all subscriptions
+
+    ngOnDestroy(): void {
         this._unsubscribeAll.next(null);
         this._unsubscribeAll.complete();
     }
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Public methods
-    // -----------------------------------------------------------------------------------------------------
 
-    /**
-     * Toggle navigation
-     *
-     * @param name
-     */
-    toggleNavigation(name: string): void
-    {
-        // Get the navigation
+    toggleNavigation(name: string): void {
         const navigation = this._fuseNavigationService.getComponent<FuseVerticalNavigationComponent>(name);
 
-        if ( navigation )
-        {
-            // Toggle the opened status
+        if (navigation) {
             navigation.toggle();
         }
     }
