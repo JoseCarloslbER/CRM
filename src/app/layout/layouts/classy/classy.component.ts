@@ -9,7 +9,8 @@ import { FuseNavigationService, FuseVerticalNavigationComponent } from '@fuse/co
 import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
 import { NavigationService } from 'app/core/navigation/navigation.service';
 import { Navigation } from 'app/core/navigation/navigation.types';
-import { LanguagesComponent } from 'app/layout/common/languages/languages.component';
+import { UserService } from 'app/core/user/user.service';
+import { User } from 'app/core/user/user.types';
 import { MessagesComponent } from 'app/layout/common/messages/messages.component';
 import { NotificationsComponent } from 'app/layout/common/notifications/notifications.component';
 import { QuickChatComponent } from 'app/layout/common/quick-chat/quick-chat.component';
@@ -19,16 +20,24 @@ import { UserComponent } from 'app/layout/common/user/user.component';
 import { Subject, takeUntil } from 'rxjs';
 
 @Component({
-    selector     : 'thin-layout',
-    templateUrl  : './thin.component.html',
+    selector     : 'classy-layout',
+    templateUrl  : './classy.component.html',
     encapsulation: ViewEncapsulation.None,
     standalone   : true,
-    imports      : [FuseLoadingBarComponent, FuseVerticalNavigationComponent, MatButtonModule, MatIconModule, LanguagesComponent, FuseFullscreenComponent, SearchComponent, ShortcutsComponent, MessagesComponent, NotificationsComponent, UserComponent, NgIf, RouterOutlet, QuickChatComponent],
+    imports      : [FuseLoadingBarComponent, FuseVerticalNavigationComponent, NotificationsComponent, UserComponent, NgIf, MatIconModule, MatButtonModule, FuseFullscreenComponent, SearchComponent, ShortcutsComponent, MessagesComponent, RouterOutlet, QuickChatComponent],
+    styles: [
+        `
+        .logo-crm {
+            width: 80px
+        }
+        `
+    ]
 })
-export class ThinLayoutComponent implements OnInit, OnDestroy
+export class ClassyLayoutComponent implements OnInit, OnDestroy
 {
     isScreenSmall: boolean;
     navigation: Navigation;
+    user: User;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
@@ -38,6 +47,7 @@ export class ThinLayoutComponent implements OnInit, OnDestroy
         private _activatedRoute: ActivatedRoute,
         private _router: Router,
         private _navigationService: NavigationService,
+        private _userService: UserService,
         private _fuseMediaWatcherService: FuseMediaWatcherService,
         private _fuseNavigationService: FuseNavigationService,
     )
@@ -71,6 +81,16 @@ export class ThinLayoutComponent implements OnInit, OnDestroy
             .subscribe((navigation: Navigation) =>
             {
                 this.navigation = navigation;
+            });
+
+        // Subscribe to the user service
+        this._userService.user$
+            .pipe((takeUntil(this._unsubscribeAll)))
+            .subscribe((user: User) =>
+            {
+                console.log();
+                
+                this.user = user;
             });
 
         // Subscribe to media changes
