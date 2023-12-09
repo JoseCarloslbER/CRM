@@ -1,41 +1,27 @@
 import { NgIf } from '@angular/common';
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
 import { RouterOutlet } from '@angular/router';
-import { FuseLoadingBarComponent } from '@fuse/components/loading-bar';
+import { Subject } from 'rxjs';
 import { FuseNavigationService, FuseVerticalNavigationComponent } from '@fuse/components/navigation';
-import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
-import { UserService } from 'app/core/user/user.service';
+import { FuseLoadingBarComponent } from '@fuse/components/loading-bar';
+import { NotificationsComponent } from './common/notifications/notifications.component';
+import { UserComponent } from './common/user/user.component';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { SearchComponent } from './common/search/search.component';
+import { MessagesComponent } from './common/messages/messages.component';
+import { ShortcutsComponent } from './common/shortcuts/shortcuts.component';
 import { User } from 'app/core/user/user.types';
-import { MessagesComponent } from 'app/layout/common/messages/messages.component';
-import { NotificationsComponent } from 'app/layout/common/notifications/notifications.component';
-import { SearchComponent } from 'app/layout/common/search/search.component';
-import { ShortcutsComponent } from 'app/layout/common/shortcuts/shortcuts.component';
-import { UserComponent } from 'app/layout/common/user/user.component';
-import { Subject, takeUntil } from 'rxjs';
-
 
 @Component({
-    selector     : 'layout',
-    templateUrl  : './layout.component.html',
-    styleUrls    : ['./layout.component.scss'],
+    selector: 'layout',
+    templateUrl: './layout.component.html',
+    styleUrls: ['./layout.component.scss'],
     encapsulation: ViewEncapsulation.None,
-    standalone   : true,
+    standalone: true,
     imports: [FuseLoadingBarComponent, FuseVerticalNavigationComponent, NotificationsComponent, UserComponent, NgIf, MatIconModule, MatButtonModule, SearchComponent, ShortcutsComponent, MessagesComponent, RouterOutlet],
-    styles: [
-        `
-        .logo-crm {
-            width: 80px
-        }
-        `
-    ]
 })
 export class LayoutComponent implements OnInit, OnDestroy {
-    isScreenSmall: boolean;
-    user: User;
-
-    private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     public menu: any = [
         {
@@ -171,57 +157,30 @@ export class LayoutComponent implements OnInit, OnDestroy {
             ]
         }
     ]
+
+    isScreenSmall: boolean;
+    user: User;
+
+    private _unsubscribeAll: Subject<any> = new Subject<any>();
+
     constructor(
-        private _userService: UserService,
-        private _fuseMediaWatcherService: FuseMediaWatcherService,
         private _fuseNavigationService: FuseNavigationService,
-    ) {
-    }
+    ) { }
 
-    get currentYear(): number {
-        return new Date().getFullYear();
-    }
-
-    ngOnInit(): void {
-        // Subscribe to the user 
-        this._userService.user$
-            .pipe((takeUntil(this._unsubscribeAll)))
-            .subscribe((user: User) => {
-                this.user = user;
-            });
-
-        // Subscribe to media changes
-        this._fuseMediaWatcherService.onMediaChange$
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe(({ matchingAliases }) => {
-                // Check if the screen is small
-                this.isScreenSmall = !matchingAliases.includes('md');
-            });
-    }
-
+    ngOnInit(): void {}
 
     ngOnDestroy(): void {
         this._unsubscribeAll.next(null);
         this._unsubscribeAll.complete();
     }
 
-
     toggleNavigation(name: string): void {
         const navigation = this._fuseNavigationService.getComponent<FuseVerticalNavigationComponent>(name);
 
-        if (navigation) {
-            navigation.toggle();
-        }
+        if (navigation) navigation.toggle();
     }
 
-
-
-
-
-
-
-
-
-
-
+    get currentYear(): number {
+        return new Date().getFullYear();
+    }
 }
