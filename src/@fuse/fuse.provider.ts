@@ -90,20 +90,5 @@ export const provideFuse = (config: FuseProviderConfig): Array<Provider | Enviro
         },
     ];
 
-    // Mock Api services
-    if ( config?.mockApi?.services )
-    {
-        providers.push(
-            provideHttpClient(withInterceptors([mockApiInterceptor])),
-            {
-                provide   : APP_INITIALIZER,
-                deps      : [...config.mockApi.services],
-                useFactory: () => (): any => null,
-                multi     : true,
-            },
-        );
-    }
-
-    // Return the providers
     return providers;
 };

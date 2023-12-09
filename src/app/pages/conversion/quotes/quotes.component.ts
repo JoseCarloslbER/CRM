@@ -19,8 +19,15 @@ export class QuotesComponent {
     probar() {
       this.notificationService.open(
         {
-          title: 'hola'
-        }
+          title: 'hola',
+          actions : {
+            confirm : {
+              show : true,
+              color: 'warn'
+            }
+          }
+          
+        },
       )
     }
 

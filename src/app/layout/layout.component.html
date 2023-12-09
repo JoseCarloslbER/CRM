@@ -32,12 +32,12 @@
             <div class="relative w-24 h-24">
                 <img
                     class="w-full h-full rounded-full"
-                    *ngIf="user.avatar"
-                    [src]="user.avatar"
+                    *ngIf="user?.avatar"
+                    [src]="user?.avatar"
                     alt="User avatar">
                 <mat-icon
                     class="icon-size-24"
-                    *ngIf="!user.avatar"
+                    *ngIf="!user?.avatar"
                     [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
             </div>
 
