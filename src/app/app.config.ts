@@ -8,9 +8,7 @@ import { provideFuse } from '@fuse';
 import { provideTransloco, TranslocoService } from '@ngneat/transloco';
 import { firstValueFrom } from 'rxjs';
 import { appRoutes } from 'app/app.routes';
-import { provideAuth } from 'app/core/auth/auth.provider';
 import { provideIcons } from 'app/core/icons/icons.provider';
-import { TranslocoHttpLoader } from './core/transloco/transloco.http-loader';
 
 export const appConfig: ApplicationConfig = {
     providers: [
@@ -41,42 +39,7 @@ export const appConfig: ApplicationConfig = {
             },
         },
 
-        // Transloco Config
-        provideTransloco({
-            config: {
-                availableLangs      : [
-                    {
-                        id   : 'en',
-                        label: 'English',
-                    },
-                    {
-                        id   : 'tr',
-                        label: 'Turkish',
-                    },
-                ],
-                defaultLang         : 'en',
-                fallbackLang        : 'en',
-                reRenderOnLangChange: true,
-                prodMode            : true,
-            },
-            loader: TranslocoHttpLoader,
-        }),
-        {
-            // Preload the default language before the app starts to prevent empty/jumping content
-            provide   : APP_INITIALIZER,
-            useFactory: () =>
-            {
-                const translocoService = inject(TranslocoService);
-                const defaultLang = translocoService.getDefaultLang();
-                translocoService.setActiveLang(defaultLang);
-
-                return () => firstValueFrom(translocoService.load(defaultLang));
-            },
-            multi     : true,
-        },
-
         // Fuse
-        // provideAuth(),
         provideIcons(),
         provideFuse({
             fuse   : {
@@ -90,30 +53,6 @@ export const appConfig: ApplicationConfig = {
                 },
                 theme  : 'theme-default',
                 themes : [
-                    {
-                        id  : 'theme-default',
-                        name: 'Default',
-                    },
-                    {
-                        id  : 'theme-brand',
-                        name: 'Brand',
-                    },
-                    {
-                        id  : 'theme-teal',
-                        name: 'Teal',
-                    },
-                    {
-                        id  : 'theme-rose',
-                        name: 'Rose',
-                    },
-                    {
-                        id  : 'theme-purple',
-                        name: 'Purple',
-                    },
-                    {
-                        id  : 'theme-amber',
-                        name: 'Amber',
-                    },
                 ],
             },
         }),

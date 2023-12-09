@@ -11,7 +11,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { SearchComponent } from './common/search/search.component';
 import { MessagesComponent } from './common/messages/messages.component';
 import { ShortcutsComponent } from './common/shortcuts/shortcuts.component';
-import { User } from 'app/core/user/user.types';
 
 @Component({
     selector: 'layout',
@@ -159,7 +158,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
     ]
 
     isScreenSmall: boolean;
-    user: User;
+    user: any;
 
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
