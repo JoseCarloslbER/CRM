@@ -27,14 +27,13 @@ export class LayoutComponent implements OnInit, OnDestroy {
             id: "1",
             title: "CAPTACIÓN",
             type: "group",
-            icon: "heroicons_outline:home",
             children: [
                 {
                     id: "dashboards.project",
                     title: "Prospectos",
                     type: "basic",
-                    icon: "heroicons_outline:chart-pie",
-                    link: "/dashboards/project"
+                    icon: "feather:user-check",
+                    link: "/home/catchment/prospects"
                 },
                 {
                     id: "dashboards.analytics",
@@ -47,7 +46,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
                     id: "dashboards.finance",
                     title: "Clientes",
                     type: "basic",
-                    icon: "heroicons_outline:banknotes",
+                    icon: "heroicons_mini:user-group",
                     link: "/dashboards/finance"
                 }
             ]
@@ -85,7 +84,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
                     title: "Cotizaciones",
                     type: "basic",
                     icon: "heroicons_outline:chart-pie",
-                    link: "/dashboards/project"
+                    link: "/home/conversion/quotes"
                 }
             ]
         },
