@@ -6,25 +6,25 @@ import { MatButton, MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
-import { MessagesService } from 'app/layout/common/messages/messages.service';
-import { Message } from 'app/layout/common/messages/messages.types';
+import { NotificationsService } from 'app/shared/layout/common/notifications/notifications.service';
+import { Notification } from 'app/shared/layout/common/notifications/notifications.types';
 import { Subject, takeUntil } from 'rxjs';
 
 @Component({
-    selector       : 'messages',
-    templateUrl    : './messages.component.html',
+    selector       : 'notifications',
+    templateUrl    : './notifications.component.html',
     encapsulation  : ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush,
-    exportAs       : 'messages',
+    exportAs       : 'notifications',
     standalone     : true,
     imports        : [MatButtonModule, NgIf, MatIconModule, MatTooltipModule, NgFor, NgClass, NgTemplateOutlet, RouterLink, DatePipe],
 })
-export class MessagesComponent implements OnInit, OnDestroy
+export class NotificationsComponent implements OnInit, OnDestroy
 {
-    @ViewChild('messagesOrigin') private _messagesOrigin: MatButton;
-    @ViewChild('messagesPanel') private _messagesPanel: TemplateRef<any>;
+    @ViewChild('notificationsOrigin') private _notificationsOrigin: MatButton;
+    @ViewChild('notificationsPanel') private _notificationsPanel: TemplateRef<any>;
 
-    messages: Message[];
+    notifications: Notification[];
     unreadCount: number = 0;
     private _overlayRef: OverlayRef;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -34,7 +34,7 @@ export class MessagesComponent implements OnInit, OnDestroy
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _messagesService: MessagesService,
+        private _notificationsService: NotificationsService,
         private _overlay: Overlay,
         private _viewContainerRef: ViewContainerRef,
     )
@@ -50,13 +50,13 @@ export class MessagesComponent implements OnInit, OnDestroy
      */
     ngOnInit(): void
     {
-        // Subscribe to message changes
-        this._messagesService.messages$
+        // Subscribe to notification changes
+        this._notificationsService.notifications$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((messages: Message[]) =>
+            .subscribe((notifications: Notification[]) =>
             {
-                // Load the messages
-                this.messages = messages;
+                // Load the notifications
+                this.notifications = notifications;
 
                 // Calculate the unread count
                 this._calculateUnreadCount();
@@ -87,12 +87,12 @@ export class MessagesComponent implements OnInit, OnDestroy
     // -----------------------------------------------------------------------------------------------------
 
     /**
-     * Open the messages panel
+     * Open the notifications panel
      */
     openPanel(): void
     {
-        // Return if the messages panel or its origin is not defined
-        if ( !this._messagesPanel || !this._messagesOrigin )
+        // Return if the notifications panel or its origin is not defined
+        if ( !this._notificationsPanel || !this._notificationsOrigin )
         {
             return;
         }
@@ -104,11 +104,11 @@ export class MessagesComponent implements OnInit, OnDestroy
         }
 
         // Attach the portal to the overlay
-        this._overlayRef.attach(new TemplatePortal(this._messagesPanel, this._viewContainerRef));
+        this._overlayRef.attach(new TemplatePortal(this._notificationsPanel, this._viewContainerRef));
     }
 
     /**
-     * Close the messages panel
+     * Close the notifications panel
      */
     closePanel(): void
     {
@@ -116,33 +116,33 @@ export class MessagesComponent implements OnInit, OnDestroy
     }
 
     /**
-     * Mark all messages as read
+     * Mark all notifications as read
      */
     markAllAsRead(): void
     {
         // Mark all as read
-        this._messagesService.markAllAsRead().subscribe();
+        this._notificationsService.markAllAsRead().subscribe();
     }
 
     /**
-     * Toggle read status of the given message
+     * Toggle read status of the given notification
      */
-    toggleRead(message: Message): void
+    toggleRead(notification: Notification): void
     {
         // Toggle the read status
-        message.read = !message.read;
+        notification.read = !notification.read;
 
-        // Update the message
-        this._messagesService.update(message.id, message).subscribe();
+        // Update the notification
+        this._notificationsService.update(notification.id, notification).subscribe();
     }
 
     /**
-     * Delete the given message
+     * Delete the given notification
      */
-    delete(message: Message): void
+    delete(notification: Notification): void
     {
-        // Delete the message
-        this._messagesService.delete(message.id).subscribe();
+        // Delete the notification
+        this._notificationsService.delete(notification.id).subscribe();
     }
 
     /**
@@ -171,7 +171,7 @@ export class MessagesComponent implements OnInit, OnDestroy
             backdropClass   : 'fuse-backdrop-on-mobile',
             scrollStrategy  : this._overlay.scrollStrategies.block(),
             positionStrategy: this._overlay.position()
-                .flexibleConnectedTo(this._messagesOrigin._elementRef.nativeElement)
+                .flexibleConnectedTo(this._notificationsOrigin._elementRef.nativeElement)
                 .withLockedPosition(true)
                 .withPush(true)
                 .withPositions([
@@ -218,9 +218,9 @@ export class MessagesComponent implements OnInit, OnDestroy
     {
         let count = 0;
 
-        if ( this.messages && this.messages.length )
+        if ( this.notifications && this.notifications.length )
         {
-            count = this.messages.filter(message => !message.read).length;
+            count = this.notifications.filter(notification => !notification.read).length;
         }
 
         this.unreadCount = count;

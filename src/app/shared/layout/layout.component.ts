@@ -4,12 +4,12 @@ import { RouterOutlet } from '@angular/router';
 import { Subject } from 'rxjs';
 import { FuseNavigationService, FuseVerticalNavigationComponent } from '@fuse/components/navigation';
 import { FuseLoadingBarComponent } from '@fuse/components/loading-bar';
-import { NotificationsComponent } from './common/notifications/notifications.component';
-import { UserComponent } from './common/user/user.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { SearchComponent } from './common/search/search.component';
 import { MessagesComponent } from './common/messages/messages.component';
+import { NotificationsComponent } from './common/notifications/notifications.component';
+import { UserComponent } from './common/user/user.component';
+import { SearchComponent } from './common/search/search.component';
 import { ShortcutsComponent } from './common/shortcuts/shortcuts.component';
 
 @Component({
