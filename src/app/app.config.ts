@@ -5,10 +5,8 @@ import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { PreloadAllModules, provideRouter, withInMemoryScrolling, withPreloading } from '@angular/router';
 import { provideFuse } from '@fuse';
-import { provideTransloco, TranslocoService } from '@ngneat/transloco';
-import { firstValueFrom } from 'rxjs';
 import { appRoutes } from 'app/app.routes';
-import { provideIcons } from 'app/core/icons/icons.provider';
+import { provideIcons } from 'app/shared/icons/icons.provider';
 
 export const appConfig: ApplicationConfig = {
     providers: [
