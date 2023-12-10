@@ -5,15 +5,10 @@ import { DomSanitizer } from '@angular/platform-browser';
 @Injectable({providedIn: 'root'})
 export class IconsService
 {
-    /**
-     * Constructor
-     */
-    constructor()
-    {
+    constructor() {
         const domSanitizer = inject(DomSanitizer);
         const matIconRegistry = inject(MatIconRegistry);
 
-        // Register icon sets
         matIconRegistry.addSvgIconSet(domSanitizer.bypassSecurityTrustResourceUrl('assets/icons/material-twotone.svg'));
         matIconRegistry.addSvgIconSetInNamespace('mat_outline', domSanitizer.bypassSecurityTrustResourceUrl('assets/icons/material-outline.svg'));
         matIconRegistry.addSvgIconSetInNamespace('mat_solid', domSanitizer.bypassSecurityTrustResourceUrl('assets/icons/material-solid.svg'));
