@@ -2,7 +2,7 @@ import { NgIf } from '@angular/common';
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Subject } from 'rxjs';
-import { FuseNavigationService, FuseVerticalNavigationComponent } from '@fuse/components/navigation';
+import { FuseNavigationItem, FuseNavigationService, FuseVerticalNavigationComponent } from '@fuse/components/navigation';
 import { FuseLoadingBarComponent } from '@fuse/components/loading-bar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -22,28 +22,28 @@ import { ShortcutsComponent } from './common/shortcuts/shortcuts.component';
 })
 export class LayoutComponent implements OnInit, OnDestroy {
 
-    public menu: any = [
+    public menu: FuseNavigationItem[] = [
         {
             id: "1",
             title: "CAPTACIÓN",
             type: "group",
             children: [
                 {
-                    id: "dashboards.project",
+                    id: "1",
                     title: "Prospectos",
                     type: "basic",
                     icon: "feather:user-check",
                     link: "/home/catchment/prospects"
                 },
                 {
-                    id: "dashboards.analytics",
+                    id: "2",
                     title: "Leads",
                     type: "basic",
                     icon: "manage_accounts",
                     link: "/dashboards/analytics"
                 },
                 {
-                    id: "dashboards.finance",
+                    id: "3",
                     title: "Clientes",
                     type: "basic",
                     icon: "heroicons_mini:user-group",
@@ -58,18 +58,25 @@ export class LayoutComponent implements OnInit, OnDestroy {
             icon: "heroicons_outline:home",
             children: [
                 {
-                    id: "dashboards.project",
+                    id: "1",
                     title: "Principal",
                     type: "basic",
-                    icon: "heroicons_outline:chart-pie",
-                    link: "/dashboards/project"
+                    icon: "mat_solid:tune",
+                    link: "/home/dashboard/home"
                 },
                 {
-                    id: "dashboards.analytics",
+                    id: "2",
                     title: "Pipeline",
                     type: "basic",
-                    icon: "manage_accounts",
-                    link: "/dashboards/analytics"
+                    icon: "feather:repeat",
+                    link: "/home/dashboard/pipeline"
+                },
+                {
+                    id: "3",
+                    title: "Actividades por agente",
+                    type: "basic",
+                    icon: "mat_outline:groups",
+                    link: "/home/dashboard/activities-agent"
                 }
             ]
         },
@@ -80,14 +87,16 @@ export class LayoutComponent implements OnInit, OnDestroy {
             icon: "heroicons_outline:home",
             children: [
                 {
-                    id: "dashboards.project",
+                    id: "1",
                     title: "Cotizaciones",
                     type: "basic",
-                    icon: "heroicons_outline:chart-pie",
-                    link: "/home/conversion/quotes"
+                    link: "/home/conversion/quotes",
+                    iconGoogleFonts : 'lightbulb'
+
                 }
             ]
         },
+        
         {
             id: "4",
             title: "ADQUISICIÓN",
@@ -95,12 +104,25 @@ export class LayoutComponent implements OnInit, OnDestroy {
             icon: "heroicons_outline:home",
             children: [
                 {
-                    id: "dashboards.project",
-                    title: "Empresas",
-                    type: "basic",
-                    icon: "heroicons_outline:chart-pie",
-                    link: "/dashboards/project"
-                }
+                    id      : '1',
+                    title   : 'Empresas',
+                    type    : 'collapsable',
+                    iconGoogleFonts: 'handshake',
+                    children: [
+                        {
+                            id   : '1',
+                            title: 'Carga masiva',
+                            type : 'basic',
+                            link : ''
+                        },
+                        {
+                            id   : '2',
+                            title: 'Descargar correos',
+                            type : 'basic',
+                            link : ''
+                        },
+                    ],
+                },
             ]
         },
         {
@@ -110,18 +132,18 @@ export class LayoutComponent implements OnInit, OnDestroy {
             icon: "heroicons_outline:home",
             children: [
                 {
-                    id: "dashboards.project",
+                    id: "1",
                     title: "Campañas",
                     type: "basic",
-                    icon: "heroicons_outline:chart-pie",
-                    link: "/dashboards/project"
+                    icon: "mat_outline:assignment",
+                    link: ""
                 },
                 {
-                    id: "dashboards.project",
+                    id: "2",
                     title: "Llamadas",
                     type: "basic",
-                    icon: "heroicons_outline:chart-pie",
-                    link: "/dashboards/project"
+                    icon: "mat_outline:local_phone",
+                    link: ""
                 }
             ]
         },
@@ -132,25 +154,99 @@ export class LayoutComponent implements OnInit, OnDestroy {
             icon: "heroicons_outline:home",
             children: [
                 {
-                    id: "dashboards.project",
+                    id: "1",
                     title: "Actividades",
                     type: "basic",
-                    icon: "heroicons_outline:chart-pie",
-                    link: "/dashboards/project"
+                    icon: "mat_solid:format_list_bulleted",
+                    link: ""
                 },
                 {
-                    id: "dashboards.project",
-                    title: "Admin",
-                    type: "basic",
-                    icon: "heroicons_outline:chart-pie",
-                    link: "/dashboards/project"
+                    id      : '2',
+                    title   : 'Admin',
+                    type    : 'collapsable',
+                    iconGoogleFonts : 'language',
+                    children: [
+                        {
+                            id   : '1',
+                            title: 'Plan de trabajo',
+                            type : 'basic',
+                            link : ''
+                        },
+                        {
+                            id   : '2',
+                            title: 'Bonos',
+                            type : 'basic',
+                            link : ''
+                        },
+                        {
+                            id   : '3',
+                            title: 'Ventas por agente',
+                            type : 'basic',
+                            link : ''
+                        },
+                    ],
                 },
                 {
-                    id: "dashboards.project",
-                    title: "Config",
-                    type: "basic",
-                    icon: "heroicons_outline:chart-pie",
-                    link: "/dashboards/project"
+                    id      : '2',
+                    title   : 'Config',
+                    type    : 'collapsable',
+                    icon    : 'mat_outline:settings',
+                    children: [
+                        {
+                            id   : '1',
+                            title: 'Usuarios',
+                            type : 'basic',
+                            link : ''
+                        },
+                        {
+                            id   : '2',
+                            title: 'Tipo de actividad',
+                            type : 'basic',
+                            link : ''
+                        },
+                        {
+                            id   : '3',
+                            title: 'Productos',
+                            type : 'basic',
+                            link : ''
+                        },
+                        {
+                            id   : '4',
+                            title: 'Precio lugar',
+                            type : 'basic',
+                            link : ''
+                        },
+                        {
+                            id   : '4',
+                            title: 'Forma de pago',
+                            type : 'basic',
+                            link : ''
+                        },
+                        {
+                            id   : '4',
+                            title: 'Categorias',
+                            type : 'basic',
+                            link : ''
+                        },
+                        {
+                            id   : '4',
+                            title: 'Empresas',
+                            type : 'basic',
+                            link : ''
+                        },
+                        {
+                            id   : '4',
+                            title: 'Campañas',
+                            type : 'basic',
+                            link : ''
+                        },
+                        {
+                            id   : '4',
+                            title: 'Documentos',
+                            type : 'basic',
+                            link : ''
+                        }
+                    ],
                 }
             ]
         }
