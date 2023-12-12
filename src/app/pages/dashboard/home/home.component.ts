@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import { FuseConfirmationService } from '@fuse/services/confirmation/confirmation.service';
 
 @Component({
@@ -8,13 +9,28 @@ import { FuseConfirmationService } from '@fuse/services/confirmation/confirmatio
 })
 export class HomeComponent {
   
+	public fechaHoy = new Date();
 
-  selectedProject: string = 'Estadísticas';
+  public formFilters = this.formBuilder.group({
+    user: [{ value: null, disabled: false }],
+    giro: [{ value: null, disabled: false }],
+    company: [{ value: null, disabled: false }],
+    rangeDateStart: [{ value: null, disabled: false }, Validators.required],
+    rangeDateEnd: [{ value: null, disabled: false }, Validators.required],
+  });
 
-  constructor(private notificationService: FuseConfirmationService){
+  public selectedProject: string = 'Estadísticas';
+
+  constructor(
+    private notificationService: FuseConfirmationService,
+    private formBuilder: FormBuilder
+  ){
 
   }
 
+  SearhWithFilters(){
+    console.log(this.formFilters.value);
+  }
 
   probar() {
     this.notificationService.open(
@@ -26,8 +42,6 @@ export class HomeComponent {
             color: 'warn'
           }
         }
-        
-      },
-    
+      }
     )}
   }

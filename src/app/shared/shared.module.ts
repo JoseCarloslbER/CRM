@@ -9,4 +9,4 @@ import { TitlesComponent } from './components/titles/titles.component';
 	imports: [CommonModule, MaterialModule, FormsModule, ReactiveFormsModule],
 	exports: [TitlesComponent],
 })
-export class CompartidasModule {}
+export class SharedModule {}

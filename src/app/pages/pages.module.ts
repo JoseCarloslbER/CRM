@@ -11,7 +11,7 @@ import { PAGE_ROUTES } from './pages.routes';
     RouterOutlet,
     RouterLink,
 		RouterLinkActive,
-    PAGE_ROUTES
+    PAGE_ROUTES,
   ]
 })
 export class PagesModule { }

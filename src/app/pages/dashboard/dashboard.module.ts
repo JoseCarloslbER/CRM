@@ -6,6 +6,7 @@ import { PipelineComponent } from './pipeline/pipeline.component';
 import { ActivitiesAgentComponent } from './activities-agent/activities-agent.component';
 import { DASHBOARD_ROUTES } from './dashboards.routes';
 import { MaterialModule } from 'app/shared/material/material.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -14,7 +15,9 @@ import { MaterialModule } from 'app/shared/material/material.module';
   imports: [
     CommonModule,
     DASHBOARD_ROUTES,
-    MaterialModule
+    MaterialModule,
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class DashboardModule { }
