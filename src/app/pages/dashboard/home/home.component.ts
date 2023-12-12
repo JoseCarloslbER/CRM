@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FuseConfirmationService } from '@fuse/services/confirmation/confirmation.service';
 
 @Component({
   selector: 'app-home',
@@ -6,7 +7,27 @@ import { Component } from '@angular/core';
   styles: []
 })
 export class HomeComponent {
+  
 
   selectedProject: string = 'Estadísticas';
 
-}
+  constructor(private notificationService: FuseConfirmationService){
+
+  }
+
+
+  probar() {
+    this.notificationService.open(
+      {
+        title: 'hola',
+        actions : {
+          confirm : {
+            show : true,
+            color: 'warn'
+          }
+        }
+        
+      },
+    
+    )}
+  }
