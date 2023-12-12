@@ -10,6 +10,7 @@ const dashboardRoutes: Routes = [
 		// canActivate: [PermisosGuard],
 		component: DashboardComponent,
 		children: [
+			{ path: '', pathMatch : 'full', redirectTo: 'principal' },
 			{
 				path: 'principal',
 				component: HomeComponent,

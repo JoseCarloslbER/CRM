@@ -1,9 +1,3 @@
-
-html,
-body {
-	height: 100%;
-}
-
 body {
 	margin: 0;
     font-family: 'Poppins', sans-serif;
@@ -90,3 +84,6 @@ body.fuse-splash-screen-hidden fuse-splash-screen {
     opacity: 0;
 }
 
+.header-content {
+    margin-bottom: 30px;
+}
