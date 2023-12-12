@@ -10,11 +10,11 @@ const quotesRoutes: Routes = [
 		component: ConversionComponent,
 		children: [
 			{
-				path: 'quotes',
+				path: 'cotizaciones',
 				component: QuotesComponent,
 			},
 			{
-				path: 'details-quotes/:id',
+				path: 'detalle-cotizacion/:id',
 				component: DetailsQuotesComponent,
 			},
 		]

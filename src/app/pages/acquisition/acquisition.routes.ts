@@ -9,7 +9,7 @@ const acquisitionRoutes: Routes = [
 		component: AcquisitionComponent,
 		children: [
 			{
-				path: 'companies',
+				path: 'empresas',
 				component: CompaniesComponent,
 			},
 		]

@@ -33,7 +33,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
                     title: "Prospectos",
                     type: "basic",
                     icon: "feather:user-check",
-                    link: "/home/catchment/prospects"
+                    link: "/home/captacion/prospectos"
                 },
                 {
                     id: "2",
@@ -62,7 +62,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
                     title: "Principal",
                     type: "basic",
                     icon: "mat_solid:tune",
-                    link: "/home/dashboard/home"
+                    link: "/home/dashboard/principal"
                 },
                 {
                     id: "2",
@@ -76,7 +76,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
                     title: "Actividades por agente",
                     type: "basic",
                     icon: "mat_outline:groups",
-                    link: "/home/dashboard/activities-agent"
+                    link: "/home/dashboard/actividades-agente"
                 }
             ]
         },
@@ -90,7 +90,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
                     id: "1",
                     title: "Cotizaciones",
                     type: "basic",
-                    link: "/home/conversion/quotes",
+                    link: "/home/conversion/cotizaciones",
                     iconGoogleFonts : 'lightbulb'
 
                 }

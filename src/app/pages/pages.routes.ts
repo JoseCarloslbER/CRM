@@ -7,13 +7,12 @@ const pageRoutes: Routes = [
 		component: PagesComponent,
 		children: [
 			{ path: '', pathMatch : 'full', redirectTo: 'dashboard' },
-
 			{
 				path: 'dashboard',
 				loadChildren: () => import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
 			},
 			{
-				path: 'catchment',
+				path: 'captacion',
 				loadChildren: () => import('./catchment/catchment.module').then((m) => m.CatchmentModule),
 			},
 			{

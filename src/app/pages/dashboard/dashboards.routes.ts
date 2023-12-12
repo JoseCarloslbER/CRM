@@ -11,7 +11,7 @@ const dashboardRoutes: Routes = [
 		component: DashboardComponent,
 		children: [
 			{
-				path: 'home',
+				path: 'principal',
 				component: HomeComponent,
 			},
 			{
@@ -19,7 +19,7 @@ const dashboardRoutes: Routes = [
 				component: PipelineComponent,
 			},
 			{
-				path: 'activities-agent',
+				path: 'actividades-agente',
 				component: ActivitiesAgentComponent,
 			},
 		]
