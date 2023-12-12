@@ -7,7 +7,6 @@ import { ActivitiesAgentComponent } from './activities-agent/activities-agent.co
 const dashboardRoutes: Routes = [
 	{
 		path: '',
-		// canActivate: [PermisosGuard],
 		component: DashboardComponent,
 		children: [
 			{ path: '', pathMatch : 'full', redirectTo: 'principal' },

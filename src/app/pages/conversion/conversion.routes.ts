@@ -6,7 +6,6 @@ import { ConversionComponent } from './conversion.component';
 const quotesRoutes: Routes = [
 	{
 		path: '',
-		// canActivate: [PermisosGuard],
 		component: ConversionComponent,
 		children: [
 			{

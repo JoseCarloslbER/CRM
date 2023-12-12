@@ -5,7 +5,6 @@ import { AcquisitionComponent } from './acquisition.component';
 const acquisitionRoutes: Routes = [
 	{
 		path: '',
-		// canActivate: [PermisosGuard],
 		component: AcquisitionComponent,
 		children: [
 			{

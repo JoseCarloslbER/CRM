@@ -5,7 +5,6 @@ import { CatchmentComponent } from './catchment.component';
 const catchmentRoutes: Routes = [
 	{
 		path: '',
-		// canActivate: [PermisosGuard],
 		component: CatchmentComponent,
 		children: [
 			{ path: '', pathMatch : 'full', redirectTo: 'prospectos' },
