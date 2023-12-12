@@ -1,0 +1,67 @@
+.c-home {
+    .day {
+
+        .header {
+            color: white;
+            text-align: center;
+            background: #646878 !important;
+            font-size: 20px;
+            font-weight: 600;
+            height: 50px;
+            border-radius: 10px;
+            margin-bottom: 26px;
+        }
+    }
+
+
+    .content-company {
+
+        display: flex;
+        justify-content: space-around;
+        text-align: center;
+
+        .col-3 {
+            font-size: 80px;
+            font-weight: 600;
+            text-align: center;
+
+            h1 {
+                font-size: 22px;
+            }
+        }
+    }
+
+    .content-list {
+        color: #858997;
+       
+        margin-top: 7px;
+        font-size: 18px;
+        font-weight: 400;
+
+        > div {
+            margin-top: 6px;
+            display: flex;
+            justify-content: space-between;
+
+            span {
+                font-weight: 700;
+            }
+        }
+    }
+}
+
+.min-heigt{
+    min-height: 310px;
+}
+
+.color-green {
+    color: #24BB55;
+}
+
+.color-yellow {
+    color: #F1E00E;
+}
+
+.color-red {
+    color: #FF0000;
+}

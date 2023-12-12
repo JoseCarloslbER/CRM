@@ -7,6 +7,7 @@ import { ActivitiesAgentComponent } from './activities-agent/activities-agent.co
 import { DASHBOARD_ROUTES } from './dashboards.routes';
 import { MaterialModule } from 'app/shared/material/material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgApexchartsModule } from 'ng-apexcharts';
 
 
 
@@ -17,6 +18,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     DASHBOARD_ROUTES,
     MaterialModule,
     FormsModule,
+    NgApexchartsModule,
     ReactiveFormsModule
   ]
 })

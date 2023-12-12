@@ -1,4 +1,4 @@
-<div class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto" cdkScrollable>
+<div class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto c-home" cdkScrollable>
 
     <!-- Header -->
     <div class="bg-card">
@@ -114,24 +114,239 @@
 
                 <mat-tab label="Día">
                     <ng-template matTabContent>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full min-w-0">
-
-                            <!-- card  -->
-                            <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                                <div class="flex items-start justify-between">
-                                    <div class="text-lg font-medium tracking-tight leading-6 truncate">Realizadas</div>
+                        <div class="row day ">
+                            <div class="col-md-6">
+                                <div class="header flex-center">
+                                    Ventas
                                 </div>
-                                <div class="flex flex-col items-center mt-2">
-                                    <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-blue-500"> 21</div>
 
-                                    <div class="flex items-baseline justify-center w-full mt-4 text-secondary">
-                                        <div class="text-md font-medium truncate">Ver gráfica:</div>
+                                <div class="content">
+                                    <div class="row">
+                                        <div class="col-md-5 mb-3 mb-sm-4">
+                                            <div
+                                                class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden mb-md-0 heigth-100">
+                                                <div class="flex items-start justify-between">
+                                                    <div class="text-lg font-bold tracking-tight leading-6 truncate">
+                                                        Realizadas</div>
+                                                </div>
+                                                <div class="flex flex-col items-center mt-2">
+                                                    <div
+                                                        class="color-4B5062 text-7xl sm:text-8xl font-bold tracking-tight leading-none">
+                                                        12</div>
+
+                                                    <div
+                                                        class="flex items-baseline justify-center w-full mt-4 text-secondary">
+                                                        <div class="text-md font-bold truncate">Ver gráfica:</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-7 mb-3 mb-sm-4">
+                                            <div
+                                                class="sm:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden heigth-100">
+                                                <div class="flex items-start justify-between">
+                                                    <div
+                                                        class="text-lg font-bold tracking-tight leading-6 truncate mb-3">
+                                                        Total</div>
+                                                </div>
+
+                                                <div class="flex items-center mt-1">
+                                                    <div class="flex flex-col">
+                                                        <div
+                                                            class="text-3xl font-semibold tracking-tight leading-tight">
+                                                            $54,663.00
+                                                        </div>
+                                                        <div class="flex items-center">
+                                                            <mat-icon class="mr-1 icon-size-5 text-green-500"
+                                                                [svgIcon]="'heroicons_solid:arrow-trending-down'"></mat-icon>
+                                                            <div
+                                                                class="font-medium text-sm text-secondary leading-none whitespace-nowrap">
+                                                                <span class="text-green-500">2%</span>
+                                                                below projected
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="flex flex-col flex-auto ml-8">
+                                                        <apx-chart class="flex-auto w-full h-16"
+                                                            [chart]="chartWeeklyExpenses.chart"
+                                                            [colors]="chartWeeklyExpenses.colors"
+                                                            [series]="chartWeeklyExpenses.series"
+                                                            [stroke]="chartWeeklyExpenses.stroke"
+                                                            [tooltip]="chartWeeklyExpenses.tooltip"
+                                                            [xaxis]="chartWeeklyExpenses.xaxis"
+                                                            [yaxis]="chartWeeklyExpenses.yaxis">
+                                                        </apx-chart>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-6">
+                                <div class="header flex-center"> Cotizaciones </div>
+                                <div class="content">
+                                    <div class="row">
+                                        <div class="col-md-5 mb-3 mb-sm-4">
+                                            <div
+                                                class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                                                <div class="flex items-start justify-between">
+                                                    <div class="text-lg font-bold tracking-tight leading-6 truncate">
+                                                        Realizadas</div>
+                                                </div>
+                                                <div class="flex flex-col items-center mt-2">
+                                                    <div
+                                                        class="color-4B5062 text-7xl sm:text-8xl font-bold tracking-tight leading-none">
+                                                        20</div>
+
+                                                    <div
+                                                        class="flex items-baseline justify-center w-full mt-4 text-secondary">
+                                                        <div class="text-md font-medium truncate">Ver gráfica:</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-7 mb-3 mb-sm-4">
+                                            <div
+                                                class="sm:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden heigth-100">
+                                                <div class="flex items-start justify-between">
+                                                    <div
+                                                        class="text-lg font-bold tracking-tight leading-6 truncate mb-3">
+                                                        Total</div>
+                                                </div>
+
+                                                <div class="flex items-center mt-1">
+                                                    <div class="flex flex-col">
+                                                        <div
+                                                            class="text-3xl font-semibold tracking-tight leading-tight">
+                                                            $54,663.00
+                                                        </div>
+                                                        <div class="flex items-center">
+                                                            <mat-icon class="mr-1 icon-size-5 text-green-500"
+                                                                [svgIcon]="'heroicons_solid:arrow-trending-down'"></mat-icon>
+                                                            <div
+                                                                class="font-medium text-sm text-secondary leading-none whitespace-nowrap">
+                                                                <span class="text-green-500">2%</span>
+                                                                below projected
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="flex flex-col flex-auto ml-8">
+                                                        <apx-chart class="flex-auto w-full h-16"
+                                                            [chart]="chartWeeklyExpenses.chart"
+                                                            [colors]="chartWeeklyExpenses.colors"
+                                                            [series]="chartWeeklyExpenses.series"
+                                                            [stroke]="chartWeeklyExpenses.stroke"
+                                                            [tooltip]="chartWeeklyExpenses.tooltip"
+                                                            [xaxis]="chartWeeklyExpenses.xaxis"
+                                                            [yaxis]="chartWeeklyExpenses.yaxis">
+                                                        </apx-chart>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-
-
                         </div>
+
+                        <div class="row day mt-4">
+                            <div class="col-md-12">
+                                <div class="header flex-center">
+                                    Empresas
+                                </div>
+
+                                <div class="content">
+                                    <div class="row">
+                                        <div class="col-md-7 mb-3 mb-sm-4">
+                                            <div
+                                                class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden mb-md-0 min-heigt">
+                                                <div>
+                                                    <div class="text-lg tracking-tight leading-6 truncate font-bold">
+                                                        Nivel de interés en cotizaciones</div>
+
+                                                    <div class="row">
+                                                        <div class="content-company mt-8">
+                                                            <div class="col-3">
+                                                                <p class="color-green">12</p>
+                                                                <h1 class="color-green">Alto</h1>
+                                                            </div>
+                                                            <div class="col-3">
+                                                                <p class="color-yellow">05</p>
+                                                                <h1 class="color-yellow">Medio</h1>
+                                                            </div>
+                                                            <div class="col-3">
+                                                                <p class="color-red">01</p>
+                                                                <h1 class="color-red">Bajo</h1>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    
+                                                </div>
+                                            </div>
+
+                                            <div class="mt-5 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden mb-md-0">
+                                                <div class="flex items-start justify-between">
+                                                    <div class="text-lg font-bold tracking-tight leading-6 truncate"> Forma de pago</div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="content-list">
+                                                        <div> <p>Transferencia bancaria</p> </div>
+                                                        <div> <p>Depósito en Efectivo</p> </div>
+                                                        <div> <p>Mercado Pago / TC</p> </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-5 mb-3 mb-sm-4">
+                                            <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden mb-md-0 min-heigt">
+                                                <div class="flex items-start justify-between">
+                                                    <div class="text-lg font-bold tracking-tight leading-6 truncate"> Categorías</div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="content-list">
+                                                        <div> <p>Micro</p> <span>1</span> </div>
+                                                        <div> <p>Pequeña</p> <span>2</span> </div>
+                                                        <div> <p>Pyme</p> <span>3</span> </div>
+                                                        <div> <p>Mediana</p> <span>4</span> </div>
+                                                        <div> <p>Grande</p> <span>0</span> </div>
+                                                        <div> <p>Corporativa</p> <span>0</span> </div>
+                                                        <div> <p>Pendiente</p> <span>0</span> </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="mt-5 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden mb-md-0">
+                                                <div class="flex items-start justify-between">
+                                                    <div class="text-lg font-bold tracking-tight leading-6 truncate">Estatus</div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="content-list">
+                                                        <div> <p>Prospecto</p> </div>
+                                                        <div> <p>Lead</p> </div>
+                                                        <div> <p>Cliente</p> </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+
                     </ng-template>
                 </mat-tab>
 

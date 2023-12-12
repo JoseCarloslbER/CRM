@@ -1,15 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { FuseConfirmationService } from '@fuse/services/confirmation/confirmation.service';
+import { ApexOptions } from 'apexcharts';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styles: []
+  styleUrls: ['./home.component.scss']
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit{
   
 	public fechaHoy = new Date();
+
+  public chartWeeklyExpenses: ApexOptions = {};
+
 
   public formFilters = this.formBuilder.group({
     user: [{ value: null, disabled: false }],
@@ -28,6 +32,64 @@ export class HomeComponent {
 
   }
 
+  ngOnInit(): void {
+    this.chartWeeklyExpenses = {
+      chart  : {
+          animations: {
+              enabled: false,
+          },
+          fontFamily: 'inherit',
+          foreColor : 'inherit',
+          height    : '100%',
+          type      : 'line',
+          sparkline : {
+              enabled: true,
+          },
+      },
+      colors : ['#22D3EE'],
+      series : [
+        {
+            name: "Expenses",
+            data: [
+                4412,
+                4345,
+                4541,
+                4677,
+                4322,
+                4123
+            ]
+        }
+    ],
+      stroke : {
+          curve: 'smooth',
+      },
+      tooltip: {
+          theme: 'dark',
+      },
+      xaxis  : {
+          type      : 'category',
+          categories: [
+            "26 Oct - 02 Nov",
+            "03 Nov - 10 Nov",
+            "11 Nov - 18 Nov",
+            "19 Nov - 26 Nov",
+            "27 Nov - 04 Dec",
+            "05 Dec - 12 Dec"
+        ],
+      },
+      yaxis  : {
+          labels: {
+              formatter: (val): string => `$${val}`,
+          },
+      },
+  }
+
+  console.log(this.chartWeeklyExpenses);
+  
+
+  
+}
+
   SearhWithFilters(){
     console.log(this.formFilters.value);
   }
@@ -44,4 +106,14 @@ export class HomeComponent {
         }
       }
     )}
+
+
+
+
+
+    
+
+
+
+
   }
