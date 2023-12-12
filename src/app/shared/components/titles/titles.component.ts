@@ -1,14 +1,29 @@
-import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-titles',
   templateUrl: './titles.component.html',
-  styleUrl: './titles.component.scss'
+  styles: [
+    `
+    .vertical-center {
+      display: flex;
+      align-items: center;
+    }
+
+    .icon-class {
+      color: #0c619f;
+      cursor: pointer;
+    }
+
+    .text-class {
+      font-weight: 500;
+      font-size: 45px;
+      font-family: Roboto, 'Helvetica Neue', sans-serif;
+    }`
+  ]
 })
 export class TitlesComponent {
-
   @Input() infoTitle!: string;
 	@Input() infoRuta!: string;
 	@Input() state!: any;
