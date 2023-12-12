@@ -7,6 +7,15 @@
             <!-- FILTERS  -->
             <form class="row mt-5 mb-5" [formGroup]="formFilters">
                 <div class="col-12">
+
+                    <div class="row d-flex justify-content-end">
+                        <div class="c-tickets">
+                            <mat-icon>language</mat-icon>
+                            <p>6559</p>
+                            <p class="font-light">Entradas</p>
+                        </div>
+                    </div>
+
                     <div class="row d-flex align-items-center">
 
                         <div class="flex col-sm-12 col-md-6 col-lg-3 col-12 pe-2">
@@ -56,32 +65,17 @@
                                 <mat-date-range-picker #campaignOnePicker></mat-date-range-picker>
                             </mat-form-field>
                         </div>
-
                     </div>
-                    <div class="row" style="display: flex; justify-content: flex-end;">
-                        <div class="col-md-2 col-xl-2 col-12 pt-md-2" style="display: flex; justify-content: flex-end;"> 
-                            <button class="btn-search" (click)="SearhWithFilters()">
-                                <span>Buscar</span> 
+
+                    <div class="row d-flex justify-content-end">
+                        <div class="d-flex justify-content-end col-md-2 col-xl-2 col-12 pt-md-2">
+                            <button class="btn-search " (click)="SearhWithFilters()">
+                                <span>Buscar</span>
                             </button>
                         </div>
                     </div>
                 </div>
             </form>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
             <!-- Project selector -->
             <div class="relative flex self-start pt-2 pb-1 pl-5 pr-4 cursor-pointer overflow-hidden rounded-t-xl border border-b-0 bg-default"
@@ -122,21 +116,20 @@
                     <ng-template matTabContent>
                         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full min-w-0">
 
+                            <!-- card  -->
                             <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                                 <div class="flex items-start justify-between">
-                                    <div class="text-lg font-medium tracking-tight leading-6 truncate">Summary</div>
+                                    <div class="text-lg font-medium tracking-tight leading-6 truncate">Realizadas</div>
                                 </div>
                                 <div class="flex flex-col items-center mt-2">
-                                    <div
-                                        class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-blue-500">
-                                        21</div>
-                                    <div class="text-lg font-medium text-blue-600 dark:text-blue-500">Due Tasks</div>
-                                    <div class="flex items-baseline justify-center w-full mt-5 text-secondary">
-                                        <div class="text-md font-medium truncate">Completed:</div>
-                                        <div class="ml-1.5 text-lg font-semibold">13</div>
+                                    <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-blue-500"> 21</div>
+
+                                    <div class="flex items-baseline justify-center w-full mt-4 text-secondary">
+                                        <div class="text-md font-medium truncate">Ver gráfica:</div>
                                     </div>
                                 </div>
                             </div>
+
 
                         </div>
                     </ng-template>

@@ -7,5 +7,24 @@
     height: 40px;
     box-shadow: 3px 4px 4px 0px #00000040;
     border-radius: 10px;
+}
 
+.c-tickets {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 30px;
+    color: #4B5062;
+
+    mat-icon {
+        color: #34D3E9; 
+        font-size: 30px;   
+    }
+
+    p {
+        font-size: 30px;
+        font-weight: 600;
+        line-height: 40px;
+    }
 }
