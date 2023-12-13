@@ -9,6 +9,24 @@
     border-radius: 10px;
 }
 
+.section-title {
+    margin-bottom: 30px;
+    
+    .title {
+        font-size: 32px;
+        font-weight: 700;
+        color: #4B5062;
+    }
+ 
+    .btns-section{
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 10px;
+        color: #4B5062;
+    }
+}
+
 .c-tickets {
     display: flex;
     justify-content: flex-end;
@@ -36,4 +54,27 @@
 .siderbarColor{
     background-color: #FCFEFF!important; 
     box-shadow: 4px 4px 4px 0px #00000040!important;
+}
+
+.btn-newRegister {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 4px 4px 4px 0px #00000040;
+    background: #1E293B!important;
+    font-size: 18px;
+    font-weight: 700;
+    text-align: center;
+    border-radius: 20px;
+    height: 46px;
+
+    span {
+        color: #FCDE01;
+    }
+}
+
+.btn-async {
+    color: #1E293B;
+    background-color: #FCDE01!important;
+    box-shadow: 4px 4px 4px 0px #00000040;
 }

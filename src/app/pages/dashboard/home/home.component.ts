@@ -8,7 +8,7 @@ import { ApexOptions } from 'apexcharts';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit{
+export class HomeComponent implements OnInit {
   
 	public fechaHoy = new Date();
 
@@ -19,8 +19,8 @@ export class HomeComponent implements OnInit{
     user: [{ value: null, disabled: false }],
     giro: [{ value: null, disabled: false }],
     company: [{ value: null, disabled: false }],
-    rangeDateStart: [{ value: null, disabled: false }, Validators.required],
-    rangeDateEnd: [{ value: null, disabled: false }, Validators.required],
+    rangeDateStart: [{ value: null, disabled: false }],
+    rangeDateEnd: [{ value: null, disabled: false }],
   });
 
   public selectedProject: string = 'Estadísticas';
@@ -85,7 +85,7 @@ export class HomeComponent implements OnInit{
   }
 }
 
-  SearhWithFilters(){
+  SearchWithFilters(){
     console.log(this.formFilters.value);
   }
 

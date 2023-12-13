@@ -197,16 +197,16 @@
 .mat-mdc-fab,
 .mat-mdc-mini-fab {
 
-    --mat-mdc-button-persistent-ripple-color: theme('colors.gray[400]') !important;
-    --mat-mdc-button-ripple-color: rgba(0, 0, 0, 0.1) !important;
+    --mat-mdc-button-persistent-ripple-color: theme('colors.gray[400]') ;
+    --mat-mdc-button-ripple-color: rgba(0, 0, 0, 0.1) ;
 
     .dark & {
-        --mat-mdc-button-persistent-ripple-color: theme('colors.black') !important;
-        --mat-mdc-button-ripple-color: rgba(0, 0, 0, 0.1) !important;
+        --mat-mdc-button-persistent-ripple-color: theme('colors.black') ;
+        --mat-mdc-button-ripple-color: rgba(0, 0, 0, 0.1) ;
     }
 
     .mat-icon {
-        color: currentColor !important;
+        color: currentColor ;
     }
 
     .mat-ripple-element {
@@ -273,7 +273,7 @@
 /*  @ Button Toggle
 /* -------------------------------------------------------------------------- */
 .mat-button-toggle-group {
-    border: none !important;
+    border: none ;
     @apply space-x-1;
 
     &.mat-button-toggle-group-appearance-standard {
@@ -588,8 +588,9 @@
 
                 /* Floating label - disable floating action */
                 .mat-mdc-floating-label {
-                    top: -25px !important;
+                    top: -30px !important;
                     left: 0 !important;
+                    font-size: 17px!important;
                     width: 100% !important;
                     transform: none !important;
                     pointer-events: auto;
@@ -1362,11 +1363,11 @@ textarea.mat-mdc-input-element {
 /* -------------------------------------------------------------------------- */
 
 .mat-mdc-tooltip .mdc-tooltip__surface {
-    background-color: var(--fuse-text-default) !important;
+    background-color: var(--fuse-text-default);
     color: white;
 
     .dark & {
-        background-color: var(--fuse-text-secondary) !important;
-        color: var(--fuse-bg-default) !important;
+        background-color: var(--fuse-text-secondary);
+        color: var(--fuse-bg-default);
     }
 }
