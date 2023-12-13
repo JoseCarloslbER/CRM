@@ -539,7 +539,7 @@
                             .mat-mdc-select-arrow-wrapper {
 
                                 .mat-mdc-select-arrow {
-                                    border-top-color: var(--fuse-primary) !important;
+                                    border-top-color: var(--fuse-primary);
                                 }
                             }
                         }
@@ -801,12 +801,12 @@
 
                         .mat-mdc-form-field-icon-prefix,
                         .mat-mdc-form-field-text-prefix {
-                            border-radius: 20px 0 0 20px !important;
+                            border-radius: 20px 0 0 20px ;
                         }
 
                         .mat-mdc-form-field-icon-suffix,
                         .mat-mdc-form-field-text-suffix {
-                            border-radius: 0 20px 20px 0 !important;
+                            border-radius: 0 20px 20px 0 ;
                         }
                     }
                 }

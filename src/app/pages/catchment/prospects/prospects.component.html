@@ -9,9 +9,9 @@
                 <div class="col-12">
 
                     <div class="section-title row d-flex justify-content-between align-items-center">
-                        <div class="col-md-6 title"> Prospectos</div>
+                        <div class="col-md-4 col-sm-12 col-12 title"> Prospectos</div>
 
-                        <div class="col-md-6 btns-section">
+                        <div class="col-md-8 col-sm-12 col-12 btns-section">
                             <button class="btn-async ml-3 px-1 sm:px-4 min-w-10" mat-flat-button>
                                 <mat-icon class="icon-size-5" [svgIcon]="'mat_solid:sync'"></mat-icon>
                                 <span class="hidden sm:inline-block ml-2">Sincronizar</span>
@@ -24,7 +24,7 @@
 
                     <div class="row d-flex align-items-center">
 
-                        <div class="flex col-sm-12 col-md-6 col-lg-3 col-12 pe-2">
+                        <div class="flex col-sm-12  col-md-6 col-lg-3 col-12 pe-2">
                             <mat-form-field class="flex-auto">
                                 <mat-label>Estatus</mat-label>
                                 <mat-select placeholder="Seleccionar" formControlName="estatus">
@@ -78,6 +78,14 @@
                             <button class="btn-search " (click)="SearchWithFilters()">
                                 <span>Buscar</span>
                             </button>
+                        </div>
+                    </div>
+                    <div class="row d-flex">
+                        <div class="d-flex col-md-6 col-xl-6 col-12 pt-md-2">
+                            <div class="input-search">
+                                <input type="text" placeholder="Búscar">
+                                <mat-icon class="icon-size-6" matSuffix [svgIcon]="'mat_solid:search'"></mat-icon>
+                            </div>
                         </div>
                     </div>
                 </div>
