@@ -17,9 +17,7 @@ export class ProspectsComponent implements OnInit {
 
   // TABLA 
 
-  public displayedColumns: string[] = ['prospectos', 'contacto', 'estatus', 'cotizacionesRapidas', 'origen', 'fechaUltimoContacto', 'siguienteActividad', 'fechaVencimiento', 'siguienteActividad2', 'siguienteActividad3', 'siguienteActividad4'
-  , 'siguienteActividad5', 'siguienteActividad6', 'siguienteActividad7', 'siguienteActividad8', 'siguienteActividad9'
-];
+  public displayedColumns: string[] = ['prospectos', 'contacto', 'estatus', 'cotizacionesRapidas', 'origen', 'fechaUltimoContacto', 'siguienteActividad', 'fechaVencimiento'];
   public dataDummy : any[] = [
     {
       contacto : [
@@ -40,13 +38,53 @@ export class ProspectsComponent implements OnInit {
       ],
       origen : 'Referencia',
       fechaUltimoContacto : '2022-02-28',
-      // siguienteActividad : 'Se envió correo publicitario y se hicieron .',
-      siguienteActividad : 'Se envió correo publicitario y se hicieron las llamadas pertinentes para el seguimiento, pero el cliente no contestó en ningún momento. // Procedemos a cerrar las cotizaciones #1090 y #1091. // Si las vuelven a necesitar, las volvemos a abrir.',
+      siguienteActividad : 'Se envió correo publicitario y se hicieron las llamadas pertinentes para el seguimiento, pero el cliente no contestó en ningún momento. // Procedemos a cerrar las cotizaciones #1090 y #1091.',
       fechaVencimiento : '2022-02-28',
-      siguienteActividad2 : 'Se envió correo publicitario y se hicieron las llamadas pertinentes para el seguimiento, pero el cliente no contestó en ningún momento. // Procedemos a cerrar las cotizaciones #1090 y #1091. // Si las vuelven a necesitar, las volvemos a abrir.',
-      siguienteActividad3 : 'Se envió correo publicitario y se hicieron las llamadas pertinentes para el seguimiento, pero el cliente no contestó en ningún momento. // Procedemos a cerrar las cotizaciones #1090 y #1091. // Si las vuelven a necesitar, las volvemos a abrir.',
-      siguienteActividad4 : 'Se envió correo publicitario y se hicieron las llamadas pertinentes para el seguimiento, pero el cliente no contestó en ningún momento. // Procedemos a cerrar las cotizaciones #1090 y #1091. // Si las vuelven a necesitar, las volvemos a abrir.',
-    }
+    },
+    {
+      contacto : [
+        {
+          nombre : 'Ing Alberto Avendaño',
+          email : 'aavendano@anpasa.com',
+          telefono : 'N/A',
+          celular : '5516349327',
+        }
+      ],
+      estatus : 'LEAD',
+      cotizaciones : [
+        {
+          izq : '0',
+          der : '1',
+
+        }
+      ],
+      origen : 'Referencia',
+      fechaUltimoContacto : '2022-02-28',
+      siguienteActividad : 'Se envió correo publicitario y se hicieron las llamadas pertinentes para el seguimiento, pero el cliente no contestó en ningún momento. // Procedemos a cerrar las cotizaciones #1090 y #1091.',
+      fechaVencimiento : '2022-02-28',
+    },
+    {
+      contacto : [
+        {
+          nombre : 'Ing Alberto Avendaño',
+          email : 'aavendano@anpasa.com',
+          telefono : 'N/A',
+          celular : '5516349327',
+        }
+      ],
+      estatus : 'LEAD',
+      cotizaciones : [
+        {
+          izq : '0',
+          der : '1',
+
+        }
+      ],
+      origen : 'Referencia',
+      fechaUltimoContacto : '2022-02-28',
+      siguienteActividad : 'Se envió correo publicitario y se hicieron las llamadas pertinentes para el seguimiento, pero el cliente no contestó en ningún momento. // Procedemos a cerrar las cotizaciones #1090 y #1091.',
+      fechaVencimiento : '2022-02-28',
+    },
   ]
 
 	public fechaHoy = new Date();
@@ -65,8 +103,7 @@ export class ProspectsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-
-    // this.dataSource.data = this.dataDummy
+    this.dataSource.data = this.dataDummy
    }
 
   SearchWithFilters(){
