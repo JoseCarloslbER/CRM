@@ -41,7 +41,7 @@ export class ProspectsComponent implements OnInit {
       ],
       origen : 'Referencia',
       fechaUltimoContacto : '2022-02-28',
-      siguienteActividad : 'Se envió correo publicitario y se hicieron las llamadas pertinentes para el seguimiento, pero el cliente no contestó en ningún momento. // Procedemos a cerrar las cotizaciones #1090 y #1091.',
+      siguienteActividad : 'Se envió correo publicitario y se hicieron las llamadas pertinentes para el seguimiento, pero el cliente no contestó en ningún momento.',
       fechaVencimiento : '2022-02-28',
     },
     {
