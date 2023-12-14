@@ -2,6 +2,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { OpenModalsService } from 'app/shared/services/openModals.service';
+import { ModalNewProspectsComponent } from '../modal-new-prospects/modal-new-prospects.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-prospects',
@@ -99,7 +102,10 @@ export class ProspectsComponent implements OnInit {
   });
 
   constructor(
-    private formBuilder: FormBuilder
+
+    private openModalsService: OpenModalsService,
+    private formBuilder: FormBuilder,
+    private dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -108,6 +114,25 @@ export class ProspectsComponent implements OnInit {
 
   SearchWithFilters(){
     console.log(this.formFilters.value);
+  }
+
+  newProspect() {
+  // this.openModalsService
+	// 		.openModalMedium(ModalNewProspectsComponent, {
+	// 			datos: ['test'],
+	// 		})
+  //     .afterClosed()
+	// 		.subscribe((resp: any) => {
+      
+  //     });
+
+  this.dialog.open(ModalNewProspectsComponent, {
+    data : ['test'],
+    disableClose: true,
+    width: '1000px',
+    maxHeight: '628px',
+    panelClass: 'custom-dialog',
+  });
   }
 
 }

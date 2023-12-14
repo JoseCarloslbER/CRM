@@ -16,7 +16,7 @@ import { MaterialModule } from 'app/shared/material/material.module';
     MaterialModule,
     FormsModule,
     NgApexchartsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ]
 })
 export class CatchmentModule { }
