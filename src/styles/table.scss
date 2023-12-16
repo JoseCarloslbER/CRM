@@ -71,7 +71,7 @@
 .tabla-personalizada-default {
 
     td {
-        padding: 30px 15px 30px 15px;
+        padding: 20px 15px 20px 15px;
         font-size: 16px;
         font-weight: 400;
         color: #1E293B;
@@ -156,4 +156,92 @@
 
 .table-texto-largo {
     line-height: 18px;
+}
+
+.table-column-documentos {
+	display: flex;
+    flex-direction: column;
+    align-items: center;
+
+	span {
+		font-size: 18px;
+		font-weight: 400;
+		cursor: pointer;
+	}
+	
+	span:nth-child(1) {
+		margin-bottom: 15px;
+		color: #E8C300;
+		border-bottom: 1px solid #E8C300;
+	}
+	span:nth-child(2) {
+		text-align: center;
+		color: #24BB55;
+		border-bottom: 1px solid #24BB55;
+	}
+}
+
+
+.colum-tabla-tabla-content {
+	th {
+		background: white!important;
+		color: black;
+	}
+}
+
+.colum-interest {
+	font-size: 32px;
+	font-weight: 700;
+	text-align: center;
+}
+
+.interest-high {
+	color: #FF0000;
+}
+
+.colum-table-select .mat-mdc-form-field.mat-form-field-appearance-fill .mat-mdc-text-field-wrapper {
+	background: #EDF1F5!important;
+}
+
+.column-btns-operations {
+	display: flex;
+	gap: 25px;
+	align-items: center;
+}
+
+.colum-btn {
+	box-shadow: 4px 4px 4px 0px #00000040;
+	width: 35px;
+    height: 35px;
+    border-radius: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+	mat-icon {
+		cursor: pointer;
+		color: white;
+		font-size: 22px;
+	}
+}
+
+.btn-edit {
+	background: #FCDE01;
+	
+	mat-icon {
+		// color: rgb(60, 60, 60, .5);
+		color: #926000;
+	}
+}
+
+.btn-wallet {
+	background: #026A1F;
+}
+
+.btn-receipt {
+	background: #02386A;
+}
+
+.btn-print {
+	background: #00AA80;
 }
