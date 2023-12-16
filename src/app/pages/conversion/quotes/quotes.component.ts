@@ -1,7 +1,10 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FuseConfirmationService } from '@fuse/services/confirmation/confirmation.service';
-// import { FuseConfirmationService } from '@fuse/services/confirmation';
+import { Component, ViewChild } from '@angular/core';
+import { OpenModalsService } from 'app/shared/services/openModals.service';
+import { FormBuilder } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { ModalNewProspectsComponent } from 'app/pages/catchment/modal-new-prospects/modal-new-prospects.component';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-quotes',
@@ -9,26 +12,112 @@ import { FuseConfirmationService } from '@fuse/services/confirmation/confirmatio
   styleUrl: './quotes.component.scss'
 })
 export class QuotesComponent {
+  public dataSource = new MatTableDataSource<any>([]);
+	@ViewChild(MatPaginator) paginator!: MatPaginator;
+  public longitudPagina = 50;
+	public total = 0;
+	public indicePagina = 0;
 
-  constructor(private notificationService: FuseConfirmationService){
+  // TABLA 
 
+  public displayedColumns: string[] = [
+    'empresa', 
+    'fechaYHora', 
+    'folio', 
+    'documentos', 
+    'precioTotal', 
+    'lugares',
+    'nivelInteres',
+    'estadopais',
+    'acciones',
+    'operaciones'
+  ];
+  
+  
+  public dataDummy : any[] = [
+    {
+      empresa : 'RECK SOLUCIONES',
+      fechaYHora : '2023-09-30 12:38:49',
+      folio : '#123345',
+      precioTotal : '$4,000,000.00',
+      nivelInteres : 'Alto',
+      estadopais : 'Mexico, Nuevo Leon',
+      documentos : [
+        {
+          cotizacion : 'Cotización',
+          cotizacionAprobada : 'Cotización aprobada',
+        }
+      ],
+      lugares : [
+        {
+          no : '1548',
+          tipo : 'Lista',
+          lugares : '5',
+          curso : 'C029 - Seguridad en el mantenimiento de instalaciones eléctrica',
+          precio : '$1,995.00',
+        }
+      ],
+    },
+    {
+      empresa : 'RECK SOLUCIONES',
+      fechaYHora : '2023-09-30 12:38:49',
+      folio : '#123345',
+      precioTotal : '$4,000,000.00',
+      nivelInteres : 'Alto',
+      estadopais : 'Mexico, Nuevo Leon',
+      documentos : [
+        {
+          cotizacion : 'Cotización',
+          cotizacionAprobada : 'Cotización aprobada',
+        }
+      ],
+      lugares : [
+        {
+          no : '1548',
+          tipo : 'Lista',
+          lugares : '5',
+          curso : 'C029 - Seguridad en el mantenimiento de instalaciones eléctrica',
+          precio : '$1,995.00',
+        }
+      ],
+    },
+  
+  ]
+
+	public fechaHoy = new Date();
+
+
+  public formFilters = this.formBuilder.group({
+    estatus: [{ value: null, disabled: false }],
+    agent: [{ value: null, disabled: false }],
+    company: [{ value: null, disabled: false }],
+    rangeDateStart: [{ value: null, disabled: false }],
+    rangeDateEnd: [{ value: null, disabled: false }],
+  });
+
+  constructor(
+
+    private openModalsService: OpenModalsService,
+    private formBuilder: FormBuilder,
+    private dialog: MatDialog
+  ) { }
+
+  ngOnInit(): void {
+    this.dataSource.data = this.dataDummy
+   }
+
+  SearchWithFilters(){
+    console.log(this.formFilters.value);
   }
 
-
-
-    probar() {
-      this.notificationService.open(
-        {
-          title: 'hola',
-          actions : {
-            confirm : {
-              show : true,
-              color: 'warn'
-            }
-          }
-          
-        },
-      )
-    }
+  newQuotes() {
+  this.dialog.open(ModalNewProspectsComponent, {
+    data : ['test'],
+    disableClose: true,
+    width: '1000px',
+    maxHeight: '628px',
+    panelClass: 'custom-dialog',
+  });
+  }
 
 }
