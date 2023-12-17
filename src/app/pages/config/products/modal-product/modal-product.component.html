@@ -9,7 +9,7 @@
 
         <p class="mb-6">*Campos obligatorios</p>
 
-        <form class="col-12">
+        <form class="col-12 modal-content-scroll">
             <div class="row">
                 <div class="col-md-6">
 
@@ -35,7 +35,7 @@
                 </div>
                 <div class="col-md-6">
                     <mat-form-field class="gt-xs:pr-3 width-100">
-                        <mat-label>Nombre del propietario*</mat-label>
+                        <mat-label>Propietario (Agente)*</mat-label>
                         <input matInput>
                     </mat-form-field>
 
@@ -48,6 +48,14 @@
                         <mat-label>Teléfono*</mat-label>
                         <input matInput>
                     </mat-form-field>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="input-check">
+                    <mat-checkbox class="mb-2" [checked]="true" >
+                        Realizar el registro completo
+                    </mat-checkbox>
                 </div>
             </div>
 

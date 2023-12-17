@@ -19,6 +19,10 @@ const pageRoutes: Routes = [
 				path: 'conversion',
 				loadChildren: () => import('./conversion/conversion.module').then((m) => m.ConversionModule),
 			},
+			{
+				path: 'configuracion',
+				loadChildren: () => import('./config/config.module').then((m) => m.ConfigModule),
+			},
 		],
 	},
 ];
