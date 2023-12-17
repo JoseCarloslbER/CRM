@@ -6,6 +6,7 @@ import { ModalNewProspectsComponent } from 'app/pages/catchment/modal-new-prospe
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
+import { ModalNewQuoteComponent } from '../modal-new-quote/modal-new-quote.component';
 
 @Component({
   selector: 'app-quotes',
@@ -119,7 +120,7 @@ export class QuotesComponent {
 
 
   newQuotes() {
-    this.dialog.open(ModalNewProspectsComponent, {
+    this.dialog.open(ModalNewQuoteComponent, {
       data: ['test'],
       disableClose: true,
       width: '1000px',

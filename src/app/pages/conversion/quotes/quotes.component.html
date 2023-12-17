@@ -9,15 +9,16 @@
                 <div class="col-12">
 
                     <div class="section-title row d-flex justify-content-between align-items-center">
-                        
-                        <div class="col-md-5 col-sm-12 col-12 title">     
+
+                        <div class="col-md-5 col-sm-12 col-12 title">
                             Cotizaciones
                             <span class="color-green">$50,760.00</span>
                         </div>
 
                         <div class="col-md-7 col-sm-12 col-12 btns-section">
-                            <button class="btn-newRegister ml-3 px-1 sm:px-4 min-w-10" mat-flat-button>
-                                <span class="hidden sm:inline-block" (click)="newQuotes()">Crear nueva cotización</span>
+                            <button class="btn-newRegister ml-3 px-1 sm:px-4 min-w-10" (click)="newQuotes()">
+                                <mat-icon class="show-icon">add</mat-icon>
+                                <span class="hidden sm:inline-block">Crear nueva cotización</span>
                             </button>
                         </div>
                     </div>
@@ -100,9 +101,10 @@
                     <ng-template matTabContent>
                         <div class="row">
                             <div class="col-12 contenedor-scroll-tabla">
-                                <table mat-table #table [dataSource]="dataSource" class="w-100 tabla-personalizada-default">
+                                <table mat-table #table [dataSource]="dataSource"
+                                    class="w-100 tabla-personalizada-default">
                                     <caption></caption>
-                    
+
                                     <ng-container matColumnDef="empresa">
                                         <th mat-header-cell *matHeaderCellDef>Empresa</th>
                                         <td mat-cell *matCellDef="let element">
@@ -110,107 +112,113 @@
                                                 <img src="../../../../assets/images/logo/prospects-icon.png" alt="">
                                                 <span class="cursor-pointer">{{element.empresa}}</span>
                                             </div>
-                                            
+
                                         </td>
                                     </ng-container>
-                                  
+
                                     <ng-container matColumnDef="fechaYHora">
                                         <th mat-header-cell *matHeaderCellDef>Fecha y hora</th>
                                         <td mat-cell *matCellDef="let element">
                                             {{ element.fechaYHora }}
                                         </td>
                                     </ng-container>
-                                  
+
                                     <ng-container matColumnDef="folio">
                                         <th mat-header-cell *matHeaderCellDef>Folio</th>
                                         <td mat-cell *matCellDef="let element">
                                             {{ element.folio }}
                                         </td>
                                     </ng-container>
-                                  
+
                                     <ng-container matColumnDef="documentos">
                                         <th mat-header-cell *matHeaderCellDef>Documentos</th>
                                         <td mat-cell *matCellDef="let element">
-                                            <div class="table-column-documentos" *ngFor="let info of element.documentos">
+                                            <div class="table-column-documentos"
+                                                *ngFor="let info of element.documentos">
                                                 <span (click)="seeQuote()">{{ info.cotizacion }}</span>
                                                 <span (click)="seeQuote()">{{ info.cotizacionAprobada }}</span>
                                             </div>
                                         </td>
                                     </ng-container>
-                                  
+
                                     <ng-container matColumnDef="precioTotal">
                                         <th mat-header-cell *matHeaderCellDef>Precio total</th>
                                         <td mat-cell *matCellDef="let element">
                                             {{ element.precioTotal }}
                                         </td>
                                     </ng-container>
-                    
+
                                     <ng-container matColumnDef="lugares">
                                         <th mat-header-cell *matHeaderCellDef>Lugares</th>
                                         <td mat-cell *matCellDef="let element">
                                             <div class="colum-tabla-tabla-content">
                                                 <table class="table table-bordered">
-                                                        <thead>
-                                                          <tr>
+                                                    <thead>
+                                                        <tr>
                                                             <th scope="col">#</th>
                                                             <th scope="col">Tipo</th>
                                                             <th scope="col">Lugares</th>
                                                             <th scope="col">Curso</th>
                                                             <th scope="col">Precio</th>
-                                                          </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                          <tr *ngFor="let item of element.lugares">
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr *ngFor="let item of element.lugares">
                                                             <td>{{item.no}}</td>
                                                             <td>{{item.tipo}}</td>
                                                             <td>{{item.lugares}}</td>
                                                             <td>{{item.curso}}</td>
                                                             <td>{{item.precio}}</td>
-                                                          </tr>
-                                                        </tbody>
-                                                  </table>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
                                             </div>
                                         </td>
                                     </ng-container>
-                    
+
                                     <ng-container matColumnDef="nivelInteres">
                                         <th mat-header-cell *matHeaderCellDef>Nivel de interés</th>
-                                        <td mat-cell *matCellDef="let element" >
+                                        <td mat-cell *matCellDef="let element">
                                             <div class="colum-interest interest-high">
                                                 {{ element.nivelInteres }}
                                             </div>
                                         </td>
                                     </ng-container>
-                    
+
                                     <ng-container matColumnDef="estadopais">
                                         <th mat-header-cell *matHeaderCellDef>Estado / País</th>
-                                        <td mat-cell *matCellDef="let element" >
-                                                {{ element.estadopais }}
+                                        <td mat-cell *matCellDef="let element">
+                                            {{ element.estadopais }}
                                         </td>
                                     </ng-container>
 
                                     <ng-container matColumnDef="acciones">
                                         <th mat-header-cell *matHeaderCellDef>Acciones</th>
                                         <td mat-cell *matCellDef="let element">
-                                            <div class="colum-table-select"> 
+                                            <div class="colum-table-select">
                                                 <mat-form-field class="flex-auto">
                                                     <mat-select placeholder="Seleccionar">
-                                                        <mat-option class="border-bottom" value="estatus-1">Formailzar</mat-option>
-                                                        <mat-option class="border-bottom" value="estatus-1">Aceptar</mat-option>
-                                                        <mat-option class="border-bottom" value="estatus-1">Descartada</mat-option>
-                                                        <mat-option class="border-bottom" value="estatus-1">Cancelada</mat-option>
-                                                        <mat-option class="border-bottom" value="estatus-1">Cerrrar como venta</mat-option>
+                                                        <mat-option class="border-bottom"
+                                                            value="estatus-1">Formailzar</mat-option>
+                                                        <mat-option class="border-bottom"
+                                                            value="estatus-1">Aceptar</mat-option>
+                                                        <mat-option class="border-bottom"
+                                                            value="estatus-1">Descartada</mat-option>
+                                                        <mat-option class="border-bottom"
+                                                            value="estatus-1">Cancelada</mat-option>
+                                                        <mat-option class="border-bottom" value="estatus-1">Cerrrar como
+                                                            venta</mat-option>
                                                     </mat-select>
                                                 </mat-form-field>
                                             </div>
-                                          
+
                                         </td>
                                     </ng-container>
 
                                     <ng-container matColumnDef="operaciones">
                                         <th mat-header-cell *matHeaderCellDef>Operaciones</th>
                                         <td mat-cell *matCellDef="let element">
-                                            <div class="column-btns-operations"> 
+                                            <div class="column-btns-operations">
 
                                                 <div class="colum-btn btn-edit" (click)="seeQuote()">
                                                     <mat-icon matTooltip="Editar">edit_square</mat-icon>
@@ -223,7 +231,7 @@
                                                 <div class="colum-btn btn-receipt">
                                                     <mat-icon matTooltip="Factura">receipt_long</mat-icon>
                                                 </div>
-                                                
+
                                                 <div class="colum-btn btn-print">
                                                     <mat-icon matTooltip="Descagar">print</mat-icon>
                                                 </div>
@@ -232,7 +240,7 @@
                                         </td>
                                     </ng-container>
 
-                    
+
                                     <tr *matNoDataRow>
                                         <td class="mat-cell" [attr.colspan]="displayedColumns.length">
                                             <h5 class="text-center my-5">No se encontraron resultados.</h5>
@@ -242,7 +250,7 @@
                                     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
                                 </table>
                             </div>
-                         
+
                             <!-- <div class="d-flex justify-content-end" style="background: none;"> 
                                 <mat-paginator
                                     #paginator

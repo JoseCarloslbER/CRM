@@ -1,0 +1,49 @@
+.modal-content-scroll {
+
+    .section-header-modal {
+        height: 40px;
+        background: #646878;
+        color: #EDF1F5;
+        align-items: center;
+        display: flex;
+        font-size: 16px;
+        font-weight: 700;
+        text-align: left;
+        margin: 20px 0;
+        padding-left: 40px;
+        margin-bottom: 30px;
+    }
+
+    .recalculate {
+        font-size: 16px;
+        font-weight: 700;
+        color: #385A6D;
+        box-shadow: 4px 4px 4px 0px #00000040;
+        padding: 10px 25px;
+        border-radius: 100px;
+        background: #E5E4E4;
+    }
+
+
+    .promotion {
+        span {
+            font-size: 16px;
+            font-weight: 700;
+            color: #646878;
+            margin-top: 35px;
+            margin-bottom: 20px;
+        }
+    }
+
+    .create {
+        .btn-add-action {
+            background: #FCDE01;
+            color: #1E293B;
+        }
+    }
+
+    .section-btns-two {
+        margin: 50px 0px;
+    }
+}
+
