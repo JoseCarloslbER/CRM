@@ -5,6 +5,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { ModalNewProspectsComponent } from 'app/pages/catchment/modal-new-prospects/modal-new-prospects.component';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
+import { ModalNewQuoteComponent } from '../modal-new-quote/modal-new-quote.component';
 
 @Component({
   selector: 'app-quotes',
@@ -13,78 +15,78 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class QuotesComponent {
   public dataSource = new MatTableDataSource<any>([]);
-	@ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
   public longitudPagina = 50;
-	public total = 0;
-	public indicePagina = 0;
+  public total = 0;
+  public indicePagina = 0;
 
   // TABLA 
 
   public displayedColumns: string[] = [
-    'empresa', 
-    'fechaYHora', 
-    'folio', 
-    'documentos', 
-    'precioTotal', 
+    'empresa',
+    'fechaYHora',
+    'folio',
+    'documentos',
+    'precioTotal',
     'lugares',
     'nivelInteres',
     'estadopais',
     'acciones',
     'operaciones'
   ];
-  
-  
-  public dataDummy : any[] = [
+
+
+  public dataDummy: any[] = [
     {
-      empresa : 'RECK SOLUCIONES',
-      fechaYHora : '2023-09-30 12:38:49',
-      folio : '#123345',
-      precioTotal : '$4,000,000.00',
-      nivelInteres : 'Alto',
-      estadopais : 'Mexico, Nuevo Leon',
-      documentos : [
+      empresa: 'RECK SOLUCIONES',
+      fechaYHora: '2023-09-30 12:38:49',
+      folio: '#123345',
+      precioTotal: '$4,000,000.00',
+      nivelInteres: 'Alto',
+      estadopais: 'Mexico, Nuevo Leon',
+      documentos: [
         {
-          cotizacion : 'Cotización',
-          cotizacionAprobada : 'Cotización aprobada',
+          cotizacion: 'Cotización',
+          cotizacionAprobada: 'Cotización aprobada',
         }
       ],
-      lugares : [
+      lugares: [
         {
-          no : '1548',
-          tipo : 'Lista',
-          lugares : '5',
-          curso : 'C029 - Seguridad en el mantenimiento de instalaciones eléctrica',
-          precio : '$1,995.00',
+          no: '1548',
+          tipo: 'Lista',
+          lugares: '5',
+          curso: 'C029 - Seguridad en el mantenimiento de instalaciones eléctrica',
+          precio: '$1,995.00',
         }
       ],
     },
     {
-      empresa : 'RECK SOLUCIONES',
-      fechaYHora : '2023-09-30 12:38:49',
-      folio : '#123345',
-      precioTotal : '$4,000,000.00',
-      nivelInteres : 'Alto',
-      estadopais : 'Mexico, Nuevo Leon',
-      documentos : [
+      empresa: 'RECK SOLUCIONES',
+      fechaYHora: '2023-09-30 12:38:49',
+      folio: '#123345',
+      precioTotal: '$4,000,000.00',
+      nivelInteres: 'Alto',
+      estadopais: 'Mexico, Nuevo Leon',
+      documentos: [
         {
-          cotizacion : 'Cotización',
-          cotizacionAprobada : 'Cotización aprobada',
+          cotizacion: 'Cotización',
+          cotizacionAprobada: 'Cotización aprobada',
         }
       ],
-      lugares : [
+      lugares: [
         {
-          no : '1548',
-          tipo : 'Lista',
-          lugares : '5',
-          curso : 'C029 - Seguridad en el mantenimiento de instalaciones eléctrica',
-          precio : '$1,995.00',
+          no: '1548',
+          tipo: 'Lista',
+          lugares: '5',
+          curso: 'C029 - Seguridad en el mantenimiento de instalaciones eléctrica',
+          precio: '$1,995.00',
         }
       ],
     },
-  
+
   ]
 
-	public fechaHoy = new Date();
+  public fechaHoy = new Date();
 
 
   public formFilters = this.formBuilder.group({
@@ -99,25 +101,32 @@ export class QuotesComponent {
 
     private openModalsService: OpenModalsService,
     private formBuilder: FormBuilder,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
     this.dataSource.data = this.dataDummy
-   }
+  }
 
-  SearchWithFilters(){
+  searchWithFilters() {
     console.log(this.formFilters.value);
   }
 
+  seeQuote(data:any) {
+    this.router.navigateByUrl(`/home/conversion/detalle-cotizacion/${1}`)
+  }
+
+
+
   newQuotes() {
-  this.dialog.open(ModalNewProspectsComponent, {
-    data : ['test'],
-    disableClose: true,
-    width: '1000px',
-    maxHeight: '628px',
-    panelClass: 'custom-dialog',
-  });
+    this.dialog.open(ModalNewQuoteComponent, {
+      data: ['test'],
+      disableClose: true,
+      width: '1000px',
+      maxHeight: '628px',
+      panelClass: 'custom-dialog',
+    });
   }
 
 }

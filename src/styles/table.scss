@@ -10,13 +10,13 @@
 	width: 100vh;
 }
 
-@media screen and (max-width: 875px) {
+// @media screen and (max-width: 1475px) {
 	.mdc-data-table__table {
 		display: block;
 		width: 100% !important;
 		overflow: auto;
 	}
-}
+// }
 
 
 .table-column-reck-solution {
@@ -207,6 +207,7 @@
 	display: flex;
 	gap: 25px;
 	align-items: center;
+	margin-bottom: 18px;
 }
 
 .colum-btn {
@@ -216,10 +217,10 @@
     border-radius: 100%;
     display: flex;
     align-items: center;
+	cursor: pointer;
     justify-content: center;
 
 	mat-icon {
-		cursor: pointer;
 		color: white;
 		font-size: 22px;
 	}
@@ -229,7 +230,6 @@
 	background: #FCDE01;
 	
 	mat-icon {
-		// color: rgb(60, 60, 60, .5);
 		color: #926000;
 	}
 }

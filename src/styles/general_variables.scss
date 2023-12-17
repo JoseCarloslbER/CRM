@@ -1,18 +1,10 @@
-.btn-search {
-    background: #385A6D;
-    color: white;
-    font-size: 16px;
-    font-weight: 400;
-    width: 90px;
-    height: 40px;
-    box-shadow: 3px 4px 4px 0px #00000040;
-    border-radius: 10px;
-}
+
 
 .color-green {
     color: #24BB55;
 }
 
+// SECTIONS
 .section-title {
     margin-bottom: 30px;
 
@@ -34,6 +26,18 @@
         gap: 10px;
         color: #4B5062;
     }
+}
+
+.section-btns-footer {
+    display: flex;
+    justify-content: end;
+    gap: 30px;
+}
+
+.section-btns-two {
+    display: flex;
+    justify-content: start;
+    gap: 30px;
 }
 
 .c-tickets {
@@ -65,6 +69,38 @@
     box-shadow: 4px 4px 4px 0px #00000040 !important;
 }
 
+// MODAL 
+.modal-content-scroll {
+    overflow-x: hidden;
+    height: 460px;
+    padding-bottom: 20px;
+}
+
+// BTNS 
+.btn-excel {
+    box-shadow: 4px 4px 4px 0px #00000040;
+    background: #FCDE01;
+    font-size: 20px;
+    font-weight: 700;
+    color: #1E293B;
+    border-radius: 20px;
+    font-size: 16px;
+    width: 90px;
+    height: 40px;
+    margin-top: 20px;
+}
+
+.btn-search {
+    background: #385A6D;
+    color: white;
+    font-size: 16px;
+    font-weight: 400;
+    width: 90px;
+    height: 40px;
+    box-shadow: 3px 4px 4px 0px #00000040;
+    border-radius: 10px;
+}
+
 .btn-newRegister {
     display: flex;
     justify-content: center;
@@ -77,6 +113,11 @@
     border-radius: 20px;
     height: 46px;
 
+    mat-icon {
+        display: none;
+        color: #FCDE01;
+    }
+    
     span {
         color: #FCDE01;
     }
@@ -90,6 +131,52 @@
     font-weight: 700;
 }
 
+.btn-edit-action {
+    background: #E5E4E4;
+    color: #1E293B;
+    font-size: 16px;
+    font-weight: 700;
+    width: 90px;
+    height: 40px;
+    box-shadow: 3px 4px 4px 0px #00000040;
+    border-radius: 100px;
+}
+
+.btn-add-action {
+    background: #385A6D;
+    color: white;
+    font-size: 16px;
+    font-weight: 700;
+    // width: 90px;
+    // height: 40px;
+    padding: 10px 25px;
+    box-shadow: 3px 4px 4px 0px #00000040;
+    border-radius: 100px;
+}
+
+// INPUTS
+
+.input-check {
+    mat-checkbox {
+        label {
+
+            font-size: 20px;
+            color: #1E293B;
+            font-weight: 600;
+        }
+    }
+}
+
+
+.input-time {
+    color: rgb(203 213 225 / var(--tw-border-opacity));
+    border: 1px solid rgb(203 213 225 / var(--tw-border-opacity));
+    height: 50px;
+    margin-top: 3px;
+    padding: 14px;
+    border-radius: 6px;
+    background: rgb(255 255 255 / var(--tw-bg-opacity));
+}
 
 .input-search {
     position: relative;
@@ -133,15 +220,173 @@
     }
 }
 
-.btn-excel {
+
+.card-quotes {
     box-shadow: 4px 4px 4px 0px #00000040;
-    background: #FCDE01;
-    font-size: 20px;
-    font-weight: 700;
-    color: #1E293B;
     border-radius: 20px;
-    font-size: 16px;
-    width: 90px;
-    height: 40px;
-    margin-top: 20px;
+
+    .advantages-p, .btns-quote, .section-btns-footer {
+        padding: 26px;
+        
+        // mat-form-field {
+        //     height: 400px;
+        // }
+
+        // .mat-mdc-form-field.mat-form-field-appearance-fill .mat-mdc-text-field-wrapper .mat-mdc-form-field-flex .mat-mdc-form-field-infix {
+
+        //     height: 905px;
+        // }
+        
+        // textarea {
+        //     height: 355px;
+        // }
+    }
+
+    .card-header-quotes {
+        padding: 38px 0 50px 30px;
+        .title {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;   
+
+            span:nth-child(1) {
+                color: #646878;
+                font-size: 32px;
+                font-weight: 700;
+            }
+
+            span:nth-child(2) {
+                color: #646878;
+                font-size: 30px;
+                font-weight: 400;
+            }
+        }
+
+        .img-title {
+            display: flex;
+            align-items: center;
+            height: 200px;
+            background: #1E293B;
+            border-bottom-left-radius: 10px;
+            border-top-left-radius: 10px;
+
+            .img {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                img {
+                    width: 114px;
+                    height: 114px;
+                }
+            }
+
+            .text-img {
+                display: flex;
+                flex-direction: column;
+                color: #EDF1F5;
+                span:nth-child(1) {
+                    font-size: 32px;
+                    font-weight: 700;
+                    margin-bottom: 10px;
+                    line-height: 41.6px;
+                }
+
+                span:nth-child(2) {
+                    font-size: 18px;
+                    font-weight: 400;
+                }
+            }
+        }
+    }
+
+    .pays {
+        height: 40px!important;
+    }
+
+    .content-colum {
+        padding: 20px 23px 0 23px;
+        
+        span {
+            font-size: 18px;
+            color: #646878;
+        }
+        
+        .header-content-quote {
+            display: flex;
+            align-items: center;
+            color: #EDF1F5;
+            background: #646878;
+            height: 70px;
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 30px;
+        }
+    }
+
+    .content {
+        padding: 0 26px 0 30px;
+    
+        .header-content-quote {
+            span {
+                font-size: 18px;
+                color: #646878;
+            }
+
+            .header-option {
+
+                .title {
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+
+                    h1 {
+                        color: #646878;
+                        font-weight: 700;
+                        font-size: 18px;
+                    }
+                }
+
+                span {
+                    color: #646878;
+                    font-weight: 400;
+                }
+
+                .info {
+                    p {
+                        color: #646878;
+                        font-size: 18px;
+                    }
+                    a {
+                        font-weight: 400!important;
+                        color: #3487E9;
+                        border-bottom: 1px solid #3487E9;
+                    }
+
+                }
+            }
+        }
+    }
+
+    li::before {
+        content: "•";
+        color: black;
+        margin-right: 10px;
+    }
+    
+    li {
+        font-size: 18px;
+        color: #646878;
+        a {
+            color: #3487E9;
+            border-bottom: 1px solid #3487E9;
+        }
+    }
+
+    .advantages {
+        font-size: 18px;
+        font-weight: 700;
+        text-align: right;
+        color: #3487E9;
+    }
 }

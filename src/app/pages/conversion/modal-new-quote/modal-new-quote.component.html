@@ -1,1 +1,216 @@
-<p>modal-new-quote works!</p>
+<div class="container-fluid p-0 overflow-hidden c-modal-quotes">
+
+    <div class="modal-header">
+        <p class="titulo-modal">Registrar nueva cotización</p>
+        <mat-icon svgIcon="mat_outline:cancel" (click)="closeModal()"></mat-icon>
+    </div>
+
+    <div class="row p-5 d-flex">
+
+        <p class="mb-6">*Campos obligatorios</p>
+
+        <form class="col-12 modal-content-scroll">
+            <div>
+                <div class="row">
+                    <div class="col-md-6">
+    
+                        <mat-form-field class="flex-auto gt-xs:pr-3 width-100">
+                            <mat-label>Prospecto / empresa*</mat-label>
+                            <mat-select placeholder="Seleccionar">
+                                <mat-option value="giro1">Prospecto / empresa 1</mat-option>
+                                <mat-option value="Prospectoempresa">Prospecto / empresa 2</mat-option>
+                                <mat-option value="Prospectoempresa">Prospecto / empresa 3</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+    
+                        <mat-form-field class="flex-auto gt-xs:pr-3 width-100">
+                            <mat-label>Agente a asignar</mat-label>
+                            <mat-select placeholder="Seleccionar">
+                                <mat-option value="giro1">Agente 1</mat-option>
+                                <mat-option value="Prospectoempresa">Agente 2</mat-option>
+                                <mat-option value="Prospectoempresa">Agente 3</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+    
+                        <mat-form-field class="flex-auto gt-xs:pr-3 width-100">
+                            <mat-label>Campaña</mat-label>
+                            <mat-select placeholder="Seleccionar">
+                                <mat-option value="Campaña">Campaña 1</mat-option>
+                                <mat-option value="Campaña">Campaña 2</mat-option>
+                                <mat-option value="Campaña">Campaña 3</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                   
+                    </div>
+                    <div class="col-md-6">
+                        <mat-form-field class="flex-auto gt-xs:pr-3 width-100">
+                            <mat-label>Contacto</mat-label>
+                            <mat-select placeholder="Seleccionar">
+                                <mat-option value="Contacto">Contacto 1</mat-option>
+                                <mat-option value="Contacto">Contacto 2</mat-option>
+                                <mat-option value="Contacto">Contacto 3</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+    
+                        <mat-form-field class="flex-auto gt-xs:pr-3 width-100">
+                            <mat-label>Nivel de interés</mat-label>
+                            <mat-select placeholder="Seleccionar">
+                                <mat-option value="Nivel de interés">Nivel de interés 1</mat-option>
+                                <mat-option value="Nivel de interés">Nivel de interés 2</mat-option>
+                                <mat-option value="Nivel de interés">Nivel de interés 3</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+    
+                        <mat-form-field class="flex-auto gt-xs:pr-3 width-100">
+                            <mat-label>Forma de pago</mat-label>
+                            <mat-select placeholder="Seleccionar">
+                                <mat-option value="Forma de pago">Forma de pago 1</mat-option>
+                                <mat-option value="Forma de pago">Forma de pago 2</mat-option>
+                                <mat-option value="Forma de pago">Forma de pago 3</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+    
+                <div class="row">
+                    <div class="flex flex-col mt-4 gt-sm:mt-0 gt-sm:ml-16">
+                        <span class="font-semibold mb-2">Cotización con iva</span>
+                        <mat-radio-group class="d-flex flex-row" [value]="'just-good'">
+                            <mat-radio-button class="mb-2" [value]="'Si'">
+                                Si
+                            </mat-radio-button>
+                            <mat-radio-button class="mb-2" [value]="'No'">
+                                No
+                            </mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="section-header-modal">
+                        Opción 1
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <mat-form-field class="flex-auto gt-xs:pr-3 width-100">
+                                    <mat-label>Seleccione el tipo de precio</mat-label>
+                                    <mat-select placeholder="Seleccionar">
+                                        <mat-option value="Promoción">Promoción 1</mat-option>
+                                        <mat-option value="Promoción">Promoción 2</mat-option>
+                                        <mat-option value="Promoción">Promoción 3</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <mat-form-field class="flex-auto gt-xs:pr-3 width-100">
+                            <mat-label>Cantidad de colaboradores / lugares</mat-label>
+                            <input matInput>
+                        </mat-form-field>
+                   
+                        <mat-form-field class="flex-auto gt-xs:pr-3 width-100">
+                            <mat-label>Precio unitario</mat-label>
+                            <input matInput type="number">
+                        </mat-form-field>
+                 
+                    </div>
+                    <div class="col-md-6">
+                        <mat-form-field class="flex-auto gt-xs:pr-3 width-100">
+                            <mat-label>Producto</mat-label>
+                            <mat-select placeholder="Seleccionar">
+                                <mat-option value="giro1">Producto 1</mat-option>
+                                <mat-option value="Prospectoempresa">Producto 2</mat-option>
+                                <mat-option value="Prospectoempresa">Producto 3</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+    
+                        <mat-form-field class="flex-auto gt-xs:pr-3 width-100">
+                            <mat-label>Precio total</mat-label>
+                            <input matInput type="number">
+                        </mat-form-field>
+                    </div>
+                </div>
+    
+                <div class="row">
+                    <div class="col-md-3">
+                        <mat-form-field class="flex-auto gt-xs:pr-3 width-100">
+                            <mat-label>Subtotal</mat-label>
+                            <input matInput type="number">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                        <mat-form-field class="flex-auto gt-xs:pr-3 width-100">
+                            <mat-label>Descuento</mat-label>
+                            <input matInput type="number">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                        <mat-form-field class="flex-auto gt-xs:pr-3 width-100">
+                            <mat-label>Total</mat-label>
+                            <input matInput type="number">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-md-3 d-flex align-items-center justify-content-center">
+                        <button class="recalculate" (click)="closeModal()">
+                            <span>Recalcular</span>
+                        </button>
+                    </div>
+                
+                </div>
+
+                <div class="row promotion">
+                    <span>Vigencia promoción 1</span>
+                    <div class="col-md-6">
+                        <div class="row p-0">
+                            <div class="col-md-6">
+                                <mat-form-field
+                                class="flex-auto  width-100">
+                                <mat-label>Fecha</mat-label>
+                                <input
+                                    matInput
+                                    [matDatepicker]="picker1">
+                                <mat-datepicker-toggle
+                                    matSuffix
+                                    [for]="picker1"></mat-datepicker-toggle>
+                                <mat-datepicker #picker1></mat-datepicker>
+                            </mat-form-field>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="d-flex flex-column">
+                                    <mat-label>Hora</mat-label>
+                                    <input class="input-time" type="time" name="eta">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row d-flex">
+                    <div class="col-md-12 col-sm-12 col-12 section-btns-two">
+                        <!-- <button class="btn-add-action">
+                            <span>Agregar más productos</span>
+                        </button> -->
+                        <button class="btn-add-action">
+                            <span>Agregar más opciones</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="row d-flex justify-content-end create">
+                    <div class="d-flex justify-content-end col-md-2 col-xl-2 col-12 pt-md-2">
+                        <button class="btn-add-action" (click)="closeModal()">
+                            <span>Crear</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
