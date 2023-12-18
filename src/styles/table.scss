@@ -1,22 +1,22 @@
 .mdc-data-table__table {
-	display: table;
+	display: table!important;
 }
 
 .mat-mdc-table {
 	border: 1px solid #e3e2e6 !important;
-	background-color: #fdfcff;
+	background-color: #fdfcff!important;
 	border-collapse: separate !important;
 	border-radius: 5px !important;
-	width: 100vh;
+	width: 100vh!important;
 }
 
-// @media screen and (max-width: 1475px) {
+@media screen and (max-width: 1475px) {
 	.mdc-data-table__table {
-		display: block;
+		// display: block!important;
 		width: 100% !important;
-		overflow: auto;
+		overflow: auto!important;
 	}
-// }
+}
 
 
 .table-column-reck-solution {
