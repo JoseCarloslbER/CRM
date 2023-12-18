@@ -61,7 +61,7 @@ export class ProductsComponent implements OnInit{
 
 
   ngOnInit(): void {
-    // this.dataSource.data = this.dataDummy
+    this.dataSource.data = this.dataDummy
   }
 
   newProduct() {
