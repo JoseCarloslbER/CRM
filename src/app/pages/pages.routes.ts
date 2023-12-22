@@ -20,6 +20,10 @@ const pageRoutes: Routes = [
 				loadChildren: () => import('./conversion/conversion.module').then((m) => m.ConversionModule),
 			},
 			{
+				path: 'adquisicion',
+				loadChildren: () => import('./acquisition/acquisition.module').then((m) => m.AcquisitionModule),
+			},
+			{
 				path: 'configuracion',
 				loadChildren: () => import('./config/config.module').then((m) => m.ConfigModule),
 			},

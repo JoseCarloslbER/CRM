@@ -96,7 +96,6 @@ export class LayoutComponent implements OnInit, OnDestroy {
                 }
             ]
         },
-        
         {
             id: "4",
             title: "ADQUISICIÓN",
@@ -109,6 +108,12 @@ export class LayoutComponent implements OnInit, OnDestroy {
                     type    : 'collapsable',
                     iconGoogleFonts: 'handshake',
                     children: [
+                        {
+                            id   : '1',
+                            title: 'Empresas',
+                            type : 'basic',
+                            link : '/home/adquisicion/empresas',
+                        },
                         {
                             id   : '1',
                             title: 'Carga masiva',

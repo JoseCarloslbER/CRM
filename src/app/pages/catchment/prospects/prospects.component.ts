@@ -12,85 +12,85 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrl: './prospects.component.scss'
 })
 export class ProspectsComponent implements OnInit {
-	public dataSource = new MatTableDataSource<any>([]);
-	@ViewChild(MatPaginator) paginator!: MatPaginator;
+  public dataSource = new MatTableDataSource<any>([]);
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
   public longitudPagina = 50;
-	public total = 0;
-	public indicePagina = 0;
+  public total = 0;
+  public indicePagina = 0;
 
   // TABLA 
 
   public displayedColumns: string[] = ['prospectos', 'contacto', 'estatus', 'cotizacionesRapidas', 'origen', 'fechaUltimoContacto', 'siguienteActividad', 'fechaVencimiento'];
-  public dataDummy : any[] = [
+  public dataDummy: any[] = [
     {
-      contacto : [
+      contacto: [
         {
-          nombre : 'Ing Alberto Avendaño',
-          email : 'aavendano@anpasa.com',
-          telefono : 'N/A',
-          celular : '5516349327',
+          nombre: 'Ing Alberto Avendaño',
+          email: 'aavendano@anpasa.com',
+          telefono: 'N/A',
+          celular: '5516349327',
         }
       ],
-      estatus : 'LEAD',
-      cotizaciones : [
+      estatus: 'LEAD',
+      cotizaciones: [
         {
-          izq : '0',
-          der : '1',
+          izq: '0',
+          der: '1',
 
         }
       ],
-      origen : 'Referencia',
-      fechaUltimoContacto : '2022-02-28',
-      siguienteActividad : 'Se envió correo publicitario y se hicieron las llamadas pertinentes para el seguimiento, pero el cliente no contestó en ningún momento.',
-      fechaVencimiento : '2022-02-28',
+      origen: 'Referencia',
+      fechaUltimoContacto: '2022-02-28',
+      siguienteActividad: 'Se envió correo publicitario y se hicieron las llamadas pertinentes para el seguimiento, pero el cliente no contestó en ningún momento.',
+      fechaVencimiento: '2022-02-28',
     },
     {
-      contacto : [
+      contacto: [
         {
-          nombre : 'Ing Alberto Avendaño',
-          email : 'aavendano@anpasa.com',
-          telefono : 'N/A',
-          celular : '5516349327',
+          nombre: 'Ing Alberto Avendaño',
+          email: 'aavendano@anpasa.com',
+          telefono: 'N/A',
+          celular: '5516349327',
         }
       ],
-      estatus : 'LEAD',
-      cotizaciones : [
+      estatus: 'LEAD',
+      cotizaciones: [
         {
-          izq : '0',
-          der : '1',
+          izq: '0',
+          der: '1',
 
         }
       ],
-      origen : 'Referencia',
-      fechaUltimoContacto : '2022-02-28',
-      siguienteActividad : 'Se envió correo publicitario y se hicieron las llamadas pertinentes para el seguimiento, pero el cliente no contestó en ningún momento. // Procedemos a cerrar las cotizaciones #1090 y #1091.',
-      fechaVencimiento : '2022-02-28',
+      origen: 'Referencia',
+      fechaUltimoContacto: '2022-02-28',
+      siguienteActividad: 'Se envió correo publicitario y se hicieron las llamadas pertinentes para el seguimiento, pero el cliente no contestó en ningún momento. // Procedemos a cerrar las cotizaciones #1090 y #1091.',
+      fechaVencimiento: '2022-02-28',
     },
     {
-      contacto : [
+      contacto: [
         {
-          nombre : 'Ing Alberto Avendaño',
-          email : 'aavendano@anpasa.com',
-          telefono : 'N/A',
-          celular : '5516349327',
+          nombre: 'Ing Alberto Avendaño',
+          email: 'aavendano@anpasa.com',
+          telefono: 'N/A',
+          celular: '5516349327',
         }
       ],
-      estatus : 'LEAD',
-      cotizaciones : [
+      estatus: 'LEAD',
+      cotizaciones: [
         {
-          izq : '0',
-          der : '1',
+          izq: '0',
+          der: '1',
 
         }
       ],
-      origen : 'Referencia',
-      fechaUltimoContacto : '2022-02-28',
-      siguienteActividad : 'Se envió correo publicitario y se hicieron las llamadas pertinentes para el seguimiento, pero el cliente no contestó en ningún momento. // Procedemos a cerrar las cotizaciones #1090 y #1091.',
-      fechaVencimiento : '2022-02-28',
+      origen: 'Referencia',
+      fechaUltimoContacto: '2022-02-28',
+      siguienteActividad: 'Se envió correo publicitario y se hicieron las llamadas pertinentes para el seguimiento, pero el cliente no contestó en ningún momento. // Procedemos a cerrar las cotizaciones #1090 y #1091.',
+      fechaVencimiento: '2022-02-28',
     },
   ]
 
-	public fechaHoy = new Date();
+  public fechaHoy = new Date();
 
 
   public formFilters = this.formBuilder.group({
@@ -110,29 +110,29 @@ export class ProspectsComponent implements OnInit {
 
   ngOnInit(): void {
     this.dataSource.data = this.dataDummy
-   }
+  }
 
-  SearchWithFilters(){
+  SearchWithFilters() {
     console.log(this.formFilters.value);
   }
 
   newProspect() {
-  // this.openModalsService
-	// 		.openModalMedium(ModalNewProspectsComponent, {
-	// 			datos: ['test'],
-	// 		})
-  //     .afterClosed()
-	// 		.subscribe((resp: any) => {
-      
-  //     });
+    // this.openModalsService
+    // 		.openModalMedium(ModalNewProspectsComponent, {
+    // 			datos: ['test'],
+    // 		})
+    //     .afterClosed()
+    // 		.subscribe((resp: any) => {
 
-  this.dialog.open(ModalNewProspectsComponent, {
-    data : ['test'],
-    disableClose: true,
-    width: '1000px',
-    maxHeight: '628px',
-    panelClass: 'custom-dialog',
-  });
+    //     });
+
+    this.dialog.open(ModalNewProspectsComponent, {
+      data: ['test'],
+      disableClose: true,
+      width: '1000px',
+      maxHeight: '628px',
+      panelClass: 'custom-dialog',
+    });
   }
 
 }
