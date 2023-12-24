@@ -1,0 +1,191 @@
+<div class="container-fluid p-0 overflow-hidden c-modal-quotes">
+
+    <div class="modal-header">
+        <p class="titulo-modal">Registrar nueva empresa</p>
+        <mat-icon svgIcon="mat_outline:cancel" (click)="closeModal()"></mat-icon>
+    </div>
+
+    <div class="row p-5 d-flex">
+
+        <p class="mb-6">*Campos obligatorios</p>
+
+        <form class="col-12 modal-content-scroll">
+            <div>
+                <div class="row">
+                    <div class="col-md-6">
+
+                        <mat-form-field class="flex-auto gt-xs:pr-3 width-100">
+                            <mat-label>Nombre de la empresa (razón social)*</mat-label>
+                            <input matInput>
+                        </mat-form-field>
+
+                        <mat-form-field class="flex-auto gt-xs:pr-3 width-100">
+                            <mat-label>Correo*</mat-label>
+                            <input matInput>
+                        </mat-form-field>
+                 
+                        <mat-form-field class="flex-auto gt-xs:pr-3 width-100">
+                            <mat-label>Página web*</mat-label>
+                            <input matInput>
+                        </mat-form-field>
+    
+                        <mat-form-field class="flex-auto gt-xs:pr-3 width-100">
+                            <mat-label>País*</mat-label>
+                            <mat-select placeholder="Seleccionar">
+                                <mat-option value="País*">País* 1</mat-option>
+                                <mat-option value="País*">País* 2</mat-option>
+                                <mat-option value="País*">País* 3</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                 
+                        <mat-form-field class="flex-auto gt-xs:pr-3 width-100">
+                            <mat-label>Ciudad*</mat-label>
+                            <mat-select placeholder="Seleccionar">
+                                <mat-option value="Ciudad*">Ciudad* 1</mat-option>
+                                <mat-option value="Ciudad*">Ciudad* 2</mat-option>
+                                <mat-option value="Ciudad*">Ciudad* 3</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+              
+                        <mat-form-field class="flex-auto gt-xs:pr-3 width-100">
+                            <mat-label>Giro*</mat-label>
+                            <mat-select placeholder="Seleccionar">
+                                <mat-option value="Giro**">Giro* 1</mat-option>
+                                <mat-option value="Giro**">Giro* 2</mat-option>
+                                <mat-option value="Giro**">Giro* 3</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+       
+                        <mat-form-field class="flex-auto gt-xs:pr-3 width-100">
+                            <mat-label>Origen*</mat-label>
+                            <mat-select placeholder="Seleccionar">
+                                <mat-option value="Origen**">Origen* 1</mat-option>
+                                <mat-option value="Origen**">Origen* 2</mat-option>
+                                <mat-option value="Origen**">Origen* 3</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                   
+                    </div>
+                    <div class="col-md-6">
+                        <mat-form-field class="flex-auto gt-xs:pr-3 width-100">
+                            <mat-label>RFC*</mat-label>
+                            <input matInput>
+                        </mat-form-field>
+
+                        <mat-form-field class="flex-auto gt-xs:pr-3 width-100">
+                            <mat-label>Teléfono*</mat-label>
+                            <input matInput>
+                        </mat-form-field>
+    
+                        <mat-form-field class="flex-auto gt-xs:pr-3 width-100">
+                            <mat-label>Propietario (agente)</mat-label>
+                            <mat-select placeholder="Seleccionar">
+                                <mat-option value="Propietario (agente)">Propietario (agente) 1</mat-option>
+                                <mat-option value="Propietario (agente)">Propietario (agente) 2</mat-option>
+                                <mat-option value="Propietario (agente)">Propietario (agente) 3</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                 
+                        <mat-form-field class="flex-auto gt-xs:pr-3 width-100">
+                            <mat-label>Estado*</mat-label>
+                            <mat-select placeholder="Seleccionar">
+                                <mat-option value="Estado*">Estado* 1</mat-option>
+                                <mat-option value="Estado*">Estado* 2</mat-option>
+                                <mat-option value="Estado*">Estado* 3</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <mat-form-field class="flex-auto gt-xs:pr-3 width-100">
+                            <mat-label>Domicilio*</mat-label>
+                            <input matInput>
+                        </mat-form-field>
+              
+                        <mat-form-field class="flex-auto gt-xs:pr-3 width-100">
+                            <mat-label>Categoría*</mat-label>
+                            <mat-select placeholder="Seleccionar">
+                                <mat-option value="Categoría**">Categoría* 1</mat-option>
+                                <mat-option value="Categoría**">Categoría* 2</mat-option>
+                                <mat-option value="Categoría**">Categoría* 3</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+       
+                        <div class="flex-auto gt-xs:pr-3 width-100">
+                            <div class="row d-flex up">
+                                <div class="col-md-6">
+                                    <div class="d-flex flex-column">
+                                        <mat-label>Imagen</mat-label>
+                                        <input type="file" name="eta">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 -fldex align-items-center justify-content-center">
+                                    <button class="btn-add-action">
+                                        <span>Subir</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="section-header-modal">
+                        Contactos
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <mat-form-field class="flex-auto gt-xs:pr-3 width-100">
+                            <mat-label>Nombre y apellidos*</mat-label>
+                            <input matInput>
+                        </mat-form-field>
+
+                        <mat-form-field class="flex-auto gt-xs:pr-3 width-100">
+                            <mat-label>Correo*</mat-label>
+                            <input matInput>
+                        </mat-form-field>
+
+                        <mat-form-field class="flex-auto gt-xs:pr-3 width-100">
+                            <mat-label>Teléfono fijo*</mat-label>
+                            <input matInput>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-6">
+                        <mat-form-field class="flex-auto gt-xs:pr-3 width-100">
+                            <mat-label>Cargo / Puesto*</mat-label>
+                            <input matInput>
+                        </mat-form-field>
+
+                        <mat-form-field class="flex-auto gt-xs:pr-3 width-100">
+                            <mat-label>Teléfono móvil*</mat-label>
+                            <input matInput>
+                        </mat-form-field>
+
+                        <mat-form-field class="flex-auto gt-xs:pr-3 width-100">
+                            <mat-label>Extención</mat-label>
+                            <input matInput>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+
+                <div class="row d-flex mt-6">
+                    <div class="col-md-12 col-sm-12 col-12 section-btns-two">
+                        <button class="btn-add-action-gray">
+                            <span>Agregar contacto</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="row d-flex justify-content-end create">
+                    <div class="d-flex justify-content-end col-md-2 col-xl-2 col-12 pt-md-2">
+                        <button class="btn-add-action" (click)="closeModal()">
+                            <span>Crear</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
