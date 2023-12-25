@@ -17,7 +17,7 @@
                                 <span class="hidden sm:inline-block ml-2">Sincronizar</span>
                             </button>
                             <button class="btn-newRegister ml-3 px-1 sm:px-4 min-w-10" mat-flat-button>
-                                <span class="hidden sm:inline-block" (click)="newCompany()">Crear nueva empresa</span>
+                                <span class="hidden sm:inline-block" (click)="newClient()">Crear nueva empresa</span>
                             </button>
                         </div>
                     </div>
@@ -92,32 +92,30 @@
                 </div>
             </form>
 
-            <div class="relative flex self-start pt-2 pb-1 pl-5 pr-4 cursor-pointer overflow-hidden rounded-t-xl border border-b-0 bg-default"matRipple [matMenuTriggerFor]="projectsMenu">
-            <div class="flex items-center">
+            <div class="relative flex self-start pt-2 pb-1 pl-5 pr-4 cursor-pointer overflow-hidden rounded-t-xl border border-b-0 bg-default"
+                matRipple [matMenuTriggerFor]="projectsMenu">
+                <div class="flex items-center">
 
-                <div class="overflow-hidden">
-                    <div class="font-medium leading-6 truncate">{{selectedProject}}</div>
+                    <div class="overflow-hidden">
+                        <div class="font-medium leading-6 truncate">{{selectedProject}}</div>
+                    </div>
+
+                    <div class="flex items-center justify-center pl-2">
+                        <mat-icon class="icon-size-5" [svgIcon]="'heroicons_mini:chevron-down'"></mat-icon>
+                    </div>
+
                 </div>
 
-                <div class="flex items-center justify-center pl-2">
-                    <mat-icon class="icon-size-5" [svgIcon]="'heroicons_mini:chevron-down'"></mat-icon>
-                </div>
+                <mat-menu #projectsMenu="matMenu" [xPosition]="'before'">
 
+                    <button mat-menu-item (click)="cambiarOpcion('todas')">Todas
+                    </button>
+                    <button mat-menu-item (click)="cambiarOpcion('agregadasRecientemente')">Agregadas recientemente
+                    </button>
+                    <button mat-menu-item (click)="cambiarOpcion('Mascomprados')">Que más han comprado
+                    </button>
+                </mat-menu>
             </div>
-
-            <mat-menu #projectsMenu="matMenu" [xPosition]="'before'">
-
-                <button mat-menu-item (click)="cambiarOpcion('todas')">Todas
-                </button>
-                <button mat-menu-item (click)="cambiarOpcion('agregadasRecientemente')">Agregadas recientemente
-                </button>
-                <button mat-menu-item (click)="cambiarOpcion('Mascomprados')">Que más han comprado
-                </button>
-                <!-- <button mat-menu-item (click)="selectedProject='Más activas'">Más activas
-                </button> -->
-
-            </mat-menu>
-        </div>
         </div>
     </div>
 
@@ -130,9 +128,10 @@
                     <ng-template matTabContent>
                         <div class="row">
                             <div class="col-12 contenedor-scroll-tabla">
-                                <table mat-table #table [dataSource]="dataSource" class="w-100 tabla-personalizada-default">
+                                <table mat-table #table [dataSource]="dataSource"
+                                    class="w-100 tabla-personalizada-default">
                                     <caption></caption>
-                    
+
                                     <ng-container matColumnDef="empresa">
                                         <th mat-header-cell *matHeaderCellDef>Empresa</th>
                                         <td mat-cell *matCellDef="let element">
@@ -140,7 +139,7 @@
                                                 <img src="../../../../assets/images/logo/prospects-icon.png" alt="">
                                                 <span>RECK SOLUCIONES</span>
                                             </div>
-                                            
+
                                         </td>
                                     </ng-container>
 
@@ -149,25 +148,29 @@
                                         <td mat-cell *matCellDef="let element">
                                             <div class="table-column-contact" *ngFor="let info of element.contacto">
                                                 <div>
-                                                    <mat-icon class="icon-size-6" matSuffix [svgIcon]="'heroicons_outline:user'"></mat-icon>
+                                                    <mat-icon class="icon-size-6" matSuffix
+                                                        [svgIcon]="'heroicons_outline:user'"></mat-icon>
                                                     <span> {{ info.nombre }} </span>
                                                 </div>
                                                 <div>
-                                                    <mat-icon class="icon-size-6" matSuffix [svgIcon]="'mat_outline:mail'"></mat-icon>
+                                                    <mat-icon class="icon-size-6" matSuffix
+                                                        [svgIcon]="'mat_outline:mail'"></mat-icon>
                                                     <span> {{ info.email }} </span>
                                                 </div>
                                                 <div>
-                                                    <mat-icon class="icon-size-6" matSuffix [svgIcon]="'mat_outline:headphones'"></mat-icon>
+                                                    <mat-icon class="icon-size-6" matSuffix
+                                                        [svgIcon]="'mat_outline:headphones'"></mat-icon>
                                                     <span> {{ info.telefono }} </span>
                                                 </div>
                                                 <div>
-                                                    <mat-icon class="icon-size-6" matSuffix [svgIcon]="'mat_outline:phone_android'"></mat-icon>
+                                                    <mat-icon class="icon-size-6" matSuffix
+                                                        [svgIcon]="'mat_outline:phone_android'"></mat-icon>
                                                     <span> {{ info.celular }} </span>
                                                 </div>
                                             </div>
                                         </td>
                                     </ng-container>
-                                   
+
                                     <ng-container matColumnDef="estatus">
                                         <th mat-header-cell *matHeaderCellDef>Estatus</th>
                                         <td mat-cell *matCellDef="let element">
@@ -176,8 +179,8 @@
                                             </div>
                                         </td>
                                     </ng-container>
-                                  
-                    
+
+
                                     <ng-container matColumnDef="ventas">
                                         <th mat-header-cell *matHeaderCellDef>Ventas</th>
                                         <td mat-cell *matCellDef="let element">
@@ -191,17 +194,19 @@
                                     <ng-container matColumnDef="cotizacionesRapidas">
                                         <th mat-header-cell *matHeaderCellDef>Cotizaciones rápidas</th>
                                         <td mat-cell *matCellDef="let element">
-                                            <div class="table-column-two-buttons" *ngFor="let info of element.cotizacionesRapidas">
+                                            <div class="table-column-two-buttons"
+                                                *ngFor="let info of element.cotizacionesRapidas">
                                                 <div class="table-column-lead"> {{ info.izq }} </div>
                                                 <div class="table-column-lead"> {{ info.der }} </div>
                                             </div>
                                         </td>
                                     </ng-container>
-                            
+
                                     <ng-container matColumnDef="cotizacionesFormales">
                                         <th mat-header-cell *matHeaderCellDef>Cotizaciones formales</th>
                                         <td mat-cell *matCellDef="let element">
-                                            <div class="table-column-two-buttons" *ngFor="let info of element.cotizacionesFormales">
+                                            <div class="table-column-two-buttons"
+                                                *ngFor="let info of element.cotizacionesFormales">
                                                 <div class="table-column-lead"> {{ info.izq }} </div>
                                                 <div class="table-column-lead"> {{ info.der }} </div>
                                             </div>
@@ -223,28 +228,54 @@
                                             {{element.origen}}
                                         </td>
                                     </ng-container>
-                                  
+
                                     <ng-container matColumnDef="fechaUltimoContacto">
                                         <th mat-header-cell *matHeaderCellDef>Fecha de último contacto</th>
                                         <td mat-cell *matCellDef="let element">
                                             {{element.fechaUltimoContacto}}
                                         </td>
                                     </ng-container>
-                                    
+
                                     <ng-container matColumnDef="siguienteActividad">
                                         <th mat-header-cell *matHeaderCellDef>Siguiente actividad</th>
                                         <td mat-cell *matCellDef="let element" class="table-texto-largo">
                                             {{element.siguienteActividad}}
                                         </td>
                                     </ng-container>
-                                 
+
                                     <ng-container matColumnDef="fechaVencimiento">
-                                        <th mat-header-cell *matHeaderCellDef>Fecha de vencimiento de seiguiente actividad</th>
+                                        <th mat-header-cell *matHeaderCellDef>Fecha de vencimiento de seiguiente
+                                            actividad</th>
                                         <td mat-cell *matCellDef="let element">
                                             {{element.fechaVencimiento}}
                                         </td>
                                     </ng-container>
-                    
+
+                                    <ng-container matColumnDef="acciones">
+                                        <th mat-header-cell *matHeaderCellDef>Acciones</th>
+                                        <td mat-cell *matCellDef="let element">
+                                            <div class="c-column-btns">
+
+                                                <div class="btn-see" (click)="seeClient(element)">
+                                                    <mat-icon matTooltip="Editar">visibility</mat-icon>
+                                                </div>
+                                                
+                                                <div class="btn-edit">
+                                                    <mat-icon matTooltip="Editar">edit_square</mat-icon>
+                                                </div>
+
+                                                <div class="btn-new-activity">
+                                                    <mat-icon matTooltip="Factura">library_add</mat-icon>
+                                                </div>
+
+                                                <div class="btn-delete">
+                                                    <mat-icon matTooltip="Eliminar">delete</mat-icon>
+                                                </div>
+
+                                            </div>
+                                        </td>
+                                    </ng-container>
+
                                     <tr *matNoDataRow>
                                         <td class="mat-cell" [attr.colspan]="displayedColumns.length">
                                             <h5 class="text-center my-5">No se encontraron resultados.</h5>
@@ -254,7 +285,7 @@
                                     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
                                 </table>
                             </div>
-                         
+
                             <!-- <div class="d-flex justify-content-end" style="background: none;"> 
                                 <mat-paginator
                                     #paginator
@@ -267,7 +298,7 @@
                                 ></mat-paginator>
                             </div> -->
                         </div>
-                 
+
 
                     </ng-template>
                 </mat-tab>
@@ -279,13 +310,14 @@
                                     <h1 class="mb-5">Empresas agregadas recientemente</h1>
                                 </div>
 
-                                <table mat-table #table [dataSource]="dataSourceAgregadosRecientemente" class="w-100 tabla-personalizada-default">
+                                <table mat-table #table [dataSource]="dataSourceAgregadosRecientemente"
+                                    class="w-100 tabla-personalizada-default">
                                     <caption></caption>
-                    
+
                                     <ng-container matColumnDef="empresa">
                                         <th mat-header-cell *matHeaderCellDef>Empresa</th>
                                         <td mat-cell *matCellDef="let element">
-                                                {{ element.empresa }}
+                                            {{ element.empresa }}
                                         </td>
                                     </ng-container>
 
@@ -295,31 +327,33 @@
                                             {{element.estatus}}
                                         </td>
                                     </ng-container>
-                                  
+
                                     <ng-container matColumnDef="fechaRegistro">
                                         <th mat-header-cell *matHeaderCellDef>Fecha de registro</th>
                                         <td mat-cell *matCellDef="let element">
                                             {{element.fechaRegistro}}
                                         </td>
                                     </ng-container>
-                                    
+
                                     <ng-container matColumnDef="monto">
                                         <th mat-header-cell *matHeaderCellDef>Monto</th>
                                         <td mat-cell *matCellDef="let element" class="table-texto-largo">
                                             {{element.monto}}
                                         </td>
                                     </ng-container>
-                                 
+
                                     <tr *matNoDataRow>
-                                        <td class="mat-cell" [attr.colspan]="displayedColumnsAgregadasRecientemente.length">
+                                        <td class="mat-cell"
+                                            [attr.colspan]="displayedColumnsAgregadasRecientemente.length">
                                             <h5 class="text-center my-5">No se encontraron resultados.</h5>
                                         </td>
                                     </tr>
                                     <tr mat-header-row *matHeaderRowDef="displayedColumnsAgregadasRecientemente"></tr>
-                                    <tr mat-row *matRowDef="let row; columns: displayedColumnsAgregadasRecientemente"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumnsAgregadasRecientemente">
+                                    </tr>
                                 </table>
                             </div>
-                         
+
                             <!-- <div class="d-flex justify-content-end" style="background: none;"> 
                                 <mat-paginator
                                     #paginator
@@ -332,27 +366,28 @@
                                 ></mat-paginator>
                             </div> -->
                         </div>
-                 
+
 
                     </ng-template>
                 </mat-tab>
-             
+
                 <mat-tab *ngIf="selectedProject == 'Más comprados'">
                     <ng-template matTabContent>
                         <div class="row">
                             <div class="col-12 contenedor-scroll-tabla">
-                                <div class="table-header mb-5">    
+                                <div class="table-header mb-5">
                                     <h1>Empresas que más han comprado</h1>
                                     <span>Total: $1,000.00</span>
                                 </div>
-                                
-                                <table mat-table #table [dataSource]="dataSourceMasComprados" class="w-100 tabla-personalizada-default">
+
+                                <table mat-table #table [dataSource]="dataSourceMasComprados"
+                                    class="w-100 tabla-personalizada-default">
                                     <caption></caption>
-                    
+
                                     <ng-container matColumnDef="empresa">
                                         <th mat-header-cell *matHeaderCellDef>Empresa</th>
                                         <td mat-cell *matCellDef="let element">
-                                                {{ element.empresa }}
+                                            {{ element.empresa }}
                                         </td>
                                     </ng-container>
                                     <ng-container matColumnDef="fechaRegistro">
@@ -361,14 +396,14 @@
                                             {{element.fechaRegistro}}
                                         </td>
                                     </ng-container>
-                                    
+
                                     <ng-container matColumnDef="monto">
                                         <th mat-header-cell *matHeaderCellDef>Monto</th>
                                         <td mat-cell *matCellDef="let element" class="table-texto-largo">
                                             {{element.monto}}
                                         </td>
                                     </ng-container>
-                                 
+
                                     <tr *matNoDataRow>
                                         <td class="mat-cell" [attr.colspan]="displayedColumnsMascomprados.length">
                                             <h5 class="text-center my-5">No se encontraron resultados.</h5>
@@ -378,7 +413,7 @@
                                     <tr mat-row *matRowDef="let row; columns: displayedColumnsMascomprados"></tr>
                                 </table>
                             </div>
-                         
+
                             <!-- <div class="d-flex justify-content-end" style="background: none;"> 
                                 <mat-paginator
                                     #paginator
@@ -391,7 +426,7 @@
                                 ></mat-paginator>
                             </div> -->
                         </div>
-                 
+
 
                     </ng-template>
                 </mat-tab>

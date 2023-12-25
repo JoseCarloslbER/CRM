@@ -1,6 +1,7 @@
 import { RouterModule, Routes } from '@angular/router';
 import { CompaniesComponent } from './companies/companies.component';
 import { AcquisitionComponent } from './acquisition.component';
+import { DetailClientComponent } from './companies/detail-client/detail-client.component';
 
 const acquisitionRoutes: Routes = [
 	{
@@ -8,8 +9,12 @@ const acquisitionRoutes: Routes = [
 		component: AcquisitionComponent,
 		children: [
 			{
-				path: 'empresas',
+				path: 'clientes',
 				component: CompaniesComponent,
+			},
+			{
+				path: 'detalle-cliente/:id',
+				component: DetailClientComponent,
 			},
 		]
 	

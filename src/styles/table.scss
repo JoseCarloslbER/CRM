@@ -205,34 +205,36 @@
 	background: #EDF1F5!important;
 }
 
-.column-btns-operations {
+.c-column-btns {
 	display: flex;
 	gap: 25px;
 	align-items: center;
 	margin-bottom: 18px;
 }
 
-.colum-btn {
-	box-shadow: 4px 4px 4px 0px #00000040;
-	width: 35px;
-    height: 35px;
-    border-radius: 100%;
-    display: flex;
-    align-items: center;
-	cursor: pointer;
-    justify-content: center;
-
+.c-column-btns {
+	> div {
+		box-shadow: 4px 4px 4px 0px #00000040;
+		width: 35px;
+		height: 35px;
+		border-radius: 100%;
+		display: flex;
+		align-items: center;
+		cursor: pointer;
+		justify-content: center;
+	
 	mat-icon {
 		color: white;
 		font-size: 22px;
 	}
+}
 }
 
 .btn-edit {
 	background: #FCDE01;
 	
 	mat-icon {
-		color: #926000;
+		color: #926000!important;
 	}
 }
 
@@ -246,4 +248,24 @@
 
 .btn-print {
 	background: #00AA80;
+}
+
+.btn-see {
+	background: #3487E9;
+}
+
+.btn-new-activity {
+	background: #00C292;
+}
+
+.btn-delete {
+	background: #FF0000;
+}
+
+.btn-email {
+	background: #006895;
+}
+
+.btn-phone {
+	background: #008525;
 }

@@ -110,9 +110,9 @@ export class LayoutComponent implements OnInit, OnDestroy {
                     children: [
                         {
                             id   : '1',
-                            title: 'Empresas',
+                            title: 'Clientes',
                             type : 'basic',
-                            link : '/home/adquisicion/empresas',
+                            link : '/home/adquisicion/clientes',
                         },
                         {
                             id   : '1',

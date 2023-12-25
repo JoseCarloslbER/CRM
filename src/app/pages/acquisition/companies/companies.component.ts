@@ -6,6 +6,7 @@ import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalNewCompanyComponent } from './modal-new-company/modal-new-company.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-companies',
@@ -23,7 +24,7 @@ export class CompaniesComponent implements OnInit, AfterViewInit {
 
   public displayedColumnsMascomprados: string[] = ['empresa', 'fechaRegistro', 'monto' ];
   public displayedColumnsAgregadasRecientemente: string[] = ['empresa', 'estatus', 'fechaRegistro', 'monto' ];
-  public displayedColumns: string[] = ['empresa', 'contacto', 'estatus', 'ventas', 'cotizacionesRapidas', 'cotizacionesFormales', 'categoria', 'origen', 'fechaUltimoContacto', 'siguienteActividad', 'fechaVencimiento'];
+  public displayedColumns: string[] = ['empresa', 'contacto', 'estatus', 'ventas', 'cotizacionesRapidas', 'cotizacionesFormales', 'categoria', 'origen', 'fechaUltimoContacto', 'siguienteActividad', 'fechaVencimiento', 'acciones'];
   public dataDummy : any[] = [
     {
       contacto : [
@@ -107,7 +108,8 @@ export class CompaniesComponent implements OnInit, AfterViewInit {
 
     private openModalsService: OpenModalsService,
     private formBuilder: FormBuilder,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -134,16 +136,12 @@ export class CompaniesComponent implements OnInit, AfterViewInit {
     console.log(this.formFilters.value);
   }
 
-  newCompany() {
-    // this.openModalsService
-    // 		.openModalMedium(ModalNewProspectsComponent, {
-    // 			datos: ['test'],
-    // 		})
-    //     .afterClosed()
-    // 		.subscribe((resp: any) => {
+  seeClient(data:any) {
+    console.log(data);
+    this.router.navigateByUrl(`/home/adquisicion/detalle-cliente/${1}`)
+  }
 
-    //     });
-
+  newClient() {
     this.dialog.open(ModalNewCompanyComponent, {
       data: ['test'],
       disableClose: true,

@@ -2,7 +2,6 @@ import { Component, ViewChild } from '@angular/core';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { ModalNewProspectsComponent } from 'app/pages/catchment/modal-new-prospects/modal-new-prospects.component';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
@@ -27,6 +26,7 @@ export class QuotesComponent {
     'fechaYHora',
     'folio',
     'documentos',
+    'estatus',
     'precioTotal',
     'lugares',
     'nivelInteres',
@@ -43,6 +43,7 @@ export class QuotesComponent {
       folio: '#123345',
       precioTotal: '$4,000,000.00',
       nivelInteres: 'Alto',
+      estatus: 'LEAD',
       estadopais: 'Mexico, Nuevo Leon',
       documentos: [
         {
@@ -66,6 +67,7 @@ export class QuotesComponent {
       folio: '#123345',
       precioTotal: '$4,000,000.00',
       nivelInteres: 'Alto',
+      estatus: 'LEAD',
       estadopais: 'Mexico, Nuevo Leon',
       documentos: [
         {
