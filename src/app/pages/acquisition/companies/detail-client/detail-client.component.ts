@@ -15,6 +15,7 @@ import { ModalNewActivityComponent } from '../modal-new-activity/modal-new-activ
 })
 export class DetailClientComponent {
   public dataSourceQuotes = new MatTableDataSource<any>([]);
+  public dataSourceCampaign = new MatTableDataSource<any>([]);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   public longitudPagina = 50;
   public total = 0;
@@ -35,8 +36,161 @@ export class DetailClientComponent {
     'modificarEstatus',
     'acciones',
   ];
+ 
+  public displayedColumnsCampaign: string[] = [
+    'noSerie',
+    'nombre',
+    'fechainicial',
+    'fechaFinal',
+    'fechaRegistro',
+    'fechaFinalizacion',
+    'tipoCampania',
+    'agentePrincipal',
+    'ventas',
+    'cotizaciones',
+    'agente',
+    'acciones',
+  ];
+
+  public dataDummyCampaign: any[] = [
+    {
+      noSerie: 'CD4557',
+      nombre: 'Orgánico - Google',
+      fechainicial: '2022-02-28',
+      fechaFinal: '2022-02-28',
+      fechaRegistro: '2022-02-28',
+      fechaFinalizacion: '2022-02-28',
+      tipoCampania: '2022-02-28',
+      agentePrincipal: 'Soporte (Administrador)',
+      ventas: [
+        {
+          izq: '0',
+          der: '1',
+
+        }
+      ],
+      cotizaciones: [
+        {
+          izq: '0',
+          der: '1',
+
+        }
+      ],
+ 
+    },
+    {
+      noSerie: 'CD4557',
+      nombre: 'Orgánico - Google',
+      fechainicial: '2022-02-28',
+      fechaFinal: '2022-02-28',
+      fechaRegistro: '2022-02-28',
+      fechaFinalizacion: '2022-02-28',
+      tipoCampania: '2022-02-28',
+      agentePrincipal: 'Soporte (Administrador)',
+      ventas: [
+        {
+          izq: '0',
+          der: '1',
+
+        }
+      ],
+      cotizaciones: [
+        {
+          izq: '0',
+          der: '1',
+
+        }
+      ],
+ 
+    },
+    {
+      noSerie: 'CD4557',
+      nombre: 'Orgánico - Google',
+      fechainicial: '2022-02-28',
+      fechaFinal: '2022-02-28',
+      fechaRegistro: '2022-02-28',
+      fechaFinalizacion: '2022-02-28',
+      tipoCampania: '2022-02-28',
+      agentePrincipal: 'Soporte (Administrador)',
+      ventas: [
+        {
+          izq: '0',
+          der: '1',
+
+        }
+      ],
+      cotizaciones: [
+        {
+          izq: '0',
+          der: '1',
+
+        }
+      ],
+ 
+    },
+  ]
 
   public dataDummy: any[] = [
+    {
+      empresa: 'RECK SOLUCIONES',
+      fecha: '2023-09-30 12:38:49',
+      folio: '#123345',
+      precioTotal: '$4,000,000.00',
+      nivelInteres: 'Alto',
+      estatus: 'LEAD',
+      agente: 'Atendió: Marketing',
+      estadopais: 'Mexico, Nuevo Leon',
+      actividades: 'Ver historial',
+      lugares: [
+        {
+          no: '1548',
+          tipo: 'Lista',
+          lugares: '5',
+          curso: 'C029 - Seguridad en el mantenimiento de instalaciones eléctrica',
+          precio: '$1,995.00',
+        }
+      ],
+    },
+    {
+      empresa: 'RECK SOLUCIONES',
+      fecha: '2023-09-30 12:38:49',
+      folio: '#123345',
+      precioTotal: '$4,000,000.00',
+      nivelInteres: 'Alto',
+      estatus: 'LEAD',
+      agente: 'Atendió: Marketing',
+      estadopais: 'Mexico, Nuevo Leon',
+      actividades: 'Ver historial',
+      lugares: [
+        {
+          no: '1548',
+          tipo: 'Lista',
+          lugares: '5',
+          curso: 'C029 - Seguridad en el mantenimiento de instalaciones eléctrica',
+          precio: '$1,995.00',
+        }
+      ],
+    },
+    {
+      empresa: 'RECK SOLUCIONES',
+      fecha: '2023-09-30 12:38:49',
+      folio: '#123345',
+      precioTotal: '$4,000,000.00',
+      nivelInteres: 'Alto',
+      estatus: 'LEAD',
+      agente: 'Atendió: Marketing',
+      estadopais: 'Mexico, Nuevo Leon',
+      actividades: 'Ver historial',
+      lugares: [
+        {
+          no: '1548',
+          tipo: 'Lista',
+          lugares: '5',
+          curso: 'C029 - Seguridad en el mantenimiento de instalaciones eléctrica',
+          precio: '$1,995.00',
+        }
+      ],
+    },
     {
       empresa: 'RECK SOLUCIONES',
       fecha: '2023-09-30 12:38:49',
@@ -68,6 +222,7 @@ export class DetailClientComponent {
 
   ngOnInit(): void {
     this.dataSourceQuotes.data = this.dataDummy
+    this.dataSourceCampaign.data = this.dataDummyCampaign
   }
 
   newActivity() {
