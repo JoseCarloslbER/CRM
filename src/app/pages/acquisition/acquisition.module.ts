@@ -9,6 +9,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 import { MaterialModule } from 'app/shared/material/material.module';
 import { DetailClientComponent } from './companies/detail-client/detail-client.component';
 import { ModalNewActivityComponent } from './companies/modal-new-activity/modal-new-activity.component';
+import { ModalNewContactComponent } from './companies/modal-new-contact/modal-new-contact.component';
 
 
 
@@ -18,7 +19,9 @@ import { ModalNewActivityComponent } from './companies/modal-new-activity/modal-
     CompaniesComponent, 
     ModalNewCompanyComponent, 
     DetailClientComponent,
-    ModalNewActivityComponent],
+    ModalNewActivityComponent, 
+    ModalNewContactComponent  
+  ],
   imports: [
     CommonModule,
     ACQUISITION_ROUTES,

@@ -5,7 +5,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 @Component({
   selector: 'app-modal-product',
   templateUrl: './modal-product.component.html',
-  styleUrl: './modal-product.component.scss'
+  styleUrls: []
 })
 export class ModalProductComponent implements OnInit {
 

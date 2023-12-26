@@ -7,6 +7,7 @@ import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ModalNewActivityComponent } from '../modal-new-activity/modal-new-activity.component';
+import { ModalNewContactComponent } from '../modal-new-contact/modal-new-contact.component';
 
 @Component({
   selector: 'app-detail-client',
@@ -235,5 +236,14 @@ export class DetailClientComponent {
     });
   }
 
+  newContact() {
+    this.dialog.open(ModalNewContactComponent, {
+      data: ['test'],
+      disableClose: true,
+      width: '1000px',
+      maxHeight: '628px',
+      panelClass: 'custom-dialog',
+    });
+  }
 
 }

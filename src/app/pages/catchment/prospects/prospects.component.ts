@@ -9,7 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-prospects',
   templateUrl: './prospects.component.html',
-  styleUrl: './prospects.component.scss'
+  styleUrls: []
 })
 export class ProspectsComponent implements OnInit {
   public dataSource = new MatTableDataSource<any>([]);

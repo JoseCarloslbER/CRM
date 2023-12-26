@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-details-quotes',
   templateUrl: './details-quotes.component.html',
-  styleUrl: './details-quotes.component.scss'
+  styleUrls: []
 })
 export class DetailsQuotesComponent {
 

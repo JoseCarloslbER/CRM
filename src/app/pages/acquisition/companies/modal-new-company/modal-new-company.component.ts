@@ -4,7 +4,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 @Component({
   selector: 'app-modal-new-company',
   templateUrl: './modal-new-company.component.html',
-  styleUrl: './modal-new-company.component.scss'
+  styleUrls: []
 })
 export class ModalNewCompanyComponent {
 

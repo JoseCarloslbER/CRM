@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
-  styleUrl: './products.component.scss'
+  styleUrls: []
 })
 export class ProductsComponent implements OnInit{
   public dataSource = new MatTableDataSource<any>([]);

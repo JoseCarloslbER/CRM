@@ -10,7 +10,7 @@ import { ModalNewQuoteComponent } from '../modal-new-quote/modal-new-quote.compo
 @Component({
   selector: 'app-quotes',
   templateUrl: './quotes.component.html',
-  styleUrl: './quotes.component.scss'
+  styleUrls: []
 })
 export class QuotesComponent {
   public dataSource = new MatTableDataSource<any>([]);

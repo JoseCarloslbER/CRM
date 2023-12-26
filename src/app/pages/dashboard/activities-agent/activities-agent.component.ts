@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-activities-agent',
   templateUrl: './activities-agent.component.html',
-  styleUrl: './activities-agent.component.scss'
+  styleUrls: []
 })
 export class ActivitiesAgentComponent {
 
