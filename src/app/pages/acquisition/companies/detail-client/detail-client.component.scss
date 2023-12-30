@@ -63,5 +63,7 @@
         }
     }
 
-    
+    ::ng-deep .mat-mdc-tab-labels {
+        justify-content: center!important;
+    }
 }

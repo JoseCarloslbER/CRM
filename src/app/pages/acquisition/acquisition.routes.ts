@@ -2,6 +2,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { CompaniesComponent } from './companies/companies.component';
 import { AcquisitionComponent } from './acquisition.component';
 import { DetailClientComponent } from './companies/detail-client/detail-client.component';
+import { DocumentsComponent } from './companies/components/documents/documents.component';
 
 const acquisitionRoutes: Routes = [
 	{

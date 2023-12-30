@@ -4,7 +4,7 @@ import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { ModalNewContactComponent } from '../../modal-new-contact/modal-new-contact.component';
+import { ModalNewContactComponent } from './modal-new-contact/modal-new-contact.component';
 
 @Component({
   selector: 'app-contact',
