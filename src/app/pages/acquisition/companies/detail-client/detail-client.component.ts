@@ -7,7 +7,6 @@ import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ModalNewActivityComponent } from '../modal-new-activity/modal-new-activity.component';
-import { ModalNewContactComponent } from '../modal-new-contact/modal-new-contact.component';
 
 @Component({
   selector: 'app-detail-client',
@@ -37,99 +36,6 @@ export class DetailClientComponent {
     'modificarEstatus',
     'acciones',
   ];
- 
-  public displayedColumnsCampaign: string[] = [
-    'noSerie',
-    'nombre',
-    'fechainicial',
-    'fechaFinal',
-    'fechaRegistro',
-    'fechaFinalizacion',
-    'tipoCampania',
-    'agentePrincipal',
-    'ventas',
-    'cotizaciones',
-    'agente',
-    'acciones',
-  ];
-
-  public dataDummyCampaign: any[] = [
-    {
-      noSerie: 'CD4557',
-      nombre: 'Orgánico - Google',
-      fechainicial: '2022-02-28',
-      fechaFinal: '2022-02-28',
-      fechaRegistro: '2022-02-28',
-      fechaFinalizacion: '2022-02-28',
-      tipoCampania: '2022-02-28',
-      agentePrincipal: 'Soporte (Administrador)',
-      ventas: [
-        {
-          izq: '0',
-          der: '1',
-
-        }
-      ],
-      cotizaciones: [
-        {
-          izq: '0',
-          der: '1',
-
-        }
-      ],
- 
-    },
-    {
-      noSerie: 'CD4557',
-      nombre: 'Orgánico - Google',
-      fechainicial: '2022-02-28',
-      fechaFinal: '2022-02-28',
-      fechaRegistro: '2022-02-28',
-      fechaFinalizacion: '2022-02-28',
-      tipoCampania: '2022-02-28',
-      agentePrincipal: 'Soporte (Administrador)',
-      ventas: [
-        {
-          izq: '0',
-          der: '1',
-
-        }
-      ],
-      cotizaciones: [
-        {
-          izq: '0',
-          der: '1',
-
-        }
-      ],
- 
-    },
-    {
-      noSerie: 'CD4557',
-      nombre: 'Orgánico - Google',
-      fechainicial: '2022-02-28',
-      fechaFinal: '2022-02-28',
-      fechaRegistro: '2022-02-28',
-      fechaFinalizacion: '2022-02-28',
-      tipoCampania: '2022-02-28',
-      agentePrincipal: 'Soporte (Administrador)',
-      ventas: [
-        {
-          izq: '0',
-          der: '1',
-
-        }
-      ],
-      cotizaciones: [
-        {
-          izq: '0',
-          der: '1',
-
-        }
-      ],
- 
-    },
-  ]
 
   public dataDummy: any[] = [
     {
@@ -223,7 +129,6 @@ export class DetailClientComponent {
 
   ngOnInit(): void {
     this.dataSourceQuotes.data = this.dataDummy
-    this.dataSourceCampaign.data = this.dataDummyCampaign
   }
 
   newActivity() {
@@ -236,14 +141,5 @@ export class DetailClientComponent {
     });
   }
 
-  newContact() {
-    this.dialog.open(ModalNewContactComponent, {
-      data: ['test'],
-      disableClose: true,
-      width: '1000px',
-      maxHeight: '628px',
-      panelClass: 'custom-dialog',
-    });
-  }
 
 }

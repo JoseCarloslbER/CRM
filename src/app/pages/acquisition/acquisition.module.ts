@@ -10,6 +10,9 @@ import { MaterialModule } from 'app/shared/material/material.module';
 import { DetailClientComponent } from './companies/detail-client/detail-client.component';
 import { ModalNewActivityComponent } from './companies/modal-new-activity/modal-new-activity.component';
 import { ModalNewContactComponent } from './companies/modal-new-contact/modal-new-contact.component';
+import { QuotesComponent } from './companies/components/quotes/quotes.component';
+import { ContactComponent } from './companies/components/contact/contact.component';
+import { AdvertisingComponent } from './companies/components/advertising/advertising.component';
 
 
 
@@ -20,7 +23,10 @@ import { ModalNewContactComponent } from './companies/modal-new-contact/modal-ne
     ModalNewCompanyComponent, 
     DetailClientComponent,
     ModalNewActivityComponent, 
-    ModalNewContactComponent  
+    ModalNewContactComponent,
+    QuotesComponent,
+    ContactComponent,
+    AdvertisingComponent
   ],
   imports: [
     CommonModule,
