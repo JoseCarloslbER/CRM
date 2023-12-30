@@ -1,40 +1,36 @@
-import { Component, ViewChild } from '@angular/core';
-import { OpenModalsService } from 'app/shared/services/openModals.service';
-import { FormBuilder } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { MatPaginator } from '@angular/material/paginator';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { Router } from '@angular/router';
-import { ModalNewQuoteComponent } from '../modal-new-quote/modal-new-quote.component';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-quotes',
   templateUrl: './quotes.component.html',
-  styleUrls: []
+  styleUrl: './quotes.component.scss'
 })
-export class QuotesComponent {
-  public dataSource = new MatTableDataSource<any>([]);
+export class QuotesComponent implements OnInit{
+  public dataSourceQuotes = new MatTableDataSource<any>([]);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   public longitudPagina = 50;
   public total = 0;
   public indicePagina = 0;
 
-  // TABLA 
-
+ 
   public displayedColumns: string[] = [
     'empresa',
-    'fechaYHora',
+    'fecha',
     'folio',
-    'documentos',
-    'estatus',
     'precioTotal',
-    'lugares',
     'nivelInteres',
     'estadopais',
+    'estatus',
+    'agente',
+    'lugares',
+    'actividades',
+    'agregarOpciones',
+    'modificarEstatus',
     'acciones',
-    'operaciones'
   ];
-
+ 
 
   public dataDummy: any[] = [
     {
@@ -88,47 +84,11 @@ export class QuotesComponent {
 
   ]
 
-  public fechaHoy = new Date();
-
-
-  public formFilters = this.formBuilder.group({
-    estatus: [{ value: null, disabled: false }],
-    agent: [{ value: null, disabled: false }],
-    company: [{ value: null, disabled: false }],
-    rangeDateStart: [{ value: null, disabled: false }],
-    rangeDateEnd: [{ value: null, disabled: false }],
-  });
-
-  constructor(
-
-    private openModalsService: OpenModalsService,
-    private formBuilder: FormBuilder,
-    private dialog: MatDialog,
-    private router: Router
-  ) { }
 
   ngOnInit(): void {
-    this.dataSource.data = this.dataDummy
+    this.dataSourceQuotes.data = this.dataDummy
+
   }
 
-  searchWithFilters() {
-    console.log(this.formFilters.value);
-  }
-
-  seeQuote(data:any) {
-    this.router.navigateByUrl(`/home/conversion/detalle-cotizacion/${1}`)
-  }
-
-
-
-  newQuotes() {
-    this.dialog.open(ModalNewQuoteComponent, {
-      data: ['test'],
-      disableClose: true,
-      width: '1000px',
-      maxHeight: '628px',
-      panelClass: 'custom-dialog',
-    });
-  }
 
 }

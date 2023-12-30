@@ -46,6 +46,7 @@
         }
 
         .title-info-client {
+            height: auto;
             h1 {
                 font-size: 32px;
                 font-weight: 700;
@@ -62,4 +63,7 @@
         }
     }
 
+    ::ng-deep .mat-mdc-tab-labels {
+        justify-content: center!important;
+    }
 }

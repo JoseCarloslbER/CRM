@@ -7,6 +7,7 @@ import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalNewCompanyComponent } from './modal-new-company/modal-new-company.component';
 import { Router } from '@angular/router';
+import { ModalNewContactComponent } from './components/contact/modal-new-contact/modal-new-contact.component';
 
 @Component({
   selector: 'app-companies',

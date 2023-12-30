@@ -1,15 +1,14 @@
 import { Component, Inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-modal-new-activity',
-  templateUrl: './modal-new-activity.component.html',
-  styleUrls: []
+  selector: 'app-modal-new-document',
+  templateUrl: './modal-new-document.component.html',
+  styleUrl: './modal-new-document.component.scss'
 })
-export class ModalNewActivityComponent {
+export class ModalNewDocumentComponent {
 
-
+  
   constructor(
 		@Inject(MAT_DIALOG_DATA) public data: any,
 		private dialogRef: MatDialogRef<any>,
@@ -21,4 +20,5 @@ export class ModalNewActivityComponent {
       close : true
     })
   }
+
 }

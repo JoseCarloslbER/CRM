@@ -5,7 +5,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 @Component({
   selector: 'app-modal-new-prospects',
   templateUrl: './modal-new-prospects.component.html',
-  styleUrl: './modal-new-prospects.component.scss'
+  styleUrls: []
 })
 export class ModalNewProspectsComponent implements OnInit {
 
