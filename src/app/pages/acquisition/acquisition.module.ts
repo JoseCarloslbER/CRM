@@ -15,6 +15,8 @@ import { ContactComponent } from './companies/components/contact/contact.compone
 import { AdvertisingComponent } from './companies/components/advertising/advertising.component';
 import { DocumentsComponent } from './companies/components/documents/documents.component';
 import { ModalNewDocumentComponent } from './companies/components/documents/modal-new-document/modal-new-document.component';
+import { HistoryComponent } from './companies/components/history/history.component';
+import { FormatoFechaPipe } from '../../shared/pipe/fecha.pipe';
 
 
 
@@ -30,7 +32,9 @@ import { ModalNewDocumentComponent } from './companies/components/documents/moda
     ContactComponent,
     AdvertisingComponent,
     DocumentsComponent,
-    ModalNewDocumentComponent
+    ModalNewDocumentComponent,
+    HistoryComponent,
+    FormatoFechaPipe
   ],
   imports: [
     CommonModule,
