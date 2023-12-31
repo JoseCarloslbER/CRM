@@ -17,6 +17,7 @@ import { DocumentsComponent } from './companies/components/documents/documents.c
 import { ModalNewDocumentComponent } from './companies/components/documents/modal-new-document/modal-new-document.component';
 import { HistoryComponent } from './companies/components/history/history.component';
 import { FormatoFechaPipe } from '../../shared/pipe/fecha.pipe';
+import { CallsComponent } from './companies/components/calls/calls.component';
 
 
 
@@ -34,7 +35,8 @@ import { FormatoFechaPipe } from '../../shared/pipe/fecha.pipe';
     DocumentsComponent,
     ModalNewDocumentComponent,
     HistoryComponent,
-    FormatoFechaPipe
+    FormatoFechaPipe,
+    CallsComponent
   ],
   imports: [
     CommonModule,
