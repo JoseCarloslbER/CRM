@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CompaniesComponent } from './companies/companies.component';
-import { ModalNewCompanyComponent } from './companies/modal-new-company/modal-new-company.component';
 import { AcquisitionComponent } from './acquisition.component';
 import { ACQUISITION_ROUTES } from './acquisition.routes';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -20,6 +19,7 @@ import { FormatoFechaPipe } from '../../shared/pipe/fecha.pipe';
 import { CallsComponent } from './companies/components/calls/calls.component';
 import { EmailsComponent } from './companies/components/emails/emails.component';
 import { ModalInboxComponent } from './companies/components/emails/modal-inbox/modal-inbox.component';
+import { NewClientComponent } from './companies/new-client/new-client.component';
 
 
 
@@ -27,7 +27,6 @@ import { ModalInboxComponent } from './companies/components/emails/modal-inbox/m
   declarations: [
     AcquisitionComponent, 
     CompaniesComponent, 
-    ModalNewCompanyComponent, 
     DetailClientComponent,
     ModalNewActivityComponent, 
     ModalNewContactComponent,
@@ -40,7 +39,8 @@ import { ModalInboxComponent } from './companies/components/emails/modal-inbox/m
     FormatoFechaPipe,
     CallsComponent,
     EmailsComponent,
-    ModalInboxComponent
+    ModalInboxComponent,
+    NewClientComponent
   ],
   imports: [
     CommonModule,

@@ -244,6 +244,26 @@
     }
 }
 
+.modal-header-back {
+    display: flex;
+    align-items: center;
+    background: #1E293B;
+    gap: 15px;
+    color: white;
+    padding: 20px 40px;
+
+    p {
+        font-size: 20px;
+        font-weight: 700;
+        color: #EDF1F5;
+    }
+
+    mat-icon {
+        color: white;
+        cursor: pointer;
+    }
+}
+
 
 .card-quotes {
     box-shadow: 4px 4px 4px 0px #00000040;

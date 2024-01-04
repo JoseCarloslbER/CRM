@@ -143,12 +143,6 @@ export class CompaniesComponent implements OnInit, AfterViewInit {
   }
 
   newClient() {
-    this.dialog.open(ModalNewCompanyComponent, {
-      data: ['test'],
-      disableClose: true,
-      width: '1000px',
-      maxHeight: '628px',
-      panelClass: 'custom-dialog',
-    });
+    this.router.navigateByUrl(`/home/adquisicion/nuevo-cliente`)
   }
 }
