@@ -18,6 +18,8 @@ import { ModalNewDocumentComponent } from './companies/components/documents/moda
 import { HistoryComponent } from './companies/components/history/history.component';
 import { FormatoFechaPipe } from '../../shared/pipe/fecha.pipe';
 import { CallsComponent } from './companies/components/calls/calls.component';
+import { EmailsComponent } from './companies/components/emails/emails.component';
+import { ModalInboxComponent } from './companies/components/emails/modal-inbox/modal-inbox.component';
 
 
 
@@ -36,7 +38,9 @@ import { CallsComponent } from './companies/components/calls/calls.component';
     ModalNewDocumentComponent,
     HistoryComponent,
     FormatoFechaPipe,
-    CallsComponent
+    CallsComponent,
+    EmailsComponent,
+    ModalInboxComponent
   ],
   imports: [
     CommonModule,
