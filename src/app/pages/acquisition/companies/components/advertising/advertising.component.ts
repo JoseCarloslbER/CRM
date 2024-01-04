@@ -16,94 +16,62 @@ export class AdvertisingComponent implements OnInit {
 
   public displayedColumnsCampaign: string[] = [
     'noSerie',
-    'nombre',
-    'fechainicial',
-    'fechaFinal',
-    'fechaRegistro',
-    'fechaFinalizacion',
-    'tipoCampania',
-    'agentePrincipal',
-    'ventas',
-    'cotizaciones',
-    'agente',
+    'fechasInicialFinal',
+    'companyType',
+    'agents',
+    'companies',
+    'results',
+    'amounInvested',
+    'allProspects',
+    'allQuotes',
+    'totalAllAppointments',
+    'totalClosedSales',
+    'totalSalesAmount',
     'acciones',
   ];
 
   public dataDummyCampaign: any[] = [
     {
       noSerie: 'CD4557',
-      nombre: 'Orgánico - Google',
-      fechainicial: '2022-02-28',
-      fechaFinal: '2022-02-28',
+      fechasInicialFinal: [
+        {
+          inicial: '2022-02-28',
+          final: '2022-02-28',
+
+        }
+      ],
+
+      companyType: 'Lorem ipsum',
+      agent: 'Nombre de agente principal',
+      company: '5',
+      amounInvested: '$15,000.00',
+      cotizaciones : [
+        {
+          left : '5',
+          right : '5',
+          bottom : '$15,000.00',
+        }
+      ],
+
+      totalAllAppointments : [
+        {
+          left : '$15,000.00',
+          right : '$15,000.00',
+
+        }
+      ],
+      prospects : [
+        {
+          up : '5',
+          bottom : '$15,000.00',
+
+        }
+      ],
+      
+      fechaUltimoContacto: '2022-02-28',
       fechaRegistro: '2022-02-28',
-      fechaFinalizacion: '2022-02-28',
-      tipoCampania: '2022-02-28',
       agentePrincipal: 'Soporte (Administrador)',
-      ventas: [
-        {
-          izq: '0',
-          der: '1',
-
-        }
-      ],
-      cotizaciones: [
-        {
-          izq: '0',
-          der: '1',
-
-        }
-      ],
- 
-    },
-    {
-      noSerie: 'CD4557',
-      nombre: 'Orgánico - Google',
-      fechainicial: '2022-02-28',
-      fechaFinal: '2022-02-28',
-      fechaRegistro: '2022-02-28',
-      fechaFinalizacion: '2022-02-28',
-      tipoCampania: '2022-02-28',
-      agentePrincipal: 'Soporte (Administrador)',
-      ventas: [
-        {
-          izq: '0',
-          der: '1',
-
-        }
-      ],
-      cotizaciones: [
-        {
-          izq: '0',
-          der: '1',
-
-        }
-      ],
- 
-    },
-    {
-      noSerie: 'CD4557',
-      nombre: 'Orgánico - Google',
-      fechainicial: '2022-02-28',
-      fechaFinal: '2022-02-28',
-      fechaRegistro: '2022-02-28',
-      fechaFinalizacion: '2022-02-28',
-      tipoCampania: '2022-02-28',
-      agentePrincipal: 'Soporte (Administrador)',
-      ventas: [
-        {
-          izq: '0',
-          der: '1',
-
-        }
-      ],
-      cotizaciones: [
-        {
-          izq: '0',
-          der: '1',
-
-        }
-      ],
- 
+    
     },
   ]
 
