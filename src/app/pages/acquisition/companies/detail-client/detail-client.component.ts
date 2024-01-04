@@ -131,15 +131,6 @@ export class DetailClientComponent {
     this.dataSourceQuotes.data = this.dataDummy
   }
 
-  newActivity() {
-    this.dialog.open(ModalNewActivityComponent, {
-      data: ['test'],
-      disableClose: true,
-      width: '1000px',
-      maxHeight: '628px',
-      panelClass: 'custom-dialog',
-    });
-  }
 
 
 }

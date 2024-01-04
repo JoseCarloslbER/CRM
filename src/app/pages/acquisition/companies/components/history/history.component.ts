@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
 import { DateTime } from 'luxon';
+import { ModalNewActivityComponent } from '../../modal-new-activity/modal-new-activity.component';
+import { OpenModalsService } from 'app/shared/services/openModals.service';
+import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-history',
@@ -48,6 +52,22 @@ export class HistoryComponent {
 
   trackByFn(index: number, item: any): any {
     return item.id || index;
+  }
+
+  constructor(
+    private openModalsService: OpenModalsService,
+    private dialog: MatDialog,
+    private router: Router
+  ) { }
+
+  newActivity() {
+    this.dialog.open(ModalNewActivityComponent, {
+      data: ['test'],
+      disableClose: true,
+      width: '1000px',
+      maxHeight: '628px',
+      panelClass: 'custom-dialog',
+    });
   }
 
 }

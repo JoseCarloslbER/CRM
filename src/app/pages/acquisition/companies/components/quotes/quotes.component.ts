@@ -16,30 +16,22 @@ export class QuotesComponent implements OnInit{
 
  
   public displayedColumns: string[] = [
-    'empresa',
-    'fecha',
     'folio',
+    'fechaYHora',
+    'documentos',
     'precioTotal',
-    'nivelInteres',
-    'estadopais',
-    'estatus',
-    'agente',
     'lugares',
-    'actividades',
-    'agregarOpciones',
-    'modificarEstatus',
+    'estadopais',
     'acciones',
+    'operaciones',
   ];
  
 
   public dataDummy: any[] = [
     {
-      empresa: 'RECK SOLUCIONES',
       fechaYHora: '2023-09-30 12:38:49',
       folio: '#123345',
       precioTotal: '$4,000,000.00',
-      nivelInteres: 'Alto',
-      estatus: 'LEAD',
       estadopais: 'Mexico, Nuevo Leon',
       documentos: [
         {
@@ -57,30 +49,7 @@ export class QuotesComponent implements OnInit{
         }
       ],
     },
-    {
-      empresa: 'RECK SOLUCIONES',
-      fechaYHora: '2023-09-30 12:38:49',
-      folio: '#123345',
-      precioTotal: '$4,000,000.00',
-      nivelInteres: 'Alto',
-      estatus: 'LEAD',
-      estadopais: 'Mexico, Nuevo Leon',
-      documentos: [
-        {
-          cotizacion: 'Cotización',
-          cotizacionAprobada: 'Cotización aprobada',
-        }
-      ],
-      lugares: [
-        {
-          no: '1548',
-          tipo: 'Lista',
-          lugares: '5',
-          curso: 'C029 - Seguridad en el mantenimiento de instalaciones eléctrica',
-          precio: '$1,995.00',
-        }
-      ],
-    },
+
 
   ]
 
