@@ -5,7 +5,6 @@ import { MatPaginator } from '@angular/material/paginator';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { ModalNewCompanyComponent } from './modal-new-company/modal-new-company.component';
 import { Router } from '@angular/router';
 import { ModalNewContactComponent } from './components/contact/modal-new-contact/modal-new-contact.component';
 
@@ -25,52 +24,73 @@ export class CompaniesComponent implements OnInit, AfterViewInit {
 
   public displayedColumnsMascomprados: string[] = ['empresa', 'fechaRegistro', 'monto' ];
   public displayedColumnsAgregadasRecientemente: string[] = ['empresa', 'estatus', 'fechaRegistro', 'monto' ];
-  public displayedColumns: string[] = ['empresa', 'contacto', 'estatus', 'ventas', 'cotizacionesRapidas', 'cotizacionesFormales', 'categoria', 'origen', 'fechaUltimoContacto', 'siguienteActividad', 'fechaVencimiento', 'acciones'];
+  public displayedColumns: string[] = [
+    'client',
+    'status', 
+    'country',
+    'origen',
+    'categoria', 
+    'giro', 
+    'campaign', 
+    'cotizaciones', 
+    'ventas', 
+    'fechaUltimoContacto', 
+    'history', 
+    'acciones'
+  ];
+
   public dataDummy : any[] = [
     {
-      contacto : [
-        {
-          nombre : 'Ing Alberto Avendaño',
-          email : 'aavendano@anpasa.com',
-          telefono : 'N/A',
-          celular : '5516349327',
-        }
-      ],
       estatus : 'LEAD',
+      pais : 'México',
+      giro : 'Construcción',
+      campaign : 'Activa',
+      history : 'Se envió correo publicitario y se hicieron las llamadas pertinentes para el seguimiento, pero el cliente no contestó en ningún momento.',
       categoria : 'LEAD',
       cotizaciones : [
         {
-          izq : '0',
-          der : '1',
+          up : '5',
+          bottom : '$15,000.00',
 
         }
       ],
       ventas : [
         {
-          izq : '0',
-          der : '1',
-
-        }
-      ],
-      cotizacionesRapidas : [
-        {
-          izq : '0',
-          der : '1',
-
-        }
-      ],
-      cotizacionesFormales : [
-        {
-          izq : '0',
-          der : '1',
+          up : '5',
+          bottom : '$15,000.00',
 
         }
       ],
       origen : 'Referencia',
       fechaUltimoContacto : '2022-02-28',
-      siguienteActividad : 'Se envió correo publicitario y se hicieron las llamadas pertinentes para el seguimiento, pero el cliente no contestó en ningún momento.',
       fechaVencimiento : '2022-02-28',
     },
+    {
+      estatus : 'CLIENTE',
+      pais : 'México',
+      giro : 'Construcción',
+      campaign : 'Activa',
+      history : 'Se envió correo publicitario y se hicieron las llamadas pertinentes para el seguimiento, pero el cliente no contestó en ningún momento.',
+      categoria : 'LEAD',
+      cotizaciones : [
+        {
+          up : '5',
+          bottom : '$15,000.00',
+
+        }
+      ],
+      ventas : [
+        {
+          up : '5',
+          bottom : '$15,000.00',
+
+        }
+      ],
+      origen : 'Referencia',
+      fechaUltimoContacto : '2022-02-28',
+      fechaVencimiento : '2022-02-28',
+    },
+  
     
   ]
 
