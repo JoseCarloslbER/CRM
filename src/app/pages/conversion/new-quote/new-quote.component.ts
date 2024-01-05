@@ -1,16 +1,15 @@
 import { AfterViewInit, Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { ModalNewContactComponent } from 'app/pages/acquisition/companies/components/contact/modal-new-contact/modal-new-contact.component';
 
 @Component({
-  selector: 'app-new-prospect',
-  templateUrl: './new-prospect.component.html',
-  styleUrl: './new-prospect.component.scss'
+  selector: 'app-new-quote',
+  templateUrl: './new-quote.component.html',
+  styleUrl: './new-quote.component.scss'
 })
-export class NewProspectComponent implements AfterViewInit{
+export class NewQuoteComponent implements AfterViewInit {
+
 
   public addContact = new FormControl('')
   
@@ -27,9 +26,17 @@ export class NewProspectComponent implements AfterViewInit{
       
     })
   }
-
   toBack(){
-    this.router.navigateByUrl(`/home/empresas/prospectos`)
+    this.router.navigateByUrl(`/home/conversion/cotizaciones`)
   }
-
+  
+  // newContact() {
+  //   this.dialog.open(ModalNewContactComponent, {
+  //     data: ['test'],
+  //     disableClose: true,
+  //     width: '1000px',
+  //     maxHeight: '628px',
+  //     panelClass: 'custom-dialog',
+  //   });
+  // }
 }

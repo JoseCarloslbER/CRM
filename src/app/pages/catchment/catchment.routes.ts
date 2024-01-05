@@ -1,6 +1,7 @@
 import { RouterModule, Routes } from '@angular/router';
 import { CatchmentComponent } from './catchment.component';
 import { CampaignsComponent } from './campaigns/campaigns.component';
+import { NewCampingnComponent } from './campaigns/new-campingn/new-campingn.component';
 
 const catchmentRoutes: Routes = [
 	{
@@ -11,6 +12,10 @@ const catchmentRoutes: Routes = [
 			{
 				path: 'campanias',
 				component: CampaignsComponent,
+			},
+			{
+				path: 'nueva-campaña',
+				component: NewCampingnComponent,
 			},
 
 		]

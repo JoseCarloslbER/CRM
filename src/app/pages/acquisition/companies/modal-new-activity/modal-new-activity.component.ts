@@ -5,7 +5,14 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 @Component({
   selector: 'app-modal-new-activity',
   templateUrl: './modal-new-activity.component.html',
-  styleUrls: []
+  styles: [`
+        
+      .up {
+        display: flex;
+        height: 71px;
+        align-items: flex-end;
+      }
+  `]
 })
 export class ModalNewActivityComponent {
 

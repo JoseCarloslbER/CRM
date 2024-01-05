@@ -1,6 +1,6 @@
-.c-modal-quotes {
+.c-new-quote {
 
-    .modal-content-scroll {
+    .new-content {
 
         .section-header-modal {
             height: 40px;
@@ -26,6 +26,11 @@
             background: #E5E4E4;
         }
 
+        .iva {
+            span {
+                color: #646878;
+            }
+        }
 
         .promotion {
             span {
@@ -48,4 +53,8 @@
             margin: 50px 0px;
         }
     }
+}
+
+.color-yellow {
+    background: yellow!important;
 }

@@ -1,20 +1,20 @@
-<div class="container-fluid p-0 overflow-hidden c-modal-quotes">
+<div class="container-fluid p-0 overflow-hidden bg-white c-new-quote">
 
-    <div class="modal-header">
+    <div class="return-header">
+        <mat-icon svgIcon="mat_solid:arrow_back" (click)="toBack()"></mat-icon>
         <p class="titulo-modal">Registrar nueva cotización</p>
-        <mat-icon class="cursos-pointer" svgIcon="mat_outline:cancel" (click)="closeModal()"></mat-icon>
     </div>
 
-    <div class="row p-5 d-flex">
+    <div class="row form-padding d-flex">
 
         <p class="mb-6">*Campos obligatorios</p>
 
-        <form class="col-12 modal-content-scroll">
+        <form class="col-12 new-content">
             <div>
                 <div class="row">
                     <div class="col-md-6">
-    
-                        <mat-form-field class="flex-auto gt-xs:pr-3 width-100">
+
+                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Prospecto / empresa*</mat-label>
                             <mat-select placeholder="Seleccionar">
                                 <mat-option value="giro1">Prospecto / empresa 1</mat-option>
@@ -22,8 +22,8 @@
                                 <mat-option value="Prospectoempresa">Prospecto / empresa 3</mat-option>
                             </mat-select>
                         </mat-form-field>
-    
-                        <mat-form-field class="flex-auto gt-xs:pr-3 width-100">
+
+                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Agente a asignar</mat-label>
                             <mat-select placeholder="Seleccionar">
                                 <mat-option value="giro1">Agente 1</mat-option>
@@ -31,8 +31,8 @@
                                 <mat-option value="Prospectoempresa">Agente 3</mat-option>
                             </mat-select>
                         </mat-form-field>
-    
-                        <mat-form-field class="flex-auto gt-xs:pr-3 width-100">
+
+                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Campaña</mat-label>
                             <mat-select placeholder="Seleccionar">
                                 <mat-option value="Campaña">Campaña 1</mat-option>
@@ -40,10 +40,10 @@
                                 <mat-option value="Campaña">Campaña 3</mat-option>
                             </mat-select>
                         </mat-form-field>
-                   
+
                     </div>
                     <div class="col-md-6">
-                        <mat-form-field class="flex-auto gt-xs:pr-3 width-100">
+                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Contacto</mat-label>
                             <mat-select placeholder="Seleccionar">
                                 <mat-option value="Contacto">Contacto 1</mat-option>
@@ -51,8 +51,8 @@
                                 <mat-option value="Contacto">Contacto 3</mat-option>
                             </mat-select>
                         </mat-form-field>
-    
-                        <mat-form-field class="flex-auto gt-xs:pr-3 width-100">
+
+                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Nivel de interés</mat-label>
                             <mat-select placeholder="Seleccionar">
                                 <mat-option value="Nivel de interés">Nivel de interés 1</mat-option>
@@ -60,8 +60,8 @@
                                 <mat-option value="Nivel de interés">Nivel de interés 3</mat-option>
                             </mat-select>
                         </mat-form-field>
-    
-                        <mat-form-field class="flex-auto gt-xs:pr-3 width-100">
+
+                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Forma de pago</mat-label>
                             <mat-select placeholder="Seleccionar">
                                 <mat-option value="Forma de pago">Forma de pago 1</mat-option>
@@ -71,8 +71,8 @@
                         </mat-form-field>
                     </div>
                 </div>
-    
-                <div class="row">
+
+                <div class="row iva">
                     <div class="flex flex-col mt-4 gt-sm:mt-0 gt-sm:ml-16">
                         <span class="font-semibold mb-2">Cotización con iva</span>
                         <mat-radio-group class="d-flex flex-row" [value]="'just-good'">
@@ -93,34 +93,15 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-12">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <mat-form-field class="flex-auto gt-xs:pr-3 width-100">
-                                    <mat-label>Seleccione el tipo de precio</mat-label>
-                                    <mat-select placeholder="Seleccionar">
-                                        <mat-option value="Promoción">Promoción 1</mat-option>
-                                        <mat-option value="Promoción">Promoción 2</mat-option>
-                                        <mat-option value="Promoción">Promoción 3</mat-option>
-                                    </mat-select>
-                                </mat-form-field>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <mat-form-field class="flex-auto gt-xs:pr-3 width-100">
-                            <mat-label>Cantidad de colaboradores / lugares</mat-label>
+                    <div class="col-md-3">
+                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
+                            <mat-label>Lugares</mat-label>
                             <input matInput>
                         </mat-form-field>
-                   
-                        <mat-form-field class="flex-auto gt-xs:pr-3 width-100">
-                            <mat-label>Precio unitario</mat-label>
-                            <input matInput type="number">
-                        </mat-form-field>
-                 
                     </div>
-                    <div class="col-md-6">
-                        <mat-form-field class="flex-auto gt-xs:pr-3 width-100">
+
+                    <div class="col-md-3">
+                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Producto</mat-label>
                             <mat-select placeholder="Seleccionar">
                                 <mat-option value="giro1">Producto 1</mat-option>
@@ -128,40 +109,62 @@
                                 <mat-option value="Prospectoempresa">Producto 3</mat-option>
                             </mat-select>
                         </mat-form-field>
-    
-                        <mat-form-field class="flex-auto gt-xs:pr-3 width-100">
+                    </div>
+
+                    <div class="col-md-3">
+                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
+                            <mat-label>Precio unitario</mat-label>
+                            <input class="text-right" matInput>
+                            <span matPrefix>$</span>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-md-3">
+                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Precio total</mat-label>
-                            <input matInput type="number">
+                            <input class="text-right" matInput>
+                            <span matPrefix>$</span>
                         </mat-form-field>
                     </div>
                 </div>
-    
+
+                <div class="row mt-5 mb-5 d-flex justify-content-end">
+                    <div class="col-md-4 col-xl-3 col-12">
+                        <button mat-flat-button class="btn-action-add width-100">
+                            <span>Agregar más opciones</span>
+                        </button>
+                    </div>
+                </div>
+
                 <div class="row">
                     <div class="col-md-3">
-                        <mat-form-field class="flex-auto gt-xs:pr-3 width-100">
+                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Subtotal</mat-label>
-                            <input matInput type="number">
+                            <input class="text-right" matInput>
+                            <span matPrefix>$</span>
                         </mat-form-field>
                     </div>
                     <div class="col-md-3">
-                        <mat-form-field class="flex-auto gt-xs:pr-3 width-100">
+                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Descuento</mat-label>
-                            <input matInput type="number">
+                            <input class="text-right" matInput>
+                            <span matPrefix>$</span>
                         </mat-form-field>
                     </div>
                     <div class="col-md-3">
-                        <mat-form-field class="flex-auto gt-xs:pr-3 width-100">
+                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Total</mat-label>
-                            <input matInput type="number">
+                            <input class="text-right" matInput>
+                            <span matPrefix>$</span>
                         </mat-form-field>
                     </div>
 
                     <div class="col-md-3 d-flex align-items-center justify-content-center">
-                        <button class="recalculate" (click)="closeModal()">
+                        <button class="recalculate">
                             <span>Recalcular</span>
                         </button>
                     </div>
-                
+
                 </div>
 
                 <div class="row promotion">
@@ -169,17 +172,12 @@
                     <div class="col-md-6">
                         <div class="row p-0">
                             <div class="col-md-6">
-                                <mat-form-field
-                                class="flex-auto  width-100">
-                                <mat-label>Fecha</mat-label>
-                                <input
-                                    matInput
-                                    [matDatepicker]="picker1">
-                                <mat-datepicker-toggle
-                                    matSuffix
-                                    [for]="picker1"></mat-datepicker-toggle>
-                                <mat-datepicker #picker1></mat-datepicker>
-                            </mat-form-field>
+                                <mat-form-field class="flex-auto inputNewRegister width-100">
+                                    <mat-label>Fecha</mat-label>
+                                    <input matInput [matDatepicker]="picker1">
+                                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker1></mat-datepicker>
+                                </mat-form-field>
                             </div>
 
                             <div class="col-md-6">
@@ -192,21 +190,24 @@
                     </div>
                 </div>
 
-                <div class="row d-flex">
-                    <div class="col-md-12 col-sm-12 col-12 section-btns-two">
-                        <!-- <button class="btn-action-add">
-                            <span>Agregar más productos</span>
-                        </button> -->
-                        <button class="btn-action-add">
+                <div class="row d-flex mb-6 mt-6">
+                    <div class="col-md-4 col-xl-3 col-12">
+                        <button mat-flat-button class="btn-action-add width-100">
                             <span>Agregar más opciones</span>
                         </button>
                     </div>
                 </div>
-                
-                <div class="row d-flex justify-content-end create">
-                    <div class="d-flex justify-content-end col-md-2 col-xl-2 col-12 pt-md-2">
-                        <button class="btn-action-add" (click)="closeModal()">
-                            <span>Crear</span>
+
+                <div class="row d-flex justify-content-end create mt-5">
+                    <div class="d-flex col-md-4 col-xl-3 col-12 pt-md-1 align-items-end">
+                        <button mat-flat-button class="btn-gray width-100">
+                            <span>Crear nuevo producto</span>
+                        </button>
+                    </div>
+
+                    <div class="d-flex col-md-4 col-xl-3 col-12 pt-md-1 align-items-end">
+                        <button mat-flat-button class="btn-yellow width-100">
+                            <span>Guardar cotización</span>
                         </button>
                     </div>
                 </div>
