@@ -1,7 +1,6 @@
 import { RouterModule, Routes } from '@angular/router';
-import { ProspectsComponent } from './prospects/prospects.component';
 import { CatchmentComponent } from './catchment.component';
-import { NewProspectComponent } from './new-prospect/new-prospect.component';
+import { CampaignsComponent } from './campaigns/campaigns.component';
 
 const catchmentRoutes: Routes = [
 	{
@@ -10,13 +9,10 @@ const catchmentRoutes: Routes = [
 		children: [
 			{ path: '', pathMatch : 'full', redirectTo: 'prospectos' },
 			{
-				path: 'prospectos',
-				component: ProspectsComponent,
+				path: 'campanias',
+				component: CampaignsComponent,
 			},
-			{
-				path: 'nuevo-prospecto',
-				component: NewProspectComponent,
-			},
+
 		]
 	
 	}

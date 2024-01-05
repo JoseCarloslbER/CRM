@@ -30,25 +30,11 @@ export class LayoutComponent implements OnInit, OnDestroy {
             children: [
                 {
                     id: "1",
-                    title: "Prospectos",
+                    title: "Campañas",
                     type: "basic",
-                    icon: "feather:user-check",
-                    link: "/home/captacion/prospectos"
+                    icon: "mat_outline:assignment",
+                    link: "/home/captacion/campanias"
                 },
-                {
-                    id: "2",
-                    title: "Leads",
-                    type: "basic",
-                    icon: "manage_accounts",
-                    link: "/dashboards/analytics"
-                },
-                {
-                    id: "3",
-                    title: "Clientes",
-                    type: "basic",
-                    icon: "heroicons_mini:user-group",
-                    link: "/dashboards/finance"
-                }
             ]
         },
         {
@@ -73,10 +59,17 @@ export class LayoutComponent implements OnInit, OnDestroy {
                 },
                 {
                     id: "3",
-                    title: "Actividades por agente",
+                    title: "Campañas",
+                    type: "basic",
+                    icon: "mat_outline:storefront",
+                    link: "/home/dashboard/campañias"
+                },
+                {
+                    id: "4",
+                    title: "Metas",
                     type: "basic",
                     icon: "mat_outline:groups",
-                    link: "/home/dashboard/actividades-agente"
+                    link: "/home/dashboard/metas"
                 }
             ]
         },
@@ -91,43 +84,45 @@ export class LayoutComponent implements OnInit, OnDestroy {
                     title: "Cotizaciones",
                     type: "basic",
                     link: "/home/conversion/cotizaciones",
-                    iconGoogleFonts : 'lightbulb'
-
+                    icon: 'mat_outline:lightbulb'
                 }
             ]
         },
         {
             id: "4",
-            title: "ADQUISICIÓN",
+            title: "EMPRESAS",
             type: "group",
             icon: "heroicons_outline:home",
             children: [
                 {
-                    id      : '1',
-                    title   : 'Empresas',
-                    type    : 'collapsable',
-                    iconGoogleFonts: 'handshake',
-                    children: [
-                        {
-                            id   : '1',
-                            title: 'Clientes',
-                            type : 'basic',
-                            link : '/home/adquisicion/clientes',
-                        },
-                        {
-                            id   : '1',
-                            title: 'Carga masiva',
-                            type : 'basic',
-                            link : ''
-                        },
-                        {
-                            id   : '2',
-                            title: 'Descargar correos',
-                            type : 'basic',
-                            link : ''
-                        },
-                    ],
+                    id   : '1',
+                    title: 'Todos',
+                    type : 'basic',
+                    iconGoogleFonts:'handshake',
+                    link : '/home/empresas/todos',
                 },
+                {
+                    id   : '1',
+                    title: 'Prospectos',
+                    type : 'basic',
+                    icon:'mat_outline:how_to_reg',
+                    link : '/home/empresas/prospectos'
+                },
+                {
+                    id   : '2',
+                    title: 'Leads',
+                    type : 'basic',
+                    icon: "mat_outline:manage_accounts",
+                    link : '/home/empresas/leads'
+                },
+                {
+                    id   : '2',
+                    title: 'Clientes',
+                    type : 'basic',
+                    iconGoogleFonts:"supervisor_account",
+                    link : '/home/empresas/clientes'
+                },
+
             ]
         },
         {
@@ -138,17 +133,19 @@ export class LayoutComponent implements OnInit, OnDestroy {
             children: [
                 {
                     id: "1",
-                    title: "Campañas",
+                    title: "Llamadas pendientes",
                     type: "basic",
-                    icon: "mat_outline:assignment",
-                    link: ""
+                    icon: "mat_outline:phone_missed",
+                    link: "/home/reactivacion/llamadas-pendientes",
+
                 },
                 {
                     id: "2",
-                    title: "Llamadas",
+                    title: "Agenda",
                     type: "basic",
-                    icon: "mat_outline:local_phone",
-                    link: ""
+                    icon: "mat_outline:view_agenda",
+                    link: "/home/reactivacion/agenda",
+
                 }
             ]
         },
@@ -163,7 +160,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
                     title: "Actividades",
                     type: "basic",
                     icon: "mat_solid:format_list_bulleted",
-                    link: ""
+                    link: "/home/gestion/actividades",
                 },
                 {
                     id      : '2',
@@ -173,39 +170,13 @@ export class LayoutComponent implements OnInit, OnDestroy {
                     children: [
                         {
                             id   : '1',
-                            title: 'Plan de trabajo',
-                            type : 'basic',
-                            link : ''
-                        },
-                        {
-                            id   : '2',
                             title: 'Bonos',
                             type : 'basic',
                             link : ''
                         },
                         {
-                            id   : '3',
-                            title: 'Ventas por agente',
-                            type : 'basic',
-                            link : ''
-                        },
-                    ],
-                },
-                {
-                    id      : '2',
-                    title   : 'Config',
-                    type    : 'collapsable',
-                    icon    : 'mat_outline:settings',
-                    children: [
-                        {
-                            id   : '1',
-                            title: 'Usuarios',
-                            type : 'basic',
-                            link : ''
-                        },
-                        {
                             id   : '2',
-                            title: 'Tipo de actividad',
+                            title: 'Usuarios',
                             type : 'basic',
                             link : ''
                         },
@@ -213,25 +184,39 @@ export class LayoutComponent implements OnInit, OnDestroy {
                             id   : '3',
                             title: 'Productos',
                             type : 'basic',
+                            link : ''
+                        },
+                        {
+                            id   : '4',
+                            title: 'Descargar correos',
+                            type : 'basic',
+                            link : ''
+                        },
+                    ],
+                },
+                {
+                    id      : '2',
+                    title   : 'Categorías',
+                    type    : 'collapsable',
+                    icon    : 'mat_outline:settings',
+                    children: [
+                        {
+                            id   : '1',
+                            title: 'Tipos de actividad',
+                            type : 'basic',
+                            link : ''
+                        },
+                        {
+                            id   : '2',
+                            title: 'Formas de pago',
+                            type : 'basic',
+                            link : ''
+                        },
+                        {
+                            id   : '3',
+                            title: 'Categorias de productos',
+                            type : 'basic',
                             link : '/home/configuracion/productos'
-                        },
-                        {
-                            id   : '4',
-                            title: 'Precio lugar',
-                            type : 'basic',
-                            link : ''
-                        },
-                        {
-                            id   : '4',
-                            title: 'Forma de pago',
-                            type : 'basic',
-                            link : ''
-                        },
-                        {
-                            id   : '4',
-                            title: 'Categorias',
-                            type : 'basic',
-                            link : ''
                         },
                         {
                             id   : '4',
@@ -241,16 +226,10 @@ export class LayoutComponent implements OnInit, OnDestroy {
                         },
                         {
                             id   : '4',
-                            title: 'Campañas',
+                            title: 'Tipos campañas',
                             type : 'basic',
                             link : ''
                         },
-                        {
-                            id   : '4',
-                            title: 'Documentos',
-                            type : 'basic',
-                            link : ''
-                        }
                     ],
                 }
             ]
