@@ -93,7 +93,7 @@ export class ProspectsComponent implements OnInit {
 
 
   newProspect() {
-    this.router.navigateByUrl(`/home/captacion/nuevo-prospecto`)
+    this.router.navigateByUrl(`/home/empresas/nuevo-prospecto`)
   }
 
 }

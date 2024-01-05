@@ -25,7 +25,7 @@
                     <div class="row d-flex align-items-center">
 
                         <div class="flex col-sm-12  col-md-6 col-lg-3 col-12 pe-2">
-                            <mat-form-field class="flex-auto">
+                            <mat-form-field class="flex-auto input-default">
                                 <mat-label>Estatus</mat-label>
                                 <mat-select placeholder="Seleccionar" formControlName="estatus">
                                     <mat-option value="estatus-1">estatus 1</mat-option>
@@ -36,7 +36,7 @@
                         </div>
 
                         <div class="flex col-sm-12 col-md-6 col-lg-3 col-12 pe-2">
-                            <mat-form-field class="flex-auto">
+                            <mat-form-field class="flex-auto input-default">
                                 <mat-label>Agente</mat-label>
                                 <mat-select placeholder="Seleccionar" formControlName="agent">
                                     <mat-option value="Agente-1">Agente 1</mat-option>
@@ -47,7 +47,7 @@
                         </div>
 
                         <div class="flex col-sm-12 col-md-6 col-lg-3 col-12 pe-2">
-                            <mat-form-field class="flex-auto">
+                            <mat-form-field class="flex-auto input-default">
                                 <mat-label>Rango de fechas</mat-label>
                                 <mat-date-range-input [max]="fechaHoy" [rangePicker]="campaignOnePicker"
                                     [comparisonStart]="formFilters.value['rangeDateStart']"
@@ -204,7 +204,7 @@
                                         <th mat-header-cell *matHeaderCellDef>Acciones</th>
                                         <td mat-cell *matCellDef="let element">
                                             <div class="colum-table-select">
-                                                <mat-form-field class="flex-auto">
+                                                <mat-form-field class="flex-auto input-default">
                                                     <mat-select placeholder="Seleccionar">
                                                         <mat-option class="border-bottom"
                                                             value="estatus-1">Formailzar</mat-option>

@@ -27,17 +27,9 @@ export class NewProspectComponent implements AfterViewInit{
       
     })
   }
+
   toBack(){
-    this.router.navigateByUrl(`/home/captacion/prospectos`)
+    this.router.navigateByUrl(`/home/empresas/prospectos`)
   }
-  
-  newContact() {
-    this.dialog.open(ModalNewContactComponent, {
-      data: ['test'],
-      disableClose: true,
-      width: '1000px',
-      maxHeight: '628px',
-      panelClass: 'custom-dialog',
-    });
-  }
+
 }

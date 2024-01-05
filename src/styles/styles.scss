@@ -105,6 +105,40 @@ body.fuse-splash-screen-hidden fuse-splash-screen {
     width:  100%!important;
 } 
 
+// FONT-WEIGHT 
+
+.font-16-700-646878 {
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 21px;
+    color: #646878;
+}
+
+.inputNewRegister {
+    mat-label {
+        font-size: 17px;
+        font-weight: 700;
+        line-height: 21px;
+        color: #646878;
+    } 
+}
+
+.input-default {
+    mat-label {
+        font-size: 17px;
+        font-weight: 700;
+        line-height: 23px;
+        color: #646878;
+    } 
+}
+
+.font-14-500-4B5062 {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 18px;
+    color: #4B5062;
+}
+
 // COLORS 
 .color-4B5062 {
    color: #4B5062;
@@ -136,7 +170,11 @@ body.fuse-splash-screen-hidden fuse-splash-screen {
 		box-shadow: 4px 4px 4px 0px #00000040;
 	}
 
+    button {
+        color:  rgb(40 40 40);
+    }
+
     span {
-        color: black;
+        color:  rgb(40 40 40);
     }
 }
