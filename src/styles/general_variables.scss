@@ -91,6 +91,26 @@
     margin-top: 20px;
 }
 
+.btn-excel {
+    box-shadow: 4px 4px 4px 0px #00000040;
+    background: #FCDE01;
+    font-size: 20px;
+    padding: 8px 35px;
+    font-weight: 700;
+    color: #1E293B;
+    border-radius: 20px;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: black;
+    margin-top: 20px;
+
+    mat-icon {
+        color: black;
+    }
+}
+
 .btn-search {
     background: #385A6D;
     color: white;
@@ -161,7 +181,7 @@
     font-size: 16px;
     font-weight: 700;
     color: #385A6D;
-    padding: 8px 45px;
+    padding: 8px 35px;
     box-shadow: 3px 4px 4px 0px #00000040;
     border-radius: 100px;
 }
@@ -238,8 +258,9 @@
         font-weight: 700;
         color: #EDF1F5;
     }
-
+    
     mat-icon {
+        color: #EDF1F5;
         cursor: pointer;
     }
 }

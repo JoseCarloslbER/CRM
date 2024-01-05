@@ -20,6 +20,18 @@ const pageRoutes: Routes = [
 				loadChildren: () => import('./conversion/conversion.module').then((m) => m.ConversionModule),
 			},
 			{
+				path: 'empresas',
+				loadChildren: () => import('./companies/companies.module').then((m) => m.CompaniesModule),
+			},
+			{
+				path: 'reactivacion',
+				loadChildren: () => import('./reactivation/reactivation.module').then((m) => m.ReactivationModule),
+			},
+			{
+				path: 'gestion',
+				loadChildren: () => import('./management/management.module').then((m) => m.ManagementModule),
+			},
+			{
 				path: 'adquisicion',
 				loadChildren: () => import('./acquisition/acquisition.module').then((m) => m.AcquisitionModule),
 			},

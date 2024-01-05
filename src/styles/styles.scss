@@ -128,3 +128,11 @@ body.fuse-splash-screen-hidden fuse-splash-screen {
 .form-padding {
      padding: 50px;
 }
+
+.inputNewRegister {
+	width: 100%!important;
+	.mat-mdc-form-field-flex {
+		background: #F5F5F5 !important;
+		box-shadow: 4px 4px 4px 0px #00000040;
+	}
+}
