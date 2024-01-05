@@ -1,6 +1,6 @@
 <div class="container-fluid p-0 overflow-hidden bg-white c-new-quote">
 
-    <div class="modal-header-back">
+    <div class="return-header">
         <mat-icon svgIcon="mat_solid:arrow_back" (click)="toBack()"></mat-icon>
         <p class="titulo-modal">Registrar nueva cotización</p>
     </div>
@@ -129,8 +129,8 @@
                 </div>
 
                 <div class="row mt-5 mb-5 d-flex justify-content-end">
-                    <div class="col-lg-4 col-md-7 col-12">
-                        <button class="btn-add-action width-100">
+                    <div class="col-md-4 col-xl-3 col-12">
+                        <button mat-flat-button class="btn-action-add width-100">
                             <span>Agregar más opciones</span>
                         </button>
                     </div>
@@ -140,21 +140,21 @@
                     <div class="col-md-3">
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Subtotal</mat-label>
-                             <input class="text-right" matInput>
+                            <input class="text-right" matInput>
                             <span matPrefix>$</span>
                         </mat-form-field>
                     </div>
                     <div class="col-md-3">
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Descuento</mat-label>
-                             <input class="text-right" matInput>
+                            <input class="text-right" matInput>
                             <span matPrefix>$</span>
                         </mat-form-field>
                     </div>
                     <div class="col-md-3">
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Total</mat-label>
-                             <input class="text-right" matInput>
+                            <input class="text-right" matInput>
                             <span matPrefix>$</span>
                         </mat-form-field>
                     </div>
@@ -190,25 +190,25 @@
                     </div>
                 </div>
 
-                <div class="row d-flex">
-                    <div class="col-lg-4 col-md-7 col-12 section-btns-two">
-                        <button class="btn-add-action width-100">
+                <div class="row d-flex mb-6 mt-6">
+                    <div class="col-md-4 col-xl-3 col-12">
+                        <button mat-flat-button class="btn-action-add width-100">
                             <span>Agregar más opciones</span>
                         </button>
                     </div>
                 </div>
 
-                <div class="row d-flex justify-content-end create">
-                    <div class="d-flex col-md-7 col-xl-7 col-12 pt-md-2 justify-content-end align-items-end">
-                        <button class="btn-add-action-gray px-1 sm:px-4 min-w-10">
+                <div class="row d-flex justify-content-end create mt-5">
+                    <div class="d-flex col-md-4 col-xl-3 col-12 pt-md-1 align-items-end">
+                        <button mat-flat-button class="btn-gray width-100">
                             <span>Crear nuevo producto</span>
                         </button>
+                    </div>
 
-                        <button class="btn-excel ml-3 px-1 sm:px-4 min-w-10">
+                    <div class="d-flex col-md-4 col-xl-3 col-12 pt-md-1 align-items-end">
+                        <button mat-flat-button class="btn-yellow width-100">
                             <span>Guardar cotización</span>
-
                         </button>
-
                     </div>
                 </div>
             </div>
