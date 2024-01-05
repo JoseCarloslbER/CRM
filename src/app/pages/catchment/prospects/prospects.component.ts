@@ -3,8 +3,8 @@ import { FormBuilder } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
-import { ModalNewProspectsComponent } from '../modal-new-prospects/modal-new-prospects.component';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-prospects',
@@ -20,73 +20,46 @@ export class ProspectsComponent implements OnInit {
 
   // TABLA 
 
-  public displayedColumns: string[] = ['prospectos', 'contacto', 'estatus', 'cotizacionesRapidas', 'origen', 'fechaUltimoContacto', 'siguienteActividad', 'fechaVencimiento'];
+  public displayedColumns: string[] = [
+    'name', 
+    'estatus', 
+    'country', 
+    'origin', 
+    'category', 
+    'giro', 
+    'campaign', 
+    'fechaUltimoContacto', 
+    'history', 
+    'actions', 
+  ];
+
   public dataDummy: any[] = [
     {
-      contacto: [
-        {
-          nombre: 'Ing Alberto Avendaño',
-          email: 'aavendano@anpasa.com',
-          telefono: 'N/A',
-          celular: '5516349327',
-        }
-      ],
+      
       estatus: 'LEAD',
-      cotizaciones: [
+      country: 'México',
+      category: 'Micro',
+      giro: 'Construccion',
+      campaign: 'Activa',
+      cotizaciones : [
         {
-          izq: '0',
-          der: '1',
+          up : '5',
+          bottom : '$15,000.00',
 
         }
       ],
-      origen: 'Referencia',
-      fechaUltimoContacto: '2022-02-28',
-      siguienteActividad: 'Se envió correo publicitario y se hicieron las llamadas pertinentes para el seguimiento, pero el cliente no contestó en ningún momento.',
-      fechaVencimiento: '2022-02-28',
-    },
-    {
-      contacto: [
+    
+      ventas : [
         {
-          nombre: 'Ing Alberto Avendaño',
-          email: 'aavendano@anpasa.com',
-          telefono: 'N/A',
-          celular: '5516349327',
-        }
-      ],
-      estatus: 'LEAD',
-      cotizaciones: [
-        {
-          izq: '0',
-          der: '1',
+          up : '5',
+          bottom : '$15,000.00',
 
         }
       ],
-      origen: 'Referencia',
-      fechaUltimoContacto: '2022-02-28',
-      siguienteActividad: 'Se envió correo publicitario y se hicieron las llamadas pertinentes para el seguimiento, pero el cliente no contestó en ningún momento. // Procedemos a cerrar las cotizaciones #1090 y #1091.',
-      fechaVencimiento: '2022-02-28',
-    },
-    {
-      contacto: [
-        {
-          nombre: 'Ing Alberto Avendaño',
-          email: 'aavendano@anpasa.com',
-          telefono: 'N/A',
-          celular: '5516349327',
-        }
-      ],
-      estatus: 'LEAD',
-      cotizaciones: [
-        {
-          izq: '0',
-          der: '1',
 
-        }
-      ],
+      history: 'Se envió correo publicitario y se hicieron las llamadas pertinentes para el seguimiento, pero el cliente no contestó en ningún momento.',
       origen: 'Referencia',
       fechaUltimoContacto: '2022-02-28',
-      siguienteActividad: 'Se envió correo publicitario y se hicieron las llamadas pertinentes para el seguimiento, pero el cliente no contestó en ningún momento. // Procedemos a cerrar las cotizaciones #1090 y #1091.',
-      fechaVencimiento: '2022-02-28',
     },
   ]
 
@@ -105,7 +78,8 @@ export class ProspectsComponent implements OnInit {
 
     private openModalsService: OpenModalsService,
     private formBuilder: FormBuilder,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -116,23 +90,10 @@ export class ProspectsComponent implements OnInit {
     console.log(this.formFilters.value);
   }
 
+
+
   newProspect() {
-    // this.openModalsService
-    // 		.openModalMedium(ModalNewProspectsComponent, {
-    // 			datos: ['test'],
-    // 		})
-    //     .afterClosed()
-    // 		.subscribe((resp: any) => {
-
-    //     });
-
-    this.dialog.open(ModalNewProspectsComponent, {
-      data: ['test'],
-      disableClose: true,
-      width: '1000px',
-      maxHeight: '628px',
-      panelClass: 'custom-dialog',
-    });
+    this.router.navigateByUrl(`/home/captacion/nuevo-prospecto`)
   }
 
 }
