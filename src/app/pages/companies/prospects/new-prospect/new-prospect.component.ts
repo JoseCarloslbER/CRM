@@ -12,8 +12,6 @@ import { ModalNewContactComponent } from 'app/pages/acquisition/companies/compon
 })
 export class NewProspectComponent implements AfterViewInit{
 
-  // public addContact:boolean = false
-
   public addContact = new FormControl('')
   
   constructor(

@@ -104,179 +104,148 @@
         </div>
     </div>
 
-    <!-- Main -->
-    <div class="flex-auto border-t -mt-px pt-4 sm:pt-6">
-        <div class="w-full mx-auto">
-            <!-- Tabs -->
-            <mat-tab-group class="sm:px-2" mat-stretch-tabs="false" [animationDuration]="'0'">
 
-                <mat-tab label="Día">
-                    <ng-template matTabContent>
-                        <div class="row">
-                            <div class="col-12 contenedor-scroll-tabla">
-                                <table mat-table #table [dataSource]="dataSource" class="w-100 tabla-personalizada-default">
-                                    <caption></caption>
-                    
-                                    <ng-container matColumnDef="name">
-                                        <th mat-header-cell *matHeaderCellDef>Nombre de la empresa</th>
-                                        <td mat-cell *matCellDef="let element">
-                                            <div class="table-column-reck-solution">
-                                                <img src="../../../../assets/images/logo/prospects-icon.png" alt="">
-                                                <span>RECK SOLUCIONES</span>
-                                            </div>
-                                            
-                                        </td>
-                                    </ng-container>
+    <div class="c-general-table">
+        <div class="col-12 contenedor-scroll-tabla">
+            <table mat-table #table [dataSource]="dataSource" class="w-100 tabla-personalizada-default">
+                <caption></caption>
 
-                                    <ng-container matColumnDef="estatus">
-                                        <th mat-header-cell *matHeaderCellDef>Estatus</th>
-                                        <td mat-cell *matCellDef="let element">
-                                            <div class="table-column-lead">
-                                                {{ element.estatus }}
-                                            </div>
-                                        </td>
-                                    </ng-container>
-                                 
-                                    <ng-container matColumnDef="country">
-                                        <th mat-header-cell *matHeaderCellDef>País</th>
-                                        <td mat-cell *matCellDef="let element">
-                                            {{ element.country }}
-                                        </td>
-                                    </ng-container>
-                                
-                                    <ng-container matColumnDef="origin">
-                                        <th mat-header-cell *matHeaderCellDef>Origen</th>
-                                        <td mat-cell *matCellDef="let element">
-                                            {{element.origen}}
-                                        </td>
-                                    </ng-container>
-                                  
-                                    <ng-container matColumnDef="category">
-                                        <th mat-header-cell *matHeaderCellDef>Categoría</th>
-                                        <td mat-cell *matCellDef="let element">
-                                            {{element.category}}
-                                        </td>
-                                    </ng-container>
-                            
-                                    <ng-container matColumnDef="giro">
-                                        <th mat-header-cell *matHeaderCellDef>Giro</th>
-                                        <td mat-cell *matCellDef="let element">
-                                            {{element.giro}}
-                                        </td>
-                                    </ng-container>
-                            
-                                    <ng-container matColumnDef="campaign">
-                                        <th mat-header-cell *matHeaderCellDef>Campaña</th>
-                                        <td mat-cell *matCellDef="let element">
-                                            {{element.campaign}}
-                                        </td>
-                                    </ng-container>
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef>Nombre de la empresa</th>
+                    <td mat-cell *matCellDef="let element">
+                        <div class="table-column-reck-solution">
+                            <img src="../../../../assets/images/logo/prospects-icon.png" alt="">
+                            <span>RECK SOLUCIONES</span>
+                        </div>
+                        
+                    </td>
+                </ng-container>
 
-                                    <ng-container matColumnDef="cotizaciones">
-                                        <th mat-header-cell *matHeaderCellDef>Cotizaciones</th>
-                                        <td mat-cell *matCellDef="let element">
-                                            <div class="table-column-two-botton-row" *ngFor="let info of element.cotizaciones">
-                                                <div class="table-column-lead"> {{ info.up }} </div>
-                                                <div class="table-column-lead"> {{ info.bottom }} </div>
-                                            </div>
-                                        </td>
-                                    </ng-container>
+                <ng-container matColumnDef="estatus">
+                    <th mat-header-cell *matHeaderCellDef>Estatus</th>
+                    <td mat-cell *matCellDef="let element">
+                        <div class="table-column-lead">
+                            {{ element.estatus }}
+                        </div>
+                    </td>
+                </ng-container>
+                
+                <ng-container matColumnDef="country">
+                    <th mat-header-cell *matHeaderCellDef>País</th>
+                    <td mat-cell *matCellDef="let element">
+                        {{ element.country }}
+                    </td>
+                </ng-container>
+            
+                <ng-container matColumnDef="origin">
+                    <th mat-header-cell *matHeaderCellDef>Origen</th>
+                    <td mat-cell *matCellDef="let element">
+                        {{element.origen}}
+                    </td>
+                </ng-container>
+                
+                <ng-container matColumnDef="category">
+                    <th mat-header-cell *matHeaderCellDef>Categoría</th>
+                    <td mat-cell *matCellDef="let element">
+                        {{element.category}}
+                    </td>
+                </ng-container>
+        
+                <ng-container matColumnDef="giro">
+                    <th mat-header-cell *matHeaderCellDef>Giro</th>
+                    <td mat-cell *matCellDef="let element">
+                        {{element.giro}}
+                    </td>
+                </ng-container>
+        
+                <ng-container matColumnDef="campaign">
+                    <th mat-header-cell *matHeaderCellDef>Campaña</th>
+                    <td mat-cell *matCellDef="let element">
+                        {{element.campaign}}
+                    </td>
+                </ng-container>
 
-                                    <ng-container matColumnDef="ventas">
-                                        <th mat-header-cell *matHeaderCellDef>Ventas</th>
-                                        <td mat-cell *matCellDef="let element">
-                                            <div class="table-column-two-botton-row" *ngFor="let info of element.ventas">
-                                                <div class="table-column-lead"> {{ info.up }} </div>
-                                                <div class="table-column-lead"> {{ info.bottom }} </div>
-                                            </div>
-                                        </td>
-                                    </ng-container>
+                <ng-container matColumnDef="cotizaciones">
+                    <th mat-header-cell *matHeaderCellDef>Cotizaciones</th>
+                    <td mat-cell *matCellDef="let element">
+                        <div class="table-column-two-botton-row" *ngFor="let info of element.cotizaciones">
+                            <div class="table-column-lead"> {{ info.up }} </div>
+                            <div class="table-column-lead"> {{ info.bottom }} </div>
+                        </div>
+                    </td>
+                </ng-container>
 
-                             
-                                    <ng-container matColumnDef="fechaUltimoContacto">
-                                        <th mat-header-cell *matHeaderCellDef>Fecha de último contacto</th>
-                                        <td mat-cell *matCellDef="let element">
-                                            {{element.fechaUltimoContacto}}
-                                        </td>
-                                    </ng-container>
-                                    
-                                    <ng-container matColumnDef="history">
-                                        <th mat-header-cell *matHeaderCellDef>Historial</th>
-                                        <td mat-cell *matCellDef="let element" class="table-texto-largo">
-                                            {{element.history}}
-                                        </td>
-                                    </ng-container>
+                <ng-container matColumnDef="ventas">
+                    <th mat-header-cell *matHeaderCellDef>Ventas</th>
+                    <td mat-cell *matCellDef="let element">
+                        <div class="table-column-two-botton-row" *ngFor="let info of element.ventas">
+                            <div class="table-column-lead"> {{ info.up }} </div>
+                            <div class="table-column-lead"> {{ info.bottom }} </div>
+                        </div>
+                    </td>
+                </ng-container>
 
-                                    <ng-container matColumnDef="actions">
-                                        <th mat-header-cell *matHeaderCellDef>Acciones</th>
-                                        <td mat-cell *matCellDef="let element">
-                                            <div class="c-column-btns">
+            
+                <ng-container matColumnDef="fechaUltimoContacto">
+                    <th mat-header-cell *matHeaderCellDef>Fecha de último contacto</th>
+                    <td mat-cell *matCellDef="let element">
+                        {{element.fechaUltimoContacto}}
+                    </td>
+                </ng-container>
+                
+                <ng-container matColumnDef="history">
+                    <th mat-header-cell *matHeaderCellDef>Historial</th>
+                    <td mat-cell *matCellDef="let element" class="table-texto-largo">
+                        {{element.history}}
+                    </td>
+                </ng-container>
 
-                                                <div class="btn-see" (click)="seeClient(element)">
-                                                    <mat-icon matTooltip="Ver">visibility</mat-icon>
-                                                </div>
-                                                
-                                                <div class="btn-edit">
-                                                    <mat-icon matTooltip="Editar">edit_square</mat-icon>
-                                                </div>
+                <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef>Acciones</th>
+                    <td mat-cell *matCellDef="let element">
+                        <div class="c-column-btns">
 
-                                                <div class="btn-new-activity">
-                                                    <mat-icon matTooltip="Clonar">library_add</mat-icon>
-                                                </div>
-
-                                                <div class="btn-delete">
-                                                    <mat-icon matTooltip="Eliminar">delete</mat-icon>
-                                                </div>
-
-                                            </div>
-                                        </td>
-                                    </ng-container>
-                    
-                                    <tr *matNoDataRow>
-                                        <td class="mat-cell" [attr.colspan]="displayedColumns.length">
-                                            <h5 class="text-center my-5">No se encontraron resultados.</h5>
-                                        </td>
-                                    </tr>
-                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                                    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-                                </table>
+                            <div class="btn-see" (click)="seeClient(element)">
+                                <mat-icon matTooltip="Ver">visibility</mat-icon>
                             </div>
-                         
-                            <!-- <div class="d-flex justify-content-end" style="background: none;"> 
-                                <mat-paginator
-                                    #paginator
-                                    [length]="total"
-                                    [pageIndex]="indicePagina"
-                                    [pageSize]="longitudPagina"
-                                    [pageSizeOptions]="[5, 10, 25, 50, 100]"
-                                    (page)="cambiaPagina($event)"
-                                    class="w-100"
-                                ></mat-paginator>
-                            </div> -->
+                            
+                            <div class="btn-edit">
+                                <mat-icon matTooltip="Editar">edit_square</mat-icon>
+                            </div>
+
+                            <div class="btn-new-activity">
+                                <mat-icon matTooltip="Clonar">library_add</mat-icon>
+                            </div>
+
+                            <div class="btn-delete">
+                                <mat-icon matTooltip="Eliminar">delete</mat-icon>
+                            </div>
+
                         </div>
-                 
+                    </td>
+                </ng-container>
 
-                    </ng-template>
-                </mat-tab>
-
-                <mat-tab label="Mes">
-                    <ng-template matTabContent>
-                        <div class="grid grid-cols-1 w-full min-w-0">
-                            <h1>En desarrollo...</h1>
-                        </div>
-                    </ng-template>
-                </mat-tab>
-
-                <mat-tab label="Año">
-                    <ng-template matTabContent>
-                        <div class="grid grid-cols-1 w-full min-w-0">
-                            <h1>En desarrollo...</h1>
-                        </div>
-                    </ng-template>
-                </mat-tab>
-
-            </mat-tab-group>
+                <tr *matNoDataRow>
+                    <td class="mat-cell" [attr.colspan]="displayedColumns.length">
+                        <h5 class="text-center my-5">No se encontraron resultados.</h5>
+                    </td>
+                </tr>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            </table>
         </div>
+        
+        <!-- <div class="d-flex justify-content-end" style="background: none;"> 
+            <mat-paginator
+                #paginator
+                [length]="total"
+                [pageIndex]="indicePagina"
+                [pageSize]="longitudPagina"
+                [pageSizeOptions]="[5, 10, 25, 50, 100]"
+                (page)="cambiaPagina($event)"
+                class="w-100"
+            ></mat-paginator>
+        </div> -->
     </div>
 
 </div>

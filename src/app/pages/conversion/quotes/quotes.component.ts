@@ -119,16 +119,7 @@ export class QuotesComponent {
     this.router.navigateByUrl(`/home/conversion/detalle-cotizacion/${1}`)
   }
 
-
-
   newQuotes() {
-    this.dialog.open(ModalNewQuoteComponent, {
-      data: ['test'],
-      disableClose: true,
-      width: '1000px',
-      maxHeight: '628px',
-      panelClass: 'custom-dialog',
-    });
+    this.router.navigateByUrl(`/home/conversion/nueva-cotizacion`)
   }
-
 }

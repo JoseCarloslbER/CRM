@@ -8,10 +8,17 @@ import { ConversionComponent } from './conversion.component';
 import { MaterialModule } from 'app/shared/material/material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { NewQuoteComponent } from './new-quote/new-quote.component';
 
 
 @NgModule({
-  declarations: [ConversionComponent, QuotesComponent, DetailsQuotesComponent, ModalNewQuoteComponent],
+  declarations: [
+    ConversionComponent, 
+    QuotesComponent, 
+    DetailsQuotesComponent, 
+    ModalNewQuoteComponent,
+    NewQuoteComponent
+  ],
   imports: [
     CommonModule,
     QUOTES_ROUTES,
