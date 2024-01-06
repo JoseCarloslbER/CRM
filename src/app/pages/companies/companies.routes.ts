@@ -4,7 +4,7 @@ import { NewProspectComponent } from './prospects/new-prospect/new-prospect.comp
 import { ProspectsComponent } from './prospects/prospects.component';
 import { LeadsComponent } from './leads/leads.component';
 import { ClientsComponent } from './clients/clients.component';
-import { CompaniesComponent } from './companies.component';
+import { CompaniesComponent } from '../acquisition/companies/companies.component';
 
 
 const companiesRoutes: Routes = [
@@ -15,7 +15,7 @@ const companiesRoutes: Routes = [
 			{ path: '', pathMatch : 'full', redirectTo: 'todos' },
 			{
 				path: 'todos',
-				component: AllComponent,
+				component: CompaniesComponent,
 			},
 			{
 				path: 'prospectos',
