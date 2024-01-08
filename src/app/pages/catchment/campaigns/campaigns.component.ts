@@ -5,6 +5,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { ModalInformationInTableComponent } from 'app/shared/components/modal-information-in-table/modal-information-in-table.component';
+import { TableColumns } from 'app/shared/interfaces/TableColumns';
 
 @Component({
   selector: 'app-campaigns',
@@ -176,6 +178,179 @@ export class CampaignsComponent implements OnInit {
     rangeDateEnd: [{ value: null, disabled: false }],
   });
 
+  private agentInfoColumns : string[] = [
+    'agent',
+    'rol',
+    'ip',
+    'extension'
+  ]
+
+  private dataAgent : any[] = [
+    {
+      agent : 'Agente 1',
+      isMain: 'Agente principal',
+      rol : 'Atención a cliente',
+      ip : '12354',
+      extension : '3002',
+    },
+    {
+      agent : 'Agente 2',
+      rol : 'Ventas',
+      ip : '12354',
+      extension : '3002',
+    },
+    {
+      agent : 'Agente 3',
+      rol : 'Marketing',
+      ip : '12354',
+      extension : '3002',
+    },
+    {
+      agent : 'Agente 1',
+      isMain: 'Agente principal',
+      rol : 'Atención a cliente',
+      ip : '12354',
+      extension : '3002',
+    },
+    {
+      agent : 'Agente 2',
+      rol : 'Ventas',
+      ip : '12354',
+      extension : '3002',
+    },
+    {
+      agent : 'Agente 3',
+      rol : 'Marketing',
+      ip : '12354',
+      extension : '3002',
+    },
+    {
+      agent : 'Agente 1',
+      isMain: 'Agente principal',
+      rol : 'Atención a cliente',
+      ip : '12354',
+      extension : '3002',
+    },
+    {
+      agent : 'Agente 2',
+      rol : 'Ventas',
+      ip : '12354',
+      extension : '3002',
+    },
+    {
+      agent : 'Agente 3',
+      rol : 'Marketing',
+      ip : '12354',
+      extension : '3002',
+    },
+  ]
+
+  private companyInfoColumns : string[] = [
+    'company',
+    'contact',
+    'status'
+  ]
+
+  private datacompany : any[] = [
+    {
+      company : 'RECK SOLUCIONES',
+      status : 'LEAD',
+      contact: [
+        {
+          nombre: 'Ing Alberto Avendaño',
+          email: 'aavendano@anpasa.com',
+          telefono: 'N/A',
+          celular: '5516349327',
+        }
+      ],
+    },
+    {
+      company : 'RECK SOLUCIONES',
+      status : 'LEAD',
+      contact: [
+        {
+          nombre: 'Ing Alberto Avendaño',
+          email: 'aavendano@anpasa.com',
+          telefono: 'N/A',
+          celular: '5516349327',
+        }
+      ],
+    },
+    {
+      company : 'RECK SOLUCIONES',
+      status : 'LEAD',
+      contact: [
+        {
+          nombre: 'Ing Alberto Avendaño',
+          email: 'aavendano@anpasa.com',
+          telefono: 'N/A',
+          celular: '5516349327',
+        }
+      ],
+    },
+    {
+      company : 'RECK SOLUCIONES',
+      status : 'LEAD',
+      contact: [
+        {
+          nombre: 'Ing Alberto Avendaño',
+          email: 'aavendano@anpasa.com',
+          telefono: 'N/A',
+          celular: '5516349327',
+        }
+      ],
+    },
+    {
+      company : 'RECK SOLUCIONES',
+      status : 'LEAD',
+      contact: [
+        {
+          nombre: 'Ing Alberto Avendaño',
+          email: 'aavendano@anpasa.com',
+          telefono: 'N/A',
+          celular: '5516349327',
+        }
+      ],
+    },
+    {
+      company : 'RECK SOLUCIONES',
+      status : 'LEAD',
+      contact: [
+        {
+          nombre: 'Ing Alberto Avendaño',
+          email: 'aavendano@anpasa.com',
+          telefono: 'N/A',
+          celular: '5516349327',
+        }
+      ],
+    },
+    {
+      company : 'RECK SOLUCIONES',
+      status : 'LEAD',
+      contact: [
+        {
+          nombre: 'Ing Alberto Avendaño',
+          email: 'aavendano@anpasa.com',
+          telefono: 'N/A',
+          celular: '5516349327',
+        }
+      ],
+    },
+    {
+      company : 'RECK SOLUCIONES',
+      status : 'LEAD',
+      contact: [
+        {
+          nombre: 'Ing Alberto Avendaño',
+          email: 'aavendano@anpasa.com',
+          telefono: 'N/A',
+          celular: '5516349327',
+        }
+      ],
+    },
+    
+  ]
+
   constructor(
 
     private openModalsService: OpenModalsService,
@@ -188,7 +363,7 @@ export class CampaignsComponent implements OnInit {
     setTimeout(() => {
       
       this.dataSource.data = this.dataDummyCampaign
-    }, 1000);
+    }, 500);
   }
 
   SearchWithFilters() {
@@ -198,4 +373,36 @@ export class CampaignsComponent implements OnInit {
   newCampaing() {
     this.router.navigateByUrl(`/home/captacion/nueva-campaña`)
   }
+
+  seeAgents() {
+    this.dialog.open(ModalInformationInTableComponent, {
+      data: {
+        info : this.dataAgent,
+        columns: this.agentInfoColumns,
+        type : 'agents'
+      },
+      disableClose: true,
+      width: '1000px',
+      maxHeight: '700px',
+      panelClass: 'custom-dialog',
+    });
+  }
+
+  seeCompanies() {
+    this.dialog.open(ModalInformationInTableComponent, {
+      data: {
+        info : this.datacompany,
+        columns: this.companyInfoColumns,
+        type : 'companies'
+      },
+      disableClose: true,
+      width: '1000px',
+      maxHeight: '700px',
+      panelClass: 'custom-dialog',
+    });
+  }
+
+
 }
+
+

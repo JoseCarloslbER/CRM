@@ -18,7 +18,6 @@
 }
 // }
 
-
 .table-column-reck-solution {
 	text-align: center;
 	display: flex;
@@ -195,7 +194,7 @@
 
 .contenedor-scroll-tabla {
 	max-width: 100%;
-	overflow-x: auto;
+
 }
 
 
@@ -249,6 +248,14 @@
 	}
 }
 
+.table-column-img {
+	img {
+		width: 50px;
+		margin: auto;
+		height: 50px;
+	}
+}
+
 .table-column-agent-see-all {
 	display: flex;
 	flex-direction: column;
@@ -257,6 +264,7 @@
 	span {
 		font-size: 14px;
 		font-weight: 700;
+		cursor: pointer;
 		text-align: center;
 
 	}
@@ -357,7 +365,6 @@
 
 .c-general-table {
 	padding: 30px;
-
 }
 
 .interest-high {
