@@ -12,7 +12,9 @@ import { Router } from '@angular/router';
 export class NewCampingnComponent implements AfterViewInit {
 
   public fechaHoy = new Date();
-  
+  toppings = new FormControl('');
+  toppingList: string[] = ['Empresa A', 'Empresa B', 'Empresa C'];
+
   constructor(
     private formBuilder: FormBuilder,
     private dialog: MatDialog,
