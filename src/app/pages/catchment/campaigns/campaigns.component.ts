@@ -5,8 +5,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { ModalInformationInTableComponent } from 'app/shared/components/modal-information-in-table/modal-information-in-table.component';
-import { TableColumns } from 'app/shared/interfaces/TableColumns';
+import { ModalInformationInTableComponent } from 'app/pages/catchment/campaigns/modal-information-in-table/modal-information-in-table.component';
+import { ModalCampaignResultsComponent } from './modal-campaign-results/modal-campaign-results.component';
 
 @Component({
   selector: 'app-campaigns',
@@ -390,6 +390,20 @@ export class CampaignsComponent implements OnInit {
 
   seeCompanies() {
     this.dialog.open(ModalInformationInTableComponent, {
+      data: {
+        info : this.datacompany,
+        columns: this.companyInfoColumns,
+        type : 'companies'
+      },
+      disableClose: true,
+      width: '1000px',
+      maxHeight: '700px',
+      panelClass: 'custom-dialog',
+    });
+  }
+  
+  seeCampaignsResults () {
+    this.dialog.open(ModalCampaignResultsComponent, {
       data: {
         info : this.datacompany,
         columns: this.companyInfoColumns,
