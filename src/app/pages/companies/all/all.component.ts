@@ -155,11 +155,11 @@ export class AllComponent implements OnInit {
   }
 
   seeClient(data:any) {
-    console.log(data);
-    this.router.navigateByUrl(`/home/adquisicion/detalle-cliente/${1}`)
+    this.router.navigateByUrl(`/home/empresas/detalle-cliente/${1}`)
   }
 
   newClient() {
     this.router.navigateByUrl(`/home/empresas/nuevo-cliente`)
   }
+
 }

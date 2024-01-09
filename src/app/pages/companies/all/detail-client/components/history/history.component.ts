@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { DateTime } from 'luxon';
-import { ModalNewActivityComponent } from '../../modal-new-activity/modal-new-activity.component';
+import { CommonModule } from '@angular/common';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { DateTime } from 'luxon';
+import { ModalNewActivityComponent } from './modal-new-activity/modal-new-activity.component';
 
 @Component({
   selector: 'app-history',
@@ -61,6 +62,7 @@ export class HistoryComponent {
   ) { }
 
   newActivity() {
+    // selecionar tipo de actividad llamada al abrir de aquí
     this.dialog.open(ModalNewActivityComponent, {
       data: ['test'],
       disableClose: true,
@@ -69,5 +71,4 @@ export class HistoryComponent {
       panelClass: 'custom-dialog',
     });
   }
-
 }

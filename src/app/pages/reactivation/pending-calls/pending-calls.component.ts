@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
+import { ModalNewActivityComponent } from 'app/pages/companies/all/detail-client/components/history/modal-new-activity/modal-new-activity.component';
 
 @Component({
   selector: 'app-pending-calls',
@@ -21,149 +22,64 @@ export class PendingCallsComponent {
 
   // TABLA 
 
-  public displayedColumnsCampaign: string[] = [
-    'noSerie',
-    'fechasInicialFinal',
-    'companyType',
-    'agents',
-    'companies',
-    'results',
-    'amounInvested',
-    'allProspects',
-    'allQuotes',
-    'totalAllAppointments',
-    'totalClosedSales',
-    'totalSalesAmount',
+  public displayedColumns: string[] = [
+    'client',
+    'advertising',
+    'dueDate',
+    'dueDate',
+    'expirationTime',
+    'user',
+    'assigned',
+    'comments',
+
+
+
+   
     'acciones',
   ];
 
-  public dataDummyCampaign: any[] = [
+  public dataDummy: any[] = [
     {
-      noSerie: 'CD4557',
-      fechasInicialFinal: [
-        {
-          inicial: '2022-02-28',
-          final: '2022-02-28',
 
-        }
-      ],
-
-      companyType: 'Lorem ipsum',
-      agent: 'Nombre de agente principal',
-      company: '5',
-      amounInvested: '$15,000.00',
-      cotizaciones : [
-        {
-          left : '5',
-          right : '5',
-          bottom : '$15,000.00',
-        }
-      ],
-
-      totalAllAppointments : [
-        {
-          left : '$15,000.00',
-          right : '$15,000.00',
-
-        }
-      ],
-      prospects : [
-        {
-          up : '5',
-          bottom : '$15,000.00',
-
-        }
-      ],
-      
-      fechaUltimoContacto: '2022-02-28',
-      fechaRegistro: '2022-02-28',
-      agentePrincipal: 'Soporte (Administrador)',
-    
+      client : 'RECK SOLUCIONES',
+      advertising : 'campaña de prueba2',
+      dueDate: '2022-02-28',
+      expirationTime: '2022-02-28',
+      user : 'AgenteATCAle',
+      assigned : 'AgenteATCAle',
+      comments : 'Test nueva funcionalidad calendario.'
     },
     {
-      noSerie: 'CD4557',
-      fechasInicialFinal: [
-        {
-          inicial: '2022-02-28',
-          final: '2022-02-28',
 
-        }
-      ],
-
-      companyType: 'Lorem ipsum',
-      agent: 'Nombre de agente principal',
-      company: '5',
-      amounInvested: '$15,000.00',
-      cotizaciones : [
-        {
-          left : '5',
-          right : '5',
-          bottom : '$15,000.00',
-        }
-      ],
-
-      totalAllAppointments : [
-        {
-          left : '$15,000.00',
-          right : '$15,000.00',
-
-        }
-      ],
-      prospects : [
-        {
-          up : '5',
-          bottom : '$15,000.00',
-
-        }
-      ],
-      
-      fechaUltimoContacto: '2022-02-28',
-      fechaRegistro: '2022-02-28',
-      agentePrincipal: 'Soporte (Administrador)',
-    
+      client : 'RECK SOLUCIONES',
+      advertising : 'campaña de prueba2',
+      dueDate: '2022-02-28',
+      expirationTime: '2022-02-28',
+      user : 'AgenteATCAle',
+      assigned : 'AgenteATCAle',
+      comments : 'Test nueva funcionalidad calendario.'
     },
     {
-      noSerie: 'CD4557',
-      fechasInicialFinal: [
-        {
-          inicial: '2022-02-28',
-          final: '2022-02-28',
 
-        }
-      ],
-
-      companyType: 'Lorem ipsum',
-      agent: 'Nombre de agente principal',
-      company: '5',
-      amounInvested: '$15,000.00',
-      cotizaciones : [
-        {
-          left : '5',
-          right : '5',
-          bottom : '$15,000.00',
-        }
-      ],
-
-      totalAllAppointments : [
-        {
-          left : '$15,000.00',
-          right : '$15,000.00',
-
-        }
-      ],
-      prospects : [
-        {
-          up : '5',
-          bottom : '$15,000.00',
-
-        }
-      ],
-      
-      fechaUltimoContacto: '2022-02-28',
-      fechaRegistro: '2022-02-28',
-      agentePrincipal: 'Soporte (Administrador)',
-    
+      client : 'RECK SOLUCIONES',
+      advertising : 'campaña de prueba2',
+      dueDate: '2022-02-28',
+      expirationTime: '2022-02-28',
+      user : 'AgenteATCAle',
+      assigned : 'AgenteATCAle',
+      comments : 'Test nueva funcionalidad calendario.'
     },
+    {
+
+      client : 'RECK SOLUCIONES',
+      advertising : 'campaña de prueba2',
+      dueDate: '2022-02-28',
+      expirationTime: '2022-02-28',
+      user : 'AgenteATCAle',
+      assigned : 'AgenteATCAle',
+      comments : 'Test nueva funcionalidad calendario.'
+    },
+   
   ]
 
   public fechaHoy = new Date();
@@ -181,6 +97,7 @@ export class PendingCallsComponent {
   constructor(
 
     private openModalsService: OpenModalsService,
+    private notificationService: OpenModalsService,
     private formBuilder: FormBuilder,
     private dialog: MatDialog,
     private router: Router
@@ -189,7 +106,7 @@ export class PendingCallsComponent {
   ngOnInit(): void {
     setTimeout(() => {
       
-      this.dataSource.data = this.dataDummyCampaign
+      this.dataSource.data = this.dataDummy
     }, 500);
   }
 
@@ -197,50 +114,49 @@ export class PendingCallsComponent {
     console.log(this.formFilters.value);
   }
 
-  newCampaing() {
-    this.router.navigateByUrl(`/home/captacion/nueva-campaña`)
+  deleteData() {
+    this.notificationService
+      .notificacion(
+        'Pregunta',
+        '¿Estas seguro de eliminar el registro?',
+        'question',
+      )
+      .afterClosed()
+      .subscribe((_) => {
+        this.notificationService
+          .notificacion(
+            'Éxito',
+            'Registro eliminado.',
+            'delete',
+          )
+          .afterClosed()
+          .subscribe((_) => {
+
+          });
+      });
   }
 
-  seeAgents() {
-    // this.dialog.open(ModalInformationInTableComponent, {
-    //   data: {
-    //     info : this.dataAgent,
-    //     columns: this.agentInfoColumns,
-    //     type : 'agents'
-    //   },
-    //   disableClose: true,
-    //   width: '1000px',
-    //   maxHeight: '700px',
-    //   panelClass: 'custom-dialog',
-    // });
+  seeAdvertising(data:any) {
+    // this.router.navigateByUrl(`/home/empresas/detalle-cliente/${1}`)
   }
 
-  seeCompanies() {
-    // this.dialog.open(ModalInformationInTableComponent, {
-    //   data: {
-    //     info : this.datacompany,
-    //     columns: this.companyInfoColumns,
-    //     type : 'companies'
-    //   },
-    //   disableClose: true,
-    //   width: '1000px',
-    //   maxHeight: '700px',
-    //   panelClass: 'custom-dialog',
-    // });
+  editData() {
+    this.dialog.open(ModalNewActivityComponent, {
+      data: { },
+      disableClose: true,
+      width: '1000px',
+      maxHeight: '700px',
+      panelClass: 'custom-dialog',
+    });
   }
-  
-  seeCampaignsResults () {
-    // this.dialog.open(ModalCampaignResultsComponent, {
-    //   data: {
-    //     info : this.datacompany,
-    //     columns: this.companyInfoColumns,
-    //     type : 'companies'
-    //   },
-    //   disableClose: true,
-    //   width: '1000px',
-    //   maxHeight: '700px',
-    //   panelClass: 'custom-dialog',
-    // });
+  newData() {
+    this.dialog.open(ModalNewActivityComponent, {
+      data: { },
+      disableClose: true,
+      width: '1000px',
+      maxHeight: '700px',
+      panelClass: 'custom-dialog',
+    });
   }
 
 }

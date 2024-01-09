@@ -32,10 +32,6 @@ const pageRoutes: Routes = [
 				loadChildren: () => import('./management/management.module').then((m) => m.ManagementModule),
 			},
 			{
-				path: 'adquisicion',
-				loadChildren: () => import('./acquisition/acquisition.module').then((m) => m.AcquisitionModule),
-			},
-			{
 				path: 'configuracion',
 				loadChildren: () => import('./config/config.module').then((m) => m.ConfigModule),
 			},

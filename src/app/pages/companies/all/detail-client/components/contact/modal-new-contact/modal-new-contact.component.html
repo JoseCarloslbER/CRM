@@ -9,48 +9,49 @@
 
         <p class="mb-6">*Campos obligatorios</p>
 
-        <form class="col-12">
-            <div class="row">
+        <form class="col-12 modal-content-scroll">
+            <div class="row" *ngFor="let ejecucion of valuesContacts; let i = index;">
                 <div class="col-md-6">
 
                     <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
-                        <mat-label>Nombre y apellidos*</mat-label>
-                        <input matInput>
+                        <mat-label>Nombre y apellidos</mat-label>
+                        <input matInput [formControl]="ejecucion.nombreControl">
                     </mat-form-field>
-                  
+
                     <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
-                        <mat-label>Correo*</mat-label>
-                        <input matInput>
-                    </mat-form-field>
-            
-                    <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
-                        <mat-label>Teléfono fijo*</mat-label>
-                        <input matInput>
+                        <mat-label>Correo</mat-label>
+                        <input matInput [formControl]="ejecucion.correoControl">
                     </mat-form-field>
 
 
+                    <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
+                        <mat-label>Teléfono fijo</mat-label>
+                        <input matInput [formControl]="ejecucion.telefonoControl">
+                    </mat-form-field>
                 </div>
                 <div class="col-md-6">
                     <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
-                        <mat-label>Cargo / Puesto*</mat-label>
-                        <input matInput>
+                        <mat-label>Cargo / Puesto</mat-label>
+                        <input matInput [formControl]="ejecucion.cargoControl">
                     </mat-form-field>
 
                     <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
-                        <mat-label>Teléfono móvil*</mat-label>
-                        <input matInput>
+                        <mat-label>Teléfono móvil</mat-label>
+                        <input matInput [formControl]="ejecucion.movilControl">
                     </mat-form-field>
 
                     <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                         <mat-label>Extención</mat-label>
-                        <input matInput>
+                        <input matInput [formControl]="ejecucion.extensionControl">
                     </mat-form-field>
                 </div>
+
+                <hr class="mt-5 mb-5" *ngIf="valuesContacts?.length > 1">
             </div>
 
             <div class="row d-flex mt-6">
                 <div class="col-md-12 col-sm-12 col-12 section-btns-two">
-                    <button class="btn-gray">
+                    <button class="btn-gray" (click)="addFormContact()">
                         <span>Agregar contacto</span>
                     </button>
                 </div>

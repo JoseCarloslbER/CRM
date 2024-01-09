@@ -102,7 +102,7 @@ export class DocumentsComponent {
     this.dialog.open(ModalNewDocumentComponent, {
       data: ['test'],
       disableClose: true,
-      width: '1000px',
+      width: '800px',
       maxHeight: '628px',
       panelClass: 'custom-dialog',
     });

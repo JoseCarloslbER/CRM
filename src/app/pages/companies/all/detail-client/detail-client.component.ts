@@ -6,7 +6,6 @@ import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { ModalNewActivityComponent } from '../modal-new-activity/modal-new-activity.component';
 
 @Component({
   selector: 'app-detail-client',
