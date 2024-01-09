@@ -1,13 +1,13 @@
 import { Component, Inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-modal-new-quote',
-  templateUrl: './modal-new-quote.component.html',
-  styleUrl: './modal-new-quote.component.scss'
+  selector: 'app-modal-upload-document',
+  templateUrl: './modal-upload-document.component.html',
+  styleUrl: './modal-upload-document.component.scss'
 })
-export class ModalNewQuoteComponent {
-
+export class ModalUploadDocumentComponent {
   constructor(
 		@Inject(MAT_DIALOG_DATA) public data: any,
 		private dialogRef: MatDialogRef<any>,

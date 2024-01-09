@@ -52,6 +52,49 @@
 	width: 130px;
 }
 
+.table-column-information {
+	display: flex;
+	flex-direction: column;
+
+
+	h1 {
+		font-size: 20px;
+		font-weight: 400;
+		margin-bottom: 15px;
+	}
+
+	span {
+		background: #EDF1F5;
+		font-size: 20px;
+		font-weight: 700;
+		border-radius: 10px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		margin-bottom: 25px;
+		width: 130px;
+		height: 45px;
+	}
+
+	h2 {
+		font-size: 18px;
+		font-weight: 400;
+		color: #24BB55;
+		border-bottom: 1px solid #24BB55;
+	}
+}
+
+.table-column-totalPrice {
+	// > h1 {
+	// 	font-size: 22px;
+	// 	font-weight: 700;
+	// 	> span {
+	// 		font-size: 20px;
+	// 		font-weight: 400;
+	// 	}
+	// }
+}
+
 .table-column-lead {
 	background: #EDF1F5;
 	display: flex;
@@ -117,6 +160,7 @@
 		font-size: 16px;
 		font-weight: 400;
 		color: #1E293B;
+		text-align: center;
 	}
 
 	background-color: white;
@@ -135,7 +179,7 @@
 		font-size: 15px;
 		font-weight: 700;
 		background: #646878 !important;
-		min-width: 150px !important;
+		min-width: 170px !important;
 		max-width: 250px !important;
 	}
 

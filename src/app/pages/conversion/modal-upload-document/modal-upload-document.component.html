@@ -1,0 +1,35 @@
+<div class="container-fluid p-0 overflow-hidden c-modal-document-pay">
+
+    <div class="modal-header">
+        <p class="titulo-modal">Cargar comprobante de pago</p>
+        <mat-icon class="cursos-pointer" svgIcon="mat_outline:cancel" (click)="closeModal()"></mat-icon>
+    </div>
+
+    <div class="row p-5 d-flex">
+
+        <form class="col-12">
+            <div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="load flex-center">
+                            <div class="d-flex flex-column justify-content-center align-items-sm-center gap-4">
+                                <mat-icon class="icon-size-6" svgIcon="mat_solid:upload"></mat-icon>
+                                <span>Arrastre o seleccione los archivos que desea subir</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="row d-flex justify-content-center create mb-5">
+                    <div class="d-flex justify-content-center col-md-4 col-xl-4 col-12 pt-md-2">
+                        <button class="btn-action-add" (click)="closeModal()">
+                            <span>Subir archivos</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
