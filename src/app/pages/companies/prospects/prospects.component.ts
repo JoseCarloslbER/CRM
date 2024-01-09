@@ -96,7 +96,7 @@ export class ProspectsComponent implements OnInit {
   }
 
   seeData(data:any) {
-    this.router.navigateByUrl(`/home/conversion/detalle-cotizacion/1`)
+    this.router.navigateByUrl(`home/adquisicion/detalle-empresa/1`)
   }
 
   newData() {

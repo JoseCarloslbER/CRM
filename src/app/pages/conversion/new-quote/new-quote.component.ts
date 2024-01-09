@@ -10,8 +10,6 @@ import { OpenModalsService } from 'app/shared/services/openModals.service';
   styleUrl: './new-quote.component.scss'
 })
 export class NewQuoteComponent implements AfterViewInit {
-
-
   public addContact = new FormControl('')
   
   constructor(
@@ -25,11 +23,9 @@ export class NewQuoteComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     this.addContact.valueChanges.subscribe(resp => {
       console.log(resp);
-      
     })
   }
 
-  
   save(){
     this.notificationService
       .notificacion(
@@ -39,12 +35,15 @@ export class NewQuoteComponent implements AfterViewInit {
       )
       .afterClosed()
       .subscribe((_) => {
-       this.toBack()
-
+       this.toDetailQuote()
       });
   }
 
   toBack(){
     this.router.navigateByUrl(`/home/conversion/cotizaciones`)
+  }
+  
+  toDetailQuote(){
+    this.router.navigateByUrl(`/home/conversion/detalle-cotizacion/1`)
   }
 }

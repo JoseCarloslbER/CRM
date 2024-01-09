@@ -92,7 +92,7 @@ export class QuotesComponent {
   });
 
   constructor(
-
+    private notificationService: OpenModalsService,
     private openModalsService: OpenModalsService,
     private formBuilder: FormBuilder,
     private dialog: MatDialog,
@@ -122,6 +122,20 @@ export class QuotesComponent {
       width: '800px',
       maxHeight: '628px',
       panelClass: 'custom-dialog',
+    });
+  }
+
+  downloadPdf() {
+    this.notificationService
+    .notificacion(
+      'Éxito',
+      'PDF descargado.',
+      'save',
+      'mat_outline:picture_as_pdf'
+    )
+    .afterClosed()
+    .subscribe((_) => {
+
     });
   }
 }

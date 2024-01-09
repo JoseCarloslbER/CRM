@@ -15,7 +15,7 @@ const acquisitionRoutes: Routes = [
 				component: CompaniesComponent,
 			},
 			{
-				path: 'detalle-cliente/:id',
+				path: 'detalle-empresa/:id',
 				component: DetailClientComponent,
 			},
 			{

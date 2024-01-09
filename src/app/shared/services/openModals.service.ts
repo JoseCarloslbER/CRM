@@ -8,13 +8,13 @@ import { FuseConfirmationDialogComponent } from '@fuse/services/confirmation/dia
 export class OpenModalsService {
 	constructor(private dialog: MatDialog) {}
 
-	notificacion(title: string, message: string, type: string) {
+	notificacion(title: string, message: string, type: string, customIcon?:string) {
 		const data = {
 			title,
 			message,
 			icon : {
 				show : true,
-				name : type == 'save' ? 'mat_outline:save' : type == 'question' ? 'mat_outline:question_answer': 'mat_outline:delete',
+				name : customIcon ? customIcon : type == 'save' ? 'mat_outline:save' : type == 'question' ? 'mat_outline:question_answer': 'mat_outline:delete',
 				color : type == 'save' ? 'success' : type == 'question' ? 'accent' : 'warn',
 			},
 			actions : {
