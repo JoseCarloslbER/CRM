@@ -137,7 +137,6 @@ export class PendingCallsComponent {
   }
 
   seeAdvertising(data:any) {
-    // this.router.navigateByUrl(`/home/empresas/detalle-cliente/${1}`)
   }
 
   editData() {
