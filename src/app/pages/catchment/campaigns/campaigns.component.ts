@@ -53,33 +53,33 @@ export class CampaignsComponent implements OnInit {
       agent: 'Nombre de agente principal',
       company: '5',
       amounInvested: '$15,000.00',
-      cotizaciones : [
+      cotizaciones: [
         {
-          left : '5',
-          right : '5',
-          bottom : '$15,000.00',
+          left: '5',
+          right: '5',
+          bottom: '$15,000.00',
         }
       ],
 
-      totalAllAppointments : [
+      totalAllAppointments: [
         {
-          left : '$15,000.00',
-          right : '$15,000.00',
+          left: '$15,000.00',
+          right: '$15,000.00',
 
         }
       ],
-      prospects : [
+      prospects: [
         {
-          up : '5',
-          bottom : '$15,000.00',
+          up: '5',
+          bottom: '$15,000.00',
 
         }
       ],
-      
+
       fechaUltimoContacto: '2022-02-28',
       fechaRegistro: '2022-02-28',
       agentePrincipal: 'Soporte (Administrador)',
-    
+
     },
     {
       noSerie: 'CD4557',
@@ -95,33 +95,33 @@ export class CampaignsComponent implements OnInit {
       agent: 'Nombre de agente principal',
       company: '5',
       amounInvested: '$15,000.00',
-      cotizaciones : [
+      cotizaciones: [
         {
-          left : '5',
-          right : '5',
-          bottom : '$15,000.00',
+          left: '5',
+          right: '5',
+          bottom: '$15,000.00',
         }
       ],
 
-      totalAllAppointments : [
+      totalAllAppointments: [
         {
-          left : '$15,000.00',
-          right : '$15,000.00',
+          left: '$15,000.00',
+          right: '$15,000.00',
 
         }
       ],
-      prospects : [
+      prospects: [
         {
-          up : '5',
-          bottom : '$15,000.00',
+          up: '5',
+          bottom: '$15,000.00',
 
         }
       ],
-      
+
       fechaUltimoContacto: '2022-02-28',
       fechaRegistro: '2022-02-28',
       agentePrincipal: 'Soporte (Administrador)',
-    
+
     },
     {
       noSerie: 'CD4557',
@@ -137,33 +137,33 @@ export class CampaignsComponent implements OnInit {
       agent: 'Nombre de agente principal',
       company: '5',
       amounInvested: '$15,000.00',
-      cotizaciones : [
+      cotizaciones: [
         {
-          left : '5',
-          right : '5',
-          bottom : '$15,000.00',
+          left: '5',
+          right: '5',
+          bottom: '$15,000.00',
         }
       ],
 
-      totalAllAppointments : [
+      totalAllAppointments: [
         {
-          left : '$15,000.00',
-          right : '$15,000.00',
+          left: '$15,000.00',
+          right: '$15,000.00',
 
         }
       ],
-      prospects : [
+      prospects: [
         {
-          up : '5',
-          bottom : '$15,000.00',
+          up: '5',
+          bottom: '$15,000.00',
 
         }
       ],
-      
+
       fechaUltimoContacto: '2022-02-28',
       fechaRegistro: '2022-02-28',
       agentePrincipal: 'Soporte (Administrador)',
-    
+
     },
   ]
 
@@ -178,83 +178,83 @@ export class CampaignsComponent implements OnInit {
     rangeDateEnd: [{ value: null, disabled: false }],
   });
 
-  private agentInfoColumns : string[] = [
+  private agentInfoColumns: string[] = [
     'agent',
     'rol',
     'ip',
     'extension'
   ]
 
-  private dataAgent : any[] = [
+  private dataAgent: any[] = [
     {
-      agent : 'Agente 1',
+      agent: 'Agente 1',
       isMain: 'Agente principal',
-      rol : 'Atención a cliente',
-      ip : '12354',
-      extension : '3002',
+      rol: 'Atención a cliente',
+      ip: '12354',
+      extension: '3002',
     },
     {
-      agent : 'Agente 2',
-      rol : 'Ventas',
-      ip : '12354',
-      extension : '3002',
+      agent: 'Agente 2',
+      rol: 'Ventas',
+      ip: '12354',
+      extension: '3002',
     },
     {
-      agent : 'Agente 3',
-      rol : 'Marketing',
-      ip : '12354',
-      extension : '3002',
+      agent: 'Agente 3',
+      rol: 'Marketing',
+      ip: '12354',
+      extension: '3002',
     },
     {
-      agent : 'Agente 1',
+      agent: 'Agente 1',
       isMain: 'Agente principal',
-      rol : 'Atención a cliente',
-      ip : '12354',
-      extension : '3002',
+      rol: 'Atención a cliente',
+      ip: '12354',
+      extension: '3002',
     },
     {
-      agent : 'Agente 2',
-      rol : 'Ventas',
-      ip : '12354',
-      extension : '3002',
+      agent: 'Agente 2',
+      rol: 'Ventas',
+      ip: '12354',
+      extension: '3002',
     },
     {
-      agent : 'Agente 3',
-      rol : 'Marketing',
-      ip : '12354',
-      extension : '3002',
+      agent: 'Agente 3',
+      rol: 'Marketing',
+      ip: '12354',
+      extension: '3002',
     },
     {
-      agent : 'Agente 1',
+      agent: 'Agente 1',
       isMain: 'Agente principal',
-      rol : 'Atención a cliente',
-      ip : '12354',
-      extension : '3002',
+      rol: 'Atención a cliente',
+      ip: '12354',
+      extension: '3002',
     },
     {
-      agent : 'Agente 2',
-      rol : 'Ventas',
-      ip : '12354',
-      extension : '3002',
+      agent: 'Agente 2',
+      rol: 'Ventas',
+      ip: '12354',
+      extension: '3002',
     },
     {
-      agent : 'Agente 3',
-      rol : 'Marketing',
-      ip : '12354',
-      extension : '3002',
+      agent: 'Agente 3',
+      rol: 'Marketing',
+      ip: '12354',
+      extension: '3002',
     },
   ]
 
-  private companyInfoColumns : string[] = [
+  private companyInfoColumns: string[] = [
     'company',
     'contact',
     'status'
   ]
 
-  private datacompany : any[] = [
+  private datacompany: any[] = [
     {
-      company : 'RECK SOLUCIONES',
-      status : 'LEAD',
+      company: 'RECK SOLUCIONES',
+      status: 'LEAD',
       contact: [
         {
           nombre: 'Ing Alberto Avendaño',
@@ -265,8 +265,8 @@ export class CampaignsComponent implements OnInit {
       ],
     },
     {
-      company : 'RECK SOLUCIONES',
-      status : 'LEAD',
+      company: 'RECK SOLUCIONES',
+      status: 'LEAD',
       contact: [
         {
           nombre: 'Ing Alberto Avendaño',
@@ -277,8 +277,8 @@ export class CampaignsComponent implements OnInit {
       ],
     },
     {
-      company : 'RECK SOLUCIONES',
-      status : 'LEAD',
+      company: 'RECK SOLUCIONES',
+      status: 'LEAD',
       contact: [
         {
           nombre: 'Ing Alberto Avendaño',
@@ -289,8 +289,8 @@ export class CampaignsComponent implements OnInit {
       ],
     },
     {
-      company : 'RECK SOLUCIONES',
-      status : 'LEAD',
+      company: 'RECK SOLUCIONES',
+      status: 'LEAD',
       contact: [
         {
           nombre: 'Ing Alberto Avendaño',
@@ -301,8 +301,8 @@ export class CampaignsComponent implements OnInit {
       ],
     },
     {
-      company : 'RECK SOLUCIONES',
-      status : 'LEAD',
+      company: 'RECK SOLUCIONES',
+      status: 'LEAD',
       contact: [
         {
           nombre: 'Ing Alberto Avendaño',
@@ -313,8 +313,8 @@ export class CampaignsComponent implements OnInit {
       ],
     },
     {
-      company : 'RECK SOLUCIONES',
-      status : 'LEAD',
+      company: 'RECK SOLUCIONES',
+      status: 'LEAD',
       contact: [
         {
           nombre: 'Ing Alberto Avendaño',
@@ -325,8 +325,8 @@ export class CampaignsComponent implements OnInit {
       ],
     },
     {
-      company : 'RECK SOLUCIONES',
-      status : 'LEAD',
+      company: 'RECK SOLUCIONES',
+      status: 'LEAD',
       contact: [
         {
           nombre: 'Ing Alberto Avendaño',
@@ -337,8 +337,8 @@ export class CampaignsComponent implements OnInit {
       ],
     },
     {
-      company : 'RECK SOLUCIONES',
-      status : 'LEAD',
+      company: 'RECK SOLUCIONES',
+      status: 'LEAD',
       contact: [
         {
           nombre: 'Ing Alberto Avendaño',
@@ -348,11 +348,11 @@ export class CampaignsComponent implements OnInit {
         }
       ],
     },
-    
+
   ]
 
   constructor(
-
+    private notificationService: OpenModalsService,
     private openModalsService: OpenModalsService,
     private formBuilder: FormBuilder,
     private dialog: MatDialog,
@@ -361,7 +361,7 @@ export class CampaignsComponent implements OnInit {
 
   ngOnInit(): void {
     setTimeout(() => {
-      
+
       this.dataSource.data = this.dataDummyCampaign
     }, 500);
   }
@@ -370,16 +370,47 @@ export class CampaignsComponent implements OnInit {
     console.log(this.formFilters.value);
   }
 
-  newCampaing() {
-    this.router.navigateByUrl(`/home/captacion/nueva-campaña`)
+
+  editData(data: any) {
+    this.router.navigateByUrl(`home/captacion/nueva-campaña`)
+  }
+
+  seeData(data: any) {
+    this.router.navigateByUrl(`/home/conversion/detalle-cotizacion/1`)
+  }
+
+  newData() {
+    this.router.navigateByUrl(`home/captacion/nueva-campaña`)
+  }
+
+  deleteData() {
+    this.notificationService
+      .notificacion(
+        'Pregunta',
+        '¿Estas seguro de eliminar el registro?',
+        'question',
+      )
+      .afterClosed()
+      .subscribe((_) => {
+        this.notificationService
+          .notificacion(
+            'Éxito',
+            'Registro eliminado.',
+            'delete',
+          )
+          .afterClosed()
+          .subscribe((_) => {
+
+          });
+      });
   }
 
   seeAgents() {
     this.dialog.open(ModalInformationInTableComponent, {
       data: {
-        info : this.dataAgent,
+        info: this.dataAgent,
         columns: this.agentInfoColumns,
-        type : 'agents'
+        type: 'agents'
       },
       disableClose: true,
       width: '1000px',
@@ -391,9 +422,9 @@ export class CampaignsComponent implements OnInit {
   seeCompanies() {
     this.dialog.open(ModalInformationInTableComponent, {
       data: {
-        info : this.datacompany,
+        info: this.datacompany,
         columns: this.companyInfoColumns,
-        type : 'companies'
+        type: 'companies'
       },
       disableClose: true,
       width: '1000px',
@@ -401,13 +432,13 @@ export class CampaignsComponent implements OnInit {
       panelClass: 'custom-dialog',
     });
   }
-  
-  seeCampaignsResults () {
+
+  seeCampaignsResults() {
     this.dialog.open(ModalCampaignResultsComponent, {
       data: {
-        info : this.datacompany,
+        info: this.datacompany,
         columns: this.companyInfoColumns,
-        type : 'companies'
+        type: 'companies'
       },
       disableClose: true,
       width: '1000px',
@@ -415,8 +446,6 @@ export class CampaignsComponent implements OnInit {
       panelClass: 'custom-dialog',
     });
   }
-
-
 }
 
 

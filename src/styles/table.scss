@@ -50,6 +50,8 @@
 
 .table-column-lead-width {
 	width: 130px;
+	// max-width: 130px;
+	padding: 5px;
 }
 
 .table-column-information {
@@ -121,6 +123,7 @@
 	color: #FFFFFF;
 	font-size: 20px;
 	font-weight: 700;
+	width: 130px;
 }
 
 .table-column-green {
@@ -179,7 +182,7 @@
 		font-size: 15px;
 		font-weight: 700;
 		background: #646878 !important;
-		min-width: 170px !important;
+		min-width: 200px !important;
 		max-width: 250px !important;
 	}
 
@@ -352,6 +355,8 @@
 	display: flex;
 	flex-direction: column;
 	gap: 10px;
+	width: 130px;
+	margin: auto;
 
 	div {
 		font-size: 20px;
@@ -371,6 +376,8 @@
 	display: flex;
 	flex-direction: column;
 	gap: 10px;
+	width: 130px;
+	margin: auto;
 
 	>div {
 		font-size: 20px;

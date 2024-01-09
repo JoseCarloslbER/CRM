@@ -105,15 +105,24 @@ export class ProspectsComponent implements OnInit {
  
   deleteData() {
     this.notificationService
-    .notificacion(
-      'Éxito',
-      'Registro eliminado.',
-      'delete',
-    )
-    .afterClosed()
-    .subscribe((_) => {
+      .notificacion(
+        'Pregunta',
+        '¿Estas seguro de eliminar el registro?',
+        'question',
+      )
+      .afterClosed()
+      .subscribe((_) => {
+        this.notificationService
+          .notificacion(
+            'Éxito',
+            'Registro eliminado.',
+            'delete',
+          )
+          .afterClosed()
+          .subscribe((_) => {
 
-    });
+          });
+      });
   }
 
 }

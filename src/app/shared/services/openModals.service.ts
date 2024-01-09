@@ -14,8 +14,8 @@ export class OpenModalsService {
 			message,
 			icon : {
 				show : true,
-				name : type == 'save' ? 'mat_outline:save' : 'mat_outline:delete',
-				color : type == 'save' ? 'success' : 'warn' 
+				name : type == 'save' ? 'mat_outline:save' : type == 'question' ? 'mat_outline:question_answer': 'mat_outline:delete',
+				color : type == 'save' ? 'success' : type == 'question' ? 'accent' : 'warn',
 			},
 			actions : {
 				confirm : {
