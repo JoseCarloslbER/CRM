@@ -10,6 +10,7 @@ import { ProspectsComponent } from './prospects/prospects.component';
 import { AllComponent } from './all/all.component';
 import { LeadsComponent } from './leads/leads.component';
 import { ClientsComponent } from './clients/clients.component';
+import { ModalFastQuoteComponent } from './prospects/modal-fast-quote/modal-fast-quote.component';
 
 
 
@@ -20,8 +21,8 @@ import { ClientsComponent } from './clients/clients.component';
     ProspectsComponent,
     AllComponent,
     LeadsComponent,
-    ClientsComponent
-  
+    ClientsComponent,
+    ModalFastQuoteComponent
   ],
   imports: [
     CommonModule,

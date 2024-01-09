@@ -53,15 +53,6 @@
                         </mat-form-field>
 
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
-                            <mat-label>Nivel de interés</mat-label>
-                            <mat-select placeholder="Seleccionar">
-                                <mat-option value="Nivel de interés">Nivel de interés 1</mat-option>
-                                <mat-option value="Nivel de interés">Nivel de interés 2</mat-option>
-                                <mat-option value="Nivel de interés">Nivel de interés 3</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-
-                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Forma de pago</mat-label>
                             <mat-select placeholder="Seleccionar">
                                 <mat-option value="Forma de pago">Forma de pago 1</mat-option>
@@ -198,15 +189,15 @@
                     </div>
                 </div>
 
-                <div class="row d-flex justify-content-end create mt-5">
+                <div class="row d-flex justify-content-end create mt-6">
                     <div class="d-flex col-md-4 col-xl-3 col-12 pt-md-1 align-items-end mb-lg-0 mb-5 mb-sm-0">
                         <button mat-flat-button class="btn-gray width-100">
                             <span>Crear nuevo producto</span>
                         </button>
                     </div>
 
-                    <div class="d-flex col-md-4 col-xl-3 col-12 pt-md-1 align-items-end">
-                        <button mat-flat-button class="btn-yellow width-100">
+                    <div class="d-flex col-md-4 col-xl-3 col-12 pt-md-1 align-items-end mb-lg-0 mb-5 mb-sm-0">
+                        <button mat-flat-button class="btn-yellow width-100" (click)="save()">
                             <span>Guardar cotización</span>
                         </button>
                     </div>
