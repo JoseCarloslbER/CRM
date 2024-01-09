@@ -1,10 +1,10 @@
 import { RouterModule, Routes } from '@angular/router';
 import { AllComponent } from './all/all.component';
-import { NewProspectComponent } from './prospects/new-prospect/new-prospect.component';
 import { ProspectsComponent } from './prospects/prospects.component';
 import { LeadsComponent } from './leads/leads.component';
 import { ClientsComponent } from './clients/clients.component';
 import { CompaniesComponent } from './companies.component';
+import { NewClientComponent } from './all/new-client/new-client.component';
 
 
 const companiesRoutes: Routes = [
@@ -18,12 +18,16 @@ const companiesRoutes: Routes = [
 				component: AllComponent,
 			},
 			{
+				path: 'nuevo-cliente',
+				component: NewClientComponent,
+			},
+			{
 				path: 'prospectos',
 				component: ProspectsComponent,
 			},
 			{
 				path: 'nuevo-prospecto',
-				component: NewProspectComponent,
+				component: NewClientComponent,
 			},
 			{
 				path: 'leads',
