@@ -9,7 +9,14 @@ import { ModalnewActivityComponent } from './modalnew-activity/modalnew-activity
 @Component({
   selector: 'app-activity-type',
   templateUrl: './activity-type.component.html',
-  styleUrl: './activity-type.component.scss'
+  styles: `
+  .c-config {
+    padding: 20px 40px;
+
+    .bg-card {
+        height: calc(100vh - 100px);
+    }
+}`
 })
 export class ActivityTypeComponent {
 

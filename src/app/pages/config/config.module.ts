@@ -15,6 +15,14 @@ import { ActivityComponent } from './activity-type/activity/activity.component';
 import { SubactivityComponent } from './activity-type/subactivity/subactivity.component';
 import { ModalnewActivityComponent } from './activity-type/modalnew-activity/modalnew-activity.component';
 import { ModalNewWayToPayComponent } from './way-to-pay/modal-new-way-to-pay/modal-new-way-to-pay.component';
+import { ModalNewProductCategoryComponent } from './product-categories/modal-new-product-category/modal-new-product-category.component';
+import { CampaignCategoriesComponent } from './campaign-categories/campaign-categories.component';
+import { ModalNewCampaingCategoriesComponent } from './campaign-categories/modal-new-campaing-categories/modal-new-campaing-categories.component';
+import { ModalNewCompanyTypeComponent } from './company-categories/modal-new-company-type/modal-new-company-type.component';
+import { ClientTypeComponent } from './company-categories/components/client-type/client-type.component';
+import { GiroCompanyComponent } from './company-categories/components/giro-company/giro-company.component';
+import { OriginCompanyComponent } from './company-categories/components/origin-company/origin-company.component';
+import { SizeCompanyComponent } from './company-categories/components/size-company/size-company.component';
 
 
 
@@ -30,7 +38,15 @@ import { ModalNewWayToPayComponent } from './way-to-pay/modal-new-way-to-pay/mod
     ActivityComponent,
     SubactivityComponent,
     ModalnewActivityComponent,
-    ModalNewWayToPayComponent
+    ModalNewWayToPayComponent,
+    ModalNewProductCategoryComponent,
+    CampaignCategoriesComponent,
+    ModalNewCampaingCategoriesComponent,
+    ModalNewCompanyTypeComponent,
+    ClientTypeComponent,
+    GiroCompanyComponent,
+    OriginCompanyComponent,
+    SizeCompanyComponent,
     
   ],
   imports: [
