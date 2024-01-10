@@ -16,7 +16,7 @@ import { ModalnewActivityComponent } from './modalnew-activity/modalnew-activity
     .bg-card {
         height: calc(100vh - 100px);
     }
-}`
+  }`
 })
 export class ActivityTypeComponent {
 
