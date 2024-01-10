@@ -13,7 +13,7 @@
 
                         <div class="col-md-5 col-sm-12 col-12 btns-section">
                             <button class="btn-yellow-newRegister ml-3 px-1 sm:px-4 min-w-10" (click)="newData()">
-                                <span class="hidden sm:inline-block">Crear nuevo bono</span>
+                                <span class="hidden sm:inline-block">Crear nuevo {{isBono ? 'bono' : 'solución'}}</span>
                             </button>
                         </div>
                     </div>
@@ -23,7 +23,7 @@
                         <div class="flex col-sm-12  col-md-6 col-lg-3 col-12 pe-2">
                             <mat-form-field class="flex-auto input-default">
                                 <mat-label>Año</mat-label>
-                                <mat-select placeholder="Seleccionar" formControlName="Año">
+                                <mat-select placeholder="Seleccionar" >
                                     <mat-option value="Año-1">Año 1</mat-option>
                                     <mat-option value="Año-2">Año 2</mat-option>
                                     <mat-option value="Año-3">Año 3</mat-option>
@@ -34,7 +34,7 @@
                         <div class="flex col-sm-12 col-md-6 col-lg-3 col-12 pe-2">
                             <mat-form-field class="flex-auto input-default">
                                 <mat-label>Mes</mat-label>
-                                <mat-select placeholder="Seleccionar" formControlName="Mes">
+                                <mat-select placeholder="Seleccionar" >
                                     <mat-option value="Mes-1">Mes 1</mat-option>
                                     <mat-option value="Mes-2">Mes 2</mat-option>
                                     <mat-option value="Mes-3">Mes 3</mat-option>
@@ -49,8 +49,8 @@
                                 <mat-date-range-input [max]="fechaHoy" [rangePicker]="campaignOnePicker"
                                     [comparisonStart]=""
                                     [comparisonEnd]="">
-                                    <input matStartDate placeholder="Inicio" formControlName="rangeDateStart" />
-                                    <input matEndDate placeholder="Final" formControlName="rangeDateEnd" />
+                                    <input matStartDate placeholder="Inicio" />
+                                    <input matEndDate placeholder="Final" />
                                 </mat-date-range-input>
 
                                 <mat-datepicker-toggle matIconSuffix [for]="campaignOnePicker"></mat-datepicker-toggle>

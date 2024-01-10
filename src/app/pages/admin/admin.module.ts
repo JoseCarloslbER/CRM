@@ -13,7 +13,7 @@ import { DownloadEmailsComponent } from './download-emails/download-emails.compo
 import { BonusesComponent } from './main-bonuses/bonuses/bonuses.component';
 import { MainBonusesComponent } from './main-bonuses/main-bonuses.component';
 import { ModalNewUserComponent } from './main-users/users/modal-new-user/modal-new-user.component';
-import { ModalNewBonoComponent } from './main-bonuses/bonuses/modal-new-bono/modal-new-bono.component';
+import { NewBonoComponent } from './main-bonuses/bonuses/new-bono/new-bono.component';
 
 
 
@@ -29,7 +29,7 @@ import { ModalNewBonoComponent } from './main-bonuses/bonuses/modal-new-bono/mod
     BonusesComponent,
     MainBonusesComponent,
     ModalNewUserComponent,
-    ModalNewBonoComponent
+    NewBonoComponent
   
   ],
   imports: [

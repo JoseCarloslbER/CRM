@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { OpenModalsService } from 'app/shared/services/openModals.service';
+import { FormBuilder } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-main-bonuses',
@@ -8,14 +12,22 @@ import { CommonModule } from '@angular/common';
 })
 export class MainBonusesComponent {
   public fechaHoy = new Date();
+
+  public isBono :boolean = true;
   
+  constructor(
+    private notificationService: OpenModalsService,
+    private formBuilder: FormBuilder,
+    private dialog: MatDialog,
+    private router: Router
+  ) { }
+
   newData() {
-    //   this.dialog.open(ModalnewActivityComponent, {
-    //     data: ['test'],
-    //     disableClose: true,
-    //     width: '1000px',
-    //     maxHeight: '428px',
-    //     panelClass: 'custom-dialog',
-    //   });
-    }
+    this.router.navigateByUrl(`/home/admin/nuevo-bono`)
+  }
+
+  typeSelection(isBono:boolean) {
+    this.isBono = isBono
+  }
+
 }

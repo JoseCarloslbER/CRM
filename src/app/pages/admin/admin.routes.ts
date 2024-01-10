@@ -6,6 +6,7 @@ import { BonusesComponent } from './main-bonuses/bonuses/bonuses.component';
 import { ProductsComponent } from './products/products.component';
 import { DownloadEmailsComponent } from './download-emails/download-emails.component';
 import { MainBonusesComponent } from './main-bonuses/main-bonuses.component';
+import { NewBonoComponent } from './main-bonuses/bonuses/new-bono/new-bono.component';
 
 
 const adminRoutes: Routes = [
@@ -21,6 +22,10 @@ const adminRoutes: Routes = [
 			{
 				path: 'bonos',
 				component: MainBonusesComponent,
+			},
+			{
+				path: 'nuevo-bono',
+				component: NewBonoComponent,
 			},
 			{
 				path: 'productos',

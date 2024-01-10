@@ -12,12 +12,16 @@
     color: #02386A!important;
  }
 
+ .color-385A6D {
+    color: #385A6D!important;
+ }
+
 
 // CSS BUTTONS 
 .btn-yellow {
     box-shadow: 4px 4px 4px 0px #00000040;
     background: #FCDE01!important;
-    padding: 8px 35px;
+    padding: 8px 25px;
     font-weight: 700;
     color: #1E293B;
     border-radius: 20px;
@@ -27,7 +31,7 @@
 .btn-excel {
     box-shadow: 4px 4px 4px 0px #00000040;
     background: #FCDE01!important;
-    padding: 8px 35px;
+    padding: 8px 25px;
     font-weight: 700;
     color: #1E293B;
     border-radius: 20px;
@@ -58,7 +62,7 @@
     box-shadow: 4px 4px 4px 0px #00000040;
     background: #1E293B !important;
     font-size: 18px;
-    padding: 8px 35px;
+    padding: 8px 25px;
     font-weight: 700;
     text-align: center;
     border-radius: 20px;
@@ -74,7 +78,7 @@
     background: #E5E4E4;
     color: #1E293B;
     font-size: 16px;
-    padding: 8px 35px;
+    padding: 8px 25px;
     font-weight: 700;
     width: 90px;
     height: 40px;
@@ -87,7 +91,7 @@
     color: Botones;
     font-size: 16px;
     font-weight: 700;
-    padding: 6px 35px;
+    padding: 6px 25px;
     color: #1E293B;
     box-shadow: 3px 4px 4px 0px #00000040;
     border-radius: 100px;
@@ -116,7 +120,7 @@
     color: white!important;
     font-size: 16px;
     font-weight: 700;
-    padding: 8px 35px;
+    padding: 8px 25px;
     box-shadow: 3px 4px 4px 0px #00000040;
     border-radius: 100px;
 }
@@ -125,6 +129,16 @@
 
 
 // CSS INPUTS 
+
+.inputsRadioGroup {
+    span {
+        font-size: 20px;
+        font-weight: 700;
+        text-align: left;
+        color: #1E293B;
+    }
+
+}
 
 .input-check {
     mat-checkbox {

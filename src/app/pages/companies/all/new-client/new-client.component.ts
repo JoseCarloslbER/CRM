@@ -89,7 +89,7 @@ export class NewClientComponent implements AfterViewInit, OnInit {
     return this.valuesContacts.map(contactValues);
   }
 
-  sacarContactos() {
+  sacarContact() {
     let cont = 0;
     let contactInfo: any[] = [];
 
