@@ -8,14 +8,6 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-main-users',
   templateUrl: './main-users.component.html',
-  styles: `
-  .c-config {
-    padding: 20px 40px;
-
-    .bg-card {
-        height: calc(100vh - 100px);
-    }
-  }`
 })
 export class MainUsersComponent {
   constructor(

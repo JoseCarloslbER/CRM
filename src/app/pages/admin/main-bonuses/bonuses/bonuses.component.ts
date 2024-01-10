@@ -6,81 +6,83 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
+import { ModalNewBonoComponent } from './modal-new-bono/modal-new-bono.component';
 
 @Component({
-  selector: 'app-activities',
-  templateUrl: './activities.component.html',
+  selector: 'app-bonuses',
+  templateUrl: './bonuses.component.html',
+  styleUrl: './bonuses.component.scss'
 })
-export class ActivitiesComponent {
+export class BonusesComponent {
   public dataSource = new MatTableDataSource<any>([]);
-  @ViewChild(MatPaginator) paginator!: MatPaginator
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
   public longitudPagina = 50;
   public total = 0;
   public indicePagina = 0;
 
-  // TABLA 
-
   public displayedColumns: string[] = [
-    'name', 
-    'process', 
-    'agent', 
-    'activityType', 
-    'register', 
-    'finally', 
-    'comment', 
-    'actions', 
-  ];
+    'name',
+    'assignedTask',
+    'periodThe',
+    'solutions',
+    'bonoType',
+    'agent',
+    'base',
+    'meta',
+    'comments',
 
+    'acciones'
+  ];
+ 
+  
   public dataDummy: any[] = [
     {
-      process: 'Actividad Inicial',
-      agent: 'Administración (Administrador)',
-      activityType: 'Comunicación',
-      register: '2023-10-07 11:22:20',
-      finally: '2023-10-07 11:22:20',
-      comment: 'Envían comprobante // Admin confirma el pago, se le activa M.E y se le notifica al cliente // Se le solicita la CSF // Quedamos atentos',
+      name : 'Apr 2020',
+      assignedTask : 'Campaña X',
+      agent : 'Ver agentes',
+      bonoType : '$000',
+      base : 'Fija',
+      meta : 'Contactos logrados',
+      comments : 'Lorem ipsum',
+      periodThe : [
+        {
+          del : '03/01/2023',
+          al :  ' 03/01/2023'
+        }
+      ],
+      solutions : [
+        {
+          sol1 : 'Solución X',
+          sol2 :  ' Solución Y'
+        }
+      ],
     },
+    
+    
   ]
 
-  public fechaHoy = new Date();
-
-
-  public formFilters = this.formBuilder.group({
-    estatus: [{ value: null, disabled: false }],
-    giro: [{ value: null, disabled: false }],
-    company: [{ value: null, disabled: false }],
-    rangeDateStart: [{ value: null, disabled: false }],
-    rangeDateEnd: [{ value: null, disabled: false }],
-  });
-
   constructor(
-
     private notificationService: OpenModalsService,
     private formBuilder: FormBuilder,
     private dialog: MatDialog,
     private router: Router
   ) { }
 
+
   ngOnInit(): void {
     this.dataSource.data = this.dataDummy
   }
 
-  SearchWithFilters() {
-    console.log(this.formFilters.value);
+  editData() {
+    this.dialog.open(ModalNewBonoComponent, {
+      data: ['test'],
+      disableClose: true,
+      width: '1000px',
+      maxHeight: '428px',
+      panelClass: 'custom-dialog',
+    });
   }
 
-  editData(data:any) {
-    this.router.navigateByUrl(`/home/empresas/nuevo-prospecto`)
-  }
-
-  seeData(data:any) {
-    this.router.navigateByUrl(`home/adquisicion/detalle-empresa/1`)
-  }
-
-  newData() {
-    this.router.navigateByUrl(`/home/empresas/nuevo-prospecto`)
-  }
- 
   deleteData() {
     this.notificationService
       .notificacion(

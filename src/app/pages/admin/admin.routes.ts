@@ -2,7 +2,10 @@ import { RouterModule, Routes } from '@angular/router';
 import { AdminComponent } from './admin.component';
 import { UsersComponent } from './main-users/users/users.component';
 import { MainUsersComponent } from './main-users/main-users.component';
-import { BonusesComponent } from './bonuses/bonuses.component';
+import { BonusesComponent } from './main-bonuses/bonuses/bonuses.component';
+import { ProductsComponent } from './products/products.component';
+import { DownloadEmailsComponent } from './download-emails/download-emails.component';
+import { MainBonusesComponent } from './main-bonuses/main-bonuses.component';
 
 
 const adminRoutes: Routes = [
@@ -17,7 +20,15 @@ const adminRoutes: Routes = [
 			},
 			{
 				path: 'bonos',
-				component: BonusesComponent,
+				component: MainBonusesComponent,
+			},
+			{
+				path: 'productos',
+				component: ProductsComponent,
+			},
+			{
+				path: 'descarga-correos',
+				component: DownloadEmailsComponent,
 			},
 		
 		]

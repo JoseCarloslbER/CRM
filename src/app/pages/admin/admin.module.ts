@@ -8,6 +8,12 @@ import { AdminComponent } from './admin.component';
 import { UsersComponent } from './main-users/users/users.component';
 import { MainUsersComponent } from './main-users/main-users.component';
 import { UsersRolComponent } from './main-users/users-rol/users-rol.component';
+import { ProductsComponent } from './products/products.component';
+import { DownloadEmailsComponent } from './download-emails/download-emails.component';
+import { BonusesComponent } from './main-bonuses/bonuses/bonuses.component';
+import { MainBonusesComponent } from './main-bonuses/main-bonuses.component';
+import { ModalNewUserComponent } from './main-users/users/modal-new-user/modal-new-user.component';
+import { ModalNewBonoComponent } from './main-bonuses/bonuses/modal-new-bono/modal-new-bono.component';
 
 
 
@@ -17,7 +23,13 @@ import { UsersRolComponent } from './main-users/users-rol/users-rol.component';
     UsersComponent,
     MainUsersComponent,
     UsersComponent,
-    UsersRolComponent
+    UsersRolComponent,
+    ProductsComponent,
+    DownloadEmailsComponent,
+    BonusesComponent,
+    MainBonusesComponent,
+    ModalNewUserComponent,
+    ModalNewBonoComponent
   
   ],
   imports: [

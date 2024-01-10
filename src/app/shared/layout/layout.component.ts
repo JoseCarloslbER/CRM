@@ -184,13 +184,13 @@ export class LayoutComponent implements OnInit, OnDestroy {
                             id   : '3',
                             title: 'Productos',
                             type : 'basic',
-                            link : ''
+                            link : '/home/admin/productos'
                         },
                         {
                             id   : '4',
                             title: 'Descargar correos',
                             type : 'basic',
-                            link : ''
+                            link : '/home/admin/descarga-correos'
                         },
                     ],
                 },
