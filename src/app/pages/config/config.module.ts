@@ -11,6 +11,9 @@ import { ActivityTypeComponent } from './activity-type/activity-type.component';
 import { WayToPayComponent } from './way-to-pay/way-to-pay.component';
 import { ProductCategoriesComponent } from './product-categories/product-categories.component';
 import { CompanyCategoriesComponent } from './company-categories/company-categories.component';
+import { ActivityComponent } from './activity-type/activity/activity.component';
+import { SubactivityComponent } from './activity-type/subactivity/subactivity.component';
+import { ModalnewActivityComponent } from './activity-type/modalnew-activity/modalnew-activity.component';
 
 
 
@@ -22,7 +25,10 @@ import { CompanyCategoriesComponent } from './company-categories/company-categor
     ActivityTypeComponent,
     WayToPayComponent,
     ProductCategoriesComponent,
-    CompanyCategoriesComponent
+    CompanyCategoriesComponent,
+    ActivityComponent,
+    SubactivityComponent,
+    ModalnewActivityComponent
     
   ],
   imports: [
