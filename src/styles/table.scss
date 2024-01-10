@@ -18,7 +18,6 @@
 }
 // }
 
-
 .table-column-reck-solution {
 	text-align: center;
 	display: flex;
@@ -51,6 +50,51 @@
 
 .table-column-lead-width {
 	width: 130px;
+	// max-width: 130px;
+	padding: 5px;
+}
+
+.table-column-information {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	h1 {
+		font-size: 20px;
+		font-weight: 400;
+		margin-bottom: 15px;
+	}
+
+	span {
+		background: #EDF1F5;
+		font-size: 20px;
+		font-weight: 700;
+		border-radius: 10px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		margin-bottom: 25px;
+		width: 130px;
+		height: 45px;
+	}
+
+	h2 {
+		font-size: 18px;
+		font-weight: 400;
+		color: #24BB55;
+		border-bottom: 1px solid #24BB55;
+	}
+}
+
+.table-column-totalPrice {
+	// > h1 {
+	// 	font-size: 22px;
+	// 	font-weight: 700;
+	// 	> span {
+	// 		font-size: 20px;
+	// 		font-weight: 400;
+	// 	}
+	// }
 }
 
 .table-column-lead {
@@ -79,6 +123,7 @@
 	color: #FFFFFF;
 	font-size: 20px;
 	font-weight: 700;
+	width: 130px;
 }
 
 .table-column-green {
@@ -118,6 +163,7 @@
 		font-size: 16px;
 		font-weight: 400;
 		color: #1E293B;
+		text-align: center;
 	}
 
 	background-color: white;
@@ -136,7 +182,7 @@
 		font-size: 15px;
 		font-weight: 700;
 		background: #646878 !important;
-		min-width: 150px !important;
+		min-width: 200px !important;
 		max-width: 250px !important;
 	}
 
@@ -195,7 +241,7 @@
 
 .contenedor-scroll-tabla {
 	max-width: 100%;
-	overflow-x: auto;
+	overflow-y:auto ;
 }
 
 
@@ -249,6 +295,14 @@
 	}
 }
 
+.table-column-img {
+	img {
+		width: 50px;
+		margin: auto;
+		height: 50px;
+	}
+}
+
 .table-column-agent-see-all {
 	display: flex;
 	flex-direction: column;
@@ -257,6 +311,7 @@
 	span {
 		font-size: 14px;
 		font-weight: 700;
+		cursor: pointer;
 		text-align: center;
 
 	}
@@ -300,6 +355,8 @@
 	display: flex;
 	flex-direction: column;
 	gap: 10px;
+	width: 130px;
+	margin: auto;
 
 	div {
 		font-size: 20px;
@@ -319,6 +376,8 @@
 	display: flex;
 	flex-direction: column;
 	gap: 10px;
+	width: 130px;
+	margin: auto;
 
 	>div {
 		font-size: 20px;
@@ -357,7 +416,6 @@
 
 .c-general-table {
 	padding: 30px;
-
 }
 
 .interest-high {
@@ -373,7 +431,24 @@
 	display: flex;
 	gap: 25px;
 	align-items: center;
-	margin-bottom: 18px;
+	margin-bottom: 18px!important;
+	justify-content: center;
+}
+
+.column-color {
+    width: 58px;
+    height: 58px;
+    border-radius: 100%;
+	margin: auto;
+}
+.column-icon {
+	margin: auto!important;
+	width: 65px!important;
+    height: 65px!important;
+    font-size: 40px!important;
+	display: flex!important;
+	align-items: center!important;
+	justify-content: center!important;
 }
 
 .c-column-btns {

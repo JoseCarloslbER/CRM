@@ -1,0 +1,173 @@
+<div class="container-fluid p-0 overflow-hidden c-results-campaing">
+
+    <div class="modal-header">
+        <p class="titulo-modal">Resultados de campaña: Nombre de campaña</p>
+        <mat-icon class="cursos-pointer" svgIcon="mat_outline:cancel" (click)="closeModal()"></mat-icon>
+    </div>
+
+    <div class="row p-5 d-flex">
+
+        <div class="col-12 modal-content-scroll">
+            <div class="row">
+                <div class="section-header-modal">
+                    Metas
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-1grid-flow-row gap-6 w-full mb-lg-0 mb-3 mb-sm-0">
+                    <div class="flex flex-col">
+                        <div
+                            class="flex-auto grid lg:grid-cols-5 grid-cols-4 sm:grid-cols-5  sm:grid-cols-4 gap-4 mt-6">
+
+                            <div
+                                class="cards-goalds col-span-2 sm:col-span-1 flex flex-col items-center justify-center py-8 px-1 rounded-2xl">
+                                <h1>Empresas a alcanzar</h1>
+                                <span>150</span>
+                            </div>
+
+                            <div
+                                class="cards-goalds col-span-2 sm:col-span-1 flex flex-col items-center justify-center py-8 px-1 rounded-2xl">
+                                <h1>Respuestas deseadas</h1>
+                                <span>150</span>
+                            </div>
+
+                            <div
+                                class="cards-goalds col-span-2 sm:col-span-1 flex flex-col items-center justify-center py-8 px-1 rounded-2xl">
+                                <h1>Cotizaciones deseadas</h1>
+                                <span>150</span>
+                            </div>
+
+                            <div
+                                class="cards-goalds col-span-2 sm:col-span-1 flex flex-col items-center justify-center py-8 px-1 rounded-2xl">
+                                <h1>Ventas deseadas</h1>
+                                <span>150</span>
+                            </div>
+
+                            <div
+                                class="cards-goalds col-span-2 sm:col-span-1 flex flex-col items-center justify-center py-8 px-1 rounded-2xl">
+                                <h1>Monto esperado</h1>
+                                <span>150</span>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="section-header-modal">
+                    Resultados
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-1grid-flow-row gap-6 w-full mt-lg-5 mt-1 mt-sm-5">
+                    <div class="flex flex-col">
+                        <div class="flex-auto grid grid-cols-2 lg:grid-cols-4 sm:grid-cols-4  gap-4 mt-6">
+                            <div class="card-period col-span-2 sm:col-span-2 flex flex-col items-center justify-center py-8 px-1 rounded-2xl">
+                                <h1>Monto invertido</h1>
+                                <span class="amount-green">$8,000.00 MX</span>
+                            </div>
+
+                            <div
+                                class="card-period col-span-2 sm:col-span-2 flex flex-col items-center justify-center py-8 px-1 rounded-2xl">
+                                <div class="row">
+                                    <h1>Periodo</h1>
+                                    <div class="col-md-6">
+                                        <h2>Del:</h2>
+                                        <span>01/01/2024</span>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h2>Del:</h2>
+                                        <span>01/03/2024</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div
+                                class="cards-goalds col-span-2 sm:col-span-1 flex flex-col items-center justify-center py-8 px-1 rounded-2xl">
+                                <h1>Empresas que respondieron</h1>
+                                <span>15</span>
+                            </div>
+
+                            <div
+                                class="card-quotes col-span-2 sm:col-span-1 flex flex-col items-center justify-center py-8 px-1 rounded-2xl">
+                                <h1>Cotizaciones realizadas</h1>
+                                <div class="row width-100">
+                                    <div class="col-6 d-flex flex-column">
+                                        <h2>Rápidas</h2>
+                                        <span>10</span>
+                                    </div>
+                                    <div class="col-6">
+                                        <h2>Formales</h2>
+                                        <span>5</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div
+                                class="card-period col-span-2 sm:col-span-2 flex flex-col items-center justify-center py-8 px-1 rounded-2xl">
+                                <div class="row width-100">
+                                    <div class="col-md-6 d-flex flex-column mb-lg-0 mb-3 mb-sm-0">
+                                        <h2>Ventas</h2>
+                                        <span>8 cerradas</span>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h2>Total</h2>
+                                        <span class="total-green">$5,000.00 MX</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div
+                                class="card-amount-two col-span-2 sm:col-span-2  flex flex-col justify-center rounded-2xl">
+                                <h1>Monto invertido</h1>
+                                <span class="color-02386A">$8,000.00 MX</span>
+                            </div>
+
+                            <div class="card-amount-two col-span-2 sm:col-span-2  flex flex-col justify-center rounded-2xl">
+                                <h1>Monto invertido</h1>
+                                <span>$8,000.00 MX</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="section-header-modal">
+                    Empresas que respondieron
+                </div>
+
+
+                <div class="col-12">
+                    <table class="table">
+                        <thead>
+                          <tr>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Cotizado</th>
+                            <th scope="col">Vendido</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td class="color-3487E9">Empresa 1</td>
+                            <td>$12000.00</td>
+                            <td>$12000.00</td>
+                          </tr>
+                          <tr>
+                            <td class="color-3487E9">Empresa 2</td>
+                            <td>$12000.00</td>
+                            <td>$12000.00</td>
+                          </tr>
+                          <tr>
+                            <td class="color-3487E9">Empresa 3</td>
+                            <td>$12000.00</td>
+                            <td>$12000.00</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -5,7 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { ModalNewQuoteComponent } from '../modal-new-quote/modal-new-quote.component';
+import { ModalUploadDocumentComponent } from '../modal-upload-document/modal-upload-document.component';
 
 @Component({
   selector: 'app-quotes',
@@ -22,14 +22,13 @@ export class QuotesComponent {
   // TABLA 
 
   public displayedColumns: string[] = [
-    'empresa',
     'fechaYHora',
-    'folio',
-    'documentos',
-    'estatus',
-    'precioTotal',
-    'lugares',
-    'nivelInteres',
+    'informacion',
+    'empresa',
+    'statusCompany',
+    'totalPrice',
+    
+    'products',
     'estadopais',
     'acciones',
     'operaciones'
@@ -40,14 +39,30 @@ export class QuotesComponent {
     {
       empresa: 'RECK SOLUCIONES',
       fechaYHora: '2023-09-30 12:38:49',
-      folio: '#123345',
+      statusCompany: 'Cliente',
       precioTotal: '$4,000,000.00',
-      nivelInteres: 'Alto',
       estatus: 'LEAD',
       estadopais: 'Mexico, Nuevo Leon',
+      totalPrice: [
+        {
+          op: ' $12354.00',
+          expires: '2023-09-30',
+        },
+        {
+          op: ' $12354.00',
+          expires: '2023-09-30',
+        }
+      ],
       documentos: [
         {
           cotizacion: 'Cotización',
+          cotizacionAprobada: 'Cotización aprobada',
+        }
+      ],
+      informacion: [
+        {
+          numero: 'Cotización',
+          status: 'Aprobada',
           cotizacionAprobada: 'Cotización aprobada',
         }
       ],
@@ -61,30 +76,7 @@ export class QuotesComponent {
         }
       ],
     },
-    {
-      empresa: 'RECK SOLUCIONES',
-      fechaYHora: '2023-09-30 12:38:49',
-      folio: '#123345',
-      precioTotal: '$4,000,000.00',
-      nivelInteres: 'Alto',
-      estatus: 'LEAD',
-      estadopais: 'Mexico, Nuevo Leon',
-      documentos: [
-        {
-          cotizacion: 'Cotización',
-          cotizacionAprobada: 'Cotización aprobada',
-        }
-      ],
-      lugares: [
-        {
-          no: '1548',
-          tipo: 'Lista',
-          lugares: '5',
-          curso: 'C029 - Seguridad en el mantenimiento de instalaciones eléctrica',
-          precio: '$1,995.00',
-        }
-      ],
-    },
+  
 
   ]
 
@@ -100,7 +92,7 @@ export class QuotesComponent {
   });
 
   constructor(
-
+    private notificationService: OpenModalsService,
     private openModalsService: OpenModalsService,
     private formBuilder: FormBuilder,
     private dialog: MatDialog,
@@ -121,5 +113,29 @@ export class QuotesComponent {
 
   newQuotes() {
     this.router.navigateByUrl(`/home/conversion/nueva-cotizacion`)
+  }
+
+  seeTicket() {
+    this.dialog.open(ModalUploadDocumentComponent, {
+      data: {},
+      disableClose: true,
+      width: '800px',
+      maxHeight: '628px',
+      panelClass: 'custom-dialog',
+    });
+  }
+
+  downloadPdf() {
+    this.notificationService
+    .notificacion(
+      'Éxito',
+      'PDF descargado.',
+      'save',
+      'mat_outline:picture_as_pdf'
+    )
+    .afterClosed()
+    .subscribe((_) => {
+
+    });
   }
 }

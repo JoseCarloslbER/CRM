@@ -6,7 +6,13 @@ import { TitlesComponent } from './components/titles/titles.component';
 
 @NgModule({
 	declarations: [TitlesComponent],
-	imports: [CommonModule, MaterialModule, FormsModule, ReactiveFormsModule],
+	imports: [
+		CommonModule, 
+		MaterialModule, 
+		FormsModule, 
+		ReactiveFormsModule
+	
+	],
 	exports: [TitlesComponent],
 })
 export class SharedModule {}

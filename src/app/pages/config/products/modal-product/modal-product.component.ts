@@ -13,7 +13,6 @@ export class ModalProductComponent implements OnInit {
 		@Inject(MAT_DIALOG_DATA) public data: any,
 		private dialogRef: MatDialogRef<any>,
 	) {
-	
 	}
 
   ngOnInit(): void {

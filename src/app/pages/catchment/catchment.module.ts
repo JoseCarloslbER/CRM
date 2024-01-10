@@ -7,12 +7,16 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 import { MaterialModule } from 'app/shared/material/material.module';
 import { CampaignsComponent } from './campaigns/campaigns.component';
 import { NewCampingnComponent } from './campaigns/new-campingn/new-campingn.component';
+import { ModalInformationInTableComponent } from './campaigns/modal-information-in-table/modal-information-in-table.component';
+import { ModalCampaignResultsComponent } from './campaigns/modal-campaign-results/modal-campaign-results.component';
 
 @NgModule({
   declarations: [
     CatchmentComponent,
     CampaignsComponent,
-    NewCampingnComponent
+    NewCampingnComponent,
+    ModalInformationInTableComponent,
+    ModalCampaignResultsComponent
   ],
   imports: [
     CommonModule,

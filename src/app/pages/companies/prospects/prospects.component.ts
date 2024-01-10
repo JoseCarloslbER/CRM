@@ -76,6 +76,7 @@ export class ProspectsComponent implements OnInit {
 
   constructor(
 
+    private notificationService: OpenModalsService,
     private openModalsService: OpenModalsService,
     private formBuilder: FormBuilder,
     private dialog: MatDialog,
@@ -90,10 +91,38 @@ export class ProspectsComponent implements OnInit {
     console.log(this.formFilters.value);
   }
 
-
-
-  newProspect() {
+  editData(data:any) {
     this.router.navigateByUrl(`/home/empresas/nuevo-prospecto`)
+  }
+
+  seeData(data:any) {
+    this.router.navigateByUrl(`home/adquisicion/detalle-empresa/1`)
+  }
+
+  newData() {
+    this.router.navigateByUrl(`/home/empresas/nuevo-prospecto`)
+  }
+ 
+  deleteData() {
+    this.notificationService
+      .notificacion(
+        'Pregunta',
+        '¿Estas seguro de eliminar el registro?',
+        'question',
+      )
+      .afterClosed()
+      .subscribe((_) => {
+        this.notificationService
+          .notificacion(
+            'Éxito',
+            'Registro eliminado.',
+            'delete',
+          )
+          .afterClosed()
+          .subscribe((_) => {
+
+          });
+      });
   }
 
 }

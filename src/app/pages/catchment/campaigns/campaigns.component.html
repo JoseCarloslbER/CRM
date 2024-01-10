@@ -13,7 +13,7 @@
 
                         <div class="col-md-8 col-sm-12 col-12 btns-section">
                             <button class="btn-yellow-newRegister ml-3 px-1 sm:px-4 min-w-10" mat-flat-button>
-                                <span class="hidden sm:inline-block" (click)="newCampaing()">Crear nueva campaña</span>
+                                <span class="hidden sm:inline-block" (click)="newData()">Crear nueva campaña</span>
                             </button>
                         </div>
                     </div>
@@ -132,7 +132,7 @@
                 <td mat-cell *matCellDef="let element">
                     <div class="table-column-agent-see-all">
                         <span> {{ element.agent }} </span>
-                        <span>Ver todos</span>
+                        <span (click)="seeAgents()">Ver todos</span>
                     </div>
                 </td>
             </ng-container>
@@ -144,7 +144,7 @@
                         <div class="table-column-lead table-column-lead-width mb-4">
                             {{ element.company }}
                         </div>
-                        <span>Ver empresas</span>
+                        <span (click)="seeCompanies()">Ver empresas</span>
                     </div>
                 </td>
             </ng-container>
@@ -152,7 +152,7 @@
             <ng-container matColumnDef="results">
                 <th mat-header-cell *matHeaderCellDef>Resultados</th>
                 <td mat-cell *matCellDef="let element">
-                    <div class="colum-tabla-see-results">
+                    <div class="colum-tabla-see-results cursos-pointer" (click)="seeCampaignsResults()">
                         Ver detalle de resultados
                     </div>
                 </td>
@@ -239,18 +239,18 @@
                     <div class="c-column-btns">
 
                         <div class="btn-see">
-                            <mat-icon matTooltip="Ver">visibility</mat-icon>
+                            <mat-icon matTooltip="Ver" (click)="editData()">visibility</mat-icon>
                         </div>
 
-                        <div class="btn-edit">
+                        <div class="btn-edit" (click)="editData()">
                             <mat-icon matTooltip="Editar">edit_square</mat-icon>
                         </div>
                   
                         <div class="btn-copy">
-                            <mat-icon matTooltip="Copiar">content_copy</mat-icon>
+                            <mat-icon matTooltip="Clonar" (click)="editData()">content_copy</mat-icon>
                         </div>
 
-                        <div class="btn-delete">
+                        <div class="btn-delete" (click)="deleteData()">
                             <mat-icon matTooltip="Eliminar">delete</mat-icon>
                         </div>
 

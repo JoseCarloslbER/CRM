@@ -1,0 +1,54 @@
+<div class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto c-config" s cdkScrollable>
+
+    <div class="bg-card rounded-4">
+        <div class="flex flex-col w-full mx-auto px-6 sm:px-8">
+            <form class="row mt-5 mb-5">
+                <div class="col-12">
+
+                    <div class="section-title row d-flex justify-content-between align-items-center">
+
+                        <div class="col-md-7 col-sm-12 col-12 title">
+                            Categorías de empresas
+                        </div>
+
+                        <div class="col-md-5 col-sm-12 col-12 btns-section">
+                            <button class="btn-yellow-newRegister ml-3 px-1 sm:px-4 min-w-10" (click)="newData()">
+                                <span class="hidden sm:inline-block">Crear nuevo</span>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+
+
+        <mat-tab-group class="mat-grupo-color sm:px-2" mat-stretch-tabs="false" [animationDuration]="'0'">
+          
+            <mat-tab label="Origen">
+                <ng-template matTabContent>
+                    <app-origin-company></app-origin-company>
+                </ng-template>
+            </mat-tab>
+            
+            <mat-tab label="Giro">
+                <ng-template matTabContent>
+                    <app-giro-company></app-giro-company>
+                </ng-template>
+            </mat-tab>
+        
+            <mat-tab label="Tamaño">
+                <ng-template matTabContent>
+                    <app-size-company></app-size-company>
+                </ng-template>
+            </mat-tab>
+       
+            <mat-tab label="Tipo de cliente">
+                <ng-template matTabContent>
+                    <app-client-type></app-client-type>
+                </ng-template>
+            </mat-tab>
+
+        </mat-tab-group>
+    </div>
+</div>

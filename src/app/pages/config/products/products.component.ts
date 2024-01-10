@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
   templateUrl: './products.component.html',
   styleUrls: []
 })
-export class ProductsComponent implements OnInit{
+export class ProductsComponent implements OnInit {
   public dataSource = new MatTableDataSource<any>([]);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   public longitudPagina = 50;

@@ -5,6 +5,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { ModalInformationInTableComponent } from 'app/pages/catchment/campaigns/modal-information-in-table/modal-information-in-table.component';
+import { ModalCampaignResultsComponent } from './modal-campaign-results/modal-campaign-results.component';
 
 @Component({
   selector: 'app-campaigns',
@@ -51,33 +53,33 @@ export class CampaignsComponent implements OnInit {
       agent: 'Nombre de agente principal',
       company: '5',
       amounInvested: '$15,000.00',
-      cotizaciones : [
+      cotizaciones: [
         {
-          left : '5',
-          right : '5',
-          bottom : '$15,000.00',
+          left: '5',
+          right: '5',
+          bottom: '$15,000.00',
         }
       ],
 
-      totalAllAppointments : [
+      totalAllAppointments: [
         {
-          left : '$15,000.00',
-          right : '$15,000.00',
+          left: '$15,000.00',
+          right: '$15,000.00',
 
         }
       ],
-      prospects : [
+      prospects: [
         {
-          up : '5',
-          bottom : '$15,000.00',
+          up: '5',
+          bottom: '$15,000.00',
 
         }
       ],
-      
+
       fechaUltimoContacto: '2022-02-28',
       fechaRegistro: '2022-02-28',
       agentePrincipal: 'Soporte (Administrador)',
-    
+
     },
     {
       noSerie: 'CD4557',
@@ -93,33 +95,33 @@ export class CampaignsComponent implements OnInit {
       agent: 'Nombre de agente principal',
       company: '5',
       amounInvested: '$15,000.00',
-      cotizaciones : [
+      cotizaciones: [
         {
-          left : '5',
-          right : '5',
-          bottom : '$15,000.00',
+          left: '5',
+          right: '5',
+          bottom: '$15,000.00',
         }
       ],
 
-      totalAllAppointments : [
+      totalAllAppointments: [
         {
-          left : '$15,000.00',
-          right : '$15,000.00',
+          left: '$15,000.00',
+          right: '$15,000.00',
 
         }
       ],
-      prospects : [
+      prospects: [
         {
-          up : '5',
-          bottom : '$15,000.00',
+          up: '5',
+          bottom: '$15,000.00',
 
         }
       ],
-      
+
       fechaUltimoContacto: '2022-02-28',
       fechaRegistro: '2022-02-28',
       agentePrincipal: 'Soporte (Administrador)',
-    
+
     },
     {
       noSerie: 'CD4557',
@@ -135,33 +137,33 @@ export class CampaignsComponent implements OnInit {
       agent: 'Nombre de agente principal',
       company: '5',
       amounInvested: '$15,000.00',
-      cotizaciones : [
+      cotizaciones: [
         {
-          left : '5',
-          right : '5',
-          bottom : '$15,000.00',
+          left: '5',
+          right: '5',
+          bottom: '$15,000.00',
         }
       ],
 
-      totalAllAppointments : [
+      totalAllAppointments: [
         {
-          left : '$15,000.00',
-          right : '$15,000.00',
+          left: '$15,000.00',
+          right: '$15,000.00',
 
         }
       ],
-      prospects : [
+      prospects: [
         {
-          up : '5',
-          bottom : '$15,000.00',
+          up: '5',
+          bottom: '$15,000.00',
 
         }
       ],
-      
+
       fechaUltimoContacto: '2022-02-28',
       fechaRegistro: '2022-02-28',
       agentePrincipal: 'Soporte (Administrador)',
-    
+
     },
   ]
 
@@ -176,8 +178,181 @@ export class CampaignsComponent implements OnInit {
     rangeDateEnd: [{ value: null, disabled: false }],
   });
 
-  constructor(
+  private agentInfoColumns: string[] = [
+    'agent',
+    'rol',
+    'ip',
+    'extension'
+  ]
 
+  private dataAgent: any[] = [
+    {
+      agent: 'Agente 1',
+      isMain: 'Agente principal',
+      rol: 'Atención a cliente',
+      ip: '12354',
+      extension: '3002',
+    },
+    {
+      agent: 'Agente 2',
+      rol: 'Ventas',
+      ip: '12354',
+      extension: '3002',
+    },
+    {
+      agent: 'Agente 3',
+      rol: 'Marketing',
+      ip: '12354',
+      extension: '3002',
+    },
+    {
+      agent: 'Agente 1',
+      isMain: 'Agente principal',
+      rol: 'Atención a cliente',
+      ip: '12354',
+      extension: '3002',
+    },
+    {
+      agent: 'Agente 2',
+      rol: 'Ventas',
+      ip: '12354',
+      extension: '3002',
+    },
+    {
+      agent: 'Agente 3',
+      rol: 'Marketing',
+      ip: '12354',
+      extension: '3002',
+    },
+    {
+      agent: 'Agente 1',
+      isMain: 'Agente principal',
+      rol: 'Atención a cliente',
+      ip: '12354',
+      extension: '3002',
+    },
+    {
+      agent: 'Agente 2',
+      rol: 'Ventas',
+      ip: '12354',
+      extension: '3002',
+    },
+    {
+      agent: 'Agente 3',
+      rol: 'Marketing',
+      ip: '12354',
+      extension: '3002',
+    },
+  ]
+
+  private companyInfoColumns: string[] = [
+    'company',
+    'contact',
+    'status'
+  ]
+
+  private datacompany: any[] = [
+    {
+      company: 'RECK SOLUCIONES',
+      status: 'LEAD',
+      contact: [
+        {
+          nombre: 'Ing Alberto Avendaño',
+          email: 'aavendano@anpasa.com',
+          telefono: 'N/A',
+          celular: '5516349327',
+        }
+      ],
+    },
+    {
+      company: 'RECK SOLUCIONES',
+      status: 'LEAD',
+      contact: [
+        {
+          nombre: 'Ing Alberto Avendaño',
+          email: 'aavendano@anpasa.com',
+          telefono: 'N/A',
+          celular: '5516349327',
+        }
+      ],
+    },
+    {
+      company: 'RECK SOLUCIONES',
+      status: 'LEAD',
+      contact: [
+        {
+          nombre: 'Ing Alberto Avendaño',
+          email: 'aavendano@anpasa.com',
+          telefono: 'N/A',
+          celular: '5516349327',
+        }
+      ],
+    },
+    {
+      company: 'RECK SOLUCIONES',
+      status: 'LEAD',
+      contact: [
+        {
+          nombre: 'Ing Alberto Avendaño',
+          email: 'aavendano@anpasa.com',
+          telefono: 'N/A',
+          celular: '5516349327',
+        }
+      ],
+    },
+    {
+      company: 'RECK SOLUCIONES',
+      status: 'LEAD',
+      contact: [
+        {
+          nombre: 'Ing Alberto Avendaño',
+          email: 'aavendano@anpasa.com',
+          telefono: 'N/A',
+          celular: '5516349327',
+        }
+      ],
+    },
+    {
+      company: 'RECK SOLUCIONES',
+      status: 'LEAD',
+      contact: [
+        {
+          nombre: 'Ing Alberto Avendaño',
+          email: 'aavendano@anpasa.com',
+          telefono: 'N/A',
+          celular: '5516349327',
+        }
+      ],
+    },
+    {
+      company: 'RECK SOLUCIONES',
+      status: 'LEAD',
+      contact: [
+        {
+          nombre: 'Ing Alberto Avendaño',
+          email: 'aavendano@anpasa.com',
+          telefono: 'N/A',
+          celular: '5516349327',
+        }
+      ],
+    },
+    {
+      company: 'RECK SOLUCIONES',
+      status: 'LEAD',
+      contact: [
+        {
+          nombre: 'Ing Alberto Avendaño',
+          email: 'aavendano@anpasa.com',
+          telefono: 'N/A',
+          celular: '5516349327',
+        }
+      ],
+    },
+
+  ]
+
+  constructor(
+    private notificationService: OpenModalsService,
     private openModalsService: OpenModalsService,
     private formBuilder: FormBuilder,
     private dialog: MatDialog,
@@ -186,16 +361,91 @@ export class CampaignsComponent implements OnInit {
 
   ngOnInit(): void {
     setTimeout(() => {
-      
+
       this.dataSource.data = this.dataDummyCampaign
-    }, 1000);
+    }, 500);
   }
 
   SearchWithFilters() {
     console.log(this.formFilters.value);
   }
 
-  newCampaing() {
-    this.router.navigateByUrl(`/home/captacion/nueva-campaña`)
+
+  editData(data: any) {
+    this.router.navigateByUrl(`home/captacion/nueva-campaña`)
+  }
+
+  seeData(data: any) {
+    this.router.navigateByUrl(`/home/conversion/detalle-cotizacion/1`)
+  }
+
+  newData() {
+    this.router.navigateByUrl(`home/captacion/nueva-campaña`)
+  }
+
+  deleteData() {
+    this.notificationService
+      .notificacion(
+        'Pregunta',
+        '¿Estas seguro de eliminar el registro?',
+        'question',
+      )
+      .afterClosed()
+      .subscribe((_) => {
+        this.notificationService
+          .notificacion(
+            'Éxito',
+            'Registro eliminado.',
+            'delete',
+          )
+          .afterClosed()
+          .subscribe((_) => {
+
+          });
+      });
+  }
+
+  seeAgents() {
+    this.dialog.open(ModalInformationInTableComponent, {
+      data: {
+        info: this.dataAgent,
+        columns: this.agentInfoColumns,
+        type: 'agents'
+      },
+      disableClose: true,
+      width: '1000px',
+      maxHeight: '700px',
+      panelClass: 'custom-dialog',
+    });
+  }
+
+  seeCompanies() {
+    this.dialog.open(ModalInformationInTableComponent, {
+      data: {
+        info: this.datacompany,
+        columns: this.companyInfoColumns,
+        type: 'companies'
+      },
+      disableClose: true,
+      width: '1000px',
+      maxHeight: '700px',
+      panelClass: 'custom-dialog',
+    });
+  }
+
+  seeCampaignsResults() {
+    this.dialog.open(ModalCampaignResultsComponent, {
+      data: {
+        info: this.datacompany,
+        columns: this.companyInfoColumns,
+        type: 'companies'
+      },
+      disableClose: true,
+      width: '1000px',
+      maxHeight: '700px',
+      panelClass: 'custom-dialog',
+    });
   }
 }
+
+

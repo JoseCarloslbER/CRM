@@ -204,31 +204,37 @@ export class LayoutComponent implements OnInit, OnDestroy {
                             id   : '1',
                             title: 'Tipos de actividad',
                             type : 'basic',
-                            link : ''
+                            link : '/home/configuracion/tipo-actividad'
                         },
                         {
                             id   : '2',
                             title: 'Formas de pago',
                             type : 'basic',
-                            link : ''
+                            link : '/home/configuracion/forma-pago'
                         },
                         {
                             id   : '3',
                             title: 'Categorias de productos',
                             type : 'basic',
-                            link : '/home/configuracion/productos'
+                            link : '/home/configuracion/categoria-producto'
+                        },
+                        {
+                            id   : '5',
+                            title: 'Categorias de campañas',
+                            type : 'basic',
+                            link : '/home/configuracion/categoria-campaña'
                         },
                         {
                             id   : '4',
                             title: 'Empresas',
                             type : 'basic',
-                            link : ''
+                            link : '/home/configuracion/categoria-cliente'
                         },
                         {
                             id   : '4',
                             title: 'Tipos campañas',
                             type : 'basic',
-                            link : ''
+                            link : '/home/configuracion/categoria-campaña'
                         },
                     ],
                 }
