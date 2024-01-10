@@ -1,13 +1,13 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-modalnew-activity',
-  templateUrl: './modalnew-activity.component.html',
+  selector: 'app-modal-new-way-to-pay',
+  templateUrl: './modal-new-way-to-pay.component.html',
 })
-export class ModalnewActivityComponent {
+export class ModalNewWayToPayComponent implements OnInit{
   constructor(
     private notificationService: OpenModalsService,
 		@Inject(MAT_DIALOG_DATA) public data: any,

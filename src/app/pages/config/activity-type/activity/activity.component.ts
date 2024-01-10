@@ -33,6 +33,26 @@ export class ActivityComponent implements OnInit {
       color: '#9747FF',
       icon: 'headphones',
     },
+    {
+      activity: 'Administración',
+      color: '#9747FF',
+      icon: 'headphones',
+    },
+    {
+      activity: 'Administración',
+      color: '#9747FF',
+      icon: 'headphones',
+    },
+    {
+      activity: 'Administración',
+      color: '#9747FF',
+      icon: 'headphones',
+    },
+    {
+      activity: 'Administración',
+      color: '#9747FF',
+      icon: 'headphones',
+    },
   ]
 
   constructor(

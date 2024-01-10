@@ -33,6 +33,26 @@ export class SubactivityComponent {
       color: '#9747FF',
       icon: 'headphones',
     },
+    {
+      subactivity: 'Administración',
+      color: '#9747FF',
+      icon: 'headphones',
+    },
+    {
+      subactivity: 'Administración',
+      color: '#9747FF',
+      icon: 'headphones',
+    },
+    {
+      subactivity: 'Administración',
+      color: '#9747FF',
+      icon: 'headphones',
+    },
+    {
+      subactivity: 'Administración',
+      color: '#9747FF',
+      icon: 'headphones',
+    },
   ]
 
   constructor(
