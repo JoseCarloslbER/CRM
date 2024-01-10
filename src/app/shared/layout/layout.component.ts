@@ -172,13 +172,13 @@ export class LayoutComponent implements OnInit, OnDestroy {
                             id   : '1',
                             title: 'Bonos',
                             type : 'basic',
-                            link : ''
+                            link : '/home/admin/bonos'
                         },
                         {
                             id   : '2',
                             title: 'Usuarios',
                             type : 'basic',
-                            link : ''
+                            link : '/home/admin/usuarios'
                         },
                         {
                             id   : '3',

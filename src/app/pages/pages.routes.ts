@@ -32,6 +32,10 @@ const pageRoutes: Routes = [
 				loadChildren: () => import('./management/management.module').then((m) => m.ManagementModule),
 			},
 			{
+				path: 'admin',
+				loadChildren: () => import('./admin/admin.module').then((m) => m.AdminModule),
+			},
+			{
 				path: 'configuracion',
 				loadChildren: () => import('./config/config.module').then((m) => m.ConfigModule),
 			},
