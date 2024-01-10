@@ -60,14 +60,14 @@
 	align-items: center;
 
 	h1 {
-		font-size: 20px;
+		font-size: 18px;
 		font-weight: 400;
 		margin-bottom: 15px;
 	}
 
 	span {
 		background: #EDF1F5;
-		font-size: 20px;
+		font-size: 18px;
 		font-weight: 700;
 		border-radius: 10px;
 		display: flex;
@@ -79,7 +79,7 @@
 	}
 
 	h2 {
-		font-size: 18px;
+		font-size: 16px;
 		font-weight: 400;
 		color: #24BB55;
 		border-bottom: 1px solid #24BB55;
@@ -107,7 +107,7 @@
 	border-radius: 10px;
 	box-shadow: -1px 4px 10px 0px #00000040;
 	color: #1E293B;
-	font-size: 20px;
+	font-size: 18px;
 	font-weight: 700;
 }
 
@@ -121,7 +121,7 @@
 	border-radius: 10px;
 	box-shadow: -1px 4px 10px 0px #00000040;
 	color: #FFFFFF;
-	font-size: 20px;
+	font-size: 18px;
 	font-weight: 700;
 	width: 130px;
 }
@@ -136,7 +136,7 @@
 	border-radius: 10px;
 	box-shadow: -1px 4px 10px 0px #00000040;
 	color: #FFFFFF;
-	font-size: 20px;
+	font-size: 18px;
 	font-weight: 700;
 }
 
@@ -513,4 +513,8 @@
 
 .btn-phone {
 	background: #008525;
+}
+
+.btn-flag {
+	background: #00B332;
 }
