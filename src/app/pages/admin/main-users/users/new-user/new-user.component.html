@@ -1,0 +1,205 @@
+<div class="container-fluid p-0 overflow-hidden bg-white">
+
+    <div class="return-header">
+        <mat-icon svgIcon="mat_solid:arrow_back" (click)="toBack()"></mat-icon>
+        <p class="titulo-modal">Registrar nuevo Usuario</p>
+    </div>
+
+    <div class="row form-padding d-flex">
+
+        <p class="mb-6">*Campos obligatorios</p>
+
+        <form class="col-12">
+            <div>
+                <div class="row">
+                    <div class="col-md-6">
+
+                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
+                            <mat-label>Nombre del usuario*</mat-label>
+                            <input matInput>
+                        </mat-form-field>
+
+                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
+                            <mat-label>Correo*</mat-label>
+                            <input matInput required type="email">
+                        </mat-form-field>
+
+                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
+                            <mat-label>Teléfono*</mat-label>
+                            <input matInput required>
+                        </mat-form-field>
+
+                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
+                            <mat-label>Identificado de voz IP</mat-label>
+                            <input matInput required>
+                        </mat-form-field>
+
+
+
+
+
+                    </div>
+                    <div class="col-md-6">
+                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
+                            <mat-label>Rol*</mat-label>
+                            <mat-select placeholder="Seleccionar">
+                                <mat-option value="Rol* 1">Rol 1</mat-option>
+                                <mat-option value="Rol* 2">Rol 2</mat-option>
+                                <mat-option value="Rol* 3">Rol 3</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <mat-form-field class="gt-xs:pr-3 inputNewRegister">
+                            <mat-label>Contraseña*</mat-label>
+                            <input matInput>
+                        </mat-form-field>
+
+                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
+                            <mat-label>Extención*</mat-label>
+                            <input matInput>
+                        </mat-form-field>
+
+                        <div class="flex-auto gt-xs:pr-3 width-100 mt-4 mb-4">
+                            <div class="row d-flex up">
+                                <div class="col-md-8">
+                                    <div class="d-flex flex-column inputNewRegister">
+                                        <mat-label class="mb-1">Imagen</mat-label>
+                                        <input type="file" name="eta">
+                                    </div>
+                                </div>
+                                <div class="col-md-4 d-flex align-items-center justify-content-end">
+                                    <button class="btn-action-add">
+                                        <span>Subir</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="section-header-modal">
+                        Modificar permisos
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <mat-accordion class="mb-5 inputNewaccordion">
+                        <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    Dashboard
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+
+                            <div class="content-accordion">
+                                <div class="input-check mt-1">
+                                    <mat-checkbox class="mb-2" [checked]="true">
+                                        Ver dashboard
+                                    </mat-checkbox>
+                                </div>
+
+                            </div>
+                        </mat-expansion-panel>
+                    </mat-accordion>
+
+                    <mat-accordion class="mb-5 inputNewaccordion">
+                        <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    Negocios
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+                        </mat-expansion-panel>
+                    </mat-accordion>
+
+                    <mat-accordion class="mb-5 inputNewaccordion">
+                        <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    Cotizaciones
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+                        </mat-expansion-panel>
+                    </mat-accordion>
+
+                    <mat-accordion class="mb-5 inputNewaccordion">
+                        <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    Empresas
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+
+                            <div class="content-accordion">
+                                <div class="input-check mt-1">
+                                    <mat-checkbox class="mb-2" [checked]="true">
+                                        Ver empresas
+                                    </mat-checkbox>
+                                </div>
+                                <div class="input-check mt-1">
+                                    <mat-checkbox class="mb-2" [checked]="true">
+                                        Editar empresas
+                                    </mat-checkbox>
+                                </div>
+                                <div class="input-check mt-1">
+                                    <mat-checkbox class="mb-2" [checked]="true">
+                                        Registrar empresas
+                                    </mat-checkbox>
+                                </div>
+                                <div class="input-check mt-1">
+                                    <mat-checkbox class="mb-2" [checked]="false">
+                                        Eliminar empresas
+                                    </mat-checkbox>
+                                </div>
+                            </div>
+                        </mat-expansion-panel>
+                    </mat-accordion>
+
+                    <mat-accordion class="mb-5 inputNewaccordion">
+                        <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    Campañas
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+                        </mat-expansion-panel>
+                    </mat-accordion>
+
+                    <mat-accordion class="mb-5 inputNewaccordion">
+                        <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    Notificaciones
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+                        </mat-expansion-panel>
+                    </mat-accordion>
+
+                    <mat-accordion class="mb-5 inputNewaccordion">
+                        <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    Llamadas pendientes
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+                        </mat-expansion-panel>
+                    </mat-accordion>
+
+
+                </div>
+
+
+            </div>
+
+            <div class="row d-flex justify-content-end align-items-center mb-3 mt-5">
+                <div class="d-flex justify-content-end col-md-3 col-xl-3 col-12 pt-md-2 mt-6">
+                    <button class="btn-action-add" (click)="save()">
+                        <span>Guardar</span>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

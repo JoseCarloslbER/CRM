@@ -114,13 +114,27 @@ body.fuse-splash-screen-hidden fuse-splash-screen {
     color: #646878;
 }
 
-.inputNewRegister {
-    mat-label {
-        font-size: 17px;
-        font-weight: 700;
-        line-height: 21px;
+.inputNewaccordion {
+    .mat-expansion-panel-header-title {
+
+        font-size: 18px;
+        font-weight: 700!important;
         color: #646878;
-    } 
+    }
+
+    .mat-expansion-panel:not([class*=mat-elevation-z]) {
+        box-shadow: none!important;
+        border-bottom: 1.5px solid grey;
+    }
+
+   > .mat-expansion-panel {
+        border-bottom-left-radius: 0!important;
+        border-bottom-right-radius: 0!important;
+    }
+
+    .content-accordion {
+        margin-left: 100px;
+    }
 }
 
 .input-default {
@@ -163,8 +177,14 @@ body.fuse-splash-screen-hidden fuse-splash-screen {
 	width: 100%!important;
 	.mat-mdc-form-field-flex {
 		background: #F5F5F5 !important;
-		// box-shadow: 4px 4px 4px 0px #00000040;
 	}
+
+    mat-label {
+        font-size: 17px;
+        font-weight: 700;
+        line-height: 21px;
+        color: #646878;
+    } 
 
     button {
         color:  rgb(40 40 40);

@@ -12,8 +12,8 @@ import { ProductsComponent } from './products/products.component';
 import { DownloadEmailsComponent } from './download-emails/download-emails.component';
 import { BonusesComponent } from './main-bonuses/bonuses/bonuses.component';
 import { MainBonusesComponent } from './main-bonuses/main-bonuses.component';
-import { ModalNewUserComponent } from './main-users/users/modal-new-user/modal-new-user.component';
 import { NewBonoComponent } from './main-bonuses/bonuses/new-bono/new-bono.component';
+import { NewUserComponent } from './main-users/users/new-user/new-user.component';
 
 
 
@@ -28,7 +28,7 @@ import { NewBonoComponent } from './main-bonuses/bonuses/new-bono/new-bono.compo
     DownloadEmailsComponent,
     BonusesComponent,
     MainBonusesComponent,
-    ModalNewUserComponent,
+    NewUserComponent,
     NewBonoComponent
   
   ],

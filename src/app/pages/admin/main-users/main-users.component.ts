@@ -19,12 +19,7 @@ export class MainUsersComponent {
   ) { }
 
   newData() {
-  //   this.dialog.open(ModalnewActivityComponent, {
-  //     data: ['test'],
-  //     disableClose: true,
-  //     width: '1000px',
-  //     maxHeight: '428px',
-  //     panelClass: 'custom-dialog',
-  //   });
+    this.router.navigateByUrl(`/home/admin/nuevo-usuario`)
+
   }
 }
