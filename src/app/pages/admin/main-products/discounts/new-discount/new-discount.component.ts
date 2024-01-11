@@ -5,12 +5,14 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 
+
+
 @Component({
-  selector: 'app-new-bono',
-  templateUrl: './new-bono.component.html',
-  styleUrl: './new-bono.component.scss'
+  selector: 'app-new-discount',
+  templateUrl: './new-discount.component.html',
+  styleUrl: './new-discount.component.scss'
 })
-export class NewBonoComponent {
+export class NewDiscountComponent {
 
   public fechaHoy = new Date();
   public toppings = new FormControl('');
@@ -90,6 +92,6 @@ export class NewBonoComponent {
   }
 
   toBack(){
-    this.router.navigateByUrl(`/home/admin/bonos`)
+    this.router.navigateByUrl(`/home/admin/productos`)
   }
 }

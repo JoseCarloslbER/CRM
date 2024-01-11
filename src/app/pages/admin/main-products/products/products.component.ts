@@ -1,17 +1,18 @@
 import { Component, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
-import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
+import { OpenModalsService } from 'app/shared/services/openModals.service';
+import { ModalNewProductComponent } from './modal-new-product/modal-new-product.component';
 
 @Component({
-  selector: 'app-users-rol',
-  templateUrl: './users-rol.component.html',
+  selector: 'app-products',
+  templateUrl: './products.component.html',
+  styleUrl: './products.component.scss'
 })
-export class UsersRolComponent {
+export class ProductsComponent {
   public dataSource = new MatTableDataSource<any>([]);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   public longitudPagina = 50;
@@ -19,35 +20,25 @@ export class UsersRolComponent {
   public indicePagina = 0;
 
   public displayedColumns: string[] = [
+    'code',
     'name',
-    'comments',
-    'acciones'
+    'price',
+    'country',
+    'link',
+    'productsApplies',
+    'actions'
   ];
-
 
   public dataDummy: any[] = [
     {
-      name: 'Atención a cliente',
-      comments: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      code: 'CD4557',
+      name: 'Seguridad y prevención contra incendio en los centros de trabajo',
+      price: '$ 1000.00',
+      country: 'México',
+      link: 'https://abrevius.com/course/c001-seguridad-en-edificios-locales-instalaciones-y-areas-de-trabajo/',
     },
-    {
-      name: 'Atención a cliente',
-      comments: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    },
-    {
-      name: 'Atención a cliente',
-      comments: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    },
-    {
-      name: 'Campaña',
-      comments: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    },
-    {
-      name: 'Campaña',
-      comments: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    },
+ 
   ]
-
 
   constructor(
     private notificationService: OpenModalsService,
@@ -62,7 +53,13 @@ export class UsersRolComponent {
   }
 
   editData() {
-  
+    this.dialog.open(ModalNewProductComponent, {
+      data: {},
+      disableClose: true,
+      width: '800px',
+      maxHeight: '628px',
+      panelClass: 'custom-dialog',
+    });
   }
 
   deleteData() {
@@ -86,4 +83,5 @@ export class UsersRolComponent {
           });
       });
   }
+
 }

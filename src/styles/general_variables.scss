@@ -130,14 +130,23 @@
 
 // CSS INPUTS 
 
-.inputsRadioGroup {
+.inputsRadioGroupBold {
     span {
         font-size: 20px;
         font-weight: 700;
         text-align: left;
         color: #1E293B;
     }
+}
 
+.inputsRadioGroup {
+    span {
+        font-size: 15px;
+        font-weight: 400;
+        text-align: left;
+        color: #4B5062;
+        line-height: 18.2px;
+    }
 }
 
 .input-check {
@@ -147,6 +156,17 @@
             font-size: 20px;
             color: #1E293B;
             font-weight: 600;
+        }
+    }
+}
+
+.input-check-bold {
+    mat-checkbox {
+        label {
+
+            font-size: 20px;
+            color: #1E293B;
+            font-weight: 700;
         }
     }
 }

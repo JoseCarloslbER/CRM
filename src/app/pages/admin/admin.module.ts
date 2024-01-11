@@ -8,13 +8,19 @@ import { AdminComponent } from './admin.component';
 import { UsersComponent } from './main-users/users/users.component';
 import { MainUsersComponent } from './main-users/main-users.component';
 import { UsersRolComponent } from './main-users/users-rol/users-rol.component';
-import { ProductsComponent } from './products/products.component';
+import { ProductsComponent } from './main-products/products/products.component';
 import { DownloadEmailsComponent } from './download-emails/download-emails.component';
 import { BonusesComponent } from './main-bonuses/bonuses/bonuses.component';
 import { MainBonusesComponent } from './main-bonuses/main-bonuses.component';
 import { NewBonoComponent } from './main-bonuses/bonuses/new-bono/new-bono.component';
 import { NewUserComponent } from './main-users/users/new-user/new-user.component';
 import { NewRolComponent } from './main-users/users-rol/new-rol/new-rol.component';
+import { MainProductsComponent } from './main-products/main-products.component';
+import { PriceComponent } from './main-products/price/price.component';
+import { DiscountsComponent } from './main-products/discounts/discounts.component';
+import { ModalNewProductComponent } from './main-products/products/modal-new-product/modal-new-product.component';
+import { ModalNewPriceComponent } from './main-products/price/modal-new-price/modal-new-price.component';
+import { NewDiscountComponent } from './main-products/discounts/new-discount/new-discount.component';
 
 
 
@@ -31,7 +37,14 @@ import { NewRolComponent } from './main-users/users-rol/new-rol/new-rol.componen
     MainBonusesComponent,
     NewUserComponent,
     NewBonoComponent,
-    NewRolComponent
+    NewRolComponent,
+    MainProductsComponent,
+    ProductsComponent,
+    PriceComponent,
+    DiscountsComponent,
+    ModalNewProductComponent,
+    ModalNewPriceComponent,
+    NewDiscountComponent
   
   ],
   imports: [

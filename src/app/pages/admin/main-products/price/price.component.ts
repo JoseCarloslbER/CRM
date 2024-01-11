@@ -1,17 +1,19 @@
 import { Component, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
-import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
+import { OpenModalsService } from 'app/shared/services/openModals.service';
+import { ModalNewPriceComponent } from './modal-new-price/modal-new-price.component';
+
 
 @Component({
-  selector: 'app-users-rol',
-  templateUrl: './users-rol.component.html',
+  selector: 'app-price',
+  templateUrl: './price.component.html',
+  styleUrl: './price.component.scss'
 })
-export class UsersRolComponent {
+export class PriceComponent {
   public dataSource = new MatTableDataSource<any>([]);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   public longitudPagina = 50;
@@ -19,35 +21,34 @@ export class UsersRolComponent {
   public indicePagina = 0;
 
   public displayedColumns: string[] = [
-    'name',
-    'comments',
-    'acciones'
+    'code',
+    'unitPrice',
+    'iva',
+    'currency',
+    'productsApplies',
+    'actions'
   ];
-
 
   public dataDummy: any[] = [
     {
-      name: 'Atención a cliente',
-      comments: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      code: 'Atención a cliente',
+      unitPrice: '$ 1000.00',
+      iva: '25.75%',
+      currency: '25.75%',
+      productsApplies: [
+        {
+          name : 'Categoría X'
+        },
+        {
+          name : 'Categoría X'
+        },
+        {
+          name : 'Categoría X'
+        },
+      ]
     },
-    {
-      name: 'Atención a cliente',
-      comments: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    },
-    {
-      name: 'Atención a cliente',
-      comments: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    },
-    {
-      name: 'Campaña',
-      comments: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    },
-    {
-      name: 'Campaña',
-      comments: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    },
+ 
   ]
-
 
   constructor(
     private notificationService: OpenModalsService,
@@ -62,7 +63,13 @@ export class UsersRolComponent {
   }
 
   editData() {
-  
+    this.dialog.open(ModalNewPriceComponent, {
+      data: {},
+      disableClose: true,
+      width: '800px',
+      maxHeight: '628px',
+      panelClass: 'custom-dialog',
+    });
   }
 
   deleteData() {
