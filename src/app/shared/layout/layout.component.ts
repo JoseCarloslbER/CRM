@@ -184,13 +184,13 @@ export class LayoutComponent implements OnInit, OnDestroy {
                             id   : '3',
                             title: 'Productos',
                             type : 'basic',
-                            link : ''
+                            link : '/home/admin/productos'
                         },
                         {
                             id   : '4',
                             title: 'Descargar correos',
                             type : 'basic',
-                            link : ''
+                            link : '/home/admin/descarga-correos'
                         },
                     ],
                 },
@@ -217,12 +217,6 @@ export class LayoutComponent implements OnInit, OnDestroy {
                             title: 'Categorias de productos',
                             type : 'basic',
                             link : '/home/configuracion/categoria-producto'
-                        },
-                        {
-                            id   : '5',
-                            title: 'Categorias de campañas',
-                            type : 'basic',
-                            link : '/home/configuracion/categoria-campaña'
                         },
                         {
                             id   : '4',

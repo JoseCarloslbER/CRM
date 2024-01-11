@@ -291,13 +291,25 @@
 
 	span:nth-child(2) {
 		text-align: center;
-		color: #FF0000;
+		// color: #FF0000;
 	}
 }
 
 .table-column-img {
 	color: #3487E9;
 	border-bottom: 1px solid #3487E9;
+	font-size: 16px;
+	font-weight: 700;
+	text-align: center;
+
+	img {
+		width: 50px;
+		margin: auto;
+		height: 50px;
+	}
+}
+
+.table-column-img-alone {
 	font-size: 16px;
 	font-weight: 700;
 	text-align: center;

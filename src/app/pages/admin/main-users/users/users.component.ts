@@ -6,7 +6,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
-import { ModalNewRolComponent } from '../users-rol/modal-new-rol/modal-new-rol.component';
 
 @Component({
   selector: 'app-users',
@@ -88,13 +87,13 @@ export class UsersComponent {
   }
 
   editData() {
-    this.dialog.open(ModalNewRolComponent, {
-      data: ['test'],
-      disableClose: true,
-      width: '1000px',
-      maxHeight: '428px',
-      panelClass: 'custom-dialog',
-    });
+    // this.dialog.open(ModalNewRolComponent, {
+    //   data: ['test'],
+    //   disableClose: true,
+    //   width: '1000px',
+    //   maxHeight: '428px',
+    //   panelClass: 'custom-dialog',
+    // });
   }
 
   deleteData() {

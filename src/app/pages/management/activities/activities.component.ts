@@ -6,11 +6,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
+import { ModalNewActivityComponent } from 'app/pages/companies/all/detail-client/components/history/modal-new-activity/modal-new-activity.component';
 
 @Component({
   selector: 'app-activities',
   templateUrl: './activities.component.html',
-  styleUrl: './activities.component.scss'
 })
 export class ActivitiesComponent {
   public dataSource = new MatTableDataSource<any>([]);
@@ -71,15 +71,22 @@ export class ActivitiesComponent {
   }
 
   editData(data:any) {
-    this.router.navigateByUrl(`/home/empresas/nuevo-prospecto`)
+    this.router.navigateByUrl(`/home/gestion/nuevo-prospecto`)
   }
 
   seeData(data:any) {
-    this.router.navigateByUrl(`home/adquisicion/detalle-empresa/1`)
+    this.router.navigateByUrl(`home/gestion/detalle-empresa/1`)
   }
 
   newData() {
-    this.router.navigateByUrl(`/home/empresas/nuevo-prospecto`)
+    this.dialog.open(ModalNewActivityComponent, {
+      data: ['test'],
+      disableClose: true,
+      width: '1000px',
+      maxHeight: '628px',
+      panelClass: 'custom-dialog',
+    });
+
   }
  
   deleteData() {
