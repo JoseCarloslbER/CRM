@@ -23,7 +23,7 @@ export class ModalNewProductCategoryComponent implements OnInit{
     this.notificationService
       .notificacion(
         'Éxito',
-        'Documento guardado.',
+        'Registro guardado.',
         'save',
       )
       .afterClosed()

@@ -65,6 +65,8 @@ export class UsersRolComponent {
   
   }
 
+  
+
   deleteData() {
     this.notificationService
       .notificacion(
@@ -86,4 +88,5 @@ export class UsersRolComponent {
           });
       });
   }
+
 }

@@ -79,18 +79,18 @@
             <div class="c-column-btns ">
 
                 <div class="btn-see">
-                    <mat-icon matTooltip="Ver">visibility</mat-icon>
+                    <mat-icon matTooltip="Ver" (click)="editData()">visibility</mat-icon>
                 </div>
 
-                <div class="btn-edit">
+                <div class="btn-edit" (click)="editData()">
                     <mat-icon matTooltip="Editar">edit_square</mat-icon>
                 </div>
           
-                <div class="btn-copy">
+                <div class="btn-copy" (click)="editData()">
                     <mat-icon matTooltip="Copiar">content_copy</mat-icon>
                 </div>
 
-                <div class="btn-delete">
+                <div class="btn-delete" (click)="deleteData()">
                     <mat-icon matTooltip="Eliminar">delete</mat-icon>
                 </div>
 
