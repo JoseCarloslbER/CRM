@@ -1,6 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ModalNewRolComponent } from './modal-new-rol/modal-new-rol.component';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -71,13 +70,7 @@ export class UsersRolComponent {
   }
 
   editData() {
-    this.dialog.open(ModalNewRolComponent, {
-      data: ['test'],
-      disableClose: true,
-      width: '1000px',
-      maxHeight: '428px',
-      panelClass: 'custom-dialog',
-    });
+  
   }
 
   deleteData() {

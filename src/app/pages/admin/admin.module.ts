@@ -14,6 +14,7 @@ import { BonusesComponent } from './main-bonuses/bonuses/bonuses.component';
 import { MainBonusesComponent } from './main-bonuses/main-bonuses.component';
 import { NewBonoComponent } from './main-bonuses/bonuses/new-bono/new-bono.component';
 import { NewUserComponent } from './main-users/users/new-user/new-user.component';
+import { NewRolComponent } from './main-users/users-rol/new-rol/new-rol.component';
 
 
 
@@ -29,7 +30,8 @@ import { NewUserComponent } from './main-users/users/new-user/new-user.component
     BonusesComponent,
     MainBonusesComponent,
     NewUserComponent,
-    NewBonoComponent
+    NewBonoComponent,
+    NewRolComponent
   
   ],
   imports: [
