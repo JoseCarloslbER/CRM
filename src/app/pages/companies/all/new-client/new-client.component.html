@@ -190,6 +190,11 @@
                         </mat-form-field>
                     </div>
 
+                    <div *ngIf="valuesContacts.length > 1" class="col-md-12 d-flex align-items-center justify-content-end c-column-btns mt-5">
+                        <div class="btn-delete" (click)="deleteContact(i)">
+                            <mat-icon matTooltip="Eliminar">delete</mat-icon>
+                        </div>
+                    </div>
                     <hr class="mt-5 mb-5" *ngIf="valuesContacts?.length > 1">
                 </div>
             </div>

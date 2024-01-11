@@ -97,7 +97,10 @@ export class NewClientComponent implements AfterViewInit, OnInit {
       contactInfo.push(this.getContactsValue()[cont])
       cont++;
     }
-    console.log(contactInfo);
+  }
+
+  deleteContact(index:number) {
+    this.valuesContacts.splice(index, 1)
   }
 
   fastQuote() {
