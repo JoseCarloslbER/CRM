@@ -219,12 +219,6 @@ export class LayoutComponent implements OnInit, OnDestroy {
                             link : '/home/configuracion/categoria-producto'
                         },
                         {
-                            id   : '5',
-                            title: 'Categorias de campañas',
-                            type : 'basic',
-                            link : '/home/configuracion/categoria-campaña'
-                        },
-                        {
                             id   : '4',
                             title: 'Empresas',
                             type : 'basic',
