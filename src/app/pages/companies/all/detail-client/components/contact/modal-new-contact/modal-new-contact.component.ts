@@ -125,13 +125,11 @@ export class ModalNewContactComponent implements OnInit {
       )
       .afterClosed()
       .subscribe((_) => {
-        if (!this.esClient) { 
-          this.fastQuote()
-        } else {
-          this.toAll()
-        }
+        this.closeModal()
       });
   }
+
+
 
   toBack() {
     this.router.navigateByUrl(`/home/empresas/prospectos`)

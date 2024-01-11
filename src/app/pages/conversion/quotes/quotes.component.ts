@@ -27,7 +27,6 @@ export class QuotesComponent {
     'empresa',
     'statusCompany',
     'totalPrice',
-    
     'products',
     'estadopais',
     'acciones',
@@ -61,7 +60,167 @@ export class QuotesComponent {
       ],
       informacion: [
         {
-          numero: 'Cotización',
+          numero: '#4234234',
+          status: 'Aprobada',
+          cotizacionAprobada: 'Cotización aprobada',
+        }
+      ],
+      lugares: [
+        {
+          no: '1548',
+          tipo: 'Lista',
+          lugares: '5',
+          curso: 'C029 - Seguridad en el mantenimiento de instalaciones eléctrica',
+          precio: '$1,995.00',
+        }
+      ],
+    },
+    {
+      empresa: 'RECK SOLUCIONES',
+      fechaYHora: '2023-09-30 12:38:49',
+      statusCompany: 'Cliente',
+      precioTotal: '$4,000,000.00',
+      estatus: 'LEAD',
+      estadopais: 'Mexico, Nuevo Leon',
+      totalPrice: [
+        {
+          op: ' $12354.00',
+          expires: '2023-09-30',
+        },
+        {
+          op: ' $12354.00',
+          expires: '2023-09-30',
+        }
+      ],
+      documentos: [
+        {
+          cotizacion: 'Cotización',
+          cotizacionAprobada: 'Cotización aprobada',
+        }
+      ],
+      informacion: [
+        {
+          numero: '#4234234',
+          status: 'Aprobada',
+          cotizacionAprobada: 'Cotización aprobada',
+        }
+      ],
+      lugares: [
+        {
+          no: '1548',
+          tipo: 'Lista',
+          lugares: '5',
+          curso: 'C029 - Seguridad en el mantenimiento de instalaciones eléctrica',
+          precio: '$1,995.00',
+        }
+      ],
+    },
+    {
+      empresa: 'RECK SOLUCIONES',
+      fechaYHora: '2023-09-30 12:38:49',
+      statusCompany: 'Cliente',
+      precioTotal: '$4,000,000.00',
+      estatus: 'LEAD',
+      estadopais: 'Mexico, Nuevo Leon',
+      totalPrice: [
+        {
+          op: ' $12354.00',
+          expires: '2023-09-30',
+        },
+        {
+          op: ' $12354.00',
+          expires: '2023-09-30',
+        }
+      ],
+      documentos: [
+        {
+          cotizacion: 'Cotización',
+          cotizacionAprobada: 'Cotización aprobada',
+        }
+      ],
+      informacion: [
+        {
+          numero: '#4234234',
+          status: 'Aprobada',
+          cotizacionAprobada: 'Cotización aprobada',
+        }
+      ],
+      lugares: [
+        {
+          no: '1548',
+          tipo: 'Lista',
+          lugares: '5',
+          curso: 'C029 - Seguridad en el mantenimiento de instalaciones eléctrica',
+          precio: '$1,995.00',
+        }
+      ],
+    },
+    {
+      empresa: 'RECK SOLUCIONES',
+      fechaYHora: '2023-09-30 12:38:49',
+      statusCompany: 'Cliente',
+      precioTotal: '$4,000,000.00',
+      estatus: 'LEAD',
+      estadopais: 'Mexico, Nuevo Leon',
+      totalPrice: [
+        {
+          op: ' $12354.00',
+          expires: '2023-09-30',
+        },
+        {
+          op: ' $12354.00',
+          expires: '2023-09-30',
+        }
+      ],
+      documentos: [
+        {
+          cotizacion: 'Cotización',
+          cotizacionAprobada: 'Cotización aprobada',
+        }
+      ],
+      informacion: [
+        {
+          numero: '#4234234',
+          status: 'Aprobada',
+          cotizacionAprobada: 'Cotización aprobada',
+        }
+      ],
+      lugares: [
+        {
+          no: '1548',
+          tipo: 'Lista',
+          lugares: '5',
+          curso: 'C029 - Seguridad en el mantenimiento de instalaciones eléctrica',
+          precio: '$1,995.00',
+        }
+      ],
+    },
+    {
+      empresa: 'RECK SOLUCIONES',
+      fechaYHora: '2023-09-30 12:38:49',
+      statusCompany: 'Cliente',
+      precioTotal: '$4,000,000.00',
+      estatus: 'LEAD',
+      estadopais: 'Mexico, Nuevo Leon',
+      totalPrice: [
+        {
+          op: ' $12354.00',
+          expires: '2023-09-30',
+        },
+        {
+          op: ' $12354.00',
+          expires: '2023-09-30',
+        }
+      ],
+      documentos: [
+        {
+          cotizacion: 'Cotización',
+          cotizacionAprobada: 'Cotización aprobada',
+        }
+      ],
+      informacion: [
+        {
+          numero: '#4234234',
           status: 'Aprobada',
           cotizacionAprobada: 'Cotización aprobada',
         }
@@ -111,7 +270,11 @@ export class QuotesComponent {
     this.router.navigateByUrl(`/home/conversion/detalle-cotizacion/${1}`)
   }
 
-  newQuotes() {
+  editData(data:any) {
+    this.router.navigateByUrl(`/home/conversion/nueva-cotizacion`)
+  }
+
+  newData() {
     this.router.navigateByUrl(`/home/conversion/nueva-cotizacion`)
   }
 

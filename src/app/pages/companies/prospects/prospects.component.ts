@@ -28,6 +28,8 @@ export class ProspectsComponent implements OnInit {
     'category', 
     'giro', 
     'campaign', 
+    'cotizaciones', 
+    'ventas', 
     'fechaUltimoContacto', 
     'history', 
     'actions', 
@@ -35,8 +37,33 @@ export class ProspectsComponent implements OnInit {
 
   public dataDummy: any[] = [
     {
-      
       estatus: 'LEAD',
+      country: 'México',
+      category: 'Micro',
+      giro: 'Construccion',
+      campaign: 'Activa',
+      cotizaciones : [
+        {
+          up : '5',
+          bottom : '$15,000.00',
+
+        }
+      ],
+    
+      ventas : [
+        {
+          up : '5',
+          bottom : '$15,000.00',
+
+        }
+      ],
+
+      history: 'Se envió correo publicitario y se hicieron las llamadas pertinentes para el seguimiento, pero el cliente no contestó en ningún momento.',
+      origen: 'Referencia',
+      fechaUltimoContacto: '2022-02-28',
+    },
+    {
+      estatus: 'PROSPECTO',
       country: 'México',
       category: 'Micro',
       giro: 'Construccion',

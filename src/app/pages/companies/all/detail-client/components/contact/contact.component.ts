@@ -13,7 +13,7 @@ import { ModalNewContactComponent } from './modal-new-contact/modal-new-contact.
 })
 export class ContactComponent {
   constructor(
-    private openModalsService: OpenModalsService,
+    private notificationService: OpenModalsService,
     private formBuilder: FormBuilder,
     private dialog: MatDialog,
     private router: Router
@@ -33,4 +33,6 @@ export class ContactComponent {
       panelClass: 'custom-dialog',
     });
   }
+
+
 }

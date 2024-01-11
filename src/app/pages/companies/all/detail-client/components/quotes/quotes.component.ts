@@ -1,6 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
+import { OpenModalsService } from 'app/shared/services/openModals.service';
+import { FormBuilder } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-quotes',
@@ -49,9 +53,15 @@ export class QuotesComponent implements OnInit{
         }
       ],
     },
-
-
   ]
+
+  constructor(
+    private notificationService: OpenModalsService,
+    private formBuilder: FormBuilder,
+    private dialog: MatDialog,
+    private router: Router
+  ) { }
+
 
 
   ngOnInit(): void {
@@ -59,5 +69,18 @@ export class QuotesComponent implements OnInit{
 
   }
 
+  douwnloadExel(){
+    this.notificationService
+          .notificacion(
+            'Éxito',
+            'Excel descargado.',
+            'save',
+            'heroicons_outline:document-arrow-down'
+          )
+          .afterClosed()
+          .subscribe((_) => {
+
+          });
+  }
 
 }

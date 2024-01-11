@@ -114,6 +114,8 @@ body.fuse-splash-screen-hidden fuse-splash-screen {
     color: #646878;
 }
 
+
+
 .inputNewaccordion {
     .mat-expansion-panel-header-title {
 
@@ -207,3 +209,14 @@ body.fuse-splash-screen-hidden fuse-splash-screen {
         height: calc(100vh - 100px);
     }
   }
+
+  
+.text-line-bottom {
+    width: auto!important;
+    font-size: 16px;
+    font-weight: 700;
+    color: #3487E9;
+    border-bottom: 1.5px solid #3487E9;
+    margin: auto;
+    width: 145px;
+}
