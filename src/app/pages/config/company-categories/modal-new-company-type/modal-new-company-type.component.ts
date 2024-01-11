@@ -23,7 +23,7 @@ export class ModalNewCompanyTypeComponent {
     this.notificationService
       .notificacion(
         'Éxito',
-        'Documento guardado.',
+        'Registro guardado.',
         'save',
       )
       .afterClosed()

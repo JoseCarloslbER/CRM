@@ -151,18 +151,18 @@ export class MainProductsComponent {
     this.router.navigateByUrl(`/home/admin/nuevo-descuento`)
   }
 
-  downloadPdf() {
+  douwnloadExel(){
     this.notificationService
-    .notificacion(
-      'Éxito',
-      'PDF descargado.',
-      'save',
-      'mat_outline:picture_as_pdf'
-    )
-    .afterClosed()
-    .subscribe((_) => {
+          .notificacion(
+            'Éxito',
+            'Excel descargado.',
+            'save',
+            'heroicons_outline:document-arrow-down'
+          )
+          .afterClosed()
+          .subscribe((_) => {
 
-    });
+          });
   }
 
   get title() : string {
