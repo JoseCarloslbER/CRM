@@ -14,7 +14,6 @@ export class MainUsersComponent {
 
   public isUser :boolean = true;
 
-
   constructor(
 
     private openModalsService: OpenModalsService,
@@ -26,8 +25,6 @@ export class MainUsersComponent {
   onTabChange(event: MatTabChangeEvent): void {
     if (event.tab.textLabel.includes('Usuario')) this.isUser = true
      else this.isUser = false
-    
-    console.log('Pestaña seleccionada:', event.tab.textLabel);
   }
 
   newData() {

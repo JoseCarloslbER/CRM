@@ -4,6 +4,7 @@ import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 
 @Component({
   selector: 'app-main-bonuses',
@@ -26,8 +27,11 @@ export class MainBonusesComponent {
     this.router.navigateByUrl(`/home/admin/nuevo-bono`)
   }
 
-  typeSelection(isBono:boolean) {
-    this.isBono = isBono
+  onTabChange(event: MatTabChangeEvent): void {
+    if (event.tab.textLabel.includes('Bono')) this.isBono = true;
+     else this.isBono = false;
   }
+
+
 
 }
