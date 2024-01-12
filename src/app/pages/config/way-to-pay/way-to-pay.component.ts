@@ -10,14 +10,6 @@ import { ModalNewWayToPayComponent } from './modal-new-way-to-pay/modal-new-way-
 @Component({
   selector: 'app-way-to-pay',
   templateUrl: './way-to-pay.component.html',
-  styles: `
-  .c-config {
-    padding: 20px 40px;
-
-    .bg-card {
-        height: calc(100vh - 100px);
-    }
-}`
 })
 export class WayToPayComponent implements OnInit{
   public dataSource = new MatTableDataSource<any>([]);

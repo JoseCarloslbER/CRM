@@ -10,14 +10,6 @@ import { ModalNewProductCategoryComponent } from './modal-new-product-category/m
 @Component({
   selector: 'app-product-categories',
   templateUrl: './product-categories.component.html',
-  styles: `
-  .c-config {
-    padding: 20px 40px;
-
-    .bg-card {
-        height: calc(100vh - 100px);
-    }
-  }`
 })
 export class ProductCategoriesComponent {
   public dataSource = new MatTableDataSource<any>([]);

@@ -10,14 +10,6 @@ import { ModalNewCampaingCategoriesComponent } from './modal-new-campaing-catego
 @Component({
   selector: 'app-campaign-categories',
   templateUrl: './campaign-categories.component.html',
-  styles: `
-  .c-config {
-    padding: 20px 40px;
-
-    .bg-card {
-        height: calc(100vh - 100px);
-    }
-  }`
 })
 export class CampaignCategoriesComponent {
   public dataSource = new MatTableDataSource<any>([]);

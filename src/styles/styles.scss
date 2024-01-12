@@ -206,7 +206,8 @@ body.fuse-splash-screen-hidden fuse-splash-screen {
     padding: 20px 35px;
 
     .bg-card {
-        height: calc(100vh - 100px);
+        height: auto;
+        // height: calc(100vh - 100px);
     }
   }
 
