@@ -62,9 +62,8 @@ export class UsersRolComponent {
   }
 
   editData() {
-  
+    this.router.navigateByUrl(`/home/admin/nuevo-rol`)
   }
-
   
 
   deleteData() {

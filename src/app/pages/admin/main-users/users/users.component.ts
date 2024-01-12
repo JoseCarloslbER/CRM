@@ -10,14 +10,6 @@ import { MatPaginator } from '@angular/material/paginator';
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
-  styles: `
-  .c-config {
-    padding: 20px 40px;
-
-    .bg-card {
-        height: calc(100vh - 100px);
-    }
-  }`
 })
 export class UsersComponent {
   public dataSource = new MatTableDataSource<any>([]);
@@ -87,13 +79,7 @@ export class UsersComponent {
   }
 
   editData() {
-    // this.dialog.open(ModalNewRolComponent, {
-    //   data: ['test'],
-    //   disableClose: true,
-    //   width: '1000px',
-    //   maxHeight: '428px',
-    //   panelClass: 'custom-dialog',
-    // });
+    this.router.navigateByUrl(`/home/admin/nuevo-usuario`)
   }
 
   deleteData() {

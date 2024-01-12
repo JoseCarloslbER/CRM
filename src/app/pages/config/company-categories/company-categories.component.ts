@@ -9,14 +9,6 @@ import { OpenModalsService } from 'app/shared/services/openModals.service';
 @Component({
   selector: 'app-company-categories',
   templateUrl: './company-categories.component.html',
-  styles: `
-  .c-config {
-    padding: 20px 40px;
-
-    .bg-card {
-        height: calc(100vh - 100px);
-    }
-  }`
 })
 export class CompanyCategoriesComponent {
 
