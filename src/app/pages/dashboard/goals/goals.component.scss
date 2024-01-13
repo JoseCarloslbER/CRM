@@ -8,7 +8,8 @@
     }
 
     ::ng-deep .mdc-linear-progress__bar-inner {
-        border-color:#385A6D!important
+        border-color:#385A6D!important;
+        height: 5px;
     }
 }
 

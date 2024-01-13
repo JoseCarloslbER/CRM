@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
@@ -10,18 +10,25 @@ import { Router } from '@angular/router';
   templateUrl: './new-bono.component.html',
   styleUrl: './new-bono.component.scss'
 })
-export class NewBonoComponent {
+export class NewBonoComponent implements OnInit, AfterViewInit {
 
   public fechaHoy = new Date();
   public toppings = new FormControl('');
   public toppingList: string[] = ['Empresa A', 'Empresa B', 'Empresa C'];
   public valuesSpecifications: any[] = [];
 
+  public url = document.location.href;
+  public isGoal : boolean = false;
+  public modalTitle: string = '';
+
+
   public formulario = this.formBuilder.group({
     scaleType: ['', Validators.required],
     percentage: ['', Validators.required],
     amount: ['', Validators.required],
   });
+
+
 
   constructor(
     private notificationService: OpenModalsService,
@@ -30,6 +37,15 @@ export class NewBonoComponent {
     private router: Router
   ) { }
 
+
+  ngOnInit(): void {
+    if (this.url.includes('dashboard')) {
+      this.modalTitle = 'Registrar nueva meta'
+      this.isGoal = true;
+    }
+     else this.modalTitle = 'Registrar nuevo bono'
+
+  }
 
   ngAfterViewInit(): void {
     this.addFormSpecifications();
@@ -90,6 +106,6 @@ export class NewBonoComponent {
   }
 
   toBack(){
-    this.router.navigateByUrl(`/home/admin/bonos`)
+    this.router.navigateByUrl(`/home/${this.isGoal ? 'dashboard/metas' : 'admin/bonos'}`)
   }
 }

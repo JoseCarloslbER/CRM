@@ -113,7 +113,7 @@ export class GoalsComponent {
     {
       goals: {
         bono: 'Bono 1',
-        expenses: 11763.34,
+        expenses: 111763.34,
         expensesLimit: 61763.34,
       },
       taskAssigned: '_',
@@ -121,8 +121,8 @@ export class GoalsComponent {
     },
     {
       goals: {
-        bono: 'Bono 1',
-        expenses: 11763.34,
+        bono: 'Bono 2',
+        expenses: 111763.34,
         expensesLimit: 61763.34,
       },
       taskAssigned: '_',
@@ -130,8 +130,8 @@ export class GoalsComponent {
     },
     {
       goals: {
-        bono: 'Bono 1',
-        expenses: 11763.34,
+        bono: 'Bono 3',
+        expenses: 111763.34,
         expensesLimit: 61763.34,
       },
       taskAssigned: '_',
@@ -156,15 +156,15 @@ export class GoalsComponent {
 
 
   editData(data: any) {
-    this.router.navigateByUrl(`home/captacion/nueva-campaña`)
+    this.router.navigateByUrl(`home/dashboard/nueva-meta`)
   }
 
   seeData(data: any) {
-    this.router.navigateByUrl(`/home/conversion/detalle-cotizacion/1`)
+    this.router.navigateByUrl(`home/dashboard/nueva-meta`)
   }
 
   newData() {
-    this.router.navigateByUrl(`home/captacion/nueva-campaña`)
+    this.router.navigateByUrl(`home/dashboard/nueva-meta`)
   }
 
   seeBonusProgress() {
