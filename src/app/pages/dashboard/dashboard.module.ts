@@ -9,6 +9,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { CampaignsComponent } from './campaigns/campaigns.component';
 import { GoalsComponent } from './goals/goals.component';
+import { ModalBonusProgressComponent } from './goals/modal-bonus-progress/modal-bonus-progress.component';
+import { ModalAgentsComponent } from './goals/modal-agents/modal-agents.component';
 
 
 
@@ -18,7 +20,9 @@ import { GoalsComponent } from './goals/goals.component';
     HomeComponent, 
     PipelineComponent,
     CampaignsComponent,
-    GoalsComponent
+    GoalsComponent,
+    ModalBonusProgressComponent,
+    ModalAgentsComponent
   
   ],
   imports: [

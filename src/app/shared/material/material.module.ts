@@ -27,6 +27,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatTreeModule } from '@angular/material/tree';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatProgressBar, MatProgressBarModule } from '@angular/material/progress-bar';
 
 const material = [
 	MatSidenavModule,
@@ -57,6 +58,7 @@ const material = [
 	MatTreeModule,
 	MatFormFieldModule,
 	MatAutocompleteModule,
+	MatProgressBarModule
 ];
 @NgModule({
 	exports: [...material],
