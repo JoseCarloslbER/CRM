@@ -5,6 +5,8 @@ import { PipelineComponent } from './pipeline/pipeline.component';
 import { GoalsComponent } from './goals/goals.component';
 import { CampaignsComponent } from './campaigns/campaigns.component';
 import { NewBonoComponent } from '../admin/main-bonuses/bonuses/new-bono/new-bono.component';
+import { NewQuoteOrProspectComponent } from './new-quote-or-prospect/new-quote-or-prospect.component';
+import { NewQuoteOrClientComponent } from './new-quote-or-client/new-quote-or-client.component';
 
 const dashboardRoutes: Routes = [
 	{
@@ -31,6 +33,14 @@ const dashboardRoutes: Routes = [
 			{
 				path: 'campañias',
 				component: CampaignsComponent,
+			},
+			{
+				path: 'nueva-cotizacion-prospecto',
+				component: NewQuoteOrProspectComponent,
+			},
+			{
+				path: 'nueva-cotizacion-cliente',
+				component: NewQuoteOrClientComponent,
 			},
 		]
 	
