@@ -78,8 +78,8 @@
                             </mat-checkbox>
                         </div>
 
-                        <button class="btn-yellow fuse-mat-button-large w-full mt-6" mat-flat-button [disabled]="signInForm.disabled" (click)="signIn()">
-                            <span *ngIf="!signInForm.disabled" class="font-bold">
+                        <button class="btn-yellow fuse-mat-button-large w-full mt-6" mat-flat-button (click)="signIn()">
+                            <span class="font-bold">
                                 Ingresar
                             </span>
                             <mat-progress-spinner *ngIf="signInForm.disabled" [diameter]="24" [mode]="'indeterminate'"></mat-progress-spinner>

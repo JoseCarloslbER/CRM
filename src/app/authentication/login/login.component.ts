@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { FuseAlertType } from '@fuse/components/alert';
 
 @Component({
@@ -34,19 +35,23 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private _formBuilder: UntypedFormBuilder,
+    private router:Router
   ) {
   }
 
   ngOnInit(): void {
-    // Create the form
     this.signInForm = this._formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
-      user: ['', Validators.required],
+      email: [''],
+      password: [''],
+      user: [''],
+      // email: ['', [Validators.required, Validators.email]],
+      // password: ['', Validators.required],
+      // user: ['', Validators.required],
       rememberMe: [''],
     });
   }
 
   signIn(): void {
+    this.router.navigateByUrl('/home')
   }
 }
