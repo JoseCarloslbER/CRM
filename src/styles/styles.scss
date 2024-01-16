@@ -217,7 +217,15 @@ body.fuse-splash-screen-hidden fuse-splash-screen {
     }
   }
 
-  
+.font-format-blue-light {
+    font-weight: 400!important;
+    line-height: 18px!important;
+    text-align: center!important;
+    color: #3487E9!important;
+    border-bottom: 1.5px solid #3487E9!important;
+    cursor: pointer;
+}
+
 .text-line-bottom {
     width: auto!important;
     font-size: 16px;
@@ -233,4 +241,11 @@ body.fuse-splash-screen-hidden fuse-splash-screen {
         color: #385A6D;
         font-family: 'Poppins', sans-serif!important;
     }
+}
+
+
+.card-pipeline {
+    background: #FFFFFF;
+    box-shadow: 4px 4px 4px 0px #00000040;
+    border-radius: 20px;
 }
