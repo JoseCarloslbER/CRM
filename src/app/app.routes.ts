@@ -2,7 +2,7 @@ import { Route } from '@angular/router';
 import { LayoutComponent } from './shared/layout/layout.component';
 
 export const appRoutes: Route[] = [
-    { path: '', pathMatch : 'full', redirectTo: 'home' },
+    { path: '', pathMatch : 'full', redirectTo: 'autenticacion' },
     // { path: '', redirectTo: 'autenticacion', pathMatch: 'full' },
     {
 		path: 'autenticacion',
