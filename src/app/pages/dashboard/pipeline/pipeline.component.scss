@@ -9,14 +9,23 @@
 
         .container-pipeline:nth-child(2) {
             width: 23%;
+            .pipeline-subheader{
+                background: #4DCEA0;
+            }
         }
 
         .container-pipeline:nth-child(3) {
             width: 31%;
+            .pipeline-subheader{
+                background: #23ABF8;
+            }
         }
         
         .container-pipeline:nth-child(4) {
             width: 23%;
+            .pipeline-subheader{
+                background: #00AD38;
+            }
         }
 
         .container-pipeline {
@@ -58,17 +67,18 @@
                 margin-bottom: 20px;
             }
 
-            .pipeline-subheader:nth-child(1) {
-                background: #4DCEA0;
-            }
+            // .pipeline-subheader:nth-child(1) {
+            //     background: #4DCEA0;
+            // }
 
-            .pipeline-subheader:nth-child(2) {
-                background: #23ABF8;
-            }
-
-            .pipeline-subheader:nth-child(3) {
-                background: #00AD38;
-            }
+            // .pipeline-subheader:nth-child(2) {
+            //     background: #4DCEA0;
+            // }
+            
+            // .pipeline-subheader:nth-child(3) {
+            //     background: #23ABF8;
+            //     // background: #00AD38;
+            // }
 
 
             .card-title-pipeline {
