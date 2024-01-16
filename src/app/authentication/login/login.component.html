@@ -27,16 +27,10 @@
             </div>
             <div class="w-full sm:w-auto py-8 px-4 sm:p-12 md:p-16">
                 <div class="w-full max-w-80 sm:w-80 mx-auto sm:mx-0">
-                    <!-- Title -->
                     <div class="mt-8 text-4xl font-extrabold tracking-tight leading-tight">Iniciar sesión</div>
     
-                    <!-- Sign in form -->
-                    <form
-                        class="mt-8"
-                        [formGroup]="signInForm"
-                        #signInNgForm="ngForm">
+                    <form class="mt-8" [formGroup]="signInForm" #signInNgForm="ngForm">
     
-                        <!-- Email field -->
                         <mat-form-field class="w-full">
                             <mat-label>Usuario</mat-label>
                             <input
@@ -51,7 +45,6 @@
                             </mat-error> -->
                         </mat-form-field>
     
-                        <!-- Password field -->
                         <mat-form-field class="w-full">
                             <mat-label>Contraseña</mat-label>
                             <input
@@ -79,35 +72,18 @@
                             </mat-error>
                         </mat-form-field>
     
-                        <!-- Actions -->
                         <div class="inline-flex items-center justify-between w-full mt-1.5">
-                            <mat-checkbox
-                                class="-ml-2"
-                                [color]="'primary'"
-                                [formControlName]="'rememberMe'">
+                            <mat-checkbox class="-ml-2" [formControlName]="'rememberMe'">
                                 Recordarme
                             </mat-checkbox>
-                            <!-- <a
-                                class="text-md font-medium text-primary-500 hover:underline"
-                                [routerLink]="['/forgot-password']">¿Olvidaste tu contraseña?
-                            </a> -->
                         </div>
-    
-                        <button
-                            class="fuse-mat-button-large w-full mt-6"
-                            mat-flat-button
-                            [color]="'primary'"
-                            [disabled]="signInForm.disabled"
-                            (click)="signIn()">
+
+                        <button class="btn-yellow fuse-mat-button-large w-full mt-6" mat-flat-button [disabled]="signInForm.disabled" (click)="signIn()">
                             <span *ngIf="!signInForm.disabled" class="font-bold">
                                 Ingresar
                             </span>
-                            <mat-progress-spinner
-                                *ngIf="signInForm.disabled"
-                                [diameter]="24"
-                                [mode]="'indeterminate'"></mat-progress-spinner>
+                            <mat-progress-spinner *ngIf="signInForm.disabled" [diameter]="24" [mode]="'indeterminate'"></mat-progress-spinner>
                         </button>
-    
                     </form>
                 </div>
             </div>
