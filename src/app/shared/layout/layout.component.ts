@@ -1,6 +1,6 @@
 import { NgIf } from '@angular/common';
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterModule, RouterOutlet } from '@angular/router';
 import { Subject } from 'rxjs';
 import { FuseNavigationItem, FuseNavigationService, FuseVerticalNavigationComponent } from '@fuse/components/navigation';
 import { FuseLoadingBarComponent } from '@fuse/components/loading-bar';
@@ -18,7 +18,7 @@ import { ShortcutsComponent } from './common/shortcuts/shortcuts.component';
     styleUrls: ['./layout.component.scss'],
     encapsulation: ViewEncapsulation.None,
     standalone: true,
-    imports: [FuseLoadingBarComponent, FuseVerticalNavigationComponent, NotificationsComponent, UserComponent, NgIf, MatIconModule, MatButtonModule, SearchComponent, ShortcutsComponent, MessagesComponent, RouterOutlet],
+    imports: [RouterModule, FuseLoadingBarComponent, FuseVerticalNavigationComponent, NotificationsComponent, UserComponent, NgIf, MatIconModule, MatButtonModule, SearchComponent, ShortcutsComponent, MessagesComponent, RouterOutlet],
 })
 export class LayoutComponent implements OnInit, OnDestroy {
 
@@ -33,7 +33,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
                     title: "Campañas",
                     type: "basic",
                     icon: "mat_outline:assignment",
-                    link: "/home/captacion/campanias"
+                    link: "/home/captacion/campañias"
                 },
             ]
         },

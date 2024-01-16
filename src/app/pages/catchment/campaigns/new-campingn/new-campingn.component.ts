@@ -43,6 +43,6 @@ export class NewCampingnComponent implements AfterViewInit {
 
   
   toBack(){
-    this.router.navigateByUrl(`/home/captacion/campanias`)
+    this.router.navigateByUrl(`/home/captacion/campañias`)
   }
 }

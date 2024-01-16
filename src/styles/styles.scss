@@ -2,8 +2,8 @@
 @import 'table.scss';
 
 body {
-	margin: 0;
-    font-family: 'Poppins', sans-serif;
+	margin: 0!important;
+    font-family: 'Poppins', sans-serif!important;
 }
 
 body fuse-splash-screen {
@@ -165,6 +165,10 @@ body.fuse-splash-screen-hidden fuse-splash-screen {
     .show-icon {
         display: block!important;
     }
+
+    .menu-bar ul li:hover .dropdown-menu {
+        right: 99%!important;
+    }
 }
 
 .cursos-pointer {
@@ -177,6 +181,8 @@ body.fuse-splash-screen-hidden fuse-splash-screen {
 
 .inputNewRegister {
 	width: 100%!important;
+    margin-bottom: 20px;
+
 	.mat-mdc-form-field-flex {
 		background: #F5F5F5 !important;
 	}
@@ -220,4 +226,11 @@ body.fuse-splash-screen-hidden fuse-splash-screen {
     border-bottom: 1.5px solid #3487E9;
     margin: auto;
     width: 145px;
+}
+
+.menu-header {
+    button {
+        color: #385A6D;
+        font-family: 'Poppins', sans-serif!important;
+    }
 }

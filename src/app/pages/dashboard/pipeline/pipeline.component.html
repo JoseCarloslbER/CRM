@@ -1,15 +1,120 @@
-<div class="flex flex-col flex-auto min-w-0">
-    <div class="flex-auto sm:p-9">
-        
-        <!-- HEADER -->
-        <div class="header-content">
-            <p>HEADER</p>
-        </div>
+<div class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto c-pipeline" cdkScrollable>
 
-        <!-- CONTENT -->
-        <div class="h-400 min-h-400 max-h-400 border-2 rounded-2xl">
-            <p>CONTENT</p>
-        </div>
+    <!-- Header -->
+    <div class="bg-card">
+        <div class="flex flex-col w-full mx-auto px-6 sm:px-8">
 
+            <!-- FILTERS  -->
+            <form class="row mt-5 mb-5" [formGroup]="formFilters">
+                <div class="col-12">
+
+                    <div class="section-title row d-flex justify-content-between align-items-center">
+
+                        <div class="col-md-12 col-sm-12 col-12 title">
+                            Pipeline
+                        </div>
+                    </div>
+
+                    <div class="row d-flex align-items-center">
+
+                        <div class="flex col-sm-12  col-md-6 col-lg-3 col-12 pe-2">
+                            <mat-form-field class="flex-auto input-default">
+                                <mat-label>Cliente</mat-label>
+                                <mat-select placeholder="Seleccionar" formControlName="client">
+                                    <mat-option value="Cliente-1">Cliente 1</mat-option>
+                                    <mat-option value="Cliente-2">Cliente 2</mat-option>
+                                    <mat-option value="Cliente-3">Cliente 3</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="flex col-sm-12 col-md-6 col-lg-3 col-12 pe-2">
+                            <mat-form-field class="flex-auto input-default">
+                                <mat-label>Agente</mat-label>
+                                <mat-select placeholder="Seleccionar" formControlName="agent">
+                                    <mat-option value="Agente-1">Agente 1</mat-option>
+                                    <mat-option value="Agente-2">Agente 2</mat-option>
+                                    <mat-option value="Agente-3">Agente 3</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="flex col-sm-12 col-md-6 col-lg-3 col-12 pe-2">
+                            <mat-form-field class="flex-auto input-default">
+                                <mat-label>Estatus</mat-label>
+                                <mat-select placeholder="Seleccionar" formControlName="agent">
+                                    <mat-option value="Agente-1">Estatus 1</mat-option>
+                                    <mat-option value="Estatus-2">Estatus 2</mat-option>
+                                    <mat-option value="Estatus-3">Estatus 3</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="flex col-sm-12 col-md-6 col-lg-3 col-12 pe-2">
+                            <mat-form-field class="flex-auto input-default">
+                                <mat-label>Rango de fechas</mat-label>
+                                <mat-date-range-input [max]="fechaHoy" [rangePicker]="campaignOnePicker"
+                                    [comparisonStart]="formFilters.value['rangeDateStart']"
+                                    [comparisonEnd]="formFilters.value['rangeDateEnd']">
+                                    <input matStartDate placeholder="Inicio" formControlName="rangeDateStart" />
+                                    <input matEndDate placeholder="Final" formControlName="rangeDateEnd" />
+                                </mat-date-range-input>
+
+                                <mat-datepicker-toggle matIconSuffix [for]="campaignOnePicker"></mat-datepicker-toggle>
+                                <mat-date-range-picker #campaignOnePicker></mat-date-range-picker>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="flex col-sm-12 col-md-6 col-lg-3 col-12">
+                            <button class="btn-search " (click)="searchWithFilters()">
+                                <span>Buscar</span>
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
+
+
+    <div class="flex-auto border-t -mt-px pt-4 sm:pt-6">
+        <div class="w-full mx-auto">
+
+            <mat-tab-group class="sm:px-2" mat-stretch-tabs="false" [animationDuration]="'0'"
+                (selectedTabChange)="onTabChange($event)">
+
+                <mat-tab label="Día">
+                    <ng-template matTabContent>
+                        <div class="row c-pipeline-header">
+                            <div class="container-pipeline mb-lg-0 mb-5 mb-sm-0">
+                                <div class="pipeline-header">Prospectos</div>
+                            </div>
+                            <div class="container-pipeline" >
+                                <div class="pipeline-header">Coti. Rápidas</div>
+                                <div class="pipeline-subheader">TOTAL: $ 79,325.01</div>
+                            </div>
+                            <div class="container-pipeline">
+                                <div class="pipeline-header">Coti. Formales</div>
+                                <div class="pipeline-subheader">TOTAL: $ 50,860.00</div>
+                            </div>
+                            <div class="container-pipeline">
+                                <div class="pipeline-header">Ventas</div>
+                                <div class="pipeline-subheader">TOTAL: $ 3,956,505.21</div>
+                            </div>
+                            </div>
+
+                    </ng-template>
+                </mat-tab>
+
+                <mat-tab label="Mes">
+                </mat-tab>
+
+                <mat-tab label="Año">
+                </mat-tab>
+
+            </mat-tab-group>
+        </div>
+    </div>
+
 </div>

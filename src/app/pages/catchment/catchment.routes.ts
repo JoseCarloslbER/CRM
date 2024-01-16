@@ -8,9 +8,9 @@ const catchmentRoutes: Routes = [
 		path: '',
 		component: CatchmentComponent,
 		children: [
-			{ path: '', pathMatch : 'full', redirectTo: 'campanias' },
+			{ path: '', pathMatch : 'full', redirectTo: 'campañias' },
 			{
-				path: 'campanias',
+				path: 'campañias',
 				component: CampaignsComponent,
 			},
 			{
