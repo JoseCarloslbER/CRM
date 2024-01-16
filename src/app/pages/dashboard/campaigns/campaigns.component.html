@@ -1,4 +1,4 @@
-<div class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto c-home" cdkScrollable>
+<div class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto c-camping-dash" cdkScrollable>
 
     <!-- Header -->
     <div class="bg-card">
@@ -82,14 +82,177 @@
     <div class="flex-auto border-t -mt-px pt-4 sm:pt-6">
         <div class="w-full mx-auto">
 
-            <mat-tab-group class="sm:px-2" mat-stretch-tabs="false" [animationDuration]="'0'" (selectedTabChange)="onTabChange($event)">
+            <mat-tab-group class="sm:px-2" mat-stretch-tabs="false" [animationDuration]="'0'"
+                (selectedTabChange)="onTabChange($event)">
 
                 <mat-tab label="Día">
                     <ng-template matTabContent>
-                       
+                        <div class="row mt-4">
+                            <div class="col-md-12 campaigns-month">
+                                <div class="section-header-dashboard flex-center">
+                                    Campañas del mes
+                                </div>
+
+                                <div class="content-month">
+                                    <div class="row">
+
+                                        <div class="col-md-6 mb-3 mb-sm-4">
+                                            <div class="month-info width-100 flex flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden mb-md-0">
+                                                <div class="row width-100">
+                                                    <div class="col-md-6 d-flex align-items-center">
+                                                        <div class="">Total de campañas</div>
+                                                    </div>
+                                                    <div
+                                                        class="col-md-6 flex align-items-center justify-content-center">
+                                                        <div class="">15</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <br>
+
+                                            <div class="card-amount-moth flex flex-auto p-6 bg-card shadow rounded-2xl mb-md-0 width-100">
+                                                <div class="row">
+                                                    <div class="col-md-6 d-flex flex-column">
+                                                        <div>Total de monto <br> invertido</div>
+                                                        <div>$8,000.00 MX</div>
+                                                    </div>
+                                                    <div class="col-md-6 d-flex flex-column">
+                                                        <div>Costo promedio por campaña</div>
+                                                        <div class="green-color">$8,000.00 MX</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6 mb-3 mb-sm-4">
+                                            <div
+                                                class="flex flex-col flex-auto bg-card shadow rounded-2xl">
+                                                <div class="flex items-start justify-between m-6 mb-0">
+                                                    <div class="text-lg font-medium tracking-tight leading-6 truncate">
+                                                        Saldo de la cuenta <br>
+                                                    </div>
+                                                    <div class="ml-2">
+                                                        <button class="h-6 min-h-6 px-2 rounded-full bg-hover" mat-button [matMenuTriggerFor]="conversionMenu">
+                                                            <span class="font-medium text-sm text-secondary">12 meses</span>
+                                                        </button>
+                                                        <mat-menu #conversionMenu="matMenu">
+                                                            <button mat-menu-item>30 daás</button>
+                                                            <button mat-menu-item>3 meses</button>
+                                                            <button mat-menu-item>9 meses</button>
+                                                        </mat-menu>
+                                                    </div>
+                                                </div>
+                                                <div class="flex items-start mt-6 mx-6">
+                                                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-12">
+                                                        <div class="flex flex-col">
+                                                            <div class="flex items-start mt-2">
+                                                                <div class="text-4xl font-bold tracking-tight leading-none">38.33%</div>
+                                                            </div>
+
+                                                            <div class="flex items-center">
+                                                                <div class="font-medium text-secondary leading-5">Crecimiento mensual promedio</div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="flex flex-col">
+                                                            <div class="flex items-start mt-2">
+                                                                <div class="text-4xl font-bold tracking-tight leading-none">38.33%</div>
+                                                            </div>
+
+                                                            <div class="flex items-center">
+                                                                <div class="font-medium text-secondary leading-5">Ingreso mensual promedio</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="flex flex-col flex-auto h-25 mt-3">
+                                                    <apx-chart class="flex-auto w-full h-full"
+                                                        [chart]="chartVisitorsVsPageViews.chart"
+                                                        [colors]="chartVisitorsVsPageViews.colors"
+                                                        [dataLabels]="chartVisitorsVsPageViews.dataLabels"
+                                                        [grid]="chartVisitorsVsPageViews.grid"
+                                                        [legend]="chartVisitorsVsPageViews.legend"
+                                                        [series]="chartVisitorsVsPageViews.series"
+                                                        [stroke]="chartVisitorsVsPageViews.stroke"
+                                                        [tooltip]="chartVisitorsVsPageViews.tooltip"
+                                                        [xaxis]="chartVisitorsVsPageViews.xaxis"
+                                                        [yaxis]="chartVisitorsVsPageViews.yaxis"></apx-chart>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="row mt-4">
+                            <div class="col-md-6 campaigns-month">
+                                <div class="section-header-dashboard flex-center">
+                                    Cotizaciones
+                                </div>
+
+                                <div class="content-month">
+                                    <div class="row">
+
+                                        <div class="col-md-12 mb-3 mb-sm-4">
+                                            <div class="flex flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden mb-md-0">
+                                                <div class="row quote-info " >
+                                                    <div class="section1-quote col-md-6 d-flex flex-column">
+                                                        <div>Total de prospectos <br> alcanzados</div>
+                                                        <div>15</div>
+                                                    </div>
+
+                                                    <div class="section2-quote col-md-6 d-flex flex-column">
+                                                        <div>Costo promedio por <br> prospecto</div>
+                                                        <div class="green-color">$5,000.00 MX</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                       
+                                        <div class="col-md-12 mb-3 mb-sm-4">
+                                            <div class="flex flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden mb-md-0">
+                                                <div class="row quote-info " >
+                                                    <div class="section1-quote col-md-6 d-flex flex-column">
+                                                        <div>Total de prospectos <br> alcanzados</div>
+                                                        <div>15</div>
+                                                    </div>
+
+                                                    <div class="section2-quote col-md-6 d-flex flex-column">
+                                                        <div>Costo promedio por <br> prospecto</div>
+                                                        <div class="green-color">$5,000.00 MX</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                     
+
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 campaigns-month">
+                                <div class="section-header-dashboard flex-center">
+                                    Ventas
+                                </div>
+                            </div>
+                        </div>
 
                     </ng-template>
                 </mat-tab>
+
+
+
+
+
+
+
+
+
 
                 <mat-tab label="Mes">
                 </mat-tab>
@@ -101,6 +264,6 @@
         </div>
     </div>
 
-   
+
 
 </div>

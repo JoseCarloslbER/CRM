@@ -1,0 +1,111 @@
+.c-camping-dash {
+    .campaigns-month {
+        .content-month {
+            
+            .month-info {
+                height: 149px;
+                > .row {
+
+                    color: #1E293B;
+
+                    >div:nth-child(1) {
+                        font-size: 16px;
+                        font-weight: 700;
+                    }
+
+                    >div:nth-child(2) {
+                        font-size: 45px;
+                        font-weight: 700;
+                    }
+                }
+            }
+        }
+
+        .card-amount-moth {
+            height: 149px;
+            
+            .row {
+                color: #1E293B;
+
+                > div {
+                    text-align: center;
+
+                    >div:nth-child(1) {
+                        height: 40px;
+                        font-size: 16px;
+                        font-weight: 700;
+                    }
+
+                    >div:nth-child(2) {
+                        font-size: 27px;
+                        margin-top: 10px;
+                        font-weight: 400;
+                    }
+                }
+            }
+
+            // > div:nth-child(2) {
+            //     font-size: 30px;
+            //     font-weight: 400;
+            // }
+        }
+    }
+
+
+    .quote-info {
+
+        text-align: center;
+        .section1-quote {
+           > div:nth-child(1) {
+                font-size: 16px;
+                font-weight: 700;
+            }
+            > div:nth-child(2) {
+                font-size: 45px;
+                font-weight: 700;
+            }
+        }
+      
+        .section2-quote {
+            div:nth-child(1) {
+                font-size: 16px;
+                font-weight: 700;
+            }
+            div:nth-child(2) {
+                font-size: 27px;
+                font-weight: 400;
+            }
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
+
+.min-heigt {
+    min-height: 310px;
+}
+
+.green-color {
+    color: #026A1F;
+}
+
+.color-yellow {
+    color: #F1E00E;
+}
+
+.color-red {
+    color: #FF0000;
+}
