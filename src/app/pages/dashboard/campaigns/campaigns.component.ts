@@ -1,8 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { FuseConfirmationService } from '@fuse/services/confirmation/confirmation.service';
 import { ApexOptions } from 'apexcharts';
+import { MatDialog } from '@angular/material/dialog';
+import { ModalCampaignResultsComponent } from 'app/pages/catchment/campaigns/modal-campaign-results/modal-campaign-results.component';
+import { ModalInformationInTableComponent } from 'app/shared/components/modal-information-in-table/modal-information-in-table.component';
 
 
 @Component({
@@ -11,6 +16,166 @@ import { ApexOptions } from 'apexcharts';
   styleUrl: './campaigns.component.scss'
 })
 export class CampaignsComponent {
+  public dataSource = new MatTableDataSource<any>([]);
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatPaginator) paginatorGoalHistory!: MatPaginator;
+  public longitudPagina = 50;
+  public total = 0;
+  public indicePagina = 0;
+  public displayedColumns: string[] = [
+    'campaign',
+    'type',
+    'period',
+    'companies',
+    'amountInvested',
+    'resuls',
+    'quotes',
+    'sells',
+  ];
+
+  
+  private companyInfoColumns: string[] = [
+    'company',
+    'contact',
+    'status'
+  ]
+
+  private datacompany: any[] = [
+    {
+      company: 'RECK SOLUCIONES',
+      status: 'LEAD',
+      contact: [
+        {
+          nombre: 'Ing Alberto Avendaño',
+          email: 'aavendano@anpasa.com',
+          telefono: 'N/A',
+          celular: '5516349327',
+        }
+      ],
+    },
+    {
+      company: 'RECK SOLUCIONES',
+      status: 'LEAD',
+      contact: [
+        {
+          nombre: 'Ing Alberto Avendaño',
+          email: 'aavendano@anpasa.com',
+          telefono: 'N/A',
+          celular: '5516349327',
+        }
+      ],
+    },
+    {
+      company: 'RECK SOLUCIONES',
+      status: 'LEAD',
+      contact: [
+        {
+          nombre: 'Ing Alberto Avendaño',
+          email: 'aavendano@anpasa.com',
+          telefono: 'N/A',
+          celular: '5516349327',
+        }
+      ],
+    },
+    {
+      company: 'RECK SOLUCIONES',
+      status: 'LEAD',
+      contact: [
+        {
+          nombre: 'Ing Alberto Avendaño',
+          email: 'aavendano@anpasa.com',
+          telefono: 'N/A',
+          celular: '5516349327',
+        }
+      ],
+    },
+    {
+      company: 'RECK SOLUCIONES',
+      status: 'LEAD',
+      contact: [
+        {
+          nombre: 'Ing Alberto Avendaño',
+          email: 'aavendano@anpasa.com',
+          telefono: 'N/A',
+          celular: '5516349327',
+        }
+      ],
+    },
+    {
+      company: 'RECK SOLUCIONES',
+      status: 'LEAD',
+      contact: [
+        {
+          nombre: 'Ing Alberto Avendaño',
+          email: 'aavendano@anpasa.com',
+          telefono: 'N/A',
+          celular: '5516349327',
+        }
+      ],
+    },
+    {
+      company: 'RECK SOLUCIONES',
+      status: 'LEAD',
+      contact: [
+        {
+          nombre: 'Ing Alberto Avendaño',
+          email: 'aavendano@anpasa.com',
+          telefono: 'N/A',
+          celular: '5516349327',
+        }
+      ],
+    },
+    {
+      company: 'RECK SOLUCIONES',
+      status: 'LEAD',
+      contact: [
+        {
+          nombre: 'Ing Alberto Avendaño',
+          email: 'aavendano@anpasa.com',
+          telefono: 'N/A',
+          celular: '5516349327',
+        }
+      ],
+    },
+
+  ]
+
+
+  public dataDummy: any[] = [
+    {
+      campaign: 'Nombre 1',
+      type: 'Tipo 1',
+      period: {
+        inicial: '2022-02-28',
+        final: '2022-02-28'
+      },
+      companies : '20',
+      amountInvested : '$20.00',
+      resuls: [
+        {
+          left: '5',
+          right: '5%',
+          bottom: '$15,000.00',
+        }
+      ],
+      quotes: [
+        {
+          up: '5',
+          bottom: '$15,000.00',
+
+        }
+      ],
+      sells: [
+        {
+          up: '5',
+          bottom: '$15,000.00',
+
+        }
+      ],
+
+    },
+  
+  ]
 
   data = {
     visitors: {
@@ -1730,13 +1895,17 @@ export class CampaignsComponent {
   public selectedProject: string = 'Estadísticas';
 
   constructor(
+    private dialog: MatDialog,
     private notificationService: FuseConfirmationService,
     private formBuilder: FormBuilder
   ) {
 
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.dataSource.data = this.dataDummy
+
+   }
 
   onTabChange(event: MatTabChangeEvent): void {
     console.log(event.tab.textLabel);
@@ -1744,6 +1913,32 @@ export class CampaignsComponent {
 
   SearchWithFilters() {
     console.log(this.formFilters.value);
+  }
+
+  seeCompanies() {
+    this.dialog.open(ModalInformationInTableComponent, {
+      data: {
+        info: this.datacompany,
+        columns: this.companyInfoColumns,
+        type: 'companies'
+      },
+      disableClose: true,
+      width: '1000px',
+      maxHeight: '700px',
+      panelClass: 'custom-dialog',
+    });
+  }
+
+  seeCampaignsResults() {
+    this.dialog.open(ModalCampaignResultsComponent, {
+      data: {
+
+      },
+      disableClose: true,
+      width: '1000px',
+      maxHeight: '1000px',
+      panelClass: 'custom-dialog',
+    });
   }
 
   probar() {

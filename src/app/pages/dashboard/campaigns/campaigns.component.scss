@@ -1,62 +1,62 @@
 .c-camping-dash {
-    .content-month {
+    .table-column-three-buttons {
+        span {
+            margin: auto;
+            width: 80px!important;
+        }
+    }
+    .month-info {
+        min-height: 125px;
+        color: #1E293B;
 
-        .month-info {
-            height: 125px;
-            color: #1E293B;
+        >div:nth-child(1) {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        >div:nth-child(2) {
+            font-size: 45px;
+            font-weight: 700;
+        }
+    }
+
+    .amount-month {
+        min-height: 125px;
+        color: #1E293B;
+
+        >div {
+            text-align: center;
 
             >div:nth-child(1) {
+                height: 40px;
                 font-size: 16px;
                 font-weight: 700;
+                height: 45px;
             }
 
             >div:nth-child(2) {
+                font-size: 27px;
+                margin-top: 10px;
+                font-weight: 400;
+            }
+
+            span {
                 font-size: 45px;
                 font-weight: 700;
             }
         }
 
-        .amount-month {
-            height: 125px;
-            color: #1E293B;
-
-            > div {
-                text-align: center;
-
-                >div:nth-child(1) {
-                    height: 40px;
-                    font-size: 16px;
-                    font-weight: 700;
-                    height: 45px;
-                }
-
-                >div:nth-child(2) {
-                    font-size: 27px;
-                    margin-top: 10px;
-                    font-weight: 400;
-                }
-
-                span {
-                    font-size: 45px;
-                    font-weight: 700;
-                }
-            }
-
-            .count-total {
-               div {
-                font-size: 27px!important;
-                margin-top: 10px!important;
-                font-weight: 400!important;
-               }
+        .count-total {
+            div {
+                font-size: 27px !important;
+                margin-top: 10px !important;
+                font-weight: 400 !important;
             }
         }
+    }
 
-        .two-month {
-            height: 145px;
-        }
-
-
-
+    .two-month {
+        height: 145px;
     }
 
 

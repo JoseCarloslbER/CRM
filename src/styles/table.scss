@@ -324,6 +324,11 @@
 		background: none !important;
 		min-width: 200px !important;
 		max-width: 250px !important;
+		border-bottom: 1px solid #B7B7B7;
+	}
+
+	tr {
+		border-bottom: 1px solid #B7B7B7;
 	}
 
 
@@ -533,6 +538,16 @@
 	>div:nth-child(2) {
 		background: #24BB55;
 		color: #FFFFFF;
+	}
+
+	> span {
+		width: auto;
+		font-size: 14px;
+		font-weight: 700;
+		text-align: center;
+		color: #3487E9;
+		border-bottom: 1px solid #3487E9;
+		cursor: pointer;
 	}
 }
 
