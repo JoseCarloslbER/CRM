@@ -1,89 +1,63 @@
 .c-camping-dash {
-    .campaigns-month {
-        .content-month {
-            
-            .month-info {
-                height: 149px;
-                > .row {
+    .content-month {
 
-                    color: #1E293B;
+        .month-info {
+            height: 125px;
+            color: #1E293B;
 
-                    >div:nth-child(1) {
-                        font-size: 16px;
-                        font-weight: 700;
-                    }
-
-                    >div:nth-child(2) {
-                        font-size: 45px;
-                        font-weight: 700;
-                    }
-                }
-            }
-        }
-
-        .card-amount-moth {
-            height: 149px;
-            
-            .row {
-                color: #1E293B;
-
-                > div {
-                    text-align: center;
-
-                    >div:nth-child(1) {
-                        height: 40px;
-                        font-size: 16px;
-                        font-weight: 700;
-                    }
-
-                    >div:nth-child(2) {
-                        font-size: 27px;
-                        margin-top: 10px;
-                        font-weight: 400;
-                    }
-                }
-            }
-
-            // > div:nth-child(2) {
-            //     font-size: 30px;
-            //     font-weight: 400;
-            // }
-        }
-    }
-
-
-    .quote-info {
-
-        text-align: center;
-        .section1-quote {
-           > div:nth-child(1) {
+            >div:nth-child(1) {
                 font-size: 16px;
                 font-weight: 700;
             }
-            > div:nth-child(2) {
+
+            >div:nth-child(2) {
                 font-size: 45px;
                 font-weight: 700;
             }
         }
-      
-        .section2-quote {
-            div:nth-child(1) {
-                font-size: 16px;
-                font-weight: 700;
+
+        .amount-month {
+            height: 125px;
+            color: #1E293B;
+
+            > div {
+                text-align: center;
+
+                >div:nth-child(1) {
+                    height: 40px;
+                    font-size: 16px;
+                    font-weight: 700;
+                    height: 45px;
+                }
+
+                >div:nth-child(2) {
+                    font-size: 27px;
+                    margin-top: 10px;
+                    font-weight: 400;
+                }
+
+                span {
+                    font-size: 45px;
+                    font-weight: 700;
+                }
             }
-            div:nth-child(2) {
-                font-size: 27px;
-                font-weight: 400;
+
+            .count-total {
+               div {
+                font-size: 27px!important;
+                margin-top: 10px!important;
+                font-weight: 400!important;
+               }
             }
         }
+
+        .two-month {
+            height: 145px;
+        }
+
+
+
     }
-
-
-
-
-
-
-
 
 
 
