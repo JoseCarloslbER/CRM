@@ -43,8 +43,6 @@ export class ShortcutsComponent implements OnDestroy {
   }
 
   goUrl(type?: string) {
-    console.log(type);
- 
     const routeMappings = {
       'newProspect': '/home/dashboard/nueva-cotizacion-prospecto',
       'newClient': '/home/dashboard/nueva-cotizacion-cliente',
@@ -56,6 +54,7 @@ export class ShortcutsComponent implements OnDestroy {
   
     const route = routeMappings[type];
     this.router.navigateByUrl(route);
+    this._overlayRef.detach();
   }
 
   public openPanel(): void {

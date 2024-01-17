@@ -11,18 +11,18 @@ import { Router } from '@angular/router';
   styleUrl: './new-quote-or-prospect.component.scss'
 })
 export class NewQuoteOrProspectComponent implements AfterViewInit {
- 
+
   public addContact = new FormControl('')
   public contactos: any[] = []
   public valuesContacts: any[] = []
- 
+
   public formulario = this.formBuilder.group({
-    nombre: ['', Validators.required],
-    correo: ['', Validators.required],
-    telefono: ['', Validators.required],
-    cargo: ['', Validators.required],
-    movil: ['', Validators.required],
-    extension: ['', Validators.required],
+    nombre: [''],
+    correo: [''],
+    telefono: [''],
+    cargo: [''],
+    movil: [''],
+    extension: [''],
   });
 
   constructor(
@@ -36,6 +36,9 @@ export class NewQuoteOrProspectComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     this.addContact.valueChanges.subscribe(resp => {
       console.log(resp);
+      if (resp) {
+        this.addFormContact()
+      }
     })
 
   }
@@ -81,11 +84,11 @@ export class NewQuoteOrProspectComponent implements AfterViewInit {
     }
   }
 
-  deleteContact(index:number) {
+  deleteContact(index: number) {
     this.valuesContacts.splice(index, 1)
   }
 
-  save(){
+  save() {
     this.notificationService
       .notificacion(
         'Éxito',
@@ -98,8 +101,8 @@ export class NewQuoteOrProspectComponent implements AfterViewInit {
       });
   }
 
-  
-  toBack(){
+
+  toBack() {
     this.router.navigateByUrl(`/home/conversion/detalle-cotizacion/1`)
   }
 }
