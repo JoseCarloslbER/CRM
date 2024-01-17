@@ -19,46 +19,30 @@ import { Subject } from 'rxjs';
 })
 export class UserComponent implements OnInit, OnDestroy
 {
-    /* eslint-disable @typescript-eslint/naming-convention */
     static ngAcceptInputType_showAvatar: BooleanInput;
-    /* eslint-enable @typescript-eslint/naming-convention */
 
     @Input() showAvatar: boolean = true;
     user: any;
 
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
-    /**
-     * Constructor
-     */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
-    )
-    {
-    }
+    ) { }
 
-    ngOnInit(): void {
-       
-    }
+    ngOnInit(): void { }
 
-    ngOnDestroy(): void
-    {
-        // Unsubscribe from all subscriptions
+    ngOnDestroy(): void {
         this._unsubscribeAll.next(null);
         this._unsubscribeAll.complete();
     }
 
-    updateUserStatus(status: string): void
-    {
-        if ( !this.user ) {
-            return;
-        }
+    updateUserStatus(status: string): void {
+        if ( !this.user ) return;
     }
-
    
-    signOut(): void
-    {
-        this._router.navigate(['/sign-out']);
+    signOut(): void {
+        this._router.navigate(['/autenticacion/login']);
     }
 }

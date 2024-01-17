@@ -89,39 +89,38 @@
                     </div>
                 </div>
 
-                <div class="row mb-lg-0 mb-5 mb-sm-0">
-                    <div class="section-header-modal">
+                <div class="row mb-lg-0 mb-5 mb-sm-0 section-header-options">
+                    <div class="col-md-3">
                         Opción 1
                     </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-6">
-
-                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
-                            <mat-label>Seleccione el tipo de precio</mat-label>
-                            <mat-select placeholder="Seleccionar">
-                                <mat-option value="Prospectoempresa">tipo de precio 1</mat-option>
-                                <mat-option value="Prospectoempresa">tipo de precio 2</mat-option>
-                                <mat-option value="Prospectoempresa">tipo de precio 3</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-
-                    </div>
-                    <div class="col-md-6">
-                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
-                            <mat-label>Cantidad de colaboradores / lugares</mat-label>
-                            <mat-select placeholder="Seleccionar">
-                                <mat-option value="Contacto">Colaboradores / lugares 1</mat-option>
-                                <mat-option value="colaboradores / lugares">Colaboradores / lugares 2</mat-option>
-                                <mat-option value="colaboradores / lugares">Colaboradores / lugares 3</mat-option>
-                            </mat-select>
-                        </mat-form-field>
+                    <div class="col-md-9">
+                        <div class="flex inputsRadioGroup" style="display: flex; align-items: center;">
+                            <span class="font-semibold font-16-700-646878">Tipo de precio</span>
+                            <mat-radio-group class="d-flex row">
+                                <div class="col-md-6">
+                                    <mat-radio-button class="mb-2"> <span class="font-14-500-4B5062">Normal</span> </mat-radio-button>
+                                </div>
+                                <div class="col-md-6">
+                                    <mat-radio-button class="mb-2"> <span class="font-14-500-4B5062">Promoción</span> </mat-radio-button>
+                                </div>
+                            </mat-radio-group>
+                        </div>
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
+                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
+                            <mat-label>Lugares</mat-label>
+                            <mat-select placeholder="Seleccionar">
+                                <mat-option value="Lugares">Lugares 1</mat-option>
+                                <mat-option value="Lugares">Lugares 2</mat-option>
+                                <mat-option value="Lugares">Lugares 3</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+    
+                    <div class="col-md-3">
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Producto</mat-label>
                             <mat-select placeholder="Seleccionar">
@@ -131,24 +130,23 @@
                             </mat-select>
                         </mat-form-field>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Precio unitario</mat-label>
                             <input class="text-right" matInput>
                             <span matPrefix>$</span>
                         </mat-form-field>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Precio total</mat-label>
                             <input class="text-right" matInput>
                             <span matPrefix>$</span>
                         </mat-form-field>
                     </div>
-
+    
                 </div>
-
-
+    
                 <div class="row">
                     <div class="col-md-3">
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
@@ -171,15 +169,15 @@
                             <span matPrefix>$</span>
                         </mat-form-field>
                     </div>
-
+    
                     <div class="col-md-3 d-flex align-items-center justify-content-center">
-                        <button class="recalculate">
+                        <button class="recalculate mb-4">
                             <span>Recalcular</span>
                         </button>
                     </div>
-
+    
                 </div>
-
+    
                 <div class="row promotion mt-lg-0 mt-5 mt-sm-0">
                     <span>Vigencia promoción 1</span>
                     <div class="col-md-6">
@@ -192,7 +190,7 @@
                                     <mat-datepicker #picker1></mat-datepicker>
                                 </mat-form-field>
                             </div>
-
+    
                             <div class="col-md-6">
                                 <div class="d-flex flex-column inputNewRegister">
                                     <mat-label>Hora</mat-label>
@@ -202,27 +200,22 @@
                         </div>
                     </div>
                 </div>
-
+    
                 <div class="row d-flex mb-6 mt-6">
-                    <div class=" col-md-4 col-xl-3 col-12 col-12">
-                        <button mat-flat-button class="btn-action-add width-100 mb-lg-0 mb-5 mb-sm-0">
-                            <span>Agregar más productos</span>
-                        </button>
-                    </div>
                     <div class=" col-md-4 col-xl-3 col-12 col-12">
                         <button mat-flat-button class="btn-action-add width-100 mb-lg-0 mb-5 mb-sm-0">
                             <span>Agregar más opciones</span>
                         </button>
                     </div>
                 </div>
-
+    
                 <div class="row d-flex justify-content-end create mt-6">
                     <div class="d-flex col-md-4 col-xl-3 col-12 pt-md-1 align-items-end mb-lg-0 mb-5 mb-sm-0">
                         <button mat-flat-button class="btn-gray width-100">
                             <span>Crear nuevo producto</span>
                         </button>
                     </div>
-
+    
                     <div class="d-flex col-md-4 col-xl-3 col-12 pt-md-1 align-items-end mb-lg-0 mb-5 mb-sm-0">
                         <button mat-flat-button class="btn-yellow width-100" (click)="save()">
                             <span>Guardar cotización</span>
