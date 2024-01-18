@@ -1,18 +1,21 @@
-<div class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto c-home" cdkScrollable>
+<div class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto c-home-dashboard" cdkScrollable>
 
-    <!-- Header -->
+
     <div class="bg-card">
         <div class="flex flex-col w-full mx-auto px-6 sm:px-8">
 
-            <!-- FILTERS  -->
+
             <form class="row mt-5 mb-5" [formGroup]="formFilters">
                 <div class="col-12">
+                    <div class="section-title row d-flex justify-content-between align-items-center">
+                        <div class="col-md-4 col-sm-12 col-12 title">Dashboard</div>
 
-                    <div class="row d-flex justify-content-end">
-                        <div class="c-tickets">
-                            <mat-icon>language</mat-icon>
-                            <p>6559</p>
-                            <p class="font-light">Entradas</p>
+                        <div class="col-md-8 col-sm-12 col-12 btns-section">
+                            <div class="c-tickets mb-0">
+                                <mat-icon>language</mat-icon>
+                                <p>6559</p>
+                                <p class="font-light">Entradas</p>
+                            </div>
                         </div>
                     </div>
 
@@ -106,42 +109,185 @@
         </div>
     </div>
 
-    
+
     <div class="flex-auto border-t -mt-px pt-4 sm:pt-6">
         <div class="w-full mx-auto">
-            
+
             <mat-tab-group class="sm:px-2" mat-stretch-tabs="false" [animationDuration]="'0'">
 
                 <mat-tab label="Día">
                     <ng-template matTabContent>
-                        <div class="row day ">
+                        <div class="row">
                             <div class="col-md-6">
-                                <div class="header flex-center">
-                                    Ventas
-                                </div>
+                                <div class="header flex-center">Cotizaciones</div>
 
                                 <div class="content">
                                     <div class="row">
                                         <div class="col-md-5 mb-3 mb-sm-4">
                                             <div
-                                                class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden mb-md-0 heigth-100">
+                                                class="open-card flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden mb-md-0 heigth-100">
                                                 <div class="flex items-start justify-between">
-                                                    <div class="text-lg font-bold tracking-tight leading-6 truncate">
-                                                        Realizadas</div>
+                                                    <h1>Abiertas</h1>
                                                 </div>
-                                                <div class="flex flex-col items-center mt-2">
-                                                    <div
-                                                        class="color-4B5062 text-7xl sm:text-8xl font-bold tracking-tight leading-none">
-                                                        12</div>
 
+                                                <div class="flex flex-col items-center mt-2">
+                                                    <div class="container">
+                                                        <div
+                                                            class="open-content-card row text-7xl sm:text-8xl font-bold tracking-tight leading-none">
+
+                                                            <div class="col-md-6 d-flex flex-column">
+                                                                <h1>R</h1>
+                                                                <h2>20</h2>
+                                                            </div>
+                                                            <div class="col-md-6 d-flex flex-column">
+                                                                <h1>F</h1>
+                                                                <h2>20</h2>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+
+                                                    <span class="seeGraph">Ver gráfica:</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-7 mb-3 mb-sm-4 shoaw-dash">
+                                            <div
+                                                class="sm:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden heigth-100">
+                                                <div class="flex items-start justify-between">
                                                     <div
-                                                        class="flex items-baseline justify-center w-full mt-4 text-secondary">
-                                                        <div class="text-md font-bold truncate">Ver gráfica:</div>
+                                                        class="text-lg font-bold tracking-tight leading-6 truncate mb-3">
+                                                        Total</div>
+                                                </div>
+
+                                                <div class="flex items-center mt-1">
+                                                    <div class="flex flex-col">
+                                                        <div
+                                                            class="text-3xl font-semibold tracking-tight leading-tight">
+                                                            $54,663.00
+                                                        </div>
+                                                        <div class="flex items-center">
+                                                            <mat-icon class="mr-1 icon-size-5 text-green-500"
+                                                                [svgIcon]="'heroicons_solid:arrow-trending-down'"></mat-icon>
+                                                            <div
+                                                                class="font-medium text-sm text-secondary leading-none whitespace-nowrap">
+                                                                <span class="text-green-500">2%</span>
+                                                                below projected
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="card-graph flex flex-col flex-auto ml-8">
+                                                        <apx-chart class="flex-auto w-full h-16"
+                                                            [chart]="chartWeeklyExpenses.chart"
+                                                            [colors]="chartWeeklyExpenses.colors"
+                                                            [series]="chartWeeklyExpenses.series"
+                                                            [stroke]="chartWeeklyExpenses.stroke"
+                                                            [tooltip]="chartWeeklyExpenses.tooltip"
+                                                            [xaxis]="chartWeeklyExpenses.xaxis"
+                                                            [yaxis]="chartWeeklyExpenses.yaxis">
+                                                        </apx-chart>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-7 mb-3 mb-sm-4">
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-5 mb-3 mb-sm-4">
+                                            <div
+                                                class="open-card flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden mb-md-0 heigth-100">
+                                                <div class="flex items-start justify-between">
+                                                    <h1>Descartadas</h1>
+                                                </div>
+
+                                                <div class="flex flex-col items-center mt-2">
+                                                    <div class="container">
+                                                        <div
+                                                            class="open-content-card row text-7xl sm:text-8xl font-bold tracking-tight leading-none">
+
+                                                            <div class="col-md-6 d-flex flex-column">
+                                                                <h1>R</h1>
+                                                                <h2>20</h2>
+                                                            </div>
+                                                            <div class="col-md-6 d-flex flex-column">
+                                                                <h1>F</h1>
+                                                                <h2>20</h2>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+
+                                                    <span class="seeGraph">Ver gráfica:</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-7 mb-3 mb-sm-4 shoaw-dash">
+                                            <div
+                                                class="sm:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden heigth-100">
+                                                <div class="flex items-start justify-between">
+                                                    <div
+                                                        class="text-lg font-bold tracking-tight leading-6 truncate mb-3">
+                                                        Total</div>
+                                                </div>
+
+                                                <div class="flex items-center mt-1">
+                                                    <div class="flex flex-col">
+                                                        <div
+                                                            class="text-3xl font-semibold tracking-tight leading-tight">
+                                                            $54,663.00
+                                                        </div>
+                                                        <div class="flex items-center">
+                                                            <mat-icon class="mr-1 icon-size-5 text-green-500"
+                                                                [svgIcon]="'heroicons_solid:arrow-trending-down'"></mat-icon>
+                                                            <div
+                                                                class="font-medium text-sm text-secondary leading-none whitespace-nowrap">
+                                                                <span class="text-green-500">2%</span>
+                                                                below projected
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="flex flex-col flex-auto ml-8 ">
+                                                        <apx-chart class="flex-auto w-full h-16 shoaw-dash"
+                                                            [chart]="chartWeeklyExpenses.chart"
+                                                            [colors]="chartWeeklyExpenses.colors"
+                                                            [series]="chartWeeklyExpenses.series"
+                                                            [stroke]="chartWeeklyExpenses.stroke"
+                                                            [tooltip]="chartWeeklyExpenses.tooltip"
+                                                            [xaxis]="chartWeeklyExpenses.xaxis"
+                                                            [yaxis]="chartWeeklyExpenses.yaxis">
+                                                        </apx-chart>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-5 mb-3 mb-sm-4">
+                                            <div
+                                                class="open-card flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden mb-md-0 heigth-100">
+                                                <div class="flex items-start justify-between">
+                                                    <h1>Cerradas</h1>
+                                                </div>
+
+                                                <div class="flex flex-col items-center mt-2">
+                                                    <div class="container">
+                                                        <div
+                                                            class="open-content-card row text-7xl sm:text-8xl font-bold tracking-tight leading-none">
+                                                            <div>
+                                                                <h3>20</h3>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <span class="seeGraph">Ver gráfica:</span>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-7 mb-3 mb-sm-4 shoaw-dash">
                                             <div
                                                 class="sm:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden heigth-100">
                                                 <div class="flex items-start justify-between">
@@ -187,29 +333,31 @@
 
                             </div>
                             <div class="col-md-6">
-                                <div class="header flex-center"> Cotizaciones </div>
+                                <div class="header flex-center">Ventas</div>
                                 <div class="content">
                                     <div class="row">
                                         <div class="col-md-5 mb-3 mb-sm-4">
-                                            <div
-                                                class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                                            <div class="open-card flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden mb-md-0 heigth-100">
                                                 <div class="flex items-start justify-between">
-                                                    <div class="text-lg font-bold tracking-tight leading-6 truncate">
-                                                        Realizadas</div>
+                                                    <h1>Cerradas</h1>
                                                 </div>
-                                                <div class="flex flex-col items-center mt-2">
-                                                    <div
-                                                        class="color-4B5062 text-7xl sm:text-8xl font-bold tracking-tight leading-none">
-                                                        20</div>
 
-                                                    <div
-                                                        class="flex items-baseline justify-center w-full mt-4 text-secondary">
-                                                        <div class="text-md font-medium truncate">Ver gráfica:</div>
+                                                <div class="flex flex-col items-center mt-2">
+                                                    <div class="container">
+                                                        <div
+                                                            class="open-content-card row text-7xl sm:text-8xl font-bold tracking-tight leading-none">
+                                                            <div>
+                                                                <h3>20</h3>
+                                                            </div>
+                                                        </div>
                                                     </div>
+
+                                                    <span class="seeGraph">Ver gráfica:</span>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-7 mb-3 mb-sm-4">
+
+                                        <div class="col-md-7 mb-3 mb-sm-4 shoaw-dash">
                                             <div
                                                 class="sm:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden heigth-100">
                                                 <div class="flex items-start justify-between">
@@ -263,86 +411,161 @@
 
                                 <div class="content">
                                     <div class="row">
-                                        <div class="col-md-7 mb-3 mb-sm-4">
+                                        <div class="col-md-4 mb-3 mb-sm-4">
                                             <div
                                                 class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden mb-md-0 min-heigt">
-                                                <div>
-                                                    <div class="text-lg tracking-tight leading-6 truncate font-bold">
-                                                        Nivel de interés en cotizaciones</div>
-
-                                                    <div class="row">
-                                                        <div class="content-company mt-9">
-                                                            <div class="col-3">
-                                                                <p class="green-color">12</p>
-                                                                <h1 class="green-color">Alto</h1>
-                                                            </div>
-                                                            <div class="col-3">
-                                                                <p class="color-yellow">05</p>
-                                                                <h1 class="color-yellow">Medio</h1>
-                                                            </div>
-                                                            <div class="col-3">
-                                                                <p class="color-red">01</p>
-                                                                <h1 class="color-red">Bajo</h1>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    
-                                                </div>
-                                            </div>
-
-                                            <div class="mt-3 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden mb-md-0">
-                                                <div class="flex items-start justify-between">
-                                                    <div class="text-lg font-bold tracking-tight leading-6 truncate"> Forma de pago</div>
-                                                </div>
-
-                                                <div class="row">
-                                                    <div class="content-list">
-                                                        <div> <p>Transferencia bancaria</p> </div>
-                                                        <div> <p>Depósito en Efectivo</p> </div>
-                                                        <div> <p>Mercado Pago / TC</p> </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-5 mb-3 mb-sm-4">
-                                            <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden mb-md-0 min-heigt">
-                                                <div class="flex items-start justify-between">
-                                                    <div class="text-lg font-bold tracking-tight leading-6 truncate"> Categorías</div>
-                                                </div>
-
-                                                <div class="row">
-                                                    <div class="content-list">
-                                                        <div> <p>Micro</p> <span>1</span> </div>
-                                                        <div> <p>Pequeña</p> <span>2</span> </div>
-                                                        <div> <p>Pyme</p> <span>3</span> </div>
-                                                        <div> <p>Mediana</p> <span>4</span> </div>
-                                                        <div> <p>Grande</p> <span>0</span> </div>
-                                                        <div> <p>Corporativa</p> <span>0</span> </div>
-                                                        <div> <p>Pendiente</p> <span>0</span> </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="mt-3 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden mb-md-0">
                                                 <div class="flex items-start justify-between">
                                                     <div class="text-lg font-bold tracking-tight leading-6 truncate">Estatus</div>
                                                 </div>
 
                                                 <div class="row">
                                                     <div class="content-list">
-                                                        <div> <p>Prospecto</p> </div>
-                                                        <div> <p>Lead</p> </div>
-                                                        <div> <p>Cliente</p> </div>
+                                                        <div>
+                                                            <p>Prospecto</p>
+                                                        </div>
+                                                        <div>
+                                                            <p>Lead</p>
+                                                        </div>
+                                                        <div>
+                                                            <p>Cliente</p>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-
                                         </div>
+
+                                        <div class="col-md-4 mb-3 mb-sm-4">
+                                            <div
+                                                class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden mb-md-0 min-heigt">
+                                                <div class="flex items-start justify-between">
+                                                    <div class="text-lg font-bold tracking-tight leading-6 truncate">Ranking de paises</div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="content-list">
+                                                        <div>
+                                                            <p>Micro</p> <span>1</span>
+                                                        </div>
+                                                        <div>
+                                                            <p>Pequeña</p> <span>2</span>
+                                                        </div>
+                                                        <div>
+                                                            <p>Pyme</p> <span>3</span>
+                                                        </div>
+                                                        <div>
+                                                            <p>Mediana</p> <span>4</span>
+                                                        </div>
+                                                        <div>
+                                                            <p>Grande</p> <span>0</span>
+                                                        </div>
+                                                        <div>
+                                                            <p>Corporativa</p> <span>0</span>
+                                                        </div>
+                                                        <div>
+                                                            <p>Pendiente</p> <span>0</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 mb-3 mb-sm-4">
+                                            <div
+                                                class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden mb-md-0 min-heigt">
+                                                <div class="flex items-start justify-between">
+                                                    <div class="text-lg font-bold tracking-tight leading-6 truncate">
+                                                        Categorías</div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="content-list">
+                                                        <div>
+                                                            <p>Micro</p> <span>1</span>
+                                                        </div>
+                                                        <div>
+                                                            <p>Pequeña</p> <span>2</span>
+                                                        </div>
+                                                        <div>
+                                                            <p>Pyme</p> <span>3</span>
+                                                        </div>
+                                                        <div>
+                                                            <p>Mediana</p> <span>4</span>
+                                                        </div>
+                                                        <div>
+                                                            <p>Grande</p> <span>0</span>
+                                                        </div>
+                                                        <div>
+                                                            <p>Corporativa</p> <span>0</span>
+                                                        </div>
+                                                        <div>
+                                                            <p>Pendiente</p> <span>0</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div> 
                                     </div>
                                 </div>
 
+                            </div>
+                        </div>
+
+                        <div class="row mb-5">
+                            <app-table
+                             [displayedColumns]="displayedColumnsRegister"
+                             [dataDummy]="dataDummyRegister"
+                             [type]="'register'"
+                             ></app-table>
+                        </div>
+                    
+                        <div class="row">
+                            <app-table
+                             [displayedColumns]="displayedColumnsBought"
+                             [dataDummy]="dataDummyBought"
+                             [type]="'bought'"
+                             ></app-table>
+                        </div>
+
+                        <br>
+
+                        <div class="row day mt-4">
+                            <div class="col-md-12">
+                                <div class="header flex-center">
+                                    Clientes
+                                </div>
+
+                                <div class="content">
+                                    <div class="row">
+                                        <app-table
+                                        class="mt-0"
+                                        [displayedColumns]="displayedColumnsClients"
+                                        [dataDummy]="dataDummyClients"
+                                        [type]="'clients'"
+                                        ></app-table>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                       
+                        <br>
+
+                        <div class="row day mt-4">
+                            <div class="col-md-12">
+                                <div class="header flex-center">
+                                    Países
+                                </div>
+
+                                <div class="content">
+                                    <div class="row">
+                                        <app-table
+                                        class="mt-0"
+                                        [displayedColumns]="displayedColumnsCountry"
+                                        [dataDummy]="dataDummyCountry"
+                                        [type]="'country'"
+                                        ></app-table>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 

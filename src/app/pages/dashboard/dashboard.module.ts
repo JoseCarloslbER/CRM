@@ -13,6 +13,7 @@ import { ModalBonusProgressComponent } from './goals/modal-bonus-progress/modal-
 import { ModalAgentsComponent } from './goals/modal-agents/modal-agents.component';
 import { NewQuoteOrClientComponent } from './new-quote-or-client/new-quote-or-client.component';
 import { NewQuoteOrProspectComponent } from './new-quote-or-prospect/new-quote-or-prospect.component';
+import { TableComponent } from './home/table/table.component';
 
 
 
@@ -26,7 +27,8 @@ import { NewQuoteOrProspectComponent } from './new-quote-or-prospect/new-quote-o
     ModalBonusProgressComponent,
     ModalAgentsComponent,
     NewQuoteOrClientComponent,
-    NewQuoteOrProspectComponent
+    NewQuoteOrProspectComponent,
+    TableComponent
   ],
   imports: [
     CommonModule,

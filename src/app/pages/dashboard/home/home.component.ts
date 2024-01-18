@@ -14,6 +14,75 @@ export class HomeComponent implements OnInit {
 
   public chartWeeklyExpenses: ApexOptions = {};
 
+  public displayedColumnsRegister: string[] = [
+    'name',
+    'date',
+    'country'
+  ];
+
+  public dataDummyRegister: any[] = [
+    {
+      name: 'Empresa X SA. de CV.',
+      date: '01/01/2024',
+      country: 'México'
+    },  
+    {
+      name: 'Empresa X SA. de CV.',
+      date: '01/01/2024',
+      country: 'México'
+    },  
+    {
+      name: 'Empresa X SA. de CV.',
+      date: '01/01/2024',
+      country: 'México'
+    },  
+  ]
+
+
+  public displayedColumnsBought: string[] = [
+    'name',
+    'amount',
+  ];
+
+  public dataDummyBought: any[] = [
+    {
+      name: 'Empresa X SA. de CV.',
+      amount: '$50,000.00'
+    },  
+    {
+      name: 'Empresa X SA. de CV.',
+      amount: '$50,000.00'
+    },  
+    {
+      name: 'Empresa X SA. de CV.',
+      amount: '$50,000.00'
+    },  
+ 
+  ]
+  
+  public displayedColumnsCountry: string[] = [
+    'name',
+    'amount',
+  ];
+
+  public dataDummyCountry: any[] = [
+    {
+      name: 'Empresa X SA. de CV.',
+      amount: '$50,000.00'
+    },  
+  ]
+ 
+  public displayedColumnsClients: string[] = [
+    'name',
+    'amount',
+  ];
+
+  public dataDummyClients: any[] = [
+    {
+      name: 'Empresa X SA. de CV.',
+      amount: '$50,000.00'
+    },  
+  ]
 
   public formFilters = this.formBuilder.group({
     user: [{ value: null, disabled: false }],
