@@ -89,6 +89,31 @@ export class AllComponent implements OnInit {
       fechaUltimoContacto : '2022-02-28',
       fechaVencimiento : '2022-02-28',
     },
+    {
+      estatus : 'PROSPECTOS',
+      pais : 'México',
+      giro : 'Construcción',
+      campaign : 'Activa',
+      history : 'Se envió correo publicitario y se hicieron las llamadas pertinentes para el seguimiento, pero el cliente no contestó en ningún momento.',
+      categoria : 'LEAD',
+      cotizaciones : [
+        {
+          up : '5',
+          bottom : '$15,000.00',
+
+        }
+      ],
+      ventas : [
+        {
+          up : '5',
+          bottom : '$15,000.00',
+
+        }
+      ],
+      origen : 'Referencia',
+      fechaUltimoContacto : '2022-02-28',
+      fechaVencimiento : '2022-02-28',
+    },
   
     
   ]

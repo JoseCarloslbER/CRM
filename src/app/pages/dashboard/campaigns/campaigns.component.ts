@@ -1878,7 +1878,7 @@ export class CampaignsComponent {
         show      : false,
         tickAmount: 5,
     },
-};
+  };
 
   public fechaHoy = new Date();
 
