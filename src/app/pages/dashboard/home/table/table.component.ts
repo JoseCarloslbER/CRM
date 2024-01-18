@@ -18,6 +18,7 @@ export class TableComponent implements OnInit {
   @Input() displayedColumns: string[] = []
   @Input() dataDummy: string[] = []
   @Input() type: string = ''
+  @Input() searchAndExcel: boolean = false
   
   ngOnInit(): void {
 
