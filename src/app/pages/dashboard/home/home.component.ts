@@ -1893,7 +1893,7 @@ export class HomeComponent implements OnInit {
     },
     series     : [
         {
-            name: "New issues",
+            name: "Productos",
             type: "line",
             data: [
                 37,
@@ -1906,7 +1906,7 @@ export class HomeComponent implements OnInit {
             ]
         },
         {
-            name: "Closed issues",
+            name: "Lugares",
             type: "column",
             data: [
                 9,

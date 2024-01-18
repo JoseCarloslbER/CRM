@@ -268,8 +268,7 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-md-5 mb-3 mb-sm-4">
-                                                <div
-                                                    class="open-card flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden mb-md-0 heigth-100">
+                                                <div class="open-card flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden mb-md-0 heigth-100">
                                                     <div class="flex items-start justify-between">
                                                         <h1>Cerradas</h1>
                                                     </div>
@@ -739,26 +738,60 @@
                                         Productos y lugares
                                     </div>
 
-                                    <div class="content container-fluid d-flex open-card bg-card shadow rounded-2xl">
-                                        <div style="width: 50%;" class="container-fluid  flex flex-col flex-auto p-6  overflow-hidden mb-md-0 heigth-100">
-                                                <apx-chart class="flex-auto w-full h-80"
-                                                    [chart]="chartGithubIssues.chart"
-                                                    [colors]="chartGithubIssues.colors"
-                                                    [dataLabels]="chartGithubIssues.dataLabels"
-                                                    [grid]="chartGithubIssues.grid"
-                                                    [labels]="chartGithubIssues.labels"
-                                                    [legend]="chartGithubIssues.legend"
-                                                    [plotOptions]="chartGithubIssues.plotOptions"
-                                                    [series]="chartGithubIssues.series"
-                                                    [states]="chartGithubIssues.states"
-                                                    [stroke]="chartGithubIssues.stroke"
-                                                    [tooltip]="chartGithubIssues.tooltip"
-                                                    [xaxis]="chartGithubIssues.xaxis"
-                                                    [yaxis]="chartGithubIssues.yaxis">
-                                                </apx-chart>
+
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 flex flex-col flex-auto heigth-100">
+                                    <apx-chart class="flex-auto w-full h-80"
+                                    [chart]="chartGithubIssues.chart"
+                                    [colors]="chartGithubIssues.colors"
+                                    [dataLabels]="chartGithubIssues.dataLabels"
+                                    [grid]="chartGithubIssues.grid"
+                                    [labels]="chartGithubIssues.labels"
+                                    [legend]="chartGithubIssues.legend"
+                                    [plotOptions]="chartGithubIssues.plotOptions"
+                                    [series]="chartGithubIssues.series"
+                                    [states]="chartGithubIssues.states"
+                                    [stroke]="chartGithubIssues.stroke"
+                                    [tooltip]="chartGithubIssues.tooltip"
+                                    [xaxis]="chartGithubIssues.xaxis"
+                                    [yaxis]="chartGithubIssues.yaxis">
+                                </apx-chart>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="open-card bg-1 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden mb-md-0 heigth-100">
+                                                <div class="flex flex-col items-center mt-2">
+                                                    <div class="container">
+                                                        <div
+                                                            class="open-content-card-product row text-7xl sm:text-8xl font-bold tracking-tight leading-none">
+                                                            <div>
+                                                                <h1>240</h1>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <span class="span-product">Total de productos vendidos</span>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div style="width: 50%;" class="container-fluid overflow-hidden mb-md-0 heigth-100">
-                                               fsdghujksdf hjksdfghjk
+                                        <div class="col-md-6">
+                                            <div class="open-card bg-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden mb-md-0 heigth-100">
+                                                <div class="flex flex-col items-center mt-2">
+                                                    <div class="container">
+                                                        <div class="open-content-card-product row text-7xl sm:text-8xl font-bold tracking-tight leading-none">
+                                                            <div>
+                                                                <h2>$80,000.00</h2>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <span class="span-product">Monto total vendido</span>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
