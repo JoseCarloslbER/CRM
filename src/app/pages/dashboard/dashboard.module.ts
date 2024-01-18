@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, CurrencyPipe } from '@angular/common';
 import { DashboardComponent } from './dashboard.component';
 import { HomeComponent } from './home/home.component';
 import { PipelineComponent } from './pipeline/pipeline.component';
@@ -36,7 +36,8 @@ import { TableComponent } from './home/table/table.component';
     MaterialModule,
     FormsModule,
     NgApexchartsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    CurrencyPipe
   ]
 })
 export class DashboardModule { }

@@ -13,6 +13,7 @@ export class HomeComponent implements OnInit {
 	public fechaHoy = new Date();
 
   public chartWeeklyExpenses: ApexOptions = {};
+  public chartGithubIssues: ApexOptions = {};
 
   public displayedColumnsRegister: string[] = [
     'name',
@@ -1796,7 +1797,7 @@ export class HomeComponent implements OnInit {
     rangeDateEnd: [{ value: null, disabled: false }],
   });
 
-  public selectedProject: string = 'Estadísticas';
+  public selectedProject: string = 'Productos';
 
   constructor(
     private notificationService: FuseConfirmationService,
@@ -1856,6 +1857,108 @@ export class HomeComponent implements OnInit {
           },
       },
   }
+
+  this.chartGithubIssues = {
+    chart      : {
+        fontFamily: 'inherit',
+        foreColor : 'inherit',
+        height    : '100%',
+        type      : 'line',
+        toolbar   : {
+            show: false,
+        },
+        zoom      : {
+            enabled: false,
+        },
+    },
+    colors     : ['#64748B', '#94A3B8'],
+    dataLabels : {
+        enabled        : true,
+        enabledOnSeries: [0],
+        background     : {
+            borderWidth: 0,
+        },
+    },
+    grid       : {
+        borderColor: 'var(--fuse-border)',
+    },
+    labels     : ['LUNES','MARTES','MIERCOLES','JUEVES','VIERNES','SABADO','DOMINGO'],
+    legend     : {
+        show: false,
+    },
+    plotOptions: {
+        bar: {
+            columnWidth: '50%',
+        },
+    },
+    series     : [
+        {
+            name: "New issues",
+            type: "line",
+            data: [
+                37,
+                32,
+                39,
+                27,
+                18,
+                24,
+                20
+            ]
+        },
+        {
+            name: "Closed issues",
+            type: "column",
+            data: [
+                9,
+                8,
+                10,
+                12,
+                7,
+                11,
+                15
+            ]
+        }
+    ],
+    states     : {
+        hover: {
+            filter: {
+                type : 'darken',
+                value: 0.75,
+            },
+        },
+    },
+    stroke     : {
+        width: [3, 0],
+    },
+    tooltip    : {
+        followCursor: true,
+        theme       : 'dark',
+    },
+    xaxis      : {
+        axisBorder: {
+            show: false,
+        },
+        axisTicks : {
+            color: 'var(--fuse-border)',
+        },
+        labels    : {
+            style: {
+                colors: 'var(--fuse-text-secondary)',
+            },
+        },
+        tooltip   : {
+            enabled: false,
+        },
+    },
+    yaxis      : {
+        labels: {
+            offsetX: -16,
+            style  : {
+                colors: 'var(--fuse-text-secondary)',
+            },
+        },
+    },
+};
 }
 
   SearchWithFilters(){
