@@ -724,6 +724,55 @@
                                 </div>
                             </div>
                        </div>
+
+                       <div *ngIf="selectedProject == 'Productos'">
+                            <div class="row day mt-4">
+                                <div class="col-md-12">
+                                    <div class="header flex-center">
+                                        Productos y lugares
+                                    </div>
+    
+                                    <div class="content container-fluid">
+                                        <div class="row">
+                                            <!-- aqui grafica  -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <br>
+                            
+                            <div class="row day mt-5">
+                                <div class="col-md-12">
+                                    <div class="header flex-center">
+                                        Productos / articulos más vendidos
+                                    </div>
+    
+                                    <div class="content container-fluid">
+                                        <div class="row mb-5">
+                                            <app-table
+                                             [displayedColumns]="displayedColumnsRegister"
+                                             [dataDummy]="dataDummyRegister"
+                                             [type]="'register'"
+                                             [searchAndExcel]="true"
+                                             ></app-table>
+                                        </div>
+                                    </div>
+    
+                                    <div class="content container-fluid">
+                                        <div class="row mb-5">
+                                            <app-table
+                                             [displayedColumns]="displayedColumnsRegister"
+                                             [dataDummy]="dataDummyRegister"
+                                             [type]="'register'"
+                                             [searchAndExcel]="true"
+                                             ></app-table>
+                                        </div>
+                                    </div>
+    
+                                </div>
+                            </div>
+                       </div>
                     </ng-template>
                 </mat-tab>
 
