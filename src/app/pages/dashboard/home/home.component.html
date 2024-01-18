@@ -117,6 +117,8 @@
 
                 <mat-tab label="Día">
                     <ng-template matTabContent>
+
+                       <div *ngIf="selectedProject == 'Estadísticas'">
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="header flex-center">Cotizaciones</div>
@@ -172,13 +174,13 @@
                                                             <div
                                                                 class="font-medium text-sm text-secondary leading-none whitespace-nowrap">
                                                                 <span class="text-green-500">2%</span>
-                                                                below projected
+                                                                Abajo proyectado
                                                             </div>
                                                         </div>
                                                     </div>
 
 
-                                                    <div class="card-graph flex flex-col flex-auto ml-8">
+                                                    <div class="flex flex-col flex-auto ml-8">
                                                         <apx-chart class="flex-auto w-full h-16"
                                                             [chart]="chartWeeklyExpenses.chart"
                                                             [colors]="chartWeeklyExpenses.colors"
@@ -243,7 +245,7 @@
                                                             <div
                                                                 class="font-medium text-sm text-secondary leading-none whitespace-nowrap">
                                                                 <span class="text-green-500">2%</span>
-                                                                below projected
+                                                                Abajo proyectado
                                                             </div>
                                                         </div>
                                                     </div>
@@ -308,7 +310,7 @@
                                                             <div
                                                                 class="font-medium text-sm text-secondary leading-none whitespace-nowrap">
                                                                 <span class="text-green-500">2%</span>
-                                                                below projected
+                                                                Abajo proyectado
                                                             </div>
                                                         </div>
                                                     </div>
@@ -378,7 +380,7 @@
                                                             <div
                                                                 class="font-medium text-sm text-secondary leading-none whitespace-nowrap">
                                                                 <span class="text-green-500">2%</span>
-                                                                below projected
+                                                                Abajo proyectado
                                                             </div>
                                                         </div>
                                                     </div>
@@ -570,6 +572,158 @@
                         </div>
 
 
+                       </div>
+
+                       <div *ngIf="selectedProject == 'Graficas'">
+                            <div class="row day mt-4">
+                                <div class="col-md-12">
+                                    <div class="header flex-center">
+                                        Ventas
+                                    </div>
+    
+                                    <div class="content container-fluid">
+                                        <div class="row">
+                                            <div class="col-md-12 flex flex-col flex-auto bg-card shadow rounded-2xl">
+                                                <div class="flex items-start justify-between m-6 mb-0">
+                                                    <div class="text-lg font-medium tracking-tight leading-6 truncate">
+                                                        Saldo de la cuenta <br>
+                                                    </div>
+                                                    <div class="ml-2">
+                                                        <button class="h-6 min-h-6 px-2 rounded-full bg-hover" mat-button
+                                                            [matMenuTriggerFor]="conversionMenu">
+                                                            <span class="font-medium text-sm text-secondary">12 meses</span>
+                                                        </button>
+                                                        <mat-menu #conversionMenu="matMenu">
+                                                            <button mat-menu-item>30 daás</button>
+                                                            <button mat-menu-item>3 meses</button>
+                                                            <button mat-menu-item>9 meses</button>
+                                                        </mat-menu>
+                                                    </div>
+                                                </div>
+                                                <div class="flex items-start mt-6 mx-6">
+                                                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-12">
+                                                        <div class="flex flex-col">
+                                                            <div class="flex items-start mt-2">
+                                                                <div class="text-4xl font-bold tracking-tight leading-none">
+                                                                    38.33%</div>
+                                                            </div>
+        
+                                                            <div class="flex items-center">
+                                                                <div class="font-medium text-secondary leading-5">Crecimiento
+                                                                    mensual promedio</div>
+                                                            </div>
+                                                        </div>
+        
+                                                        <div class="flex flex-col">
+                                                            <div class="flex items-start mt-2">
+                                                                <div class="text-4xl font-bold tracking-tight leading-none">
+                                                                    38.33%</div>
+                                                            </div>
+        
+                                                            <div class="flex items-center">
+                                                                <div class="font-medium text-secondary leading-5">Ingreso
+                                                                    mensual promedio</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+        
+                                                <div class="flex flex-col flex-auto mt-3 h-100" >
+                                                    <apx-chart class="flex-auto w-full h-full"
+                                                        [chart]="chartVisitorsVsPageViews.chart"
+                                                        [colors]="chartVisitorsVsPageViews.colors"
+                                                        [dataLabels]="chartVisitorsVsPageViews.dataLabels"
+                                                        [grid]="chartVisitorsVsPageViews.grid"
+                                                        [legend]="chartVisitorsVsPageViews.legend"
+                                                        [series]="chartVisitorsVsPageViews.series"
+                                                        [stroke]="chartVisitorsVsPageViews.stroke"
+                                                        [tooltip]="chartVisitorsVsPageViews.tooltip"
+                                                        [xaxis]="chartVisitorsVsPageViews.xaxis"
+                                                        [yaxis]="chartVisitorsVsPageViews.yaxis">
+                                                    </apx-chart>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <br>
+                            
+                            <div class="row day mt-5">
+                                <div class="col-md-12">
+                                    <div class="header flex-center">
+                                        Cotizaciones
+                                    </div>
+    
+                                    <div class="content container-fluid">
+                                        <div class="row">
+                                            <div class="flex flex-col flex-auto bg-card shadow rounded-2xl">
+                                                <div class="flex items-start justify-between m-6 mb-0">
+                                                    <div class="text-lg font-medium tracking-tight leading-6 truncate">
+                                                        Saldo de la cuenta <br>
+                                                    </div>
+                                                    <div class="ml-2">
+                                                        <button class="h-6 min-h-6 px-2 rounded-full bg-hover" mat-button
+                                                            [matMenuTriggerFor]="conversionMenu">
+                                                            <span class="font-medium text-sm text-secondary">12 meses</span>
+                                                        </button>
+                                                        <mat-menu #conversionMenu="matMenu">
+                                                            <button mat-menu-item>30 daás</button>
+                                                            <button mat-menu-item>3 meses</button>
+                                                            <button mat-menu-item>9 meses</button>
+                                                        </mat-menu>
+                                                    </div>
+                                                </div>
+                                                <div class="flex items-start mt-6 mx-6">
+                                                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-12">
+                                                        <div class="flex flex-col">
+                                                            <div class="flex items-start mt-2">
+                                                                <div class="text-4xl font-bold tracking-tight leading-none">
+                                                                    38.33%</div>
+                                                            </div>
+        
+                                                            <div class="flex items-center">
+                                                                <div class="font-medium text-secondary leading-5">Crecimiento
+                                                                    mensual promedio</div>
+                                                            </div>
+                                                        </div>
+        
+                                                        <div class="flex flex-col">
+                                                            <div class="flex items-start mt-2">
+                                                                <div class="text-4xl font-bold tracking-tight leading-none">
+                                                                    38.33%</div>
+                                                            </div>
+        
+                                                            <div class="flex items-center">
+                                                                <div class="font-medium text-secondary leading-5">Ingreso
+                                                                    mensual promedio</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+        
+                                                <div class="flex flex-col flex-auto mt-3 h-100" >
+                                                    <apx-chart class="flex-auto w-full h-full"
+                                                        [chart]="chartVisitorsVsPageViews.chart"
+                                                        [colors]="chartVisitorsVsPageViews.colors"
+                                                        [dataLabels]="chartVisitorsVsPageViews.dataLabels"
+                                                        [grid]="chartVisitorsVsPageViews.grid"
+                                                        [legend]="chartVisitorsVsPageViews.legend"
+                                                        [series]="chartVisitorsVsPageViews.series"
+                                                        [stroke]="chartVisitorsVsPageViews.stroke"
+                                                        [tooltip]="chartVisitorsVsPageViews.tooltip"
+                                                        [xaxis]="chartVisitorsVsPageViews.xaxis"
+                                                        [yaxis]="chartVisitorsVsPageViews.yaxis">
+                                                    </apx-chart>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+    
+                                </div>
+                            </div>
+                       </div>
                     </ng-template>
                 </mat-tab>
 
