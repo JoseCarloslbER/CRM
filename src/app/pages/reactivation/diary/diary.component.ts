@@ -25,18 +25,7 @@ const colors: Record<string, EventColor> = {
 @Component({
   selector: 'app-diary',
   templateUrl: './diary.component.html',
-  styles: [
-    `
-      h3 {
-        margin: 0 0 10px;
-      }
-
-      pre {
-        background-color: #f5f5f5;
-        padding: 15px;
-      }
-    `,
-  ],
+  styleUrl: './diary.component.scss'
 })
 export class DiaryComponent {
 
@@ -47,6 +36,7 @@ export class DiaryComponent {
   CalendarView = CalendarView;
   viewDate: Date = new Date();
 
+  typeSeleccion:string = ''
 
   modalData: {
     action: string;
@@ -77,7 +67,7 @@ export class DiaryComponent {
     {
       start: subDays(startOfDay(new Date()), 1),
       end: addDays(new Date(), 1),
-      title: 'A 3 day event',
+      title: 'Reunión presentación de proyecto',
       color: { ...colors.red },
       actions: this.actions,
       allDay: true,
@@ -89,21 +79,21 @@ export class DiaryComponent {
     },
     {
       start: startOfDay(new Date()),
-      title: 'An event with no end date',
+      title: 'Un evento sin fecha de finalización',
       color: { ...colors.yellow },
       actions: this.actions,
     },
     {
       start: subDays(endOfMonth(new Date()), 3),
       end: addDays(endOfMonth(new Date()), 3),
-      title: 'A long event that spans 2 months',
+      title: 'Un largo evento que dura 2 meses.',
       color: { ...colors.blue },
       allDay: true,
     },
     {
       start: addHours(startOfDay(new Date()), 2),
       end: addHours(new Date(), 2),
-      title: 'A draggable and resizable event',
+      title: 'Un evento arrastrable y redimensionable',
       color: { ...colors.yellow },
       actions: this.actions,
       resizable: {

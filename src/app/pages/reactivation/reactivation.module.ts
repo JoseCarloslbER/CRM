@@ -11,12 +11,14 @@ import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { ModalDiaryComponent } from './diary/modal-diary/modal-diary.component';
 
 @NgModule({
   declarations: [
     DiaryComponent,
     PendingCallsComponent,
-    ReactivationComponent
+    ReactivationComponent,
+    ModalDiaryComponent
   ],
   imports: [
     CommonModule,
@@ -31,8 +33,6 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
       provide: DateAdapter,
       useFactory: adapterFactory,
     }),
-
-    
   ]
 })
 export class ReactivationModule { }
