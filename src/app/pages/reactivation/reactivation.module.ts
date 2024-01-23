@@ -7,14 +7,22 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 import { DiaryComponent } from './diary/diary.component';
 import { PendingCallsComponent } from './pending-calls/pending-calls.component';
 import { ReactivationComponent } from './reactivation.component';
-
-
+import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { FlatpickrModule } from 'angularx-flatpickr';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { ModalDiaryComponent } from './diary/modal-diary/modal-diary.component';
+import { MailboxComponent } from './mailbox/mailbox.component';
+import { ModalMailboxComponent } from './mailbox/modal-mailbox/modal-mailbox.component';
 
 @NgModule({
   declarations: [
     DiaryComponent,
     PendingCallsComponent,
-    ReactivationComponent
+    ReactivationComponent,
+    ModalDiaryComponent,
+    MailboxComponent,
+    ModalMailboxComponent
   ],
   imports: [
     CommonModule,
@@ -22,7 +30,12 @@ import { ReactivationComponent } from './reactivation.component';
     MaterialModule,
     FormsModule,
     NgApexchartsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FlatpickrModule.forRoot(),
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+    }),
   ]
 })
 export class ReactivationModule { }

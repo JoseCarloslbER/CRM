@@ -1,1 +1,127 @@
-<p>diary works!</p>
+<div class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto c-diary" cdkScrollable style="padding: 50px;">
+  <div class="flex flex-col w-full mx-auto px-6 sm:px-8 bg-card">
+    <div class="row mt-5 ">
+      <div class="col-12">
+        <div class="section-title row d-flex justify-content-between align-items-center">
+          <div class="col-md-4 col-sm-12 col-12 title">
+            <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
+              <mat-select placeholder="Seleccionar agente">
+                <mat-option value="Prospectoempresa">Prospecto / empresa 1</mat-option>
+                <mat-option value="Prospectoempresa">Prospecto / empresa 2</mat-option>
+                <mat-option value="Prospectoempresa">Prospecto / empresa 3</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div class="col-md-4 col-sm-12 col-12 btns-section align-items-start" style="height: 105px;">
+            <div class="input-search">
+              <input type="text" placeholder="Búscar">
+              <mat-icon class="icon-size-6" matSuffix [svgIcon]="'mat_solid:search'"></mat-icon>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="c-calendar">
+      <div class="row text-center">
+        <div class="col-md-4 d-flex justify-content-start">
+          <div class="btn-group-arrows">
+            <mat-icon svgIcon="mat_outline:chevron_left" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate"(viewDateChange)="closeOpenMonthViewDay()"></mat-icon>
+            <div class="btn btn-outline-secondary" mwlCalendarToday [(viewDate)]="viewDate">Hoy</div>
+            <mat-icon svgIcon="mat_outline:chevron_right" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate"(viewDateChange)="closeOpenMonthViewDay()"></mat-icon>
+          </div>
+     
+        </div>
+      
+        <div class="col-md-4 d-flex justify-content-center align-items-center">
+          <div class="btn-group-calendar">
+            <div [ngClass]="{'seleccion-calendar': typeSeleccion == 'day'}" (click)="setView(CalendarView.Day); typeSeleccion = 'day'" >Día</div>
+            <div [ngClass]="{'seleccion-calendar': typeSeleccion == 'week'}" (click)="setView(CalendarView.Week); typeSeleccion = 'week'">Semana</div>
+            <div [ngClass]="{'seleccion-calendar': typeSeleccion == 'month'}" (click)="setView(CalendarView.Month); typeSeleccion = 'month'">Mes</div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <h3>
+            <button class="btn-action-add float-end" (click)="addEvent()">
+              Agregar evento
+            </button>
+            <div class="clearfix"></div>
+          </h3>
+        </div>
+
+        <div class="col-md-12 mt-5 mb-5" style="min-height: 300px;">            
+          <div [ngSwitch]="view">
+            <mwl-calendar-month-view
+              *ngSwitchCase="CalendarView.Month"
+              [viewDate]="viewDate"
+              [events]="events"
+              [refresh]="refresh"
+              [activeDayIsOpen]="activeDayIsOpen"
+              (dayClicked)="dayClicked($event.day)"
+              (eventClicked)="handleEvent('Clicked', $event.event)"
+              (eventTimesChanged)="eventTimesChanged($event)"
+            >
+            </mwl-calendar-month-view>
+            <mwl-calendar-week-view
+              *ngSwitchCase="CalendarView.Week"
+              [viewDate]="viewDate"
+              [events]="events"
+              [refresh]="refresh"
+              (eventClicked)="handleEvent('Clicked', $event.event)"
+              (eventTimesChanged)="eventTimesChanged($event)"
+            >
+            </mwl-calendar-week-view>
+            <mwl-calendar-day-view
+              *ngSwitchCase="CalendarView.Day"
+              [viewDate]="viewDate"
+              [events]="events"
+              [refresh]="refresh"
+              (eventClicked)="handleEvent('Clicked', $event.event)"
+              (eventTimesChanged)="eventTimesChanged($event)">
+            </mwl-calendar-day-view>
+          </div>
+
+        </div>
+
+
+  
+
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<br><br>
+
+
+<br><br>
+
+<div>
+  <ng-template #modalContent let-close="close">
+    <div class="modal-header">
+      <h5 class="modal-title">Event action occurred</h5>
+      <button type="button" class="close" (click)="close()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div>
+        Action:
+        <pre>{{ modalData?.action }}</pre>
+      </div>
+      <div>
+        Event:
+        <pre>{{ modalData?.event | json }}</pre>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-secondary" (click)="close()">
+        OK
+      </button>
+    </div>
+  </ng-template>
+</div>
+

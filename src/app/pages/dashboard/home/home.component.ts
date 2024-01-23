@@ -9,10 +9,11 @@ import { ApexOptions } from 'apexcharts';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  
-	public fechaHoy = new Date();
+
+  public fechaHoy = new Date();
 
   public chartWeeklyExpenses: ApexOptions = {};
+  public chartGithubIssues: ApexOptions = {};
 
   public displayedColumnsRegister: string[] = [
     'name',
@@ -25,19 +26,18 @@ export class HomeComponent implements OnInit {
       name: 'Empresa X SA. de CV.',
       date: '01/01/2024',
       country: 'México'
-    },  
+    },
     {
       name: 'Empresa X SA. de CV.',
       date: '01/01/2024',
       country: 'México'
-    },  
+    },
     {
       name: 'Empresa X SA. de CV.',
       date: '01/01/2024',
       country: 'México'
-    },  
+    },
   ]
-
 
   public displayedColumnsBought: string[] = [
     'name',
@@ -48,18 +48,18 @@ export class HomeComponent implements OnInit {
     {
       name: 'Empresa X SA. de CV.',
       amount: '$50,000.00'
-    },  
+    },
     {
       name: 'Empresa X SA. de CV.',
       amount: '$50,000.00'
-    },  
+    },
     {
       name: 'Empresa X SA. de CV.',
       amount: '$50,000.00'
-    },  
- 
+    },
+
   ]
-  
+
   public displayedColumnsCountry: string[] = [
     'name',
     'amount',
@@ -69,9 +69,9 @@ export class HomeComponent implements OnInit {
     {
       name: 'Empresa X SA. de CV.',
       amount: '$50,000.00'
-    },  
+    },
   ]
- 
+
   public displayedColumnsClients: string[] = [
     'name',
     'amount',
@@ -81,7 +81,7 @@ export class HomeComponent implements OnInit {
     {
       name: 'Empresa X SA. de CV.',
       amount: '$50,000.00'
-    },  
+    },
   ]
 
   data = {
@@ -1709,81 +1709,81 @@ export class HomeComponent implements OnInit {
       ]
     }
   }
-  
+
   chartVisitorsVsPageViews = {
-    chart     : {
-        animations: {
-            enabled: false,
-        },
-        fontFamily: 'inherit',
-        foreColor : 'inherit',
-        height    : '100%',
-        type      : 'area',
-        toolbar   : {
-            show: false,
-        },
-        zoom      : {
-            enabled: false,
-        },
-    },
-    colors    : ['#64748B', '#94A3B8'],
-    dataLabels: {
+    chart: {
+      animations: {
         enabled: false,
-    },
-    fill      : {
-        colors : ['#64748B', '#94A3B8'],
-        opacity: 0.5,
-    },
-    grid      : {
-        show   : false,
-        padding: {
-            bottom: -40,
-            left  : 0,
-            right : 0,
-        },
-    },
-    legend    : {
+      },
+      fontFamily: 'inherit',
+      foreColor: 'inherit',
+      height: '100%',
+      type: 'area',
+      toolbar: {
         show: false,
+      },
+      zoom: {
+        enabled: false,
+      },
     },
-    series    : this.data.visitorsVsPageViews.series,
-    stroke    : {
-        curve: 'smooth',
-        width: 2,
+    colors: ['#64748B', '#94A3B8'],
+    dataLabels: {
+      enabled: false,
     },
-    tooltip   : {
-        followCursor: true,
-        theme       : 'dark',
-        x           : {
-            format: 'MMM dd, yyyy',
-        },
+    fill: {
+      colors: ['#64748B', '#94A3B8'],
+      opacity: 0.5,
     },
-    xaxis     : {
-        axisBorder: {
-            show: false,
-        },
-        labels    : {
-            offsetY: -20,
-            rotate : 0,
-            style  : {
-                colors: 'var(--fuse-text-secondary)',
-            },
-        },
-        tickAmount: 3,
-        tooltip   : {
-            enabled: false,
-        },
-        type      : 'datetime',
+    grid: {
+      show: false,
+      padding: {
+        bottom: -40,
+        left: 0,
+        right: 0,
+      },
     },
-    yaxis     : {
-        labels    : {
-            style: {
-                colors: 'var(--fuse-text-secondary)',
-            },
+    legend: {
+      show: false,
+    },
+    series: this.data.visitorsVsPageViews.series,
+    stroke: {
+      curve: 'smooth',
+      width: 2,
+    },
+    tooltip: {
+      followCursor: true,
+      theme: 'dark',
+      x: {
+        format: 'MMM dd, yyyy',
+      },
+    },
+    xaxis: {
+      axisBorder: {
+        show: false,
+      },
+      labels: {
+        offsetY: -20,
+        rotate: 0,
+        style: {
+          colors: 'var(--fuse-text-secondary)',
         },
-        max       : (max): number => max + 250,
-        min       : (min): number => min - 250,
-        show      : false,
-        tickAmount: 5,
+      },
+      tickAmount: 3,
+      tooltip: {
+        enabled: false,
+      },
+      type: 'datetime',
+    },
+    yaxis: {
+      labels: {
+        style: {
+          colors: 'var(--fuse-text-secondary)',
+        },
+      },
+      max: (max): number => max + 250,
+      min: (min): number => min - 250,
+      show: false,
+      tickAmount: 5,
     },
   };
 
@@ -1796,69 +1796,171 @@ export class HomeComponent implements OnInit {
     rangeDateEnd: [{ value: null, disabled: false }],
   });
 
-  public selectedProject: string = 'Estadísticas';
+  public selectedProject: string = 'Productos';
 
   constructor(
     private notificationService: FuseConfirmationService,
     private formBuilder: FormBuilder
-  ){
+  ) {
 
   }
 
   ngOnInit(): void {
     this.chartWeeklyExpenses = {
-      chart  : {
-          animations: {
-              enabled: false,
-          },
-          fontFamily: 'inherit',
-          foreColor : 'inherit',
-          height    : '100%',
-          type      : 'line',
-          sparkline : {
-              enabled: true,
-          },
+      chart: {
+        animations: {
+          enabled: false,
+        },
+        fontFamily: 'inherit',
+        foreColor: 'inherit',
+        height: '100%',
+        type: 'line',
+        sparkline: {
+          enabled: true,
+        },
       },
-      colors : ['#22D3EE'],
-      series : [
+      colors: ['#22D3EE'],
+      series: [
         {
-            name: "Expenses",
-            data: [
-                4412,
-                4345,
-                4541,
-                4677,
-                4322,
-                4123
-            ]
+          name: "Expenses",
+          data: [
+            4412,
+            4345,
+            4541,
+            4677,
+            4322,
+            4123
+          ]
         }
-    ],
-      stroke : {
-          curve: 'smooth',
+      ],
+      stroke: {
+        curve: 'smooth',
       },
       tooltip: {
-          theme: 'dark',
+        theme: 'dark',
       },
-      xaxis  : {
-          type      : 'category',
-          categories: [
-            "26 Oct - 02 Nov",
-            "03 Nov - 10 Nov",
-            "11 Nov - 18 Nov",
-            "19 Nov - 26 Nov",
-            "27 Nov - 04 Dec",
-            "05 Dec - 12 Dec"
+      xaxis: {
+        type: 'category',
+        categories: [
+          "26 Oct - 02 Nov",
+          "03 Nov - 10 Nov",
+          "11 Nov - 18 Nov",
+          "19 Nov - 26 Nov",
+          "27 Nov - 04 Dec",
+          "05 Dec - 12 Dec"
         ],
       },
-      yaxis  : {
-          labels: {
-              formatter: (val): string => `$${val}`,
-          },
+      yaxis: {
+        labels: {
+          formatter: (val): string => `$${val}`,
+        },
       },
-  }
-}
+    }
 
-  SearchWithFilters(){
+    this.chartGithubIssues = {
+      chart: {
+        fontFamily: 'inherit',
+        foreColor: 'inherit',
+        height: '100%',
+        type: 'line',
+        toolbar: {
+          show: false,
+        },
+        zoom: {
+          enabled: false,
+        },
+      },
+      colors: ['#64748B', '#94A3B8'],
+      dataLabels: {
+        enabled: true,
+        enabledOnSeries: [0],
+        background: {
+          borderWidth: 0,
+        },
+      },
+      grid: {
+        borderColor: 'var(--fuse-border)',
+      },
+      labels: ['LUNES', 'MARTES', 'MIERCOLES', 'JUEVES', 'VIERNES', 'SABADO', 'DOMINGO'],
+      legend: {
+        show: false,
+      },
+      plotOptions: {
+        bar: {
+          columnWidth: '50%',
+        },
+      },
+      series: [
+        {
+          name: "Productos",
+          type: "line",
+          data: [
+            37,
+            32,
+            39,
+            27,
+            18,
+            24,
+            20
+          ]
+        },
+        {
+          name: "Lugares",
+          type: "column",
+          data: [
+            9,
+            8,
+            10,
+            12,
+            7,
+            11,
+            15
+          ]
+        }
+      ],
+      states: {
+        hover: {
+          filter: {
+            type: 'darken',
+            value: 0.75,
+          },
+        },
+      },
+      stroke: {
+        width: [3, 0],
+      },
+      tooltip: {
+        followCursor: true,
+        theme: 'dark',
+      },
+      xaxis: {
+        axisBorder: {
+          show: false,
+        },
+        axisTicks: {
+          color: 'var(--fuse-border)',
+        },
+        labels: {
+          style: {
+            colors: 'var(--fuse-text-secondary)',
+          },
+        },
+        tooltip: {
+          enabled: false,
+        },
+      },
+      yaxis: {
+        labels: {
+          offsetX: -16,
+          style: {
+            colors: 'var(--fuse-text-secondary)',
+          },
+        },
+      },
+    };
+  }
+
+  SearchWithFilters() {
     console.log(this.formFilters.value);
   }
 
@@ -1866,22 +1968,15 @@ export class HomeComponent implements OnInit {
     this.notificationService.open(
       {
         title: 'hola',
-        actions : {
-          confirm : {
-            show : true,
+        actions: {
+          confirm: {
+            show: true,
             color: 'warn'
           }
         }
       }
-    )}
-
-
-
-
-
-    
-
-
-
-
+    )
   }
+
+}
+

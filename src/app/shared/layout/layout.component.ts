@@ -1,6 +1,6 @@
 import { NgIf } from '@angular/common';
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { RouterModule, RouterOutlet } from '@angular/router';
+import { Router, RouterModule, RouterOutlet } from '@angular/router';
 import { Subject } from 'rxjs';
 import { FuseNavigationItem, FuseNavigationService, FuseVerticalNavigationComponent } from '@fuse/components/navigation';
 import { FuseLoadingBarComponent } from '@fuse/components/loading-bar';
@@ -243,6 +243,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
 
     constructor(
         private _fuseNavigationService: FuseNavigationService,
+        private router:Router
     ) { }
 
     ngOnInit(): void {}
@@ -254,11 +255,18 @@ export class LayoutComponent implements OnInit, OnDestroy {
 
     toggleNavigation(name: string): void {
         const navigation = this._fuseNavigationService.getComponent<FuseVerticalNavigationComponent>(name);
-
         if (navigation) navigation.toggle();
     }
 
     get currentYear(): number {
         return new Date().getFullYear();
+    }
+
+    public goMailbox() {
+        this.router.navigateByUrl('/home/reactivacion/correos')
+    }
+  
+    public gocalendar() {
+        this.router.navigateByUrl('/home/reactivacion/agenda')
     }
 }
