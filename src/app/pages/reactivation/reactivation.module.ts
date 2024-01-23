@@ -27,7 +27,6 @@ import { ModalDiaryComponent } from './diary/modal-diary/modal-diary.component';
     FormsModule,
     NgApexchartsModule,
     ReactiveFormsModule,
-    // NgbModalModule,
     FlatpickrModule.forRoot(),
     CalendarModule.forRoot({
       provide: DateAdapter,
