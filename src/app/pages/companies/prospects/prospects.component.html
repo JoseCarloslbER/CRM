@@ -9,19 +9,27 @@
                     <div class="section-title row d-flex justify-content-between align-items-center">
                         <div class="col-md-4 col-sm-12 col-12 title"> Prospectos</div>
 
-                        <div class="col-md-8 col-sm-12 col-12 btns-section">
-                            <button class="btn-yellow ml-3 px-1 sm:px-4 min-w-10" mat-flat-button>
-                                <mat-icon class="icon-size-5" [svgIcon]="'mat_solid:sync'"></mat-icon>
-                                <span class="hidden sm:inline-block ml-2">Sincronizar</span>
-                            </button>
-                            <button class="btn-yellow-newRegister ml-3 px-1 sm:px-4 min-w-10" mat-flat-button>
-                                <span class="hidden sm:inline-block" (click)="newData()">Registrar nuevo prospecto</span>
-                            </button>
+                        <div class="col-md-8 col-sm-12 col-12 btns-section mt-lg-0 mt-sm-0 mt-3">
+                           <div class="container">
+                                <div class="row d-flex justify-content-end">
+                                    <div class="col-sm-6 col-lg-4 col-5 d-flex justify-content-lg-end">
+                                        <button class="btn-excel p-2 mb-lg-0 mb-sm-0 mb-3">
+                                            <mat-icon class="icon-size-5" [svgIcon]="'mat_solid:sync'"></mat-icon>
+                                            <span class="">Sincronizar</span>
+                                        </button>
+                                    </div>
+                                    <div class="col-sm-6 col-lg-5 col-7 d-flex justify-content-end">
+                                        <button class="btn-yellow-newRegister">
+                                            <span class="" (click)="newData()">Registrar nuevo</span>
+                                        </button>
+
+                                    </div>
+                                </div>
+                           </div>
                         </div>
                     </div>
 
                     <div class="row d-flex align-items-center">
-
                         <div class="flex col-sm-12  col-md-6 col-lg-3 col-12 pe-2">
                             <mat-form-field class="flex-auto input-default">
                                 <mat-label>Estatus</mat-label>
@@ -79,18 +87,18 @@
                         </div>
                     </div>
                     <div class="row d-flex">
-                        <div class="d-flex col-md-5 col-xl-5 col-12 pt-md-2">
+                        <div class="d-flex col-md-5 col-xl-5 col-12 pt-md-2 mb-lg-0 mb-sm-0 mb-5">
                             <div class="input-search">
                                 <input type="text" placeholder="Búscar">
                                 <mat-icon class="icon-size-6" matSuffix [svgIcon]="'mat_solid:search'"></mat-icon>
                             </div>
                         </div>
                         <div class="d-flex col-md-7 col-xl-7 col-12 pt-md-2 justify-content-end align-items-end">
-                            <button class="btn-yellow-newRegister px-1 sm:px-4 min-w-10" mat-flat-button>
-                                <span class="hidden sm:inline-block">Carga masiva</span>
+                            <button class="btn-yellow-newRegister">
+                                <span >Carga masiva</span>
                             </button>
 
-                            <button class="btn-excel ml-3 px-1 sm:px-4 min-w-10">
+                            <button class="btn-excel ml-3">
                                 <mat-icon svgIcon="mat_outline:file_download"></mat-icon>
                                 <span>Excel</span>
                             </button> 

@@ -45,15 +45,15 @@ export class ProspectsComponent implements OnInit {
       cotizaciones : [
         {
           up : '5',
-          bottom : '$15,000.00',
-
+          bottom : '$15,000.000.00',
+          
         }
       ],
-    
+      
       ventas : [
         {
           up : '5',
-          bottom : '$15,000.00',
+          bottom : '$15,000.000.00',
 
         }
       ],
