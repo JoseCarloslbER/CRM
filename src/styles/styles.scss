@@ -141,7 +141,7 @@ body.fuse-splash-screen-hidden fuse-splash-screen {
 
 .input-default {
     mat-label {
-        font-size: 17px;
+        font-size: 15px;
         font-weight: 700;
         line-height: 23px;
         color: #646878;
@@ -158,8 +158,11 @@ body.fuse-splash-screen-hidden fuse-splash-screen {
 
 @media screen and (max-width: 875px) {
     .btn-yellow-newRegister{
-        width: 50px;
-        height: 50px;
+        font-size: 14px!important;
+    }
+
+    .width-new-register {
+        width: unset!important;
     }
 	
     .show-icon {
@@ -176,7 +179,7 @@ body.fuse-splash-screen-hidden fuse-splash-screen {
 }
 
 .form-padding {
-     padding: 50px;
+     padding: 45px;
 }
 
 .inputNewRegister {
@@ -260,4 +263,8 @@ body.fuse-splash-screen-hidden fuse-splash-screen {
     height: 50px;
     border-radius: 10px;
     margin-bottom: 26px;
+}
+
+.width-new-register {
+    width: 195px;
 }

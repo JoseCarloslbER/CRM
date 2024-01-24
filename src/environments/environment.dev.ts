@@ -1,3 +1,4 @@
 export const environment = {
-	AMBIENTE: 'develop'
+	AMBIENTE: 'develop',
+	apiURL : 'http://66.179.253.181/swagger/'
 };
