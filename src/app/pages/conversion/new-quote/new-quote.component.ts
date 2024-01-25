@@ -42,6 +42,7 @@ export class NewQuoteComponent implements AfterViewInit, OnInit{
       productControl: new FormControl({ value: datos?.product || '', disabled: false }),
       unitPriControl: new FormControl({ value: datos?.unitPri || '', disabled: false }),
       totalPricePriControl: new FormControl({ value: datos?.totalPricePri || '', disabled: false }),
+      priceTypeControl: new FormControl({ value: datos?.time || '', disabled: false })
     };
 
     this.productFormValues.push(instance);
@@ -56,6 +57,7 @@ export class NewQuoteComponent implements AfterViewInit, OnInit{
         product: e.productControl.value,
         unitPrice: e.unitPriceControl.value,
         totalPrice: e.totalPriceControl.value,
+        priceType: e.priceTypeControl.value,
       }
 
       return obj
