@@ -24,7 +24,9 @@ export class OpenModalsService {
 				  color : 'accent'
 				},
 				cancel : {
-				  show : false
+				  show : type == 'question',
+				  label : 'Cancelar',
+				  color : 'accent'
 				}
 			}
 		};

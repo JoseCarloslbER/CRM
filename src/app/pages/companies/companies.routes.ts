@@ -6,6 +6,7 @@ import { ClientsComponent } from './clients/clients.component';
 import { CompaniesComponent } from './companies.component';
 import { NewClientComponent } from './all/new-client/new-client.component';
 import { DetailClientComponent } from './all/detail-client/detail-client.component';
+import { NewProspectComponent } from './prospects/new-prospect/new-prospect.component';
 
 
 const companiesRoutes: Routes = [
@@ -23,7 +24,7 @@ const companiesRoutes: Routes = [
 				component: NewClientComponent,
 			},
 			{
-				path: 'detalle-cliente/:id',
+				path: 'editar-cliente/:id',
 				component: DetailClientComponent,
 			},
 			{
@@ -32,7 +33,15 @@ const companiesRoutes: Routes = [
 			},
 			{
 				path: 'nuevo-prospecto',
-				component: NewClientComponent,
+				component: NewProspectComponent,
+			},
+			{
+				path: 'detalle-prospecto/:id',
+				component: NewProspectComponent,
+			},
+			{
+				path: 'editar-prospecto/:id',
+				component: NewProspectComponent,
 			},
 			{
 				path: 'leads',
