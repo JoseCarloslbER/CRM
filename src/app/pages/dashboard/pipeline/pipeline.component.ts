@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTabChangeEvent } from '@angular/material/tabs';
+import { CompaniesService } from 'app/pages/companies/companies.service';
 
 @Component({
   selector: 'app-pipeline',
@@ -90,6 +91,7 @@ export class PipelineComponent {
   });
 
   constructor(
+    private moduleServices: CompaniesService,
     private notificationService: OpenModalsService,
     private formBuilder: FormBuilder,
     private dialog: MatDialog,
