@@ -15,8 +15,24 @@ export class CompaniesService {
 
 
   public getDataTable(filters:any): Observable<any> {
-    console.log(filters);
-    
+		const url = `${environment.apiURL}/`;
+
+    return this.http.get<DataTable>(url)
+	}
+ 
+  public getDataStatus(): Observable<any> {
+		const url = `${environment.apiURL}/`;
+
+    return this.http.get<DataTable>(url)
+	}
+
+  public getDataGiro(): Observable<any> {
+		const url = `${environment.apiURL}/`;
+
+    return this.http.get<DataTable>(url)
+	}
+
+  public getDataCampaigns(): Observable<any> {
 		const url = `${environment.apiURL}/`;
 
     return this.http.get<DataTable>(url)

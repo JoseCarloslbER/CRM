@@ -75,7 +75,7 @@
 	align-items: center;
 
 	h1 {
-		font-size: 18px;
+		font-size: 16px;
 		font-weight: 400;
 		margin-bottom: 15px;
 	}
@@ -89,8 +89,8 @@
 		justify-content: center;
 		align-items: center;
 		margin-bottom: 25px;
-		width: 130px;
-		height: 45px;
+		width: 115px;
+		height: 35px;
 	}
 
 	h2 {
@@ -113,7 +113,7 @@
 }
 
 .table-column-lead {
-    max-width: 135px;
+    max-width: 115px;
 	background: #EDF1F5;
 	display: flex;
 	align-items: center;
@@ -124,6 +124,21 @@
 	box-shadow: -1px 4px 10px 0px #00000040;
 	color: #1E293B;
 	font-size: 18px;
+	font-weight: 700;
+}
+
+.table-column-lead-green {
+    max-width: 115px;
+	background: #EDF1F5;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 35px;
+	padding: 15px;
+	border-radius: 10px;
+	box-shadow: -1px 4px 10px 0px #00000040;
+	color: #1E293B;
+	font-size: 17px!important;
 	font-weight: 700;
 }
 
@@ -153,11 +168,12 @@
 	border-radius: 10px;
 	box-shadow: -1px 4px 10px 0px #00000040;
 	color: #1E293B;
-	font-size: 15px;
+	font-size: 16px;
 	font-weight: 700;
 }
 
 .table-column-blue {
+	width: 115px;
 	background: #385A6D;
 	display: flex;
 	align-items: center;
@@ -167,9 +183,8 @@
 	border-radius: 10px;
 	box-shadow: -1px 4px 10px 0px #00000040;
 	color: #FFFFFF;
-	font-size: 18px;
+	font-size: 16px;
 	font-weight: 700;
-	width: 130px;
 }
 
 .table-column-green {
@@ -182,7 +197,7 @@
 	border-radius: 10px;
 	box-shadow: -1px 4px 10px 0px #00000040;
 	color: #FFFFFF;
-	font-size: 18px;
+	font-size: 16px;
 	font-weight: 700;
 }
 
@@ -526,7 +541,7 @@
 	margin: auto;
 
 	>div {
-		font-size: 20px;
+		font-size: 17px;
 		font-weight: 700;
 		text-align: center;
 

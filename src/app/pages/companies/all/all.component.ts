@@ -148,8 +148,7 @@ export class AllComponent implements OnInit {
   });
 
   constructor(
-
-    private openModalsService: OpenModalsService,
+    private notificationService: OpenModalsService,
     private formBuilder: FormBuilder,
     private dialog: MatDialog,
     private router: Router
@@ -183,8 +182,37 @@ export class AllComponent implements OnInit {
     this.router.navigateByUrl(`/home/empresas/detalle-cliente/${1}`)
   }
 
-  newClient() {
+  newData() {
     this.router.navigateByUrl(`/home/empresas/nuevo-cliente`)
   }
+  async() {
+    this.notificationService
+          .notificacion(
+            'Éxito',
+            'Sincronización.',
+            'save',
+            'mat_solid:sync'
+          )
+          .afterClosed()
+          .subscribe((_) => {
+
+          });
+  }
+
+  
+  douwnloadExel(){
+    this.notificationService
+          .notificacion(
+            'Éxito',
+            'Excel descargado.',
+            'save',
+            'heroicons_outline:document-arrow-down'
+          )
+          .afterClosed()
+          .subscribe((_) => {
+
+          });
+  }
+
 
 }

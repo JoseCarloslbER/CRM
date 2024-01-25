@@ -1,16 +1,13 @@
 <div class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto c-home" cdkScrollable>
-
-    
     <div class="bg-card">
         <div class="flex flex-col w-full mx-auto px-6 sm:px-8">
             <form class="row mt-5 mb-5" [formGroup]="formFilters">
                 <div class="col-12">
-
                     <div class="section-title row d-flex justify-content-between align-items-center">
                         <div class="col-md-4 col-sm-12 col-12 title"> Prospectos</div>
 
-                        <div class="col-md-8 col-sm-12 col-12 btns-section mt-lg-0 mt-sm-0 mt-3">
-                           <div class="container">
+                        <div class="col-md-8 col-sm-12 col-12 btns-section mt-lg-0 mt-sm-0">
+                           <div class="container p-0">
                                 <div class="row d-flex justify-content-end">
                                     <div class="col-sm-4 col-lg-2 col-5 d-flex justify-content-end">
                                         <button class="btn-excel p-2 mb-lg-0 mb-sm-0 mb-3" (click)="async()">
@@ -22,7 +19,6 @@
                                         <button class="btn-yellow-newRegister">
                                             <span (click)="newData()">Registrar nuevo</span>
                                         </button>
-
                                     </div>
                                 </div>
                            </div>
@@ -30,7 +26,7 @@
                     </div>
 
                     <div class="row d-flex align-items-center">
-                        <div class="flex col-sm-12  col-md-6 col-lg-3 col-12 pe-2">
+                        <div class="flex col-sm-12 col-md-6 col-lg-3 col-12 pe-2">
                             <mat-form-field class="flex-auto input-default">
                                 <mat-label>Estatus</mat-label>
                                 <mat-select placeholder="Seleccionar" formControlName="estatus">
@@ -86,6 +82,7 @@
                             </button>
                         </div>
                     </div>
+                    
                     <div class="row d-flex">
                         <div class="d-flex col-md-5 col-xl-5 col-12 pt-md-2 mb-lg-0 mb-sm-0 mb-5">
                             <div class="input-search">

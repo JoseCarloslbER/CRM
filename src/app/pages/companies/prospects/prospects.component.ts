@@ -210,6 +210,10 @@ export class ProspectsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.getDataTable(objFilters)
   }
 
+  getCatalogs() {
+    
+  }
+
   getDataTable(filters:Object) {
     this.moduleServices.getDataTable(filters).subscribe({
         next: ({ data } : DataTable) => {

@@ -89,17 +89,9 @@ export class ModalNewContactComponent implements OnInit {
     return this.valuesContacts.map(contactValues);
   }
 
-  sacarContactos() {
-    let cont = 0;
-    let contactInfo: any[] = [];
-
-    for (const _ of this.valuesContacts) {
-      contactInfo.push(this.getContactsValue()[cont])
-      cont++;
-    }
-    console.log(contactInfo);
+  deleteContact(index: number) {
+    this.valuesContacts.splice(index, 1)
   }
-
   fastQuote() {
     // this.dialog.open(ModalFastQuoteComponent, {
     //   data: {},
