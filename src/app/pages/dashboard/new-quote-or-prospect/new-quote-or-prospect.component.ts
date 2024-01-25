@@ -49,6 +49,7 @@ export class NewQuoteOrProspectComponent implements AfterViewInit {
       cargoControl: new FormControl({ value: datos?.correo || '', disabled: false }, Validators.required),
       movilControl: new FormControl({ value: datos?.correo || '', disabled: false }, Validators.required),
       extensionControl: new FormControl({ value: datos?.correo || '', disabled: false }),
+      priceTypeControl: new FormControl({ value: datos?.time || '', disabled: false })
     };
 
     this.valuesContacts.push(instance);
@@ -63,6 +64,7 @@ export class NewQuoteOrProspectComponent implements AfterViewInit {
         cargo: e.cargoControl.value,
         movil: e.movilControl.value,
         extension: e.extensionControl.value,
+        priceType: e.priceTypeControl.value,
       }
 
       return obj

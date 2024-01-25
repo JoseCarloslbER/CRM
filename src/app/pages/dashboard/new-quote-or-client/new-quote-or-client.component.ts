@@ -84,7 +84,8 @@ export class NewQuoteOrClientComponent {
       discountControl: new FormControl({ value: datos?.discount || '', disabled: false }),
       totalControl: new FormControl({ value: datos?.total || '', disabled: false }),
       dateControl: new FormControl({ value: datos?.date || '', disabled: false }),
-      timeControl: new FormControl({ value: datos?.time || '', disabled: false })
+      timeControl: new FormControl({ value: datos?.time || '', disabled: false }),
+      priceTypeControl: new FormControl({ value: datos?.time || '', disabled: false })
     };
 
     this.optionFormValues.push(instance);
@@ -98,6 +99,7 @@ export class NewQuoteOrClientComponent {
         total: e.totalControl.value,
         date: e.dateControl.value,
         time: e.timeControl.value,
+        priceType: e.priceTypeControl.value,
       }
 
       return obj
