@@ -16,14 +16,8 @@ export class NewQuoteOrProspectComponent implements AfterViewInit {
   public contactos: any[] = []
   public valuesContacts: any[] = []
 
-  public formulario = this.formBuilder.group({
-    nombre: [''],
-    correo: [''],
-    telefono: [''],
-    cargo: [''],
-    movil: [''],
-    extension: [''],
-  });
+  public productFormValues : any[] = [];
+  public optionFormValues : any[] = [];
 
   constructor(
     private notificationService: OpenModalsService,
@@ -40,6 +34,9 @@ export class NewQuoteOrProspectComponent implements AfterViewInit {
         this.addFormContact()
       }
     })
+
+    this.addFormOption();
+    this.addFormProduct();
 
   }
 
@@ -74,18 +71,75 @@ export class NewQuoteOrProspectComponent implements AfterViewInit {
     return this.valuesContacts.map(contactValues);
   }
 
-  sacarContact() {
-    let cont = 0;
-    let contactInfo: any[] = [];
-
-    for (const _ of this.valuesContacts) {
-      contactInfo.push(this.getContactsValue()[cont])
-      cont++;
-    }
-  }
-
   deleteContact(index: number) {
     this.valuesContacts.splice(index, 1)
+  }
+
+  addFormProduct(datos?: any) {
+    console.log(this.productFormValues);
+    const instance: any = {
+      ...(datos && { id: datos.id }),
+      placesControl: new FormControl({ value: datos?.places || '', disabled: false }),
+      productControl: new FormControl({ value: datos?.product || '', disabled: false }),
+      unitPriControl: new FormControl({ value: datos?.unitPri || '', disabled: false }),
+      totalPricePriControl: new FormControl({ value: datos?.totalPricePri || '', disabled: false }),
+    };
+
+    this.productFormValues.push(instance);
+    console.log(this.productFormValues);
+    
+  }
+
+  getProductsValues() {
+    const formValues = (e: any) => {
+      let obj = {
+        places: e.placesControl.value,
+        product: e.productControl.value,
+        unitPrice: e.unitPriceControl.value,
+        totalPrice: e.totalPriceControl.value,
+      }
+
+      return obj
+    };
+
+    return this.productFormValues.map(formValues);
+  }
+
+  deleteProductValue(index:number) {
+    this.productFormValues.splice(index, 1)
+  }
+
+  addFormOption(datos?: any) {
+    const instance: any = {
+      ...(datos && { id: datos?.id }),
+      subtotalControl: new FormControl({ value: datos?.subtotal || '', disabled: false }),
+      discountControl: new FormControl({ value: datos?.discount || '', disabled: false }),
+      totalControl: new FormControl({ value: datos?.total || '', disabled: false }),
+      dateControl: new FormControl({ value: datos?.date || '', disabled: false }),
+      timeControl: new FormControl({ value: datos?.time || '', disabled: false })
+    };
+
+    this.optionFormValues.push(instance);
+  }
+
+  getOptionsValues() {
+    const formValues = (e: any) => {
+      let obj = {
+        subtotal: e.subtotalControl.value,
+        discount: e.discountControl.value,
+        total: e.totalControl.value,
+        date: e.dateControl.value,
+        time: e.timeControl.value,
+      }
+
+      return obj
+    };
+
+    return this.optionFormValues.map(formValues);
+  }
+
+  deleteOptionValue(index:number) {
+    this.optionFormValues.splice(index, 1)
   }
 
   save() {

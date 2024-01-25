@@ -15,21 +15,30 @@ import { FuseConfirmationService } from '@fuse/services/confirmation/confirmatio
 export class NewClientComponent implements AfterViewInit, OnInit {
 
   public addContact = new FormControl('')
-  public contactos: any[] = []
+  public contacts: any[] = []
   public valuesContacts: any[] = []
 
   public url = document.location.href;
   public modalTitle: string = '';
   public esClient : boolean = false;
 
-  public formulario = this.formBuilder.group({
-    nombre: ['', Validators.required],
-    correo: ['', Validators.required],
-    telefono: ['', Validators.required],
-    cargo: ['', Validators.required],
-    movil: ['', Validators.required],
-    extension: ['', Validators.required],
+  public formData = this.formBuilder.group({
+    name: ['', Validators.required],
+    email: [''],
+    web: [''],
+    country: ['', Validators.required],
+    giro: ['', Validators.required],
+    companySize: ['', Validators.required],
+    phone: [''],
+    rfc: [''],
+    origin: [''],
+    agent: [''],
+    state: ['', Validators.required],
+    adress: [''],
+    companyType: ['', Validators.required],
   });
+
+  formControlName="companyType"
 
   constructor(
     private _fuseConfirmationService: FuseConfirmationService,

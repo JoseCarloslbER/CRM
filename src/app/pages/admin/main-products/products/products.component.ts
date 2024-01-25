@@ -25,7 +25,6 @@ export class ProductsComponent {
     'price',
     'country',
     'link',
-    'productsApplies',
     'actions'
   ];
 

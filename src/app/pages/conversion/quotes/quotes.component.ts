@@ -301,4 +301,18 @@ export class QuotesComponent {
 
     });
   }
+
+  douwnloadExel(){
+    this.notificationService
+          .notificacion(
+            'Éxito',
+            'Excel descargado.',
+            'save',
+            'heroicons_outline:document-arrow-down'
+          )
+          .afterClosed()
+          .subscribe((_) => {
+
+          });
+  }
 }
