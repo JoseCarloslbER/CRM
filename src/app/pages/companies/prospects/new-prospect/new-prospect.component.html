@@ -2,8 +2,8 @@
 
     <div class="return-header">
         <mat-icon svgIcon="mat_solid:arrow_back" (click)="toBack()"></mat-icon>
-        <p class="titulo-modal">Registrar nuevo prospecto111</p>
-    </div>
+        <p class="titulo-modal">{{ url.includes('editar') ? 'Editar' : 'Registrar nuevo'}} prospecto</p>
+    </div> 
 
     <div class="row form-padding d-flex">
 

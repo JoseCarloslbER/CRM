@@ -23,10 +23,7 @@ const companiesRoutes: Routes = [
 				path: 'nuevo-cliente',
 				component: NewClientComponent,
 			},
-			{
-				path: 'editar-cliente/:id',
-				component: DetailClientComponent,
-			},
+		
 			{
 				path: 'prospectos',
 				component: ProspectsComponent,
@@ -37,7 +34,7 @@ const companiesRoutes: Routes = [
 			},
 			{
 				path: 'detalle-prospecto/:id',
-				component: NewProspectComponent,
+				component: DetailClientComponent,
 			},
 			{
 				path: 'editar-prospecto/:id',

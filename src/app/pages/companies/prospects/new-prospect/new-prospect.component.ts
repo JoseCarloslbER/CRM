@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { FuseConfirmationService } from '@fuse/services/confirmation/confirmation.service';
@@ -6,13 +6,15 @@ import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ModalFastQuoteComponent } from '../modal-fast-quote/modal-fast-quote.component';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-new-prospect',
   templateUrl: './new-prospect.component.html',
   styleUrl: './new-prospect.component.scss'
 })
-export class NewProspectComponent {
+export class NewProspectComponent implements OnInit, AfterViewInit, OnDestroy {
+  private onDestroy = new Subject<void>();
 
   public addContact = new FormControl('')
   public contacts: any[] = []
@@ -162,4 +164,9 @@ export class NewProspectComponent {
 		this.formData.get('comments')?.[key]();
 		this.formData.get('file')?.[key]();
 	}
+
+  ngOnDestroy(): void {
+    this.onDestroy.next();
+    this.onDestroy.unsubscribe();
+  }
 }
