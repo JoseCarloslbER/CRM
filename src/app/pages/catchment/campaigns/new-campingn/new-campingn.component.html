@@ -3,7 +3,7 @@
     <div class="return-header">
         <mat-icon svgIcon="mat_solid:arrow_back" (click)="toBack()"></mat-icon>
         <p class="titulo-modal">{{ url.includes('editar') ? 'Editar' : url.includes('detalle') ? 'Detalle' : 'Registrar
-            nuevo' }} campaña</p>
+            nuevo' }} campaña asdasd</p>
     </div>
 
     <div class="row form-padding d-flex">
@@ -90,7 +90,7 @@
 
 
                 <div class="row d-flex align-items-center">
-                    <form [formGroup]="formFilters">
+                    <form class="row" [formGroup]="formFilters">
                         <div class="flex col-sm-12 col-md-6 col-lg-3 col-12 pe-2">
                             <mat-form-field class="flex-auto input-default">
                                 <mat-label>Tipo</mat-label>
@@ -112,13 +112,15 @@
                                 </mat-select>
                             </mat-form-field>
                         </div>
+
+                        <div class="d-flex justify-content-start col-md-2 col-xl-2 col-12 pt-md-2 mt-5 mb-5">
+                            <button class="btn-search">
+                                <span>Buscar</span>
+                            </button>
+                        </div>
                     </form>
 
-                    <div class="d-flex justify-content-start col-md-2 col-xl-2 col-12 pt-md-2 mt-5 mb-5">
-                        <button class="btn-search">
-                            <span>Buscar</span>
-                        </button>
-                    </div>
+               
                 </div>
 
                 <div class="row mb-5">

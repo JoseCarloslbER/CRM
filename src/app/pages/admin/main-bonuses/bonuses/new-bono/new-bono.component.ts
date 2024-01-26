@@ -28,8 +28,6 @@ export class NewBonoComponent implements OnInit, AfterViewInit {
     amount: ['', Validators.required],
   });
 
-
-
   constructor(
     private notificationService: OpenModalsService,
     private formBuilder: FormBuilder,

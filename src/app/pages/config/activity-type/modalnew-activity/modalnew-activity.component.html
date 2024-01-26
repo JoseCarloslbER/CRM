@@ -1,7 +1,7 @@
 <div class="container-fluid p-0 overflow-hidden">
 
     <div class="modal-header">
-        <p class="titulo-modal">Registrar nuev actividad</p>
+        <p class="titulo-modal">Registrar nuevo tipo de actividad</p>
         <mat-icon class="cursos-pointer" svgIcon="mat_outline:cancel" (click)="closeModal()"></mat-icon>
     </div>
 
@@ -10,18 +10,25 @@
 
         <form class="col-12 modal-content-scroll">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                         <mat-label>Rol*</mat-label>
                         <input matInput>
                     </mat-form-field>
 
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                         <mat-label>Comentario</mat-label>
                         <input matInput>
                     </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                    <div class="d-flex flex-column c-input-color inputNewRegister">
+                        <mat-label>Color</mat-label>
+                        <input type="color" class="form-control form-control-color width-100" value="#563d7c" >
+                    </div>
+
                 </div>
             </div>
 
