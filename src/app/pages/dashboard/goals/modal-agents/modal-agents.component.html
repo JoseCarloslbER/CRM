@@ -1,10 +1,11 @@
-<div class="container-fluid p-0 overflow-hidden position-relative c-moda-info">
+<div class="container-fluid p-0 overflow-hidden">
+    <div class="modal-header d-flex justify-content-end">
+        <mat-icon class="cursos-pointer" svgIcon="mat_outline:cancel" (click)="closeModal()"></mat-icon>
+    </div>
 
-    <div class="row">
-        <!-- overflow-x: auto; -->
+    <div class="row d-flex">
         <div class="col-12 contenedor-scroll-tabla">
-            <mat-icon class="modal-icon" svgIcon="mat_outline:cancel" (click)="closeModal()"></mat-icon>
-            <table mat-table #table [dataSource]="dataSource" class="w-100 tabla-personalizada-default">
+            <table mat-table #table [dataSource]="dataSource" class="w-100 tabla-personalizada-default-white">
                 <caption></caption>
 
                 <ng-container matColumnDef="agent">
@@ -73,6 +74,5 @@
                 <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
             </table>
         </div>
-
     </div>
 </div>

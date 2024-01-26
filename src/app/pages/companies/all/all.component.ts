@@ -185,6 +185,15 @@ export class AllComponent implements OnInit {
   newData() {
     this.router.navigateByUrl(`/home/empresas/nuevo-cliente`)
   }
+
+  editData(data: any) {
+    this.router.navigateByUrl(`/home/empresas/editar-cliente/1`)
+  }
+
+  seeData(data: any) {
+    this.router.navigateByUrl(`home/empresas/detalle-cliente/1`)
+  }
+
   async() {
     this.notificationService
           .notificacion(
@@ -197,6 +206,30 @@ export class AllComponent implements OnInit {
           .subscribe((_) => {
 
           });
+  }
+
+  deleteData() {
+    this.notificationService
+      .notificacion(
+        'Pregunta',
+        '¿Estas seguro de eliminar el registro?',
+        'question',
+      )
+      .afterClosed()
+      .subscribe((resp) => {
+        if (resp) {
+          this.notificationService
+          .notificacion(
+            'Éxito',
+            'Registro eliminado.',
+            'delete',
+          )
+          .afterClosed()
+          .subscribe((_) => {
+
+          });
+        }
+      });
   }
 
   

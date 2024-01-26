@@ -271,7 +271,7 @@ export class QuotesComponent {
   }
 
   editData(data:any) {
-    this.router.navigateByUrl(`/home/conversion/nueva-cotizacion`)
+    this.router.navigateByUrl(`/home/conversion/editar-cotizacion/1`)
   }
 
   newData() {

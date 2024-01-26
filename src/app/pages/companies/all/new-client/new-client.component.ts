@@ -50,13 +50,7 @@ export class NewClientComponent implements AfterViewInit, OnInit {
 
 
   ngOnInit(): void {
-    if (this.url.includes('cliente')) {
-      this.modalTitle = 'Registrar nuevo cliente'
-      this.esClient = true;
-    }
-     else this.modalTitle = 'Registrar nuevo prospecto'
-
-    console.log(this.modalTitle);
+   
   }
 
   ngAfterViewInit(): void {
@@ -146,7 +140,7 @@ export class NewClientComponent implements AfterViewInit, OnInit {
   }
 
   toBack() {
-    this.router.navigateByUrl(`/home/empresas/prospectos`)
+    this.router.navigateByUrl(`/home/empresas/todos`)
   }
 
   toAll() {
