@@ -157,6 +157,10 @@ body.fuse-splash-screen-hidden fuse-splash-screen {
 
 
 @media screen and (max-width: 875px) {
+
+    .form-padding {
+        padding: 45px!important;
+    }
     .btn-yellow-newRegister{
         font-size: 14px!important;
     }
@@ -183,7 +187,7 @@ body.fuse-splash-screen-hidden fuse-splash-screen {
 }
 
 .form-padding {
-     padding: 45px;
+     padding: 45px, 180px;
 }
 
 .inputNewRegister {

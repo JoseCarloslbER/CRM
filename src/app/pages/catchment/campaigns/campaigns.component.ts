@@ -422,6 +422,10 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
   editData(data: any) {
     this.router.navigateByUrl(`home/captacion/editar-campaña/1`)
   }
+  
+  cloneData(data: any) {
+    this.router.navigateByUrl(`home/captacion/clonar-campaña/1`)
+  }
 
   deleteData() {
     this.notificationService

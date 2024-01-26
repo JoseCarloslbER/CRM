@@ -33,7 +33,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
                     title: "Campañas",
                     type: "basic",
                     icon: "mat_outline:assignment",
-                    link: "/home/captacion/campañias"
+                    link: "/home/captacion/campañas"
                 },
             ]
         },
@@ -62,7 +62,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
                     title: "Campañas",
                     type: "basic",
                     icon: "mat_outline:storefront",
-                    link: "/home/dashboard/campañias"
+                    link: "/home/dashboard/campañas"
                 },
                 {
                     id: "4",

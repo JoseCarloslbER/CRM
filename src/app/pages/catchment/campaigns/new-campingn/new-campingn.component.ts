@@ -77,7 +77,7 @@ export class NewCampingnComponent implements OnInit, AfterViewInit, OnDestroy {
 
   
   toBack(){
-    this.router.navigateByUrl(`/home/captacion/campañias`)
+    this.router.navigateByUrl(`/home/captacion/campañas`)
   }
 
 
