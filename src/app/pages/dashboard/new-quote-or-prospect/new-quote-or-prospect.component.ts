@@ -4,6 +4,8 @@ import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { ModalNewActivityComponent } from 'app/pages/companies/all/detail-client/components/history/modal-new-activity/modal-new-activity.component';
+import { ModalNewProductComponent } from 'app/pages/admin/main-products/products/modal-new-product/modal-new-product.component';
 
 @Component({
   selector: 'app-new-quote-or-prospect',
@@ -156,7 +158,16 @@ export class NewQuoteOrProspectComponent implements AfterViewInit {
         this.toBack()
       });
   }
-
+ 
+  newDataProduct() {
+    this.dialog.open(ModalNewProductComponent, {
+      data: null,
+      disableClose: true,
+      width: '1000px',
+      maxHeight: '628px',
+      panelClass: 'custom-dialog',
+    });
+  }
 
   toBack() {
     this.router.navigateByUrl(`/home/conversion/detalle-cotizacion/1`)

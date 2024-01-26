@@ -50,6 +50,7 @@ export class NewClientComponent implements AfterViewInit, OnInit {
 
 
   ngOnInit(): void {
+   console.log(this.url);
    
   }
 
@@ -131,16 +132,22 @@ export class NewClientComponent implements AfterViewInit, OnInit {
       )
       .afterClosed()
       .subscribe((_) => {
-        if (!this.esClient) { 
-          this.fastQuote()
-        } else {
-          this.toAll()
-        }
+        // if (!this.esClient) { 
+        //   this.fastQuote()
+        // } else {
+        //   this.toAll()
+        // }
+        this.toBack()
       });
   }
 
   toBack() {
-    this.router.navigateByUrl(`/home/empresas/todos`)
+    this.router.navigateByUrl(`/home/empresas/${
+    this.url.includes('todos') ? 'todos' : this.url.includes('prospecto') ? 'prospectos' : 'clientes'}`)
+  }
+  
+  toBackClient() {
+    this.router.navigateByUrl(`/home/empresas/clientes`)
   }
 
   toAll() {

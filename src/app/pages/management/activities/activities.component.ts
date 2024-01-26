@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
@@ -45,11 +45,13 @@ export class ActivitiesComponent {
 
   public fechaHoy = new Date();
 
+  public searchBar = new FormControl('')
+
 
   public formFilters = this.formBuilder.group({
-    estatus: [{ value: null, disabled: false }],
-    giro: [{ value: null, disabled: false }],
-    company: [{ value: null, disabled: false }],
+    status: [{ value: null, disabled: false }],
+    agent: [{ value: null, disabled: false }],
+    type: [{ value: null, disabled: false }],
     rangeDateStart: [{ value: null, disabled: false }],
     rangeDateEnd: [{ value: null, disabled: false }],
   });
@@ -70,23 +72,24 @@ export class ActivitiesComponent {
     console.log(this.formFilters.value);
   }
 
+
   editData(data:any) {
-    this.router.navigateByUrl(`/home/gestion/nuevo-prospecto`)
-  }
-
-  seeData(data:any) {
-    this.router.navigateByUrl(`home/gestion/detalle-empresa/1`)
-  }
-
-  newData() {
     this.dialog.open(ModalNewActivityComponent, {
       data: ['test'],
       disableClose: true,
       width: '1000px',
       maxHeight: '628px',
       panelClass: 'custom-dialog',
+    });  }
+ 
+  newData() {
+    this.dialog.open(ModalNewActivityComponent, {
+      data: null,
+      disableClose: true,
+      width: '1000px',
+      maxHeight: '628px',
+      panelClass: 'custom-dialog',
     });
-
   }
  
   deleteData() {

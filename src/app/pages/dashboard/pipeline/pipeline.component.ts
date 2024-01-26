@@ -122,6 +122,11 @@ export class PipelineComponent {
   
   }
 
+  newDataQuote() {
+    this.router.navigateByUrl(`/home/conversion/nueva-cotizacion`)
+  }
+
+
   
   onTabChange(event: MatTabChangeEvent): void {
     console.log(event.tab.textLabel);

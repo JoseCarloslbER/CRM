@@ -24,6 +24,10 @@ const companiesRoutes: Routes = [
 				component: NewClientComponent,
 			},
 			{
+				path: 'todos-nuevo-cliente',
+				component: NewClientComponent,
+			},
+			{
 				path: 'detalle-cliente/:id',
 				component: DetailClientComponent,
 			},
