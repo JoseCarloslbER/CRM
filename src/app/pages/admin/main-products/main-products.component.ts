@@ -1,21 +1,26 @@
-import { Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ModalNewProductComponent } from './products/modal-new-product/modal-new-product.component';
 import { ModalNewPriceComponent } from './price/modal-new-price/modal-new-price.component';
+import { Subject, debounceTime, takeUntil } from 'rxjs';
+import { AdminService } from '../admin.service';
+import { DataTable } from '../admin-interface';
 
 @Component({
   selector: 'app-main-products',
   templateUrl: './main-products.component.html',
   styleUrl: './main-products.component.scss'
 })
-export class MainProductsComponent {
+export class MainProductsComponent implements OnInit, AfterViewInit, OnDestroy {
+  private onDestroy = new Subject<void>();
+  
   public dataSource = new MatTableDataSource<any>([]);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   public longitudPagina = 50;
@@ -34,7 +39,6 @@ export class MainProductsComponent {
     'acciones',
     'operaciones'
   ];
-
 
   public dataDummy: any[] = [
     {
@@ -82,9 +86,10 @@ export class MainProductsComponent {
   ]
 
   public fechaHoy = new Date();
+  
+  public searchBar = new FormControl('')
 
   public selectionType : string = 'Productos'
-  public btnName : string = 'producto'
 
   public formFilters = this.formBuilder.group({
     estatus: [{ value: null, disabled: false }],
@@ -95,6 +100,7 @@ export class MainProductsComponent {
   });
 
   constructor(
+    private moduleServices: AdminService,
     private notificationService: OpenModalsService,
     private formBuilder: FormBuilder,
     private dialog: MatDialog,
@@ -102,19 +108,41 @@ export class MainProductsComponent {
   ) { }
 
   ngOnInit(): void {
-    this.dataSource.data = this.dataDummy
+    this.dataSource.data = this.dataDummy;
+
+  }
+
+  ngAfterViewInit(): void {
+    this.searchBar.valueChanges.pipe(takeUntil(this.onDestroy), debounceTime(500)).subscribe((content:string) => {
+      console.log(content);
+    })
+  }
+
+  SearchWithFilters() {
+    let objFilters:any = {
+      ...this.formFilters.value
+    }
+
+    this.getDataTable(objFilters)
+  }
+
+  getCatalogs() {
+    
+  }
+
+  getDataTable(filters:Object) {
+    this.moduleServices.getDataTable(filters).subscribe({
+        next: ({ data } : DataTable) => {
+          console.log(data);
+        },
+        error: (error) => console.error(error)
+      }
+    )
   }
   
   onTabChange(event: MatTabChangeEvent): void {
     this.selectionType = event.tab.textLabel 
-    if (this.selectionType.includes('Precios')) {
-        this.btnName = 'precio';
-      } else if (this.selectionType.includes('Productos')){
-        this.btnName = 'producto';
-      } else {
-      this.btnName = 'descuento';
-
-    }
+    
   }
 
   newData() {
@@ -166,7 +194,11 @@ export class MainProductsComponent {
   }
 
   get title() : string {
-    
     return ''
+  }
+  
+  ngOnDestroy(): void {
+    this.onDestroy.next();
+    this.onDestroy.unsubscribe();
   }
 }

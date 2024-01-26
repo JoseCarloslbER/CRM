@@ -1,18 +1,23 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
+import { Subject, debounceTime, takeUntil } from 'rxjs';
+import { CompaniesService } from '../companies.service';
+import { DataTable } from '../companies-interface';
 
 @Component({
   selector: 'app-all',
   templateUrl: './all.component.html',
   styleUrl: './all.component.scss'
 })
-export class AllComponent implements OnInit {
+export class AllComponent  implements OnInit, AfterViewInit, OnDestroy {
+  private onDestroy = new Subject<void>();
+
   public dataSource = new MatTableDataSource<any>([]);
 	public dataSourceAgregadosRecientemente = new MatTableDataSource<any>([]);
 	public dataSourceMasComprados = new MatTableDataSource<any>([]);
@@ -137,6 +142,9 @@ export class AllComponent implements OnInit {
 
 	public fechaHoy = new Date();
 
+  public searchBar = new FormControl('')
+
+
   public selectedProject: string = 'todas';
 
   public formFilters = this.formBuilder.group({
@@ -148,6 +156,7 @@ export class AllComponent implements OnInit {
   });
 
   constructor(
+    private moduleServices: CompaniesService,
     private notificationService: OpenModalsService,
     private formBuilder: FormBuilder,
     private dialog: MatDialog,
@@ -159,6 +168,9 @@ export class AllComponent implements OnInit {
    }
 
    ngAfterViewInit(): void {
+    this.searchBar.valueChanges.pipe(takeUntil(this.onDestroy), debounceTime(500)).subscribe((content:string) => {
+      console.log(content);
+    })
    }
 
    cambiarOpcion(opcion : string) {
@@ -175,16 +187,44 @@ export class AllComponent implements OnInit {
    }
 
   SearchWithFilters(){
-    console.log(this.formFilters.value);
+    let objFilters:any = {
+      ...this.formFilters.value
+    }
+
+    this.getDataTable(objFilters)  
   }
+
+  getCatalogs() {
+    
+  }
+
+  getDataTable(filters:Object) {
+    this.moduleServices.getDataTable(filters).subscribe({
+        next: ({ data } : DataTable) => {
+          console.log(data);
+        },
+        error: (error) => console.error(error)
+      }
+    )
+  }
+
 
   seeClient(data:any) {
     this.router.navigateByUrl(`/home/empresas/detalle-cliente/${1}`)
   }
 
   newData() {
-    this.router.navigateByUrl(`/home/empresas/nuevo-cliente`)
+    this.router.navigateByUrl(`/home/empresas/todos-nuevo-cliente`)
   }
+
+  editData(data: any) {
+    this.router.navigateByUrl(`/home/empresas/editar-cliente/1`)
+  }
+
+  seeData(data: any) {
+    this.router.navigateByUrl(`home/empresas/detalle-cliente/1`)
+  }
+
   async() {
     this.notificationService
           .notificacion(
@@ -197,6 +237,30 @@ export class AllComponent implements OnInit {
           .subscribe((_) => {
 
           });
+  }
+
+  deleteData() {
+    this.notificationService
+      .notificacion(
+        'Pregunta',
+        '¿Estas seguro de eliminar el registro?',
+        'question',
+      )
+      .afterClosed()
+      .subscribe((resp) => {
+        if (resp) {
+          this.notificationService
+          .notificacion(
+            'Éxito',
+            'Registro eliminado.',
+            'delete',
+          )
+          .afterClosed()
+          .subscribe((_) => {
+
+          });
+        }
+      });
   }
 
   
@@ -214,5 +278,8 @@ export class AllComponent implements OnInit {
           });
   }
 
-
+  ngOnDestroy(): void {
+    this.onDestroy.next();
+    this.onDestroy.unsubscribe();
+  }
 }

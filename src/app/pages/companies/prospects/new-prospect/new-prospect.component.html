@@ -2,9 +2,8 @@
 
     <div class="return-header">
         <mat-icon svgIcon="mat_solid:arrow_back" (click)="toBack()"></mat-icon>
-        <p class="titulo-modal">{{ url.includes('editar') ? 'Editar' : 'Registrar nuevo'}} cliente</p>
-
-    </div>
+        <p class="titulo-modal">{{ url.includes('editar') ? 'Editar' : 'Registrar nuevo'}} prospecto</p>
+    </div> 
 
     <div class="row form-padding d-flex">
 
@@ -71,10 +70,10 @@
                                 <div class="col-md-8">
                                     <div class="d-flex flex-column inputNewRegister">
                                         <mat-label class="mb-1">Imagen</mat-label>
-                                        <input type="file" name="eta">
+                                        <input formControlName="file" type="file" name="eta">
                                     </div>
                                 </div>
-                                <div class="col-md-4 d-flex align-items-center justify-content-end">
+                                <div class="col-md-4 d-flex align-items-center justify-content-end" *ngIf="!url.includes('detalle')">
                                     <button class="btn-action-add">
                                         <span>Subir</span>
                                     </button>
@@ -138,14 +137,14 @@
 
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Comentario*</mat-label>
-                            <textarea matInput style="height: 118px;"></textarea>
+                            <textarea formControlName="comments" matInput style="height: 118px;"></textarea>
                         </mat-form-field>
                     </div>
                 </div>
 
                 <div class="input-check mt-1" *ngIf="!esClient">
                     <mat-checkbox class="mb-2" [checked]="true" [formControl]="addContact">
-                        Realizar el registro completo
+                        {{ url.includes('detalle') ? 'Ver' : 'Realizar' }} el registro completo
                     </mat-checkbox>
                 </div>
 
@@ -200,7 +199,7 @@
                 </div>
             </div>
 
-            <div class="row d-flex justify-content-between align-items-center mb-3 mt-5">
+            <div *ngIf="!url.includes('detalle')" class="row d-flex justify-content-between align-items-center mb-3 mt-5">
                 <div class="d-flex col-md-6 col-xl-6 col-12 pt-md-2 mb-6">
                     <button class="btn-gray" (click)="addFormContact()">
                         <span>Agregar contacto</span>

@@ -1,19 +1,24 @@
-import { Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { ModalNewActivityComponent } from 'app/pages/companies/all/detail-client/components/history/modal-new-activity/modal-new-activity.component';
+import { Subject, debounceTime, takeUntil } from 'rxjs';
+import { ReactivationService } from '../reactivation.service';
+import { DataTable } from '../reactivation-interface';
 
 @Component({
   selector: 'app-pending-calls',
   templateUrl: './pending-calls.component.html',
   styleUrl: './pending-calls.component.scss'
 })
-export class PendingCallsComponent {
+export class PendingCallsComponent implements OnInit, AfterViewInit, OnDestroy {
+  private onDestroy = new Subject<void>();
+
   public dataSource = new MatTableDataSource<any>([]);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   public longitudPagina = 50;
@@ -84,6 +89,8 @@ export class PendingCallsComponent {
 
   public fechaHoy = new Date();
 
+  public searchBar = new FormControl('')
+
 
   public formFilters = this.formBuilder.group({
     estatus: [{ value: null, disabled: false }],
@@ -95,7 +102,7 @@ export class PendingCallsComponent {
 
 
   constructor(
-
+    // private moduleServices: ReactivationService,
     private openModalsService: OpenModalsService,
     private notificationService: OpenModalsService,
     private formBuilder: FormBuilder,
@@ -110,8 +117,32 @@ export class PendingCallsComponent {
     }, 500);
   }
 
+  ngAfterViewInit(): void {
+    this.searchBar.valueChanges.pipe(takeUntil(this.onDestroy), debounceTime(500)).subscribe((content:string) => {
+      console.log(content);
+    })
+  }
+
   SearchWithFilters() {
-    console.log(this.formFilters.value);
+    let objFilters:any = {
+      ...this.formFilters.value
+    }
+
+    this.getDataTable(objFilters)
+  }
+
+  getCatalogs() {
+    
+  }
+
+  getDataTable(filters:Object) {
+    // this.moduleServices.getDataTable(filters).subscribe({
+    //     next: ({ data } : DataTable) => {
+    //       console.log(data);
+    //     },
+    //     error: (error) => console.error(error)
+    //   }
+    // )
   }
 
   deleteData() {
@@ -156,6 +187,11 @@ export class PendingCallsComponent {
       maxHeight: '700px',
       panelClass: 'custom-dialog',
     });
+  }
+
+  ngOnDestroy(): void {
+    this.onDestroy.next();
+    this.onDestroy.unsubscribe();
   }
 
 }

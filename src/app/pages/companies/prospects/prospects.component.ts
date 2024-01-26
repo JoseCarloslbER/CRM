@@ -225,11 +225,11 @@ export class ProspectsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   editData(data: any) {
-    this.router.navigateByUrl(`/home/empresas/nuevo-prospecto`)
+    this.router.navigateByUrl(`/home/empresas/editar-prospecto/1`)
   }
 
   seeData(data: any) {
-    this.router.navigateByUrl(`home/adquisicion/detalle-empresa/1`)
+    this.router.navigateByUrl(`home/empresas/detalle-prospecto/1`)
   }
 
   newData() {
@@ -244,8 +244,9 @@ export class ProspectsComponent implements OnInit, AfterViewInit, OnDestroy {
         'question',
       )
       .afterClosed()
-      .subscribe((_) => {
-        this.notificationService
+      .subscribe((resp) => {
+        if (resp) {
+          this.notificationService
           .notificacion(
             'Éxito',
             'Registro eliminado.',
@@ -255,6 +256,7 @@ export class ProspectsComponent implements OnInit, AfterViewInit, OnDestroy {
           .subscribe((_) => {
 
           });
+        }
       });
   }
 

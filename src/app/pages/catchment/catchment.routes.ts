@@ -17,7 +17,14 @@ const catchmentRoutes: Routes = [
 				path: 'nueva-campaña',
 				component: NewCampingnComponent,
 			},
-
+			{
+				path: 'detalle-campaña/:id',
+				component: NewCampingnComponent,
+			},
+			{
+				path: 'editar-campaña/:id',
+				component: NewCampingnComponent,
+			},
 		]
 	
 	}

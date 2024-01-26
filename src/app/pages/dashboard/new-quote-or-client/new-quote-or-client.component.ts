@@ -4,6 +4,7 @@ import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { ModalNewProductComponent } from 'app/pages/admin/main-products/products/modal-new-product/modal-new-product.component';
 
 @Component({
   selector: 'app-new-quote-or-client',
@@ -106,6 +107,16 @@ export class NewQuoteOrClientComponent {
     };
 
     return this.optionFormValues.map(formValues);
+  }
+
+  newDataProduct() {
+    this.dialog.open(ModalNewProductComponent, {
+      data: null,
+      disableClose: true,
+      width: '1000px',
+      maxHeight: '628px',
+      panelClass: 'custom-dialog',
+    });
   }
 
   deleteOptionValue(index:number) {

@@ -15,6 +15,8 @@ export class NewQuoteComponent implements AfterViewInit, OnInit{
   public productFormValues : any[] = [];
   public optionFormValues : any[] = [];
   
+  public url = document.location.href;
+
   constructor(
     private notificationService: OpenModalsService,
     private formBuilder: FormBuilder,

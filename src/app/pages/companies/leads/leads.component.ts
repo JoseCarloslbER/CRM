@@ -1,17 +1,23 @@
-import { Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
+import { Subject, debounceTime, takeUntil } from 'rxjs';
+import { CompaniesService } from '../companies.service';
+import { DataTable } from '../companies-interface';
 
 @Component({
   selector: 'app-leads',
   templateUrl: './leads.component.html',
   styleUrl: './leads.component.scss'
 })
-export class LeadsComponent {
+export class LeadsComponent implements OnInit, AfterViewInit, OnDestroy {
+  private onDestroy = new Subject<void>();
+
+
   public dataSource = new MatTableDataSource<any>([]);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   public longitudPagina = 50;
@@ -168,6 +174,8 @@ export class LeadsComponent {
 
   public fechaHoy = new Date();
 
+  public searchBar = new FormControl('')
+
 
   public formFilters = this.formBuilder.group({
     estatus: [{ value: null, disabled: false }],
@@ -178,6 +186,7 @@ export class LeadsComponent {
   });
 
   constructor(
+    private moduleServices: CompaniesService,
     private notificationService: OpenModalsService,
     private formBuilder: FormBuilder,
     private dialog: MatDialog,
@@ -186,6 +195,12 @@ export class LeadsComponent {
 
   ngOnInit(): void {
     this.dataSource.data = this.dataDummy
+  }
+  
+  ngAfterViewInit(): void {
+    this.searchBar.valueChanges.pipe(takeUntil(this.onDestroy), debounceTime(500)).subscribe((content:string) => {
+      console.log(content);
+    })
   }
 
   SearchWithFilters() {
@@ -202,6 +217,16 @@ export class LeadsComponent {
 
   newData() {
     this.router.navigateByUrl(`/home/empresas/nuevo-prospecto`)
+  }
+
+  getDataTable(filters:Object) {
+    this.moduleServices.getDataTable(filters).subscribe({
+        next: ({ data } : DataTable) => {
+          console.log(data);
+        },
+        error: (error) => console.error(error)
+      }
+    )
   }
  
   deleteData() {
@@ -241,4 +266,8 @@ export class LeadsComponent {
           });
   }
 
+  ngOnDestroy(): void {
+    this.onDestroy.next();
+    this.onDestroy.unsubscribe();
+  }
 }

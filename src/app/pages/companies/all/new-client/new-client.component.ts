@@ -50,13 +50,8 @@ export class NewClientComponent implements AfterViewInit, OnInit {
 
 
   ngOnInit(): void {
-    if (this.url.includes('cliente')) {
-      this.modalTitle = 'Registrar nuevo cliente'
-      this.esClient = true;
-    }
-     else this.modalTitle = 'Registrar nuevo prospecto'
-
-    console.log(this.modalTitle);
+   console.log(this.url);
+   
   }
 
   ngAfterViewInit(): void {
@@ -137,16 +132,22 @@ export class NewClientComponent implements AfterViewInit, OnInit {
       )
       .afterClosed()
       .subscribe((_) => {
-        if (!this.esClient) { 
-          this.fastQuote()
-        } else {
-          this.toAll()
-        }
+        // if (!this.esClient) { 
+        //   this.fastQuote()
+        // } else {
+        //   this.toAll()
+        // }
+        this.toBack()
       });
   }
 
   toBack() {
-    this.router.navigateByUrl(`/home/empresas/prospectos`)
+    this.router.navigateByUrl(`/home/empresas/${
+    this.url.includes('todos') ? 'todos' : this.url.includes('prospecto') ? 'prospectos' : 'clientes'}`)
+  }
+  
+  toBackClient() {
+    this.router.navigateByUrl(`/home/empresas/clientes`)
   }
 
   toAll() {

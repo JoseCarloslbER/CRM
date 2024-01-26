@@ -24,6 +24,7 @@ import { ModalNewContactComponent } from './all/detail-client/components/contact
 import { HistoryComponent } from './all/detail-client/components/history/history.component';
 import { FormatoFechaPipe } from 'app/shared/pipe/fecha.pipe';
 import { ModalNewActivityComponent } from './all/detail-client/components/history/modal-new-activity/modal-new-activity.component';
+import { NewProspectComponent } from './prospects/new-prospect/new-prospect.component';
 
 
 
@@ -35,7 +36,6 @@ import { ModalNewActivityComponent } from './all/detail-client/components/histor
     LeadsComponent,
     ClientsComponent,
     ModalFastQuoteComponent,
-
     NewClientComponent,
     DetailClientComponent,
     AdvertisingComponent,
@@ -49,7 +49,8 @@ import { ModalNewActivityComponent } from './all/detail-client/components/histor
     ModalNewContactComponent,
     HistoryComponent,
     FormatoFechaPipe,
-    ModalNewActivityComponent
+    ModalNewActivityComponent,
+    NewProspectComponent
 
     
   ],

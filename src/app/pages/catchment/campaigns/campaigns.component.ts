@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormControl } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
@@ -7,20 +7,23 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ModalInformationInTableComponent } from 'app/pages/catchment/campaigns/modal-information-in-table/modal-information-in-table.component';
 import { ModalCampaignResultsComponent } from './modal-campaign-results/modal-campaign-results.component';
+import { Subject, debounceTime, takeUntil } from 'rxjs';
+import { CatchmentService } from '../catchment.service';
+import { DataTable } from '../catchment-interface';
 
 @Component({
   selector: 'app-campaigns',
   templateUrl: './campaigns.component.html',
   styleUrl: './campaigns.component.scss'
 })
-export class CampaignsComponent implements OnInit {
+export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
+  private onDestroy = new Subject<void>();
+
   public dataSource = new MatTableDataSource<any>([]);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   public longitudPagina = 50;
   public total = 0;
   public indicePagina = 0;
-
-  // TABLA 
 
   public displayedColumnsCampaign: string[] = [
     'noSerie',
@@ -178,6 +181,7 @@ export class CampaignsComponent implements OnInit {
 
   public fechaHoy = new Date();
 
+  public searchBar = new FormControl('')
 
   public formFilters = this.formBuilder.group({
     estatus: [{ value: null, disabled: false }],
@@ -361,8 +365,8 @@ export class CampaignsComponent implements OnInit {
   ]
 
   constructor(
+    private moduleServices: CatchmentService,
     private notificationService: OpenModalsService,
-    private openModalsService: OpenModalsService,
     private formBuilder: FormBuilder,
     private dialog: MatDialog,
     private router: Router
@@ -375,21 +379,48 @@ export class CampaignsComponent implements OnInit {
     }, 500);
   }
 
+  ngAfterViewInit(): void {
+    this.searchBar.valueChanges.pipe(takeUntil(this.onDestroy), debounceTime(500)).subscribe((content:string) => {
+      console.log(content);
+    })
+  }
+
   SearchWithFilters() {
-    console.log(this.formFilters.value);
+    let objFilters:any = {
+      ...this.formFilters.value
+    }
+
+    console.log(objFilters);
+
+    this.getDataTable(objFilters)
   }
 
-
-  editData(data: any) {
-    this.router.navigateByUrl(`home/captacion/nueva-campaña`)
+  getCatalogs() {
+    
   }
+
+  getDataTable(filters:Object) {
+    this.moduleServices.getDataTable(filters).subscribe({
+        next: ({ data } : DataTable) => {
+          console.log(data);
+        },
+        error: (error) => console.error(error)
+      }
+    )
+  }
+
 
   seeData(data: any) {
-    this.router.navigateByUrl(`/home/conversion/detalle-cotizacion/1`)
+    // this.router.navigateByUrl(`/home/conversion/detalle-cotizacion/1`)
+    this.router.navigateByUrl(`/home/captacion/detalle-campaña/1`)
   }
 
   newData() {
     this.router.navigateByUrl(`home/captacion/nueva-campaña`)
+  }
+
+  editData(data: any) {
+    this.router.navigateByUrl(`home/captacion/editar-campaña/1`)
   }
 
   deleteData() {
@@ -468,6 +499,11 @@ export class CampaignsComponent implements OnInit {
           .subscribe((_) => {
 
           });
+  }
+
+  ngOnDestroy(): void {
+    this.onDestroy.next();
+    this.onDestroy.unsubscribe();
   }
 }
 
