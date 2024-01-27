@@ -1,14 +1,19 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
+import { OpenModalsService } from 'app/shared/services/openModals.service';
+import { MatDialog } from '@angular/material/dialog';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss'
 })
-export class TableComponent implements OnInit {
+export class TableComponent implements OnInit, OnDestroy {
+  private onDestroy = new Subject<void>();
+
   public dataSource = new MatTableDataSource<any>([]);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   public longitudPagina = 50;
@@ -19,6 +24,11 @@ export class TableComponent implements OnInit {
   @Input() dataDummy: string[] = []
   @Input() type: string = ''
   @Input() searchAndExcel: boolean = false
+
+  constructor(
+    private notificationService: OpenModalsService,
+    private dialog: MatDialog
+  ) { }
   
   ngOnInit(): void {
 
@@ -27,5 +37,24 @@ export class TableComponent implements OnInit {
     console.log(this.displayedColumns);
     
     this.dataSource.data = this.dataDummy
+  }
+
+  douwnloadExel(){
+    this.notificationService
+          .notificacion(
+            'Éxito',
+            'Excel descargado.',
+            'save',
+            'heroicons_outline:document-arrow-down'
+          )
+          .afterClosed()
+          .subscribe((_) => {
+
+          });
+  }
+
+  ngOnDestroy(): void {
+    this.onDestroy.next();
+    this.onDestroy.unsubscribe();
   }
 }

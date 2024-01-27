@@ -47,7 +47,7 @@ export class ShortcutsComponent implements OnDestroy {
       'newProspect': '/home/dashboard/nueva-cotizacion-prospecto',
       'newClient': '/home/dashboard/nueva-cotizacion-cliente',
       'all': '/home/empresas/todos',
-      'campaign': '/home/captacion/campañias',
+      'campaign': '/home/captacion/campañas',
       'users': '/home/admin/usuarios',
       'default': '/home/admin/productos'
     };

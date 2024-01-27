@@ -1,5 +1,5 @@
-<div class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto c-home" cdkScrollable>
-    <div class="bg-card">
+<div class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto c-main-product" cdkScrollable>
+    <div class="bg-card section-padding">
         <div class="flex flex-col w-full mx-auto px-6 sm:px-8 pt-3">
             <form class="row mt-5 mb-5" [formGroup]="formFilters">
                 <div class="col-12">
@@ -30,7 +30,7 @@
                             <button class="btn-excel ml-3" (click)="douwnloadExel()">
                                 <mat-icon svgIcon="mat_outline:file_download"></mat-icon>
                                 <span>Excel</span>
-                            </button> 
+                            </button>
                         </div>
 
                     </div>
@@ -39,34 +39,37 @@
         </div>
     </div>
 
-    
-    <div class="flex-auto border-t -mt-px pt-4 sm:pt-6">
+
+    <div class="c-general-table section-content-padding">
         <div class="w-full mx-auto">
-            
-            <mat-tab-group class="sm:px-2" mat-stretch-tabs="false" [animationDuration]="'0'" (selectedTabChange)="onTabChange($event)">
 
-                <mat-tab label="Productos">
-                    <ng-template matTabContent>
-                        <app-products></app-products>
-                    </ng-template>
-                </mat-tab>
+            <mat-tab-group class="sm:px-2" mat-stretch-tabs="false" [animationDuration]="'0'"
+                (selectedTabChange)="onTabChange($event)">
+                <div class="row mt-5">
+                    <mat-tab label="Productos">
+                        <ng-template matTabContent>
+                            <div class="mt-5 grid grid-cols-1 w-full min-w-0">
+                                <app-products></app-products>
+                            </div>
+                        </ng-template>
+                    </mat-tab>
 
-                <mat-tab label="Precios">
-                    <ng-template matTabContent>
-                        <div class="grid grid-cols-1 w-full min-w-0">
-                            <app-price></app-price>
-                        </div>
-                    </ng-template>
-                </mat-tab>
+                    <mat-tab label="Precios">
+                        <ng-template matTabContent>
+                            <div class="mt-5 grid grid-cols-1 w-full min-w-0">
+                                <app-price></app-price>
+                            </div>
+                        </ng-template>
+                    </mat-tab>
 
-                <mat-tab label="Descuentos">
-                    <ng-template matTabContent>
-                        <div class="grid grid-cols-1 w-full min-w-0">
-                            <app-discounts></app-discounts>
-                        </div>
-                    </ng-template>
-                </mat-tab>
-
+                    <mat-tab label="Descuentos">
+                        <ng-template matTabContent>
+                            <div class="mt-5 grid grid-cols-1 w-full min-w-0">
+                                <app-discounts></app-discounts>
+                            </div>
+                        </ng-template>
+                    </mat-tab>
+                </div>
             </mat-tab-group>
         </div>
     </div>

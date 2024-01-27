@@ -68,7 +68,10 @@ export class SubactivityComponent {
 
   editData() {
     this.dialog.open(ModalnewActivityComponent, {
-      data: ['test'],
+      data: {
+        info:['test'],
+        type : 'subactividad'
+      },
       disableClose: true,
       width: '1000px',
       maxHeight: '428px',

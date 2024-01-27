@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
@@ -6,13 +6,17 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { ModalNewProductComponent } from './modal-new-product/modal-new-product.component';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
   styleUrl: './products.component.scss'
 })
-export class ProductsComponent {
+export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
+  private onDestroy = new Subject<void>();
+
+
   public dataSource = new MatTableDataSource<any>([]);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   public longitudPagina = 50;
@@ -50,16 +54,22 @@ export class ProductsComponent {
   ngOnInit(): void {
     this.dataSource.data = this.dataDummy
   }
+  
+  ngAfterViewInit(): void {
+    
+  }
 
   editData() {
     this.dialog.open(ModalNewProductComponent, {
-      data: {},
+      data: ['test'],
       disableClose: true,
       width: '800px',
       maxHeight: '628px',
       panelClass: 'custom-dialog',
     });
   }
+
+
 
   deleteData() {
     this.notificationService
@@ -81,6 +91,11 @@ export class ProductsComponent {
 
           });
       });
+  }
+
+  ngOnDestroy(): void {
+    this.onDestroy.next();
+    this.onDestroy.unsubscribe();
   }
 
 }

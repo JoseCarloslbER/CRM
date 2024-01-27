@@ -1,5 +1,9 @@
 .c-pipeline {
 
+    ::ng-deep .mat-mdc-tab-body-content {
+        padding: 0!important;
+    }
+
     .c-pipeline-header {
         overflow: auto;
 

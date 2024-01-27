@@ -1,15 +1,19 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { ModalNewProductComponent } from 'app/pages/admin/main-products/products/modal-new-product/modal-new-product.component';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-new-quote',
   templateUrl: './new-quote.component.html',
   styleUrl: './new-quote.component.scss'
 })
-export class NewQuoteComponent implements AfterViewInit, OnInit{
+export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
+  private onDestroy = new Subject<void>();
+
   public addContact = new FormControl('')
 
   public productFormValues : any[] = [];
@@ -105,6 +109,16 @@ export class NewQuoteComponent implements AfterViewInit, OnInit{
     this.optionFormValues.splice(index, 1)
   }
 
+  newDataProduct() {
+    this.dialog.open(ModalNewProductComponent, {
+      data: null,
+      disableClose: true,
+      width: '1000px',
+      maxHeight: '628px',
+      panelClass: 'custom-dialog',
+    });
+  }
+
 
   save(){
     this.notificationService
@@ -125,5 +139,10 @@ export class NewQuoteComponent implements AfterViewInit, OnInit{
   
   toDetailQuote(){
     this.router.navigateByUrl(`/home/conversion/detalle-cotizacion/1`)
+  }
+
+  ngOnDestroy(): void {
+    this.onDestroy.next();
+    this.onDestroy.unsubscribe();
   }
 }

@@ -31,7 +31,11 @@ const dashboardRoutes: Routes = [
 				component: NewBonoComponent,
 			},
 			{
-				path: 'campañias',
+				path: 'editar-meta/:id',
+				component: NewBonoComponent,
+			},
+			{
+				path: 'campañas',
 				component: CampaignsComponent,
 			},
 			{

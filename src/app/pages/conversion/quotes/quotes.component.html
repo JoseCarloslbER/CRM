@@ -1,5 +1,5 @@
-<div class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto c-home" cdkScrollable>
-    <div class="bg-card">
+<div class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto c-quote" cdkScrollable>
+    <div class="bg-card section-padding">
         <div class="flex flex-col w-full mx-auto px-6 sm:px-8 pt-3">
 
 
@@ -93,14 +93,14 @@
     </div>
 
 
-    <div class="flex-auto border-t -mt-px pt-4 sm:pt-6">
+    <div class="c-general-table section-content-padding">
         <div class="w-full mx-auto">
 
             <mat-tab-group class="sm:px-2" mat-stretch-tabs="false" [animationDuration]="'0'">
 
                 <mat-tab label="Día">
                     <ng-template matTabContent>
-                        <div class="row">
+                        <div class="row mt-5">
                             <div class="col-12 contenedor-scroll-tabla">
                                 <table mat-table #table [dataSource]="dataSource"
                                     class="w-100 tabla-personalizada-default">

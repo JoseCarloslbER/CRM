@@ -14,7 +14,7 @@ import { FuseConfirmationService } from '@fuse/services/confirmation/confirmatio
 })
 export class NewClientComponent implements AfterViewInit, OnInit {
 
-  public addContact = new FormControl('')
+  public addContact = new FormControl(false)
   public contacts: any[] = []
   public valuesContacts: any[] = []
 
@@ -38,8 +38,6 @@ export class NewClientComponent implements AfterViewInit, OnInit {
     companyType: ['', Validators.required],
   });
 
-  formControlName="companyType"
-
   constructor(
     private _fuseConfirmationService: FuseConfirmationService,
     private notificationService: OpenModalsService,
@@ -51,7 +49,10 @@ export class NewClientComponent implements AfterViewInit, OnInit {
 
   ngOnInit(): void {
    console.log(this.url);
-   
+
+    if (this.url.includes('cliente')) {
+      this.addContact.setValue(true)
+    }
   }
 
   ngAfterViewInit(): void {
@@ -93,16 +94,6 @@ export class NewClientComponent implements AfterViewInit, OnInit {
     return this.valuesContacts.map(contactValues);
   }
 
-  sacarContact() {
-    let cont = 0;
-    let contactInfo: any[] = [];
-
-    for (const _ of this.valuesContacts) {
-      contactInfo.push(this.getContactsValue()[cont])
-      cont++;
-    }
-  }
-
   deleteContact(index:number) {
     this.valuesContacts.splice(index, 1)
   }
@@ -132,12 +123,11 @@ export class NewClientComponent implements AfterViewInit, OnInit {
       )
       .afterClosed()
       .subscribe((_) => {
-        // if (!this.esClient) { 
-        //   this.fastQuote()
-        // } else {
-        //   this.toAll()
-        // }
-        this.toBack()
+        if (this.url.includes('nuevo-cliente')) {
+          this.fastQuote()
+        } else {
+          this.toBack()
+        }
       });
   }
 

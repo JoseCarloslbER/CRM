@@ -1,7 +1,8 @@
 <div class="container-fluid p-0 overflow-hidden c-modal-quotes">
 
     <div class="modal-header">
-        <p class="titulo-modal">Registrar nuevo precio</p>
+        <p class="titulo-modal">{{ data ? 'Editar' : 'Registrar nuevo'}} precio</p>
+
         <mat-icon class="cursos-pointer" svgIcon="mat_outline:cancel" (click)="closeModal()"></mat-icon>
     </div>
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
@@ -7,12 +7,14 @@ import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ModalnewActivityComponent } from '../modalnew-activity/modalnew-activity.component';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-activity',
   templateUrl: './activity.component.html',
 })
-export class ActivityComponent implements OnInit {
+export class ActivityComponent implements OnInit, AfterViewInit, OnDestroy {
+  private onDestroy = new Subject<void>();
   public dataSource = new MatTableDataSource<any>([]);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   public longitudPagina = 50;
@@ -67,9 +69,16 @@ export class ActivityComponent implements OnInit {
     this.dataSource.data = this.dataDummy
   }
 
+  ngAfterViewInit(): void {
+    
+  }
+
   editData() {
     this.dialog.open(ModalnewActivityComponent, {
-      data: ['test'],
+      data: {
+        info:['test'],
+        type : 'actividad'
+      },
       disableClose: true,
       width: '1000px',
       maxHeight: '428px',
@@ -102,4 +111,8 @@ export class ActivityComponent implements OnInit {
   
 
 
+  ngOnDestroy(): void {
+    this.onDestroy.next();
+    this.onDestroy.unsubscribe();
+  }
 }

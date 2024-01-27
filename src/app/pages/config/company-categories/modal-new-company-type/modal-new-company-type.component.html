@@ -1,7 +1,8 @@
 <div class="container-fluid p-0 overflow-hidden">
 
     <div class="modal-header">
-        <p class="titulo-modal">Registrar nuevo</p>
+        <p class="titulo-modal">{{ data?.info ? 'Editar' : 'Registrar nueva'}} categoría de empresa</p>
+
         <mat-icon class="cursos-pointer" svgIcon="mat_outline:cancel" (click)="closeModal()"></mat-icon>
     </div>
 
@@ -14,16 +15,16 @@
                     <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                         <mat-label>Tipo por*</mat-label>
                         <mat-select placeholder="Seleccionar">
-                            <mat-option value="">Tipo por 1</mat-option>
-                            <mat-option value="">Tipo por 2</mat-option>
-                            <mat-option value="">Tipo por 3</mat-option>
+                            <mat-option value="">Origen</mat-option>
+                            <mat-option value="">Giro</mat-option>
+                            <mat-option value="">Tamaño</mat-option>
                         </mat-select>
                     </mat-form-field>
                 </div>
 
                 <div class="col-md-6">
                     <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
-                        <mat-label>Rol*</mat-label>
+                        <mat-label>Nombre*</mat-label>
                         <input matInput>
                     </mat-form-field>
 

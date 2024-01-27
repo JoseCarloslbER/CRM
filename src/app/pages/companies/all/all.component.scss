@@ -3,6 +3,11 @@
         display: none!important;
     }
 
+    
+    ::ng-deep .mat-mdc-tab-body-content {
+        padding: 0!important;
+    }
+
     .contenedor-scroll-tabla {
         .table-header {
             display: flex;

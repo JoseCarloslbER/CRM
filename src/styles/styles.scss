@@ -155,8 +155,44 @@ body.fuse-splash-screen-hidden fuse-splash-screen {
     color: #4B5062;
 }
 
+.section-padding{
+    padding: 0px 50px 0px 50px;
+}
 
+.section-padding-admin {
+    padding: 0px 25px 0px 25px;
+}
+
+.section-content-padding {
+    padding: 30px 70px!important;
+}
+
+.form-padding {
+    padding: 45px 200px!important;
+}
+
+.form-padding-title {
+    margin-left: 125px;
+}
+
+@media screen and (max-width: 1390px) {
+    
+    .form-padding {
+        padding: 45px 75px!important;
+    }
+
+    .form-padding-title {
+        margin-left: 5px;
+    }
+    
+
+}
 @media screen and (max-width: 875px) {
+
+    .form-padding {
+        padding: 45px!important;
+    }
+    
     .btn-yellow-newRegister{
         font-size: 14px!important;
     }
@@ -182,9 +218,7 @@ body.fuse-splash-screen-hidden fuse-splash-screen {
     cursor: pointer;
 }
 
-.form-padding {
-     padding: 45px;
-}
+
 
 .inputNewRegister {
 	width: 100%!important;

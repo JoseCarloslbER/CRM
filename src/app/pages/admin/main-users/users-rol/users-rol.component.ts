@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { FormBuilder } from '@angular/forms';
@@ -6,12 +6,15 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-users-rol',
   templateUrl: './users-rol.component.html',
 })
-export class UsersRolComponent {
+export class UsersRolComponent implements OnInit, AfterViewInit, OnDestroy {
+  private onDestroy = new Subject<void>();
+
   public dataSource = new MatTableDataSource<any>([]);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   public longitudPagina = 50;
@@ -61,8 +64,12 @@ export class UsersRolComponent {
     this.dataSource.data = this.dataDummy
   }
 
+  ngAfterViewInit(): void {
+    
+  }
+
   editData() {
-    this.router.navigateByUrl(`/home/admin/nuevo-rol`)
+    this.router.navigateByUrl(`/home/admin/editar-rol/1`)
   }
   
 
@@ -88,4 +95,9 @@ export class UsersRolComponent {
       });
   }
 
+  
+  ngOnDestroy(): void {
+    this.onDestroy.next();
+    this.onDestroy.unsubscribe();
+  }
 }

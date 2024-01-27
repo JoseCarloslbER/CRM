@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { FormBuilder } from '@angular/forms';
@@ -7,12 +7,15 @@ import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { ModalNewCompanyTypeComponent } from '../../modal-new-company-type/modal-new-company-type.component';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-origin-company',
   templateUrl: './origin-company.component.html',
 })
-export class OriginCompanyComponent implements OnInit{
+export class OriginCompanyComponent  implements OnInit, AfterViewInit, OnDestroy {
+  private onDestroy = new Subject<void>();
+
   public dataSource = new MatTableDataSource<any>([]);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   public longitudPagina = 50;
@@ -62,16 +65,22 @@ export class OriginCompanyComponent implements OnInit{
     this.dataSource.data = this.dataDummy
   }
 
-  editData() {
+  ngAfterViewInit(): void {
+    
+  }
+
+  editData(data:any) {
     this.dialog.open(ModalNewCompanyTypeComponent, {
-      data: ['test'],
+      data: {
+        info : data
+      },
       disableClose: true,
       width: '1000px',
       maxHeight: '428px',
       panelClass: 'custom-dialog',
     });
   }
-
+  
   deleteData() {
     this.notificationService
       .notificacion(
@@ -92,5 +101,10 @@ export class OriginCompanyComponent implements OnInit{
 
           });
       });
+  }
+
+  ngOnDestroy(): void {
+    this.onDestroy.next();
+    this.onDestroy.unsubscribe();
   }
 }

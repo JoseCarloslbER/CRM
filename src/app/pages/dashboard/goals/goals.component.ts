@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
@@ -8,13 +8,16 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ModalAgentsComponent } from './modal-agents/modal-agents.component';
 import { ModalBonusProgressComponent } from './modal-bonus-progress/modal-bonus-progress.component';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-goals',
   templateUrl: './goals.component.html',
   styleUrl: './goals.component.scss'
 })
-export class GoalsComponent {
+export class GoalsComponent implements OnInit, AfterViewInit, OnDestroy {
+  private onDestroy = new Subject<void>();
+
   public dataSource = new MatTableDataSource<any>([]);
   public dataSourceGoalHistory = new MatTableDataSource<any>([]);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -154,9 +157,12 @@ export class GoalsComponent {
     }, 500);
   }
 
+  ngAfterViewInit(): void {
+    
+  }
 
   editData(data: any) {
-    this.router.navigateByUrl(`home/dashboard/nueva-meta`)
+    this.router.navigateByUrl(`home/dashboard/editar-meta/1`)
   }
 
   seeData(data: any) {
@@ -187,25 +193,30 @@ export class GoalsComponent {
     });
   }
 
-deleteData() {
-  this.notificationService
-    .notificacion(
-      'Pregunta',
-      '¿Estas seguro de eliminar el registro?',
-      'question',
-    )
-    .afterClosed()
-    .subscribe((_) => {
-      this.notificationService
-        .notificacion(
-          'Éxito',
-          'Registro eliminado.',
-          'delete',
-        )
-        .afterClosed()
-        .subscribe((_) => {
+  deleteData() {
+    this.notificationService
+      .notificacion(
+        'Pregunta',
+        '¿Estas seguro de eliminar el registro?',
+        'question',
+      )
+      .afterClosed()
+      .subscribe((_) => {
+        this.notificationService
+          .notificacion(
+            'Éxito',
+            'Registro eliminado.',
+            'delete',
+          )
+          .afterClosed()
+          .subscribe((_) => {
 
-        });
-    });
-}
+          });
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.onDestroy.next();
+    this.onDestroy.unsubscribe();
+  }
 }
