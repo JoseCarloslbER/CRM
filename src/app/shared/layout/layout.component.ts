@@ -11,6 +11,7 @@ import { NotificationsComponent } from './common/notifications/notifications.com
 import { UserComponent } from './common/user/user.component';
 import { SearchComponent } from './common/search/search.component';
 import { ShortcutsComponent } from './common/shortcuts/shortcuts.component';
+import { QuickChatComponent } from './common/quick-chat/quick-chat.component';
 
 @Component({
     selector: 'layout',
@@ -18,7 +19,9 @@ import { ShortcutsComponent } from './common/shortcuts/shortcuts.component';
     styleUrls: ['./layout.component.scss'],
     encapsulation: ViewEncapsulation.None,
     standalone: true,
-    imports: [RouterModule, FuseLoadingBarComponent, FuseVerticalNavigationComponent, NotificationsComponent, UserComponent, NgIf, MatIconModule, MatButtonModule, SearchComponent, ShortcutsComponent, MessagesComponent, RouterOutlet],
+    imports: [
+        QuickChatComponent,
+        RouterModule, FuseLoadingBarComponent, FuseVerticalNavigationComponent, NotificationsComponent, UserComponent, NgIf, MatIconModule, MatButtonModule, SearchComponent, ShortcutsComponent, MessagesComponent, RouterOutlet],
 })
 export class LayoutComponent implements OnInit, OnDestroy {
 

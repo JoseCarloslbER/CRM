@@ -62,7 +62,6 @@ export class HistoryComponent {
   ) { }
 
   newActivity() {
-    // selecionar tipo de actividad llamada al abrir de aquí
     this.dialog.open(ModalNewActivityComponent, {
       data: ['test'],
       disableClose: true,
