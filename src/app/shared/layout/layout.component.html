@@ -61,7 +61,10 @@
                 <shortcuts></shortcuts>
                 <mat-icon class="color-icon-header cursor-pointer" (click)="goMailbox()">inbox</mat-icon>
                 <notifications></notifications>
-                <img src="../../../assets/images/Vector.png" alt="" style="width: 25px; height: 25px;">
+                <!-- <img src="../../../assets/images/Vector.png" class="cursor-pointer" (click)="quickChat.toggle()" alt="" style="width: 25px; height: 25px;"> -->
+                <!-- <button class="lg:hidden" mat-icon-button (click)="quickChat.toggle()"> -->
+                <!-- <mat-icon [svgIcon]="'heroicons_outline:chat-bubble-left-right'"></mat-icon> -->
+            <!-- </button> -->
             </div>
         </div>
     </div>
@@ -71,3 +74,5 @@
     </div>
 
 </div>
+
+<quick-chat style="width: unset!important;" #quickChat="quickChat"></quick-chat>

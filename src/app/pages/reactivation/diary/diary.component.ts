@@ -1,10 +1,12 @@
-import { Component, TemplateRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CalendarEvent, EventColor } from 'calendar-utils';
 import { CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView } from 'angular-calendar';
 import { Subject } from 'rxjs';
 import { addDays, addHours, endOfDay, endOfMonth, isSameDay, isSameMonth, startOfDay, subDays } from 'date-fns';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ModalNewActivityComponent } from 'app/pages/companies/all/detail-client/components/history/modal-new-activity/modal-new-activity.component';
+import { MatDialog } from '@angular/material/dialog';
 
 
 const colors: Record<string, EventColor> = {
@@ -27,7 +29,8 @@ const colors: Record<string, EventColor> = {
   templateUrl: './diary.component.html',
   styleUrl: './diary.component.scss'
 })
-export class DiaryComponent {
+export class DiaryComponent implements OnInit, AfterViewInit, OnDestroy {
+  private onDestroy = new Subject<void>();
 
   @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
 
@@ -106,7 +109,17 @@ export class DiaryComponent {
 
   activeDayIsOpen: boolean = true;
 
-  constructor(private modal: NgbModal) {}
+  constructor(private modal: NgbModal,
+    private dialog: MatDialog
+    ) {}
+
+    ngOnInit(): void {
+      
+    }
+
+    ngAfterViewInit(): void {
+      
+    }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
@@ -172,6 +185,21 @@ export class DiaryComponent {
 
   closeOpenMonthViewDay() {
     this.activeDayIsOpen = false;
+  }
+
+  newActivity() {
+    this.dialog.open(ModalNewActivityComponent, {
+      data: null,
+      disableClose: true,
+      width: '1000px',
+      maxHeight: '628px',
+      panelClass: 'custom-dialog',
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.onDestroy.next();
+    this.onDestroy.unsubscribe();
   }
 
 }
