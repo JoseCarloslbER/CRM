@@ -1,5 +1,5 @@
 <div class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto c-camping-dash" cdkScrollable>
-    <div class="bg-card">
+    <div class="bg-card section-padding">
         <div class="flex flex-col w-full mx-auto px-6 sm:px-8 pt-3">
          
             <form class="row mt-5 mb-5" [formGroup]="formFilters">
@@ -81,7 +81,7 @@
         </div>
     </div>
 
-    <div class="flex border-t -mt-px pt-4 sm:pt-6">
+    <div class="flex-auto border-t section-content-padding">
         <div class="w-full mx-auto">
 
             <mat-tab-group class="sm:px-2" mat-stretch-tabs="false" [animationDuration]="'0'"
@@ -89,7 +89,7 @@
 
                 <mat-tab label="Día">
                     <ng-template matTabContent>
-                        <div class="row">
+                        <div class="row  pt-5">
                             <div class="col-md-12">
                                 <div class="section-header-dashboard flex-center">
                                     Campañas del mes
@@ -150,7 +150,7 @@
                                                     <span class="font-medium text-sm text-secondary">12 meses</span>
                                                 </button>
                                                 <mat-menu #conversionMenu="matMenu">
-                                                    <button mat-menu-item>30 daás</button>
+                                                    <button mat-menu-item>1 mes</button>
                                                     <button mat-menu-item>3 meses</button>
                                                     <button mat-menu-item>9 meses</button>
                                                 </mat-menu>
@@ -329,7 +329,7 @@
 
                         <div class="section-title row d-flex justify-content-end align-items-center">
                             <div class="col-md-8 col-sm-12 col-12 btns-section">
-                                <button class="btn-yellow-newRegister">
+                                <button class="btn-yellow-newRegister" (click)="seeData()">
                                     <span >Ver todas las campañas</span>
                                 </button>
                             </div>

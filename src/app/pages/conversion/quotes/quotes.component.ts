@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -6,13 +6,22 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { ModalUploadDocumentComponent } from '../modal-upload-document/modal-upload-document.component';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-quotes',
   templateUrl: './quotes.component.html',
-  styleUrls: []
+  styles: [`
+      .c-quote {
+        ::ng-deep .mat-mdc-tab-body-content {
+        padding: 0!important;
+        }
+      }
+  `]
 })
-export class QuotesComponent {
+export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
+  private onDestroy = new Subject<void>();
+
   public dataSource = new MatTableDataSource<any>([]);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   public longitudPagina = 50;
@@ -262,6 +271,10 @@ export class QuotesComponent {
     this.dataSource.data = this.dataDummy
   }
 
+  ngAfterViewInit(): void {
+    
+  }
+
   searchWithFilters() {
     console.log(this.formFilters.value);
   }
@@ -314,5 +327,10 @@ export class QuotesComponent {
           .subscribe((_) => {
 
           });
+  }
+
+  ngOnDestroy(): void {
+    this.onDestroy.next();
+    this.onDestroy.unsubscribe();
   }
 }

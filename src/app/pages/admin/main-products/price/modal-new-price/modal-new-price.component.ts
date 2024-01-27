@@ -28,7 +28,7 @@ export class ModalNewPriceComponent {
     this.notificationService
       .notificacion(
         'Éxito',
-        'Registro guardado.',
+        `Registro ${this.data ? 'editado' : 'guardado'}.`,
         'save',
       )
       .afterClosed()

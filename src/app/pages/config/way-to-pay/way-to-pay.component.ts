@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { FormBuilder } from '@angular/forms';
@@ -6,12 +6,15 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { ModalNewWayToPayComponent } from './modal-new-way-to-pay/modal-new-way-to-pay.component';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-way-to-pay',
   templateUrl: './way-to-pay.component.html',
 })
-export class WayToPayComponent implements OnInit{
+export class WayToPayComponent implements OnInit, AfterViewInit, OnDestroy {
+  private onDestroy = new Subject<void>();
+
   public dataSource = new MatTableDataSource<any>([]);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   public longitudPagina = 50;
@@ -58,9 +61,15 @@ export class WayToPayComponent implements OnInit{
     this.dataSource.data = this.dataDummy
   }
 
-  newData() {
+  ngAfterViewInit(): void {
+    
+  }
+
+  newOrEditData(data = null) {
     this.dialog.open(ModalNewWayToPayComponent, {
-      data: ['test'],
+      data: {
+        info : data
+      },
       disableClose: true,
       width: '1000px',
       maxHeight: '428px',
@@ -68,15 +77,6 @@ export class WayToPayComponent implements OnInit{
     });
   }
   
-  editData() {
-    this.dialog.open(ModalNewWayToPayComponent, {
-      data: ['test'],
-      disableClose: true,
-      width: '1000px',
-      maxHeight: '428px',
-      panelClass: 'custom-dialog',
-    });
-  }
 
   deleteData() {
     this.notificationService
@@ -113,6 +113,10 @@ export class WayToPayComponent implements OnInit{
 
           });
   }
-
+  
+  ngOnDestroy(): void {
+    this.onDestroy.next();
+    this.onDestroy.unsubscribe();
+  }
   
 }

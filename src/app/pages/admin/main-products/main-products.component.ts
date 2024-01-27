@@ -142,7 +142,6 @@ export class MainProductsComponent implements OnInit, AfterViewInit, OnDestroy {
   
   onTabChange(event: MatTabChangeEvent): void {
     this.selectionType = event.tab.textLabel 
-    
   }
 
   newData() {
@@ -151,13 +150,13 @@ export class MainProductsComponent implements OnInit, AfterViewInit, OnDestroy {
     } else if(this.selectionType.includes('Precios')){
       this.modalPrice()
     } else {
-      this.modalDiscounts()
+      this.newDataDiscounts()
     }
   }
 
   modalProducts() {
     this.dialog.open(ModalNewProductComponent, {
-      data: {},
+      data: null,
       disableClose: true,
       width: '800px',
       maxHeight: '628px',
@@ -167,7 +166,7 @@ export class MainProductsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   modalPrice() {
     this.dialog.open(ModalNewPriceComponent, {
-      data: {},
+      data: null,
       disableClose: true,
       width: '800px',
       maxHeight: '628px',
@@ -175,8 +174,12 @@ export class MainProductsComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  modalDiscounts() {
+  newDataDiscounts() {
     this.router.navigateByUrl(`/home/admin/nuevo-descuento`)
+  }
+
+  editDataDiscounts() {
+    this.router.navigateByUrl(`/home/admin/editar-descuento/1`)
   }
 
   douwnloadExel(){

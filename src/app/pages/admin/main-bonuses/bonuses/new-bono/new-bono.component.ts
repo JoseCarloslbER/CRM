@@ -1,16 +1,18 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-new-bono',
   templateUrl: './new-bono.component.html',
   styleUrl: './new-bono.component.scss'
 })
-export class NewBonoComponent implements OnInit, AfterViewInit {
+export class NewBonoComponent implements OnInit, AfterViewInit, OnDestroy {
+  private onDestroy = new Subject<void>();
 
   public fechaHoy = new Date();
   public toppings = new FormControl('');
@@ -41,8 +43,12 @@ export class NewBonoComponent implements OnInit, AfterViewInit {
       this.modalTitle = 'Registrar nueva meta'
       this.isGoal = true;
     }
-     else this.modalTitle = 'Registrar nuevo bono'
-
+    else {
+      this.modalTitle = 'Registrar nuevo bono'
+    }
+    
+    if (this.url.includes('editar')) this.modalTitle = this.modalTitle.replace('Registrar', 'Editar');
+    if (this.url.includes('clonar')) this.modalTitle = this.modalTitle.replace('Registrar', 'Clonar');
   }
 
   ngAfterViewInit(): void {
@@ -94,7 +100,7 @@ export class NewBonoComponent implements OnInit, AfterViewInit {
     this.notificationService
       .notificacion(
         'Éxito',
-        'Registro guardado.',
+        `Registro ${this.url.includes('editar') ? 'editado' : 'guardado'}.`,
         'save',
       )
       .afterClosed()
@@ -105,5 +111,10 @@ export class NewBonoComponent implements OnInit, AfterViewInit {
 
   toBack(){
     this.router.navigateByUrl(`/home/${this.isGoal ? 'dashboard/metas' : 'admin/bonos'}`)
+  }
+
+  ngOnDestroy(): void {
+    this.onDestroy.next();
+    this.onDestroy.unsubscribe();
   }
 }

@@ -5,6 +5,12 @@
             width: 80px!important;
         }
     }
+
+    ::ng-deep .mat-mdc-tab-body-content {
+        padding: 0!important;
+    }
+
+    
     .month-info {
         min-height: 125px;
         color: #1E293B;

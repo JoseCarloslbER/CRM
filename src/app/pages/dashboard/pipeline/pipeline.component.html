@@ -1,10 +1,6 @@
 <div class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto c-pipeline" cdkScrollable>
-
-    
-    <div class="bg-card">
+    <div class="bg-card section-padding">
         <div class="flex flex-col w-full mx-auto px-6 sm:px-8 pt-3">
-
-            
             <form class="row mt-5 mb-5" [formGroup]="formFilters">
                 <div class="col-12">
 
@@ -79,7 +75,7 @@
     </div>
 
 
-    <div class="flex-auto border-t -mt-px pt-4 sm:pt-6">
+    <div class="flex-auto border-t section-content-padding">
         <div class="w-full mx-auto">
 
             <mat-tab-group class="sm:px-2" mat-stretch-tabs="false" [animationDuration]="'0'"
@@ -87,7 +83,7 @@
 
                 <mat-tab label="Día">
                     <ng-template matTabContent>
-                        <div class="row c-pipeline-header">
+                        <div class="row c-pipeline-header pt-5">
 
                             <div class="container-pipeline">
                                 <div class="pipeline-header">Prospectos</div>

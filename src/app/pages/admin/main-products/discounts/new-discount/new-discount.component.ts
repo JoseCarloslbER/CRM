@@ -19,6 +19,8 @@ export class NewDiscountComponent {
   public toppingList: string[] = ['Empresa A', 'Empresa B', 'Empresa C'];
   public valuesSpecifications: any[] = [];
 
+  public url = document.location.href;
+
   public formulario = this.formBuilder.group({
     scaleType: ['', Validators.required],
     percentage: ['', Validators.required],
@@ -82,7 +84,7 @@ export class NewDiscountComponent {
     this.notificationService
       .notificacion(
         'Éxito',
-        'Registro guardado.',
+        `Registro ${this.url.includes('editar') ? 'editado' : 'guardado'}.`,
         'save',
       )
       .afterClosed()

@@ -2,7 +2,7 @@
 
     <div class="return-header">
         <mat-icon svgIcon="mat_solid:arrow_back" (click)="toBack()"></mat-icon>
-        <p class="titulo-modal">{{ url.includes('editar') ? 'Editar' : 'Registrar nuevo'}} cotización</p>
+        <p class="titulo-modal form-padding-title">{{ url.includes('editar') ? 'Editar' : 'Registrar nuevo'}} cotización</p>
 
     </div>
 
@@ -237,7 +237,7 @@
 
                 <div class="row d-flex justify-content-end create mt-6">
                     <div class="d-flex col-md-4 col-xl-3 col-12 pt-md-1 align-items-end mb-lg-0 mb-5 mb-sm-0">
-                        <button mat-flat-button class="btn-gray width-100">
+                        <button mat-flat-button class="btn-gray width-100" (click)="newDataProduct()">
                             <span>Crear nuevo producto</span>
                         </button>
                     </div>

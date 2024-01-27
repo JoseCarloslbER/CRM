@@ -1,7 +1,8 @@
 <div class="container-fluid p-0 overflow-hidden">
 
     <div class="modal-header">
-        <p class="titulo-modal">Registrar nuevo tipo de actividad</p>
+        <p class="titulo-modal">{{ data?.info ? 'Editar' : 'Registrar nuevo'}} tipo de {{data.type}}</p>
+
         <mat-icon class="cursos-pointer" svgIcon="mat_outline:cancel" (click)="closeModal()"></mat-icon>
     </div>
 

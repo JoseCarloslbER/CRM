@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { FormBuilder } from '@angular/forms';
@@ -7,13 +7,18 @@ import { Router } from '@angular/router';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
+import { Subject } from 'rxjs';
+import { AdminService } from '../admin.service';
+import { DataTable } from '../admin-interface';
 
 @Component({
   selector: 'app-download-emails',
   templateUrl: './download-emails.component.html',
   styleUrl: './download-emails.component.scss'
 })
-export class DownloadEmailsComponent implements OnInit{
+export class DownloadEmailsComponent implements OnInit, AfterViewInit, OnDestroy {
+  private onDestroy = new Subject<void>();
+
   public dataSource = new MatTableDataSource<any>([]);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   public longitudPagina = 50;
@@ -134,6 +139,7 @@ export class DownloadEmailsComponent implements OnInit{
   public isBono :boolean = true;
   
   constructor(
+    private moduleServices: AdminService,
     private notificationService: OpenModalsService,
     private formBuilder: FormBuilder,
     private dialog: MatDialog,
@@ -144,6 +150,12 @@ export class DownloadEmailsComponent implements OnInit{
     this.dataSource.data = this.dataDummy
   }
 
+
+  ngAfterViewInit(): void {
+ 
+  }
+
+
   newData() {
     this.router.navigateByUrl(`/home/admin/nuevo-bono`)
   }
@@ -153,4 +165,32 @@ export class DownloadEmailsComponent implements OnInit{
      else this.isBono = false;
   }
 
+  getDataTable(filters:Object) {
+    this.moduleServices.getDataTable(filters).subscribe({
+        next: ({ data } : DataTable) => {
+          console.log(data);
+        },
+        error: (error) => console.error(error)
+      }
+    )
+  }
+
+  douwnloadExel(){
+    this.notificationService
+          .notificacion(
+            'Éxito',
+            'Excel descargado.',
+            'save',
+            'heroicons_outline:document-arrow-down'
+          )
+          .afterClosed()
+          .subscribe((_) => {
+
+          });
+  }
+
+  ngOnDestroy(): void {
+    this.onDestroy.next();
+    this.onDestroy.unsubscribe();
+  }
 }

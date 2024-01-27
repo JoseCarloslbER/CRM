@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -8,6 +8,8 @@ import { ApexOptions } from 'apexcharts';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalCampaignResultsComponent } from 'app/pages/catchment/campaigns/modal-campaign-results/modal-campaign-results.component';
 import { ModalInformationInTableComponent } from 'app/shared/components/modal-information-in-table/modal-information-in-table.component';
+import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
 
 
 @Component({
@@ -15,7 +17,10 @@ import { ModalInformationInTableComponent } from 'app/shared/components/modal-in
   templateUrl: './campaigns.component.html',
   styleUrl: './campaigns.component.scss'
 })
-export class CampaignsComponent {
+export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
+  private onDestroy = new Subject<void>();
+
+
   public dataSource = new MatTableDataSource<any>([]);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatPaginator) paginatorGoalHistory!: MatPaginator;
@@ -1897,7 +1902,8 @@ export class CampaignsComponent {
   constructor(
     private dialog: MatDialog,
     private notificationService: FuseConfirmationService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private router: Router
   ) {
 
   }
@@ -1907,6 +1913,10 @@ export class CampaignsComponent {
 
    }
 
+   ngAfterViewInit(): void {
+     
+   }
+
   onTabChange(event: MatTabChangeEvent): void {
     console.log(event.tab.textLabel);
   }
@@ -1914,6 +1924,13 @@ export class CampaignsComponent {
   SearchWithFilters() {
     console.log(this.formFilters.value);
   }
+
+  
+  seeData(data: any) {
+    this.router.navigateByUrl(`/home/captacion/campañas`)
+  }
+
+  
 
   seeCompanies() {
     this.dialog.open(ModalInformationInTableComponent, {
@@ -1953,5 +1970,10 @@ export class CampaignsComponent {
         }
       }
     )
+  }
+
+  ngOnDestroy(): void {
+    this.onDestroy.next();
+    this.onDestroy.unsubscribe();
   }
 }

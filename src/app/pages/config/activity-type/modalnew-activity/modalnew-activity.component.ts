@@ -23,7 +23,7 @@ export class ModalnewActivityComponent {
     this.notificationService
       .notificacion(
         'Éxito',
-        'Registro guardado.',
+        `Registro ${this.data.info ? 'editado' : 'guardado'}.`,
         'save',
       )
       .afterClosed()

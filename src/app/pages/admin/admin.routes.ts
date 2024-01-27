@@ -26,7 +26,15 @@ const adminRoutes: Routes = [
 				component: NewUserComponent,
 			},
 			{
+				path: 'editar-usuario/:id',
+				component: NewUserComponent,
+			},
+			{
 				path: 'nuevo-rol',
+				component: NewRolComponent,
+			},
+			{
+				path: 'editar-rol/:id',
 				component: NewRolComponent,
 			},
 			{
@@ -35,6 +43,14 @@ const adminRoutes: Routes = [
 			},
 			{
 				path: 'nuevo-bono',
+				component: NewBonoComponent,
+			},
+			{
+				path: 'editar-bono/:id',
+				component: NewBonoComponent,
+			},
+			{
+				path: 'clonar-bono/:id',
 				component: NewBonoComponent,
 			},
 			{
@@ -47,6 +63,10 @@ const adminRoutes: Routes = [
 			},
 			{
 				path: 'nuevo-descuento',
+				component: NewDiscountComponent,
+			},
+			{
+				path: 'editar-descuento/:id',
 				component: NewDiscountComponent,
 			},
 		
