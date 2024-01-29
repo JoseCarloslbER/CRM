@@ -1,12 +1,11 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { FuseConfirmationService } from '@fuse/services/confirmation/confirmation.service';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ModalFastQuoteComponent } from '../modal-fast-quote/modal-fast-quote.component';
-import { Subject } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
+import { CompaniesService } from '../../companies.service';
 
 @Component({
   selector: 'app-new-prospect',
@@ -22,7 +21,7 @@ export class NewProspectComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public url = document.location.href;
   public modalTitle: string = '';
-  public esClient : boolean = false;
+  public esClient: boolean = false;
 
   public formData = this.formBuilder.group({
     name: [null, Validators.required],
@@ -42,25 +41,34 @@ export class NewProspectComponent implements OnInit, AfterViewInit, OnDestroy {
     file: [null, Validators.required],
   });
 
+  private idData: string = ''
+
+  private objEditData : any;
 
   constructor(
-    private _fuseConfirmationService: FuseConfirmationService,
+    private moduleServices: CompaniesService,
     private notificationService: OpenModalsService,
     private formBuilder: FormBuilder,
     private dialog: MatDialog,
     private router: Router,
+    private activatedRoute: ActivatedRoute
   ) { }
 
 
   ngOnInit(): void {
-    if (this.url.includes('detalle')) {
-      setTimeout(() => {
-        this.habilitarODesabilitarInputs();
-        this.addFormContact(true);
-      });
-    } else {
-      this.addFormContact();
-    }
+    this.activatedRoute.params.subscribe(({ id }: any) => {
+      this.idData = id;
+      this.getDataById();
+
+      if (this.url.includes('detalle')) {
+        setTimeout(() => {
+          this.habilitarODesabilitarInputs();
+          this.addFormContact(true);
+        });
+      } else {
+        this.addFormContact();
+      }
+    });
   }
 
   ngAfterViewInit(): void {
@@ -69,7 +77,7 @@ export class NewProspectComponent implements OnInit, AfterViewInit, OnDestroy {
     })
   }
 
-  addFormContact(bloquear?:boolean, datos?: any) {
+  addFormContact(bloquear?: boolean, datos?: any) {
     const instance: any = {
       ...(datos && { id: datos.id }),
       nombreControl: new FormControl({ value: datos?.nombre || '', disabled: bloquear == true }, Validators.required),
@@ -100,8 +108,76 @@ export class NewProspectComponent implements OnInit, AfterViewInit, OnDestroy {
     return this.valuesContacts.map(contactValues);
   }
 
-  deleteContact(index:number) {
+  deleteContact(index: number) {
     this.valuesContacts.splice(index, 1)
+  }
+
+  getDataById() {
+    this.moduleServices.postDataProspect(this.idData).pipe(takeUntil(this.onDestroy)).subscribe({
+      next: (response: any) => {
+        this.objEditData = response
+      },
+      error: (error) => {
+        this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
+        console.error(error)
+      }
+    })
+  }
+
+  formPatchData() {
+    this.formData.patchValue({...this.objEditData})
+    this.addFormContact(this.objEditData.conctacts)
+  }
+
+  actionSave() {
+    let objData : any = {
+      ...this.formData.value,
+      conctas: this.getContactsValue()
+    }
+
+    if (this.idData) this.saveDataPatch(objData)
+     else this.saveDataPost(objData)
+  }
+
+  saveDataPost(objData) {
+    this.moduleServices.postDataProspect(objData).pipe(takeUntil(this.onDestroy)).subscribe({
+      next: (response: any) => {
+        this.completionMessage()
+      },
+      error: (error) => {
+        this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
+        console.error(error)
+      }
+    })
+  }
+
+  saveDataPatch(objData) {
+    this.moduleServices.patchDataProspect(objData).pipe(takeUntil(this.onDestroy)).subscribe({
+      next: (response: any) => {
+        this.completionMessage(true)
+      },
+      error: (error) => {
+        this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
+        console.error(error)
+      }
+    })
+  }
+
+  completionMessage(edit = false) {
+    this.notificationService
+      .notificacion(
+        'Éxito',
+        `Registro ${edit ? 'editado' : 'guardado'}.`,
+        'save',
+      )
+      .afterClosed()
+      .subscribe((_) => {
+        if (this.url.includes('nuevo')) {
+          this.fastQuote()
+        } else {
+          this.toBack()
+        }
+      });
   }
 
   fastQuote() {
@@ -120,23 +196,6 @@ export class NewProspectComponent implements OnInit, AfterViewInit, OnDestroy {
       });
   }
 
-  save() {
-    this.notificationService
-      .notificacion(
-        'Éxito',
-        `Registro ${this.url.includes('editar') ? 'editado' : 'guardado'}.`,
-        'save',
-      )
-      .afterClosed()
-      .subscribe((_) => {
-        if (this.url.includes('nuevo')) {
-          this.fastQuote()
-        } else {
-          this.toBack()
-        }
-      });
-  }
-
   toBack() {
     this.router.navigateByUrl(`/home/empresas/prospectos`)
   }
@@ -145,25 +204,29 @@ export class NewProspectComponent implements OnInit, AfterViewInit, OnDestroy {
     this.router.navigateByUrl(`/home/empresas/todos`)
   }
 
-   habilitarODesabilitarInputs(accion = false) {
-		const key = accion ? 'enable' : 'disable';
-		this.formData.get('name')?.[key]();
-		this.formData.get('email')?.[key]();
-		this.formData.get('web')?.[key]();
-		this.formData.get('country')?.[key]();
-		this.formData.get('giro')?.[key]();
-		this.formData.get('companySize')?.[key]();
-		this.formData.get('phone')?.[key]();
-		this.formData.get('rfc')?.[key]();
-		this.formData.get('origin')?.[key]();
-		this.formData.get('adress')?.[key]();
-		this.formData.get('agent')?.[key]();
-		this.formData.get('state')?.[key]();
-		this.formData.get('adress')?.[key]();
-		this.formData.get('companyType')?.[key]();
-		this.formData.get('comments')?.[key]();
-		this.formData.get('file')?.[key]();
-	}
+  habilitarODesabilitarInputs(accion = false) {
+    const key = accion ? 'enable' : 'disable';
+    this.formData.get('name')?.[key]();
+    this.formData.get('email')?.[key]();
+    this.formData.get('web')?.[key]();
+    this.formData.get('country')?.[key]();
+    this.formData.get('giro')?.[key]();
+    this.formData.get('companySize')?.[key]();
+    this.formData.get('phone')?.[key]();
+    this.formData.get('rfc')?.[key]();
+    this.formData.get('origin')?.[key]();
+    this.formData.get('adress')?.[key]();
+    this.formData.get('agent')?.[key]();
+    this.formData.get('state')?.[key]();
+    this.formData.get('adress')?.[key]();
+    this.formData.get('companyType')?.[key]();
+    this.formData.get('comments')?.[key]();
+    this.formData.get('file')?.[key]();
+  }
+
+  get canSave(): boolean {
+    return !(this.formData.valid || this.contacts.length);
+  }
 
   ngOnDestroy(): void {
     this.onDestroy.next();

@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'environments/environment.dev';
 import { Observable } from 'rxjs';
-import { DataTable } from './companies-interface';
+import { DataTable, DataTableFilters } from './companies-interface';
 
 @Injectable({
   providedIn: 'root'
@@ -12,31 +12,60 @@ export class CompaniesService {
   constructor(
     private http: HttpClient
   ) { }
+ 
 
-
-  public getDataTable(filters:any): Observable<any> {
+  // PROSPECTS 
+  public getDataTableProspects(filters:DataTableFilters): Observable<any> {
 		const url = `${environment.apiURL}/`;
 
     return this.http.get<DataTable>(url)
+	}
+  
+  public getDataIdProspect(id:string): Observable<any> {
+		const url = `${environment.apiURL}/${id}`;
+
+    return this.http.get<DataTable>(url)
+	}
+
+  public postDataProspect(data:any): Observable<any> {
+		const url = `${environment.apiURL}/`;
+
+    return this.http.post<any>(url, data)
+	}
+
+  public patchDataProspect(data:any): Observable<any> {
+		const url = `${environment.apiURL}/`;
+
+    return this.http.patch<any>(url, data)
 	}
  
-  public getDataStatus(): Observable<any> {
+  public deleteDataProspect(id:string): Observable<any> {
+		const url = `${environment.apiURL}/${id}`;
+
+    return this.http.delete<any>(url)
+	}
+  
+  public asyncProspects(data:any): Observable<any> {
 		const url = `${environment.apiURL}/`;
 
-    return this.http.get<DataTable>(url)
+    return this.http.post<any>(url, data)
 	}
-
-  public getDataGiro(): Observable<any> {
+ 
+  public bulkLoadProspects(data:any): Observable<any> {
 		const url = `${environment.apiURL}/`;
 
-    return this.http.get<DataTable>(url)
+    return this.http.post<any>(url, data)
 	}
 
-  public getDataCampaigns(): Observable<any> {
+  public excelProspects(data:any): Observable<any> {
 		const url = `${environment.apiURL}/`;
 
-    return this.http.get<DataTable>(url)
+    return this.http.post<any>(url, data)
 	}
+
+  // END PROSPECTS 
+
+
 
 
 

@@ -7,7 +7,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { Subject, debounceTime, takeUntil } from 'rxjs';
 import { CompaniesService } from '../companies.service';
-import { DataTable } from '../companies-interface';
+import { DataTable, DataTableFilters } from '../companies-interface';
 
 @Component({
   selector: 'app-leads',
@@ -219,14 +219,14 @@ export class LeadsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.router.navigateByUrl(`/home/empresas/nuevo-prospecto`)
   }
 
-  getDataTable(filters:Object) {
-    this.moduleServices.getDataTable(filters).subscribe({
-        next: ({ data } : DataTable) => {
-          console.log(data);
-        },
-        error: (error) => console.error(error)
-      }
-    )
+  getDataTable(filters:DataTableFilters) {
+    // this.moduleServices.getDataTable(filters).subscribe({
+    //     next: ({ data } : DataTable) => {
+    //       console.log(data);
+    //     },
+    //     error: (error) => console.error(error)
+    //   }
+    // )
   }
  
   deleteData() {

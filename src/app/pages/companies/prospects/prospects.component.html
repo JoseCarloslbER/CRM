@@ -29,7 +29,8 @@
                         <div class="flex col-sm-12 col-md-6 col-lg-3 col-12 pe-2">
                             <mat-form-field class="flex-auto input-default">
                                 <mat-label>Estatus</mat-label>
-                                <mat-select placeholder="Seleccionar" formControlName="estatus">
+                                <mat-select placeholder="Seleccionar" formControlName="status">
+                                    <mat-option [value]="null">Todos</mat-option>
                                     <mat-option value="estatus">estatus 1</mat-option>
                                     <mat-option value="estatus">estatus 2</mat-option>
                                     <mat-option value="estatus">estatus 3</mat-option>
@@ -41,6 +42,7 @@
                             <mat-form-field class="flex-auto input-default">
                                 <mat-label>Giro</mat-label>
                                 <mat-select placeholder="Seleccionar" formControlName="giro">
+                                    <mat-option [value]="null">Todos</mat-option>
                                     <mat-option value="Giro-1">Giro 1</mat-option>
                                     <mat-option value="Giro-2">Giro 2</mat-option>
                                     <mat-option value="Giro-3">Giro 3</mat-option>
@@ -52,6 +54,7 @@
                             <mat-form-field class="flex-auto input-default">
                                 <mat-label>Campaña</mat-label>
                                 <mat-select placeholder="Seleccionar" formControlName="company">
+                                    <mat-option [value]="null">Todos</mat-option>
                                     <mat-option value="Campaña-1">Campaña 1</mat-option>
                                     <mat-option value="Campaña-2">Campaña 2</mat-option>
                                     <mat-option value="Campaña-3">Campaña 3</mat-option>
@@ -77,9 +80,12 @@
 
                     <div class="row d-flex justify-content-end mb-2">
                         <div class="d-flex justify-content-end col-md-2 col-xl-2 col-12 pt-md-2">
-                            <button class="btn-search " (click)="SearchWithFilters()">
+                            <button class="btn-search" (click)="SearchWithFilters()">
                                 <span>Buscar</span>
                             </button>
+                            <!-- <button class="btn-search" [disabled]="cantSearch" (click)="SearchWithFilters()">
+                                <span>Buscar</span>
+                            </button> -->
                         </div>
                     </div>
                     
@@ -90,7 +96,7 @@
                                 <mat-icon class="icon-size-6" matSuffix [svgIcon]="'mat_solid:search'"></mat-icon>
                             </div>
                         </div>
-                        <!-- Este  -->
+
                         <div class="d-flex col-md-7 col-xl-7 col-12 pt-md-2 justify-content-end align-items-end mt-3 mb-5">
                             <button class="btn-yellow-newRegister" (click)="downloadBulkUpload()">
                                 <span >Carga masiva</span>

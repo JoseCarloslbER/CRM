@@ -218,13 +218,13 @@ export class ClientsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getDataTable(filters: Object) {
-    this.moduleServices.getDataTable(filters).subscribe({
-      next: ({ data }: DataTable) => {
-        console.log(data);
-      },
-      error: (error) => console.error(error)
-    }
-    )
+    // this.moduleServices.getDataTable(filters).subscribe({
+    //   next: ({ data }: DataTable) => {
+    //     console.log(data);
+    //   },
+    //   error: (error) => console.error(error)
+    // }
+    // )
   }
 
 
