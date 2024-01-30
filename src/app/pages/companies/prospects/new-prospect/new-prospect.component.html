@@ -178,25 +178,18 @@
                 </div>
 
                 <div class="row" *ngFor="let ejecucion of valuesContacts; let i = index;">
-                    <div class="col-md-6">
-
+                    <div class="col-md-4">
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Nombre y apellidos</mat-label>
                             <input matInput [formControl]="ejecucion.nombreControl">
                         </mat-form-field>
 
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
-                            <mat-label>Correo</mat-label>
-                            <input matInput [formControl]="ejecucion.correoControl">
-                        </mat-form-field>
-
-
-                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Teléfono fijo</mat-label>
                             <input matInput [formControl]="ejecucion.telefonoControl">
                         </mat-form-field>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Cargo / Puesto</mat-label>
                             <input matInput [formControl]="ejecucion.cargoControl">
@@ -205,6 +198,13 @@
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Teléfono móvil</mat-label>
                             <input matInput [formControl]="ejecucion.movilControl">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-md-4">
+                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
+                            <mat-label>Correo</mat-label>
+                            <input matInput [formControl]="ejecucion.correoControl">
                         </mat-form-field>
 
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
