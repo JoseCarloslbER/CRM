@@ -6,10 +6,9 @@ import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ModalInformationInTableComponent } from 'app/pages/catchment/campaigns/modal-information-in-table/modal-information-in-table.component';
-import { ModalCampaignResultsComponent } from './modal-campaign-results/modal-campaign-results.component';
 import { Subject, debounceTime, takeUntil } from 'rxjs';
 import { CatchmentService } from '../catchment.service';
-import { DataTable } from '../catchment-interface';
+import { DataTable, DataTableFilters } from '../catchment-interface';
 
 @Component({
   selector: 'app-campaigns',
@@ -184,185 +183,12 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
   public searchBar = new FormControl('')
 
   public formFilters = this.formBuilder.group({
-    estatus: [{ value: null, disabled: false }],
+    status: [{ value: null, disabled: false }],
     giro: [{ value: null, disabled: false }],
     company: [{ value: null, disabled: false }],
     rangeDateStart: [{ value: null, disabled: false }],
     rangeDateEnd: [{ value: null, disabled: false }],
   });
-
-  private agentInfoColumns: string[] = [
-    'agent',
-    'rol',
-    'ip',
-    'extension'
-  ]
-
-  private dataAgent: any[] = [
-    {
-      agent: 'Agente 1',
-      isMain: 'Agente principal',
-      rol: 'Atención a cliente',
-      ip: '12354',
-      extension: '3002',
-    },
-    {
-      agent: 'Agente 2',
-      rol: 'Ventas',
-      ip: '12354',
-      extension: '3002',
-    },
-    {
-      agent: 'Agente 3',
-      rol: 'Marketing',
-      ip: '12354',
-      extension: '3002',
-    },
-    {
-      agent: 'Agente 1',
-      isMain: 'Agente principal',
-      rol: 'Atención a cliente',
-      ip: '12354',
-      extension: '3002',
-    },
-    {
-      agent: 'Agente 2',
-      rol: 'Ventas',
-      ip: '12354',
-      extension: '3002',
-    },
-    {
-      agent: 'Agente 3',
-      rol: 'Marketing',
-      ip: '12354',
-      extension: '3002',
-    },
-    {
-      agent: 'Agente 1',
-      isMain: 'Agente principal',
-      rol: 'Atención a cliente',
-      ip: '12354',
-      extension: '3002',
-    },
-    {
-      agent: 'Agente 2',
-      rol: 'Ventas',
-      ip: '12354',
-      extension: '3002',
-    },
-    {
-      agent: 'Agente 3',
-      rol: 'Marketing',
-      ip: '12354',
-      extension: '3002',
-    },
-  ]
-
-  private companyInfoColumns: string[] = [
-    'company',
-    'contact',
-    'status'
-  ]
-
-  private datacompany: any[] = [
-    {
-      company: 'RECK SOLUCIONES',
-      status: 'LEAD',
-      contact: [
-        {
-          nombre: 'Ing Alberto Avendaño',
-          email: 'aavendano@anpasa.com',
-          telefono: 'N/A',
-          celular: '5516349327',
-        }
-      ],
-    },
-    {
-      company: 'RECK SOLUCIONES',
-      status: 'LEAD',
-      contact: [
-        {
-          nombre: 'Ing Alberto Avendaño',
-          email: 'aavendano@anpasa.com',
-          telefono: 'N/A',
-          celular: '5516349327',
-        }
-      ],
-    },
-    {
-      company: 'RECK SOLUCIONES',
-      status: 'LEAD',
-      contact: [
-        {
-          nombre: 'Ing Alberto Avendaño',
-          email: 'aavendano@anpasa.com',
-          telefono: 'N/A',
-          celular: '5516349327',
-        }
-      ],
-    },
-    {
-      company: 'RECK SOLUCIONES',
-      status: 'LEAD',
-      contact: [
-        {
-          nombre: 'Ing Alberto Avendaño',
-          email: 'aavendano@anpasa.com',
-          telefono: 'N/A',
-          celular: '5516349327',
-        }
-      ],
-    },
-    {
-      company: 'RECK SOLUCIONES',
-      status: 'LEAD',
-      contact: [
-        {
-          nombre: 'Ing Alberto Avendaño',
-          email: 'aavendano@anpasa.com',
-          telefono: 'N/A',
-          celular: '5516349327',
-        }
-      ],
-    },
-    {
-      company: 'RECK SOLUCIONES',
-      status: 'LEAD',
-      contact: [
-        {
-          nombre: 'Ing Alberto Avendaño',
-          email: 'aavendano@anpasa.com',
-          telefono: 'N/A',
-          celular: '5516349327',
-        }
-      ],
-    },
-    {
-      company: 'RECK SOLUCIONES',
-      status: 'LEAD',
-      contact: [
-        {
-          nombre: 'Ing Alberto Avendaño',
-          email: 'aavendano@anpasa.com',
-          telefono: 'N/A',
-          celular: '5516349327',
-        }
-      ],
-    },
-    {
-      company: 'RECK SOLUCIONES',
-      status: 'LEAD',
-      contact: [
-        {
-          nombre: 'Ing Alberto Avendaño',
-          email: 'aavendano@anpasa.com',
-          telefono: 'N/A',
-          celular: '5516349327',
-        }
-      ],
-    },
-
-  ]
 
   constructor(
     private moduleServices: CatchmentService,
@@ -374,8 +200,7 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit(): void {
     setTimeout(() => {
-
-      this.dataSource.data = this.dataDummyCampaign
+      this.dataSource.data = this.dataDummyCampaign;
     }, 500);
   }
 
@@ -391,27 +216,21 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     console.log(objFilters);
-
     this.getDataTable(objFilters)
   }
 
-  getCatalogs() {
-    
-  }
+  getCatalogs() { }
 
-  getDataTable(filters:Object) {
-    this.moduleServices.getDataTable(filters).subscribe({
+  getDataTable(filters:DataTableFilters) {
+    this.moduleServices.getDataTableCampaing(filters).pipe(takeUntil(this.onDestroy)).subscribe({
         next: ({ data } : DataTable) => {
           console.log(data);
         },
         error: (error) => console.error(error)
-      }
-    )
+      })
   }
 
-
-  seeData(data: any) {
-    // this.router.navigateByUrl(`/home/conversion/detalle-cotizacion/1`)
+  seeData(id: any) {
     this.router.navigateByUrl(`/home/captacion/detalle-campaña/1`)
   }
 
@@ -419,15 +238,45 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.router.navigateByUrl(`home/captacion/nueva-campaña`)
   }
 
-  editData(data: any) {
+  editData(id: any) {
     this.router.navigateByUrl(`home/captacion/editar-campaña/1`)
   }
   
-  cloneData(data: any) {
+  cloneData(id: any) {
     this.router.navigateByUrl(`home/captacion/clonar-campaña/1`)
   }
 
-  deleteData() {
+  deleteData(id:string) {
+    // this.notificationService
+    // .notificacion(
+    //   'Pregunta',
+    //   '¿Estas seguro de eliminar el registro?',
+    //   'question',
+    // )
+    // .afterClosed()
+    // .subscribe((resp) => {
+    //   if (resp) {
+    //     this.moduleServices.deleteData(id).pipe(takeUntil(this.onDestroy)).subscribe({
+    //       next: (response) => {
+    //         if (response) {
+    //           this.notificationService
+    //           .notificacion(
+    //             'Éxito',
+    //             'Registro eliminado.',
+    //             'delete',
+    //           )
+    //           .afterClosed()
+    //           .subscribe((_) => {
+    
+    //           });
+              
+    //         }
+    //       },
+    //       error: (error) => console.error(error)
+    //     })
+    //   }
+    // });
+
     this.notificationService
       .notificacion(
         'Pregunta',
@@ -435,8 +284,9 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
         'question',
       )
       .afterClosed()
-      .subscribe((_) => {
-        this.notificationService
+      .subscribe(( response) => {
+        if (response) {
+          this.notificationService
           .notificacion(
             'Éxito',
             'Registro eliminado.',
@@ -446,29 +296,14 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
           .subscribe((_) => {
 
           });
+        }
       });
   }
 
-  seeAgents() {
+  seeDataModal(type:string) {
     this.dialog.open(ModalInformationInTableComponent, {
       data: {
-        info: this.dataAgent,
-        columns: this.agentInfoColumns,
-        type: 'agents'
-      },
-      disableClose: true,
-      width: '1000px',
-      maxHeight: '700px',
-      panelClass: 'custom-dialog',
-    });
-  }
-
-  seeCompanies() {
-    this.dialog.open(ModalInformationInTableComponent, {
-      data: {
-        info: this.datacompany,
-        columns: this.companyInfoColumns,
-        type: 'companies'
+        type: type
       },
       disableClose: true,
       width: '1000px',
@@ -482,6 +317,21 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   douwnloadExel(){
+    //   this.moduleServices.excel(id).pipe(takeUntil(this.onDestroy)).subscribe({
+    //   next: (_) => {
+    //     this.notificationService
+    //       .notificacion(
+    //         'Éxito',
+    //         'Excel descargado.',
+    //         'save',
+    //         'mat_solid:downloading'
+    //       )
+    //       .afterClosed()
+    //       .subscribe((_) => { });
+    //   },
+    //   error: (error) => console.error(error)
+    // })
+
     this.notificationService
           .notificacion(
             'Éxito',

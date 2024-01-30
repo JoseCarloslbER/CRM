@@ -6,7 +6,6 @@ import { MatTabChangeEvent } from '@angular/material/tabs';
 import { FuseConfirmationService } from '@fuse/services/confirmation/confirmation.service';
 import { ApexOptions } from 'apexcharts';
 import { MatDialog } from '@angular/material/dialog';
-import { ModalCampaignResultsComponent } from 'app/pages/catchment/campaigns/modal-campaign-results/modal-campaign-results.component';
 import { ModalInformationInTableComponent } from 'app/shared/components/modal-information-in-table/modal-information-in-table.component';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
@@ -1960,8 +1959,6 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.router.navigateByUrl(`/home/captacion/campanias`)
   }
 
-  
-
   seeCompanies() {
     this.dialog.open(ModalInformationInTableComponent, {
       data: {
@@ -1978,20 +1975,6 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   seeCampaignsResults() {
     this.router.navigateByUrl(`home/dashboard/resultados-campanias/1`)
-  }
-
-  probar() {
-    this.notificationService.open(
-      {
-        title: 'hola',
-        actions: {
-          confirm: {
-            show: true,
-            color: 'warn'
-          }
-        }
-      }
-    )
   }
 
   ngOnDestroy(): void {

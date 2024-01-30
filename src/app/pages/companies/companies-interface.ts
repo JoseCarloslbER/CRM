@@ -2,13 +2,6 @@ export interface DataTable {
    data : TableDataList[]
 }
 
-export interface DataTableFilters {
-   status : string;
-   giro   : string;
-   campaing : string;
-   dateRange: string;
-}
-
 export interface TableDataList {
     country: string,
     category: string,
@@ -31,4 +24,11 @@ export interface TableDataList {
     history: string,
     origin: string,
     lastContactDate: string,
+}
+
+export interface DataTableFilters {
+  status : string;
+  giro   : string;
+  campaing : string;
+  dateRange: string;
 }

@@ -212,7 +212,7 @@ export class ProspectsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getDataTable(filters: DataTableFilters) {
-    this.moduleServices.getDataTable('prospect',filters).subscribe({
+    this.moduleServices.getDataTable('prospect',filters).pipe(takeUntil(this.onDestroy)).subscribe({
       next: ({ data }: DataTable) => {
         console.log(data);
       },
@@ -233,40 +233,33 @@ export class ProspectsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   deleteData(id?:string) {
-    // this.notificationService
-    //   .notificacion(
-    //     'Pregunta',
-    //     '¿Estas seguro de eliminar el registro?',
-    //     'question',
-    //   )
-    //   .afterClosed()
-    //   .subscribe((resp) => {
-    //     if (resp) {
-    //       this.moduleServices.deleteData('prospect', id).pipe(takeUntil(this.onDestroy)).subscribe({
-    //         next: (_) => {
-    //           this.notificationService
-    //           .notificacion(
-    //             'Éxito',
-    //             'Registro eliminado.',
-    //             'delete',
-    //           )
-    //           .afterClosed()
-    //           .subscribe((_) => {
+    this.notificationService
+      .notificacion(
+        'Pregunta',
+        '¿Estas seguro de eliminar el registro?',
+        'question',
+      )
+      .afterClosed()
+      .subscribe((resp) => {
+        if (resp) {
+          this.moduleServices.deleteData('prospect', id).pipe(takeUntil(this.onDestroy)).subscribe({
+            next: (_) => {
+              this.notificationService
+              .notificacion(
+                'Éxito',
+                'Registro eliminado.',
+                'delete',
+              )
+              .afterClosed()
+              .subscribe((_) => {
 
-    //           });
-    //         },
-    //         error: (error) => console.error(error)
-    //       })
-          this.notificationService
-            .notificacion(
-              'Éxito',
-              'Registro eliminado.',
-              'delete',
-            )
-            .afterClosed()
-            .subscribe((_) => { });
-    //     }
-    //   });
+              });
+            },
+            error: (error) => console.error(error)
+          })
+        }
+      });
+
   }
 
   douwnloadExel(id?:string) {

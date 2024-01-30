@@ -56,6 +56,16 @@ export class NewProspectComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
   ngOnInit(): void {
+    this.getId()
+  }
+ 
+  ngAfterViewInit(): void {
+    this.addContact.valueChanges.subscribe(resp => {
+      console.log(resp);
+    })
+  }
+
+  getId() {
     this.activatedRoute.params.subscribe(({ id }: any) => {
       this.idData = id;
       // this.getDataById();
@@ -71,11 +81,6 @@ export class NewProspectComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  ngAfterViewInit(): void {
-    this.addContact.valueChanges.subscribe(resp => {
-      console.log(resp);
-    })
-  }
 
   addFormContact(bloquear?: boolean, datos?: any) {
     const instance: any = {
@@ -115,18 +120,14 @@ export class NewProspectComponent implements OnInit, AfterViewInit, OnDestroy {
   getDataById() {
     this.moduleServices.getDataId('prospect', this.idData).pipe(takeUntil(this.onDestroy)).subscribe({
       next: (response: any) => {
-        this.objEditData = response
+        this.objEditData = response;
+        this.formData.patchValue({...this.objEditData})
       },
       error: (error) => {
         this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
         console.error(error)
       }
     })
-  }
-
-  formPatchData() {
-    this.formData.patchValue({...this.objEditData})
-    this.addFormContact(this.objEditData.conctacts)
   }
 
   actionSave() {
@@ -190,9 +191,7 @@ export class NewProspectComponent implements OnInit, AfterViewInit, OnDestroy {
     })
       .afterClosed()
       .subscribe(({ close }) => {
-        console.log(close);
         this.router.navigateByUrl(`/home/conversion/nueva-cotizacion`)
-
       });
   }
 
