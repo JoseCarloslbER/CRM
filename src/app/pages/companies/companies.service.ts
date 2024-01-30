@@ -14,59 +14,54 @@ export class CompaniesService {
   ) { }
  
 
-  // PROSPECTS 
-  public getDataTableProspects(filters:DataTableFilters): Observable<any> {
+  public getDataTable(type:string, filters:DataTableFilters): Observable<any> {
 		const url = `${environment.apiURL}/`;
 
     return this.http.get<DataTable>(url)
 	}
   
-  public getDataIdProspect(id:string): Observable<any> {
+  // PROSPECTS 
+  
+  public getDataId(type:string, id:string): Observable<any> {
 		const url = `${environment.apiURL}/${id}`;
 
     return this.http.get<DataTable>(url)
 	}
 
-  public postDataProspect(data:any): Observable<any> {
+  public postData(type:string, data:any): Observable<any> {
 		const url = `${environment.apiURL}/`;
 
     return this.http.post<any>(url, data)
 	}
 
-  public patchDataProspect(data:any): Observable<any> {
+  public patchData(type:string, data:any): Observable<any> {
 		const url = `${environment.apiURL}/`;
 
     return this.http.patch<any>(url, data)
 	}
  
-  public deleteDataProspect(id:string): Observable<any> {
+  public deleteData(type:string, id:string): Observable<any> {
 		const url = `${environment.apiURL}/${id}`;
 
     return this.http.delete<any>(url)
 	}
   
-  public asyncProspects(data:any): Observable<any> {
+  public async(type:string, data:any): Observable<any> {
 		const url = `${environment.apiURL}/`;
 
     return this.http.post<any>(url, data)
 	}
  
-  public bulkLoadProspects(data:any): Observable<any> {
+  public bulkLoad(type:string, data:any): Observable<any> {
 		const url = `${environment.apiURL}/`;
 
     return this.http.post<any>(url, data)
 	}
 
-  public excelProspects(data:any): Observable<any> {
+  public excel(type:string, data:any): Observable<any> {
 		const url = `${environment.apiURL}/`;
 
     return this.http.post<any>(url, data)
 	}
-
-  // END PROSPECTS 
-
-
-
-
 
 }

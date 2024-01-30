@@ -3,7 +3,6 @@ import { FormBuilder, FormControl } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
-import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { CompaniesService } from '../companies.service';
 import { DataTable, DataTableFilters } from '../companies-interface';
@@ -187,7 +186,6 @@ export class ProspectsComponent implements OnInit, AfterViewInit, OnDestroy {
     private moduleServices: CompaniesService,
     private notificationService: OpenModalsService,
     private formBuilder: FormBuilder,
-    private dialog: MatDialog,
     private router: Router
   ) { }
 
@@ -214,7 +212,7 @@ export class ProspectsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getDataTable(filters: DataTableFilters) {
-    this.moduleServices.getDataTableProspects(filters).subscribe({
+    this.moduleServices.getDataTable('prospect',filters).subscribe({
       next: ({ data }: DataTable) => {
         console.log(data);
       },
@@ -234,31 +232,31 @@ export class ProspectsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.router.navigateByUrl(`/home/empresas/nuevo-prospecto`)
   }
 
-  deleteData() {
-    this.notificationService
-      .notificacion(
-        'Pregunta',
-        '¿Estas seguro de eliminar el registro?',
-        'question',
-      )
-      .afterClosed()
-      .subscribe((resp) => {
-        if (resp) {
-          // this.moduleServices.deleteDataProspect('').pipe(takeUntil(this.onDestroy)).subscribe({
-          //   next: (_) => {
-          //     this.notificationService
-          //     .notificacion(
-          //       'Éxito',
-          //       'Registro eliminado.',
-          //       'delete',
-          //     )
-          //     .afterClosed()
-          //     .subscribe((_) => {
+  deleteData(id?:string) {
+    // this.notificationService
+    //   .notificacion(
+    //     'Pregunta',
+    //     '¿Estas seguro de eliminar el registro?',
+    //     'question',
+    //   )
+    //   .afterClosed()
+    //   .subscribe((resp) => {
+    //     if (resp) {
+    //       this.moduleServices.deleteData('prospect', id).pipe(takeUntil(this.onDestroy)).subscribe({
+    //         next: (_) => {
+    //           this.notificationService
+    //           .notificacion(
+    //             'Éxito',
+    //             'Registro eliminado.',
+    //             'delete',
+    //           )
+    //           .afterClosed()
+    //           .subscribe((_) => {
 
-          //     });
-          //   },
-          //   error: (error) => console.error(error)
-          // })
+    //           });
+    //         },
+    //         error: (error) => console.error(error)
+    //       })
           this.notificationService
             .notificacion(
               'Éxito',
@@ -267,12 +265,12 @@ export class ProspectsComponent implements OnInit, AfterViewInit, OnDestroy {
             )
             .afterClosed()
             .subscribe((_) => { });
-        }
-      });
+    //     }
+    //   });
   }
 
-  douwnloadExel() {
-    // this.moduleServices.excelProspects('').pipe(takeUntil(this.onDestroy)).subscribe({
+  douwnloadExel(id?:string) {
+    // this.moduleServices.excel('prospect', id).pipe(takeUntil(this.onDestroy)).subscribe({
     //   next: (_) => {
     //     this.notificationService
     //       .notificacion(
@@ -303,8 +301,8 @@ export class ProspectsComponent implements OnInit, AfterViewInit, OnDestroy {
       });
   }
 
-  downloadBulkUpload() {
-    // this.moduleServices.bulkLoadProspects('').pipe(takeUntil(this.onDestroy)).subscribe({
+  downloadBulkUpload(id?:string) {
+    // this.moduleServices.bulkLoad('prospect',id).pipe(takeUntil(this.onDestroy)).subscribe({
     //   next: (_) => {
     //     this.notificationService
     //       .notificacion(
@@ -332,8 +330,8 @@ export class ProspectsComponent implements OnInit, AfterViewInit, OnDestroy {
       });
   }
 
-  async() {
-    // this.moduleServices.asyncProspects('').pipe(takeUntil(this.onDestroy)).subscribe({
+  async(id?:string) {
+    // this.moduleServices.async('prospect', id).pipe(takeUntil(this.onDestroy)).subscribe({
     //   next: (_) => {
     //     this.notificationService
     //       .notificacion(

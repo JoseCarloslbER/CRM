@@ -1,18 +1,21 @@
-import { AfterViewInit, Component, Inject, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ModalFastQuoteComponent } from '../../prospects/modal-fast-quote/modal-fast-quote.component';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { FuseConfirmationService } from '@fuse/services/confirmation/confirmation.service';
+import { CompaniesService } from '../../companies.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-new-client',
   templateUrl: './new-client.component.html',
   styleUrl: './new-client.component.scss'
 })
-export class NewClientComponent implements AfterViewInit, OnInit {
+export class NewClientComponent implements OnInit, AfterViewInit, OnDestroy {
+  private onDestroy = new Subject<void>();
 
   public addContact = new FormControl(false)
   public contacts: any[] = []
@@ -20,7 +23,7 @@ export class NewClientComponent implements AfterViewInit, OnInit {
 
   public url = document.location.href;
   public modalTitle: string = '';
-  public esClient : boolean = false;
+  public esClient: boolean = false;
 
   public formData = this.formBuilder.group({
     name: ['', Validators.required],
@@ -38,9 +41,14 @@ export class NewClientComponent implements AfterViewInit, OnInit {
     companyType: ['', Validators.required],
   });
 
+  private idData: string = ''
+
+  private objEditData: any;
+
   constructor(
-    private _fuseConfirmationService: FuseConfirmationService,
     private notificationService: OpenModalsService,
+    private moduleServices: CompaniesService,
+    private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
     private dialog: MatDialog,
     private router: Router,
@@ -48,11 +56,17 @@ export class NewClientComponent implements AfterViewInit, OnInit {
 
 
   ngOnInit(): void {
-   console.log(this.url);
 
-    if (this.url.includes('cliente')) {
-      this.addContact.setValue(true)
-    }
+    this.activatedRoute.params.subscribe(({ id }: any) => {
+      if (id) {
+        this.idData = id;
+        this.getDataById();
+      }
+
+      if (this.url.includes('cliente')) {
+        this.addContact.setValue(true)
+      }
+    });
   }
 
   ngAfterViewInit(): void {
@@ -94,8 +108,76 @@ export class NewClientComponent implements AfterViewInit, OnInit {
     return this.valuesContacts.map(contactValues);
   }
 
-  deleteContact(index:number) {
+  deleteContact(index: number) {
     this.valuesContacts.splice(index, 1)
+  }
+
+  getDataById() {
+    this.moduleServices.getDataId('client', this.idData).pipe(takeUntil(this.onDestroy)).subscribe({
+      next: (response: any) => {
+        this.objEditData = response
+      },
+      error: (error) => {
+        this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
+        console.error(error)
+      }
+    })
+  }
+
+  formPatchData() {
+    this.formData.patchValue({...this.objEditData})
+    this.addFormContact(this.objEditData.conctacts)
+  }
+
+  actionSave() {
+    let objData : any = {
+      ...this.formData.value,
+      conctas: this.getContactsValue()
+    }
+
+    if (this.idData) this.saveDataPatch(objData)
+     else this.saveDataPost(objData)
+  }
+
+  saveDataPost(objData) {
+    this.moduleServices.postData('client', objData).pipe(takeUntil(this.onDestroy)).subscribe({
+      next: (response: any) => {
+        this.completionMessage()
+      },
+      error: (error) => {
+        this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
+        console.error(error)
+      }
+    })
+  }
+
+  saveDataPatch(objData) {
+    this.moduleServices.patchData('client', objData).pipe(takeUntil(this.onDestroy)).subscribe({
+      next: (response: any) => {
+        this.completionMessage(true)
+      },
+      error: (error) => {
+        this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
+        console.error(error)
+      }
+    })
+  }
+
+  completionMessage(edit = false) {
+    this.notificationService
+      .notificacion(
+        'Éxito',
+        `Registro ${edit ? 'editado' : 'guardado'}.`,
+        'save',
+      )
+      .afterClosed()
+      .subscribe((_) => {
+        if (this.url.includes('nuevo')) {
+          this.fastQuote()
+        } else {
+          this.toBack()
+        }
+      });
   }
 
   fastQuote() {
@@ -114,34 +196,25 @@ export class NewClientComponent implements AfterViewInit, OnInit {
       });
   }
 
-  save() {
-    this.notificationService
-      .notificacion(
-        'Éxito',
-        'Registro guardado.',
-        'save',
-      )
-      .afterClosed()
-      .subscribe((_) => {
-        if (this.url.includes('nuevo-cliente')) {
-          this.fastQuote()
-        } else {
-          this.toBack()
-        }
-      });
+  toBack() {
+    this.router.navigateByUrl(`/home/empresas/${this.url.includes('todos') ? 'todos' : this.url.includes('prospecto') ? 'prospectos' : 'clientes'}`)
   }
 
-  toBack() {
-    this.router.navigateByUrl(`/home/empresas/${
-    this.url.includes('todos') ? 'todos' : this.url.includes('prospecto') ? 'prospectos' : 'clientes'}`)
-  }
-  
   toBackClient() {
     this.router.navigateByUrl(`/home/empresas/clientes`)
   }
 
   toAll() {
     this.router.navigateByUrl(`/home/empresas/todos`)
+  }
+
+  get canSave(): boolean {
+    return !(this.formData.valid || this.contacts.length);
+  }
+
+  ngOnDestroy(): void {
+    this.onDestroy.next();
+    this.onDestroy.unsubscribe();
   }
 
 }

@@ -46,12 +46,12 @@ export class NewProspectComponent implements OnInit, AfterViewInit, OnDestroy {
   private objEditData : any;
 
   constructor(
-    private moduleServices: CompaniesService,
     private notificationService: OpenModalsService,
+    private moduleServices: CompaniesService,
+    private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
     private dialog: MatDialog,
     private router: Router,
-    private activatedRoute: ActivatedRoute
   ) { }
 
 
@@ -113,7 +113,7 @@ export class NewProspectComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getDataById() {
-    this.moduleServices.postDataProspect(this.idData).pipe(takeUntil(this.onDestroy)).subscribe({
+    this.moduleServices.getDataId('prospect', this.idData).pipe(takeUntil(this.onDestroy)).subscribe({
       next: (response: any) => {
         this.objEditData = response
       },
@@ -140,7 +140,7 @@ export class NewProspectComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   saveDataPost(objData) {
-    this.moduleServices.postDataProspect(objData).pipe(takeUntil(this.onDestroy)).subscribe({
+    this.moduleServices.postData('prospect', objData).pipe(takeUntil(this.onDestroy)).subscribe({
       next: (response: any) => {
         this.completionMessage()
       },
@@ -152,7 +152,7 @@ export class NewProspectComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   saveDataPatch(objData) {
-    this.moduleServices.patchDataProspect(objData).pipe(takeUntil(this.onDestroy)).subscribe({
+    this.moduleServices.patchData('prospect', objData).pipe(takeUntil(this.onDestroy)).subscribe({
       next: (response: any) => {
         this.completionMessage(true)
       },
