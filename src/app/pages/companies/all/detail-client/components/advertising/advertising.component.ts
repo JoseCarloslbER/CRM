@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -6,13 +6,15 @@ import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-advertising',
   templateUrl: './advertising.component.html',
   styleUrl: './advertising.component.scss'
 })
-export class AdvertisingComponent implements OnInit {
+export class AdvertisingComponent implements OnInit, OnDestroy {
+  private onDestroy = new Subject<void>();
 
   public dataSource = new MatTableDataSource<any>([]);
 
@@ -105,5 +107,10 @@ export class AdvertisingComponent implements OnInit {
           .subscribe((_) => {
 
           });
+  }
+
+  ngOnDestroy(): void {
+    this.onDestroy.next();
+    this.onDestroy.unsubscribe();
   }
 }

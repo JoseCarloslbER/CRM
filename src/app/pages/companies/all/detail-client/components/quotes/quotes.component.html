@@ -9,8 +9,11 @@
             </div>
         </div>
 
-        <div
-            class="d-flex col-md-7 col-xl-7 col-12 pt-md-2 justify-content-end align-items-end ">
+        <div class="d-flex col-md-7 col-xl-7 col-12 pt-md-2 justify-content-end align-items-end mt-3 mb-5">
+            <button class="btn-yellow-newRegister" (click)="newData()">
+                <span >Nueva cotización</span>
+            </button>
+
             <button class="btn-excel ml-3" (click)="douwnloadExel()">
                 <mat-icon svgIcon="mat_outline:file_download"></mat-icon>
                 <span>Excel</span>
@@ -66,7 +69,6 @@
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th scope="col">#</th>
                                     <th scope="col">Tipo</th>
                                     <th scope="col">Lugares</th>
                                     <th scope="col">Curso</th>
@@ -75,7 +77,6 @@
                             </thead>
                             <tbody>
                                 <tr *ngFor="let item of element.lugares">
-                                    <td>{{item.no}}</td>
                                     <td>{{item.tipo}}</td>
                                     <td>{{item.lugares}}</td>
                                     <td>{{item.curso}}</td>
@@ -148,11 +149,4 @@
         </table>
     </div>
 
-    <div class="row d-flex justify-content-end create">
-        <div class="d-flex justify-content-end col-md-2 col-xl-2 col-12 pt-md-2">
-            <button class="btn-action-add">
-                <span>Guardar</span>
-            </button>
-        </div>
-    </div>
 </div>

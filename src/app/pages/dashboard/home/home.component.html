@@ -111,12 +111,12 @@
 
             <mat-tab-group class="sm:px-2" mat-stretch-tabs="false" [animationDuration]="'0'">
 
-                <mat-tab label="Día">
-                    <ng-template matTabContent>
+                <mat-tab label="Día" style="overflow: hidden;">
+                    <ng-template matTabContent style="overflow: hidden;">
 
-                        <div *ngIf="selectedProject == 'Estadísticas'">
-                            <div class="row">
-                                <div class="col-md-6">
+                        <div *ngIf="selectedProject == 'Estadísticas'" style="overflow: hidden;">
+                            <div class="row" style="overflow: hidden;">
+                                <div class="col-md-6" >
                                     <div class="header flex-center">Cotizaciones</div>
 
                                     <div class="content">

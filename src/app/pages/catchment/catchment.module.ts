@@ -9,6 +9,7 @@ import { CampaignsComponent } from './campaigns/campaigns.component';
 import { NewCampingnComponent } from './campaigns/new-campingn/new-campingn.component';
 import { ModalInformationInTableComponent } from './campaigns/modal-information-in-table/modal-information-in-table.component';
 import { ModalCampaignResultsComponent } from './campaigns/modal-campaign-results/modal-campaign-results.component';
+import { CampainResultsComponent } from './campaigns/campain-results/campain-results.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { ModalCampaignResultsComponent } from './campaigns/modal-campaign-result
     CampaignsComponent,
     NewCampingnComponent,
     ModalInformationInTableComponent,
-    ModalCampaignResultsComponent
+    ModalCampaignResultsComponent,
+    CampainResultsComponent
   ],
   imports: [
     CommonModule,

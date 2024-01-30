@@ -69,6 +69,10 @@ export class QuotesComponent implements OnInit{
 
   }
 
+  newData() {
+    this.router.navigateByUrl(`/home/conversion/nueva-cotizacion`)
+  }
+
   douwnloadExel(){
     this.notificationService
           .notificacion(

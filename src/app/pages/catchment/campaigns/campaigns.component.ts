@@ -478,17 +478,7 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   seeCampaignsResults() {
-    this.dialog.open(ModalCampaignResultsComponent, {
-      data: {
-        info: this.datacompany,
-        columns: this.companyInfoColumns,
-        type: 'companies'
-      },
-      disableClose: true,
-      width: '1000px',
-      maxHeight: '700px',
-      panelClass: 'custom-dialog',
-    });
+    this.router.navigateByUrl(`home/captacion/resultados-campanias/1`)
   }
 
   douwnloadExel(){

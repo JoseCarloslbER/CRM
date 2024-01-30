@@ -13,20 +13,29 @@
                     <h1>A&B Ingeniería y señalización vial S.A. de C.V.</h1>
                     <span>Prospecto</span>
 
-                    <div class="c-column-btns d-flex justify-content-start align-content-center gap-3 mt-5">
-                        <div class="btn-see">
-                            <mat-icon matTooltip="Editar">edit_square</mat-icon>
+                    <div class="row mt-5">
+                        <div class="col-md-6 c-column-btns d-flex justify-content-start align-content-center gap-3 m-0">
+                            <div class="btn-see">
+                                <mat-icon matTooltip="Editar">edit_square</mat-icon>
+                            </div>
+    
+                            <div class="btn-edit">
+                                <mat-icon matTooltip="Correo">mail</mat-icon>
+                            </div>
+    
+                            <div class="btn-delete">
+                                <mat-icon matTooltip="Telefono">phone</mat-icon>
+                            </div>
                         </div>
-
-                        <div class="btn-edit">
-                            <mat-icon matTooltip="Correo">mail</mat-icon>
-                        </div>
-
-                        <div class="btn-delete">
-                            <mat-icon matTooltip="Telefono">phone</mat-icon>
+                        <div class="col-md-6 d-flex align-content-center justify-content-end">
+                            <button class="btn-yellow-newRegister" (click)="selectTab(4)">
+                                <span >Ver contactos</span>
+                            </button>
                         </div>
                     </div>
+
                 </div>
+                
             </div>
 
             <h2>Información de la empresa</h2>
@@ -72,7 +81,8 @@
                 </div>
             </div>
 
-            <mat-tab-group class="mat-grupo-color sm:px-2" mat-stretch-tabs="false" [animationDuration]="'0'">
+
+            <mat-tab-group id="contactosTab" class="mat-grupo-color sm:px-2" mat-stretch-tabs="false" [animationDuration]="'0'" [(selectedIndex)]="selectedTabIndex">
                 <mat-tab label="Cotizaciones">
                     <ng-template matTabContent>
                         <app-quotes></app-quotes>
@@ -97,7 +107,7 @@
                     </ng-template>
                 </mat-tab>
 
-                <mat-tab label="Contactos">
+                <mat-tab label="Contactos" >
                     <ng-template matTabContent>
                         <app-contact></app-contact>
                     </ng-template>
@@ -117,5 +127,6 @@
 
             </mat-tab-group>
         </div>
+
     </div>
 </div>
