@@ -13,7 +13,6 @@ import { DataTable, DataTableFilters } from '../catchment-interface';
 @Component({
   selector: 'app-campaigns',
   templateUrl: './campaigns.component.html',
-  styleUrl: './campaigns.component.scss'
 })
 export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
   private onDestroy = new Subject<void>();

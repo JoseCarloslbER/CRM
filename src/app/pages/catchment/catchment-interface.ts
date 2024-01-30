@@ -1,4 +1,3 @@
-
 export interface DataTableFilters {
   status : string;
   giro   : string;
@@ -39,27 +38,11 @@ export interface DataTableAgents {
 }
 
 export interface TableDataAgentsList {
-    country: string,
-    category: string,
-    twist: string,
-    campaign: string,
-    quotes: [
-      {
-        up: string,
-        bottom: string,
-      }
-    ],
-
-    sales: [
-      {
-        up: string,
-        bottom: string,
-      }
-    ],
-
-    history: string,
-    origin: string,
-    lastContactDate: string,
+    agent: string,
+    rol: string,
+    ip: string,
+    extension: string,
+   
 }
 
 export interface DataTableCompanies {
@@ -67,25 +50,8 @@ export interface DataTableCompanies {
 }
 
 export interface TableDataCompaniesList {
-    country: string,
-    category: string,
-    twist: string,
-    campaign: string,
-    quotes: [
-      {
-        up: string,
-        bottom: string,
-      }
-    ],
-
-    sales: [
-      {
-        up: string,
-        bottom: string,
-      }
-    ],
-
-    history: string,
-    origin: string,
-    lastContactDate: string,
+    company: string,
+    contact: string,
+    status: string,
+    
 }

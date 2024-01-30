@@ -1,18 +1,14 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ModalInformationInTableComponent } from 'app/pages/catchment/campaigns/modal-information-in-table/modal-information-in-table.component';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { Subject, takeUntil } from 'rxjs';
-import { CatchmentComponent } from '../../catchment.component';
 import { CatchmentService } from '../../catchment.service';
 
 @Component({
   selector: 'app-new-campingn',
   templateUrl: './new-campingn.component.html',
-  styleUrl: './new-campingn.component.scss'
 })
 export class NewCampingnComponent implements OnInit, AfterViewInit, OnDestroy {
   private onDestroy = new Subject<void>();
