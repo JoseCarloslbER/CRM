@@ -15,8 +15,8 @@
         <form class="col-12 new-content">
             <div>
                 <div class="row">
-                    <div class="col-md-6">
 
+                    <div class="col-md-4">
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Buscar LEAD / Cliente*</mat-label>
                             <mat-select placeholder="Seleccionar">
@@ -27,31 +27,22 @@
                         </mat-form-field>
 
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
-                            <mat-label>Agente a asignar</mat-label>
-                            <mat-select placeholder="Seleccionar">
-                                <mat-option value="Agente a asignar">Agente a asignar 1</mat-option>
-                                <mat-option value="Agente a asignar">Agente a asignar 2</mat-option>
-                                <mat-option value="Agente a asignar">Agente a asignar 3</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-
-                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
-                            <mat-label>Campaña</mat-label>
-                            <mat-select placeholder="Seleccionar">
-                                <mat-option value="Campaña">Campaña 1</mat-option>
-                                <mat-option value="Campaña">Campaña 2</mat-option>
-                                <mat-option value="Campaña">Campaña 3</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-
-                    </div>
-                    <div class="col-md-6">
-                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Contacto</mat-label>
                             <mat-select placeholder="Seleccionar">
                                 <mat-option value="Contacto">Contacto 1</mat-option>
                                 <mat-option value="Contacto">Contacto 2</mat-option>
                                 <mat-option value="Contacto">Contacto 3</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-md-4">
+                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
+                            <mat-label>Agente a asignar</mat-label>
+                            <mat-select placeholder="Seleccionar">
+                                <mat-option value="Agente a asignar">Agente a asignar 1</mat-option>
+                                <mat-option value="Agente a asignar">Agente a asignar 2</mat-option>
+                                <mat-option value="Agente a asignar">Agente a asignar 3</mat-option>
                             </mat-select>
                         </mat-form-field>
 
@@ -64,6 +55,18 @@
                             </mat-select>
                         </mat-form-field>
 
+                    </div>
+
+                    <div class="col-md-4">
+                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
+                            <mat-label>Campaña</mat-label>
+                            <mat-select placeholder="Seleccionar">
+                                <mat-option value="Campaña">Campaña 1</mat-option>
+                                <mat-option value="Campaña">Campaña 2</mat-option>
+                                <mat-option value="Campaña">Campaña 3</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Forma de pago</mat-label>
                             <mat-select placeholder="Seleccionar">
@@ -73,6 +76,7 @@
                             </mat-select>
                         </mat-form-field>
                     </div>
+
                 </div>
 
                 <div class="row iva">
@@ -99,7 +103,7 @@
                             <div class="col-md-9">
                                 <div class="flex inputsRadioGroup" style="display: flex; align-items: center;">
                                     <span class="font-semibold font-16-700-646878">Tipo de precio</span>
-                                    <mat-radio-group [formControl]="control.totalPricePriControl"  class="d-flex row">
+                                    <mat-radio-group [formControl]="control.totalPricePriControl" class="d-flex row">
                                         <div class="col-md-6">
                                             <mat-radio-button class="mb-2"> <span
                                                     class="font-14-500-4B5062">Normal</span> </mat-radio-button>
@@ -116,14 +120,14 @@
                         <form *ngIf="productFormValues?.length">
 
                             <div class="row" *ngFor="let control of productFormValues; let i = index;">
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                                         <mat-label>Lugares</mat-label>
                                         <input class="text-right" [formControl]="control.unitPriControl" matInput>
                                     </mat-form-field>
                                 </div>
 
-                                <div class="col-md-3">
+                                <div class="col-md-6">
                                     <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                                         <mat-label>Producto</mat-label>
                                         <mat-select [formControl]="control.productControl" placeholder="Seleccionar">
@@ -134,7 +138,7 @@
                                     </mat-form-field>
                                 </div>
 
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                                         <mat-label>Precio unitario</mat-label>
                                         <input class="text-right" [formControl]="control.unitPriControl" matInput>
@@ -142,7 +146,7 @@
                                     </mat-form-field>
                                 </div>
 
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                                         <mat-label>Precio total</mat-label>
                                         <input class="text-right" [formControl]="control.totalPricePriControl" matInput>
@@ -162,9 +166,9 @@
                         </form>
 
                         <div class="row mt-5 mb-5 d-flex justify-content-end">
-                            <div class="col-md-4 col-xl-3 col-12">
-                                <button mat-flat-button class="btn-action-add width-100" (click)="addFormProduct()">
-                                    <span>Agregar más productos</span>
+                            <div class="col-md-4 col-xl-3 col-12 d-flex justify-content-end">
+                                <button mat-flat-button class="btn-action-add btn-action-add-width" (click)="addFormProduct()">
+                                    <span>Agregar más ítems</span>
                                 </button>
                             </div>
                         </div>
@@ -192,13 +196,13 @@
                                 </mat-form-field>
                             </div>
 
-                            <div class="col-md-3 d-flex align-items-center justify-content-center">
+                            <div class="col-md-3 d-flex align-items-center justify-content-start">
                                 <button class="recalculate mb-5">
                                     <span>Recalcular</span>
                                 </button>
                             </div>
-                        </div> 
-                        
+                        </div>
+
                         <div class="row promotion">
                             <span>Vigencia promoción 1</span>
                             <div class="col-md-6">
@@ -238,21 +242,21 @@
 
                 <div class="row d-flex mb-6 mt-6">
                     <div class="col-md-4 col-xl-3 col-12">
-                        <button mat-flat-button class="btn-action-add width-100" (click)="addFormOption()">
+                        <button mat-flat-button class="btn-action-add btn-action-add-option-width" (click)="addFormOption()">
                             <span>Agregar más opciones</span>
                         </button>
                     </div>
                 </div>
 
                 <div class="row d-flex justify-content-end create mt-6">
-                    <div class="d-flex col-md-4 col-xl-3 col-12 pt-md-1 align-items-end mb-lg-0 mb-5 mb-sm-0">
-                        <button mat-flat-button class="btn-gray width-100" (click)="newDataProduct()">
+                    <div class="d-flex col-md-4 col-xl-3 col-12 d-flex justify-content-end pt-md-1 align-items-end mb-lg-0 mb-5 mb-sm-0">
+                        <button mat-flat-button class="btn-gray " (click)="newDataProduct()">
                             <span>Crear nuevo producto</span>
                         </button>
                     </div>
 
-                    <div class="d-flex col-md-4 col-xl-3 col-12 pt-md-1 align-items-end mb-lg-0 mb-5 mb-sm-0">
-                        <button mat-flat-button class="btn-yellow width-100" (click)="save()">
+                    <div class="d-flex col-md-4 col-xl-2 col-12 d-flex justify-content-end pt-md-1 align-items-end mb-lg-0 mb-5 mb-sm-0">
+                        <button mat-flat-button class="btn-yellow" (click)="save()">
                             <span>Guardar cotización</span>
                         </button>
                     </div>

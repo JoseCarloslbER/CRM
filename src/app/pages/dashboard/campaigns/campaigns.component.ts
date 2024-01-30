@@ -1927,7 +1927,7 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   
   seeData(data: any) {
-    this.router.navigateByUrl(`/home/captacion/campañas`)
+    this.router.navigateByUrl(`/home/captacion/campanias`)
   }
 
   

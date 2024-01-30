@@ -3,10 +3,9 @@ import { FormBuilder, FormControl } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
-import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { CompaniesService } from '../companies.service';
-import { DataTable } from '../companies-interface';
+import { DataTable, DataTableFilters } from '../companies-interface';
 import { Subject, debounceTime, takeUntil } from 'rxjs';
 
 @Component({
@@ -176,7 +175,7 @@ export class ProspectsComponent implements OnInit, AfterViewInit, OnDestroy {
   public searchBar = new FormControl('')
 
   public formFilters = this.formBuilder.group({
-    estatus: [{ value: null, disabled: false }],
+    status: [{ value: null, disabled: false }],
     giro: [{ value: null, disabled: false }],
     company: [{ value: null, disabled: false }],
     rangeDateStart: [{ value: null, disabled: false }],
@@ -187,23 +186,21 @@ export class ProspectsComponent implements OnInit, AfterViewInit, OnDestroy {
     private moduleServices: CompaniesService,
     private notificationService: OpenModalsService,
     private formBuilder: FormBuilder,
-    private dialog: MatDialog,
     private router: Router
   ) { }
 
   ngOnInit(): void {
     this.dataSource.data = this.dataDummy;
-
   }
 
   ngAfterViewInit(): void {
-    this.searchBar.valueChanges.pipe(takeUntil(this.onDestroy), debounceTime(500)).subscribe((content:string) => {
+    this.searchBar.valueChanges.pipe(takeUntil(this.onDestroy), debounceTime(500)).subscribe((content: string) => {
       console.log(content);
     })
   }
 
   SearchWithFilters() {
-    let objFilters:any = {
+    let objFilters: any = {
       ...this.formFilters.value
     }
 
@@ -211,17 +208,16 @@ export class ProspectsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getCatalogs() {
-    
+
   }
 
-  getDataTable(filters:Object) {
-    this.moduleServices.getDataTable(filters).subscribe({
-        next: ({ data } : DataTable) => {
-          console.log(data);
-        },
-        error: (error) => console.error(error)
-      }
-    )
+  getDataTable(filters: DataTableFilters) {
+    this.moduleServices.getDataTable('prospect',filters).subscribe({
+      next: ({ data }: DataTable) => {
+        console.log(data);
+      },
+      error: (error) => console.error(error)
+    })
   }
 
   editData(data: any) {
@@ -236,70 +232,147 @@ export class ProspectsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.router.navigateByUrl(`/home/empresas/nuevo-prospecto`)
   }
 
-  deleteData() {
+  deleteData(id?:string) {
+    // this.notificationService
+    //   .notificacion(
+    //     'Pregunta',
+    //     '¿Estas seguro de eliminar el registro?',
+    //     'question',
+    //   )
+    //   .afterClosed()
+    //   .subscribe((resp) => {
+    //     if (resp) {
+    //       this.moduleServices.deleteData('prospect', id).pipe(takeUntil(this.onDestroy)).subscribe({
+    //         next: (_) => {
+    //           this.notificationService
+    //           .notificacion(
+    //             'Éxito',
+    //             'Registro eliminado.',
+    //             'delete',
+    //           )
+    //           .afterClosed()
+    //           .subscribe((_) => {
+
+    //           });
+    //         },
+    //         error: (error) => console.error(error)
+    //       })
+          this.notificationService
+            .notificacion(
+              'Éxito',
+              'Registro eliminado.',
+              'delete',
+            )
+            .afterClosed()
+            .subscribe((_) => { });
+    //     }
+    //   });
+  }
+
+  douwnloadExel(id?:string) {
+    // this.moduleServices.excel('prospect', id).pipe(takeUntil(this.onDestroy)).subscribe({
+    //   next: (_) => {
+    //     this.notificationService
+    //       .notificacion(
+    //         'Éxito',
+    //         'Excel descargado.',
+    //         'save',
+    //         'heroicons_outline:document-arrow-down'
+    //       )
+    //       .afterClosed()
+    //       .subscribe((_) => {
+
+    //       });
+    //   },
+    //   error: (error) => console.error(error)
+    // })
+
+
     this.notificationService
       .notificacion(
-        'Pregunta',
-        '¿Estas seguro de eliminar el registro?',
-        'question',
+        'Éxito',
+        'Excel descargado.',
+        'save',
+        'heroicons_outline:document-arrow-down'
       )
       .afterClosed()
-      .subscribe((resp) => {
-        if (resp) {
-          this.notificationService
-          .notificacion(
-            'Éxito',
-            'Registro eliminado.',
-            'delete',
-          )
-          .afterClosed()
-          .subscribe((_) => {
+      .subscribe((_) => {
 
-          });
-        }
       });
   }
 
-  douwnloadExel(){
-    this.notificationService
-          .notificacion(
-            'Éxito',
-            'Excel descargado.',
-            'save',
-            'heroicons_outline:document-arrow-down'
-          )
-          .afterClosed()
-          .subscribe((_) => {
+  downloadBulkUpload(id?:string) {
+    // this.moduleServices.bulkLoad('prospect',id).pipe(takeUntil(this.onDestroy)).subscribe({
+    //   next: (_) => {
+    //     this.notificationService
+    //       .notificacion(
+    //         'Éxito',
+    //         'Carga masiva.',
+    //         'save',
+    //         'mat_solid:downloading'
+    //       )
+    //       .afterClosed()
+    //       .subscribe((_) => { });
+    //   },
+    //   error: (error) => console.error(error)
+    // })
 
-          });
+    this.notificationService
+      .notificacion(
+        'Éxito',
+        'Carga masiva.',
+        'save',
+        'mat_solid:downloading'
+      )
+      .afterClosed()
+      .subscribe((_) => {
+
+      });
   }
 
-  downloadBulkUpload(){
-    this.notificationService
-          .notificacion(
-            'Éxito',
-            'Carga masiva.',
-            'save',
-            'mat_solid:downloading'
-          )
-          .afterClosed()
-          .subscribe((_) => {
+  async(id?:string) {
+    // this.moduleServices.async('prospect', id).pipe(takeUntil(this.onDestroy)).subscribe({
+    //   next: (_) => {
+    //     this.notificationService
+    //       .notificacion(
+    //         'Éxito',
+    //         'Sincronización.',
+    //         'save',
+    //         'mat_solid:sync'
+    //       )
+    //       .afterClosed()
+    //       .subscribe((_) => {
 
-          });
+    //       });
+    //   },
+    //   error: (error) => console.error(error)
+    // })
+
+    this.notificationService
+      .notificacion(
+        'Éxito',
+        'Sincronización.',
+        'save',
+        'mat_solid:sync'
+      )
+      .afterClosed()
+      .subscribe((_) => {
+
+      });
   }
 
-  async() {
-    this.notificationService
-          .notificacion(
-            'Éxito',
-            'Sincronización.',
-            'save',
-            'mat_solid:sync'
-          )
-          .afterClosed()
-          .subscribe((_) => {
+  get cantSearch() : boolean {
+    let cantSearch : boolean = true
+    if (
+      this.formFilters.get('status').value  ||
+      this.formFilters.get('giro').value ||
+      this.formFilters.get('company').value ||
+      this.formFilters.get('rangeDateStart').value && !this.formFilters.get('status').value 
+      ) {
+      cantSearch = false;
+    }
 
-          });
+    return cantSearch
   }
 
   ngOnDestroy(): void {

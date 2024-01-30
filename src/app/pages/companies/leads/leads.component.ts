@@ -7,7 +7,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { Subject, debounceTime, takeUntil } from 'rxjs';
 import { CompaniesService } from '../companies.service';
-import { DataTable } from '../companies-interface';
+import { DataTable, DataTableFilters } from '../companies-interface';
 
 @Component({
   selector: 'app-leads',
@@ -16,7 +16,6 @@ import { DataTable } from '../companies-interface';
 })
 export class LeadsComponent implements OnInit, AfterViewInit, OnDestroy {
   private onDestroy = new Subject<void>();
-
 
   public dataSource = new MatTableDataSource<any>([]);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -178,7 +177,7 @@ export class LeadsComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
   public formFilters = this.formBuilder.group({
-    estatus: [{ value: null, disabled: false }],
+    status: [{ value: null, disabled: false }],
     giro: [{ value: null, disabled: false }],
     company: [{ value: null, disabled: false }],
     rangeDateStart: [{ value: null, disabled: false }],
@@ -204,8 +203,26 @@ export class LeadsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   SearchWithFilters() {
-    console.log(this.formFilters.value);
+    let objFilters: any = {
+      ...this.formFilters.value
+    }
+
+    this.getDataTable(objFilters)
   }
+
+  getCatalogs() {
+
+  }
+
+  getDataTable(filters: DataTableFilters) {
+    this.moduleServices.getDataTable('lead', filters).subscribe({
+      next: ({ data }: DataTable) => {
+        console.log(data);
+      },
+      error: (error) => console.error(error)
+    })
+  }
+
 
   editData(data:any) {
     this.router.navigateByUrl(`/home/empresas/nuevo-prospecto`)
@@ -215,21 +232,7 @@ export class LeadsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.router.navigateByUrl(`home/adquisicion/detalle-empresa/1`)
   }
 
-  newData() {
-    this.router.navigateByUrl(`/home/empresas/nuevo-prospecto`)
-  }
-
-  getDataTable(filters:Object) {
-    this.moduleServices.getDataTable(filters).subscribe({
-        next: ({ data } : DataTable) => {
-          console.log(data);
-        },
-        error: (error) => console.error(error)
-      }
-    )
-  }
- 
-  deleteData() {
+  deleteData(id?:String) {
     this.notificationService
       .notificacion(
         'Pregunta',
@@ -237,33 +240,79 @@ export class LeadsComponent implements OnInit, AfterViewInit, OnDestroy {
         'question',
       )
       .afterClosed()
-      .subscribe((_) => {
-        this.notificationService
-          .notificacion(
-            'Éxito',
-            'Registro eliminado.',
-            'delete',
-          )
-          .afterClosed()
-          .subscribe((_) => {
+      .subscribe((resp) => {
+        if (resp) {
+          // this.moduleServices.deleteDataProspect(lead', id).pipe(takeUntil(this.onDestroy)).subscribe({
+          //   next: (_) => {
+          //     this.notificationService
+          //     .notificacion(
+          //       'Éxito',
+          //       'Registro eliminado.',
+          //       'delete',
+          //     )
+          //     .afterClosed()
+          //     .subscribe((_) => {
 
-          });
+          //     });
+          //   },
+          //   error: (error) => console.error(error)
+          // })
+          this.notificationService
+            .notificacion(
+              'Éxito',
+              'Registro eliminado.',
+              'delete',
+            )
+            .afterClosed()
+            .subscribe((_) => { });
+        }
       });
   }
 
-    
-  douwnloadExel(){
-    this.notificationService
-          .notificacion(
-            'Éxito',
-            'Excel descargado.',
-            'save',
-            'heroicons_outline:document-arrow-down'
-          )
-          .afterClosed()
-          .subscribe((_) => {
+  douwnloadExel(id?:string) {
+    // this.moduleServices.excel('lead', id).pipe(takeUntil(this.onDestroy)).subscribe({
+    //   next: (_) => {
+    //     this.notificationService
+    //       .notificacion(
+    //         'Éxito',
+    //         'Excel descargado.',
+    //         'save',
+    //         'heroicons_outline:document-arrow-down'
+    //       )
+    //       .afterClosed()
+    //       .subscribe((_) => {
 
-          });
+    //       });
+    //   },
+    //   error: (error) => console.error(error)
+    // })
+
+
+    this.notificationService
+      .notificacion(
+        'Éxito',
+        'Excel descargado.',
+        'save',
+        'heroicons_outline:document-arrow-down'
+      )
+      .afterClosed()
+      .subscribe((_) => {
+
+      });
+  }
+
+  get cantSearch() : boolean {
+    let cantSearch : boolean = true
+    if (
+      this.formFilters.get('status').value  ||
+      this.formFilters.get('giro').value ||
+      this.formFilters.get('company').value ||
+      this.formFilters.get('rangeDateStart').value && !this.formFilters.get('status').value 
+      ) {
+      cantSearch = false;
+    }
+
+    return cantSearch
   }
 
   ngOnDestroy(): void {

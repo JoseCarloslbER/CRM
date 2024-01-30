@@ -319,17 +319,15 @@
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col-md-12 mt-5">
-                                <div class="section-header-dashboard flex-center">
+                        <div class="row section-header-dashboard  mt-5">
+                            <div class="col-md-7 d-flex justify-content-end align-items-center">
+                                <div class="d-flex justify-content-end align-items-center">
                                     Historial de campañas
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="section-title row d-flex justify-content-end align-items-center">
-                            <div class="col-md-8 col-sm-12 col-12 btns-section">
-                                <button class="btn-yellow-newRegister" (click)="seeData()">
+                            <div class="col-md-5 btns-section d-flex justify-content-end align-items-center">
+                                <button class="btn-yellow-newRegister mr-2" (click)="seeData()">
                                     <span >Ver todas las campañas</span>
                                 </button>
                             </div>
@@ -382,7 +380,6 @@
                                             {{ element.amountInvested }}
                                         </td>
                                     </ng-container>
-
 
                                     <ng-container matColumnDef="resuls">
                                         <th mat-header-cell *matHeaderCellDef>Resultados</th>
@@ -444,15 +441,6 @@
 
                     </ng-template>
                 </mat-tab>
-
-
-
-
-
-
-
-
-
 
                 <mat-tab label="Mes">
                 </mat-tab>

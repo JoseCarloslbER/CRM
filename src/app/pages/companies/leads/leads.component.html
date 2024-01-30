@@ -63,6 +63,10 @@
                             <button class="btn-search " (click)="SearchWithFilters()">
                                 <span>Buscar</span>
                             </button>
+
+                                <!-- <button class="btn-search" [disabled]="cantSearch" (click)="SearchWithFilters()">
+                                <span>Buscar</span>
+                            </button> -->
                         </div>
                     </div>
                     
@@ -186,10 +190,9 @@
                     <th mat-header-cell *matHeaderCellDef>Acciones</th>
                     <td mat-cell *matCellDef="let element">
                         <div class="c-column-btns">
-
-                            <div class="btn-see" (click)="seeData(element)">
+                            <!-- <div class="btn-see" (click)="seeData(element)">
                                 <mat-icon matTooltip="Ver">visibility</mat-icon>
-                            </div>
+                            </div> -->
                             
                             <div class="btn-edit" (click)="deleteData(element)">
                                 <mat-icon matTooltip="Editar">edit_square</mat-icon>
