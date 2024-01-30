@@ -20,7 +20,7 @@
                     color: #646878;
                 }
                 
-                span {
+               > span {
                     font-size: 16px;
                     font-weight: 400;
                     color: #646878;
@@ -47,19 +47,22 @@
 
         .title-info-client {
             height: auto;
-            h1 {
+
+
+            > h1 {
                 font-size: 32px;
                 font-weight: 700;
                 color: #1E293B;
                 margin-bottom: 14px;
             }
 
-            span {
+            > span {
                 color: #646878;
                 font-size: 22px;
                 font-weight: 400;
                 margin-bottom: 30px;
             }
+
         }
     }
 

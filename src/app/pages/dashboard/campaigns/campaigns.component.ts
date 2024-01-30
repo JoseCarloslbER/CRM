@@ -159,7 +159,7 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
       resuls: [
         {
           left: '5',
-          right: '5%',
+          right: '5',
           bottom: '$15,000.00',
         }
       ],
@@ -177,7 +177,37 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
 
         }
       ],
+    },
+    {
+      campaign: 'Nombre 1',
+      type: 'Tipo 1',
+      period: {
+        inicial: '2022-02-28',
+        final: '2022-02-28'
+      },
+      companies : '20',
+      amountInvested : '$20.00',
+      resuls: [
+        {
+          left: '5',
+          right: '5',
+          bottom: '$15,000.00',
+        }
+      ],
+      quotes: [
+        {
+          up: '5',
+          bottom: '$15,000.00',
 
+        }
+      ],
+      sells: [
+        {
+          up: '5',
+          bottom: '$15,000.00',
+
+        }
+      ],
     },
   
   ]
@@ -1947,15 +1977,7 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   seeCampaignsResults() {
-    this.dialog.open(ModalCampaignResultsComponent, {
-      data: {
-
-      },
-      disableClose: true,
-      width: '1000px',
-      maxHeight: '1000px',
-      panelClass: 'custom-dialog',
-    });
+    this.router.navigateByUrl(`home/dashboard/resultados-campanias/1`)
   }
 
   probar() {

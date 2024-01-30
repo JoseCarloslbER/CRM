@@ -1,11 +1,14 @@
-import { Component, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, ElementRef, ViewChild } from '@angular/core';
+import { CommonModule, ViewportScroller } from '@angular/common';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { MatTabGroup } from '@angular/material/tabs';
+import { Subject } from 'rxjs';
+
 
 @Component({
   selector: 'app-detail-client',
@@ -13,12 +16,20 @@ import { Router } from '@angular/router';
   styleUrl: './detail-client.component.scss'
 })
 export class DetailClientComponent {
+  private onDestroy = new Subject<void>();
+
+
   public dataSourceQuotes = new MatTableDataSource<any>([]);
   public dataSourceCampaign = new MatTableDataSource<any>([]);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   public longitudPagina = 50;
   public total = 0;
   public indicePagina = 0;
+
+  @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
+  @ViewChild('contactTab') contactTab: ElementRef;
+
+  selectedTabIndex = 0;
 
   public displayedColumns: string[] = [
     'empresa',
@@ -122,6 +133,7 @@ export class DetailClientComponent {
   constructor(
     private openModalsService: OpenModalsService,
     private formBuilder: FormBuilder,
+    private viewScroller: ViewportScroller,
     private dialog: MatDialog,
     private router: Router
   ) { }
@@ -130,6 +142,21 @@ export class DetailClientComponent {
     this.dataSourceQuotes.data = this.dataDummy
   }
 
+  selectTab(index: number) {
+    this.selectedTabIndex = index;
+    this.tabGroup.selectedIndex = index;
 
+      // Obten el elemento con el identificador "contactosTab"
+  const contactosTabElement = document.getElementById('contactosTab');
 
+  // Utiliza scrollIntoView para hacer scroll suave hacia el elemento
+  if (contactosTabElement) {
+    contactosTabElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  }
+
+  ngOnDestroy(): void {
+    this.onDestroy.next();
+    this.onDestroy.unsubscribe();
+  }
 }

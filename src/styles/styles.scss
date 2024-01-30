@@ -6,6 +6,11 @@ body {
     font-family: 'Poppins', sans-serif!important;
 }
 
+
+html {
+    scroll-behavior: smooth;
+}
+
 body fuse-splash-screen {
     display: flex;
     flex-direction: column;
@@ -172,17 +177,25 @@ body.fuse-splash-screen-hidden fuse-splash-screen {
 }
 
 .form-padding-title {
-    margin-left: 125px;
+    // margin-left: 125px;
 }
 
 @media screen and (max-width: 1390px) {
+
+    .section-padding {
+        padding: 0px 20px 0px 20px;
+    }
+
+    .section-content-padding {
+        padding: 30px 30px!important;
+    }
     
     .form-padding {
         padding: 45px 75px!important;
     }
 
     .form-padding-title {
-        margin-left: 5px;
+        // margin-left: 5px;
     }
     
 
@@ -298,7 +311,7 @@ body.fuse-splash-screen-hidden fuse-splash-screen {
     background: #646878 !important;
     font-size: 18px;
     font-weight: 600;
-    height: 49px;
+    height: 37px;
     border-radius: 10px;
     margin-bottom: 26px;
 }
