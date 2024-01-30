@@ -19,11 +19,11 @@
 
 // CSS BUTTONS 
 .recalculate {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 700;
     color: #385A6D;
     box-shadow: 4px 4px 4px 0px #00000040;
-    padding: 10px 25px;
+    padding: 8px 20px;
     border-radius: 100px;
     background: #E5E4E4;
 }
@@ -35,7 +35,7 @@
     font-weight: 700;
     color: #1E293B;
     border-radius: 20px;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .btn-excel {
@@ -45,7 +45,7 @@
     font-weight: 700;
     color: #1E293B;
     border-radius: 20px;
-    font-size: 16px;
+    font-size: 14px;
     display: flex;
     align-items: center;
     gap: 4px;
@@ -57,7 +57,7 @@
 .btn-search {
     background: #385A6D;
     color: white;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 400;
     width: 90px;
     height: 40px;
@@ -71,12 +71,12 @@
     align-items: center;
     box-shadow: 4px 4px 4px 0px #00000040;
     background: #1E293B !important;
-    font-size: 16px;
+    font-size: 14px;
     padding: 8px 20px;
     font-weight: 700;
     text-align: center;
     border-radius: 20px;
-    height: 40px;
+    // height: 40px;
 
     span {
         color: #FCDE01;
@@ -87,7 +87,7 @@
 .btn-edit-action {
     background: #E5E4E4;
     color: #1E293B;
-    font-size: 16px;
+    font-size: 14px;
     padding: 8px 20px;
     font-weight: 700;
     width: 90px;
@@ -99,9 +99,9 @@
 .btn-gray {
     background: #E5E4E4!important;
     color: Botones;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 700;
-    padding: 6px 20px;
+    padding: 8px 20px;
     color: #1E293B;
     box-shadow: 3px 4px 4px 0px #00000040;
     border-radius: 100px;
@@ -110,9 +110,9 @@
 .btn-gray-icon {
     background: #E5E4E4!important;
     color: Botones;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 700;
-    padding: 6px 20px;
+    padding: 8px 20px;
     color: #1E293B;
     box-shadow: 3px 4px 4px 0px #00000040;
     border-radius: 100px;
@@ -128,15 +128,21 @@
 .btn-action-add {
     background: #385A6D!important;
     color: white!important;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 700;
-    padding: 8px 20px;
+    padding: 8px 20px!important;
     box-shadow: 3px 4px 4px 0px #00000040;
     border-radius: 100px;
 }
 
 
+.btn-action-add-items-width {
+    width: 165px!important;
+}
 
+.btn-action-add-option-width {
+    width: 175px!important;
+}
 
 // CSS INPUTS 
 

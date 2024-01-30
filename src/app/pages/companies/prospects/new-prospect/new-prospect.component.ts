@@ -58,7 +58,7 @@ export class NewProspectComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(({ id }: any) => {
       this.idData = id;
-      this.getDataById();
+      // this.getDataById();
 
       if (this.url.includes('detalle')) {
         setTimeout(() => {

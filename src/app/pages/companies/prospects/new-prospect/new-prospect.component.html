@@ -12,133 +12,156 @@
         <form class="col-12" [formGroup]="formData">
             <div>
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
 
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Nombre de la empresa (razón social)</mat-label>
-                            <input matInput formControlName="name">
+                            <input matInput>
+                        </mat-form-field>
+                        
+                        <mat-form-field class="gt-xs:pr-3 inputNewRegister" *ngIf="!addContact?.value">
+                            <mat-label>Teléfono móvil*</mat-label>
+                            <input matInput>
                         </mat-form-field>
 
-                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
-                            <mat-label>Correo</mat-label>
-                            <input matInput formControlName="email" type="email">
+                        <mat-form-field class="gt-xs:pr-3 inputNewRegister" *ngIf="addContact?.value">
+                            <mat-label>Teléfono</mat-label>
+                            <input matInput>
                         </mat-form-field>
 
-                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
-                            <mat-label>Página web</mat-label>
-                            <input matInput formControlName="web">
-                        </mat-form-field>
-
-                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister" *ngIf="addContact?.value && !esClient || esClient">
-                            <mat-label>País</mat-label>
-                            <mat-select formControlName="country" placeholder="Seleccionar">
-                                <mat-option value="1">Pais 1</mat-option>
-                                <mat-option value="2">Pais 2</mat-option>
-                                <mat-option value="3">Pais 3</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-
-                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister" *ngIf="addContact?.value && !esClient || esClient">
-                            <mat-label>Ciudad</mat-label>
+                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister" *ngIf="addContact?.value">
+                            <mat-label>Estado*</mat-label>
                             <mat-select placeholder="Seleccionar">
-                                <mat-option value="Ciudad 1">Ciudad 1</mat-option>
-                                <mat-option value="Ciudad 2">Ciudad 2</mat-option>
-                                <mat-option value="Ciudad 3">Ciudad 3</mat-option>
+                                <mat-option value="Pais 1">Estado 1</mat-option>
+                                <mat-option value="Estado 2">Estado 2</mat-option>
+                                <mat-option value="Estado 3">Estado 3</mat-option>
                             </mat-select>
                         </mat-form-field>
 
-                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
+                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister" *ngIf="addContact?.value">
                             <mat-label>Giro</mat-label>
-                            <mat-select formControlName="giro" placeholder="Seleccionar">
-                                <mat-option value="Giro 1">Giro 1</mat-option>
+                            <mat-select placeholder="Seleccionar">
+                                <mat-option value="Pais 1">Giro 1</mat-option>
                                 <mat-option value="Giro 2">Giro 2</mat-option>
                                 <mat-option value="Giro 3">Giro 3</mat-option>
                             </mat-select>
                         </mat-form-field>
 
-                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister" *ngIf="addContact?.value && !esClient || esClient">
-                            <mat-label>Tamaño de empresa*</mat-label>
-                            <mat-select formControlName="companySize" placeholder="Seleccionar">
-                                <mat-option value="1">Tamaño de empresa 1</mat-option>
-                                <mat-option value="2">Tamaño de empresa 2</mat-option>
-                                <mat-option value="3">Tamaño de empresa 3</mat-option>
+                        
+                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister" *ngIf="addContact?.value">
+                            <mat-label>Tipo de empresa*</mat-label>
+                            <mat-select placeholder="Seleccionar">
+                                <mat-option value="Pais 1">Tipo de empresa 1</mat-option>
+                                <mat-option value="Tipo de empresa 2">Tipo de empresa 2</mat-option>
+                                <mat-option value="Tipo de empresa 3">Tipo de empresa 3</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                   
+                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
+                            <mat-label>Comentario*</mat-label>
+                            <textarea matInput style="height: 118px;"></textarea>
+                        </mat-form-field>
+
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <mat-form-field class="gt-xs:pr-3 inputNewRegister" *ngIf="!addContact?.value">
+                            <mat-label>Contacto*</mat-label>
+                            <input matInput>
+                        </mat-form-field>
+
+                        
+                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
+                            <mat-label>Origen</mat-label>
+                            <mat-select placeholder="Seleccionar">
+                                <mat-option value="Pais 1">Pais 1</mat-option>
+                                <mat-option value="Pais 2">Pais 2</mat-option>
+                                <mat-option value="Pais 3">Pais 3</mat-option>
                             </mat-select>
                         </mat-form-field>
 
-                        <div class="flex-auto gt-xs:pr-3 width-100 mt-4 mb-4" *ngIf="addContact?.value && !esClient || esClient">
+                        <mat-form-field class="gt-xs:pr-3 inputNewRegister" *ngIf="addContact?.value">
+                            <mat-label>RFC*</mat-label>
+                            <input matInput>
+                        </mat-form-field>
+
+                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister" *ngIf="addContact?.value">
+                            <mat-label>Propietario (agente)</mat-label>
+                            <mat-select placeholder="Seleccionar">
+                                <mat-option value="Pais 1">Propietario (agente) 1</mat-option>
+                                <mat-option value="Propietario (agente) 2">Propietario (agente) 2</mat-option>
+                                <mat-option value="Propietario (agente) 3">Propietario (agente) 3</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister" *ngIf="addContact?.value">
+                            <mat-label>Ciudad</mat-label>
+                            <mat-select placeholder="Seleccionar">
+                                <mat-option value="Pais 1">Ciudad 1</mat-option>
+                                <mat-option value="Ciudad 2">Ciudad 2</mat-option>
+                                <mat-option value="Ciudad 3">Ciudad 3</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+
+                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister" *ngIf="addContact?.value">
+                            <mat-label>Tamaño de empresa</mat-label>
+                            <mat-select placeholder="Seleccionar">
+                                <mat-option value="Pais 1">Tamaño de empresa 1</mat-option>
+                                <mat-option value="Tamaño de empresa 2">Tamaño de empresa 2</mat-option>
+                                <mat-option value="Tamaño de empresa 3">Tamaño de empresa 3</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
+                            <mat-label>Teléfono fijo*</mat-label>
+                            <input matInput>
+                        </mat-form-field>
+
+                        <mat-form-field class="gt-xs:pr-3 inputNewRegister" *ngIf="!addContact?.value">
+                            <mat-label>Página web*</mat-label>
+                            <input matInput>
+                        </mat-form-field>
+
+                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister" *ngIf="addContact?.value">
+                            <mat-label>Correo</mat-label>
+                            <input matInput required type="email">
+                        </mat-form-field>
+
+                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister" *ngIf="addContact?.value">
+                            <mat-label>País</mat-label>
+                            <mat-select placeholder="Seleccionar">
+                                <mat-option value="Pais 1">País 1</mat-option>
+                                <mat-option value="País 2">País 2</mat-option>
+                                <mat-option value="País 3">País 3</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <mat-form-field class="gt-xs:pr-3 inputNewRegister" *ngIf="addContact?.value">
+                            <mat-label>Domicilio</mat-label>
+                            <input matInput placeholder="Colonia, calle y número">
+                        </mat-form-field>
+
+                        <div class="flex-auto gt-xs:pr-3 width-100 mt-4 mb-4" *ngIf="addContact?.value">
                             <div class="row d-flex up">
                                 <div class="col-md-8">
                                     <div class="d-flex flex-column inputNewRegister">
                                         <mat-label class="mb-1">Imagen</mat-label>
-                                        <input formControlName="file" type="file" name="eta">
+                                        <input type="file" name="eta">
                                     </div>
                                 </div>
-                                <div class="col-md-4 d-flex align-items-center justify-content-end" *ngIf="!url.includes('detalle')">
+                                <div class="col-md-4 d-flex align-items-center justify-content-end">
                                     <button class="btn-action-add">
                                         <span>Subir</span>
                                     </button>
                                 </div>
                             </div>
                         </div>
-
-                    </div>
-                    <div class="col-md-6">
-                        <mat-form-field class="gt-xs:pr-3 inputNewRegister" *ngIf="addContact?.value && !esClient || esClient">
-                            <mat-label>RFC</mat-label>
-                            <input formControlName="rfc" matInput>
-                        </mat-form-field>
-
-                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
-                            <mat-label>Teléfono</mat-label>
-                            <input formControlName="phone" matInput>
-                        </mat-form-field>
-
-                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister" *ngIf="addContact?.value && !esClient || esClient">
-                            <mat-label>Propietario (agente)</mat-label>
-                            <mat-select formControlName="agent" placeholder="Seleccionar">
-                                <mat-option value="Propietario (agente) 1">Propietario (agente) 1</mat-option>
-                                <mat-option value="Propietario (agente) 2">Propietario (agente) 2</mat-option>
-                                <mat-option value="Propietario (agente) 3">Propietario (agente) 3</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-
-                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister" *ngIf="addContact?.value && !esClient || esClient">
-                            <mat-label>Estado</mat-label>
-                            <mat-select formControlName="state" placeholder="Seleccionar">
-                                <mat-option value="Estado* 1">Estado* 1</mat-option>
-                                <mat-option value="Estado* 2">Estado* 2</mat-option>
-                                <mat-option value="Estado* 3">Estado* 3</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-
-                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister" *ngIf="addContact?.value && !esClient || esClient">
-                            <mat-label>Domicilio</mat-label>
-                            <input formControlName="adress" matInput>
-                        </mat-form-field>
-
-                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
-                            <mat-label>Origen</mat-label>
-                            <mat-select formControlName="origin" placeholder="Seleccionar">
-                                <mat-option value="Origen* 1">Origen* 1</mat-option>
-                                <mat-option value="Origen* 2">Origen* 2</mat-option>
-                                <mat-option value="Origen* 3">Origen* 3</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-
-                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister" *ngIf="addContact?.value && !esClient || esClient">
-                            <mat-label>Tipo empresa</mat-label>
-                            <mat-select formControlName="companyType" placeholder="Seleccionar">
-                                <mat-option value="Tipo empresa* 1">Tipo empresa* 1</mat-option>
-                                <mat-option value="Tipo empresa* 2">Tipo empresa* 2</mat-option>
-                                <mat-option value="Tipo empresa* 3">Tipo empresa* 3</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-
-
-                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
-                            <mat-label>Comentario*</mat-label>
-                            <textarea formControlName="comments" matInput style="height: 118px;"></textarea>
-                        </mat-form-field>
                     </div>
                 </div>
 

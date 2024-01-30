@@ -35,7 +35,7 @@ const dashboardRoutes: Routes = [
 				component: NewBonoComponent,
 			},
 			{
-				path: 'campañas',
+				path: 'campanias',
 				component: CampaignsComponent,
 			},
 			{

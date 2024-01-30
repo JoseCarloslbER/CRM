@@ -2,7 +2,8 @@
 
     <div class="return-header">
         <mat-icon svgIcon="mat_solid:arrow_back" (click)="toBack()"></mat-icon>
-        <p class="titulo-modal form-padding-title">{{ url.includes('editar') ? 'Editar' : url.includes('clonar') ? 'Clonar' : 'Registrar
+        <p class="titulo-modal form-padding-title">{{ url.includes('editar') ? 'Editar' : url.includes('clonar') ?
+            'Clonar' : 'Registrar
             nueva' }} campaña</p>
     </div>
 
@@ -13,51 +14,11 @@
         <form class="col-12" [formGroup]="formData">
             <div>
                 <div class="row">
-                    <div class="col-md-6">
 
+                    <div class="col-md-4">
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Código</mat-label>
                             <input formControlName="code" matInput>
-                        </mat-form-field>
-
-                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
-                            <mat-label>Monto invertido</mat-label>
-                            <input formControlName="amountInvested" class="text-right" matInput>
-                            <span matPrefix>$</span>
-                        </mat-form-field>
-
-                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
-                            <mat-label>Agente encargado</mat-label>
-                            <mat-select formControlName="agentCharge" placeholder="Seleccionar">
-                                <mat-option value="giro1">Agente fijo 1</mat-option>
-                                <mat-option value="Agente fijo2">Agente 2</mat-option>
-                                <mat-option value="Teléfono fijo3">Agente 3</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-
-                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
-                            <mat-label>Agentes</mat-label>
-                            <mat-select formControlName="agents" placeholder="Seleccionar">
-                                <mat-option value="">Agentes</mat-option>
-                                <mat-option value="">Agentes</mat-option>
-                                <mat-option value="">Agentes</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-
-                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
-                            <mat-label>Solución</mat-label>
-                            <mat-select formControlName="solution" placeholder="Seleccionar">
-                                <mat-option value="">Solución 1</mat-option>
-                                <mat-option value="">Solución 2</mat-option>
-                                <mat-option value="">Solución 3</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-
-                    <div class="col-md-6">
-                        <mat-form-field class="gt-xs:pr-3 inputNewRegister">
-                            <mat-label>Nombre de la campaña</mat-label>
-                            <input formControlName="campaignName" matInput>
                         </mat-form-field>
 
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
@@ -70,9 +31,53 @@
                         </mat-form-field>
 
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
+                            <mat-label>Agentes</mat-label>
+                            <mat-select formControlName="agents" placeholder="Seleccionar">
+                                <mat-option value="">Agentes</mat-option>
+                                <mat-option value="">Agentes</mat-option>
+                                <mat-option value="">Agentes</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                    </div>
+
+                    <div class="col-md-4">
+                        <mat-form-field class="gt-xs:pr-3 inputNewRegister">
+                            <mat-label>Nombre de la campaña</mat-label>
+                            <input formControlName="campaignName" matInput>
+                        </mat-form-field>
+
+                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
+                            <mat-label>Agente encargado</mat-label>
+                            <mat-select formControlName="agentCharge" placeholder="Seleccionar">
+                                <mat-option value="giro1">Agente fijo 1</mat-option>
+                                <mat-option value="Agente fijo2">Agente 2</mat-option>
+                                <mat-option value="Teléfono fijo3">Agente 3</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
+                            <mat-label>Solución</mat-label>
+                            <mat-select formControlName="solution" placeholder="Seleccionar">
+                                <mat-option value="">Solución 1</mat-option>
+                                <mat-option value="">Solución 2</mat-option>
+                                <mat-option value="">Solución 3</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                    </div>
+
+                    <div class="col-md-4">
+                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
+                            <mat-label>Monto invertido</mat-label>
+                            <input formControlName="amountInvested" class="text-right" matInput>
+                            <span matPrefix>$</span>
+                        </mat-form-field>
+
+                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Periodo</mat-label>
-                            <mat-date-range-input [max]="fechaHoy"
-                                [rangePicker]="campaignOnePicker" [comparisonStart]="" [comparisonEnd]="">
+                            <mat-date-range-input [max]="fechaHoy" [rangePicker]="campaignOnePicker"
+                                [comparisonStart]="" [comparisonEnd]="">
                                 <input matStartDate formControlName="periodStart" placeholder="Inicio" />
                                 <input matEndDate formControlName="periodEnd" placeholder="Final" />
                             </mat-date-range-input>
@@ -87,7 +92,6 @@
                         </mat-form-field>
                     </div>
                 </div>
-
 
                 <div class="row d-flex align-items-center">
                     <form class="row" [formGroup]="formFilters">
@@ -120,7 +124,7 @@
                         </div>
                     </form>
 
-               
+
                 </div>
 
                 <div class="row mb-5">
@@ -160,38 +164,39 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                                 <mat-label>Total de empresas a alcanzar</mat-label>
                                 <input formControlName="totalCompanies" matInput>
                             </mat-form-field>
 
                             <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
-                                <mat-label>Cantidad de cotizaciones</mat-label>
-                                <input formControlName="numberQuotes" matInput>
-                            </mat-form-field>
-                        </div>
-                        <div class="col-md-6">
-                            <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                                 <mat-label>Cantidad de respuestas</mat-label>
                                 <input formControlName="numberResponses" matInput>
                             </mat-form-field>
 
-                            <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
-                                <mat-label>Cantidad de cierres de venta</mat-label>
-                                <input formControlName="numberClose" matInput>
-                            </mat-form-field>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
+                            <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
+                                <mat-label>Cantidad de cotizaciones</mat-label>
+                                <input formControlName="numberQuotes" matInput>
+                            </mat-form-field>
+
                             <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                                 <mat-label>Monto total</mat-label>
                                 <input class="text-right" formControlName="totalAmount" matInput>
                                 <span matPrefix>$</span>
                             </mat-form-field>
                         </div>
+
+                        <div class="col-md-4">
+                            <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
+                                <mat-label>Cantidad de cierres de venta</mat-label>
+                                <input formControlName="numberClose" matInput>
+                            </mat-form-field>
+                        </div>
                     </div>
+
                 </div>
 
                 <div class="row d-flex justify-content-end align-items-center mb-3 mt-5">

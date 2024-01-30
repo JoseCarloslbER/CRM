@@ -15,48 +15,29 @@
         <form class="col-12 new-content">
             <div>
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
 
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Nombre de la empresa (razón social)*</mat-label>
                             <input matInput>
                         </mat-form-field>
-
-                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister" *ngIf="addContact?.value">
-                            <mat-label>Correo</mat-label>
-                            <input matInput required type="email">
+                        
+                        <mat-form-field class="gt-xs:pr-3 inputNewRegister" *ngIf="!addContact?.value">
+                            <mat-label>Teléfono móvil*</mat-label>
+                            <input matInput>
                         </mat-form-field>
 
-                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
-                            <mat-label>Teléfono fijo*</mat-label>
+                        <mat-form-field class="gt-xs:pr-3 inputNewRegister" *ngIf="addContact?.value">
+                            <mat-label>Teléfono</mat-label>
                             <input matInput>
                         </mat-form-field>
 
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister" *ngIf="addContact?.value">
-                            <mat-label>País</mat-label>
+                            <mat-label>Estado*</mat-label>
                             <mat-select placeholder="Seleccionar">
-                                <mat-option value="Pais 1">País 1</mat-option>
-                                <mat-option value="País 2">País 2</mat-option>
-                                <mat-option value="País 3">País 3</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-
-                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister" *ngIf="addContact?.value">
-                            <mat-label>Ciudad</mat-label>
-                            <mat-select placeholder="Seleccionar">
-                                <mat-option value="Pais 1">Ciudad 1</mat-option>
-                                <mat-option value="Ciudad 2">Ciudad 2</mat-option>
-                                <mat-option value="Ciudad 3">Ciudad 3</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-
-
-                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
-                            <mat-label>Origen</mat-label>
-                            <mat-select placeholder="Seleccionar">
-                                <mat-option value="Pais 1">Pais 1</mat-option>
-                                <mat-option value="Pais 2">Pais 2</mat-option>
-                                <mat-option value="Pais 3">Pais 3</mat-option>
+                                <mat-option value="Pais 1">Estado 1</mat-option>
+                                <mat-option value="Estado 2">Estado 2</mat-option>
+                                <mat-option value="Estado 3">Estado 3</mat-option>
                             </mat-select>
                         </mat-form-field>
 
@@ -69,9 +50,16 @@
                             </mat-select>
                         </mat-form-field>
 
-
-
-
+                        
+                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister" *ngIf="addContact?.value">
+                            <mat-label>Tipo de empresa*</mat-label>
+                            <mat-select placeholder="Seleccionar">
+                                <mat-option value="Pais 1">Tipo de empresa 1</mat-option>
+                                <mat-option value="Tipo de empresa 2">Tipo de empresa 2</mat-option>
+                                <mat-option value="Tipo de empresa 3">Tipo de empresa 3</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                   
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Comentario*</mat-label>
                             <textarea matInput style="height: 118px;"></textarea>
@@ -79,29 +67,25 @@
 
                     </div>
 
-                    <div class="col-md-6">
+                    <div class="col-md-4">
+
                         <mat-form-field class="gt-xs:pr-3 inputNewRegister" *ngIf="!addContact?.value">
                             <mat-label>Contacto*</mat-label>
                             <input matInput>
                         </mat-form-field>
 
-                        <mat-form-field class="gt-xs:pr-3 inputNewRegister" *ngIf="!addContact?.value">
-                            <mat-label>Teléfono móvil*</mat-label>
-                            <input matInput>
-                        </mat-form-field>
-
-                        <mat-form-field class="gt-xs:pr-3 inputNewRegister" *ngIf="!addContact?.value">
-                            <mat-label>Página web*</mat-label>
-                            <input matInput>
+                        
+                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
+                            <mat-label>Origen</mat-label>
+                            <mat-select placeholder="Seleccionar">
+                                <mat-option value="Pais 1">Pais 1</mat-option>
+                                <mat-option value="Pais 2">Pais 2</mat-option>
+                                <mat-option value="Pais 3">Pais 3</mat-option>
+                            </mat-select>
                         </mat-form-field>
 
                         <mat-form-field class="gt-xs:pr-3 inputNewRegister" *ngIf="addContact?.value">
                             <mat-label>RFC*</mat-label>
-                            <input matInput>
-                        </mat-form-field>
-
-                        <mat-form-field class="gt-xs:pr-3 inputNewRegister" *ngIf="addContact?.value">
-                            <mat-label>Teléfono</mat-label>
                             <input matInput>
                         </mat-form-field>
 
@@ -115,27 +99,14 @@
                         </mat-form-field>
 
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister" *ngIf="addContact?.value">
-                            <mat-label>Estado*</mat-label>
+                            <mat-label>Ciudad</mat-label>
                             <mat-select placeholder="Seleccionar">
-                                <mat-option value="Pais 1">Estado 1</mat-option>
-                                <mat-option value="Estado 2">Estado 2</mat-option>
-                                <mat-option value="Estado 3">Estado 3</mat-option>
+                                <mat-option value="Pais 1">Ciudad 1</mat-option>
+                                <mat-option value="Ciudad 2">Ciudad 2</mat-option>
+                                <mat-option value="Ciudad 3">Ciudad 3</mat-option>
                             </mat-select>
                         </mat-form-field>
 
-                        <mat-form-field class="gt-xs:pr-3 inputNewRegister" *ngIf="addContact?.value">
-                            <mat-label>Domicilio</mat-label>
-                            <input matInput placeholder="Colonia, calle y número">
-                        </mat-form-field>
-
-                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister" *ngIf="addContact?.value">
-                            <mat-label>Tipo de empresa*</mat-label>
-                            <mat-select placeholder="Seleccionar">
-                                <mat-option value="Pais 1">Tipo de empresa 1</mat-option>
-                                <mat-option value="Tipo de empresa 2">Tipo de empresa 2</mat-option>
-                                <mat-option value="Tipo de empresa 3">Tipo de empresa 3</mat-option>
-                            </mat-select>
-                        </mat-form-field>
 
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister" *ngIf="addContact?.value">
                             <mat-label>Tamaño de empresa</mat-label>
@@ -145,6 +116,41 @@
                                 <mat-option value="Tamaño de empresa 3">Tamaño de empresa 3</mat-option>
                             </mat-select>
                         </mat-form-field>
+                        
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
+                            <mat-label>Teléfono fijo*</mat-label>
+                            <input matInput>
+                        </mat-form-field>
+
+                        <mat-form-field class="gt-xs:pr-3 inputNewRegister" *ngIf="!addContact?.value">
+                            <mat-label>Página web*</mat-label>
+                            <input matInput>
+                        </mat-form-field>
+
+                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister" *ngIf="addContact?.value">
+                            <mat-label>Correo</mat-label>
+                            <input matInput required type="email">
+                        </mat-form-field>
+
+                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister" *ngIf="addContact?.value">
+                            <mat-label>País</mat-label>
+                            <mat-select placeholder="Seleccionar">
+                                <mat-option value="Pais 1">País 1</mat-option>
+                                <mat-option value="País 2">País 2</mat-option>
+                                <mat-option value="País 3">País 3</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <mat-form-field class="gt-xs:pr-3 inputNewRegister" *ngIf="addContact?.value">
+                            <mat-label>Domicilio</mat-label>
+                            <input matInput placeholder="Colonia, calle y número">
+                        </mat-form-field>
+
+                 
 
                         <div class="flex-auto gt-xs:pr-3 width-100 mt-4 mb-4" *ngIf="addContact?.value">
                             <div class="row d-flex up">
@@ -161,6 +167,8 @@
                                 </div>
                             </div>
                         </div>
+
+
                     </div>
                 </div>
 
@@ -171,25 +179,17 @@
                 </div>
 
                 <div class="row mt-5" *ngFor="let ejecucion of valuesContacts; let i = index;">
-                    <div class="col-md-6">
-
+                    <div class="col-md-4">
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Nombre y apellidos</mat-label>
                             <input matInput [formControl]="ejecucion.nombreControl">
                         </mat-form-field>
-
-                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
-                            <mat-label>Correo</mat-label>
-                            <input matInput [formControl]="ejecucion.correoControl">
-                        </mat-form-field>
-
-
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Teléfono fijo</mat-label>
                             <input matInput [formControl]="ejecucion.telefonoControl">
                         </mat-form-field>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Cargo / Puesto</mat-label>
                             <input matInput [formControl]="ejecucion.cargoControl">
@@ -199,7 +199,13 @@
                             <mat-label>Teléfono móvil</mat-label>
                             <input matInput [formControl]="ejecucion.movilControl">
                         </mat-form-field>
+                    </div>
 
+                    <div class="col-md-4">
+                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
+                            <mat-label>Correo</mat-label>
+                            <input matInput [formControl]="ejecucion.correoControl">
+                        </mat-form-field>
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Extención</mat-label>
                             <input matInput [formControl]="ejecucion.extensionControl">
@@ -274,14 +280,14 @@
                     <form *ngIf="productFormValues?.length">
 
                         <div class="row" *ngFor="let control of productFormValues; let i = index;">
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                                     <mat-label>Lugares</mat-label>
                                     <input class="text-right" [formControl]="control.unitPriControl" matInput>
                                 </mat-form-field>
                             </div>
 
-                            <div class="col-md-3">
+                            <div class="col-md-6">
                                 <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                                     <mat-label>Producto</mat-label>
                                     <mat-select [formControl]="control.productControl" placeholder="Seleccionar">
@@ -292,7 +298,7 @@
                                 </mat-form-field>
                             </div>
 
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                                     <mat-label>Precio unitario</mat-label>
                                     <input class="text-right" [formControl]="control.unitPriControl" matInput>
@@ -300,7 +306,7 @@
                                 </mat-form-field>
                             </div>
 
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                                     <mat-label>Precio total</mat-label>
                                     <input class="text-right" [formControl]="control.totalPricePriControl" matInput>
@@ -319,14 +325,13 @@
                         </div>
                     </form>
 
-                    <div class="row mt-5 mb-5 d-flex justify-content-end">
-                        <div class="col-md-4 col-xl-3 col-12">
-                            <button mat-flat-button class="btn-action-add width-100" (click)="addFormProduct()">
-                                <span>Agregar más productos</span>
+                    <div class="row mt-5 mb-5 d-flex justify-content-end ">
+                        <div class="col-md-4 col-xl-3 col-12 d-flex justify-content-end">
+                            <button mat-flat-button class="btn-action-add btn-action-add-width" (click)="addFormProduct()">
+                                <span>Agregar más ítems</span>
                             </button>
                         </div>
                     </div>
-
 
                     <div class="row">
                         <div class="col-md-3">
@@ -351,13 +356,12 @@
                             </mat-form-field>
                         </div>
 
-                        <div class="col-md-3 d-flex align-items-center justify-content-center">
+                        <div class="col-md-3 d-flex align-items-center justify-content-start">
                             <button class="recalculate mb-5">
                                 <span>Recalcular</span>
                             </button>
                         </div>
                     </div>
-
 
                     <div class="row promotion">
                         <span>Vigencia promoción 1</span>
@@ -396,22 +400,24 @@
             </form>
 
             <div class="row d-flex mb-6 mt-6">
-                <div class="col-md-4 col-xl-3 col-12">
-                    <button mat-flat-button class="btn-action-add width-100" (click)="addFormOption()">
+                <div class="col-md-4 col-xl-3 col-12 ">
+                    <button mat-flat-button class="btn-action-add btn-action-add-option-width" (click)="addFormOption()">
                         <span>Agregar más opciones</span>
                     </button>
                 </div>
             </div>
 
+            <br>
+
             <div class="row d-flex justify-content-end create mt-6">
-                <div class="d-flex col-md-4 col-xl-3 col-12 pt-md-1 align-items-end mb-lg-0 mb-5 mb-sm-0">
-                    <button mat-flat-button class="btn-gray width-100" (click)="newDataProduct()">
+                <div class="d-flex col-md-4 col-xl-3 col-12 d-flex justify-content-end pt-md-1 align-items-end mb-lg-0 mb-5 mb-sm-0">
+                    <button mat-flat-button class="btn-gray " (click)="newDataProduct()">
                         <span>Crear nuevo producto</span>
                     </button>
                 </div>
 
-                <div class="d-flex col-md-4 col-xl-3 col-12 pt-md-1 align-items-end mb-lg-0 mb-5 mb-sm-0">
-                    <button mat-flat-button class="btn-yellow width-100" (click)="save()">
+                <div class="d-flex col-md-4 col-xl-2 col-12 d-flex justify-content-end pt-md-1 align-items-end mb-lg-0 mb-5 mb-sm-0">
+                    <button mat-flat-button class="btn-yellow" (click)="save()">
                         <span>Guardar cotización</span>
                     </button>
                 </div>
