@@ -1,5 +1,4 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
@@ -8,7 +7,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ModalAgentsComponent } from './modal-agents/modal-agents.component';
 import { ModalBonusProgressComponent } from './modal-bonus-progress/modal-bonus-progress.component';
-import { Subject } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
+import { DashboardService } from '../dashboard.service';
+import * as entidades from '../dashboard-interface';
+
 
 @Component({
   selector: 'app-goals',
@@ -28,8 +30,6 @@ export class GoalsComponent implements OnInit, AfterViewInit, OnDestroy {
   public longitudPaginaGoals = 50;
   public totalGoals = 0;
   public indicePaginaGoals = 0;
-
-
 
   // TABLA 
 
@@ -143,6 +143,7 @@ export class GoalsComponent implements OnInit, AfterViewInit, OnDestroy {
   ]
 
   constructor(
+    private moduleServices: DashboardService,
     private notificationService: OpenModalsService,
     private formBuilder: FormBuilder,
     private dialog: MatDialog,
@@ -160,6 +161,27 @@ export class GoalsComponent implements OnInit, AfterViewInit, OnDestroy {
   ngAfterViewInit(): void {
     
   }
+
+  getGoalsTable() {
+    this.moduleServices.getGoalsTable().pipe(takeUntil(this.onDestroy)).subscribe({
+      next: ({ data }: entidades.DataCampaingsHistoryTable) => {
+        console.log(data);
+      },
+      error: (error) => console.error(error)
+    })
+  }
+
+  getGoalsHistors() {
+    this.moduleServices.getGoalsHistors().pipe(takeUntil(this.onDestroy)).subscribe({
+      next: ({ data }: entidades.DataCampaingsHistoryTable) => {
+        console.log(data);
+      },
+      error: (error) => console.error(error)
+    })
+  }
+  
+
+
 
   editData(data: any) {
     this.router.navigateByUrl(`home/dashboard/editar-meta/1`)

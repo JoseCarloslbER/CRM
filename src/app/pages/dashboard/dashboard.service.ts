@@ -15,7 +15,7 @@ export class DashboardService {
 
   // DASHBOARD 
 
-  public getDashboardProductsMaterial(filters:any): Observable<any> {
+  public getDashboardProductsMaterial(filters:entidades.DataTableFilters): Observable<any> {
 		const url = `${environment.apiURL}/`;
 
     return this.http.get<any>(url)
@@ -103,7 +103,7 @@ export class DashboardService {
   
   // CAMPAINGS
   
-  public getCampaingsTable(filters:any): Observable<any> {
+  public getCampaings(filters:any): Observable<any> {
 		const url = `${environment.apiURL}/`;
 
     return this.http.get<any>(url)
@@ -121,7 +121,7 @@ export class DashboardService {
     return this.http.get<any>(url)
 	}
 
-  public getCampaingsHistory(filters:any): Observable<any> {
+  public getCampaingsHistoryTable(filters:any): Observable<any> {
 		const url = `${environment.apiURL}/`;
 
     return this.http.get<entidades.DataCampaingsHistoryTable>(url)

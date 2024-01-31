@@ -1,20 +1,21 @@
-import { Component, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { OpenModalsService } from 'app/shared/services/openModals.service';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTabChangeEvent } from '@angular/material/tabs';
-import { CompaniesService } from 'app/pages/companies/companies.service';
+import { DashboardService } from '../dashboard.service';
+import { Subject, takeUntil } from 'rxjs';
+import * as entidades from '../dashboard-interface';
 
 @Component({
   selector: 'app-pipeline',
   templateUrl: './pipeline.component.html',
   styleUrl: './pipeline.component.scss'
 })
-export class PipelineComponent {
+export class PipelineComponent implements OnInit, AfterViewInit, OnDestroy {
+  private onDestroy = new Subject<void>();
+
   public dataSource = new MatTableDataSource<any>([]);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   public longitudPagina = 50;
@@ -34,7 +35,6 @@ export class PipelineComponent {
     'acciones',
     'operaciones'
   ];
-
 
   public dataDummy: any[] = [
     {
@@ -79,9 +79,6 @@ export class PipelineComponent {
     }
   ]
 
-  public fechaHoy = new Date();
-
-
   public formFilters = this.formBuilder.group({
     client: [{ value: null, disabled: false }],
     agent: [{ value: null, disabled: false }],
@@ -90,11 +87,11 @@ export class PipelineComponent {
     rangeDateEnd: [{ value: null, disabled: false }],
   });
 
+  public fechaHoy = new Date();
+
   constructor(
-    private moduleServices: CompaniesService,
-    private notificationService: OpenModalsService,
+    private moduleServices: DashboardService,
     private formBuilder: FormBuilder,
-    private dialog: MatDialog,
     private router: Router
   ) { }
 
@@ -102,47 +99,33 @@ export class PipelineComponent {
     this.dataSource.data = this.dataDummy
   }
 
+  ngAfterViewInit(): void {
+    
+  }
+
   searchWithFilters() {
     console.log(this.formFilters.value);
-  }
-
-  seeQuote(data:any) {
-    this.router.navigateByUrl(`/home/conversion/detalle-cotizacion/${1}`)
-  }
-
-  editData(data:any) {
-    this.router.navigateByUrl(`/home/conversion/nueva-cotizacion`)
-  }
-
-  newData() {
-    this.router.navigateByUrl(`/home/conversion/nueva-cotizacion`)
-  }
-
-  seeTicket() {
-  
   }
 
   newDataQuote() {
     this.router.navigateByUrl(`/home/conversion/nueva-cotizacion`)
   }
-
-
   
+  getPipeline(filters:entidades.DataTableFilters) {
+    this.moduleServices.getPipeline(filters).pipe(takeUntil(this.onDestroy)).subscribe({
+      next: ({ data }: entidades.DataProductsTable) => {
+        console.log(data);
+      },
+      error: (error) => console.error(error)
+    })
+  }
+
   onTabChange(event: MatTabChangeEvent): void {
     console.log(event.tab.textLabel);
   }
 
-  downloadPdf() {
-    this.notificationService
-    .notificacion(
-      'Éxito',
-      'PDF descargado.',
-      'save',
-      'mat_outline:picture_as_pdf'
-    )
-    .afterClosed()
-    .subscribe((_) => {
-
-    });
+  ngOnDestroy(): void {
+    this.onDestroy.next();
+    this.onDestroy.unsubscribe();
   }
 }

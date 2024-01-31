@@ -1,19 +1,19 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
-import { FuseConfirmationService } from '@fuse/services/confirmation/confirmation.service';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { ApexOptions } from 'apexcharts';
+import { Subject, takeUntil } from 'rxjs';
+import { DashboardService } from '../dashboard.service';
+import * as entidades from '../dashboard-interface';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
-
-  public fechaHoy = new Date();
-
-  public chartWeeklyExpenses: ApexOptions = {};
-  public chartGithubIssues: ApexOptions = {};
+export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
+  private onDestroy = new Subject<void>();
 
   public displayedColumnsRegister: string[] = [
     'name',
@@ -84,7 +84,7 @@ export class HomeComponent implements OnInit {
     },
   ]
 
-  data = {
+  public data = {
     visitors: {
       series: {
         "this-year": [
@@ -1710,7 +1710,7 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  chartVisitorsVsPageViews = {
+  public chartVisitorsVsPageViews = {
     chart: {
       animations: {
         enabled: false,
@@ -1787,7 +1787,6 @@ export class HomeComponent implements OnInit {
     },
   };
 
-
   public formFilters = this.formBuilder.group({
     user: [{ value: null, disabled: false }],
     giro: [{ value: null, disabled: false }],
@@ -1796,11 +1795,18 @@ export class HomeComponent implements OnInit {
     rangeDateEnd: [{ value: null, disabled: false }],
   });
 
+  public chartWeeklyExpenses: ApexOptions = {};
+  public chartGithubIssues: ApexOptions = {};
+
   public selectedProject: string = 'Productos';
 
+  public fechaHoy = new Date();
+
   constructor(
-    private notificationService: FuseConfirmationService,
-    private formBuilder: FormBuilder
+    private moduleServices: DashboardService,
+    private dialog: MatDialog,
+    private formBuilder: FormBuilder,
+    private router: Router
   ) {
 
   }
@@ -1960,23 +1966,107 @@ export class HomeComponent implements OnInit {
     };
   }
 
+  ngAfterViewInit(): void {
+
+  }
+
   SearchWithFilters() {
     console.log(this.formFilters.value);
   }
 
-  probar() {
-    this.notificationService.open(
-      {
-        title: 'hola',
-        actions: {
-          confirm: {
-            show: true,
-            color: 'warn'
-          }
-        }
-      }
-    )
+  getDashboardProductsMaterial(filters: entidades.DataTableFilters) {
+    this.moduleServices.getDashboardProductsMaterial(filters).pipe(takeUntil(this.onDestroy)).subscribe({
+      next: ({ data }: entidades.DataProductsTable) => {
+        console.log(data);
+      },
+      error: (error) => console.error(error)
+    })
   }
 
+  getDataProductsTable(filters: entidades.DataTableFilters) {
+    this.moduleServices.getDashboardProductsTable().pipe(takeUntil(this.onDestroy)).subscribe({
+      next: ({ data }: entidades.DataProductsTable) => {
+        console.log(data);
+      },
+      error: (error) => console.error(error)
+    })
+  }
+
+  getDataArticlesTable(filters: entidades.DataTableFilters) {
+    this.moduleServices.getDashboardArticlesTable().pipe(takeUntil(this.onDestroy)).subscribe({
+      next: ({ data }: entidades.DataArticlesTable) => {
+        console.log(data);
+      },
+      error: (error) => console.error(error)
+    })
+  }
+
+  getDashboardSells(filters: entidades.DataTableFilters) {
+    this.moduleServices.getDashboardSells().pipe(takeUntil(this.onDestroy)).subscribe({
+      next: ({ data }: entidades.DataArticlesTable) => {
+        console.log(data);
+      },
+      error: (error) => console.error(error)
+    })
+  }
+
+  getDashboardQuotes(filters: entidades.DataTableFilters) {
+    this.moduleServices.getDashboardSells().pipe(takeUntil(this.onDestroy)).subscribe({
+      next: ({ data }: entidades.DataArticlesTable) => {
+        console.log(data);
+      },
+      error: (error) => console.error(error)
+    })
+  }
+ 
+  getDashboardSellsStatistics(filters: entidades.DataTableFilters) {
+    this.moduleServices.getDashboardSellsStatistics().pipe(takeUntil(this.onDestroy)).subscribe({
+      next: ({ data }: entidades.DataArticlesTable) => {
+        console.log(data);
+      },
+      error: (error) => console.error(error)
+    })
+  }
+
+  getDashboardQuotesStatistics(filters: entidades.DataTableFilters) {
+    this.moduleServices.getDashboardQuotesStatistics().pipe(takeUntil(this.onDestroy)).subscribe({
+      next: ({ data }: entidades.DataArticlesTable) => {
+        console.log(data);
+      },
+      error: (error) => console.error(error)
+    })
+  }
+
+  getDashboardCompaniesStatistics(filters: entidades.DataTableFilters) {
+    this.moduleServices.getDashboardCompaniesStatistics().pipe(takeUntil(this.onDestroy)).subscribe({
+      next: ({ data }: entidades.DataArticlesTable) => {
+        console.log(data);
+      },
+      error: (error) => console.error(error)
+    })
+  }
+
+  getDashboardClientsStatisticsTable(filters: entidades.DataTableFilters) {
+    this.moduleServices.getDashboardClientsStatisticsTable().pipe(takeUntil(this.onDestroy)).subscribe({
+      next: ({ data }: entidades.DataClientsStatisticsTable) => {
+        console.log(data);
+      },
+      error: (error) => console.error(error)
+    })
+  }
+
+  getDashboardCountriesStatisticsTable(filters: entidades.DataTableFilters) {
+    this.moduleServices.getDashboardCountriesStatisticsTable().pipe(takeUntil(this.onDestroy)).subscribe({
+      next: ({ data }: entidades.DataCountryStatisticsTable) => {
+        console.log(data);
+      },
+      error: (error) => console.error(error)
+    })
+  }
+
+  ngOnDestroy(): void {
+    this.onDestroy.next();
+    this.onDestroy.unsubscribe();
+  }
 }
 

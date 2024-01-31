@@ -62,17 +62,14 @@ export interface DataCampaingsHistoryTable {
 }
 
 export interface TableDataCampaingsHistoryList {
-   country: string,
-   amount: string,
-}
-
-export interface DataCampaingsHistoryTable {
-  data : TableDataCampaingsHistoryList[]
-}
-
-export interface TableDataCampaingsHistoryList {
-   country: string,
-   amount: string,
+   name: string,
+   type: string,
+   period: string,
+   companies: string,
+   amountInvested: string,
+   results: string,
+   quotes: string,
+   sells: string,
 }
 
 export interface DataGoalsTable {

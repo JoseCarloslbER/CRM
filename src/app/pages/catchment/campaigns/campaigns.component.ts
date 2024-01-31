@@ -177,10 +177,6 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
     },
   ]
 
-  public fechaHoy = new Date();
-
-  public searchBar = new FormControl('')
-
   public formFilters = this.formBuilder.group({
     status: [{ value: null, disabled: false }],
     giro: [{ value: null, disabled: false }],
@@ -188,6 +184,11 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
     rangeDateStart: [{ value: null, disabled: false }],
     rangeDateEnd: [{ value: null, disabled: false }],
   });
+
+  public fechaHoy = new Date();
+
+  public searchBar = new FormControl('')
+
 
   constructor(
     private moduleServices: CatchmentService,
