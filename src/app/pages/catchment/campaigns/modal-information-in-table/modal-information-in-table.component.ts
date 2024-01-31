@@ -5,7 +5,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { modalInfoTable } from 'app/shared/interfaces/TableColumns';
 import { Subject, takeUntil } from 'rxjs';
 import { CatchmentService } from '../../catchment.service';
-import { DataTableAgents, DataTableCompanies } from '../../catchment-interface';
+import { DataAgentsTable, DataTableCompanies } from '../../catchment-interface';
 
 @Component({
   selector: 'app-modal-information-in-table',
@@ -217,7 +217,7 @@ export class ModalInformationInTableComponent implements OnInit, OnDestroy {
 
   getAgents() {
     this.moduleServices.getDataAgents('').pipe(takeUntil(this.onDestroy)).subscribe({
-      next: ({ data }: DataTableAgents) => {
+      next: ({ data }: DataAgentsTable) => {
         this.dataSource.data = data;
       },
       error: (error) => console.error(error)

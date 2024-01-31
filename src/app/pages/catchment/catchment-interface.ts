@@ -33,7 +33,7 @@ export interface TableDataList {
     lastContactDate: string,
 }
 
-export interface DataTableAgents {
+export interface DataAgentsTable {
    data : TableDataAgentsList[]
 }
 

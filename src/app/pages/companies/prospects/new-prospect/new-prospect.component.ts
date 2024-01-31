@@ -10,7 +10,6 @@ import { CompaniesService } from '../../companies.service';
 @Component({
   selector: 'app-new-prospect',
   templateUrl: './new-prospect.component.html',
-  styleUrl: './new-prospect.component.scss'
 })
 export class NewProspectComponent implements OnInit, AfterViewInit, OnDestroy {
   private onDestroy = new Subject<void>();
