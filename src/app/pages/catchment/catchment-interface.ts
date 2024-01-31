@@ -1,3 +1,10 @@
+export interface DataTableFilters {
+  status : string;
+  giro   : string;
+  campaing : string;
+  dateRange: string;
+}
+
 export interface DataTable {
    data : TableDataList[]
 }
@@ -24,4 +31,27 @@ export interface TableDataList {
     history: string,
     origin: string,
     lastContactDate: string,
+}
+
+export interface DataAgentsTable {
+   data : TableDataAgentsList[]
+}
+
+export interface TableDataAgentsList {
+    agent: string,
+    rol: string,
+    ip: string,
+    extension: string,
+   
+}
+
+export interface DataTableCompanies {
+   data : TableDataCompaniesList[]
+}
+
+export interface TableDataCompaniesList {
+    company: string,
+    contact: string,
+    status: string,
+    
 }

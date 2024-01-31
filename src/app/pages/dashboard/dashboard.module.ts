@@ -14,6 +14,7 @@ import { ModalAgentsComponent } from './goals/modal-agents/modal-agents.componen
 import { NewQuoteOrClientComponent } from './new-quote-or-client/new-quote-or-client.component';
 import { NewQuoteOrProspectComponent } from './new-quote-or-prospect/new-quote-or-prospect.component';
 import { TableComponent } from './home/table/table.component';
+import { ModalCompaniesComponent } from './campaigns/modal-companies/modal-companies.component';
 
 
 
@@ -28,7 +29,8 @@ import { TableComponent } from './home/table/table.component';
     ModalAgentsComponent,
     NewQuoteOrClientComponent,
     NewQuoteOrProspectComponent,
-    TableComponent
+    TableComponent,
+    ModalCompaniesComponent
   ],
   imports: [
     CommonModule,

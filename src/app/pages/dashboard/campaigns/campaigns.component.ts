@@ -1,16 +1,15 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatTabChangeEvent } from '@angular/material/tabs';
-import { FuseConfirmationService } from '@fuse/services/confirmation/confirmation.service';
 import { ApexOptions } from 'apexcharts';
 import { MatDialog } from '@angular/material/dialog';
-import { ModalCampaignResultsComponent } from 'app/pages/catchment/campaigns/modal-campaign-results/modal-campaign-results.component';
-import { ModalInformationInTableComponent } from 'app/shared/components/modal-information-in-table/modal-information-in-table.component';
 import { Router } from '@angular/router';
-import { Subject } from 'rxjs';
-
+import { Subject, takeUntil } from 'rxjs';
+import { DashboardService } from '../dashboard.service';
+import * as entidades from '../dashboard-interface';
+import { ModalCompaniesComponent } from './modal-companies/modal-companies.component';
 
 @Component({
   selector: 'app-campaigns',
@@ -19,7 +18,6 @@ import { Subject } from 'rxjs';
 })
 export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
   private onDestroy = new Subject<void>();
-
 
   public dataSource = new MatTableDataSource<any>([]);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -38,7 +36,6 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
     'sells',
   ];
 
-  
   private companyInfoColumns: string[] = [
     'company',
     'contact',
@@ -145,7 +142,6 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ]
 
-
   public dataDummy: any[] = [
     {
       campaign: 'Nombre 1',
@@ -212,7 +208,7 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
   
   ]
 
-  data = {
+  public data = {
     visitors: {
       series: {
         "this-year": [
@@ -1838,7 +1834,7 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
   
-  chartVisitorsVsPageViews = {
+  public chartVisitorsVsPageViews = {
     chart     : {
         animations: {
             enabled: false,
@@ -1930,22 +1926,17 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
   public selectedProject: string = 'Estadísticas';
 
   constructor(
+    private moduleServices: DashboardService,
     private dialog: MatDialog,
-    private notificationService: FuseConfirmationService,
     private formBuilder: FormBuilder,
     private router: Router
-  ) {
-
-  }
+  ) { }
 
   ngOnInit(): void {
     this.dataSource.data = this.dataDummy
-
    }
 
-   ngAfterViewInit(): void {
-     
-   }
+   ngAfterViewInit(): void { }
 
   onTabChange(event: MatTabChangeEvent): void {
     console.log(event.tab.textLabel);
@@ -1955,15 +1946,48 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
     console.log(this.formFilters.value);
   }
 
+  getCampaings(filters:entidades.DataTableFilters) {
+    this.moduleServices.getCampaings(filters).pipe(takeUntil(this.onDestroy)).subscribe({
+      next: ({ data }: entidades.DataCampaingsHistoryTable) => {
+        console.log(data);
+      },
+      error: (error) => console.error(error)
+    })
+  }
+
+  getCampaingsQuotes(filters:entidades.DataTableFilters) {
+    this.moduleServices.getCampaingsQuotes(filters).pipe(takeUntil(this.onDestroy)).subscribe({
+      next: ({ data }: entidades.DataCampaingsHistoryTable) => {
+        console.log(data);
+      },
+      error: (error) => console.error(error)
+    })
+  }
+
+  getCampaingsSells(filters:entidades.DataTableFilters) {
+    this.moduleServices.getCampaingsSells(filters).pipe(takeUntil(this.onDestroy)).subscribe({
+      next: ({ data }: entidades.DataCampaingsHistoryTable) => {
+        console.log(data);
+      },
+      error: (error) => console.error(error)
+    })
+  }
+
+  getCampaingsHistoryTable(filters:entidades.DataTableFilters) {
+    this.moduleServices.getCampaingsHistoryTable(filters).pipe(takeUntil(this.onDestroy)).subscribe({
+      next: ({ data }: entidades.DataCampaingsHistoryTable) => {
+        console.log(data);
+      },
+      error: (error) => console.error(error)
+    })
+  }
   
   seeData(data: any) {
     this.router.navigateByUrl(`/home/captacion/campanias`)
   }
 
-  
-
   seeCompanies() {
-    this.dialog.open(ModalInformationInTableComponent, {
+    this.dialog.open(ModalCompaniesComponent, {
       data: {
         info: this.datacompany,
         columns: this.companyInfoColumns,
@@ -1978,20 +2002,6 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   seeCampaignsResults() {
     this.router.navigateByUrl(`home/dashboard/resultados-campanias/1`)
-  }
-
-  probar() {
-    this.notificationService.open(
-      {
-        title: 'hola',
-        actions: {
-          confirm: {
-            show: true,
-            color: 'warn'
-          }
-        }
-      }
-    )
   }
 
   ngOnDestroy(): void {

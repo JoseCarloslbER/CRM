@@ -1,16 +1,14 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
-import { ModalInformationInTableComponent } from 'app/pages/catchment/campaigns/modal-information-in-table/modal-information-in-table.component';
+import { ActivatedRoute, Router } from '@angular/router';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
-import { Subject } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
+import { CatchmentService } from '../../catchment.service';
 
 @Component({
   selector: 'app-new-campingn',
   templateUrl: './new-campingn.component.html',
-  styleUrl: './new-campingn.component.scss'
 })
 export class NewCampingnComponent implements OnInit, AfterViewInit, OnDestroy {
   private onDestroy = new Subject<void>();
@@ -24,8 +22,7 @@ export class NewCampingnComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public formFilters = this.formBuilder.group({
     type: [null],
-    giro: [null],
-
+    giro: [null]
   });
 
   public formData = this.formBuilder.group({
@@ -44,29 +41,94 @@ export class NewCampingnComponent implements OnInit, AfterViewInit, OnDestroy {
     numberResponses: [null, Validators.required],
     numberQuotes: [null, Validators.required],
     numberClose: [null, Validators.required],
-    totalAmount: [null, Validators.required],
+    totalAmount: [null, Validators.required]
   });
+
+  private idData: string = '';
+
+  private objEditData : any;
 
   constructor(
     private notificationService: OpenModalsService,
+    private moduleServices: CatchmentService,
+    private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
     private dialog: MatDialog,
     private router: Router
   ) { }
 
   ngOnInit(): void {
+    this.getId()
   }
 
   ngAfterViewInit(): void {
+
   }
 
-  save(){
-    console.log(this.formData.value);
-    
+  getId() {
+    this.activatedRoute.params.subscribe(({ id }: any) => {
+      this.idData = id;
+      // this.getDataById();
+
+      if (this.url.includes('detalle')) {
+        setTimeout(() => {
+          // this.habilitarODesabilitarInputs();
+        });
+      } 
+    });
+  }
+
+  getDataById() {
+    this.moduleServices.getDataId(this.idData).pipe(takeUntil(this.onDestroy)).subscribe({
+      next: (response: any) => {
+        this.objEditData = response
+        this.formData.patchValue({...this.objEditData})
+      },
+      error: (error) => {
+        this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
+        console.error(error)
+      }
+    })
+  }
+
+  actionSave() {
+    let objData : any = {
+      ...this.formData.value,
+    }
+
+    if (this.idData) this.saveDataPatch(objData)
+     else this.saveDataPost(objData)
+  }
+
+  saveDataPost(objData) {
+    this.moduleServices.postData(objData).pipe(takeUntil(this.onDestroy)).subscribe({
+      next: (response: any) => {
+        this.completionMessage()
+      },
+      error: (error) => {
+        this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
+        console.error(error)
+      }
+    })
+  }
+
+  saveDataPatch(objData) {
+    this.moduleServices.patchData(objData).pipe(takeUntil(this.onDestroy)).subscribe({
+      next: (response: any) => {
+        this.completionMessage(true)
+      },
+      error: (error) => {
+        this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
+        console.error(error)
+      }
+    })
+  }
+
+  completionMessage(edit = false) {
     this.notificationService
       .notificacion(
         'Éxito',
-        `Registro ${this.url.includes('editar') ? 'editado' : 'guardado'}.`,
+        `Registro ${edit ? 'editado' : 'guardado'}.`,
         'save',
       )
       .afterClosed()
@@ -74,12 +136,10 @@ export class NewCampingnComponent implements OnInit, AfterViewInit, OnDestroy {
         this.toBack()
       });
   }
-
   
   toBack(){
     this.router.navigateByUrl(`/home/captacion/campanias`)
   }
-
 
   ngOnDestroy(): void {
     this.onDestroy.next();

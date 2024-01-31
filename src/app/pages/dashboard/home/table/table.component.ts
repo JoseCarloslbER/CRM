@@ -5,6 +5,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { MatDialog } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
+import { DashboardService } from '../../dashboard.service';
 
 @Component({
   selector: 'app-table',
@@ -26,12 +27,12 @@ export class TableComponent implements OnInit, OnDestroy {
   @Input() searchAndExcel: boolean = false
 
   constructor(
+    private moduleServices: DashboardService,
     private notificationService: OpenModalsService,
     private dialog: MatDialog
   ) { }
   
   ngOnInit(): void {
-
     console.log(this.type);
     
     console.log(this.displayedColumns);
