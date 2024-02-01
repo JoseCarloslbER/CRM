@@ -1,9 +1,9 @@
 import { Route } from '@angular/router';
 import { LayoutComponent } from './shared/layout/layout.component';
+import { AuthGuard } from './shared/guard/auth.guard';
 
 export const appRoutes: Route[] = [
-    { path: '', pathMatch : 'full', redirectTo: 'autenticacion' },
-    // { path: '', redirectTo: 'autenticacion', pathMatch: 'full' },
+    { path: '', redirectTo: 'home', pathMatch: 'full' },
     {
 		path: 'autenticacion',
 		loadChildren: () => import('./authentication/authentication.module').then((m) => m.AuthenticationModule),
@@ -11,6 +11,7 @@ export const appRoutes: Route[] = [
     { 
         path: 'home', 
         component: LayoutComponent,
-        loadChildren: () => import('./pages/pages.module').then((m) => m.PagesModule) 
+        loadChildren: () => import('./pages/pages.module').then((m) => m.PagesModule),
+        canActivate: [AuthGuard]
     }
 ];

@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FuseAlertType } from '@fuse/components/alert';
+import { AuthenticationService } from '../authentication.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -24,34 +26,53 @@ import { FuseAlertType } from '@fuse/components/alert';
   `
   ],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
+  private onDestroy = new Subject<void>();
+
 
   alert: { type: FuseAlertType; message: string } = {
     type: 'success',
     message: '',
   };
-  signInForm: UntypedFormGroup;
+
+  signInForm = this.formBuilder.group({
+    email: ['jose@abrevia.com'],
+    password: ['123456'],
+    user: [''],
+    rememberMe: [''],
+  });
+
   showAlert: boolean = false;
 
   constructor(
-    private _formBuilder: UntypedFormBuilder,
+    private moduleServices:AuthenticationService,
+    private formBuilder: UntypedFormBuilder,
     private router:Router
-  ) {
-  }
+  ) { }
 
   ngOnInit(): void {
-    this.signInForm = this._formBuilder.group({
-      email: [''],
-      password: [''],
-      user: [''],
-      // email: ['', [Validators.required, Validators.email]],
-      // password: ['', Validators.required],
-      // user: ['', Validators.required],
-      rememberMe: [''],
-    });
+    
   }
 
-  signIn(): void {
-    this.router.navigateByUrl('/home')
+  signIn() {
+    let objLogin : any = {
+    ...this.signInForm.value
+    }
+
+    console.log(objLogin);
+
+    this.moduleServices.login(objLogin).pipe(takeUntil(this.onDestroy)).subscribe({
+      next: (response) => {
+        console.log(response);
+        // this.router.navigateByUrl('/home')
+
+      },
+      error: (error) => console.error(error)
+    })
+  }
+  
+  ngOnDestroy(): void {
+    this.onDestroy.next();
+    this.onDestroy.unsubscribe();
   }
 }

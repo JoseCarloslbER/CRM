@@ -42,7 +42,7 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
   public dataDummyCampaign: any[] = [
     {
       noSerie: 'CD4557',
-      fechasInicialFinal: [
+      fechasInicial: [
         {
           inicial: '2022-02-28',
           final: '2022-02-28',
