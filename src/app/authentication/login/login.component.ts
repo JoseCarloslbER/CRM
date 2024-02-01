@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { FuseAlertType } from '@fuse/components/alert';
 import { AuthenticationService } from '../authentication.service';
 import { Subject, takeUntil } from 'rxjs';
+import CryptoJS from 'crypto-js';
 
 @Component({
   selector: 'app-login',
@@ -32,9 +33,14 @@ export class LoginComponent implements OnInit, OnDestroy {
   public rememberMe = new FormControl(null)
 
   public signInForm = this.formBuilder.group({
-    email: ['jose@abrevia.com', Validators.required],
-    password: ['123456', Validators.required]
+    email: [null, Validators.required],
+    password: [null, Validators.required]
   });
+
+  objUser = {
+    email : 'jose@abrevia.com',
+    password: '123456'
+  }
 
   constructor(
     private moduleServices:AuthenticationService,
@@ -43,10 +49,13 @@ export class LoginComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    
+    this.getDecryptedUser();
+
   }
 
   signIn() {
+    if (this.rememberMe.value) this.saveEncryptedUser();
+
     let objLogin : any = {
     ...this.signInForm.value
     }
@@ -58,10 +67,27 @@ export class LoginComponent implements OnInit, OnDestroy {
     //   next: (response) => {
     //     console.log(response);
     //     this.router.navigateByUrl('/home')
-
+    //     this.saveEncryptedUser();
     //   },
     //   error: (error) => console.error(error)
     // })
+  }
+
+  saveEncryptedUser() {
+    const encryptedUser = CryptoJS.AES.encrypt(JSON.stringify(this.signInForm.value), 'secretKey').toString();
+    localStorage.setItem('encryptedUser', encryptedUser);
+  }
+
+  getDecryptedUser() {
+    const encryptedUser = localStorage.getItem('encryptedUser');
+
+    console.log('encryptedUser', encryptedUser);
+    
+    if (encryptedUser) {
+      const decryptedBytes = CryptoJS.AES.decrypt(encryptedUser, 'secretKey');
+      const decryptedUser = JSON.parse(decryptedBytes.toString(CryptoJS.enc.Utf8));
+      this.signInForm.setValue(decryptedUser);
+    }
   }
   
   ngOnDestroy(): void {
