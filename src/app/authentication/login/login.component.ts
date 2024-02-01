@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FuseAlertType } from '@fuse/components/alert';
 import { AuthenticationService } from '../authentication.service';
@@ -29,20 +29,12 @@ import { Subject, takeUntil } from 'rxjs';
 export class LoginComponent implements OnInit, OnDestroy {
   private onDestroy = new Subject<void>();
 
+  public rememberMe = new FormControl(null)
 
-  alert: { type: FuseAlertType; message: string } = {
-    type: 'success',
-    message: '',
-  };
-
-  signInForm = this.formBuilder.group({
-    email: ['jose@abrevia.com'],
-    password: ['123456'],
-    user: [''],
-    rememberMe: [''],
+  public signInForm = this.formBuilder.group({
+    email: ['jose@abrevia.com', Validators.required],
+    password: ['123456', Validators.required]
   });
-
-  showAlert: boolean = false;
 
   constructor(
     private moduleServices:AuthenticationService,
@@ -60,15 +52,16 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
     console.log(objLogin);
+    this.router.navigateByUrl('/home')
 
-    this.moduleServices.login(objLogin).pipe(takeUntil(this.onDestroy)).subscribe({
-      next: (response) => {
-        console.log(response);
-        // this.router.navigateByUrl('/home')
+    // this.moduleServices.login(objLogin).pipe(takeUntil(this.onDestroy)).subscribe({
+    //   next: (response) => {
+    //     console.log(response);
+    //     this.router.navigateByUrl('/home')
 
-      },
-      error: (error) => console.error(error)
-    })
+    //   },
+    //   error: (error) => console.error(error)
+    // })
   }
   
   ngOnDestroy(): void {

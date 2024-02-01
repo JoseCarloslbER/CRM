@@ -23,17 +23,11 @@
                     <form class="mt-8" [formGroup]="signInForm" #signInNgForm="ngForm">
     
                         <mat-form-field class="w-full">
-                            <mat-label>Usuario</mat-label>
-                            <input
-                                id="email"
-                                matInput
-                                [formControlName]="'email'">
-                            <mat-error *ngIf="signInForm.get('user').hasError('required')">
-                                Usuario requerido
+                            <mat-label>Correo</mat-label>
+                            <input matInput [formControlName]="'email'">
+                            <mat-error *ngIf="signInForm.get('email').hasError('required')">
+                                Correo requerido
                             </mat-error>
-                            <!-- <mat-error *ngIf="signInForm.get('email').hasError('email')">
-                                Porfavor ingresa un usuario valido
-                            </mat-error> -->
                         </mat-form-field>
     
                         <mat-form-field class="w-full">
