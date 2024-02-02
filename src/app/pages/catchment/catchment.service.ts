@@ -9,6 +9,8 @@ import { DataTable, DataTableFilters } from './catchment-interface';
 })
 export class CatchmentService {
 
+  private apiUrl = `${environment.apiURL}catch/`;
+
   constructor(
     private http: HttpClient
   ) { }
@@ -16,7 +18,7 @@ export class CatchmentService {
 
   // CAMPAIGNS
   public getDataTableCampaing(filters:DataTableFilters): Observable<any> {
-		const url = `${environment.apiURL}/`;
+		const url = `${environment.apiURL}/campaign/`;
 
     return this.http.get<DataTable>(url)
 	}
@@ -40,13 +42,13 @@ export class CatchmentService {
 	}
 
   public getDataId(id:string): Observable<any> {
-		const url = `${environment.apiURL}/${id}`;
+		const url = `${environment.apiURL}campaign-company/${id}/`;
 
     return this.http.get<DataTable>(url)
 	}
 
   public postData(data:any): Observable<any> {
-		const url = `${environment.apiURL}/`;
+		const url = `${environment.apiURL}campaign-company/`;
 
     return this.http.post<any>(url, data)
 	}

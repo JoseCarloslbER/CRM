@@ -1,5 +1,4 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
@@ -11,7 +10,7 @@ import { ModalNewProductComponent } from './products/modal-new-product/modal-new
 import { ModalNewPriceComponent } from './price/modal-new-price/modal-new-price.component';
 import { Subject, debounceTime, takeUntil } from 'rxjs';
 import { AdminService } from '../admin.service';
-import { DataTable } from '../admin-interface';
+import * as entity from '../admin-interface';
 
 @Component({
   selector: 'app-main-products',
@@ -123,16 +122,16 @@ export class MainProductsComponent implements OnInit, AfterViewInit, OnDestroy {
       ...this.formFilters.value
     }
 
-    this.getDataTable(objFilters)
+    // this.getDataTable()
   }
 
   getCatalogs() {
     
   }
 
-  getDataTable(filters:Object) {
-    this.moduleServices.getDataTable(filters).subscribe({
-        next: ({ data } : DataTable) => {
+  getDataTable() {
+    this.moduleServices.getDataTableProducts().subscribe({
+        next: ({ data } : entity.DataProductTable) => {
           console.log(data);
         },
         error: (error) => console.error(error)

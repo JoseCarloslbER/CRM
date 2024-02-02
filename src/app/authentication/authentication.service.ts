@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'environments/environment.dev';
 import { Observable, catchError, map, of } from 'rxjs';
@@ -15,10 +15,16 @@ export class AuthenticationService {
   ) { }
  
   login(credentials: { username: string; password: string }): Observable<boolean> {
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+
+    const options = { headers, withCredentials: true };
+
     const url = `${this.apiUrl}login/`
-    console.log(url);
     
-    return this.http.post<any>(url, credentials).pipe(
+    return this.http.post<any>(url, credentials, options).pipe(
       map((response) => {
         console.log(response);
 

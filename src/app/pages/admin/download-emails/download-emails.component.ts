@@ -9,7 +9,6 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { Subject } from 'rxjs';
 import { AdminService } from '../admin.service';
-import { DataTable } from '../admin-interface';
 
 @Component({
   selector: 'app-download-emails',
@@ -167,7 +166,7 @@ export class DownloadEmailsComponent implements OnInit, AfterViewInit, OnDestroy
 
   getDataTable(filters:Object) {
     this.moduleServices.getDataTable(filters).subscribe({
-        next: ({ data } : DataTable) => {
+        next: ({ data } : any) => {
           console.log(data);
         },
         error: (error) => console.error(error)

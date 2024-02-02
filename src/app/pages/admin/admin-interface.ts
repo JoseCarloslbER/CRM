@@ -1,27 +1,26 @@
-export interface DataTable {
-   data : TableDataList[]
+export interface DataProductTable {
+  data : TableDataProductList[]
 }
 
-export interface TableDataList {
-    country: string,
-    category: string,
-    twist: string,
-    campaign: string,
-    quotes: [
-      {
-        up: string,
-        bottom: string,
-      }
-    ],
+export interface TableDataProductList {
+   code: string;
+   name: string;
+   price: string;
+   link: string;
+   product_category_id: string;
+   country_id: string;
+   price_id: string;
+   discount_id: string;
+   status_id: string;
+   image: string;
+}
 
-    sales: [
-      {
-        up: string,
-        bottom: string,
-      }
-    ],
-
-    history: string,
-    origin: string,
-    lastContactDate: string,
+export interface PostDataProduct {
+  code: string;
+  name: string;
+  price: string;
+  link: string;
+  product_category_id: string;
+  country_id: string;
+  status_id: string;
 }

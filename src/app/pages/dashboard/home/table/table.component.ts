@@ -33,10 +33,6 @@ export class TableComponent implements OnInit, OnDestroy {
   ) { }
   
   ngOnInit(): void {
-    console.log(this.type);
-    
-    console.log(this.displayedColumns);
-    
     this.dataSource.data = this.dataDummy
   }
 
