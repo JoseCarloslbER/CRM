@@ -1,21 +1,20 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { Router } from '@angular/router';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { ModalNewProductComponent } from './modal-new-product/modal-new-product.component';
-import { Subject } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
+import { AdminService } from '../../admin.service';
+import * as entity from '../../admin-interface';
 
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
   styleUrl: './products.component.scss'
 })
-export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
+export class ProductsComponent implements OnInit, OnDestroy {
   private onDestroy = new Subject<void>();
-
 
   public dataSource = new MatTableDataSource<any>([]);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -40,28 +39,35 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
       country: 'México',
       link: 'https://abrevius.com/course/c001-seguridad-en-edificios-locales-instalaciones-y-areas-de-trabajo/',
     },
- 
   ]
 
   constructor(
+    private moduleServices: AdminService,
     private notificationService: OpenModalsService,
-    private formBuilder: FormBuilder,
     private dialog: MatDialog,
-    private router: Router
   ) { }
 
 
   ngOnInit(): void {
     this.dataSource.data = this.dataDummy
-  }
-  
-  ngAfterViewInit(): void {
-    
+    this.getDataTable()
   }
 
-  editData() {
+  getDataTable() {
+    this.moduleServices.getDataTableProducts().pipe(takeUntil(this.onDestroy)).subscribe({
+        next: ({ data } : entity.DataProductTable) => {
+          console.log(data);
+          this.dataSource.data = data;
+        },
+        error: (error) => console.error(error)
+      })
+  }
+
+  editData(id: string) {
     this.dialog.open(ModalNewProductComponent, {
-      data: ['test'],
+      data: {
+        idEdit: id
+      },
       disableClose: true,
       width: '800px',
       maxHeight: '628px',
@@ -69,9 +75,7 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-
-
-  deleteData() {
+  actionQuestionDelete(id: string) {
     this.notificationService
       .notificacion(
         'Pregunta',
@@ -79,18 +83,28 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
         'question',
       )
       .afterClosed()
-      .subscribe((_) => {
+      .subscribe((response) => {
+        if (response) {
+          this.deleteData(id)
+        }
+      });
+  };
+
+  deleteData(id: string) {
+    this.moduleServices.deleteDataProduct(id).pipe(takeUntil(this.onDestroy)).subscribe({
+      next: (_) => {
         this.notificationService
           .notificacion(
             'Éxito',
             'Registro eliminado.',
             'delete',
-          )
-          .afterClosed()
-          .subscribe((_) => {
-
-          });
-      });
+          );
+      },
+      error: (error) => {
+        this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
+        console.error(error)
+      }
+    })
   }
 
   ngOnDestroy(): void {

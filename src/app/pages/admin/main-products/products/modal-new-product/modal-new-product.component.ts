@@ -1,7 +1,6 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AdminService } from 'app/pages/admin/admin.service';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { Subject, takeUntil } from 'rxjs';
@@ -32,17 +31,20 @@ export class ModalNewProductComponent implements OnInit, OnDestroy {
   constructor(
     private moduleServices: AdminService,
     private formBuilder: FormBuilder,
-    private dialog: MatDialog,
-    private router: Router,
     private notificationService: OpenModalsService,
 		@Inject(MAT_DIALOG_DATA) public data: any,
 		private dialogRef: MatDialogRef<any>,
 	) {	}
 
   ngOnInit(): void {
+    console.log(this.data?.idEdit);
+    
+    if (this.data?.idEdit) {
+      this.idData = this.data.idEdit
+      this.getDataId();
+    }
   }
-  
- 
+
   actionSave() {
 
     console.log('FORM', this.formData.value);
@@ -52,9 +54,22 @@ export class ModalNewProductComponent implements OnInit, OnDestroy {
     }
 
     console.log(objData);
+    this.completionMessage(true);
 
     // if (this.idData) this.saveDataPatch(objData)
     //  else this.saveDataPost(objData)
+  }
+
+  getDataId() {
+    this.moduleServices.getDataProductId(this.idData).pipe(takeUntil(this.onDestroy)).subscribe({
+      next: (response: any) => {
+        this.formData.patchValue(response)
+      },
+      error: (error) => {
+        this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
+        console.error(error)
+      }
+    })
   }
 
   saveDataPost(objData:entity.PostDataProduct) {
@@ -89,23 +104,11 @@ export class ModalNewProductComponent implements OnInit, OnDestroy {
         'save',
       )
       .afterClosed()
-      .subscribe((_) => {
-        this.toBack()
-      });
-  }
-
-  toBack() {
-    this.router.navigateByUrl(`/home/empresas/prospectos`)
-  }
-
-  toAll() {
-    this.router.navigateByUrl(`/home/empresas/todos`)
+      .subscribe((_) => { this.closeModal() });
   }
 
   closeModal() {
-		this.dialogRef.close({
-      close : true
-    })
+		this.dialogRef.close({ close : true })
   }
 
   ngOnDestroy(): void {

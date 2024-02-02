@@ -1,3 +1,4 @@
+// PRODUCTS
 export interface DataProductTable {
   data : TableDataProductList[]
 }
@@ -15,6 +16,19 @@ export interface TableDataProductList {
    image: string;
 }
 
+export interface GetDataProduct {
+  code: string;
+  name: string;
+  price: string;
+  link: string;
+  product_category_id: string;
+  country_id: string;
+  status_id: string;
+  image: string;
+  price_id: string;
+  discount_id: string;
+}
+
 export interface PostDataProduct {
   code: string;
   name: string;
@@ -24,3 +38,5 @@ export interface PostDataProduct {
   country_id: string;
   status_id: string;
 }
+
+// END PRODUCTS 

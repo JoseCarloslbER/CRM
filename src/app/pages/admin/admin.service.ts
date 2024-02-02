@@ -24,10 +24,10 @@ export class AdminService {
     return this.http.get<entity.DataProductTable>(url)
 	}
 
-  public getDataProductId(id:string): Observable<any> {
+  public getDataProductId(id:string): Observable<entity.GetDataProduct> {
 		const url = `${environment.apiURL}product/${id}/`;
 
-    return this.http.get<any>(url)
+    return this.http.get<entity.GetDataProduct>(url)
 	}
 
   public postDataProduct(data:entity.PostDataProduct): Observable<any> {
