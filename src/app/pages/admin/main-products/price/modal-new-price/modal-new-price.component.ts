@@ -1,5 +1,5 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
 import * as entity from '../../../admin-interface';
@@ -21,6 +21,8 @@ export class ModalNewPriceComponent implements OnInit, OnDestroy {
     currency: [null, Validators.required],
     status_id: [null, Validators.required],
   });
+
+  public productsApplies = new FormControl(null);
 
   private idData: string = '';
   private objEditData : entity.GetDataPrice;
