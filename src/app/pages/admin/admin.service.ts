@@ -50,30 +50,40 @@ export class AdminService {
  
   // END PRODUCTS 
 
-  public getDataTable(filters:any): Observable<any> {
-		const url = `${environment.apiURL}/`;
 
-    return this.http.get<any>(url)
+  // PRICE
+
+  public getDataTablePrices(): Observable<entity.DataPriceTable> {
+		const url = `${environment.apiURL}price`;
+
+    return this.http.get<entity.DataPriceTable>(url)
+	}
+
+  public getDataPriceId(id:string): Observable<entity.GetDataPrice> {
+		const url = `${environment.apiURL}price${id}/`;
+
+    return this.http.get<entity.GetDataPrice>(url)
+	}
+
+  public postDataPrice(data:entity.PostDataPrice): Observable<any> {
+		const url = `${environment.apiURL}price`;
+
+    return this.http.post<any>(url, data)
+	}
+
+  public patchDataPrice(id:string, data:entity.PostDataPrice): Observable<any> {
+		const url = `${environment.apiURL}price${id}/`;
+
+    return this.http.patch<any>(url, data)
 	}
  
-  public getDataStatus(): Observable<any> {
-		const url = `${environment.apiURL}/`;
+  public deleteDataPrice(id:string): Observable<any> {
+		const url = `${environment.apiURL}price${id}/`;
 
-    return this.http.get<any>(url)
+    return this.http.delete<any>(url)
 	}
 
-  public getDataGiro(): Observable<any> {
-		const url = `${environment.apiURL}/`;
-
-    return this.http.get<any>(url)
-	}
-
-  public getDataCampaigns(): Observable<any> {
-		const url = `${environment.apiURL}/`;
-
-    return this.http.get<any>(url)
-	}
-
+  // END PRICE 
 
 
 }

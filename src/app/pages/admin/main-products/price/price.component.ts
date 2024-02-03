@@ -1,19 +1,21 @@
-import { Component, ViewChild } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { Router } from '@angular/router';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { ModalNewPriceComponent } from './modal-new-price/modal-new-price.component';
-
+import { Subject, takeUntil } from 'rxjs';
+import { AdminService } from '../../admin.service';
+import * as entity from '../../admin-interface';
 
 @Component({
   selector: 'app-price',
   templateUrl: './price.component.html',
   styleUrl: './price.component.scss'
 })
-export class PriceComponent {
+export class PriceComponent implements OnInit, OnDestroy {
+  private onDestroy = new Subject<void>();
+
   public dataSource = new MatTableDataSource<any>([]);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   public longitudPagina = 50;
@@ -51,46 +53,74 @@ export class PriceComponent {
   ]
 
   constructor(
+    private moduleServices: AdminService,
     private notificationService: OpenModalsService,
-    private formBuilder: FormBuilder,
     private dialog: MatDialog,
-    private router: Router
   ) { }
 
 
   ngOnInit(): void {
-    this.dataSource.data = this.dataDummy
+    this.dataSource.data = this.dataDummy;
+    this.getDataTable();
   }
 
-  editData() {
+  getDataTable() {
+    this.moduleServices.getDataTablePrices().pipe(takeUntil(this.onDestroy)).subscribe({
+        next: ({ data } : entity.DataPriceTable) => {
+          console.log(data);
+          this.dataSource.data = data;
+        },
+        error: (error) => console.error(error)
+      })
+  }
+
+  editData(id: string) {
     this.dialog.open(ModalNewPriceComponent, {
-      data: {},
+      data: {
+        idEdit: id
+      },
       disableClose: true,
       width: '800px',
       maxHeight: '628px',
-      panelClass: 'custom-dialog',
+      panelClass: 'custom-dialog'
     });
   }
 
-  deleteData() {
+
+  actionQuestionDelete(id: string) {
     this.notificationService
       .notificacion(
         'Pregunta',
         '¿Estas seguro de eliminar el registro?',
-        'question',
+        'question'
       )
       .afterClosed()
-      .subscribe((_) => {
+      .subscribe((response) => {
+        if (response) {
+          this.deleteData(id)
+        }
+      });
+  };
+
+  deleteData(id: string) {
+    this.moduleServices.deleteDataProduct(id).pipe(takeUntil(this.onDestroy)).subscribe({
+      next: (_) => {
         this.notificationService
           .notificacion(
             'Éxito',
             'Registro eliminado.',
             'delete',
-          )
-          .afterClosed()
-          .subscribe((_) => {
-
-          });
-      });
+          );
+      },
+      error: (error) => {
+        this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
+        console.error(error)
+      }
+    })
+  }
+  
+  ngOnDestroy(): void {
+    this.onDestroy.next();
+    this.onDestroy.unsubscribe();
   }
 }

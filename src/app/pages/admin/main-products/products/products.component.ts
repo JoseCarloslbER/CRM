@@ -71,7 +71,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
       disableClose: true,
       width: '800px',
       maxHeight: '628px',
-      panelClass: 'custom-dialog',
+      panelClass: 'custom-dialog'
     });
   }
 
@@ -80,7 +80,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
       .notificacion(
         'Pregunta',
         '¿Estas seguro de eliminar el registro?',
-        'question',
+        'question'
       )
       .afterClosed()
       .subscribe((response) => {
@@ -97,7 +97,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
           .notificacion(
             'Éxito',
             'Registro eliminado.',
-            'delete',
+            'delete'
           );
       },
       error: (error) => {
@@ -111,5 +111,4 @@ export class ProductsComponent implements OnInit, OnDestroy {
     this.onDestroy.next();
     this.onDestroy.unsubscribe();
   }
-
 }

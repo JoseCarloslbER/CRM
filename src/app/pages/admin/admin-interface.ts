@@ -40,3 +40,37 @@ export interface PostDataProduct {
 }
 
 // END PRODUCTS 
+
+// PRICE
+export interface DataPriceTable {
+  data : TableDataPriceList[]
+}
+
+export interface TableDataPriceList {
+   code: string;
+   price: string;
+   tax_percentage: string;
+   currency: string;
+   price_id: string;
+   status_id: string;
+}
+
+export interface GetDataPrice {
+  code: string;
+  price: string;
+  tax_percentage: string;
+  currency: string;
+  price_id: string;
+  status_id: string;
+}
+
+export interface PostDataPrice {
+  code: string;
+  price: string;
+  tax_percentage: string;
+  currency: string;
+  price_id: string;
+  status_id: string;
+}
+
+// END PRICE 

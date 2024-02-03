@@ -25,8 +25,7 @@ export class ModalNewProductComponent implements OnInit, OnDestroy {
   });
 
   private idData: string = '';
-
-  private objEditData : any;
+  private objEditData : entity.GetDataProduct;
 
   constructor(
     private moduleServices: AdminService,
@@ -63,6 +62,7 @@ export class ModalNewProductComponent implements OnInit, OnDestroy {
   getDataId() {
     this.moduleServices.getDataProductId(this.idData).pipe(takeUntil(this.onDestroy)).subscribe({
       next: (response: any) => {
+        this.objEditData = response;
         this.formData.patchValue(response)
       },
       error: (error) => {

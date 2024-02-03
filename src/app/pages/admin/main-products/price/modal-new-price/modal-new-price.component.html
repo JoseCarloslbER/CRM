@@ -10,30 +10,35 @@
 
         <p class="mb-6">*Campos obligatorios</p>
 
-        <form class="col-12 modal-content-scroll">
+        <form class="col-12 modal-content-scroll" [formGroup]="formData">
             <div>
                 <div class="row">
                     <div class="col-md-6">
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
-                            <mat-label>Código*</mat-label>
-                            <input matInput>
+                            <mat-label>Código</mat-label>
+                            <input formControlName="code" matInput>
                         </mat-form-field>
                       
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
-                            <mat-label>Porcentaje de IVA*</mat-label>
-                            <input matInput>
+                            <mat-label>Porcentaje de IVA</mat-label>
+                            <input formControlName="tax_percentage" matInput>
                         </mat-form-field>
 
-                        
-
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
-                            <mat-label>Categoria de productos a los que aplica*</mat-label>
-                            <mat-select placeholder="Seleccionar">
+                            <mat-label>Estatus</mat-label>
+                            <mat-select formControlName="status_id" placeholder="Seleccionar">
+                                <mat-option [value]="1">Estatus 1</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <!-- <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
+                            <mat-label>Categoria de productos a los que aplica</mat-label>
+                            <mat-select formControlName="code" placeholder="Seleccionar">
                                 <mat-option value="Agente">Categoria de productos a los que aplica 1</mat-option>
                                 <mat-option value="Categoria de productos a los que aplica">Categoria de productos a los que aplica 2</mat-option>
                                 <mat-option value="Categoria de productos a los que aplica">Categoria de productos a los que aplica 3</mat-option>
                             </mat-select>
-                        </mat-form-field>
+                        </mat-form-field> -->
 
                     </div>
 
@@ -41,27 +46,23 @@
 
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Precio unitario</mat-label>
-                            <input class="text-right" matInput>
+                            <input formControlName="price" class="text-right" matInput>
                             <span matPrefix>$</span>
                         </mat-form-field>
 
-
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
-                            <mat-label>Moneda*</mat-label>
-                            <mat-select placeholder="Seleccionar">
-                                <mat-option value="Moneda*">Moneda* 1</mat-option>
-                                <mat-option value="Moneda*">Moneda* 2</mat-option>
-                                <mat-option value="Moneda*">Moneda* 3</mat-option>
+                            <mat-label>Moneda</mat-label>
+                            <mat-select formControlName="currency" placeholder="Seleccionar">
+                                <mat-option [value]="1">Moneda 1</mat-option>
                             </mat-select>
                         </mat-form-field>
-
 
                     </div>
                 </div>
 
                 <div class="row d-flex justify-content-end create">
                     <div class="d-flex justify-content-end col-md-2 col-xl-2 col-12 pt-md-2">
-                        <button class="btn-action-add" (click)="save()">
+                        <button class="btn-action-add" (click)="actionSave()">
                             <span>Guardar</span>
                         </button>
                     </div>
