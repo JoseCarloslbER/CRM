@@ -1,7 +1,6 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { Router } from '@angular/router';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
 import * as entity from '../../../admin-interface';
 import { Subject, takeUntil } from 'rxjs';

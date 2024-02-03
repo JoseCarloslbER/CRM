@@ -74,3 +74,30 @@ export interface PostDataPrice {
 }
 
 // END PRICE 
+
+// DISCOUNTS
+export interface DataDiscountTable {
+  data : TableDataDiscountList[]
+}
+
+export interface TableDataDiscountList {
+   code: string;
+   name: string;
+   discount_id: string;
+   status_id: string;
+}
+
+export interface GetDataDiscount {
+  code: string;
+  name: string;
+  discount_id: string;
+  status_id: string;
+}
+
+export interface PostDataDiscount {
+  code: string;
+  name: string;
+  status_id: string;
+}
+
+// END DISCOUNTS 

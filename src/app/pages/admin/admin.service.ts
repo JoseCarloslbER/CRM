@@ -84,6 +84,40 @@ export class AdminService {
 	}
 
   // END PRICE 
+  
+  // DISCOUNTS
+
+  public getDataTableDiscounts(): Observable<entity.DataDiscountTable> {
+		const url = `${environment.apiURL}discount`;
+
+    return this.http.get<entity.DataDiscountTable>(url)
+	}
+
+  public getDataDiscountId(id:string): Observable<entity.GetDataDiscount> {
+		const url = `${environment.apiURL}discount${id}/`;
+
+    return this.http.get<entity.GetDataDiscount>(url)
+	}
+
+  public postDataDiscount(data:entity.PostDataDiscount): Observable<any> {
+		const url = `${environment.apiURL}discount`;
+
+    return this.http.post<any>(url, data)
+	}
+
+  public patchDataDiscount(id:string, data:entity.PostDataDiscount): Observable<any> {
+		const url = `${environment.apiURL}discount${id}/`;
+
+    return this.http.patch<any>(url, data)
+	}
+ 
+  public deleteDataDiscount(id:string): Observable<any> {
+		const url = `${environment.apiURL}discount${id}/`;
+
+    return this.http.delete<any>(url)
+	}
+
+  // END PRICE 
 
 
 }
