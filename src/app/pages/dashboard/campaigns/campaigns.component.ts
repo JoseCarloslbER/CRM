@@ -8,8 +8,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { DashboardService } from '../dashboard.service';
-import * as entidades from '../dashboard-interface';
 import { ModalCompaniesComponent } from './modal-companies/modal-companies.component';
+import * as entity from '../dashboard-interface';
 
 @Component({
   selector: 'app-campaigns',
@@ -150,8 +150,8 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
         inicial: '2022-02-28',
         final: '2022-02-28'
       },
-      companies : '20',
-      amountInvested : '$20.00',
+      companies: '20',
+      amountInvested: '$20.00',
       resuls: [
         {
           left: '5',
@@ -181,8 +181,8 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
         inicial: '2022-02-28',
         final: '2022-02-28'
       },
-      companies : '20',
-      amountInvested : '$20.00',
+      companies: '20',
+      amountInvested: '$20.00',
       resuls: [
         {
           left: '5',
@@ -205,7 +205,7 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       ],
     },
-  
+
   ]
 
   public data = {
@@ -1833,87 +1833,84 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
       ]
     }
   }
-  
+
   public chartVisitorsVsPageViews = {
-    chart     : {
-        animations: {
-            enabled: false,
-        },
-        fontFamily: 'inherit',
-        foreColor : 'inherit',
-        height    : '100%',
-        type      : 'area',
-        toolbar   : {
-            show: false,
-        },
-        zoom      : {
-            enabled: false,
-        },
-    },
-    colors    : ['#64748B', '#94A3B8'],
-    dataLabels: {
+    chart: {
+      animations: {
         enabled: false,
-    },
-    fill      : {
-        colors : ['#64748B', '#94A3B8'],
-        opacity: 0.5,
-    },
-    grid      : {
-        show   : false,
-        padding: {
-            bottom: -40,
-            left  : 0,
-            right : 0,
-        },
-    },
-    legend    : {
+      },
+      fontFamily: 'inherit',
+      foreColor: 'inherit',
+      height: '100%',
+      type: 'area',
+      toolbar: {
         show: false,
+      },
+      zoom: {
+        enabled: false,
+      },
     },
-    series    : this.data.visitorsVsPageViews.series,
-    stroke    : {
-        curve: 'smooth',
-        width: 2,
+    colors: ['#64748B', '#94A3B8'],
+    dataLabels: {
+      enabled: false,
     },
-    tooltip   : {
-        followCursor: true,
-        theme       : 'dark',
-        x           : {
-            format: 'MMM dd, yyyy',
-        },
+    fill: {
+      colors: ['#64748B', '#94A3B8'],
+      opacity: 0.5,
     },
-    xaxis     : {
-        axisBorder: {
-            show: false,
-        },
-        labels    : {
-            offsetY: -20,
-            rotate : 0,
-            style  : {
-                colors: 'var(--fuse-text-secondary)',
-            },
-        },
-        tickAmount: 3,
-        tooltip   : {
-            enabled: false,
-        },
-        type      : 'datetime',
+    grid: {
+      show: false,
+      padding: {
+        bottom: -40,
+        left: 0,
+        right: 0,
+      },
     },
-    yaxis     : {
-        labels    : {
-            style: {
-                colors: 'var(--fuse-text-secondary)',
-            },
+    legend: {
+      show: false,
+    },
+    series: this.data.visitorsVsPageViews.series,
+    stroke: {
+      curve: 'smooth',
+      width: 2,
+    },
+    tooltip: {
+      followCursor: true,
+      theme: 'dark',
+      x: {
+        format: 'MMM dd, yyyy',
+      },
+    },
+    xaxis: {
+      axisBorder: {
+        show: false,
+      },
+      labels: {
+        offsetY: -20,
+        rotate: 0,
+        style: {
+          colors: 'var(--fuse-text-secondary)',
         },
-        max       : (max): number => max + 250,
-        min       : (min): number => min - 250,
-        show      : false,
-        tickAmount: 5,
+      },
+      tickAmount: 3,
+      tooltip: {
+        enabled: false,
+      },
+      type: 'datetime',
+    },
+    yaxis: {
+      labels: {
+        style: {
+          colors: 'var(--fuse-text-secondary)',
+        },
+      },
+      max: (max): number => max + 250,
+      min: (min): number => min - 250,
+      show: false,
+      tickAmount: 5,
     },
   };
 
-  public fechaHoy = new Date();
-
-  public chartWeeklyExpenses: ApexOptions = {};
 
   public formFilters = this.formBuilder.group({
     user: [{ value: null, disabled: false }],
@@ -1922,6 +1919,12 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
     rangeDateStart: [{ value: null, disabled: false }],
     rangeDateEnd: [{ value: null, disabled: false }],
   });
+
+  public catBusiness: entity.DataCatBusiness[] = [];
+
+  public fechaHoy = new Date();
+
+  public chartWeeklyExpenses: ApexOptions = {};
 
   public selectedProject: string = 'Estadísticas';
 
@@ -1934,9 +1937,13 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit(): void {
     this.dataSource.data = this.dataDummy
-   }
+  }
 
-   ngAfterViewInit(): void { }
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.getCatalogs()
+    }, 500);
+  }
 
   onTabChange(event: MatTabChangeEvent): void {
     console.log(event.tab.textLabel);
@@ -1946,42 +1953,51 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
     console.log(this.formFilters.value);
   }
 
-  getCampaings(filters:entidades.DataTableFilters) {
+  getCatalogs() {
+    this.moduleServices.getCatalogBusiness().pipe(takeUntil(this.onDestroy)).subscribe({
+      next: (data: entity.DataCatBusiness[]) => {
+        this.catBusiness = data;
+      },
+      error: (error) => console.error(error)
+    });
+  }
+
+  getCampaings(filters: entity.DataTableFilters) {
     this.moduleServices.getCampaings(filters).pipe(takeUntil(this.onDestroy)).subscribe({
-      next: ({ data }: entidades.DataCampaingsHistoryTable) => {
+      next: ({ data }: entity.DataCampaingsHistoryTable) => {
         console.log(data);
       },
       error: (error) => console.error(error)
     })
   }
 
-  getCampaingsQuotes(filters:entidades.DataTableFilters) {
+  getCampaingsQuotes(filters: entity.DataTableFilters) {
     this.moduleServices.getCampaingsQuotes(filters).pipe(takeUntil(this.onDestroy)).subscribe({
-      next: ({ data }: entidades.DataCampaingsHistoryTable) => {
+      next: ({ data }: entity.DataCampaingsHistoryTable) => {
         console.log(data);
       },
       error: (error) => console.error(error)
     })
   }
 
-  getCampaingsSells(filters:entidades.DataTableFilters) {
+  getCampaingsSells(filters: entity.DataTableFilters) {
     this.moduleServices.getCampaingsSells(filters).pipe(takeUntil(this.onDestroy)).subscribe({
-      next: ({ data }: entidades.DataCampaingsHistoryTable) => {
+      next: ({ data }: entity.DataCampaingsHistoryTable) => {
         console.log(data);
       },
       error: (error) => console.error(error)
     })
   }
 
-  getCampaingsHistoryTable(filters:entidades.DataTableFilters) {
+  getCampaingsHistoryTable(filters: entity.DataTableFilters) {
     this.moduleServices.getCampaingsHistoryTable(filters).pipe(takeUntil(this.onDestroy)).subscribe({
-      next: ({ data }: entidades.DataCampaingsHistoryTable) => {
+      next: ({ data }: entity.DataCampaingsHistoryTable) => {
         console.log(data);
       },
       error: (error) => console.error(error)
     })
   }
-  
+
   seeData(data: any) {
     this.router.navigateByUrl(`/home/captacion/campanias`)
   }

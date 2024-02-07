@@ -1,14 +1,24 @@
+// CATALOGS
+ export interface DataCatBusiness {
+   business_name : string;
+   business_id : string;
+   status_id : string;
+ }
+
+ export interface DataCatType {
+  campaign_type_id : string;
+  campaign_type_name : string;
+  status_id : string;
+}
+
+ 
+ // END CATALOGS
+
 export interface DataTableFilters {
   status : string;
   giro   : string;
   campaing : string;
   dateRange: string;
-}
-
-export interface DataCatalogTypeList {
-   campaign_type_id : string;
-   campaign_type_name : string;
-   status_id : string;
 }
 
 export interface DataCampaingTable {

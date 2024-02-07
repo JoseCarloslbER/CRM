@@ -95,9 +95,8 @@
                             </mat-select>
                         </mat-form-field>
 
-
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister" *ngIf="addContact?.value">
-                            <mat-label>Tamaño de empresa</mat-label>
+                            <mat-label>Tamaño de empresa*</mat-label>
                             <mat-select formControlName="companySize" placeholder="Seleccionar">
                                 <mat-option [value]="cat.company_size_id " *ngFor="let cat of catCompaniesSizes">{{cat?.size_name  || '-'}}</mat-option>
                             </mat-select>

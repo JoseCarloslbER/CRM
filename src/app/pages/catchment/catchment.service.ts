@@ -20,10 +20,16 @@ export class CatchmentService {
 
   // CATALOGS
 
-  public getCatalogType(): Observable<entity.DataCatalogTypeList[]> {
+  public getCatalogBusiness(): Observable<entity.DataCatBusiness[]> {
+		const url = `${environment.apiURL}settings/business/`;
+
+    return this.http.get<entity.DataCatBusiness[]>(url)
+	}
+
+  public getCatalogType(): Observable<entity.DataCatType[]> {
 		const url = `${this.apiUrl}campaign-type/`;
 
-    return this.http.get<entity.DataCatalogTypeList[]>(url)
+    return this.http.get<entity.DataCatType[]>(url)
 	}
 
   public getCatalogStatus(): Observable<any> {

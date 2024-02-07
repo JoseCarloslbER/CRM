@@ -12,10 +12,7 @@ export class CompaniesService {
 
   private apiUrl = `${environment.apiURL}companies/`;
 
-
-  constructor(
-    private http: HttpClient
-  ) { }
+  constructor(private http: HttpClient) { }
 
    // CATALOGS
   
@@ -54,8 +51,6 @@ export class CompaniesService {
 
     return this.http.get<entity.DataCatBusiness[]>(url)
 	}
-
-
 
   // END CATALOGS 
  

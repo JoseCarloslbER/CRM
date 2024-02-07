@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { CompaniesService } from '../companies.service';
 import { DataTable, DataTableFilters } from '../companies-interface';
 import { Subject, debounceTime, takeUntil } from 'rxjs';
+import * as entity from '../companies-interface';
 
 @Component({
   selector: 'app-prospects',
@@ -170,10 +171,6 @@ export class ProspectsComponent implements OnInit, AfterViewInit, OnDestroy {
     },
   ]
 
-  public fechaHoy = new Date();
-
-  public searchBar = new FormControl('')
-
   public formFilters = this.formBuilder.group({
     status: [{ value: null, disabled: false }],
     giro: [{ value: null, disabled: false }],
@@ -181,6 +178,13 @@ export class ProspectsComponent implements OnInit, AfterViewInit, OnDestroy {
     rangeDateStart: [{ value: null, disabled: false }],
     rangeDateEnd: [{ value: null, disabled: false }],
   });
+
+  public catBusiness: entity.DataCatBusiness[] = [];
+
+  public searchBar = new FormControl('')
+
+  public fechaHoy = new Date();
+
 
   constructor(
     private moduleServices: CompaniesService,
@@ -197,6 +201,10 @@ export class ProspectsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.searchBar.valueChanges.pipe(takeUntil(this.onDestroy), debounceTime(500)).subscribe((content: string) => {
       console.log(content);
     })
+    
+    setTimeout(() => {
+      this.getCatalogs()
+    }, 500);
   }
 
   SearchWithFilters() {
@@ -208,7 +216,12 @@ export class ProspectsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getCatalogs() {
-
+    this.moduleServices.getCatalogBusiness().pipe(takeUntil(this.onDestroy)).subscribe({
+      next: (data: entity.DataCatBusiness[]) => {
+        this.catBusiness = data;
+      },
+      error: (error) => console.error(error)
+    });
   }
 
   getDataTable(filters: DataTableFilters) {

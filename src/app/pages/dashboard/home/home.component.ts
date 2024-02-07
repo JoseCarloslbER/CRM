@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { ApexOptions } from 'apexcharts';
 import { Subject, takeUntil } from 'rxjs';
 import { DashboardService } from '../dashboard.service';
-import * as entidades from '../dashboard-interface';
+import * as entity from '../dashboard-interface';
 
 @Component({
   selector: 'app-home',
@@ -1795,6 +1795,8 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     rangeDateEnd: [{ value: null, disabled: false }],
   });
 
+  public catBusiness: entity.DataCatBusiness[] = [];
+
   public chartWeeklyExpenses: ApexOptions = {};
   public chartGithubIssues: ApexOptions = {};
 
@@ -1967,97 +1969,108 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-
+    setTimeout(() => {
+      this.getCatalogs()
+    }, 500);
   }
 
   SearchWithFilters() {
     console.log(this.formFilters.value);
   }
 
-  getDashboardProductsMaterial(filters: entidades.DataTableFilters) {
+  getCatalogs() {
+    this.moduleServices.getCatalogBusiness().pipe(takeUntil(this.onDestroy)).subscribe({
+      next: (data: entity.DataCatBusiness[]) => {
+        this.catBusiness = data;
+      },
+      error: (error) => console.error(error)
+    });
+  }
+
+  getDashboardProductsMaterial(filters: entity.DataTableFilters) {
     this.moduleServices.getDashboardProductsMaterial(filters).pipe(takeUntil(this.onDestroy)).subscribe({
-      next: ({ data }: entidades.DataProductsTable) => {
+      next: ({ data }: entity.DataProductsTable) => {
         console.log(data);
       },
       error: (error) => console.error(error)
     })
   }
 
-  getDataProductsTable(filters: entidades.DataTableFilters) {
+  getDataProductsTable(filters: entity.DataTableFilters) {
     this.moduleServices.getDashboardProductsTable().pipe(takeUntil(this.onDestroy)).subscribe({
-      next: ({ data }: entidades.DataProductsTable) => {
+      next: ({ data }: entity.DataProductsTable) => {
         console.log(data);
       },
       error: (error) => console.error(error)
     })
   }
 
-  getDataArticlesTable(filters: entidades.DataTableFilters) {
+  getDataArticlesTable(filters: entity.DataTableFilters) {
     this.moduleServices.getDashboardArticlesTable().pipe(takeUntil(this.onDestroy)).subscribe({
-      next: ({ data }: entidades.DataArticlesTable) => {
+      next: ({ data }: entity.DataArticlesTable) => {
         console.log(data);
       },
       error: (error) => console.error(error)
     })
   }
 
-  getDashboardSells(filters: entidades.DataTableFilters) {
+  getDashboardSells(filters: entity.DataTableFilters) {
     this.moduleServices.getDashboardSells().pipe(takeUntil(this.onDestroy)).subscribe({
-      next: ({ data }: entidades.DataArticlesTable) => {
+      next: ({ data }: entity.DataArticlesTable) => {
         console.log(data);
       },
       error: (error) => console.error(error)
     })
   }
 
-  getDashboardQuotes(filters: entidades.DataTableFilters) {
+  getDashboardQuotes(filters: entity.DataTableFilters) {
     this.moduleServices.getDashboardSells().pipe(takeUntil(this.onDestroy)).subscribe({
-      next: ({ data }: entidades.DataArticlesTable) => {
+      next: ({ data }: entity.DataArticlesTable) => {
         console.log(data);
       },
       error: (error) => console.error(error)
     })
   }
  
-  getDashboardSellsStatistics(filters: entidades.DataTableFilters) {
+  getDashboardSellsStatistics(filters: entity.DataTableFilters) {
     this.moduleServices.getDashboardSellsStatistics().pipe(takeUntil(this.onDestroy)).subscribe({
-      next: ({ data }: entidades.DataArticlesTable) => {
+      next: ({ data }: entity.DataArticlesTable) => {
         console.log(data);
       },
       error: (error) => console.error(error)
     })
   }
 
-  getDashboardQuotesStatistics(filters: entidades.DataTableFilters) {
+  getDashboardQuotesStatistics(filters: entity.DataTableFilters) {
     this.moduleServices.getDashboardQuotesStatistics().pipe(takeUntil(this.onDestroy)).subscribe({
-      next: ({ data }: entidades.DataArticlesTable) => {
+      next: ({ data }: entity.DataArticlesTable) => {
         console.log(data);
       },
       error: (error) => console.error(error)
     })
   }
 
-  getDashboardCompaniesStatistics(filters: entidades.DataTableFilters) {
+  getDashboardCompaniesStatistics(filters: entity.DataTableFilters) {
     this.moduleServices.getDashboardCompaniesStatistics().pipe(takeUntil(this.onDestroy)).subscribe({
-      next: ({ data }: entidades.DataArticlesTable) => {
+      next: ({ data }: entity.DataArticlesTable) => {
         console.log(data);
       },
       error: (error) => console.error(error)
     })
   }
 
-  getDashboardClientsStatisticsTable(filters: entidades.DataTableFilters) {
+  getDashboardClientsStatisticsTable(filters: entity.DataTableFilters) {
     this.moduleServices.getDashboardClientsStatisticsTable().pipe(takeUntil(this.onDestroy)).subscribe({
-      next: ({ data }: entidades.DataClientsStatisticsTable) => {
+      next: ({ data }: entity.DataClientsStatisticsTable) => {
         console.log(data);
       },
       error: (error) => console.error(error)
     })
   }
 
-  getDashboardCountriesStatisticsTable(filters: entidades.DataTableFilters) {
+  getDashboardCountriesStatisticsTable(filters: entity.DataTableFilters) {
     this.moduleServices.getDashboardCountriesStatisticsTable().pipe(takeUntil(this.onDestroy)).subscribe({
-      next: ({ data }: entidades.DataCountryStatisticsTable) => {
+      next: ({ data }: entity.DataCountryStatisticsTable) => {
         console.log(data);
       },
       error: (error) => console.error(error)

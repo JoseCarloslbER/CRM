@@ -35,9 +35,8 @@
                             <mat-form-field class="flex-auto input-default">
                                 <mat-label>Giro</mat-label>
                                 <mat-select placeholder="Seleccionar" formControlName="giro">
-                                    <mat-option value="Giro-1">Giro 1</mat-option>
-                                    <mat-option value="Giro-2">Giro 2</mat-option>
-                                    <mat-option value="Giro-3">Giro 3</mat-option>
+                                    <mat-option [value]="null">Todos</mat-option>
+                                    <mat-option [value]="cat.business_id" *ngFor="let cat of catBusiness">{{cat?.business_name || '-'}}</mat-option>
                                 </mat-select>
                             </mat-form-field>
                         </div>

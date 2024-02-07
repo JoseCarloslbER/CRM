@@ -1,45 +1,123 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
-import { ModalNewActivityComponent } from 'app/pages/companies/all/detail-client/components/history/modal-new-activity/modal-new-activity.component';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ModalNewProductComponent } from 'app/pages/admin/main-products/products/modal-new-product/modal-new-product.component';
+import { Subject, takeUntil } from 'rxjs';
+import { DashboardService } from '../dashboard.service';
+import * as entity from '../dashboard-interface';
 
 @Component({
   selector: 'app-new-quote-or-prospect',
   templateUrl: './new-quote-or-prospect.component.html',
   styleUrl: './new-quote-or-prospect.component.scss'
 })
-export class NewQuoteOrProspectComponent implements AfterViewInit {
+export class NewQuoteOrProspectComponent implements OnInit, AfterViewInit, OnDestroy {
+  private onDestroy = new Subject<void>();
+
+  public formData = this.formBuilder.group({
+    name: [null, Validators.required],
+    email: [null],
+    web: [null],
+  });
 
   public addContact = new FormControl('')
+
   public contactos: any[] = []
   public valuesContacts: any[] = []
+  public productFormValues: any[] = [];
+  public optionFormValues: any[] = [];
 
-  public productFormValues : any[] = [];
-  public optionFormValues : any[] = [];
+  public catCompaniesSizes: entity.DataCatCompanySize[] = [];
+  public catCompaniesTypes: entity.DataCatCompanyType[] = [];
+  public catCountries: entity.DataCatCountry[] = [];
+  public catStates: entity.DataCatState[] = [];
+  public catCities: entity.DataCatCity[] = [];
+  public catBusiness: entity.DataCatBusiness[] = [];
+
+  private idData: string = ''
+  private objEditData: any;
 
   constructor(
     private notificationService: OpenModalsService,
+    private moduleServices: DashboardService,
+    private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
     private dialog: MatDialog,
-    private router: Router
+    private router: Router,
+
   ) { }
 
+  ngOnInit(): void {
+    this.getId()
+  }
 
   ngAfterViewInit(): void {
     this.addContact.valueChanges.subscribe(resp => {
-      console.log(resp);
-      if (resp) {
-        this.addFormContact()
-      }
+      if (resp) this.addFormContact()
     })
 
-    this.addFormOption();
-    this.addFormProduct();
+    this.getCatalogs()
 
+    setTimeout(() => {
+      this.addFormOption();
+      this.addFormProduct();
+    }, 500);
+  }
+
+  getId() {
+    this.activatedRoute.params.pipe(takeUntil(this.onDestroy)).subscribe(({ id }: any) => {
+      if (id) {
+        this.idData = id;
+        // this.getDataById();
+        this.addFormContact(true);
+      }
+    });
+  }
+
+  getCatalogs() {
+    this.moduleServices.getCatalogCompanySize().pipe(takeUntil(this.onDestroy)).subscribe({
+      next: (data: entity.DataCatCompanySize[]) => {
+        this.catCompaniesSizes = data;
+      },
+      error: (error) => console.error(error)
+    });
+
+    this.moduleServices.getCatalogCompanyType().pipe(takeUntil(this.onDestroy)).subscribe({
+      next: (data: entity.DataCatCompanyType[]) => {
+        this.catCompaniesTypes = data;
+      },
+      error: (error) => console.error(error)
+    });
+
+    this.moduleServices.getCatalogCountry().pipe(takeUntil(this.onDestroy)).subscribe({
+      next: (data: entity.DataCatCountry[]) => {
+        this.catCountries = data;
+      },
+      error: (error) => console.error(error)
+    });
+
+    this.moduleServices.getCatalogState().pipe(takeUntil(this.onDestroy)).subscribe({
+      next: (data: entity.DataCatState[]) => {
+        this.catStates = data;
+      },
+      error: (error) => console.error(error)
+    });
+
+    this.moduleServices.getCatalogCity().pipe(takeUntil(this.onDestroy)).subscribe({
+      next: (data: entity.DataCatCity[]) => {
+        this.catCities = data;
+      },
+      error: (error) => console.error(error)
+    });
+
+    this.moduleServices.getCatalogBusiness().pipe(takeUntil(this.onDestroy)).subscribe({
+      next: (data: entity.DataCatBusiness[]) => {
+        this.catBusiness = data;
+      },
+      error: (error) => console.error(error)
+    });
   }
 
   addFormContact(datos?: any) {
@@ -80,7 +158,6 @@ export class NewQuoteOrProspectComponent implements AfterViewInit {
   }
 
   addFormProduct(datos?: any) {
-    console.log(this.productFormValues);
     const instance: any = {
       ...(datos && { id: datos.id }),
       placesControl: new FormControl({ value: datos?.places || '', disabled: false }),
@@ -90,8 +167,6 @@ export class NewQuoteOrProspectComponent implements AfterViewInit {
     };
 
     this.productFormValues.push(instance);
-    console.log(this.productFormValues);
-    
   }
 
   getProductsValues() {
@@ -109,7 +184,7 @@ export class NewQuoteOrProspectComponent implements AfterViewInit {
     return this.productFormValues.map(formValues);
   }
 
-  deleteProductValue(index:number) {
+  deleteProductValue(index: number) {
     this.productFormValues.splice(index, 1)
   }
 
@@ -142,7 +217,7 @@ export class NewQuoteOrProspectComponent implements AfterViewInit {
     return this.optionFormValues.map(formValues);
   }
 
-  deleteOptionValue(index:number) {
+  deleteOptionValue(index: number) {
     this.optionFormValues.splice(index, 1)
   }
 
@@ -158,7 +233,7 @@ export class NewQuoteOrProspectComponent implements AfterViewInit {
         this.toBack()
       });
   }
- 
+
   newDataProduct() {
     this.dialog.open(ModalNewProductComponent, {
       data: null,
@@ -171,5 +246,14 @@ export class NewQuoteOrProspectComponent implements AfterViewInit {
 
   toBack() {
     this.router.navigateByUrl(`/home/conversion/detalle-cotizacion/1`)
+  }
+
+  get canSave(): boolean {
+    return !(this.formData.valid);
+  }
+
+  ngOnDestroy(): void {
+    this.onDestroy.next();
+    this.onDestroy.unsubscribe();
   }
 }

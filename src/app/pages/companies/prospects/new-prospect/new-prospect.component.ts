@@ -15,14 +15,6 @@ import * as entity from '../../companies-interface';
 export class NewProspectComponent implements OnInit, AfterViewInit, OnDestroy {
   private onDestroy = new Subject<void>();
 
-  public addContact = new FormControl('')
-  public contacts: any[] = []
-  public valuesContacts: any[] = []
-
-  public url = document.location.href;
-  public modalTitle: string = '';
-  public esClient: boolean = false;
-
   public formData = this.formBuilder.group({
     name: [null, Validators.required],
     email: [null],
@@ -41,6 +33,17 @@ export class NewProspectComponent implements OnInit, AfterViewInit, OnDestroy {
     file: [null, Validators.required],
   });
 
+  public addContact = new FormControl('');
+
+  public contacts: any[] = [];
+  public valuesContacts: any[] = [];
+
+  public url = document.location.href;
+
+  public modalTitle: string = '';
+  
+  public esClient: boolean = false;
+
   public catCompaniesSizes: entity.DataCatCompanySize[] = [];
   public catCompaniesTypes: entity.DataCatCompanyType[] = [];
   public catCountries: entity.DataCatCountry[] = [];
@@ -48,9 +51,7 @@ export class NewProspectComponent implements OnInit, AfterViewInit, OnDestroy {
   public catCities: entity.DataCatCity[] = [];
   public catBusiness: entity.DataCatBusiness[] = [];
 
-
   private idData: string = ''
-
   private objEditData : any;
 
   constructor(
@@ -68,7 +69,7 @@ export class NewProspectComponent implements OnInit, AfterViewInit, OnDestroy {
   }
  
   ngAfterViewInit(): void {
-    this.addContact.valueChanges.subscribe(resp => {
+    this.addContact.valueChanges.pipe(takeUntil(this.onDestroy)).subscribe(resp => {
       console.log(resp);
     })
 
@@ -78,13 +79,13 @@ export class NewProspectComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getId() {
-    this.activatedRoute.params.subscribe(({ id }: any) => {
+    this.activatedRoute.params.pipe(takeUntil(this.onDestroy)).subscribe(({ id }: any) => {
       this.idData = id;
       // this.getDataById();
 
       if (this.url.includes('detalle')) {
         setTimeout(() => {
-          this.habilitarODesabilitarInputs();
+          this.enableOrDisableInputs();
           this.addFormContact(true);
         });
       } else {
@@ -258,7 +259,7 @@ export class NewProspectComponent implements OnInit, AfterViewInit, OnDestroy {
     this.router.navigateByUrl(`/home/empresas/todos`)
   }
 
-  habilitarODesabilitarInputs(accion = false) {
+  enableOrDisableInputs(accion = false) {
     const key = accion ? 'enable' : 'disable';
     this.formData.get('name')?.[key]();
     this.formData.get('email')?.[key]();

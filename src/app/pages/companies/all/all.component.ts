@@ -7,6 +7,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { Subject, debounceTime, takeUntil } from 'rxjs';
 import { CompaniesService } from '../companies.service';
 import { DataTable, DataTableFilters } from '../companies-interface';
+import * as entity from '../companies-interface';
 
 @Component({
   selector: 'app-all',
@@ -138,11 +139,6 @@ export class AllComponent  implements OnInit, AfterViewInit, OnDestroy {
     }
   ]
 
-	public fechaHoy = new Date();
-
-  public searchBar = new FormControl('')
-
-  public selectedProject: string = 'todas';
 
   public formFilters = this.formBuilder.group({
     status: [{ value: null, disabled: false }],
@@ -151,6 +147,14 @@ export class AllComponent  implements OnInit, AfterViewInit, OnDestroy {
     rangeDateStart: [{ value: null, disabled: false }],
     rangeDateEnd: [{ value: null, disabled: false }],
   });
+
+  public catBusiness: entity.DataCatBusiness[] = [];
+
+  public searchBar = new FormControl('')
+
+  public selectedProject: string = 'todas';
+
+	public fechaHoy = new Date();
 
   constructor(
     private moduleServices: CompaniesService,
@@ -167,6 +171,10 @@ export class AllComponent  implements OnInit, AfterViewInit, OnDestroy {
     this.searchBar.valueChanges.pipe(takeUntil(this.onDestroy), debounceTime(500)).subscribe((content:string) => {
       console.log(content);
     })
+
+    setTimeout(() => {
+      this.getCatalogs()
+    }, 500);
    }
 
   SearchWithFilters(){
@@ -177,7 +185,14 @@ export class AllComponent  implements OnInit, AfterViewInit, OnDestroy {
     this.getDataTable(objFilters)  
   }
 
-  getCatalogs() {}
+  getCatalogs() {
+    this.moduleServices.getCatalogBusiness().pipe(takeUntil(this.onDestroy)).subscribe({
+      next: (data: entity.DataCatBusiness[]) => {
+        this.catBusiness = data;
+      },
+      error: (error) => console.error(error)
+    });
+  }
 
   getDataTable(filters:DataTableFilters) {
     this.moduleServices.getDataTable('all', filters).subscribe({

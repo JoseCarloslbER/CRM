@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { Subject, takeUntil } from 'rxjs';
 import { CatchmentService } from '../../catchment.service';
+import * as entity from '../../catchment-interface';
 
 @Component({
   selector: 'app-new-campingn',
@@ -12,13 +13,6 @@ import { CatchmentService } from '../../catchment.service';
 })
 export class NewCampingnComponent implements OnInit, AfterViewInit, OnDestroy {
   private onDestroy = new Subject<void>();
-
-  public fechaHoy = new Date();
-  public toppings = new FormControl('');
-  public selectCompanies = new FormControl('');
-  public toppingList: string[] = ['Empresa A', 'Empresa B', 'Empresa C'];
-
-  public url = document.location.href;
 
   public formFilters = this.formBuilder.group({
     type: [null],
@@ -44,8 +38,18 @@ export class NewCampingnComponent implements OnInit, AfterViewInit, OnDestroy {
     totalAmount: [null, Validators.required]
   });
 
-  private idData: string = '';
+  public catBusiness: entity.DataCatBusiness[] = [];
+  public catTypes: entity.DataCatType[] = [];
 
+  public fechaHoy = new Date();
+  public toppings = new FormControl('');
+  public selectCompanies = new FormControl('');
+  
+  public toppingList: string[] = ['Empresa A', 'Empresa B', 'Empresa C'];
+
+  public url = document.location.href;
+
+  private idData: string = '';
   private objEditData : any;
 
   constructor(
@@ -62,7 +66,9 @@ export class NewCampingnComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-
+    setTimeout(() => {
+      this.getCatalogs()
+    }, 500);
   }
 
   getId() {
@@ -72,7 +78,7 @@ export class NewCampingnComponent implements OnInit, AfterViewInit, OnDestroy {
 
       if (this.url.includes('detalle')) {
         setTimeout(() => {
-          // this.habilitarODesabilitarInputs();
+          // this.enableOrDisableInputs();
         });
       } 
     });
@@ -89,6 +95,22 @@ export class NewCampingnComponent implements OnInit, AfterViewInit, OnDestroy {
         console.error(error)
       }
     })
+  }
+
+  getCatalogs() {
+    this.moduleServices.getCatalogBusiness().pipe(takeUntil(this.onDestroy)).subscribe({
+      next: (data: entity.DataCatBusiness[]) => {
+        this.catBusiness = data;
+      },
+      error: (error) => console.error(error)
+    });
+
+    this.moduleServices.getCatalogType().pipe(takeUntil(this.onDestroy)).subscribe({
+      next: (data: entity.DataCatType[]) => {
+        this.catTypes = data;
+      },
+      error: (error) => console.error(error)
+    });
   }
 
   actionSave() {

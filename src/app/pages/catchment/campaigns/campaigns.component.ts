@@ -99,11 +99,12 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
     rangeDateEnd: [{ value: null, disabled: false }]
   });
 
+  public catalogTypes : entity.DataCatType[] = []; 
+
   public fechaHoy = new Date();
 
   public searchBar = new FormControl('');
 
-  public catalogTypes : entity.DataCatalogTypeList[] = []; 
 
   constructor(
     private moduleServices: CatchmentService,
@@ -135,7 +136,7 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   getCatalogs() {
     this.moduleServices.getCatalogType().pipe(takeUntil(this.onDestroy)).subscribe({
-      next: (data : entity.DataCatalogTypeList[]) => {
+      next: (data : entity.DataCatType[]) => {
         console.log(data);
         
         this.catalogTypes = data

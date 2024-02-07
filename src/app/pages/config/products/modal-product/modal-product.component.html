@@ -21,9 +21,7 @@
                     <mat-form-field class="flex-auto gt-xs:pr-3 width-100">
                         <mat-label>Giro*</mat-label>
                         <mat-select placeholder="Seleccionar">
-                            <mat-option value="giro1">Giro 1</mat-option>
-                            <mat-option value="giro2">Giro 2</mat-option>
-                            <mat-option value="giro3">Giro 3</mat-option>
+                            <mat-option [value]="cat.business_id" *ngFor="let cat of catBusiness">{{cat?.business_name || '-'}}</mat-option>
                         </mat-select>
                     </mat-form-field>
 

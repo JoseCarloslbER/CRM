@@ -1,13 +1,13 @@
 import { AfterViewInit, Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalFastQuoteComponent } from '../../prospects/modal-fast-quote/modal-fast-quote.component';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
-import { FuseConfirmationService } from '@fuse/services/confirmation/confirmation.service';
 import { CompaniesService } from '../../companies.service';
 import { Subject, takeUntil } from 'rxjs';
+import * as entity from '../../companies-interface';
 
 @Component({
   selector: 'app-new-client',
@@ -41,8 +41,14 @@ export class NewClientComponent implements OnInit, AfterViewInit, OnDestroy {
     companyType: ['', Validators.required],
   });
 
-  private idData: string = ''
+  public catCompaniesSizes: entity.DataCatCompanySize[] = [];
+  public catCompaniesTypes: entity.DataCatCompanyType[] = [];
+  public catCountries: entity.DataCatCountry[] = [];
+  public catStates: entity.DataCatState[] = [];
+  public catCities: entity.DataCatCity[] = [];
+  public catBusiness: entity.DataCatBusiness[] = [];
 
+  private idData: string = ''
   private objEditData: any;
 
   constructor(
@@ -56,25 +62,77 @@ export class NewClientComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
   ngOnInit(): void {
-
-    this.activatedRoute.params.subscribe(({ id }: any) => {
-      if (id) {
-        this.idData = id;
-        this.getDataById();
-      }
-
-      if (this.url.includes('cliente')) {
-        this.addContact.setValue(true)
-      }
-    });
+    this.getId()
   }
 
   ngAfterViewInit(): void {
-    this.addContact.valueChanges.subscribe(resp => {
+    this.addContact.valueChanges.pipe(takeUntil(this.onDestroy)).subscribe(resp => {
       console.log(resp);
     })
 
-    this.addFormContact();
+    setTimeout(() => {
+      this.getCatalogs()
+    }, 500);
+  }
+
+  getId() {
+    this.activatedRoute.params.pipe(takeUntil(this.onDestroy)).subscribe(({ id }: any) => {
+      this.idData = id;
+      // this.getDataById();
+
+      if (this.url.includes('detalle')) {
+        setTimeout(() => {
+          this.enableOrDisableInputs();
+          this.addFormContact(true);
+        });
+      } else {
+        this.addFormContact();
+      }
+    });
+  }
+  
+  getCatalogs() {
+    this.moduleServices.getCatalogCompanySize().pipe(takeUntil(this.onDestroy)).subscribe({
+      next: (data: entity.DataCatCompanySize[]) => {
+        this.catCompaniesSizes = data;
+      },
+      error: (error) => console.error(error)
+    });
+
+    this.moduleServices.getCatalogCompanyType().pipe(takeUntil(this.onDestroy)).subscribe({
+      next: (data: entity.DataCatCompanyType[]) => {
+        this.catCompaniesTypes = data;
+      },
+      error: (error) => console.error(error)
+    });
+
+    this.moduleServices.getCatalogCountry().pipe(takeUntil(this.onDestroy)).subscribe({
+      next: (data: entity.DataCatCountry[]) => {
+        this.catCountries = data;
+      },
+      error: (error) => console.error(error)
+    });
+ 
+    this.moduleServices.getCatalogState().pipe(takeUntil(this.onDestroy)).subscribe({
+      next: (data: entity.DataCatState[]) => {
+        this.catStates = data;
+      },
+      error: (error) => console.error(error)
+    });
+
+    this.moduleServices.getCatalogCity().pipe(takeUntil(this.onDestroy)).subscribe({
+      next: (data: entity.DataCatCity[]) => {
+        this.catCities = data;
+      },
+      error: (error) => console.error(error)
+    });
+ 
+    this.moduleServices.getCatalogBusiness().pipe(takeUntil(this.onDestroy)).subscribe({
+      next: (data: entity.DataCatBusiness[]) => {
+        this.catBusiness = data;
+      },
+      error: (error) => console.error(error)
+    });
   }
 
   addFormContact(datos?: any) {
@@ -206,6 +264,11 @@ export class NewClientComponent implements OnInit, AfterViewInit, OnDestroy {
 
   toAll() {
     this.router.navigateByUrl(`/home/empresas/todos`)
+  }
+
+  enableOrDisableInputs(accion = false) {
+    const key = accion ? 'enable' : 'disable';
+    this.formData.get('name')?.[key]();
   }
 
   get canSave(): boolean {

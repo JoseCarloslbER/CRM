@@ -8,6 +8,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { Subject, debounceTime, takeUntil } from 'rxjs';
 import { CompaniesService } from '../companies.service';
 import { DataTable, DataTableFilters } from '../companies-interface';
+import * as entity from '../companies-interface';
 
 @Component({
   selector: 'app-leads',
@@ -171,10 +172,6 @@ export class LeadsComponent implements OnInit, AfterViewInit, OnDestroy {
     },
   ]
 
-  public fechaHoy = new Date();
-
-  public searchBar = new FormControl('')
-
 
   public formFilters = this.formBuilder.group({
     status: [{ value: null, disabled: false }],
@@ -183,6 +180,12 @@ export class LeadsComponent implements OnInit, AfterViewInit, OnDestroy {
     rangeDateStart: [{ value: null, disabled: false }],
     rangeDateEnd: [{ value: null, disabled: false }],
   });
+
+  public catBusiness: entity.DataCatBusiness[] = [];
+
+  public searchBar = new FormControl('')
+  
+  public fechaHoy = new Date();
 
   constructor(
     private moduleServices: CompaniesService,
