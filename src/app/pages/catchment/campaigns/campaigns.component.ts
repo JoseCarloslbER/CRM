@@ -8,7 +8,8 @@ import { Router } from '@angular/router';
 import { ModalInformationInTableComponent } from 'app/pages/catchment/campaigns/modal-information-in-table/modal-information-in-table.component';
 import { Subject, debounceTime, takeUntil } from 'rxjs';
 import { CatchmentService } from '../catchment.service';
-import { DataTable, DataTableFilters } from '../catchment-interface';
+import { DataTableFilters } from '../catchment-interface';
+import * as entity from '../catchment-interface';
 
 @Component({
   selector: 'app-campaigns',
@@ -25,12 +26,14 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public displayedColumnsCampaign: string[] = [
     'noSerie',
-    'fechasInicialFinal',
+    'dateStartEnd',
     'companyType',
     'agents',
     'companies',
     'results',
     'amounInvested',
+
+
     'allProspects',
     'allQuotes',
     'totalAllAppointments',
@@ -38,7 +41,8 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
     'totalSalesAmount',
     'acciones',
   ];
-
+  
+  // dateStartEnd
   public dataDummyCampaign: any[] = [
     {
       noSerie: 'CD4557',
@@ -84,97 +88,7 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
       fechaRegistro: '2022-02-28',
       agentePrincipal: 'Soporte (Administrador)',
 
-    },
-    {
-      noSerie: 'CD4557',
-      fechasInicialFinal: [
-        {
-          inicial: '2022-02-28',
-          final: '2022-02-28',
-
-        }
-      ],
-
-      companyType: 'Lorem ipsum',
-      agent: 'Nombre de agente principal',
-      company: '5',
-      amounInvested: '$15,000.00',
-      cotizaciones: [
-        {
-          left: '5',
-          right: '5',
-          bottom: '$15,000.00',
-        }
-      ],
-
-      totalAllAppointments: [
-        {
-          left: '$15,000.00',
-          right: '$15,000.00',
-        },
-        {
-          left: '$15,000.00',
-          right: '$15,000.00',
-        }
-      ],
-      prospects: [
-        {
-          up: '5',
-          bottom: '$15,000.00',
-
-        }
-      ],
-
-      fechaUltimoContacto: '2022-02-28',
-      fechaRegistro: '2022-02-28',
-      agentePrincipal: 'Soporte (Administrador)',
-
-    },
-    {
-      noSerie: 'CD4557',
-      fechasInicialFinal: [
-        {
-          inicial: '2022-02-28',
-          final: '2022-02-28',
-
-        }
-      ],
-
-      companyType: 'Lorem ipsum',
-      agent: 'Nombre de agente principal',
-      company: '5',
-      amounInvested: '$15,000.00',
-      cotizaciones: [
-        {
-          left: '5',
-          right: '5',
-          bottom: '$15,000.00',
-        }
-      ],
-
-      totalAllAppointments: [
-        {
-          left: '$15,000.00',
-          right: '$15,000.00',
-        },
-        {
-          left: '$15,000.00',
-          right: '$15,000.00',
-        }
-      ],
-      prospects: [
-        {
-          up: '5',
-          bottom: '$15,000.00',
-
-        }
-      ],
-
-      fechaUltimoContacto: '2022-02-28',
-      fechaRegistro: '2022-02-28',
-      agentePrincipal: 'Soporte (Administrador)',
-
-    },
+    }
   ]
 
   public formFilters = this.formBuilder.group({
@@ -182,13 +96,14 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
     giro: [{ value: null, disabled: false }],
     company: [{ value: null, disabled: false }],
     rangeDateStart: [{ value: null, disabled: false }],
-    rangeDateEnd: [{ value: null, disabled: false }],
+    rangeDateEnd: [{ value: null, disabled: false }]
   });
 
   public fechaHoy = new Date();
 
-  public searchBar = new FormControl('')
+  public searchBar = new FormControl('');
 
+  public catalogTypes : entity.DataCatalogTypeList[] = []; 
 
   constructor(
     private moduleServices: CatchmentService,
@@ -199,9 +114,8 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    setTimeout(() => {
-      this.dataSource.data = this.dataDummyCampaign;
-    }, 500);
+    this.getDataTable()
+    this.getCatalogs()
   }
 
   ngAfterViewInit(): void {
@@ -219,12 +133,25 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.getDataTable(objFilters)
   }
 
-  getCatalogs() { }
+  getCatalogs() {
+    this.moduleServices.getCatalogType().pipe(takeUntil(this.onDestroy)).subscribe({
+      next: (data : entity.DataCatalogTypeList[]) => {
+        console.log(data);
+        
+        this.catalogTypes = data
+        console.log(this.catalogTypes);
+      },
+      error: (error) => console.error(error)
+    })
+   }
 
-  getDataTable(filters:DataTableFilters) {
+  getDataTable(filters?:DataTableFilters) {
     this.moduleServices.getDataTableCampaing(filters).pipe(takeUntil(this.onDestroy)).subscribe({
-        next: ({ data } : DataTable) => {
-          console.log(data);
+        next: ( data : any) => {
+        // next: ( data : entity.DataCampaingTable) => {
+          console.log('DATOS DE LA TABLA', data[0]);
+          this.dataSource.data = data
+
         },
         error: (error) => console.error(error)
       })

@@ -54,20 +54,19 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   signIn() {
-    if (this.rememberMe.value) this.saveEncryptedUser();
-
     let objLogin : any = {
     ...this.signInForm.value
     }
 
     console.log(objLogin);
-    this.router.navigateByUrl('/home')
 
     // this.moduleServices.login(objLogin).pipe(takeUntil(this.onDestroy)).subscribe({
     //   next: (response) => {
     //     console.log(response);
-    //     // this.router.navigateByUrl('/home')
-    //     // this.saveEncryptedUser();
+    //     if (response) {
+    //       if (this.rememberMe.value) this.saveEncryptedUser();
+          this.router.navigateByUrl('/home')
+    //     }
     //   },
     //   error: (error) => console.error(error)
     // })
@@ -81,8 +80,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   getDecryptedUser() {
     const encryptedUser = localStorage.getItem('encryptedUser');
 
-    console.log('encryptedUser', encryptedUser);
-    
     if (encryptedUser) {
       const decryptedBytes = CryptoJS.AES.decrypt(encryptedUser, 'secretKey');
       const decryptedUser = JSON.parse(decryptedBytes.toString(CryptoJS.enc.Utf8));
