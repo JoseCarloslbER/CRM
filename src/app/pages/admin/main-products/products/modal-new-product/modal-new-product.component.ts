@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AdminService } from 'app/pages/admin/admin.service';
@@ -11,7 +11,7 @@ import * as entity from '../../../admin-interface';
   templateUrl: './modal-new-product.component.html',
   styleUrl: './modal-new-product.component.scss'
 })
-export class ModalNewProductComponent implements OnInit, OnDestroy {
+export class ModalNewProductComponent implements OnInit, AfterViewInit, OnDestroy {
   private onDestroy = new Subject<void>();
 
   public formData = this.formBuilder.group({
@@ -24,31 +24,55 @@ export class ModalNewProductComponent implements OnInit, OnDestroy {
     status_id: [null, Validators.required]
   });
 
+  public catCountries: entity.DataCatCountry[] = [];
+  public catProductCategories: entity.DataCatProductCategory[] = [];
+
+
   private idData: string = '';
-  private objEditData : entity.GetDataProduct;
+  private objEditData: entity.GetDataProduct;
 
   constructor(
     private moduleServices: AdminService,
     private formBuilder: FormBuilder,
     private notificationService: OpenModalsService,
-		@Inject(MAT_DIALOG_DATA) public data: any,
-		private dialogRef: MatDialogRef<any>,
-	) {	}
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private dialogRef: MatDialogRef<any>,
+  ) { }
 
   ngOnInit(): void {
     console.log(this.data?.idEdit);
-    
+
     if (this.data?.idEdit) {
       this.idData = this.data.idEdit
       this.getDataId();
     }
   }
 
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.getCatalogs()
+    }, 500);
+  }
+
+  getCatalogs() {
+    this.moduleServices.getCatalogCountry().pipe(takeUntil(this.onDestroy)).subscribe({
+      next: (data: entity.DataCatCountry[]) => {
+        this.catCountries = data;
+      },
+      error: (error) => console.error(error)
+    });
+
+    this.moduleServices.getCatalogProductCategory().pipe(takeUntil(this.onDestroy)).subscribe({
+      next: (data: entity.DataCatProductCategory[]) => {
+        this.catProductCategories = data;
+      },
+      error: (error) => console.error(error)
+    });
+  }
+
   actionSave() {
 
-    console.log('FORM', this.formData.value);
-    
-    let objData : any = {
+    let objData: any = {
       ...this.formData.value,
     }
 
@@ -72,9 +96,9 @@ export class ModalNewProductComponent implements OnInit, OnDestroy {
     })
   }
 
-  saveDataPost(objData:entity.PostDataProduct) {
+  saveDataPost(objData: entity.PostDataProduct) {
     this.moduleServices.postDataProduct(objData).pipe(takeUntil(this.onDestroy)).subscribe({
-      next: (response: any) => {
+      next: () => {
         this.completionMessage()
       },
       error: (error) => {
@@ -84,9 +108,9 @@ export class ModalNewProductComponent implements OnInit, OnDestroy {
     })
   }
 
-  saveDataPatch(objData:entity.PostDataProduct) {
+  saveDataPatch(objData: entity.PostDataProduct) {
     this.moduleServices.patchDataProduct(this.idData, objData).pipe(takeUntil(this.onDestroy)).subscribe({
-      next: (response: any) => {
+      next: () => {
         this.completionMessage(true)
       },
       error: (error) => {
@@ -108,7 +132,7 @@ export class ModalNewProductComponent implements OnInit, OnDestroy {
   }
 
   closeModal() {
-		this.dialogRef.close({ close : true })
+    this.dialogRef.close({ close: true })
   }
 
   ngOnDestroy(): void {

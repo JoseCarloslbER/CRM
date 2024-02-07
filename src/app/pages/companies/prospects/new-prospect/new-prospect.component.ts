@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ModalFastQuoteComponent } from '../modal-fast-quote/modal-fast-quote.component';
 import { Subject, takeUntil } from 'rxjs';
 import { CompaniesService } from '../../companies.service';
+import * as entity from '../../companies-interface';
 
 @Component({
   selector: 'app-new-prospect',
@@ -40,6 +41,14 @@ export class NewProspectComponent implements OnInit, AfterViewInit, OnDestroy {
     file: [null, Validators.required],
   });
 
+  public catCompaniesSizes: entity.DataCatCompanySize[] = [];
+  public catCompaniesTypes: entity.DataCatCompanyType[] = [];
+  public catCountries: entity.DataCatCountry[] = [];
+  public catStates: entity.DataCatState[] = [];
+  public catCities: entity.DataCatCity[] = [];
+  public catBusiness: entity.DataCatBusiness[] = [];
+
+
   private idData: string = ''
 
   private objEditData : any;
@@ -62,6 +71,10 @@ export class NewProspectComponent implements OnInit, AfterViewInit, OnDestroy {
     this.addContact.valueChanges.subscribe(resp => {
       console.log(resp);
     })
+
+    setTimeout(() => {
+      this.getCatalogs()
+    }, 500);
   }
 
   getId() {
@@ -80,6 +93,49 @@ export class NewProspectComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
+  getCatalogs() {
+    this.moduleServices.getCatalogCompanySize().pipe(takeUntil(this.onDestroy)).subscribe({
+      next: (data: entity.DataCatCompanySize[]) => {
+        this.catCompaniesSizes = data;
+      },
+      error: (error) => console.error(error)
+    });
+
+    this.moduleServices.getCatalogCompanyType().pipe(takeUntil(this.onDestroy)).subscribe({
+      next: (data: entity.DataCatCompanyType[]) => {
+        this.catCompaniesTypes = data;
+      },
+      error: (error) => console.error(error)
+    });
+
+    this.moduleServices.getCatalogCountry().pipe(takeUntil(this.onDestroy)).subscribe({
+      next: (data: entity.DataCatCountry[]) => {
+        this.catCountries = data;
+      },
+      error: (error) => console.error(error)
+    });
+ 
+    this.moduleServices.getCatalogState().pipe(takeUntil(this.onDestroy)).subscribe({
+      next: (data: entity.DataCatState[]) => {
+        this.catStates = data;
+      },
+      error: (error) => console.error(error)
+    });
+
+    this.moduleServices.getCatalogCity().pipe(takeUntil(this.onDestroy)).subscribe({
+      next: (data: entity.DataCatCity[]) => {
+        this.catCities = data;
+      },
+      error: (error) => console.error(error)
+    });
+ 
+    this.moduleServices.getCatalogBusiness().pipe(takeUntil(this.onDestroy)).subscribe({
+      next: (data: entity.DataCatBusiness[]) => {
+        this.catBusiness = data;
+      },
+      error: (error) => console.error(error)
+    });
+  }
 
   addFormContact(bloquear?: boolean, datos?: any) {
     const instance: any = {
@@ -141,7 +197,7 @@ export class NewProspectComponent implements OnInit, AfterViewInit, OnDestroy {
 
   saveDataPost(objData) {
     this.moduleServices.postData('prospect', objData).pipe(takeUntil(this.onDestroy)).subscribe({
-      next: (response: any) => {
+      next: () => {
         this.completionMessage()
       },
       error: (error) => {
@@ -153,7 +209,7 @@ export class NewProspectComponent implements OnInit, AfterViewInit, OnDestroy {
 
   saveDataPatch(objData) {
     this.moduleServices.patchData('prospect', objData).pipe(takeUntil(this.onDestroy)).subscribe({
-      next: (response: any) => {
+      next: () => {
         this.completionMessage(true)
       },
       error: (error) => {

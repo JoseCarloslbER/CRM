@@ -28,7 +28,7 @@
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>País</mat-label>
                             <mat-select formControlName="country_id" placeholder="Seleccionar">
-                                <mat-option [value]="'1'">País 1</mat-option>
+                                <mat-option [value]="cat.country_id" *ngFor="let cat of catCountries">{{cat?.country_name || '-'}}</mat-option>
                             </mat-select>
                         </mat-form-field>
 
@@ -48,7 +48,7 @@
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Categoría</mat-label>
                             <mat-select formControlName="product_category_id" placeholder="Seleccionar">
-                                <mat-option [value]="'1'">Categoría 1</mat-option>
+                                <mat-option [value]="cat.product_category_id" *ngFor="let cat of catProductCategories">{{cat?.category_name || '-'}}</mat-option>
                             </mat-select>
                         </mat-form-field>
 
