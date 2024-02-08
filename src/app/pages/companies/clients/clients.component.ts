@@ -211,7 +211,7 @@ export class ClientsComponent implements OnInit, AfterViewInit, OnDestroy {
     }, 500);
   }
 
-  SearchWithFilters() {
+  searchWithFilters() {
     let objFilters: any = {
       ...this.formFilters.value
     }

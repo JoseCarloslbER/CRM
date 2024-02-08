@@ -1974,7 +1974,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     }, 500);
   }
 
-  SearchWithFilters() {
+  searchWithFilters() {
     console.log(this.formFilters.value);
   }
 

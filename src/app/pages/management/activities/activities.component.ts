@@ -68,7 +68,7 @@ export class ActivitiesComponent {
     this.dataSource.data = this.dataDummy
   }
 
-  SearchWithFilters() {
+  searchWithFilters() {
     console.log(this.formFilters.value);
   }
 

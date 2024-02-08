@@ -171,6 +171,8 @@ export class ProspectsComponent implements OnInit, AfterViewInit, OnDestroy {
     },
   ]
 
+  public searchBar = new FormControl('')
+
   public formFilters = this.formBuilder.group({
     status: [{ value: null, disabled: false }],
     giro: [{ value: null, disabled: false }],
@@ -181,10 +183,7 @@ export class ProspectsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public catBusiness: entity.DataCatBusiness[] = [];
 
-  public searchBar = new FormControl('')
-
   public fechaHoy = new Date();
-
 
   constructor(
     private moduleServices: CompaniesService,
@@ -207,7 +206,7 @@ export class ProspectsComponent implements OnInit, AfterViewInit, OnDestroy {
     }, 500);
   }
 
-  SearchWithFilters() {
+  searchWithFilters() {
     let objFilters: any = {
       ...this.formFilters.value
     }

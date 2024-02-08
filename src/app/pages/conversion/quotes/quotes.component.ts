@@ -1,12 +1,14 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { ModalUploadDocumentComponent } from '../modal-upload-document/modal-upload-document.component';
-import { Subject } from 'rxjs';
+import { Subject, debounceTime, takeUntil } from 'rxjs';
+import * as entity from '../conversion-interface';
+import { ConversionService } from '../conversion.service';
 
 @Component({
   selector: 'app-quotes',
@@ -248,20 +250,21 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ]
 
-  public fechaHoy = new Date();
-
+  public searchBar = new FormControl('')
 
   public formFilters = this.formBuilder.group({
-    estatus: [{ value: null, disabled: false }],
+    status: [{ value: null, disabled: false }],
     agent: [{ value: null, disabled: false }],
     company: [{ value: null, disabled: false }],
     rangeDateStart: [{ value: null, disabled: false }],
     rangeDateEnd: [{ value: null, disabled: false }],
   });
 
+  public fechaHoy = new Date();
+
   constructor(
+    private moduleServices: ConversionService,
     private notificationService: OpenModalsService,
-    private openModalsService: OpenModalsService,
     private formBuilder: FormBuilder,
     private dialog: MatDialog,
     private router: Router
@@ -269,15 +272,32 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit(): void {
     this.dataSource.data = this.dataDummy
+    this.getDataTable()
   }
 
   ngAfterViewInit(): void {
-    
+    this.searchBar.valueChanges.pipe(takeUntil(this.onDestroy), debounceTime(500)).subscribe((content: string) => {
+      console.log(content);
+    })
   }
 
   searchWithFilters() {
-    console.log(this.formFilters.value);
+    let objFilters: any = {
+      ...this.formFilters.value
+    }
+
+    this.getDataTable(objFilters)
   }
+
+  getDataTable(filters?: entity.DataTableFilters) {
+    this.moduleServices.getDataTable(filters).pipe(takeUntil(this.onDestroy)).subscribe({
+      next: ( data : entity.DataCompanyTable[]) => {
+        console.log(data);
+      },
+      error: (error) => console.error(error)
+    })
+  }
+
 
   seeQuote(data:any) {
     this.router.navigateByUrl(`/home/conversion/detalle-cotizacion/${1}`)

@@ -125,7 +125,7 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
     })
   }
 
-  SearchWithFilters() {
+  searchWithFilters() {
     let objFilters:any = {
       ...this.formFilters.value
     }

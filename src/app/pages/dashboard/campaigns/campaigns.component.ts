@@ -1949,7 +1949,7 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
     console.log(event.tab.textLabel);
   }
 
-  SearchWithFilters() {
+  searchWithFilters() {
     console.log(this.formFilters.value);
   }
 

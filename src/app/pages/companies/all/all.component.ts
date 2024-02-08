@@ -177,7 +177,7 @@ export class AllComponent  implements OnInit, AfterViewInit, OnDestroy {
     }, 500);
    }
 
-  SearchWithFilters(){
+  searchWithFilters(){
     let objFilters:any = {
       ...this.formFilters.value
     }
