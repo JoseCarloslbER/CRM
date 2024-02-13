@@ -4,6 +4,7 @@ import { environment } from 'environments/environment.dev';
 import { Observable, map, tap } from 'rxjs';
 import { DataTableFilters } from './catchment-interface';
 import * as entity from './catchment-interface';
+import { Mapper } from './mapper';
 
 @Injectable({
   providedIn: 'root'
@@ -48,17 +49,14 @@ export class CatchmentService {
   // END CATALOGS 
 
   // CAMPAIGNS
-  public getDataTableCampaing(filters?:DataTableFilters): Observable<entity.DataCampaingTable> {
+  public getDataTableCampaing(filters?:DataTableFilters): Observable<entity.TableDataCampaingList[]> {
 		const url = `${this.apiUrl}campaign/`;
 
-    return this.http.get<entity.DataCampaingTable>(url).pipe(
-      tap((resp:any)=> {
-        console.log(resp);
-        resp.forEach((dato:any) => {
-          dato.dateStartEnd = [{start: dato.start_date, end: dato.end_date}]
-        });
-      })
-    )
+    return this.http.get<entity.TableDataCampaingList[]>(url).pipe(
+			map((respuesta) => {
+				return Mapper.getDataTableCampaingMapper(respuesta);
+			}),
+		);
 	}
 
   public getDataAgents(id:string): Observable<any> {

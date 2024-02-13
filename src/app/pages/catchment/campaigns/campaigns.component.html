@@ -15,7 +15,6 @@
                     </div>
 
                     <div class="row d-flex align-items-center">
-
                         <div class="flex col-sm-12  col-md-6 col-lg-3 col-12 pe-2">
                             <mat-form-field class="flex-auto input-default">
                                 <mat-label>Estatus</mat-label>
@@ -63,7 +62,6 @@
                         </div>
                     </div>
 
-                    <!-- Este  -->
                     <div class="row d-flex justify-content-end mb-2">
                         <div class="d-flex justify-content-end col-md-2 col-xl-2 col-12 pt-md-2">
                             <button class="btn-search " (click)="searchWithFilters()">
@@ -72,7 +70,6 @@
                         </div>
                     </div>
                     <div class="row d-flex">
-                        <!-- Este  -->
                         <div class="d-flex col-md-5 col-xl-5 col-12 pt-md-2 mb-lg-0 mb-sm-0 mt-3 mb-5">
                             <div class="input-search">
                                 <input type="text" placeholder="Búscar">
@@ -80,7 +77,6 @@
                             </div>
                         </div>
 
-                        <!-- Este  -->
                         <div class="d-flex col-md-7 col-xl-7 col-12 pt-md-2 justify-content-end align-items-end mt-3 mb-5">
                             <button class="btn-excel ml-3" (click)="douwnloadExel()">
                                 <mat-icon svgIcon="mat_outline:file_download"></mat-icon>
@@ -93,26 +89,27 @@
         </div>
     </div>
 
-
     <div class="c-general-table section-content-padding">
         <div class="col-12 contenedor-scroll-tabla">
-            <table mat-table #table [dataSource]="dataSource"
-            class="w-100 tabla-personalizada-default">
+            <table mat-table #table [dataSource]="dataSource" class="w-100 tabla-personalizada-default">
             <caption></caption>
 
-            <ng-container matColumnDef="noSerie">
+            <ng-container matColumnDef="codeAndname">
                 <th mat-header-cell *matHeaderCellDef># Nombre</th>
                 <td mat-cell *matCellDef="let element">
-                    {{ element?.campaign_code || 'En proceso' }}
+                    <div class="table-column-date-start-end">
+                        <span> {{ element?.codeAndname?.code || '-' }} </span>
+                        <span> {{ element?.codeAndname?.name || '-' }} </span>
+                    </div>
                 </td>
             </ng-container>
 
             <ng-container matColumnDef="dateStartEnd">
                 <th mat-header-cell *matHeaderCellDef>Fecha inicial y fecha final</th>
                 <td mat-cell *matCellDef="let element">
-                    <div class="table-column-date-start-end" *ngFor="let info of element.dateStartEnd">
-                        <span> {{ info.start }} </span>
-                        <span> {{ info.end }} </span>
+                    <div class="table-column-date-start-end">
+                        <span> {{ element?.dateStartEnd?.start }} </span>
+                        <span> {{ element?.dateStartEnd?.end }} </span>
                     </div>
                 </td>
             </ng-container>
@@ -128,8 +125,8 @@
                 <th mat-header-cell *matHeaderCellDef>Agentes</th>
                 <td mat-cell *matCellDef="let element">
                     <div class="table-column-agent-see-all">
-                        <span> {{ element?.agent || 'En proceso' }} </span>
-                        <span (click)="seeDataModal('agents')">Ver todos</span>
+                        <span> {{ element?.agents?.name || '0' }} </span>
+                        <span (click)="seeDataModal('agents', element?.agents)">Ver todos</span>
                     </div>
                 </td>
             </ng-container>
@@ -139,9 +136,9 @@
                 <td mat-cell *matCellDef="let element">
                     <div class="table-column-agent-see-all">
                         <div class="table-column-status table-column-lead-width mb-4">
-                            {{ element?.total_companies || 'En proceso' }}
+                            {{ element?.companiesMain?.amount || '0' }}
                         </div>
-                        <span (click)="seeDataModal('companies')">Ver empresas</span>
+                        <span (click)="seeDataModal('companies', element?.companiesMain?.alls)">Ver empresas</span>
                     </div>
                 </td>
             </ng-container>
@@ -159,70 +156,50 @@
                 <th mat-header-cell *matHeaderCellDef>Monto investido</th>
                 <td mat-cell *matCellDef="let element">
                     <div class="table-column-blue table-column-lead-width">
-                        {{element?.amount_invested || '-'}}
+                        {{element?.amounInvested || '-'}}
                     </div>
                 </td>
             </ng-container>
 
-            <ng-container matColumnDef="allProspects">
-                <th mat-header-cell *matHeaderCellDef>Total de prospectos alcanzados</th>
+            <ng-container matColumnDef="totalCompanies">
+                <th mat-header-cell *matHeaderCellDef>Total de empresas alcanzados</th>
                 <td mat-cell *matCellDef="let element">
-                    <div class="table-column-two-botton-row">
-                        En proceso
-                        <!-- <div class="table-column-lead"> {{ info.up }} </div>
-                        <div class="table-column-lead"> {{ info.bottom }} </div> -->
-                    </div>
+                    <div class="table-column-two-botton-row"> 
+                        <div class="table-column-lead"> {{ element?.totalCompanies || '0'}} </div>
+                     </div>
                 </td>
             </ng-container>
             
-            <ng-container matColumnDef="allQuotes">
+            <!-- <ng-container matColumnDef="allQuotes">
                 <th mat-header-cell *matHeaderCellDef>
                     Total de cotizaciones realizadas 
                     <br>
                     L | C
                 </th>
-                <td mat-cell *matCellDef="let element">
-                    <!-- <div class="table-column-three-buttons" *ngFor="let info of element.cotizaciones"> -->
-                        <!-- <div class="d-flex align-items-center justify-content-between">  -->
-                            <!-- <div class="table-column-lead"> {{ info.left }} </div>
-                            <div class="table-column-lead"> {{ info.right }} </div> -->
-                        <!-- </div> -->
-                        En proceso
-                       
-                        <!-- <div class="table-column-lead-green"> {{ info.bottom }} </div> -->
-                    <!-- </div> -->
+                <td mat-cell *matCellDef="let element"> 
+                    <div class="table-column-three-buttons" *ngFor="let info of element.cotizaciones"> 
+                        <div class="d-flex align-items-center justify-content-between">  
+                            <div class="table-column-lead"> {{ info.left }} </div>
+                            <div class="table-column-lead"> {{ info.right }} </div> 
+                        </div> 
+                        <div class="table-column-lead-green"> {{ info.bottom }} </div> 
+                    </div>
                 </td>
-            </ng-container>
+            </ng-container> -->
          
-            <ng-container matColumnDef="totalAllAppointments">
+            <ng-container matColumnDef="quotesMade">
                 <th mat-header-cell *matHeaderCellDef>
-                    Monto total de cotizaciones realizadas
-                    <br>
-                    L | C
+                    Cotizaciones realizadas
                 </th>
                 <td mat-cell *matCellDef="let element" class="d-flex d-flex gap-3">
-                    <!-- <div class="table-column-two-buttons-info " *ngFor="let info of element.totalAllAppointments">
-                        <div class="table-column-two-botton-row">
-                            <div class="table-column-lead-green" style="opacity: 0;"> {{ info.left }} </div>
-                            <div class="table-column-lead-green"> {{ info.left }} </div>
-                        </div>
-                    </div> -->
-                    <div class="table-column-two-buttons-info " >
-                        <div class="table-column-two-botton-row">
-                            En proceso
-                        </div>
-                    </div>
-                </td>
-            </ng-container>
-     
-            
-            <ng-container matColumnDef="totalClosedSales">
-                <th mat-header-cell *matHeaderCellDef>Total de ventas cerradas</th>
-                <td mat-cell *matCellDef="let element">
-                    <div class="table-column-two-botton-row">
-                        <div class="table-column-lead"> En proceso </div>
-                        <div class="table-column-lead"> En proceso </div>
-                    </div>
+                    <div class="table-column-two-botton-row"> 
+                        <div class="table-column-lead"> {{ element?.quotesMade?.left?.amount || '0' }} </div>
+                        <div class="table-column-lead"> {{ element?.quotesMade?.left?.totalAmount || '-' }} </div> 
+                     </div>
+                    <div class="table-column-two-botton-row"> 
+                        <div class="table-column-lead"> {{ element?.quotesMade?.right?.amount || '0' }} </div>
+                        <div class="table-column-lead"> {{ element?.quotesMade?.right?.totalAmount || '-' }} </div> 
+                     </div>
                 </td>
             </ng-container>
         
@@ -230,12 +207,11 @@
                 <th mat-header-cell *matHeaderCellDef>Monto total de ventas</th>
                 <td mat-cell *matCellDef="let element">
                     <div class="table-column-two-botton-row">
-                        <div class="table-column-lead" style="opacity: 0;"></div>
-                        <div class="table-column-lead"> {{ info?.total_sales }} </div>
+                        <div class="table-column-lead">{{element?.totalSalesAmount?.amount || '0' }}</div>
+                        <div class="table-column-lead">{{element?.totalSalesAmount?.totalAmount || '-'}} </div>
                     </div>
                 </td>
             </ng-container>
-
 
             <ng-container matColumnDef="acciones">
                 <th mat-header-cell *matHeaderCellDef>Acciones</th>

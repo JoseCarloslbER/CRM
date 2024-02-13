@@ -25,72 +25,19 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
   public indicePagina = 0;
 
   public displayedColumnsCampaign: string[] = [
-    'noSerie',
+    'codeAndname',
     'dateStartEnd',
     'companyType',
     'agents',
     'companies',
     'results',
     'amounInvested',
-
-
-    'allProspects',
-    'allQuotes',
-    'totalAllAppointments',
-    'totalClosedSales',
+    'totalCompanies',
+    'quotesMade',
     'totalSalesAmount',
     'acciones',
   ];
   
-  // dateStartEnd
-  public dataDummyCampaign: any[] = [
-    {
-      noSerie: 'CD4557',
-      fechasInicial: [
-        {
-          inicial: '2022-02-28',
-          final: '2022-02-28',
-
-        }
-      ],
-
-      companyType: 'Lorem ipsum',
-      agent: 'Nombre de agente principal',
-      company: '5',
-      amounInvested: '$15,000.00',
-      cotizaciones: [
-        {
-          left: '5',
-          right: '5',
-          bottom: '$15,000.00',
-        }
-      ],
-
-      totalAllAppointments: [
-        {
-          left: '$15,000.00',
-          right: '$15,000.00',
-        },
-        {
-          left: '$15,000.00',
-          right: '$15,000.00',
-        },
-      ],
-      prospects: [
-        {
-          up: '5',
-          bottom: '$15,000.00',
-
-        }
-      ],
-
-      fechaUltimoContacto: '2022-02-28',
-      fechaRegistro: '2022-02-28',
-      agentePrincipal: 'Soporte (Administrador)',
-
-    }
-  ]
-
   public formFilters = this.formBuilder.group({
     status: [{ value: null, disabled: false }],
     giro: [{ value: null, disabled: false }],
@@ -105,7 +52,6 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public searchBar = new FormControl('');
 
-
   constructor(
     private moduleServices: CatchmentService,
     private notificationService: OpenModalsService,
@@ -115,8 +61,8 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.getDataTable()
-    this.getCatalogs()
+    this.getDataTable();
+    // this.getCatalogs()
   }
 
   ngAfterViewInit(): void {
@@ -228,10 +174,11 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
       });
   }
 
-  seeDataModal(type:string) {
+  seeDataModal(type:string, data: entity.User | entity.Company) {
     this.dialog.open(ModalInformationInTableComponent, {
       data: {
-        type: type
+        type: type,
+        info : data
       },
       disableClose: true,
       width: '1000px',

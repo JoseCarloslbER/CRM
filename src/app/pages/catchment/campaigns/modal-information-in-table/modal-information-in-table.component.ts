@@ -26,68 +26,8 @@ export class ModalInformationInTableComponent implements OnInit, OnDestroy {
   private agentInfoColumns: string[] = [
     'agent',
     'rol',
-    'ip',
-    'extension'
-  ]
-
-  private dataAgent: any[] = [
-    {
-      agent: 'Agente 1',
-      isMain: 'Agente principal',
-      rol: 'Atención a cliente',
-      ip: '12354',
-      extension: '3002',
-    },
-    {
-      agent: 'Agente 2',
-      rol: 'Ventas',
-      ip: '12354',
-      extension: '3002',
-    },
-    {
-      agent: 'Agente 3',
-      rol: 'Marketing',
-      ip: '12354',
-      extension: '3002',
-    },
-    {
-      agent: 'Agente 1',
-      isMain: 'Agente principal',
-      rol: 'Atención a cliente',
-      ip: '12354',
-      extension: '3002',
-    },
-    {
-      agent: 'Agente 2',
-      rol: 'Ventas',
-      ip: '12354',
-      extension: '3002',
-    },
-    {
-      agent: 'Agente 3',
-      rol: 'Marketing',
-      ip: '12354',
-      extension: '3002',
-    },
-    {
-      agent: 'Agente 1',
-      isMain: 'Agente principal',
-      rol: 'Atención a cliente',
-      ip: '12354',
-      extension: '3002',
-    },
-    {
-      agent: 'Agente 2',
-      rol: 'Ventas',
-      ip: '12354',
-      extension: '3002',
-    },
-    {
-      agent: 'Agente 3',
-      rol: 'Marketing',
-      ip: '12354',
-      extension: '3002',
-    },
+    'voice_identifier',
+    'ext'
   ]
 
   private companyInfoColumns: string[] = [
@@ -96,105 +36,7 @@ export class ModalInformationInTableComponent implements OnInit, OnDestroy {
     'status'
   ]
 
-  private datacompany: any[] = [
-    {
-      company: 'RECK SOLUCIONES',
-      status: 'LEAD',
-      contact: [
-        {
-          nombre: 'Ing Alberto Avendaño',
-          email: 'aavendano@anpasa.com',
-          telefono: 'N/A',
-          celular: '5516349327',
-        }
-      ],
-    },
-    {
-      company: 'RECK SOLUCIONES',
-      status: 'LEAD',
-      contact: [
-        {
-          nombre: 'Ing Alberto Avendaño',
-          email: 'aavendano@anpasa.com',
-          telefono: 'N/A',
-          celular: '5516349327',
-        }
-      ],
-    },
-    {
-      company: 'RECK SOLUCIONES',
-      status: 'LEAD',
-      contact: [
-        {
-          nombre: 'Ing Alberto Avendaño',
-          email: 'aavendano@anpasa.com',
-          telefono: 'N/A',
-          celular: '5516349327',
-        }
-      ],
-    },
-    {
-      company: 'RECK SOLUCIONES',
-      status: 'LEAD',
-      contact: [
-        {
-          nombre: 'Ing Alberto Avendaño',
-          email: 'aavendano@anpasa.com',
-          telefono: 'N/A',
-          celular: '5516349327',
-        }
-      ],
-    },
-    {
-      company: 'RECK SOLUCIONES',
-      status: 'LEAD',
-      contact: [
-        {
-          nombre: 'Ing Alberto Avendaño',
-          email: 'aavendano@anpasa.com',
-          telefono: 'N/A',
-          celular: '5516349327',
-        }
-      ],
-    },
-    {
-      company: 'RECK SOLUCIONES',
-      status: 'LEAD',
-      contact: [
-        {
-          nombre: 'Ing Alberto Avendaño',
-          email: 'aavendano@anpasa.com',
-          telefono: 'N/A',
-          celular: '5516349327',
-        }
-      ],
-    },
-    {
-      company: 'RECK SOLUCIONES',
-      status: 'LEAD',
-      contact: [
-        {
-          nombre: 'Ing Alberto Avendaño',
-          email: 'aavendano@anpasa.com',
-          telefono: 'N/A',
-          celular: '5516349327',
-        }
-      ],
-    },
-    {
-      company: 'RECK SOLUCIONES',
-      status: 'LEAD',
-      contact: [
-        {
-          nombre: 'Ing Alberto Avendaño',
-          email: 'aavendano@anpasa.com',
-          telefono: 'N/A',
-          celular: '5516349327',
-        }
-      ],
-    },
-
-  ]
+  public agentData: any[] = []
 
   constructor(
     private moduleServices: CatchmentService,
@@ -203,34 +45,58 @@ export class ModalInformationInTableComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    if (this.data.type == 'agents') {
-      this.displayedColumns = this.agentInfoColumns
-      this.dataSource.data = this.dataAgent;
-      // this.getAgents()
-    } else {
-      // this.getCompanies()
-      this.displayedColumns = this.companyInfoColumns
-      this.dataSource.data = this.datacompany
-    }
+    console.log('MODAL : ', this.data.info);
+
+    if (this.data.type == 'agents') this.getAgents()
+     else this.getCompanies()
   }
 
 
   getAgents() {
-    this.moduleServices.getDataAgents('').pipe(takeUntil(this.onDestroy)).subscribe({
-      next: ({ data }: DataAgentsTable) => {
-        this.dataSource.data = data;
-      },
-      error: (error) => console.error(error)
+    this.displayedColumns = this.agentInfoColumns;
+
+    let agentData = [this.data.info.main, ...this.data.info.alls.map(all => all.user)];
+
+    agentData.forEach((data: any, index) => {
+      if (index == 0) data.main = true;
+      data.agent = { img: data.profile_picture.includes('default')
+          ? `../../../assets/images${data.profile_picture}`
+          : data.profile_picture,
+        name: `${data?.first_name || '-'} ${data?.last_name || ''}`,
+      };
+      data.rol = { main: data.main, rol: data.rol_name }
     })
+
+    this.dataSource.data = agentData;
   }
 
   getCompanies() {
-    this.moduleServices.getDataCompanies('').pipe(takeUntil(this.onDestroy)).subscribe({
-      next: ({ data }: DataTableCompanies) => {
-        this.dataSource.data = data;
-      },
-      error: (error) => console.error(error)
+    this.displayedColumns = this.companyInfoColumns
+    
+    console.log(this.data.info);
+    let companyData = [...this.data.info];
+
+    companyData.forEach((data: any) => {
+      console.log(data);
+      console.log('************************************');
+
+      data.companyMain = { img: data.company.logo.includes('default')
+          ? `../../../assets/images${data.company.logo}`
+          : data.company.logo,
+        name: `${data.company.company_name}`,
+      };
+
+      data.contact = {
+        name  : `${data.company.owner_user.first_name} ${data.company.owner_user.last_name}`,
+        email : data.company.owner_user.email,
+        phone : data.company.owner_user.phone_number
+      }
     })
+
+    console.log('resultado final:', companyData);
+    
+
+    this.dataSource.data = companyData;
   }
 
   closeModal() {

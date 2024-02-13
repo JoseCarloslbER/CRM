@@ -1,6 +1,6 @@
 
 export interface modalInfoTable {
-    info: any[],
+    info: any,
     columns?: string[],
     type?: string
   }

@@ -12,9 +12,9 @@
                     <th mat-header-cell *matHeaderCellDef>Agente</th>
                     <td mat-cell *matCellDef="let element">
                         <div class="d-flex flex-column table-column-img text-center">
-                            <img src="../../../../assets/images/icono-user.png" alt="">
+                            <img [src]="element.agent.img" alt="">
                             <span class="text-line-bottom">
-                                {{ element.agent }}
+                               {{ element?.agent?.name || '-' }}
                             </span>
                         </div>
                     </td>
@@ -24,23 +24,23 @@
                     <th mat-header-cell *matHeaderCellDef>Rol</th>
                     <td mat-cell *matCellDef="let element">
                         <div class="d-flex flex-column text-center">
-                            <span class="font-bold mb-1">{{ element?.isMain || '' }}</span>
-                            {{ element.rol }}
+                            <span class="font-bold mb-1">{{ element.rol.main ? 'Agente principal' : '' }}</span>
+                            {{ element?.rol?.rol || '-' }}
                         </div>
                     </td>
                 </ng-container>
 
-                <ng-container matColumnDef="ip">
+                <ng-container matColumnDef="voice_identifier">
                     <th mat-header-cell *matHeaderCellDef>Identificador de voz IP</th>
                     <td mat-cell *matCellDef="let element" class="text-center">
-                        {{ element.ip }}
+                        {{ element?.voice_identifier || '-' }}
                     </td>
                 </ng-container>
 
-                <ng-container matColumnDef="extension">
+                <ng-container matColumnDef="ext">
                     <th mat-header-cell *matHeaderCellDef>Extención</th>
                     <td mat-cell *matCellDef="let element" class="text-center">
-                        {{ element.extension }}
+                        {{ element?.ext || '-' }}
                     </td>
                 </ng-container>
 
@@ -60,34 +60,35 @@
                     <th mat-header-cell *matHeaderCellDef>Empresa</th>
                     <td mat-cell *matCellDef="let element">
                         <div class="d-flex flex-column table-column-img text-center">
-                            <img src="../../../../assets/images/img-face.png" alt="">
-                            <span class="text-line-bottom">{{ element.company }}</span>
+                            <img [src]="element.companyMain.img" alt="">
+                            <span class="text-line-bottom"> 
+                               {{ element?.companyMain?.name || '-' }}
+                            </span>
                         </div>
                     </td>
                 </ng-container>
 
                 <ng-container matColumnDef="contact">
-                    <th mat-header-cell *matHeaderCellDef>Contacto</th>
+                    <th mat-header-cell *matHeaderCellDef>Contacto modificar, falta objeto de empresa</th>
                     <td mat-cell *matCellDef="let element">
-                        <div class="table-column-contact" *ngFor="let info of element.contact">
+                        <div class="table-column-contact">
                             <div>
                                 <mat-icon class="icon-size-6" matSuffix [svgIcon]="'heroicons_outline:user'"></mat-icon>
-                                <span> {{ info.nombre }} </span>
+                                <span> {{ element?.contact?.name || '' }} </span>
                             </div>
                             <div>
                                 <mat-icon class="icon-size-6" matSuffix [svgIcon]="'mat_outline:mail'"></mat-icon>
-                                <span> {{ info.email }} </span>
+                                <span> {{ element?.contact?.email || '' }} </span>
                             </div>
                             <div>
                                 <mat-icon class="icon-size-6" matSuffix [svgIcon]="'mat_outline:headphones'"></mat-icon>
-                                <span> {{ info.telefono }} </span>
+                                <span> {{ element?.contact?.telefono || '-' }} </span>
                             </div>
                             <div>
                                 <mat-icon class="icon-size-6" matSuffix [svgIcon]="'mat_outline:phone_android'"></mat-icon>
-                                <span> {{ info.celular }} </span>
+                                <span> {{ element?.contact?.phone || '' }} </span>
                             </div>
-                            
-                            <span class="text-all">Ver todos</span>
+                            <!-- <span class="text-all">Ver todos</span> -->
                         </div>
                     </td>
                     </ng-container>
