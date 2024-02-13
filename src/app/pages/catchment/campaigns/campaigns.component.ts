@@ -94,11 +94,9 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   getDataTable(filters?:DataTableFilters) {
     this.moduleServices.getDataTableCampaing(filters).pipe(takeUntil(this.onDestroy)).subscribe({
-        next: ( data : any) => {
-        // next: ( data : entity.DataCampaingTable) => {
+        next: ( data : entity.TableDataCampaingListMapper[]) => {
           console.log('DATOS DE LA TABLA', data[0]);
-          this.dataSource.data = data
-
+          this.dataSource.data = data;
         },
         error: (error) => console.error(error)
       })

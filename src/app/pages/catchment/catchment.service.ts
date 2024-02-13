@@ -49,7 +49,7 @@ export class CatchmentService {
   // END CATALOGS 
 
   // CAMPAIGNS
-  public getDataTableCampaing(filters?:DataTableFilters): Observable<entity.TableDataCampaingList[]> {
+  public getDataTableCampaing(filters?:DataTableFilters): Observable<entity.TableDataCampaingListMapper[]> {
 		const url = `${this.apiUrl}campaign/`;
 
     return this.http.get<entity.TableDataCampaingList[]>(url).pipe(

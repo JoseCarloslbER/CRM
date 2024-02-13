@@ -57,6 +57,35 @@ export interface TableDataCampaingList {
   rol: Rol;
 }
 
+export interface TableDataCampaingListMapper {
+  dateStartEnd :  {
+    start : string;
+    end : string;
+  };
+  codeAndname : object;
+  companyType : string;
+  totalCompanies : object;
+  totalSalesAmount : object;
+  amounInvested : string;
+  agents : {
+    name:string;
+    alls:any[]
+  };
+  companiesMain : {
+    amount:string;
+    alls:any[];
+  };
+  quotesMade : {
+    left : {
+      amount: string
+      totalAmount: string
+    }
+    right : {
+      amount: string
+      totalAmount: string
+    }
+  };
+}
 export interface User {
   campaign : string;
   campaign_user_id : string;

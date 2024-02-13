@@ -1,7 +1,7 @@
 import * as entity from './catchment-interface';
 
 export class Mapper {
-	static getDataTableCampaingMapper(response: entity.TableDataCampaingList[]) {
+	static getDataTableCampaingMapper(response: entity.TableDataCampaingList[]) : entity.TableDataCampaingListMapper[] {
 		console.log(response[0]);
 		
 		let dataList = [];
