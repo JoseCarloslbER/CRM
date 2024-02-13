@@ -7,6 +7,7 @@ import { ModalFastQuoteComponent } from '../modal-fast-quote/modal-fast-quote.co
 import { Subject, takeUntil } from 'rxjs';
 import { CompaniesService } from '../../companies.service';
 import * as entity from '../../companies-interface';
+import * as entityGeneral from '../../../../shared/interfaces/general-interface';
 
 @Component({
   selector: 'app-new-prospect',
@@ -44,12 +45,12 @@ export class NewProspectComponent implements OnInit, AfterViewInit, OnDestroy {
   
   public esClient: boolean = false;
 
-  public catCompaniesSizes: entity.DataCatCompanySize[] = [];
-  public catCompaniesTypes: entity.DataCatCompanyType[] = [];
-  public catCountries: entity.DataCatCountry[] = [];
-  public catStates: entity.DataCatState[] = [];
-  public catCities: entity.DataCatCity[] = [];
-  public catBusiness: entity.DataCatBusiness[] = [];
+  public catCompaniesSizes: entityGeneral.DataCatCompanySize[] = [];
+  public catCompaniesTypes: entityGeneral.DataCatCompanyType[] = [];
+  public catCountries: entityGeneral.DataCatCountry[] = [];
+  public catStates: entityGeneral.DataCatState[] = [];
+  public catCities: entityGeneral.DataCatCity[] = [];
+  public catBusiness: entityGeneral.DataCatBusiness[] = [];
 
   private idData: string = ''
   private objEditData : any;
@@ -96,42 +97,42 @@ export class NewProspectComponent implements OnInit, AfterViewInit, OnDestroy {
 
   getCatalogs() {
     this.moduleServices.getCatalogCompanySize().pipe(takeUntil(this.onDestroy)).subscribe({
-      next: (data: entity.DataCatCompanySize[]) => {
+      next: (data: entityGeneral.DataCatCompanySize[]) => {
         this.catCompaniesSizes = data;
       },
       error: (error) => console.error(error)
     });
 
     this.moduleServices.getCatalogCompanyType().pipe(takeUntil(this.onDestroy)).subscribe({
-      next: (data: entity.DataCatCompanyType[]) => {
+      next: (data: entityGeneral.DataCatCompanyType[]) => {
         this.catCompaniesTypes = data;
       },
       error: (error) => console.error(error)
     });
 
     this.moduleServices.getCatalogCountry().pipe(takeUntil(this.onDestroy)).subscribe({
-      next: (data: entity.DataCatCountry[]) => {
+      next: (data: entityGeneral.DataCatCountry[]) => {
         this.catCountries = data;
       },
       error: (error) => console.error(error)
     });
  
     this.moduleServices.getCatalogState().pipe(takeUntil(this.onDestroy)).subscribe({
-      next: (data: entity.DataCatState[]) => {
+      next: (data: entityGeneral.DataCatState[]) => {
         this.catStates = data;
       },
       error: (error) => console.error(error)
     });
 
     this.moduleServices.getCatalogCity().pipe(takeUntil(this.onDestroy)).subscribe({
-      next: (data: entity.DataCatCity[]) => {
+      next: (data: entityGeneral.DataCatCity[]) => {
         this.catCities = data;
       },
       error: (error) => console.error(error)
     });
  
     this.moduleServices.getCatalogBusiness().pipe(takeUntil(this.onDestroy)).subscribe({
-      next: (data: entity.DataCatBusiness[]) => {
+      next: (data: entityGeneral.DataCatBusiness[]) => {
         this.catBusiness = data;
       },
       error: (error) => console.error(error)

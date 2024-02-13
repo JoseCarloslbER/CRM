@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from 'environments/environment.dev';
 import { Observable } from 'rxjs';
 import * as entity from './admin-interface';
+import { DataCatCountry, DataCatProductCategory } from 'app/shared/interfaces/general-interface';
 
 @Injectable({
   providedIn: 'root'
@@ -17,16 +18,16 @@ export class AdminService {
 
   // CATALOGS
   
-  public getCatalogCountry(): Observable<entity.DataCatCountry[]> {
+  public getCatCountry(): Observable<DataCatCountry[]> {
 		const url = `${environment.apiURL}settings/country/`;
 
-    return this.http.get<entity.DataCatCountry[]>(url)
+    return this.http.get<DataCatCountry[]>(url)
 	}
 
-  public getCatalogProductCategory(): Observable<entity.DataCatProductCategory[]> {
+  public getCatProductCategory(): Observable<DataCatProductCategory[]> {
 		const url = `${this.apiUrl}product-category/`;
 
-    return this.http.get<entity.DataCatProductCategory[]>(url)
+    return this.http.get<DataCatProductCategory[]>(url)
 	}
 
   // END CATALOGS 

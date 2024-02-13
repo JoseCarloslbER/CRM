@@ -4,6 +4,7 @@ import { environment } from 'environments/environment.dev';
 import { Observable } from 'rxjs';
 import { DataTable, DataTableFilters } from './companies-interface';
 import * as entity from './companies-interface';
+import * as entityGeneral from '../../shared/interfaces/general-interface';
 
 @Injectable({
   providedIn: 'root'
@@ -16,40 +17,40 @@ export class CompaniesService {
 
    // CATALOGS
   
-   public getCatalogCompanySize(): Observable<entity.DataCatCompanySize[]> {
+   public getCatalogCompanySize(): Observable<entityGeneral.DataCatCompanySize[]> {
 		const url = `${environment.apiURL}conversion/company-size/`;
 
-    return this.http.get<entity.DataCatCompanySize[]>(url)
+    return this.http.get<entityGeneral.DataCatCompanySize[]>(url)
 	}
 
-  public getCatalogCompanyType(): Observable<entity.DataCatCompanyType[]> {
+  public getCatalogCompanyType(): Observable<entityGeneral.DataCatCompanyType[]> {
 		const url = `${environment.apiURL}conversion/company-type/`;
 
-    return this.http.get<entity.DataCatCompanyType[]>(url)
+    return this.http.get<entityGeneral.DataCatCompanyType[]>(url)
 	}
 
-  public getCatalogCountry(): Observable<entity.DataCatCountry[]> {
+  public getCatalogCountry(): Observable<entityGeneral.DataCatCountry[]> {
 		const url = `${environment.apiURL}settings/country/`;
 
-    return this.http.get<entity.DataCatCountry[]>(url)
+    return this.http.get<entityGeneral.DataCatCountry[]>(url)
 	}
 
-  public getCatalogState(): Observable<entity.DataCatState[]> {
+  public getCatalogState(): Observable<entityGeneral.DataCatState[]> {
 		const url = `${environment.apiURL}settings/state/`;
 
-    return this.http.get<entity.DataCatState[]>(url)
+    return this.http.get<entityGeneral.DataCatState[]>(url)
 	}
 
-  public getCatalogCity(): Observable<entity.DataCatCity[]> {
+  public getCatalogCity(): Observable<entityGeneral.DataCatCity[]> {
 		const url = `${environment.apiURL}settings/city/`;
 
-    return this.http.get<entity.DataCatCity[]>(url)
+    return this.http.get<entityGeneral.DataCatCity[]>(url)
 	}
 
-  public getCatalogBusiness(): Observable<entity.DataCatBusiness[]> {
+  public getCatalogBusiness(): Observable<entityGeneral.DataCatBusiness[]> {
 		const url = `${environment.apiURL}settings/business/`;
 
-    return this.http.get<entity.DataCatBusiness[]>(url)
+    return this.http.get<entityGeneral.DataCatBusiness[]>(url)
 	}
 
   // END CATALOGS 

@@ -8,6 +8,7 @@ import { CompaniesService } from '../companies.service';
 import { DataTable, DataTableFilters } from '../companies-interface';
 import { Subject, debounceTime, takeUntil } from 'rxjs';
 import * as entity from '../companies-interface';
+import { DataCatBusiness } from 'app/shared/interfaces/general-interface';
 
 @Component({
   selector: 'app-prospects',
@@ -181,7 +182,7 @@ export class ProspectsComponent implements OnInit, AfterViewInit, OnDestroy {
     rangeDateEnd: [{ value: null, disabled: false }],
   });
 
-  public catBusiness: entity.DataCatBusiness[] = [];
+  public catBusiness: DataCatBusiness[] = [];
 
   public fechaHoy = new Date();
 
@@ -216,7 +217,7 @@ export class ProspectsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   getCatalogs() {
     this.moduleServices.getCatalogBusiness().pipe(takeUntil(this.onDestroy)).subscribe({
-      next: (data: entity.DataCatBusiness[]) => {
+      next: (data: DataCatBusiness[]) => {
         this.catBusiness = data;
       },
       error: (error) => console.error(error)

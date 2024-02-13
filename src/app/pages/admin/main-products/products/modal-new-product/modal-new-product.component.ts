@@ -5,6 +5,7 @@ import { AdminService } from 'app/pages/admin/admin.service';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { Subject, takeUntil } from 'rxjs';
 import * as entity from '../../../admin-interface';
+import * as entityGeneral from '../../../../../shared/interfaces/general-interface';
 
 @Component({
   selector: 'app-modal-new-product',
@@ -24,8 +25,8 @@ export class ModalNewProductComponent implements OnInit, AfterViewInit, OnDestro
     status_id: [null, Validators.required]
   });
 
-  public catCountries: entity.DataCatCountry[] = [];
-  public catProductCategories: entity.DataCatProductCategory[] = [];
+  public catCountries: entityGeneral.DataCatCountry[] = [];
+  public catProductCategories: entityGeneral.DataCatProductCategory[] = [];
 
 
   private idData: string = '';
@@ -55,15 +56,15 @@ export class ModalNewProductComponent implements OnInit, AfterViewInit, OnDestro
   }
 
   getCatalogs() {
-    this.moduleServices.getCatalogCountry().pipe(takeUntil(this.onDestroy)).subscribe({
-      next: (data: entity.DataCatCountry[]) => {
+    this.moduleServices.getCatCountry().pipe(takeUntil(this.onDestroy)).subscribe({
+      next: (data: entityGeneral.DataCatCountry[]) => {
         this.catCountries = data;
       },
       error: (error) => console.error(error)
     });
 
-    this.moduleServices.getCatalogProductCategory().pipe(takeUntil(this.onDestroy)).subscribe({
-      next: (data: entity.DataCatProductCategory[]) => {
+    this.moduleServices.getCatProductCategory().pipe(takeUntil(this.onDestroy)).subscribe({
+      next: (data: entityGeneral.DataCatProductCategory[]) => {
         this.catProductCategories = data;
       },
       error: (error) => console.error(error)

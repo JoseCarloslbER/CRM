@@ -1,16 +1,3 @@
-// CATALOGS
-export interface DataCatProductCategory {
-  category_name : string;
-  description : string;
-  product_category_id : string;
-  status_id : string;
-}
-
-export interface DataCatCountry {
-  country_name : string;
-  country_id : string;
-  status_id : string;
-}
 
 // END CATALOGS
 

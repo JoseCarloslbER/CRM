@@ -9,6 +9,7 @@ import { Subject, debounceTime, takeUntil } from 'rxjs';
 import { CompaniesService } from '../companies.service';
 import { DataTable, DataTableFilters } from '../companies-interface';
 import * as entity from '../companies-interface';
+import * as entityGeneral from '../../../shared/interfaces/general-interface';
 
 @Component({
   selector: 'app-clients',
@@ -182,7 +183,7 @@ export class ClientsComponent implements OnInit, AfterViewInit, OnDestroy {
     rangeDateEnd: [{ value: null, disabled: false }],
   });
 
-  public catBusiness: entity.DataCatBusiness[] = [];
+  public catBusiness: entityGeneral.DataCatBusiness[] = [];
 
   public fechaHoy = new Date();
 
@@ -221,7 +222,7 @@ export class ClientsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   getCatalogs() {
     this.moduleServices.getCatalogBusiness().pipe(takeUntil(this.onDestroy)).subscribe({
-      next: (data: entity.DataCatBusiness[]) => {
+      next: (data: entityGeneral.DataCatBusiness[]) => {
         this.catBusiness = data;
       },
       error: (error) => console.error(error)

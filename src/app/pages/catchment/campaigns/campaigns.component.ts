@@ -8,8 +8,8 @@ import { Router } from '@angular/router';
 import { ModalInformationInTableComponent } from 'app/pages/catchment/campaigns/modal-information-in-table/modal-information-in-table.component';
 import { Subject, debounceTime, takeUntil } from 'rxjs';
 import { CatchmentService } from '../catchment.service';
-import { DataTableFilters } from '../catchment-interface';
 import * as entity from '../catchment-interface';
+import * as entityGeneral from '../../../shared/interfaces/general-interface';
 import moment from 'moment';
 
 @Component({
@@ -47,9 +47,9 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
     rangeDateEnd: [{ value: '', disabled: false }]
   });
 
-  public catalogTypes: entity.DataCatType[] = [];
-  public catalogStatus: entity.DataCatStatus[] = [];
-  public catalogAgents: entity.DataCatAgents[] = [];
+  public catalogTypes: entityGeneral.DataCatType[] = [];
+  public catalogStatus: entityGeneral.DataCatStatus[] = [];
+  public catalogAgents: entityGeneral.DataCatAgents[] = [];
 
   public fechaHoy = new Date();
 
@@ -74,6 +74,29 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
     })
   }
 
+  getCatalogs() {
+    this.moduleServices.getCatType().pipe(takeUntil(this.onDestroy)).subscribe({
+      next: (data: entityGeneral.DataCatType[]) => {
+        this.catalogTypes = data
+      },
+      error: (error) => console.error(error)
+    });
+
+    this.moduleServices.getCatStatus().pipe(takeUntil(this.onDestroy)).subscribe({
+      next: (data: entityGeneral.DataCatStatus[]) => {
+        this.catalogStatus = data
+      },
+      error: (error) => console.error(error)
+    });
+
+    this.moduleServices.getCatAgents().pipe(takeUntil(this.onDestroy)).subscribe({
+      next: (data: entityGeneral.DataCatAgents[]) => {
+        this.catalogAgents = data
+      },
+      error: (error) => console.error(error)
+    });
+  }
+
   searchWithFilters() {
     let filters = '';
 
@@ -88,31 +111,6 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.getDataTable(filters)
   }
 
-
-  getCatalogs() {
-    this.moduleServices.getCatType().pipe(takeUntil(this.onDestroy)).subscribe({
-      next: (data: entity.DataCatType[]) => {
-        this.catalogTypes = data
-      },
-      error: (error) => console.error(error)
-    });
-
-    this.moduleServices.getCatStatus().pipe(takeUntil(this.onDestroy)).subscribe({
-      next: (data: entity.DataCatStatus[]) => {
-        this.catalogStatus = data
-      },
-      error: (error) => console.error(error)
-    });
-
-    this.moduleServices.getCatAgents().pipe(takeUntil(this.onDestroy)).subscribe({
-      next: (data: entity.DataCatAgents[]) => {
-        this.catalogAgents = data
-      },
-      error: (error) => console.error(error)
-    });
-
-
-  }
 
   getDataTable(filters?: any) {
     this.moduleServices.getDataTableCampaing(filters).pipe(takeUntil(this.onDestroy)).subscribe({

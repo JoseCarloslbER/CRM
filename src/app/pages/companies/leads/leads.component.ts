@@ -9,6 +9,7 @@ import { Subject, debounceTime, takeUntil } from 'rxjs';
 import { CompaniesService } from '../companies.service';
 import { DataTable, DataTableFilters } from '../companies-interface';
 import * as entity from '../companies-interface';
+import * as entityGeneral from '../../../shared/interfaces/general-interface';
 
 @Component({
   selector: 'app-leads',
@@ -181,7 +182,7 @@ export class LeadsComponent implements OnInit, AfterViewInit, OnDestroy {
     rangeDateEnd: [{ value: null, disabled: false }],
   });
 
-  public catBusiness: entity.DataCatBusiness[] = [];
+  public catBusiness: entityGeneral.DataCatBusiness[] = [];
 
   public searchBar = new FormControl('')
   

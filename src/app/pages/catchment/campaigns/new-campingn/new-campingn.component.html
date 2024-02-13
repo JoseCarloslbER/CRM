@@ -18,22 +18,23 @@
                     <div class="col-md-4">
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Código</mat-label>
-                            <input formControlName="code" matInput>
+                            <input formControlName="campaign_code" matInput>
                         </mat-form-field>
 
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Tipo</mat-label>
-                            <mat-select formControlName="type" placeholder="Seleccionar">
-                                <mat-option [value]="cat.campaign_type_id " *ngFor="let cat of catTypes">{{cat?.campaign_type_name || '-'}}</mat-option>
+                            <mat-select formControlName="campaign_type" placeholder="Seleccionar">
+                                <mat-option [value]="cat.campaign_type_id "
+                                    *ngFor="let cat of catTypes">{{cat?.campaign_type_name || '-'}}</mat-option>
                             </mat-select>
                         </mat-form-field>
 
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Agentes</mat-label>
-                            <mat-select formControlName="agents" placeholder="Seleccionar">
-                                <mat-option value="">Agentes</mat-option>
-                                <mat-option value="">Agentes</mat-option>
-                                <mat-option value="">Agentes</mat-option>
+                            <mat-select formControlName="users" multiple>
+                                <mat-option [value]="cat.id" *ngFor="let cat of catalogAgents">{{cat.first_name
+                                    && cat.last_name ? cat?.first_name + ' ' + cat?.last_name : cat?.username |
+                                    titlecase }}</mat-option>
                             </mat-select>
                         </mat-form-field>
 
@@ -42,24 +43,24 @@
                     <div class="col-md-4">
                         <mat-form-field class="gt-xs:pr-3 inputNewRegister">
                             <mat-label>Nombre de la campaña</mat-label>
-                            <input formControlName="campaignName" matInput>
+                            <input formControlName="campaign_name" matInput>
                         </mat-form-field>
 
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Agente encargado</mat-label>
-                            <mat-select formControlName="agentCharge" placeholder="Seleccionar">
-                                <mat-option value="giro1">Agente fijo 1</mat-option>
-                                <mat-option value="Agente fijo2">Agente 2</mat-option>
-                                <mat-option value="Teléfono fijo3">Agente 3</mat-option>
+                            <mat-select formControlName="owner_user" placeholder="Seleccionar">
+                                <mat-option [value]="cat.id" *ngFor="let cat of catalogAgents">{{cat.first_name
+                                    && cat.last_name ? cat?.first_name + ' ' + cat?.last_name : cat?.username |
+                                    titlecase }}</mat-option>
                             </mat-select>
                         </mat-form-field>
 
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Solución</mat-label>
-                            <mat-select formControlName="solution" placeholder="Seleccionar">
-                                <mat-option value="">Solución 1</mat-option>
-                                <mat-option value="">Solución 2</mat-option>
-                                <mat-option value="">Solución 3</mat-option>
+                            <mat-select formControlName="product_category" placeholder="Seleccionar">
+                                <mat-option [value]="cat.product_category_id  "
+                                    *ngFor="let cat of catalogProductCategories">{{cat?.category_name ||
+                                    '-'}}</mat-option>
                             </mat-select>
                         </mat-form-field>
 
@@ -68,7 +69,7 @@
                     <div class="col-md-4">
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Monto invertido</mat-label>
-                            <input formControlName="amountInvested" class="text-right" matInput>
+                            <input formControlName="amount_invested" class="text-right" matInput>
                             <span matPrefix>$</span>
                         </mat-form-field>
 
@@ -76,8 +77,8 @@
                             <mat-label>Periodo</mat-label>
                             <mat-date-range-input [max]="fechaHoy" [rangePicker]="campaignOnePicker"
                                 [comparisonStart]="" [comparisonEnd]="">
-                                <input matStartDate formControlName="periodStart" placeholder="Inicio" />
-                                <input matEndDate formControlName="periodEnd" placeholder="Final" />
+                                <input matStartDate formControlName="start_date" placeholder="Inicio" />
+                                <input matEndDate formControlName="end_date" placeholder="Final" />
                             </mat-date-range-input>
 
                             <mat-datepicker-toggle matIconSuffix [for]="campaignOnePicker"></mat-datepicker-toggle>
@@ -97,56 +98,56 @@
                             <mat-form-field class="flex-auto input-default">
                                 <mat-label>Tipo</mat-label>
                                 <mat-select formControlName="type" placeholder="Seleccionar">
-                                    <mat-option [value]="cat.campaign_type_id " *ngFor="let cat of catTypes">{{cat?.campaign_type_name || '-'}}</mat-option>
+                                    <mat-option value="">Todos</mat-option>
+                                    <mat-option [value]="cat.campaign_type_id "
+                                        *ngFor="let cat of catTypes">{{cat?.campaign_type_name || '-'}}</mat-option>
                                 </mat-select>
                             </mat-form-field>
                         </div>
 
-                        <div class="flex col-sm-12  col-md-6 col-lg-3 col-12 pe-2">
+                        <div class="flex col-sm-12 col-md-6 col-lg-3 col-12 pe-2">
                             <mat-form-field class="flex-auto input-default">
                                 <mat-label>Giro</mat-label>
-                                <mat-select formControlName="giro" placeholder="Seleccionar">
-                                    <mat-option [value]="cat.business_id" *ngFor="let cat of catBusiness">{{cat?.business_name || '-'}}</mat-option>
+                                <mat-select formControlName="business" placeholder="Seleccionar">
+                                    <mat-option value="">Todos</mat-option>
+                                    <mat-option [value]="cat.business_id"
+                                        *ngFor="let cat of catBusiness">{{cat?.business_name || '-'}}</mat-option>
                                 </mat-select>
                             </mat-form-field>
                         </div>
 
                         <div class="d-flex justify-content-start col-md-2 col-xl-2 col-12 pt-md-2 mt-5 mb-5">
-                            <button class="btn-search">
+                            <button class="btn-search" (click)="searchCompanies()">
                                 <span>Buscar</span>
                             </button>
                         </div>
                     </form>
                 </div>
 
-                <div class="row mb-5">
-                    <div class="flex flex-col mt-8 gt-sm:mt-0 gt-sm:ml-16 inputsRadioGroup">
-                        <span class="font-semibold mb-2 font-16-700-646878">Empresas</span>
-                        <mat-radio-group [formControl]="selectCompanies" class="d-flex row">
-                            <div class="col-md-6">
-                                <mat-radio-button class="mb-2"> <span class="font-14-500-4B5062">Todas las Empresas
-                                        excepto las marcadas</span> </mat-radio-button>
-                            </div>
-                            <div class="col-md-6">
-                                <mat-radio-button class="mb-2"> <span class="font-14-500-4B5062">Ninguna Empresa solo
-                                        las Marcadas</span> </mat-radio-button>
-                            </div>
-                        </mat-radio-group>
+                <form [formGroup]="formCompanies">
+                    <mat-radio-group class="d-flex row" formControlName="radioOption">
+                        <div class="col-md-6">
+                          <mat-radio-button class="mb-2" value="excepto" (change)="onRadioChange('excepto')">
+                            <span class="font-14-500-4B5062">Todas las empresas excepto las marcadas</span>
+                          </mat-radio-button>
+                        </div>
+                        <div class="col-md-6">
+                          <mat-radio-button class="mb-2" value="solo" (change)="onRadioChange('solo')">
+                            <span class="font-14-500-4B5062">Ninguna empresa solo las marcadas</span>
+                          </mat-radio-button>
+                        </div>
+                      </mat-radio-group>
+                      
+                    <div class="row">
+                        <div class="col-12">
+                            <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
+                                <mat-select formControlName="companies"  multiple placeholder="Seleccionar">
+                                    <mat-option [value]="cat.company_id" *ngFor="let cat of catalogCompanies">{{cat?.company_name || '-'}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
                     </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-12">
-                        <mat-form-field formArrayName="companies" class="flex-auto gt-xs:pr-3 inputNewRegister">
-                            <mat-select multiple placeholder="Seleccionar">
-                                @for (topping of toppingList; track topping) {
-                                <mat-option [value]="topping">{{topping}}</mat-option>
-                                }
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-                </div>
-
+                </form>
 
                 <div>
                     <div class="row mb-3">
@@ -159,24 +160,24 @@
                         <div class="col-md-4">
                             <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                                 <mat-label>Total de empresas a alcanzar</mat-label>
-                                <input formControlName="totalCompanies" matInput>
+                                <input formControlName="goal_total_companies" type="number" matInput>
                             </mat-form-field>
 
                             <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                                 <mat-label>Cantidad de respuestas</mat-label>
-                                <input formControlName="numberResponses" matInput>
+                                <input formControlName="goal_total_responses" type="number" matInput>
                             </mat-form-field>
 
                         </div>
                         <div class="col-md-4">
                             <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                                 <mat-label>Cantidad de cotizaciones</mat-label>
-                                <input formControlName="numberQuotes" matInput>
+                                <input formControlName="goal_number_quotes" type="number" matInput>
                             </mat-form-field>
 
                             <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                                 <mat-label>Monto total</mat-label>
-                                <input class="text-right" formControlName="totalAmount" matInput>
+                                <input class="text-right" formControlName="goal_amount" type="number" matInput>
                                 <span matPrefix>$</span>
                             </mat-form-field>
                         </div>
@@ -184,7 +185,7 @@
                         <div class="col-md-4">
                             <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                                 <mat-label>Cantidad de cierres de venta</mat-label>
-                                <input formControlName="numberClose" matInput>
+                                <input formControlName="goal_number_sales" type="number" matInput>
                             </mat-form-field>
                         </div>
                     </div>
