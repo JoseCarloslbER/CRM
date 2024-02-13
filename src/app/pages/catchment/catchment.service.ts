@@ -21,28 +21,28 @@ export class CatchmentService {
 
   // CATALOGS
 
-  public getCatalogBusiness(): Observable<entity.DataCatBusiness[]> {
+  public getCatBusiness(): Observable<entity.DataCatBusiness[]> {
 		const url = `${environment.apiURL}settings/business/`;
 
     return this.http.get<entity.DataCatBusiness[]>(url)
 	}
 
-  public getCatalogType(): Observable<entity.DataCatType[]> {
-		const url = `${this.apiUrl}campaign-type/`;
+  public getCatType(): Observable<entity.DataCatType[]> {
+		const url = `${environment.apiURL}settings/campaign-type/`;
 
     return this.http.get<entity.DataCatType[]>(url)
 	}
 
-  public getCatalogStatus(): Observable<any> {
-		const url = `${this.apiUrl}/`;
+  public getCatStatus(): Observable<entity.DataCatStatus[]> {
+		const url = `${environment.apiURL}settings/status/`;
 
-    return this.http.get<any>(url)
+    return this.http.get<entity.DataCatStatus[]>(url)
 	}
 
-  public getCatalogAgents(): Observable<any> {
-		const url = `${this.apiUrl}/`;
+  public getCatAgents(): Observable<entity.DataCatAgents[]> {
+		const url = `${environment.apiURL}auth/user/`;
 
-    return this.http.get<any>(url)
+    return this.http.get<entity.DataCatAgents[]>(url)
 	}
 
 
@@ -50,7 +50,7 @@ export class CatchmentService {
 
   // CAMPAIGNS
   public getDataTableCampaing(filters?:DataTableFilters): Observable<entity.TableDataCampaingListMapper[]> {
-		const url = `${this.apiUrl}campaign/`;
+		const url = `${this.apiUrl}campaign/${filters ? `?${filters}` : ''}`;
 
     return this.http.get<entity.TableDataCampaingList[]>(url).pipe(
 			map((respuesta) => {

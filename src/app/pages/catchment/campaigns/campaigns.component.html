@@ -14,53 +14,62 @@
                         </div>
                     </div>
 
-                    <div class="row d-flex align-items-center">
-                        <div class="flex col-sm-12  col-md-6 col-lg-3 col-12 pe-2">
-                            <mat-form-field class="flex-auto input-default">
-                                <mat-label>Estatus</mat-label>
-                                <mat-select placeholder="Seleccionar" formControlName="status">
-                                    <mat-option value="estatus-1">estatus 1</mat-option>
-                                    <mat-option value="estatus-2">estatus 2</mat-option>
-                                    <mat-option value="estatus-3">estatus 3</mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
+                    <form [formGroup]="formFilters">
 
-                        <div class="flex col-sm-12 col-md-6 col-lg-3 col-12 pe-2">
-                            <mat-form-field class="flex-auto input-default">
-                                <mat-label>Tipo</mat-label>
-                                <mat-select placeholder="Seleccionar">
-                                    <mat-option [value]="campaign_type_id" *ngFor="let cat of catalogTypes">{{cat?.campaign_type_name || '-'}}</mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
+                        <div class="row d-flex align-items-center">
+                            <div class="flex col-sm-12  col-md-6 col-lg-3 col-12 pe-2">
+                                <mat-form-field class="flex-auto input-default">
+                                    <mat-label>Estatus</mat-label>
+                                    <mat-select formControlName="status" placeholder="Seleccionar">
+                                        <mat-option value="">Todos</mat-option>
+                                        <mat-option [value]="cat.status_id"
+                                            *ngFor="let cat of catalogStatus">{{cat?.description || '-'}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
 
-                        <div class="flex col-sm-12 col-md-6 col-lg-3 col-12 pe-2">
-                            <mat-form-field class="flex-auto input-default">
-                                <mat-label>Agente</mat-label>
-                                <mat-select placeholder="Seleccionar">
-                                    <mat-option value="Agente-1">Agente 1</mat-option>
-                                    <mat-option value="Agente-2">Agente 2</mat-option>
-                                    <mat-option value="Agente-3">Agente 3</mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
+                            <div class="flex col-sm-12 col-md-6 col-lg-3 col-12 pe-2">
+                                <mat-form-field class="flex-auto input-default">
+                                    <mat-label>Tipo</mat-label>
+                                    <mat-select formControlName="type" placeholder="Seleccionar">
+                                        <mat-option value="">Todos</mat-option>
+                                        <mat-option [value]="cat.campaign_type_id"
+                                            *ngFor="let cat of catalogTypes">{{cat?.campaign_type_name ||
+                                            '-'}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
 
-                        <div class="flex col-sm-12 col-md-6 col-lg-3 col-12 pe-2">
-                            <mat-form-field class="flex-auto input-default">
-                                <mat-label>Rango de fechas</mat-label>
-                                <mat-date-range-input [max]="fechaHoy" [rangePicker]="campaignOnePicker"
-                                    [comparisonStart]="formFilters.value['rangeDateStart']"
-                                    [comparisonEnd]="formFilters.value['rangeDateEnd']">
-                                    <input matStartDate placeholder="Inicio" formControlName="rangeDateStart" />
-                                    <input matEndDate placeholder="Final" formControlName="rangeDateEnd" />
-                                </mat-date-range-input>
+                            <div class="flex col-sm-12 col-md-6 col-lg-3 col-12 pe-2">
+                                <mat-form-field class="flex-auto input-default">
+                                    <mat-label>Agente</mat-label>
+                                    <mat-select formControlName="agent" placeholder="Seleccionar">
+                                        <mat-option value="">Todos</mat-option>
+                                        <mat-option [value]="cat.id" *ngFor="let cat of catalogAgents">{{cat.first_name
+                                            && cat.last_name ? cat?.first_name + ' ' + cat?.last_name : cat?.username |
+                                            titlecase }}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
 
-                                <mat-datepicker-toggle matIconSuffix [for]="campaignOnePicker"></mat-datepicker-toggle>
-                                <mat-date-range-picker #campaignOnePicker></mat-date-range-picker>
-                            </mat-form-field>
+                            <div class="flex col-sm-12 col-md-6 col-lg-3 col-12 pe-2">
+                                <mat-form-field class="flex-auto input-default">
+                                    <mat-label>Rango de fechas</mat-label>
+                                    <mat-date-range-input [max]="fechaHoy" [rangePicker]="campaignOnePicker"
+                                        [comparisonStart]="formFilters.value['rangeDateStart']"
+                                        [comparisonEnd]="formFilters.value['rangeDateEnd']">
+                                        <input matStartDate placeholder="Inicio" formControlName="rangeDateStart" />
+                                        <input matEndDate placeholder="Final" formControlName="rangeDateEnd" />
+                                    </mat-date-range-input>
+
+                                    <mat-datepicker-toggle matIconSuffix
+                                        [for]="campaignOnePicker"></mat-datepicker-toggle>
+                                    <mat-date-range-picker #campaignOnePicker></mat-date-range-picker>
+                                </mat-form-field>
+                            </div>
                         </div>
-                    </div>
+                    </form>
+
 
                     <div class="row d-flex justify-content-end mb-2">
                         <div class="d-flex justify-content-end col-md-2 col-xl-2 col-12 pt-md-2">
@@ -77,11 +86,12 @@
                             </div>
                         </div>
 
-                        <div class="d-flex col-md-7 col-xl-7 col-12 pt-md-2 justify-content-end align-items-end mt-3 mb-5">
+                        <div
+                            class="d-flex col-md-7 col-xl-7 col-12 pt-md-2 justify-content-end align-items-end mt-3 mb-5">
                             <button class="btn-excel ml-3" (click)="douwnloadExel()">
                                 <mat-icon svgIcon="mat_outline:file_download"></mat-icon>
                                 <span>Excel</span>
-                            </button> 
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -92,85 +102,85 @@
     <div class="c-general-table section-content-padding">
         <div class="col-12 contenedor-scroll-tabla">
             <table mat-table #table [dataSource]="dataSource" class="w-100 tabla-personalizada-default">
-            <caption></caption>
+                <caption></caption>
 
-            <ng-container matColumnDef="codeAndname">
-                <th mat-header-cell *matHeaderCellDef># Nombre</th>
-                <td mat-cell *matCellDef="let element">
-                    <div class="table-column-date-start-end">
-                        <span> {{ element?.codeAndname?.code || '-' }} </span>
-                        <span> {{ element?.codeAndname?.name || '-' }} </span>
-                    </div>
-                </td>
-            </ng-container>
-
-            <ng-container matColumnDef="dateStartEnd">
-                <th mat-header-cell *matHeaderCellDef>Fecha inicial y fecha final</th>
-                <td mat-cell *matCellDef="let element">
-                    <div class="table-column-date-start-end">
-                        <span> {{ element?.dateStartEnd?.start }} </span>
-                        <span> {{ element?.dateStartEnd?.end }} </span>
-                    </div>
-                </td>
-            </ng-container>
-
-            <ng-container matColumnDef="companyType">
-                <th mat-header-cell *matHeaderCellDef>Tipo de campaña</th>
-                <td mat-cell *matCellDef="let element">
-                    {{ element?.companyType || 'En proceso' }}
-                </td>
-            </ng-container>
-            
-            <ng-container matColumnDef="agents">
-                <th mat-header-cell *matHeaderCellDef>Agentes</th>
-                <td mat-cell *matCellDef="let element">
-                    <div class="table-column-agent-see-all">
-                        <span> {{ element?.agents?.name || '0' }} </span>
-                        <span (click)="seeDataModal('agents', element?.agents)">Ver todos</span>
-                    </div>
-                </td>
-            </ng-container>
-        
-            <ng-container matColumnDef="companies">
-                <th mat-header-cell *matHeaderCellDef>Empresas</th>
-                <td mat-cell *matCellDef="let element">
-                    <div class="table-column-agent-see-all">
-                        <div class="table-column-status table-column-lead-width mb-4">
-                            {{ element?.companiesMain?.amount || '0' }}
+                <ng-container matColumnDef="codeAndname">
+                    <th mat-header-cell *matHeaderCellDef># Nombre</th>
+                    <td mat-cell *matCellDef="let element">
+                        <div class="table-column-date-start-end">
+                            <span> {{ element?.codeAndname?.code || '-' }} </span>
+                            <span> {{ element?.codeAndname?.name || '-' }} </span>
                         </div>
-                        <span (click)="seeDataModal('companies', element?.companiesMain?.alls)">Ver empresas</span>
-                    </div>
-                </td>
-            </ng-container>
+                    </td>
+                </ng-container>
 
-            <ng-container matColumnDef="results">
-                <th mat-header-cell *matHeaderCellDef>Resultados</th>
-                <td mat-cell *matCellDef="let element">
-                    <div class="colum-tabla-see-results cursos-pointer" (click)="seeCampaignsResults()">
-                        Ver detalle de resultados
-                    </div>
-                </td>
-            </ng-container>
-     
-            <ng-container matColumnDef="amounInvested">
-                <th mat-header-cell *matHeaderCellDef>Monto investido</th>
-                <td mat-cell *matCellDef="let element">
-                    <div class="table-column-blue table-column-lead-width">
-                        {{element?.amounInvested || '-'}}
-                    </div>
-                </td>
-            </ng-container>
+                <ng-container matColumnDef="dateStartEnd">
+                    <th mat-header-cell *matHeaderCellDef>Fecha inicial y fecha final</th>
+                    <td mat-cell *matCellDef="let element">
+                        <div class="table-column-date-start-end">
+                            <span> {{ element?.dateStartEnd?.start }} </span>
+                            <span> {{ element?.dateStartEnd?.end }} </span>
+                        </div>
+                    </td>
+                </ng-container>
 
-            <ng-container matColumnDef="totalCompanies">
-                <th mat-header-cell *matHeaderCellDef>Total de empresas alcanzados</th>
-                <td mat-cell *matCellDef="let element">
-                    <div class="table-column-two-botton-row"> 
-                        <div class="table-column-lead"> {{ element?.totalCompanies || '0'}} </div>
-                     </div>
-                </td>
-            </ng-container>
-            
-            <!-- <ng-container matColumnDef="allQuotes">
+                <ng-container matColumnDef="companyType">
+                    <th mat-header-cell *matHeaderCellDef>Tipo de campaña</th>
+                    <td mat-cell *matCellDef="let element">
+                        {{ element?.companyType || 'En proceso' }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="agents">
+                    <th mat-header-cell *matHeaderCellDef>Agentes</th>
+                    <td mat-cell *matCellDef="let element">
+                        <div class="table-column-agent-see-all">
+                            <span> {{ element?.agents?.name || '0' }} </span>
+                            <span (click)="seeDataModal('agents', element?.agents)">Ver todos</span>
+                        </div>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="companies">
+                    <th mat-header-cell *matHeaderCellDef>Empresas</th>
+                    <td mat-cell *matCellDef="let element">
+                        <div class="table-column-agent-see-all">
+                            <div class="table-column-status table-column-lead-width mb-4">
+                                {{ element?.companiesMain?.amount || '0' }}
+                            </div>
+                            <span (click)="seeDataModal('companies', element?.companiesMain?.alls)">Ver empresas</span>
+                        </div>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="results">
+                    <th mat-header-cell *matHeaderCellDef>Resultados</th>
+                    <td mat-cell *matCellDef="let element">
+                        <div class="colum-tabla-see-results cursos-pointer" (click)="seeCampaignsResults()">
+                            Ver detalle de resultados
+                        </div>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="amounInvested">
+                    <th mat-header-cell *matHeaderCellDef>Monto investido</th>
+                    <td mat-cell *matCellDef="let element">
+                        <div class="table-column-blue table-column-lead-width">
+                            {{element?.amounInvested || '-'}}
+                        </div>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="totalCompanies">
+                    <th mat-header-cell *matHeaderCellDef>Total de empresas alcanzados</th>
+                    <td mat-cell *matCellDef="let element">
+                        <div class="table-column-two-botton-row">
+                            <div class="table-column-lead"> {{ element?.totalCompanies || '0'}} </div>
+                        </div>
+                    </td>
+                </ng-container>
+
+                <!-- <ng-container matColumnDef="allQuotes">
                 <th mat-header-cell *matHeaderCellDef>
                     Total de cotizaciones realizadas 
                     <br>
@@ -186,67 +196,67 @@
                     </div>
                 </td>
             </ng-container> -->
-         
-            <ng-container matColumnDef="quotesMade">
-                <th mat-header-cell *matHeaderCellDef>
-                    Cotizaciones realizadas
-                </th>
-                <td mat-cell *matCellDef="let element" class="d-flex d-flex gap-3">
-                    <div class="table-column-two-botton-row"> 
-                        <div class="table-column-lead"> {{ element?.quotesMade?.left?.amount || '0' }} </div>
-                        <div class="table-column-lead"> {{ element?.quotesMade?.left?.totalAmount || '-' }} </div> 
-                     </div>
-                    <div class="table-column-two-botton-row"> 
-                        <div class="table-column-lead"> {{ element?.quotesMade?.right?.amount || '0' }} </div>
-                        <div class="table-column-lead"> {{ element?.quotesMade?.right?.totalAmount || '-' }} </div> 
-                     </div>
-                </td>
-            </ng-container>
-        
-            <ng-container matColumnDef="totalSalesAmount">
-                <th mat-header-cell *matHeaderCellDef>Monto total de ventas</th>
-                <td mat-cell *matCellDef="let element">
-                    <div class="table-column-two-botton-row">
-                        <div class="table-column-lead">{{element?.totalSalesAmount?.amount || '0' }}</div>
-                        <div class="table-column-lead">{{element?.totalSalesAmount?.totalAmount || '-'}} </div>
-                    </div>
-                </td>
-            </ng-container>
 
-            <ng-container matColumnDef="acciones">
-                <th mat-header-cell *matHeaderCellDef>Acciones</th>
-                <td mat-cell *matCellDef="let element">
-                    <div class="c-column-btns">
-                        <!-- <div class="btn-see">
+                <ng-container matColumnDef="quotesMade">
+                    <th mat-header-cell *matHeaderCellDef>
+                        Cotizaciones realizadas
+                    </th>
+                    <td mat-cell *matCellDef="let element" class="d-flex d-flex gap-3">
+                        <div class="table-column-two-botton-row">
+                            <div class="table-column-lead"> {{ element?.quotesMade?.left?.amount || '0' }} </div>
+                            <div class="table-column-lead"> {{ element?.quotesMade?.left?.totalAmount || '-' }} </div>
+                        </div>
+                        <div class="table-column-two-botton-row">
+                            <div class="table-column-lead"> {{ element?.quotesMade?.right?.amount || '0' }} </div>
+                            <div class="table-column-lead"> {{ element?.quotesMade?.right?.totalAmount || '-' }} </div>
+                        </div>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="totalSalesAmount">
+                    <th mat-header-cell *matHeaderCellDef>Monto total de ventas</th>
+                    <td mat-cell *matCellDef="let element">
+                        <div class="table-column-two-botton-row">
+                            <div class="table-column-lead">{{element?.totalSalesAmount?.amount || '0' }}</div>
+                            <div class="table-column-lead">{{element?.totalSalesAmount?.totalAmount || '-'}} </div>
+                        </div>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="acciones">
+                    <th mat-header-cell *matHeaderCellDef>Acciones</th>
+                    <td mat-cell *matCellDef="let element">
+                        <div class="c-column-btns">
+                            <!-- <div class="btn-see">
                             <mat-icon matTooltip="Ver" (click)="seeData()">visibility</mat-icon>
                         </div> -->
 
-                        <div class="btn-edit" (click)="editData(element)">
-                            <mat-icon matTooltip="Editar">edit_square</mat-icon>
-                        </div>
-                  
-                        <div class="btn-copy">
-                            <mat-icon matTooltip="Clonar" (click)="cloneData()">content_copy</mat-icon>
-                        </div>
+                            <div class="btn-edit" (click)="editData(element)">
+                                <mat-icon matTooltip="Editar">edit_square</mat-icon>
+                            </div>
 
-                        <div class="btn-delete" (click)="deleteData(element)">
-                            <mat-icon matTooltip="Eliminar">delete</mat-icon>
+                            <div class="btn-copy">
+                                <mat-icon matTooltip="Clonar" (click)="cloneData()">content_copy</mat-icon>
+                            </div>
+
+                            <div class="btn-delete" (click)="deleteData(element)">
+                                <mat-icon matTooltip="Eliminar">delete</mat-icon>
+                            </div>
+
                         </div>
+                    </td>
+                </ng-container>
 
-                    </div>
-                </td>
-            </ng-container>
-
-            <tr *matNoDataRow>
-                <td class="mat-cell" [attr.colspan]="displayedColumnsCampaign.length">
-                    <h5 class="text-center my-5">No se encontraron resultados.</h5>
-                </td>
-            </tr>
-            <tr mat-header-row *matHeaderRowDef="displayedColumnsCampaign"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumnsCampaign"></tr>
-        </table>
+                <tr *matNoDataRow>
+                    <td class="mat-cell" [attr.colspan]="displayedColumnsCampaign.length">
+                        <h5 class="text-center my-5">No se encontraron resultados.</h5>
+                    </td>
+                </tr>
+                <tr mat-header-row *matHeaderRowDef="displayedColumnsCampaign"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumnsCampaign"></tr>
+            </table>
         </div>
-        
+
         <!-- <div class="d-flex justify-content-end" style="background: none;"> 
             <mat-paginator
                 #paginator

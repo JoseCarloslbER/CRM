@@ -98,14 +98,14 @@ export class NewCampingnComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getCatalogs() {
-    this.moduleServices.getCatalogBusiness().pipe(takeUntil(this.onDestroy)).subscribe({
+    this.moduleServices.getCatBusiness().pipe(takeUntil(this.onDestroy)).subscribe({
       next: (data: entity.DataCatBusiness[]) => {
         this.catBusiness = data;
       },
       error: (error) => console.error(error)
     });
 
-    this.moduleServices.getCatalogType().pipe(takeUntil(this.onDestroy)).subscribe({
+    this.moduleServices.getCatType().pipe(takeUntil(this.onDestroy)).subscribe({
       next: (data: entity.DataCatType[]) => {
         this.catTypes = data;
       },

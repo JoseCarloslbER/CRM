@@ -10,6 +10,7 @@ import { Subject, debounceTime, takeUntil } from 'rxjs';
 import { CatchmentService } from '../catchment.service';
 import { DataTableFilters } from '../catchment-interface';
 import * as entity from '../catchment-interface';
+import moment from 'moment';
 
 @Component({
   selector: 'app-campaigns',
@@ -37,16 +38,18 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
     'totalSalesAmount',
     'acciones',
   ];
-  
+
   public formFilters = this.formBuilder.group({
-    status: [{ value: null, disabled: false }],
-    giro: [{ value: null, disabled: false }],
-    company: [{ value: null, disabled: false }],
-    rangeDateStart: [{ value: null, disabled: false }],
-    rangeDateEnd: [{ value: null, disabled: false }]
+    status: [{ value: '', disabled: false }],
+    type: [{ value: '', disabled: false }],
+    agent: [{ value: '', disabled: false }],
+    rangeDateStart: [{ value: '', disabled: false }],
+    rangeDateEnd: [{ value: '', disabled: false }]
   });
 
-  public catalogTypes : entity.DataCatType[] = []; 
+  public catalogTypes: entity.DataCatType[] = [];
+  public catalogStatus: entity.DataCatStatus[] = [];
+  public catalogAgents: entity.DataCatAgents[] = [];
 
   public fechaHoy = new Date();
 
@@ -62,44 +65,63 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit(): void {
     this.getDataTable();
-    // this.getCatalogs()
+    this.getCatalogs()
   }
 
   ngAfterViewInit(): void {
-    this.searchBar.valueChanges.pipe(takeUntil(this.onDestroy), debounceTime(500)).subscribe((content:string) => {
+    this.searchBar.valueChanges.pipe(takeUntil(this.onDestroy), debounceTime(500)).subscribe((content: string) => {
       console.log(content);
     })
   }
 
   searchWithFilters() {
-    let objFilters:any = {
-      ...this.formFilters.value
+    let filters = '';
+
+    if (this.formFilters.get('status').value) filters += `status_id=${this.formFilters.get('status').value}&`;
+    if (this.formFilters.get('type').value) filters += `campaign_type_id=${this.formFilters.get('type').value}&`;
+    if (this.formFilters.get('agent').value) filters += `user_id=${this.formFilters.get('agent').value}&`;
+    if (this.formFilters.get('rangeDateStart').value && this.formFilters.get('rangeDateEnd').value) {
+      filters += `start_date=${moment(this.formFilters.get('rangeDateStart').value).format('YYYY-MM-DD')}&`,
+        filters += `end_date=${moment(this.formFilters.get('rangeDateEnd').value).format('YYYY-MM-DD')}&`
     }
 
-    console.log(objFilters);
-    this.getDataTable(objFilters)
+    this.getDataTable(filters)
   }
 
+
   getCatalogs() {
-    this.moduleServices.getCatalogType().pipe(takeUntil(this.onDestroy)).subscribe({
-      next: (data : entity.DataCatType[]) => {
-        console.log(data);
-        
+    this.moduleServices.getCatType().pipe(takeUntil(this.onDestroy)).subscribe({
+      next: (data: entity.DataCatType[]) => {
         this.catalogTypes = data
-        console.log(this.catalogTypes);
+      },
+      error: (error) => console.error(error)
+    });
+
+    this.moduleServices.getCatStatus().pipe(takeUntil(this.onDestroy)).subscribe({
+      next: (data: entity.DataCatStatus[]) => {
+        this.catalogStatus = data
+      },
+      error: (error) => console.error(error)
+    });
+
+    this.moduleServices.getCatAgents().pipe(takeUntil(this.onDestroy)).subscribe({
+      next: (data: entity.DataCatAgents[]) => {
+        this.catalogAgents = data
+      },
+      error: (error) => console.error(error)
+    });
+
+
+  }
+
+  getDataTable(filters?: any) {
+    this.moduleServices.getDataTableCampaing(filters).pipe(takeUntil(this.onDestroy)).subscribe({
+      next: (data: entity.TableDataCampaingListMapper[]) => {
+        console.log('DATOS DE LA TABLA', data[0]);
+        this.dataSource.data = data;
       },
       error: (error) => console.error(error)
     })
-   }
-
-  getDataTable(filters?:DataTableFilters) {
-    this.moduleServices.getDataTableCampaing(filters).pipe(takeUntil(this.onDestroy)).subscribe({
-        next: ( data : entity.TableDataCampaingListMapper[]) => {
-          console.log('DATOS DE LA TABLA', data[0]);
-          this.dataSource.data = data;
-        },
-        error: (error) => console.error(error)
-      })
   }
 
   seeData(id: any) {
@@ -113,12 +135,12 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
   editData(id: any) {
     this.router.navigateByUrl(`home/captacion/editar-campaña/1`)
   }
-  
+
   cloneData(id: any) {
     this.router.navigateByUrl(`home/captacion/clonar-campaña/1`)
   }
 
-  deleteData(id:string) {
+  deleteData(id: string) {
     // this.notificationService
     // .notificacion(
     //   'Pregunta',
@@ -139,9 +161,9 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
     //           )
     //           .afterClosed()
     //           .subscribe((_) => {
-    
+
     //           });
-              
+
     //         }
     //       },
     //       error: (error) => console.error(error)
@@ -156,27 +178,27 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
         'question',
       )
       .afterClosed()
-      .subscribe(( response) => {
+      .subscribe((response) => {
         if (response) {
           this.notificationService
-          .notificacion(
-            'Éxito',
-            'Registro eliminado.',
-            'delete',
-          )
-          .afterClosed()
-          .subscribe((_) => {
+            .notificacion(
+              'Éxito',
+              'Registro eliminado.',
+              'delete',
+            )
+            .afterClosed()
+            .subscribe((_) => {
 
-          });
+            });
         }
       });
   }
 
-  seeDataModal(type:string, data: entity.User | entity.Company) {
+  seeDataModal(type: string, data: entity.User | entity.Company) {
     this.dialog.open(ModalInformationInTableComponent, {
       data: {
         type: type,
-        info : data
+        info: data
       },
       disableClose: true,
       width: '1000px',
@@ -189,7 +211,7 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.router.navigateByUrl(`home/captacion/resultados-campanias/1`)
   }
 
-  douwnloadExel(){
+  douwnloadExel() {
     //   this.moduleServices.excel(id).pipe(takeUntil(this.onDestroy)).subscribe({
     //   next: (_) => {
     //     this.notificationService
@@ -206,16 +228,16 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
     // })
 
     this.notificationService
-          .notificacion(
-            'Éxito',
-            'Excel descargado.',
-            'save',
-            'heroicons_outline:document-arrow-down'
-          )
-          .afterClosed()
-          .subscribe((_) => {
+      .notificacion(
+        'Éxito',
+        'Excel descargado.',
+        'save',
+        'heroicons_outline:document-arrow-down'
+      )
+      .afterClosed()
+      .subscribe((_) => {
 
-          });
+      });
   }
 
   ngOnDestroy(): void {

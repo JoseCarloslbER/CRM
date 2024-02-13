@@ -1,22 +1,34 @@
 // CATALOGS
- export interface DataCatBusiness {
-   business_name : string;
-   business_id : string;
-   status_id : string;
- }
-
- export interface DataCatType {
-  campaign_type_id : string;
-  campaign_type_name : string;
-  status_id : string;
+export interface DataCatBusiness {
+  business_name: string;
+  business_id: string;
+  status_id: string;
 }
- 
- // END CATALOGS
+
+export interface DataCatType {
+  campaign_type_id: string;
+  campaign_type_name: string;
+  status_id: string;
+}
+
+export interface DataCatStatus {
+  description: string;
+  module: string;
+  status_id: string;
+}
+
+export interface DataCatAgents {
+  id: string;
+  first_name: string;
+  last_name: string;
+}
+
+// END CATALOGS
 
 export interface DataTableFilters {
-  status : string;
-  giro   : string;
-  campaing : string;
+  status: string;
+  giro: string;
+  campaing: string;
   dateRange: string;
 }
 
@@ -49,107 +61,107 @@ export interface TableDataCampaingList {
   owner_user_id: string;
   campaign_id: string;
   campaign_type_id: string;
-  users : User[];
-  companies : Company[];
-  product_category : Product[];
+  users: User[];
+  companies: Company[];
+  product_category: Product[];
   owner_user: Owner;
   campaign_type: Campaing;
   rol: Rol;
 }
 
 export interface TableDataCampaingListMapper {
-  dateStartEnd :  {
-    start : string;
-    end : string;
+  dateStartEnd: {
+    start: string;
+    end: string;
   };
-  codeAndname : object;
-  companyType : string;
-  totalCompanies : object;
-  totalSalesAmount : object;
-  amounInvested : string;
-  agents : {
-    name:string;
-    alls:any[]
+  codeAndname: object;
+  companyType: string;
+  totalCompanies: object;
+  totalSalesAmount: object;
+  amounInvested: string;
+  agents: {
+    name: string;
+    alls: any[]
   };
-  companiesMain : {
-    amount:string;
-    alls:any[];
+  companiesMain: {
+    amount: string;
+    alls: any[];
   };
-  quotesMade : {
-    left : {
+  quotesMade: {
+    left: {
       amount: string
       totalAmount: string
     }
-    right : {
+    right: {
       amount: string
       totalAmount: string
     }
   };
 }
 export interface User {
-  campaign : string;
-  campaign_user_id : string;
-  status : string;
+  campaign: string;
+  campaign_user_id: string;
+  status: string;
 }
 
 export interface Company {
-  campaign : string;
-  company : any;
-  campaign_company_id : string;
-  status : string;
-  total_quote : string;
-  total_sale : string;
+  campaign: string;
+  company: any;
+  campaign_company_id: string;
+  status: string;
+  total_quote: string;
+  total_sale: string;
 }
 
 export interface Product {
-  category_name : string;
-  description : any;
-  product_category_id : string;
+  category_name: string;
+  description: any;
+  product_category_id: string;
 }
 
 export interface Owner {
-  id : string;
-  date_joined : string;
-  email : string;
-  username : string;
-  first_name : string;
-  last_name : string;
-  last_access : string;
-  last_login : string;
-  phone_number : string;
-  profile_picture : string;
-  voice_identifier : string;
+  id: string;
+  date_joined: string;
+  email: string;
+  username: string;
+  first_name: string;
+  last_name: string;
+  last_access: string;
+  last_login: string;
+  phone_number: string;
+  profile_picture: string;
+  voice_identifier: string;
 }
 
 export interface Campaing {
-  campaign_type_name : string;
-  campaign_type_id : string;
+  campaign_type_name: string;
+  campaign_type_id: string;
 }
 
 export interface Rol {
-  rol_name : string;
-  rol_id : string;
-  permissions : any;
+  rol_name: string;
+  rol_id: string;
+  permissions: any;
 }
 
 export interface DataAgentsTable {
-   data : TableDataAgentsList[]
+  data: TableDataAgentsList[]
 }
 
 export interface TableDataAgentsList {
-    agent: string,
-    rol: string,
-    ip: string,
-    extension: string,
+  agent: string,
+  rol: string,
+  ip: string,
+  extension: string,
 }
 
 export interface DataTableCompanies {
-   data : TableDataCompaniesList[]
+  data: TableDataCompaniesList[]
 }
 
 export interface TableDataCompaniesList {
-    company: string,
-    contact: string,
-    status: string,
-    
+  company: string,
+  contact: string,
+  status: string,
+
 }

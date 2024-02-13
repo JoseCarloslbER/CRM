@@ -3,9 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { modalInfoTable } from 'app/shared/interfaces/TableColumns';
-import { Subject, takeUntil } from 'rxjs';
-import { CatchmentService } from '../../catchment.service';
-import { DataAgentsTable, DataTableCompanies } from '../../catchment-interface';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-modal-information-in-table',
@@ -27,19 +25,17 @@ export class ModalInformationInTableComponent implements OnInit, OnDestroy {
     'agent',
     'rol',
     'voice_identifier',
-    'ext'
   ]
 
   private companyInfoColumns: string[] = [
     'company',
     'contact',
-    'status'
+    'companyPhase'
   ]
 
   public agentData: any[] = []
 
   constructor(
-    private moduleServices: CatchmentService,
     @Inject(MAT_DIALOG_DATA) public data: modalInfoTable,
     private dialogRef: MatDialogRef<any>,
   ) { }
@@ -73,36 +69,28 @@ export class ModalInformationInTableComponent implements OnInit, OnDestroy {
   getCompanies() {
     this.displayedColumns = this.companyInfoColumns
     
-    console.log(this.data.info);
     let companyData = [...this.data.info];
 
     companyData.forEach((data: any) => {
-      console.log(data);
-      console.log('************************************');
-
       data.companyMain = { img: data.company.logo.includes('default')
           ? `../../../assets/images${data.company.logo}`
           : data.company.logo,
         name: `${data.company.company_name}`,
       };
-
+      data.companyPhase = data?.company?.company_phase?.phase_name;
       data.contact = {
-        name  : `${data.company.owner_user.first_name} ${data.company.owner_user.last_name}`,
-        email : data.company.owner_user.email,
-        phone : data.company.owner_user.phone_number
+        name  : data.company.company_contacts[0].full_name,
+        email : data.company.company_contacts[0].email,
+        phone : data.company.company_contacts[0].local_phone,
+        movil : data.company.company_contacts[0].movil_phone
       }
     })
-
-    console.log('resultado final:', companyData);
-    
 
     this.dataSource.data = companyData;
   }
 
   closeModal() {
-    this.dialogRef.close({
-      close: true
-    })
+    this.dialogRef.close({ close: true })
   }
 
   ngOnDestroy(): void {
