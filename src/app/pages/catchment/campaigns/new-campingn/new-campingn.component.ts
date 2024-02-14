@@ -23,20 +23,20 @@ export class NewCampingnComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public formData = this.formBuilder.group({
     campaign_code: [null],
-    campaign_name: [null],
-    amount_invested: [null],
-    campaign_type: [null],
+    campaign_name: [null, Validators.required],
+    amount_invested: [null, Validators.required],
+    campaign_type: [null, Validators.required],
     owner_user: [null, Validators.required],
     users: [null, Validators.required],
     start_date: [null, Validators.required],
     end_date: [null, Validators.required],
     product_category: [null, Validators.required],
-    description: [null, Validators.required],
-    goal_total_companies: [null, Validators.required],
-    goal_total_responses: [null, Validators.required],
-    goal_number_quotes: [null, Validators.required],
-    goal_number_sales: [null, Validators.required],
-    goal_amount: [null, Validators.required]
+    description: [null],
+    goal_total_companies: [null],
+    goal_total_responses: [null],
+    goal_number_quotes: [null],
+    goal_number_sales: [null],
+    goal_amount: [null]
   });
 
   public catBusiness: entityGeneral.DataCatBusiness[] = [];
@@ -53,7 +53,7 @@ export class NewCampingnComponent implements OnInit, AfterViewInit, OnDestroy {
   public url = document.location.href;
 
   public formCompanies = this.formBuilder.group({
-    companies: [[]], 
+    companies: [[], Validators.required], 
     radioOption: ['']
   });
   public companiesSelected: any[] = [];
@@ -232,6 +232,15 @@ export class NewCampingnComponent implements OnInit, AfterViewInit, OnDestroy {
   
   toBack(){
     this.router.navigateByUrl(`/home/captacion/campanias`)
+  }
+
+  get canSave () {
+    let action = true
+    if ((this.formCompanies.get('radioOption')?.value && this.formCompanies.get('companies')?.value) && this.formData.valid) {
+      action = false
+    }
+
+    return  action
   }
 
   ngOnDestroy(): void {
