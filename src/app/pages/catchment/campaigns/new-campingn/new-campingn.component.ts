@@ -1,6 +1,5 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormControl,  Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { Subject, takeUntil } from 'rxjs';
@@ -39,6 +38,11 @@ export class NewCampingnComponent implements OnInit, AfterViewInit, OnDestroy {
     goal_amount: [null]
   });
 
+  public formCompanies = this.formBuilder.group({
+    companies: [[], Validators.required],
+    radioOption: ['']
+  });
+
   public catBusiness: entityGeneral.DataCatBusiness[] = [];
   public catTypes: entityGeneral.DataCatType[] = [];
   public catalogAgents: entityGeneral.DataCatAgents[] = [];
@@ -49,17 +53,13 @@ export class NewCampingnComponent implements OnInit, AfterViewInit, OnDestroy {
   public fechaHoy = new Date();
   public toppings = new FormControl('');
   public selectCompanies = new FormControl('');
-  
+
   public url = document.location.href;
 
-  public formCompanies = this.formBuilder.group({
-    companies: [[], Validators.required], 
-    radioOption: ['']
-  });
   public companiesSelected: any[] = [];
 
   private idData: string = '';
-  private objEditData : any;
+  private objEditData: any;
 
 
   constructor(
@@ -67,10 +67,8 @@ export class NewCampingnComponent implements OnInit, AfterViewInit, OnDestroy {
     private moduleServices: CatchmentService,
     private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
-    private dialog: MatDialog,
     private router: Router
   ) { }
- 
 
   ngOnInit(): void {
     this.getId();
@@ -84,22 +82,25 @@ export class NewCampingnComponent implements OnInit, AfterViewInit, OnDestroy {
 
   getId() {
     this.activatedRoute.params.subscribe(({ id }: any) => {
-      this.idData = id;
-      // this.getDataById();
-
-      if (this.url.includes('detalle')) {
-        setTimeout(() => {
-          // this.enableOrDisableInputs();
-        });
-      } 
+      if (id) {
+        this.idData = id;
+        this.getDataById();
+        // if (this.url.includes('detalle')) {
+        //   setTimeout(() => {
+        //     // this.enableOrDisableInputs();
+        //   });
+        // }
+      }
     });
   }
 
   getDataById() {
     this.moduleServices.getDataId(this.idData).pipe(takeUntil(this.onDestroy)).subscribe({
       next: (response: any) => {
-        this.objEditData = response
-        this.formData.patchValue({...this.objEditData})
+        this.objEditData = response;
+        this.formData.patchValue({ ...this.objEditData });
+        this.formCompanies.patchValue({ ...this.objEditData?.formCompanies });
+        this.companiesSelected = this.objEditData.companiesSelected;
       },
       error: (error) => {
         this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
@@ -129,7 +130,7 @@ export class NewCampingnComponent implements OnInit, AfterViewInit, OnDestroy {
       },
       error: (error) => console.error(error)
     });
- 
+
     this.moduleServices.getCatProductCategory().pipe(takeUntil(this.onDestroy)).subscribe({
       next: (data: entityGeneral.DataCatProductCategory[]) => {
         this.catalogProductCategories = data;
@@ -143,38 +144,34 @@ export class NewCampingnComponent implements OnInit, AfterViewInit, OnDestroy {
 
   searchCompanies() {
     let filters = '';
-    
+
     if (this.formFilters.get('type')?.value) filters += `campaign_type_id=${this.formFilters.get('type').value}&`;
     if (this.formFilters.get('business')?.value) filters += `business_id=${this.formFilters.get('business').value}&`;
 
     this.moduleServices.getCatCompany(filters).pipe(takeUntil(this.onDestroy)).subscribe({
       next: (data: entityGeneral.DataCatCompany[]) => {
         this.catalogCompanies = data;
-        console.log(this.catalogCompanies);
-        
       },
       error: (error) => console.error(error)
     });
   }
 
   actionSave() {
-    let objData : any = {
+    let objData: any = {
       ...this.formData.value,
-      companies : this.companiesSelected.map(data => data.company_id)
+      companies: this.companiesSelected.map(data => data.company_id)
     }
 
     objData.end_date = moment(this.formData.get('end_date').value).format('YYYY-MM-DD')
     objData.start_date = moment(this.formData.get('start_date').value).format('YYYY-MM-DD')
 
-    console.log('OBJETO A GUARDAR: ', objData);
-    
     if (this.idData) this.saveDataPatch(objData)
-     else this.saveDataPost(objData)
+    else this.saveDataPost(objData)
   }
 
   saveDataPost(objData) {
     this.moduleServices.postData(objData).pipe(takeUntil(this.onDestroy)).subscribe({
-      next: (response: any) => {
+      next: () => {
         this.completionMessage()
       },
       error: (error) => {
@@ -185,8 +182,8 @@ export class NewCampingnComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   saveDataPatch(objData) {
-    this.moduleServices.patchData(objData).pipe(takeUntil(this.onDestroy)).subscribe({
-      next: (response: any) => {
+    this.moduleServices.patchData(this.objEditData.campaignId, objData).pipe(takeUntil(this.onDestroy)).subscribe({
+      next: () => {
         this.completionMessage(true)
       },
       error: (error) => {
@@ -213,7 +210,7 @@ export class NewCampingnComponent implements OnInit, AfterViewInit, OnDestroy {
       this.companiesSelected = this.catalogCompanies.filter((cat) =>
         selectedCompanies.includes(cat.company_id)
       );
-    } 
+    }
     console.log(this.companiesSelected);
   }
 
@@ -229,18 +226,25 @@ export class NewCampingnComponent implements OnInit, AfterViewInit, OnDestroy {
         this.toBack()
       });
   }
-  
-  toBack(){
+
+  toBack() {
     this.router.navigateByUrl(`/home/captacion/campanias`)
   }
 
-  get canSave () {
+  get canSave() {
     let action = true
-    if ((this.formCompanies.get('radioOption')?.value && this.formCompanies.get('companies')?.value) && this.formData.valid) {
+    if ((
+      !this.objEditData && this.formCompanies.get('radioOption')?.value && 
+      this.formCompanies.get('companies')?.value) &&
+      this.formData.valid
+      ||
+      this.objEditData && 
+      this.formCompanies.get('companies')?.value && this.formData.valid)
+    {
       action = false
     }
 
-    return  action
+    return action
   }
 
   ngOnDestroy(): void {

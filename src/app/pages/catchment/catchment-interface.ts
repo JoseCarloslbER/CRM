@@ -36,7 +36,7 @@ export interface TableDataCampaingList {
   campaign_type_id: string;
   users: User[];
   companies: Company[];
-  product_category: Product[];
+  product_category: Product;
   owner_user: Owner;
   campaign_type: Campaing;
   rol: Rol;
@@ -47,26 +47,28 @@ export interface TableDataCampaingListMapper {
     start: string;
     end: string;
   };
+  campaignId: string;
   codeAndname: object;
   companyType: string;
-  totalCompanies: object;
+  totalCompanies: number;
   totalSalesAmount: object;
   amounInvested: string;
   agents: {
     name: string;
-    alls: any[]
+    alls: any[];
+    main: Owner;
   };
   companiesMain: {
-    amount: string;
+    amount: number;
     alls: any[];
   };
   quotesMade: {
     left: {
-      amount: string
+      amount: number
       totalAmount: string
     }
     right: {
-      amount: string
+      amount: number
       totalAmount: string
     }
   };
@@ -74,7 +76,67 @@ export interface TableDataCampaingListMapper {
 export interface User {
   campaign: string;
   campaign_user_id: string;
+  user: Owner;
   status: string;
+}
+
+export interface editDataCampainMapper {
+  campaignId : string;
+  campaign_code : string;
+  campaign_name : string;
+  amount_invested : string;
+  campaign_type : string;
+  owner_user : string;
+  users : string[];
+  start_date : string;
+  end_date : string;
+  product_category : string;
+  description : string;
+  goal_total_companies : number;
+  goal_total_responses : number;
+  goal_number_quotes : number;
+  goal_number_sales : number;
+  goal_amount : string;
+  companiesSelected : any[];
+  formCompanies :  {
+    companies : string [];
+  }
+}
+
+export interface PostDataCampaing {
+  campaign_code : string,
+  campaign_name : string,
+  amount_invested : string,
+  campaign_type : string,
+  owner_user : string,
+  users : string[],
+  start_date : string,
+  end_date : string,
+  product_category : string,
+  description : string,
+  goal_total_companies : number,
+  goal_total_responses : number,
+  goal_number_quotes : number,
+  goal_number_sales : number,
+  goal_amount : string,
+}
+
+export interface PatchDataCampaing {
+  campaign_code? : string,
+  campaign_name? : string,
+  amount_invested? : string,
+  campaign_type? : string,
+  owner_user? : string,
+  users? : string[],
+  start_date? : string,
+  end_date? : string,
+  product_category? : string,
+  description? : string,
+  goal_total_companies? : number,
+  goal_total_responses? : number,
+  goal_number_quotes? : number,
+  goal_number_sales? : number,
+  goal_amount? : string,
 }
 
 export interface Company {

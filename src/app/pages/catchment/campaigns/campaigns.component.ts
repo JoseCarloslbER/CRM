@@ -75,23 +75,23 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getCatalogs() {
-    this.moduleServices.getCatType().pipe(takeUntil(this.onDestroy)).subscribe({
+    this.moduleServices.getCatType().subscribe({
       next: (data: entityGeneral.DataCatType[]) => {
-        this.catalogTypes = data
+        this.catalogTypes = data;
       },
       error: (error) => console.error(error)
     });
 
-    this.moduleServices.getCatStatus().pipe(takeUntil(this.onDestroy)).subscribe({
+    this.moduleServices.getCatStatus().subscribe({
       next: (data: entityGeneral.DataCatStatus[]) => {
-        this.catalogStatus = data
+        this.catalogStatus = data;
       },
       error: (error) => console.error(error)
     });
 
-    this.moduleServices.getCatAgents().pipe(takeUntil(this.onDestroy)).subscribe({
+    this.moduleServices.getCatAgents().subscribe({
       next: (data: entityGeneral.DataCatAgents[]) => {
-        this.catalogAgents = data
+        this.catalogAgents = data;
       },
       error: (error) => console.error(error)
     });
@@ -113,83 +113,56 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
   getDataTable(filters?: any) {
-    this.moduleServices.getDataTableCampaing(filters).pipe(takeUntil(this.onDestroy)).subscribe({
+    this.moduleServices.getDataTableCampaing(filters).subscribe({
       next: (data: entity.TableDataCampaingListMapper[]) => {
-        console.log('DATOS DE LA TABLA', data[0]);
         this.dataSource.data = data;
       },
       error: (error) => console.error(error)
     })
   }
 
-  seeData(id: any) {
-    this.router.navigateByUrl(`/home/captacion/detalle-campaña/1`)
-  }
-
   newData() {
     this.router.navigateByUrl(`home/captacion/nueva-campaña`)
   }
 
-  editData(id: any) {
-    this.router.navigateByUrl(`home/captacion/editar-campaña/1`)
+  editData(id: string) {
+    this.router.navigateByUrl(`home/captacion/editar-campaña/${id}`)
   }
 
-  cloneData(id: any) {
+  cloneData(id: string) {
     this.router.navigateByUrl(`home/captacion/clonar-campaña/1`)
   }
 
   deleteData(id: string) {
-    // this.notificationService
-    // .notificacion(
-    //   'Pregunta',
-    //   '¿Estas seguro de eliminar el registro?',
-    //   'question',
-    // )
-    // .afterClosed()
-    // .subscribe((resp) => {
-    //   if (resp) {
-    //     this.moduleServices.deleteData(id).pipe(takeUntil(this.onDestroy)).subscribe({
-    //       next: (response) => {
-    //         if (response) {
-    //           this.notificationService
-    //           .notificacion(
-    //             'Éxito',
-    //             'Registro eliminado.',
-    //             'delete',
-    //           )
-    //           .afterClosed()
-    //           .subscribe((_) => {
-
-    //           });
-
-    //         }
-    //       },
-    //       error: (error) => console.error(error)
-    //     })
-    //   }
-    // });
-
     this.notificationService
-      .notificacion(
-        'Pregunta',
-        '¿Estas seguro de eliminar el registro?',
-        'question',
-      )
-      .afterClosed()
-      .subscribe((response) => {
-        if (response) {
-          this.notificationService
-            .notificacion(
-              'Éxito',
-              'Registro eliminado.',
-              'delete',
-            )
-            .afterClosed()
-            .subscribe((_) => {
+    .notificacion(
+      'Pregunta',
+      '¿Estas seguro de eliminar el registro?',
+      'question',
+    )
+    .afterClosed()
+    .subscribe((resp) => {
+      if (resp) {
+        this.moduleServices.deleteData(id).subscribe({
+          next: (response) => {
+            if (response) {
+              this.notificationService
+              .notificacion(
+                'Éxito',
+                'Registro eliminado.',
+                'delete',
+              )
+              .afterClosed()
+              .subscribe((_) => {
 
-            });
-        }
-      });
+              });
+
+            }
+          },
+          error: (error) => console.error(error)
+        })
+      }
+    });
   }
 
   seeDataModal(type: string, data: entity.User | entity.Company) {

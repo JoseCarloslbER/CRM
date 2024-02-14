@@ -64,29 +64,26 @@ export class CatchmentService {
 		const url = `${this.apiUrl}campaign/${filters ? `?${filters}` : ''}`;
 
     return this.http.get<entity.TableDataCampaingList[]>(url).pipe(
-			map((respuesta) => {
-				return Mapper.getDataTableCampaingMapper(respuesta);
-			}),
+			map((response) => Mapper.getDataTableCampaingMapper(response)),
 		);
 	}
 
-  public getDataId(id:string): Observable<any> {
-		const url = `${this.apiUrl}campaign-company/${id}/`;
+  public getDataId(id:string): Observable<entity.editDataCampainMapper> {
+		const url = `${this.apiUrl}campaign/${id}/`;
 
-    return this.http.get<any>(url)
+    return this.http.get<entity.TableDataCampaingList>(url).pipe(
+			map((response) => Mapper.editDataTableCampaingMapper(response))
+		);
 	}
 
-  public postData(data:any): Observable<any> {
+  public postData(data:entity.PostDataCampaing): Observable<any> {
 		const url = `${this.apiUrl}campaign/`;
-
-    // http://66.179.253.181/api/v1/catch/campaign/
-    // http://66.179.253.181/api/v1/catch/campaign/
 
     return this.http.post<any>(url, data)
 	}
 
-  public patchData(data:any): Observable<any> {
-		const url = `${this.apiUrl}/`;
+  public patchData(id:string, data:entity.PatchDataCampaing): Observable<any> {
+		const url = `${this.apiUrl}campaign/${id}/`;
 
     return this.http.patch<any>(url, data)
 	}

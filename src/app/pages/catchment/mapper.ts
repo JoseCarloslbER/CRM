@@ -2,12 +2,11 @@ import * as entity from './catchment-interface';
 
 export class Mapper {
 	static getDataTableCampaingMapper(response: entity.TableDataCampaingList[]) : entity.TableDataCampaingListMapper[] {
-		console.log(response[0]);
-		
-		let dataList = [];
+		let dataList :entity.TableDataCampaingListMapper[] = [];
 
 		response.forEach((data: entity.TableDataCampaingList): void => {
 			dataList.push({
+				campaignId: data.campaign_id,
 				dateStartEnd: {start: data.start_date, end: data.end_date},
 				codeAndname: {code: data.campaign_code, name: data.campaign_name},
 				companyType : data.campaign_type.campaign_type_name,
@@ -46,4 +45,29 @@ export class Mapper {
 
 		return dataList
 	}
+	
+	static editDataTableCampaingMapper(response: entity.TableDataCampaingList) : entity.editDataCampainMapper {
+		return {
+			campaignId: response.campaign_id,
+			campaign_code : response.campaign_code,
+			campaign_name : response.campaign_name,
+			amount_invested : response.amount_invested,
+			campaign_type : response.campaign_type.campaign_type_id,
+			owner_user : response.owner_user.id,
+			users : response.users.map(data => data.user.id),
+			start_date : response.start_date,
+			end_date : response.end_date,
+			product_category : response.product_category.product_category_id,
+			description : response.description,
+			goal_total_companies : response.goal_total_companies,
+			goal_total_responses : response.goal_total_responses,
+			goal_number_quotes : response.goal_number_quotes,
+			goal_number_sales : response.goal_number_sales,
+			goal_amount : response.goal_amount,
+			companiesSelected : response.companies.map(data => data.company),
+			formCompanies : {
+				companies : response.companies.map(data => data.company.company_id)
+			}
+		}
+	};
 }
