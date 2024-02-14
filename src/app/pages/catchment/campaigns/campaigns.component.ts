@@ -114,7 +114,7 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   getDataTable(filters?: any) {
     this.moduleServices.getDataTableCampaing(filters).subscribe({
-      next: (data: entity.TableDataCampaingListMapper[]) => {
+      next: (data: entity.TableDataCampaingMapper[]) => {
         this.dataSource.data = data;
       },
       error: (error) => console.error(error)
@@ -152,9 +152,7 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
                 'delete',
               )
               .afterClosed()
-              .subscribe((_) => {
-                this.searchWithFilters();
-              });
+              .subscribe((_) => this.searchWithFilters());
           },
           error: (error) => console.error(error)
         })

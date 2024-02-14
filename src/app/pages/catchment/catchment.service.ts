@@ -60,18 +60,18 @@ export class CatchmentService {
 
 
   // CAMPAIGNS
-  public getDataTableCampaing(filters?:DataTableFilters): Observable<entity.TableDataCampaingListMapper[]> {
+  public getDataTableCampaing(filters?:DataTableFilters): Observable<entity.TableDataCampaingMapper[]> {
 		const url = `${this.apiUrl}campaign/${filters ? `?${filters}` : ''}`;
 
-    return this.http.get<entity.TableDataCampaingList[]>(url).pipe(
+    return this.http.get<entity.TableDataCampaing[]>(url).pipe(
 			map((response) => Mapper.getDataTableCampaingMapper(response)),
 		);
 	}
 
-  public getDataId(id:string): Observable<entity.editDataCampainMapper> {
+  public getDataId(id:string): Observable<entity.GetDataCampainMapper> {
 		const url = `${this.apiUrl}campaign/${id}/`;
 
-    return this.http.get<entity.TableDataCampaingList>(url).pipe(
+    return this.http.get<entity.TableDataCampaing>(url).pipe(
 			map((response) => Mapper.editDataTableCampaingMapper(response))
 		);
 	}

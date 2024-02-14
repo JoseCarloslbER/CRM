@@ -1,10 +1,10 @@
 import * as entity from './catchment-interface';
 
 export class Mapper {
-	static getDataTableCampaingMapper(response: entity.TableDataCampaingList[]) : entity.TableDataCampaingListMapper[] {
-		let dataList :entity.TableDataCampaingListMapper[] = [];
+	static getDataTableCampaingMapper(response: entity.TableDataCampaing[]) : entity.TableDataCampaingMapper[] {
+		let dataList :entity.TableDataCampaingMapper[] = [];
 
-		response.forEach((data: entity.TableDataCampaingList): void => {
+		response.forEach((data: entity.TableDataCampaing): void => {
 			dataList.push({
 				campaignId: data.campaign_id,
 				dateStartEnd: {start: data.start_date, end: data.end_date},
@@ -46,7 +46,7 @@ export class Mapper {
 		return dataList
 	}
 	
-	static editDataTableCampaingMapper(response: entity.TableDataCampaingList) : entity.editDataCampainMapper {
+	static editDataTableCampaingMapper(response: entity.TableDataCampaing) : entity.GetDataCampainMapper {
 		return {
 			campaignId: response.campaign_id,
 			campaign_code : response.campaign_code,

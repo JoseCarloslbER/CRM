@@ -5,7 +5,7 @@ export interface DataTableFilters {
   dateRange: string;
 }
 
-export interface TableDataCampaingList {
+export interface TableDataCampaing {
   campaign_code: string;
   campaign_name: string;
   amount_invested: string;
@@ -42,7 +42,7 @@ export interface TableDataCampaingList {
   rol: Rol;
 }
 
-export interface TableDataCampaingListMapper {
+export interface TableDataCampaingMapper {
   dateStartEnd: {
     start: string;
     end: string;
@@ -80,7 +80,7 @@ export interface User {
   status: string;
 }
 
-export interface editDataCampainMapper {
+export interface GetDataCampainMapper {
   campaignId : string;
   campaign_code : string;
   campaign_name : string;
@@ -180,10 +180,10 @@ export interface Rol {
 }
 
 export interface DataAgentsTable {
-  data: TableDataAgentsList[]
+  data: TableDataAgents[]
 }
 
-export interface TableDataAgentsList {
+export interface TableDataAgents {
   agent: string,
   rol: string,
   ip: string,
@@ -191,10 +191,10 @@ export interface TableDataAgentsList {
 }
 
 export interface DataTableCompanies {
-  data: TableDataCompaniesList[]
+  data: TableDataCompanies[]
 }
 
-export interface TableDataCompaniesList {
+export interface TableDataCompanies {
   company: string,
   contact: string,
   status: string,

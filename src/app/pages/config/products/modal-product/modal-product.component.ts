@@ -1,9 +1,10 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import * as entity from '../../config-interface';
 import { CompaniesService } from 'app/pages/companies/companies.service';
 import { Subject, takeUntil } from 'rxjs';
+import * as entity from '../../config-interface';
+import * as entityGeneral from '../../../../shared/interfaces/general-interface';
 
 @Component({
   selector: 'app-modal-product',
@@ -13,7 +14,7 @@ import { Subject, takeUntil } from 'rxjs';
 export class ModalProductComponent implements OnInit, OnDestroy {
   private onDestroy = new Subject<void>();
 
-  public catBusiness: entity.DataCatBusiness[] = [];
+  public catBusiness: entityGeneral.DataCatBusiness[] = [];
 
   constructor(
     private moduleServices: CompaniesService,
@@ -31,7 +32,7 @@ export class ModalProductComponent implements OnInit, OnDestroy {
 
   getCatalogs() {
     this.moduleServices.getCatalogBusiness().pipe(takeUntil(this.onDestroy)).subscribe({
-      next: (data: entity.DataCatBusiness[]) => {
+      next: (data: entityGeneral.DataCatBusiness[]) => {
         this.catBusiness = data;
       },
       error: (error) => console.error(error)
