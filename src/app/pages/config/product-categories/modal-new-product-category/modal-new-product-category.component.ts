@@ -17,20 +17,20 @@ export class ModalNewProductCategoryComponent implements OnInit {
     category_name: ['', Validators.required],
   });
 
-  private objEditData : any;
+  private objEditData: any;
 
   constructor(
     private moduleServices: ConfigService,
     private notificationService: OpenModalsService,
     private formBuilder: FormBuilder,
-		private dialogRef: MatDialogRef<any>,
-		@Inject(MAT_DIALOG_DATA) public data: modalInfoTable
-	) { }
+    private dialogRef: MatDialogRef<any>,
+    @Inject(MAT_DIALOG_DATA) public data: modalInfoTable
+  ) { }
 
   ngOnInit(): void {
     this.objEditData = this.data.info;
     console.log('objEditData : ', this.objEditData);
-    this.getDataById(); 
+    this.getDataById();
   }
 
   getDataById() {
@@ -93,9 +93,7 @@ export class ModalNewProductCategoryComponent implements OnInit {
   }
 
   closeModal() {
-		this.dialogRef.close({
-      close : true
-    })
+    this.dialogRef.close({ close: true })
   }
 
   ngOnDestroy(): void {

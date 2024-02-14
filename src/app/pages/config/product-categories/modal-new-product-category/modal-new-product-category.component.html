@@ -21,7 +21,8 @@
 
             <div class="row d-flex justify-content-end">
                 <div class="d-flex justify-content-end col-md-2 col-xl-2 col-12 pt-md-2">
-                    <button class="btn-action-add" [disabled]="!formData.valid" (click)="actionSave()">
+                    <button class="btn-action-add" [disabled]="!formData.valid || formData.hasError('whitespace')"
+                        (click)="actionSave()">
                         <span>Guardar</span>
                     </button>
                 </div>

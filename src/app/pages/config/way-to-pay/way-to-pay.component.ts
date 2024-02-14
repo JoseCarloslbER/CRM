@@ -1,18 +1,18 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
-import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { ModalNewWayToPayComponent } from './modal-new-way-to-pay/modal-new-way-to-pay.component';
 import { Subject } from 'rxjs';
+import { ConfigService } from '../config.service';
+import * as entity from '../config-interface';
 
 @Component({
   selector: 'app-way-to-pay',
   templateUrl: './way-to-pay.component.html',
 })
-export class WayToPayComponent implements OnInit, AfterViewInit, OnDestroy {
+export class WayToPayComponent implements OnInit, OnDestroy {
   private onDestroy = new Subject<void>();
 
   public dataSource = new MatTableDataSource<any>([]);
@@ -23,46 +23,34 @@ export class WayToPayComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public displayedColumns: string[] = [
     'name',
-    'comments',
     'acciones'
   ];
-
 
   public dataDummy: any[] = [
     {
       name: 'Depósito en Efectivo',
-      comments: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    },
-    {
-      name: 'Depósito en Efectivo',
-      comments: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    },
-    {
-      name: 'Depósito en Efectivo',
-      comments: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    },
-    {
-      name: 'Depósito en Efectivo',
-      comments: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    },
-    {
-      name: 'Depósito en Efectivo',
-      comments: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
     },
   ]
 
   constructor(
+    private moduleServices: ConfigService,
     private notificationService: OpenModalsService,
-    private formBuilder: FormBuilder,
     private dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
     this.dataSource.data = this.dataDummy
+    this.getDataTable();
   }
 
-  ngAfterViewInit(): void {
-    
+  getDataTable() {
+    this.moduleServices.getTableDataWayToPay().subscribe({
+      next: (data: entity.TableDataWayToPay[]) => {
+        // this.dataSource.data = data;
+        console.log(data);
+      },
+      error: (error) => console.error(error)
+    })
   }
 
   newOrEditData(data = null) {
@@ -76,28 +64,32 @@ export class WayToPayComponent implements OnInit, AfterViewInit, OnDestroy {
       panelClass: 'custom-dialog',
     });
   }
-  
 
-  deleteData() {
+  deleteData(id: string) {
     this.notificationService
-      .notificacion(
-        'Pregunta',
-        '¿Estas seguro de eliminar el registro?',
-        'question',
-      )
-      .afterClosed()
-      .subscribe((_) => {
-        this.notificationService
-          .notificacion(
-            'Éxito',
-            'Registro eliminado.',
-            'delete',
-          )
-          .afterClosed()
-          .subscribe((_) => {
-
-          });
-      });
+    .notificacion(
+      'Pregunta',
+      '¿Estas seguro de eliminar el registro?',
+      'question',
+    )
+    .afterClosed()
+    .subscribe((response) => {
+      if (response) {
+        this.moduleServices.deleteDataWayToPay(id).subscribe({
+          next: () => {
+              this.notificationService
+              .notificacion(
+                'Éxito',
+                'Registro eliminado.',
+                'delete',
+              )
+              .afterClosed()
+              .subscribe((_) => this.getDataTable());
+          },
+          error: (error) => console.error(error)
+        })
+      }
+    });
   }
 
   douwnloadExel(){
@@ -113,10 +105,9 @@ export class WayToPayComponent implements OnInit, AfterViewInit, OnDestroy {
 
           });
   }
-  
+
   ngOnDestroy(): void {
     this.onDestroy.next();
     this.onDestroy.unsubscribe();
   }
-  
 }
