@@ -130,7 +130,7 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   cloneData(id: string) {
-    this.router.navigateByUrl(`home/captacion/clonar-campaña/1`)
+    this.router.navigateByUrl(`home/captacion/clonar-campaña/${id}`)
   }
 
   deleteData(id: string) {
