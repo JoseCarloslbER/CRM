@@ -22,7 +22,7 @@ export class Mapper {
 					minimumFractionDigits: 2,
 					maximumFractionDigits: 2,
 				}),
-				agents: {name : `${data.owner_user.first_name} ${data.owner_user.last_name}`, alls : data.users, main: data.owner_user } ,
+				agents: {name : `${data.owner_user.first_name && data.owner_user.last_name ? data.owner_user?.first_name.toUpperCase() + ' ' + data.owner_user?.last_name.toUpperCase() : data.owner_user?.username.toUpperCase() }`, alls : data.users, main: data.owner_user } ,
 				companiesMain : { amount : data.companies.length, alls : data.companies },
 				quotesMade : { 
 					left : {

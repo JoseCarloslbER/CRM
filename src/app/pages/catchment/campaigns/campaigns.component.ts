@@ -141,11 +141,10 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
       'question',
     )
     .afterClosed()
-    .subscribe((resp) => {
-      if (resp) {
+    .subscribe((response) => {
+      if (response) {
         this.moduleServices.deleteData(id).subscribe({
-          next: (response) => {
-            if (response) {
+          next: () => {
               this.notificationService
               .notificacion(
                 'Éxito',
@@ -154,10 +153,8 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
               )
               .afterClosed()
               .subscribe((_) => {
-
+                this.searchWithFilters();
               });
-
-            }
           },
           error: (error) => console.error(error)
         })

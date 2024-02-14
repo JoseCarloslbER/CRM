@@ -45,9 +45,8 @@
                                     <mat-label>Agente</mat-label>
                                     <mat-select formControlName="agent" placeholder="Seleccionar">
                                         <mat-option value="">Todos</mat-option>
-                                        <mat-option [value]="cat.id" *ngFor="let cat of catalogAgents">{{cat.first_name
-                                            && cat.last_name ? cat?.first_name + ' ' + cat?.last_name : cat?.username |
-                                            titlecase }}</mat-option>
+                                        <mat-option [value]="cat.id" *ngFor="let cat of catalogAgents">
+                                            {{cat.first_name && cat.last_name ? cat?.first_name + ' ' + cat?.last_name : cat?.username |titlecase }}</mat-option>
                                     </mat-select>
                                 </mat-form-field>
                             </div>
@@ -135,7 +134,7 @@
                     <th mat-header-cell *matHeaderCellDef>Agentes</th>
                     <td mat-cell *matCellDef="let element">
                         <div class="table-column-agent-see-all">
-                            <span> {{ element?.agents?.name || '0' }} </span>
+                            <span> {{ element?.agents?.name || '' }} </span>
                             <span (click)="seeDataModal('agents', element?.agents)">Ver todos</span>
                         </div>
                     </td>

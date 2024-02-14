@@ -124,7 +124,11 @@
                     </form>
                 </div>
 
-                <form [formGroup]="formCompanies">
+                <form [formGroup]="formCompanies" class="mt-5">
+                    <div class="inputNewRegister">
+                        <mat-label>Empresas*</mat-label>
+                    </div>
+
                     <mat-radio-group class="d-flex row" formControlName="radioOption">
                         <div class="col-md-6">
                           <mat-radio-button class="mb-2" value="excepto" (change)="onRadioChange('excepto')">

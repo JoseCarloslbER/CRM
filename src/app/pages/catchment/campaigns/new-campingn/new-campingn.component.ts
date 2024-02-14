@@ -30,7 +30,7 @@ export class NewCampingnComponent implements OnInit, AfterViewInit, OnDestroy {
     start_date: [null, Validators.required],
     end_date: [null, Validators.required],
     product_category: [null, Validators.required],
-    description: [null],
+    description: [null, Validators.required],
     goal_total_companies: [null],
     goal_total_responses: [null],
     goal_number_quotes: [null],
