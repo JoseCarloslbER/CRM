@@ -1,11 +1,11 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { ConfigService } from '../../config.service';
-import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { modalInfoTable } from 'app/shared/interfaces/TableColumns';
+import * as entity from '../../config-interface';
 
 @Component({
   selector: 'app-modal-new-way-to-pay',
@@ -18,7 +18,7 @@ export class ModalNewWayToPayComponent implements OnInit {
     payment_name: ['', Validators.required],
   });
 
-  private objEditData: any;
+  private objEditData: entity.GetDataWayToPay;
 
   constructor(
     private moduleServices: ConfigService,
@@ -29,34 +29,25 @@ export class ModalNewWayToPayComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.objEditData = this.data.info;
-    console.log('objEditData : ', this.objEditData);
-    this.getDataById();
-  }
-  getDataById() {
-    this.moduleServices.getDataIdProductCategory(this.objEditData.id).subscribe({
-      next: (response: any) => {
-      },
-      error: (error) => {
-        this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
-        console.error(error)
-      }
-    })
+    this.assignInformation();
   }
 
+  assignInformation() {
+    this.objEditData = this.data.info;
+    this.formData.patchValue(this.objEditData)
+  }
+  
   actionSave() {
     let objData: any = {
       ...this.formData.value
     }
-
-    console.log(objData);
 
     if (this.objEditData) this.saveDataPatch(objData)
     else this.saveDataPost(objData)
   }
 
   saveDataPost(objData) {
-    this.moduleServices.postDataProductCategory(objData).subscribe({
+    this.moduleServices.postDataWayToPay(objData).subscribe({
       next: () => {
         this.completionMessage()
       },
@@ -68,7 +59,7 @@ export class ModalNewWayToPayComponent implements OnInit {
   }
 
   saveDataPatch(objData) {
-    this.moduleServices.patchDataProductCategory(this.objEditData.campaignId, objData).subscribe({
+    this.moduleServices.patchDataWayToPay(this.objEditData?.payment_method_id, objData).subscribe({
       next: () => {
         this.completionMessage(true)
       },

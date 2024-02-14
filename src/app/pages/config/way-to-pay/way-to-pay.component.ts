@@ -22,15 +22,9 @@ export class WayToPayComponent implements OnInit, OnDestroy {
   public indicePagina = 0;
 
   public displayedColumns: string[] = [
-    'name',
+    'payment_name',
     'acciones'
   ];
-
-  public dataDummy: any[] = [
-    {
-      name: 'Depósito en Efectivo',
-    },
-  ]
 
   constructor(
     private moduleServices: ConfigService,
@@ -39,15 +33,13 @@ export class WayToPayComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.dataSource.data = this.dataDummy
     this.getDataTable();
   }
 
   getDataTable() {
     this.moduleServices.getTableDataWayToPay().subscribe({
       next: (data: entity.TableDataWayToPay[]) => {
-        // this.dataSource.data = data;
-        console.log(data);
+        this.dataSource.data = data;
       },
       error: (error) => console.error(error)
     })
@@ -62,6 +54,10 @@ export class WayToPayComponent implements OnInit, OnDestroy {
       width: '1000px',
       maxHeight: '428px',
       panelClass: 'custom-dialog',
+    })
+    .afterClosed()
+    .subscribe((_) => {
+      this.getDataTable()
     });
   }
 

@@ -84,6 +84,76 @@ export class ConfigService {
 	}
 
   // END WAY TO PAY  
+  
+  
+  // CAMPAING TYPE 
+   
+  public getTableDataCampaingType(): Observable<entity.TableDataCampaingType[]> {
+		const url = `${this.apiUrl}campaign-type/`;
+
+    return this.http.get<entity.TableDataCampaingType[]>(url);
+	}
+
+  public getDataIdCampaingType(id:string): Observable<entity.GetDataCampaingType> {
+		const url = `${this.apiUrl}campaign-type/${id}/`;
+
+    return this.http.get<entity.GetDataCampaingType>(url);
+	}
+
+  public postDataCampaingType(data:entity.PostDataCampaingType): Observable<any> {
+		const url = `${this.apiUrl}campaign-type/`;
+
+    return this.http.post<any>(url, data);
+	}
+
+  public patchDataCampaingType(id:string, data:entity.PatchDataCampaingType): Observable<any> {
+		const url = `${this.apiUrl}campaign-type/${id}/`;
+
+    return this.http.patch<any>(url, data);
+	}
+ 
+  public deleteDataCampaingType(id:string): Observable<any> {
+		const url = `${this.apiUrl}campaign-type/${id}/`;
+
+    return this.http.delete<any>(url);
+	}
+
+  // END CAMPAING TYPE  
+
+  
+  // COMPANY TYPE 
+   
+  public getTableDataCompanyType(): Observable<entity.TableDataCompanyType[]> {
+		const url = `${this.apiUrl}company-type/`;
+
+    return this.http.get<entity.TableDataCompanyType[]>(url);
+	}
+
+  public getDataIdCompanyType(id:string): Observable<entity.GetDataCompanyType> {
+		const url = `${this.apiUrl}company-type/${id}/`;
+
+    return this.http.get<entity.GetDataCompanyType>(url);
+	}
+
+  public postDataCompanyType(data:entity.PostDataCompanyType): Observable<any> {
+		const url = `${this.apiUrl}company-type/`;
+
+    return this.http.post<any>(url, data);
+	}
+
+  public patchDataCompanyType(id:string, data:entity.PatchDataCompanyType): Observable<any> {
+		const url = `${this.apiUrl}company-type/${id}/`;
+
+    return this.http.patch<any>(url, data);
+	}
+ 
+  public deleteDataCompanyType(id:string): Observable<any> {
+		const url = `${this.apiUrl}company-type/${id}/`;
+
+    return this.http.delete<any>(url);
+	}
+
+  // END COMPANY TYPE  
 
 
 

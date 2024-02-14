@@ -43,3 +43,48 @@ export interface PatchDataWayToPay {
 }
 
 // END WAY TO PAY 
+
+// CAMPAING TYPE
+export interface TableDataCampaingType {
+  campaign_type_id: string;
+  campaign_type_name: string;
+}
+
+export interface PostDataCampaingType {
+  campaign_type_name:string;
+}
+
+export interface GetDataCampaingType {
+  campaign_type_id?:string;
+  campaign_type_name:string;
+}
+
+export interface PatchDataCampaingType {
+  campaign_type_id:string;
+  campaign_type_name:string;
+}
+
+// END CAMPAING TYPE 
+
+
+// COMPANY TYPE
+export interface TableDataCompanyType {
+  company_type_id: string;
+  type_name: string;
+}
+
+export interface PostDataCompanyType {
+  type_name:string;
+}
+
+export interface GetDataCompanyType {
+  company_type_id?:string;
+  type_name:string;
+}
+
+export interface PatchDataCompanyType {
+  company_type_id:string;
+  type_name:string;
+}
+
+// END COMPANY TYPE 
