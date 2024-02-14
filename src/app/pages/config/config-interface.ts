@@ -88,3 +88,25 @@ export interface PatchDataCompanyType {
 }
 
 // END COMPANY TYPE 
+
+// ORIGIN
+export interface TableDataOrigin {
+  platform_id: string;
+  platform_name: string;
+}
+
+export interface PostDataOrigin {
+  platform_name:string;
+}
+
+export interface GetDataOrigin {
+  platform_id:string;
+  platform_name:string;
+}
+
+export interface PatchDataOrigin {
+  platform_id:string;
+  platform_name:string;
+}
+
+// END ORIGIN 

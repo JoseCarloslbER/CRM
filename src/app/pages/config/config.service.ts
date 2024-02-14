@@ -154,6 +154,40 @@ export class ConfigService {
 	}
 
   // END COMPANY TYPE  
+  
+  // ORIGIN 
+   
+  public getTableDataOrigin(): Observable<entity.TableDataOrigin[]> {
+		const url = `${this.apiUrl}platform/`;
+
+    return this.http.get<entity.TableDataOrigin[]>(url);
+	}
+
+  public getDataIdOrigin(id:string): Observable<entity.GetDataOrigin> {
+		const url = `${this.apiUrl}platform/${id}/`;
+
+    return this.http.get<entity.GetDataOrigin>(url);
+	}
+
+  public postDataOrigin(data:entity.PostDataOrigin): Observable<any> {
+		const url = `${this.apiUrl}platform/`;
+
+    return this.http.post<any>(url, data);
+	}
+
+  public patchDataOrigin(id:string, data:entity.PatchDataOrigin): Observable<any> {
+		const url = `${this.apiUrl}platform/${id}/`;
+
+    return this.http.patch<any>(url, data);
+	}
+ 
+  public deleteDataOrigin(id:string): Observable<any> {
+		const url = `${this.apiUrl}platform/${id}/`;
+
+    return this.http.delete<any>(url);
+	}
+
+  // END ORIGIN  
 
 
 

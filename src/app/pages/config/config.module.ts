@@ -23,6 +23,7 @@ import { ClientTypeComponent } from './company-categories/components/client-type
 import { GiroCompanyComponent } from './company-categories/components/giro-company/giro-company.component';
 import { OriginCompanyComponent } from './company-categories/components/origin-company/origin-company.component';
 import { SizeCompanyComponent } from './company-categories/components/size-company/size-company.component';
+import { SharedModalComponent } from './company-categories/components/shared-modal/shared-modal.component';
 
 
 
@@ -47,6 +48,7 @@ import { SizeCompanyComponent } from './company-categories/components/size-compa
     GiroCompanyComponent,
     OriginCompanyComponent,
     SizeCompanyComponent,
+    SharedModalComponent
     
   ],
   imports: [
