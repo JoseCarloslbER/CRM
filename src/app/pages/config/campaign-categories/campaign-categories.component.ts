@@ -24,16 +24,9 @@ export class CampaignCategoriesComponent  implements OnInit, OnDestroy {
   public indicePagina = 0;
 
   public displayedColumns: string[] = [
-    'name',
+    'campaign_type_name',
     'acciones'
   ];
-
-  public dataDummy: any[] = [
-    {
-      name: 'Depósito en Efectivo',
-      comments: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    },
-  ]
 
   constructor(
     private moduleServices: ConfigService,
@@ -42,15 +35,13 @@ export class CampaignCategoriesComponent  implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.dataSource.data = this.dataDummy
     this.getDataTable();
   }
 
   getDataTable() {
     this.moduleServices.getTableDataCampaingType().subscribe({
       next: (data: entity.TableDataCampaingType[]) => {
-        // this.dataSource.data = data;
-        console.log(data);
+        this.dataSource.data = data;
       },
       error: (error) => console.error(error)
     })
@@ -65,6 +56,10 @@ export class CampaignCategoriesComponent  implements OnInit, OnDestroy {
       width: '1000px',
       maxHeight: '428px',
       panelClass: 'custom-dialog',
+    })
+    .afterClosed()
+    .subscribe((_) => {
+      this.getDataTable()
     });
   }
 
@@ -78,7 +73,7 @@ export class CampaignCategoriesComponent  implements OnInit, OnDestroy {
     .afterClosed()
     .subscribe((response) => {
       if (response) {
-        this.moduleServices.deleteDataWayToPay(id).subscribe({
+        this.moduleServices.deleteDataCampaingType(id).subscribe({
           next: () => {
               this.notificationService
               .notificacion(

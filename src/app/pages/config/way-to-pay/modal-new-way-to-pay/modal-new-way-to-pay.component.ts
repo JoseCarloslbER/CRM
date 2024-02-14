@@ -78,9 +78,7 @@ export class ModalNewWayToPayComponent implements OnInit {
         'save',
       )
       .afterClosed()
-      .subscribe((_) => {
-        this.closeModal()
-      });
+      .subscribe((_) => this.closeModal() );
   }
 
   closeModal() {
