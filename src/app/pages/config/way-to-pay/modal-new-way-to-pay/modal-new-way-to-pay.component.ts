@@ -15,7 +15,7 @@ export class ModalNewWayToPayComponent implements OnInit {
   private onDestroy = new Subject<void>();
 
   public formData = this.formBuilder.group({
-    payment_name: ['', Validators.required],
+    payment_name: ['', Validators.required]
   });
 
   private objEditData: entity.GetDataWayToPay;

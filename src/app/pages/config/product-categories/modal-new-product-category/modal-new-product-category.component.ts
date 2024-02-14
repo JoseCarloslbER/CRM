@@ -5,6 +5,7 @@ import { ConfigService } from '../../config.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { modalInfoTable } from 'app/shared/interfaces/TableColumns';
+import * as entity from '../../config-interface';
 
 @Component({
   selector: 'app-modal-new-product-category',
@@ -14,10 +15,10 @@ export class ModalNewProductCategoryComponent implements OnInit {
   private onDestroy = new Subject<void>();
 
   public formData = this.formBuilder.group({
-    category_name: ['', Validators.required],
+    category_name: ['', Validators.required]
   });
 
-  private objEditData: any;
+  private objEditData: entity.GetDataProductCategory;
 
   constructor(
     private moduleServices: ConfigService,
@@ -28,28 +29,18 @@ export class ModalNewProductCategoryComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.objEditData = this.data.info;
-    console.log('objEditData : ', this.objEditData);
-    this.getDataById();
+    this.assignInformation();
   }
 
-  getDataById() {
-    this.moduleServices.getDataIdProductCategory(this.objEditData.id).subscribe({
-      next: (response: any) => {
-      },
-      error: (error) => {
-        this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
-        console.error(error)
-      }
-    })
+  assignInformation() {
+    this.objEditData = this.data.info;
+    this.formData.patchValue(this.objEditData);
   }
 
   actionSave() {
     let objData: any = {
       ...this.formData.value
     }
-
-    console.log(objData);
 
     if (this.objEditData) this.saveDataPatch(objData)
     else this.saveDataPost(objData)
@@ -68,7 +59,7 @@ export class ModalNewProductCategoryComponent implements OnInit {
   }
 
   saveDataPatch(objData) {
-    this.moduleServices.patchDataProductCategory(this.objEditData.campaignId, objData).subscribe({
+    this.moduleServices.patchDataProductCategory(this.objEditData.product_category_id, objData).subscribe({
       next: () => {
         this.completionMessage(true)
       },
