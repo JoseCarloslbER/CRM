@@ -5,6 +5,7 @@ import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { modalInfoTable } from 'app/shared/interfaces/TableColumns';
+import { UpdateComponentsService } from '../components.service';
 
 @Component({
   selector: 'app-shared-modal',
@@ -25,6 +26,7 @@ export class SharedModalComponent implements OnInit {
 
   constructor(
     private moduleServices: ConfigService,
+    private updateService: UpdateComponentsService,
     private notificationService: OpenModalsService,
     private dialogRef: MatDialogRef<any>,
     @Inject(MAT_DIALOG_DATA) public data: modalInfoTable
@@ -32,11 +34,7 @@ export class SharedModalComponent implements OnInit {
 
   ngOnInit(): void {
     this.objEditData = this.data.info;
-    console.log(this.data);
-
-    if (this.data.info) {
-      this.actionEdit()
-    }
+    if (this.data.info) this.actionEdit()
   }
 
 
@@ -178,7 +176,6 @@ export class SharedModalComponent implements OnInit {
     }
   }
 
-
   completionMessage(edit = false) {
     this.notificationService
       .notificacion(
@@ -191,6 +188,7 @@ export class SharedModalComponent implements OnInit {
   }
 
   closeModal() {
+    this.updateService.triggerUpdate(); 
     this.dialogRef.close({ close: true })
   }
 
