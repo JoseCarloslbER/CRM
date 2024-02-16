@@ -110,3 +110,47 @@ export interface PatchDataOrigin {
 }
 
 // END ORIGIN 
+
+// BUSINESS
+export interface TableDataBusiness {
+  business_id: string;
+  business_name: string;
+}
+
+export interface PostDataBusiness {
+  business_name:string;
+}
+
+export interface GetDataBusiness {
+  business_id:string;
+  business_name:string;
+}
+
+export interface PatchDataBusiness {
+  business_id:string;
+  business_name:string;
+}
+
+// END BUSINESS 
+
+// SIZE
+export interface TableDataSize {
+  company_size_id: string;
+  size_name: string;
+}
+
+export interface PostDataSize {
+  size_name:string;
+}
+
+export interface GetDataSize {
+  company_size_id:string;
+  size_name:string;
+}
+
+export interface PatchDataSize {
+  company_size_id:string;
+  size_name:string;
+}
+
+// END SIZE 

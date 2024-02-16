@@ -190,6 +190,73 @@ export class ConfigService {
   // END ORIGIN  
 
 
+  // BUSINESS 
+   
+  public getTableDataBusiness(): Observable<entity.TableDataBusiness[]> {
+		const url = `${this.apiUrl}business/`;
 
+    return this.http.get<entity.TableDataBusiness[]>(url);
+	}
+
+  public getDataIdBusiness(id:string): Observable<entity.GetDataBusiness> {
+		const url = `${this.apiUrl}business/${id}/`;
+
+    return this.http.get<entity.GetDataBusiness>(url);
+	}
+
+  public postDataBusiness(data:entity.PostDataBusiness): Observable<any> {
+		const url = `${this.apiUrl}business/`;
+
+    return this.http.post<any>(url, data);
+	}
+
+  public patchDataBusiness(id:string, data:entity.PatchDataBusiness): Observable<any> {
+		const url = `${this.apiUrl}business/${id}/`;
+
+    return this.http.patch<any>(url, data);
+	}
+ 
+  public deleteDataBusiness(id:string): Observable<any> {
+		const url = `${this.apiUrl}business/${id}/`;
+
+    return this.http.delete<any>(url);
+	}
+
+  // END BUSINESS  
+
+  
+  // SIZE 
+   
+  public getTableDataSize(): Observable<entity.TableDataSize[]> {
+		const url = `${this.apiUrl}company-size/`;
+
+    return this.http.get<entity.TableDataSize[]>(url);
+	}
+
+  public getDataIdSize(id:string): Observable<entity.GetDataSize> {
+		const url = `${this.apiUrl}company-size/${id}/`;
+
+    return this.http.get<entity.GetDataSize>(url);
+	}
+
+  public postDataSize(data:entity.PostDataSize): Observable<any> {
+		const url = `${this.apiUrl}company-size/`;
+
+    return this.http.post<any>(url, data);
+	}
+
+  public patchDataSize(id:string, data:entity.PatchDataSize): Observable<any> {
+		const url = `${this.apiUrl}company-size/${id}/`;
+
+    return this.http.patch<any>(url, data);
+	}
+ 
+  public deleteDataSize(id:string): Observable<any> {
+		const url = `${this.apiUrl}company-size/${id}/`;
+
+    return this.http.delete<any>(url);
+	}
+
+  // END SIZE  
 
 }

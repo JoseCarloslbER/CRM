@@ -1,18 +1,20 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
-import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
-import { ModalNewCompanyTypeComponent } from '../../modal-new-company-type/modal-new-company-type.component';
+import { Subject } from 'rxjs';
+import { ConfigService } from 'app/pages/config/config.service';
+import * as entity from '../../../config-interface';
+import { SharedModalComponent } from '../shared-modal/shared-modal.component';
 
 @Component({
   selector: 'app-size-company',
   templateUrl: './size-company.component.html',
 })
-export class SizeCompanyComponent implements OnInit{
+export class SizeCompanyComponent implements OnInit, OnDestroy {
+  private onDestroy = new Subject<void>();
+
   public dataSource = new MatTableDataSource<any>([]);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   public longitudPagina = 50;
@@ -20,78 +22,73 @@ export class SizeCompanyComponent implements OnInit{
   public indicePagina = 0;
 
   public displayedColumns: string[] = [
-    'name',
-    'comments',
+    'size_name',
     'acciones'
   ];
 
-
-  public dataDummy: any[] = [
-    {
-      name: 'Campaña',
-      comments: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    },
-    {
-      name: 'Campaña',
-      comments: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    },
-    {
-      name: 'Campaña',
-      comments: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    },
-    {
-      name: 'Campaña',
-      comments: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    },
-    {
-      name: 'Campaña',
-      comments: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    },
-  ]
-
-
   constructor(
+    private moduleServices: ConfigService,
     private notificationService: OpenModalsService,
-    private formBuilder: FormBuilder,
     private dialog: MatDialog,
-    private router: Router
   ) { }
 
-
   ngOnInit(): void {
-    this.dataSource.data = this.dataDummy
+    this.getDataTable();
   }
 
-  editData() {
-    this.dialog.open(ModalNewCompanyTypeComponent, {
-      data: ['test'],
+  getDataTable() {
+    this.moduleServices.getTableDataSize().subscribe({
+      next: (data: entity.TableDataSize[]) => {
+        this.dataSource.data = data;
+      },
+      error: (error) => console.error(error)
+    })
+  }
+
+  editData(data: any) {
+    this.dialog.open(SharedModalComponent, {
+      data: {
+        info: data,
+        type: 'size'
+      },
       disableClose: true,
       width: '1000px',
       maxHeight: '428px',
       panelClass: 'custom-dialog',
+    })
+    .afterClosed()
+    .subscribe(() => this.getDataTable());
+  }
+
+  deleteData(id: string) {
+    this.notificationService
+    .notificacion(
+      'Pregunta',
+      '¿Estas seguro de eliminar el registro?',
+      'question',
+    )
+    .afterClosed()
+    .subscribe((response) => {
+      if (response) {
+        this.moduleServices.deleteDataSize(id).subscribe({
+          next: () => {
+              this.notificationService
+              .notificacion(
+                'Éxito',
+                'Registro eliminado.',
+                'delete',
+              )
+              .afterClosed()
+              .subscribe((_) => this.getDataTable());
+          },
+          error: (error) => console.error(error)
+        })
+      }
     });
   }
 
-  deleteData() {
-    this.notificationService
-      .notificacion(
-        'Pregunta',
-        '¿Estas seguro de eliminar el registro?',
-        'question',
-      )
-      .afterClosed()
-      .subscribe((_) => {
-        this.notificationService
-          .notificacion(
-            'Éxito',
-            'Registro eliminado.',
-            'delete',
-          )
-          .afterClosed()
-          .subscribe((_) => {
-
-          });
-      });
+  ngOnDestroy(): void {
+    this.onDestroy.next();
+    this.onDestroy.unsubscribe();
   }
-
 }

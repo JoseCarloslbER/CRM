@@ -1,87 +1,183 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { Subject } from 'rxjs';
 import { ConfigService } from 'app/pages/config/config.service';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { modalInfoTable } from 'app/shared/interfaces/TableColumns';
 
 @Component({
   selector: 'app-shared-modal',
   templateUrl: './shared-modal.component.html',
-  styleUrl: './shared-modal.component.scss'
 })
 export class SharedModalComponent implements OnInit {
   private onDestroy = new Subject<void>();
-  
+
   public formData: FormGroup;
 
-  private objEditData: any;
+  public originName = new FormControl('', Validators.required);
+  public businessName = new FormControl('', Validators.required);
+  public sizeName = new FormControl('', Validators.required);
+  public typeName = new FormControl('', Validators.required);
+
+  public objEditData: any;
+  public showForm: boolean = false;
 
   constructor(
     private moduleServices: ConfigService,
     private notificationService: OpenModalsService,
-    private formBuilder: FormBuilder,
     private dialogRef: MatDialogRef<any>,
     @Inject(MAT_DIALOG_DATA) public data: modalInfoTable
-  ) { }
+  ) {  }
 
   ngOnInit(): void {
-    this.formData = this.formBuilder.group({});
-    this.assignInformation();
+    this.objEditData = this.data.info;
+    console.log(this.data);
+
+    if (this.data.info) {
+      this.actionEdit()
+    }
   }
 
-  assignInformation() {
-    
-    if (this.data.type == 'origin') {
-      this.formData.addControl('platform_name', this.formBuilder.control('', Validators.required));
-    } else if (this.data.type == 'business') {
-      this.formData.addControl('business_name', this.formBuilder.control('', Validators.required));
-    } else if (this.data.type == 'size') {
-      this.formData.addControl('size_name', this.formBuilder.control('', Validators.required));
-    } else {
-      this.formData.addControl('type_name', this.formBuilder.control('', Validators.required));
-    }
 
-    console.log(this.formData);
-    
-    this.objEditData = this.data.info;
-    this.formData.patchValue(this.objEditData)
+  actionEdit() {
+    let objData: any = {}
+
+    if (this.data.type == 'origin') {
+      this.originName.patchValue(this.data.info.platform_name)
+
+    } else if (this.data.type == 'business') {
+      this.businessName.patchValue(this.data.info.business_name)
+      
+    } else if (this.data.type == 'size') {
+      this.sizeName.patchValue(this.data.info.size_name)
+      
+    } else {
+      this.typeName.patchValue(this.data.info.type_name)
+    }
   }
 
   actionSave() {
-    let objData: any = {
-      ...this.formData.value
+    let objData: any = {}
+
+    if (this.data.type == 'origin') {
+      objData.platform_name = this.originName.value;
+      this.saveDataPostPatchOrigin(objData)
+
+    } else if (this.data.type == 'business') {
+      objData.business_name = this.businessName.value;
+      this.saveDataPostPatchBusiness(objData)
+
+    } else if (this.data.type == 'size') {
+      objData.size_name = this.sizeName.value;
+      this.saveDataPostPatchSize(objData)
+
+    } else {
+      objData.type_name = this.typeName.value;
+      this.saveDataPostPatchClientType(objData)
     }
-
-    if (this.objEditData) this.saveDataPatch(objData)
-    else this.saveDataPost(objData)
   }
 
-  saveDataPost(objData) {
-    this.moduleServices.postDataCampaingType(objData).subscribe({
-      next: () => {
-        this.completionMessage()
-      },
-      error: (error) => {
-        this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
-        console.error(error)
-      }
-    })
+  saveDataPostPatchOrigin(objData) {
+    if (!this.objEditData) {
+      this.moduleServices.postDataOrigin(objData).subscribe({
+        next: () => {
+          this.completionMessage()
+        },
+        error: (error) => {
+          this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
+          console.error(error)
+        }
+      })
+
+    } else {
+      this.moduleServices.patchDataOrigin(this.objEditData.platform_id, objData).subscribe({
+        next: () => {
+          this.completionMessage(true)
+        },
+        error: (error) => {
+          this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
+          console.error(error)
+        }
+      })
+    }
   }
 
-  saveDataPatch(objData) {
-    this.moduleServices.patchDataCampaingType(this.objEditData.campaign_type_id, objData).subscribe({
-      next: () => {
-        this.completionMessage(true)
-      },
-      error: (error) => {
-        this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
-        console.error(error)
-      }
-    })
+  saveDataPostPatchBusiness(objData) {
+    if (!this.objEditData) {
+      this.moduleServices.postDataBusiness(objData).subscribe({
+        next: () => {
+          this.completionMessage()
+        },
+        error: (error) => {
+          this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
+          console.error(error)
+        }
+      })
+
+    } else {
+      this.moduleServices.patchDataBusiness(this.objEditData.business_id, objData).subscribe({
+        next: () => {
+          this.completionMessage(true)
+        },
+        error: (error) => {
+          this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
+          console.error(error)
+        }
+      })
+    }
   }
+
+  saveDataPostPatchSize(objData) {
+    if (!this.objEditData) {
+      this.moduleServices.postDataSize(objData).subscribe({
+        next: () => {
+          this.completionMessage()
+        },
+        error: (error) => {
+          this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
+          console.error(error)
+        }
+      })
+
+    } else {
+      this.moduleServices.patchDataSize(this.objEditData.company_size_id, objData).subscribe({
+        next: () => {
+          this.completionMessage(true)
+        },
+        error: (error) => {
+          this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
+          console.error(error)
+        }
+      })
+    }
+  }
+
+  saveDataPostPatchClientType(objData) {
+    if (!this.objEditData) {
+      this.moduleServices.postDataCompanyType(objData).subscribe({
+        next: () => {
+          this.completionMessage()
+        },
+        error: (error) => {
+          this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
+          console.error(error)
+        }
+      })
+
+    } else {
+      this.moduleServices.patchDataCompanyType(this.objEditData.company_type_id, objData).subscribe({
+        next: () => {
+          this.completionMessage(true)
+        },
+        error: (error) => {
+          this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
+          console.error(error)
+        }
+      })
+    }
+  }
+
 
   completionMessage(edit = false) {
     this.notificationService

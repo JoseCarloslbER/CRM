@@ -12,8 +12,7 @@ import { SharedModalComponent } from './components/shared-modal/shared-modal.com
 export class CompanyCategoriesComponent implements OnInit, OnDestroy {
   private onDestroy = new Subject<void>();
 
-
-  public selectedOption : string = '';
+  public selectedOption : string = 'origin';
 
   constructor(
     private dialog: MatDialog,
@@ -26,37 +25,25 @@ export class CompanyCategoriesComponent implements OnInit, OnDestroy {
   onTabChange(event: MatTabChangeEvent): void {
     const option = event.tab.textLabel;
 
-    if (option.includes('Origen')) {
-      console.log('Origen');
-      this.selectedOption = 'origin'
-    } else if (option.includes('Giro')) {
-      console.log('Giro');
-      this.selectedOption = 'business'
-    } else if (option.includes('Tamaño')) {
-      console.log('Tamaño');
-      this.selectedOption = 'size'
-    } else {
-      console.log('Tipo de cliente');
-      this.selectedOption = 'clientType'
-    }
+    if (option.includes('Giro')) this.selectedOption = 'business';
+     else if (option.includes('Tamaño')) this.selectedOption = 'size';
+       else this.selectedOption = 'clientType';
   }
 
-  // post 
-  // origin : platform_name
-  // giro : business_name
-  // tamaño : size_name
-  // tipo cliente : type_name
 
   newData(data = null) {
     this.dialog.open(SharedModalComponent, {
       data: {
+        info : data,
         type : this.selectedOption,
-        info: data
       },
       disableClose: true,
       width: '1000px',
       maxHeight: '428px',
       panelClass: 'custom-dialog',
+    })
+    .afterClosed()
+    .subscribe((_) => {
     });
   }
   
