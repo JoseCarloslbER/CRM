@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { ConfigService } from 'app/pages/config/config.service';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -39,8 +39,6 @@ export class SharedModalComponent implements OnInit {
 
 
   actionEdit() {
-    let objData: any = {}
-
     if (this.data.type == 'origin') {
       this.originName.patchValue(this.data.info.platform_name)
 
@@ -76,104 +74,32 @@ export class SharedModalComponent implements OnInit {
     }
   }
 
-  saveDataPostPatchOrigin(objData) {
-    if (!this.objEditData) {
-      this.moduleServices.postDataOrigin(objData).subscribe({
-        next: () => {
-          this.completionMessage()
-        },
-        error: (error) => {
-          this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
-          console.error(error)
-        }
-      })
-
-    } else {
-      this.moduleServices.patchDataOrigin(this.objEditData.platform_id, objData).subscribe({
-        next: () => {
-          this.completionMessage(true)
-        },
-        error: (error) => {
-          this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
-          console.error(error)
-        }
-      })
-    }
+  saveDataPostPatchOrigin(objData: any) {
+    this.saveData(this.objEditData, this.moduleServices.postDataOrigin(objData), this.moduleServices.patchDataOrigin(this.objEditData?.platform_id, objData));
+  }
+  
+  saveDataPostPatchBusiness(objData: any) {
+    this.saveData(this.objEditData, this.moduleServices.postDataBusiness(objData), this.moduleServices.patchDataBusiness(this.objEditData?.business_id, objData));
+  }
+  
+  saveDataPostPatchSize(objData: any) {
+    this.saveData(this.objEditData, this.moduleServices.postDataSize(objData), this.moduleServices.patchDataSize(this.objEditData?.company_size_id, objData));
+  }
+  
+  saveDataPostPatchClientType(objData: any) {
+    this.saveData(this.objEditData, this.moduleServices.postDataCompanyType(objData), this.moduleServices.patchDataCompanyType(this.objEditData?.company_type_id, objData));
   }
 
-  saveDataPostPatchBusiness(objData) {
-    if (!this.objEditData) {
-      this.moduleServices.postDataBusiness(objData).subscribe({
-        next: () => {
-          this.completionMessage()
-        },
-        error: (error) => {
-          this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
-          console.error(error)
-        }
-      })
-
-    } else {
-      this.moduleServices.patchDataBusiness(this.objEditData.business_id, objData).subscribe({
-        next: () => {
-          this.completionMessage(true)
-        },
-        error: (error) => {
-          this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
-          console.error(error)
-        }
-      })
-    }
-  }
-
-  saveDataPostPatchSize(objData) {
-    if (!this.objEditData) {
-      this.moduleServices.postDataSize(objData).subscribe({
-        next: () => {
-          this.completionMessage()
-        },
-        error: (error) => {
-          this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
-          console.error(error)
-        }
-      })
-
-    } else {
-      this.moduleServices.patchDataSize(this.objEditData.company_size_id, objData).subscribe({
-        next: () => {
-          this.completionMessage(true)
-        },
-        error: (error) => {
-          this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
-          console.error(error)
-        }
-      })
-    }
-  }
-
-  saveDataPostPatchClientType(objData) {
-    if (!this.objEditData) {
-      this.moduleServices.postDataCompanyType(objData).subscribe({
-        next: () => {
-          this.completionMessage()
-        },
-        error: (error) => {
-          this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
-          console.error(error)
-        }
-      })
-
-    } else {
-      this.moduleServices.patchDataCompanyType(this.objEditData.company_type_id, objData).subscribe({
-        next: () => {
-          this.completionMessage(true)
-        },
-        error: (error) => {
-          this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
-          console.error(error)
-        }
-      })
-    }
+  saveData(editData: any, postMethod: Observable<any>, patchMethod: Observable<any>) {
+    const dataService = editData ? patchMethod : postMethod;
+  
+    dataService.subscribe({
+      next: () => this.completionMessage(editData !== null),
+      error: (error) => {
+        this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error');
+        console.error(error);
+      }
+    });
   }
 
   completionMessage(edit = false) {
