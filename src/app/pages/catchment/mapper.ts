@@ -6,7 +6,7 @@ export class Mapper {
 
 		response.forEach((data: entity.TableDataCampaing): void => {
 			dataList.push({
-				campaignId: data.campaign_id,
+				id: data.campaign_id,
 				dateStartEnd: {start: data.start_date, end: data.end_date},
 				codeAndname: {code: data.campaign_code, name: data.campaign_name},
 				companyType : data.campaign_type.campaign_type_name,
@@ -48,7 +48,7 @@ export class Mapper {
 	
 	static editDataTableCampaingMapper(response: entity.TableDataCampaing) : entity.GetDataCampainMapper {
 		return {
-			campaignId: response.campaign_id,
+			id: response.campaign_id,
 			campaign_code : response.campaign_code,
 			campaign_name : response.campaign_name,
 			amount_invested : response.amount_invested,

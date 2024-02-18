@@ -7,7 +7,6 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { Subject, debounceTime, takeUntil } from 'rxjs';
 import { CompaniesService } from '../companies.service';
-import { DataTable, DataTableFilters } from '../companies-interface';
 import * as entity from '../companies-interface';
 import * as entityGeneral from '../../../shared/interfaces/general-interface';
 
@@ -229,9 +228,9 @@ export class ClientsComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  getDataTable(filters: DataTableFilters) {
+  getDataTable(filters?) {
     this.moduleServices.getDataTable('client', filters).subscribe({
-      next: ({ data }: DataTable) => {
+      next: ({ data }: any) => {
         console.log(data);
       },
       error: (error) => console.error(error)

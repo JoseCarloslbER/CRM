@@ -6,156 +6,83 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { Subject, debounceTime, takeUntil } from 'rxjs';
 import { CompaniesService } from '../companies.service';
-import { DataTable, DataTableFilters } from '../companies-interface';
 import * as entity from '../companies-interface';
 import { DataCatBusiness } from 'app/shared/interfaces/general-interface';
+import * as entityGeneral from '../../../shared/interfaces/general-interface';
+import moment from 'moment';
 
 @Component({
   selector: 'app-all',
   templateUrl: './all.component.html',
   styleUrl: './all.component.scss'
 })
-export class AllComponent  implements OnInit, AfterViewInit, OnDestroy {
+export class AllComponent implements OnInit, AfterViewInit, OnDestroy {
   private onDestroy = new Subject<void>();
 
   public dataSource = new MatTableDataSource<any>([]);
-	public dataSourceAgregadosRecientemente = new MatTableDataSource<any>([]);
-	public dataSourceMasComprados = new MatTableDataSource<any>([]);
-	@ViewChild(MatPaginator) paginator!: MatPaginator;
+  public dataSourceAgregadosRecientemente = new MatTableDataSource<any>([]);
+  public dataSourceMasComprados = new MatTableDataSource<any>([]);
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
   public longitudPagina = 50;
-	public total = 0;
-	public indicePagina = 0;
+  public total = 0;
+  public indicePagina = 0;
 
-  public displayedColumnsMascomprados: string[] = ['empresa', 'fechaRegistro', 'monto' ];
-  public displayedColumnsAgregadasRecientemente: string[] = ['empresa', 'estatus', 'fechaRegistro', 'monto' ];
+  public displayedColumnsMascomprados: string[] = ['empresa', 'fechaRegistro', 'monto'];
+  public displayedColumnsAgregadasRecientemente: string[] = ['empresa', 'estatus', 'fechaRegistro', 'monto'];
   public displayedColumns: string[] = [
-    'client',
-    'status', 
+    'conpanyName',
+    'status',
     'country',
-    'origen',
-    'categoria', 
-    'giro', 
-    'campaign', 
-    'cotizaciones', 
-    'ventas', 
-    'fechaUltimoContacto', 
-    'history', 
+    'origin',
+    'category',
+    'business',
+    'campaing',
+    'quotes',
+    'sales',
+    'lastContactDate',
+    'history',
     'acciones'
   ];
 
-  public dataDummy : any[] = [
+  public datosAgregadosRecientemente: any[] = [
     {
-      estatus : 'LEAD',
-      pais : 'México',
-      giro : 'Construcción',
-      campaign : 'Activa',
-      history : 'Se envió correo publicitario y se hicieron las llamadas pertinentes para el seguimiento, pero el cliente no contestó en ningún momento.',
-      categoria : 'LEAD',
-      cotizaciones : [
-        {
-          up : '5',
-          bottom : '$15,000.00',
-
-        }
-      ],
-      ventas : [
-        {
-          up : '5',
-          bottom : '$15,000.00',
-
-        }
-      ],
-      origen : 'Referencia',
-      fechaUltimoContacto : '2022-02-28',
-      fechaVencimiento : '2022-02-28',
-    },
-    {
-      estatus : 'CLIENTE',
-      pais : 'México',
-      giro : 'Construcción',
-      campaign : 'Activa',
-      history : 'Se envió correo publicitario y se hicieron las llamadas pertinentes para el seguimiento, pero el cliente no contestó en ningún momento.',
-      categoria : 'LEAD',
-      cotizaciones : [
-        {
-          up : '5',
-          bottom : '$15,000.00',
-
-        }
-      ],
-      ventas : [
-        {
-          up : '5',
-          bottom : '$15,000.00',
-
-        }
-      ],
-      origen : 'Referencia',
-      fechaUltimoContacto : '2022-02-28',
-      fechaVencimiento : '2022-02-28',
-    },
-    {
-      estatus : 'AllOS',
-      pais : 'México',
-      giro : 'Construcción',
-      campaign : 'Activa',
-      history : 'Se envió correo publicitario y se hicieron las llamadas pertinentes para el seguimiento, pero el cliente no contestó en ningún momento.',
-      categoria : 'LEAD',
-      cotizaciones : [
-        {
-          up : '5',
-          bottom : '$15,000.00',
-
-        }
-      ],
-      ventas : [
-        {
-          up : '5',
-          bottom : '$15,000.00',
-
-        }
-      ],
-      origen : 'Referencia',
-      fechaUltimoContacto : '2022-02-28',
-      fechaVencimiento : '2022-02-28',
-    },
-  
-    
-  ]
-
-  public datosAgregadosRecientemente : any[] = [
-    {
-      empresa : 'Seguridad privada S.A. de S.V.',
-      estatus : 'Abierto',
-      fechaRegistro : '2020-03-28',
-      monto : '$1,000,000.00',
-    }
-  ]
-  
-  public datosMascomprados : any[] = [
-    {
-      empresa : 'Seguridad privada S.A. de S.V.',
-      fechaRegistro : '2020-03-28',
-      monto : '$1,000,000.00',
+      empresa: 'Seguridad privada S.A. de S.V.',
+      estatus: 'Abierto',
+      fechaRegistro: '2020-03-28',
+      monto: '$1,000,000.00',
     }
   ]
 
+  public datosMascomprados: any[] = [
+    {
+      empresa: 'Seguridad privada S.A. de S.V.',
+      fechaRegistro: '2020-03-28',
+      monto: '$1,000,000.00',
+    }
+  ]
 
   public formFilters = this.formBuilder.group({
-    status: [{ value: null, disabled: false }],
-    giro: [{ value: null, disabled: false }],
-    company: [{ value: null, disabled: false }],
-    rangeDateStart: [{ value: null, disabled: false }],
-    rangeDateEnd: [{ value: null, disabled: false }],
+    status: [{ value: '', disabled: false }],
+    business: [{ value: '', disabled: false }],
+    campaign: [{ value: '', disabled: false }],
+    rangeDateStart: [{ value: '', disabled: false }],
+    rangeDateEnd: [{ value: '', disabled: false }],
   });
 
-  public catBusiness: DataCatBusiness[] = [];
+  public catBusiness: entityGeneral.DataCatBusiness[] = [];
+  public catStatus: entityGeneral.DataCatStatus[] = [];
+  public catCampaing: entityGeneral.DataCatCampaing[] = [];
 
   public searchBar = new FormControl('')
 
   public selectedProject: string = 'todas';
 
-	public fechaHoy = new Date();
+  public fechaHoy = new Date();
+
+
+  // COMPANY_PHASE_PROSPECTO = "ec43fa4e-1ade-46ea-9841-1692074ce8cd"
+  // COMPANY_PHASE_CLIENTE = "d1203730-3ac8-4f06-b095-3ec56ef3b54d"
+  // COMPANY_PHASE_LEAD = "20a3bf77-6669-40ec-b214-e31122d7eb7a"
 
   constructor(
     private moduleServices: CompaniesService,
@@ -166,24 +93,14 @@ export class AllComponent  implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit(): void {
     this.cambiarOpcion('todas')
-   }
+    this.getDataTable();
+    this.getCatalogs()
+  }
 
-   ngAfterViewInit(): void {
-    this.searchBar.valueChanges.pipe(takeUntil(this.onDestroy), debounceTime(500)).subscribe((content:string) => {
+  ngAfterViewInit(): void {
+    this.searchBar.valueChanges.pipe(takeUntil(this.onDestroy), debounceTime(500)).subscribe((content: string) => {
       console.log(content);
     })
-
-    setTimeout(() => {
-      this.getCatalogs()
-    }, 500);
-   }
-
-  searchWithFilters(){
-    let objFilters:any = {
-      ...this.formFilters.value
-    }
-
-    this.getDataTable(objFilters)  
   }
 
   getCatalogs() {
@@ -193,48 +110,72 @@ export class AllComponent  implements OnInit, AfterViewInit, OnDestroy {
       },
       error: (error) => console.error(error)
     });
+
+    this.moduleServices.getCatStatus().subscribe({
+      next: (data: entityGeneral.DataCatStatus[]) => {
+        this.catStatus = data;
+      },
+      error: (error) => console.error(error)
+    });
+
+    this.moduleServices.getCatCampaing().subscribe({
+      next: (data: entityGeneral.DataCatCampaing[]) => {
+        this.catCampaing = data;
+      },
+      error: (error) => console.error(error)
+    });
   }
 
-  getDataTable(filters:DataTableFilters) {
-    this.moduleServices.getDataTable('all', filters).subscribe({
-        next: ({ data } : DataTable) => {
-          console.log(data);
-        },
-        error: (error) => console.error(error)
-      }
+  searchWithFilters() {
+    let filters = '';
+
+    if (this.formFilters.get('status').value) filters += `status_id=${this.formFilters.get('status').value}&`;
+    if (this.formFilters.get('business').value) filters += `business_id=${this.formFilters.get('business').value}&`;
+    if (this.formFilters.get('campaign').value) filters += `campaign_id=${this.formFilters.get('campaign').value}&`;
+    if (this.formFilters.get('rangeDateStart').value && this.formFilters.get('rangeDateEnd').value) {
+      filters += `register_date_start=${moment(this.formFilters.get('rangeDateStart').value).format('YYYY-MM-DD')}&`,
+        filters += `register_date_end=${moment(this.formFilters.get('rangeDateEnd').value).format('YYYY-MM-DD')}&`
+    }
+
+    this.getDataTable(filters)
+  }
+
+  getDataTable(filters?) {
+    this.moduleServices.getDataTable(filters).subscribe({
+      next: (data: entity.TableDataCompanyMapper[]) => {
+        console.log(data);
+        this.dataSource.data = data;
+      },
+      error: (error) => console.error(error)
+    }
     )
   }
 
-  seeClient(data:any) {
-    this.router.navigateByUrl(`/home/empresas/detalle-cliente/${1}`)
+  seeClient(id: string) {
+    this.router.navigateByUrl(`/home/empresas/detalle-cliente/${id}`)
   }
 
   newData() {
     this.router.navigateByUrl(`/home/empresas/todos-nuevo-cliente`)
   }
 
-  editData(data: any) {
-    this.router.navigateByUrl(`/home/empresas/editar-cliente/1`)
+  editData(id: string) {
+    this.router.navigateByUrl(`/home/empresas/editar-cliente/${id}`)
   }
 
-  seeData(data: any) {
-    this.router.navigateByUrl(`home/empresas/detalle-cliente/1`)
-  }
-
-  cambiarOpcion(opcion : string) {
-    if (opcion == 'todas') { 
-      this.dataSource.data = this.dataDummy
+  cambiarOpcion(opcion: string) {
+    if (opcion == 'todas') {
       this.selectedProject = 'Todas'
-    } else if (opcion == 'agregadasRecientemente'){
+    } else if (opcion == 'agregadasRecientemente') {
       this.selectedProject = 'Agregadas recientemente'
       this.dataSourceAgregadosRecientemente.data = this.datosAgregadosRecientemente
     } else {
       this.selectedProject = 'Más comprados'
       this.dataSourceMasComprados.data = this.datosMascomprados
     }
-   }
+  }
 
-  deleteData(id?:string) {
+  deleteData(id: string) {
     this.notificationService
       .notificacion(
         'Pregunta',
@@ -242,37 +183,27 @@ export class AllComponent  implements OnInit, AfterViewInit, OnDestroy {
         'question',
       )
       .afterClosed()
-      .subscribe((resp) => {
-        if (resp) {
-          // this.moduleServices.deleteData('all', id).pipe(takeUntil(this.onDestroy)).subscribe({
-          //   next: (_) => {
-          //     this.notificationService
-          //     .notificacion(
-          //       'Éxito',
-          //       'Registro eliminado.',
-          //       'delete',
-          //     )
-          //     .afterClosed()
-          //     .subscribe((_) => {
-
-          //     });
-          //   },
-          //   error: (error) => console.error(error)
-          // })
-          this.notificationService
-            .notificacion(
-              'Éxito',
-              'Registro eliminado.',
-              'delete',
-            )
-            .afterClosed()
-            .subscribe((_) => { });
+      .subscribe((response) => {
+        if (response) {
+          this.moduleServices.deleteData(id).subscribe({
+            next: () => {
+              this.notificationService
+                .notificacion(
+                  'Éxito',
+                  'Registro eliminado.',
+                  'delete',
+                )
+                .afterClosed()
+                .subscribe((_) => this.searchWithFilters());
+            },
+            error: (error) => console.error(error)
+          })
         }
       });
   }
 
-  douwnloadExel(id?:string) {
-    this.moduleServices.excel('all', '').pipe(takeUntil(this.onDestroy)).subscribe({
+  douwnloadExel() {
+    this.moduleServices.excel('CADENA').pipe(takeUntil(this.onDestroy)).subscribe({
       next: (_) => {
         this.notificationService
           .notificacion(
@@ -303,8 +234,8 @@ export class AllComponent  implements OnInit, AfterViewInit, OnDestroy {
       });
   }
 
-  async(id?:string) {
-    this.moduleServices.async('all', id).pipe(takeUntil(this.onDestroy)).subscribe({
+  async(id?: string) {
+    this.moduleServices.async(id).pipe(takeUntil(this.onDestroy)).subscribe({
       next: (_) => {
         this.notificationService
           .notificacion(
@@ -332,20 +263,6 @@ export class AllComponent  implements OnInit, AfterViewInit, OnDestroy {
       .subscribe((_) => {
 
       });
-  }
-
-  get cantSearch() : boolean {
-    let cantSearch : boolean = true
-    if (
-      this.formFilters.get('status').value  ||
-      this.formFilters.get('giro').value ||
-      this.formFilters.get('company').value ||
-      this.formFilters.get('rangeDateStart').value && !this.formFilters.get('status').value 
-      ) {
-      cantSearch = false;
-    }
-
-    return cantSearch
   }
 
   ngOnDestroy(): void {

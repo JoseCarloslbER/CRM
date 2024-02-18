@@ -27,20 +27,33 @@ export class NewClientComponent implements OnInit, AfterViewInit, OnDestroy {
   public esClient: boolean = false;
 
   public formData = this.formBuilder.group({
-    name: ['', Validators.required],
-    email: [''],
-    web: [''],
-    country: ['', Validators.required],
-    giro: ['', Validators.required],
-    companySize: ['', Validators.required],
-    phone: [''],
-    rfc: [''],
-    origin: [''],
-    agent: [''],
+    company_name: ['', Validators.required],
+    platform: [''],
+    phone_number: [''],
+    email: ['', Validators.required],
+    tax_id_number: ['', Validators.required], //rfc
     state: ['', Validators.required],
-    adress: [''],
-    companyType: ['', Validators.required],
+    owner_user: ['', Validators.required],
+    country: [''],
+    business: [''],
+    city: [''],
+    address: [''],
+    company_type: [''],
+    company_size: [''],
+    web_page: [''],
+    comments: [''],
   });
+
+  asd = {
+    "company_phase": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "slug": "K5",
+    "amout_quotes": 2147483647,
+    "amout_sales": 2147483647,
+    "total_quotes": "string",
+    "total_sales": "string",
+    "register_date": "2024-02-17",
+    "register_user": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+  }
 
   public catCompaniesSizes: entityGeneral.DataCatCompanySize[] = [];
   public catCompaniesTypes: entityGeneral.DataCatCompanyType[] = [];
@@ -172,7 +185,7 @@ export class NewClientComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getDataById() {
-    this.moduleServices.getDataId('client', this.idData).pipe(takeUntil(this.onDestroy)).subscribe({
+    this.moduleServices.getDataId(this.idData).pipe(takeUntil(this.onDestroy)).subscribe({
       next: (response: any) => {
         this.objEditData = response
       },
@@ -199,7 +212,7 @@ export class NewClientComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   saveDataPost(objData) {
-    this.moduleServices.postData('client', objData).pipe(takeUntil(this.onDestroy)).subscribe({
+    this.moduleServices.postData(objData).pipe(takeUntil(this.onDestroy)).subscribe({
       next: (response: any) => {
         this.completionMessage()
       },
@@ -211,7 +224,7 @@ export class NewClientComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   saveDataPatch(objData) {
-    this.moduleServices.patchData('client', objData).pipe(takeUntil(this.onDestroy)).subscribe({
+    this.moduleServices.patchData(objData).pipe(takeUntil(this.onDestroy)).subscribe({
       next: (response: any) => {
         this.completionMessage(true)
       },

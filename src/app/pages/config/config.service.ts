@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { environment } from 'environments/environment.dev';
 import { Observable } from 'rxjs';
 import * as entity from './config-interface';
-import { Mapper } from './mapper';
 
 @Injectable({
   providedIn: 'root'

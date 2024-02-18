@@ -47,13 +47,13 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
     rangeDateEnd: [{ value: '', disabled: false }]
   });
 
-  public catalogTypes: entityGeneral.DataCatType[] = [];
-  public catalogStatus: entityGeneral.DataCatStatus[] = [];
-  public catalogAgents: entityGeneral.DataCatAgents[] = [];
-
-  public fechaHoy = new Date();
+  public catTypes: entityGeneral.DataCatType[] = [];
+  public catStatus: entityGeneral.DataCatStatus[] = [];
+  public catAgents: entityGeneral.DataCatAgents[] = [];
 
   public searchBar = new FormControl('');
+
+  public fechaHoy = new Date();
 
   constructor(
     private moduleServices: CatchmentService,
@@ -77,21 +77,21 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
   getCatalogs() {
     this.moduleServices.getCatType().subscribe({
       next: (data: entityGeneral.DataCatType[]) => {
-        this.catalogTypes = data;
+        this.catTypes = data;
       },
       error: (error) => console.error(error)
     });
 
     this.moduleServices.getCatStatus().subscribe({
       next: (data: entityGeneral.DataCatStatus[]) => {
-        this.catalogStatus = data;
+        this.catStatus = data;
       },
       error: (error) => console.error(error)
     });
 
     this.moduleServices.getCatAgents().subscribe({
       next: (data: entityGeneral.DataCatAgents[]) => {
-        this.catalogAgents = data;
+        this.catAgents = data;
       },
       error: (error) => console.error(error)
     });

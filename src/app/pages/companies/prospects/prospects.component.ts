@@ -5,7 +5,6 @@ import { MatTableDataSource } from '@angular/material/table';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { Router } from '@angular/router';
 import { CompaniesService } from '../companies.service';
-import { DataTable, DataTableFilters } from '../companies-interface';
 import { Subject, debounceTime, takeUntil } from 'rxjs';
 import * as entity from '../companies-interface';
 import { DataCatBusiness } from 'app/shared/interfaces/general-interface';
@@ -224,9 +223,9 @@ export class ProspectsComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  getDataTable(filters: DataTableFilters) {
+  getDataTable(filters?) {
     this.moduleServices.getDataTable('prospect',filters).pipe(takeUntil(this.onDestroy)).subscribe({
-      next: ({ data }: DataTable) => {
+      next: ({ data }: any) => {
         console.log(data);
       },
       error: (error) => console.error(error)
@@ -255,7 +254,7 @@ export class ProspectsComponent implements OnInit, AfterViewInit, OnDestroy {
       .afterClosed()
       .subscribe((resp) => {
         if (resp) {
-          this.moduleServices.deleteData('prospect', id).pipe(takeUntil(this.onDestroy)).subscribe({
+          this.moduleServices.deleteData(id).pipe(takeUntil(this.onDestroy)).subscribe({
             next: (_) => {
               this.notificationService
               .notificacion(

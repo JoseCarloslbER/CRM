@@ -182,7 +182,7 @@ export class NewCampingnComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   saveDataPatch(objData) {
-    this.moduleServices.patchData(this.objEditData.campaignId, objData).pipe(takeUntil(this.onDestroy)).subscribe({
+    this.moduleServices.patchData(this.objEditData.id, objData).pipe(takeUntil(this.onDestroy)).subscribe({
       next: () => {
         this.completionMessage(true)
       },

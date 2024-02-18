@@ -1,17 +1,17 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'environments/environment.dev';
-import { Observable } from 'rxjs';
-import { DataTable, DataTableFilters } from './companies-interface';
+import { Observable, map } from 'rxjs';
 import * as entity from './companies-interface';
 import * as entityGeneral from '../../shared/interfaces/general-interface';
+import { Mapper } from './mapper';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CompaniesService {
 
-  private apiUrl = `${environment.apiURL}companies/`;
+  private apiUrl = `${environment.apiURL}company/`;
 
   constructor(private http: HttpClient) { }
 
@@ -53,55 +53,71 @@ export class CompaniesService {
     return this.http.get<entityGeneral.DataCatBusiness[]>(url)
 	}
 
+  public getCatStatus(): Observable<entityGeneral.DataCatStatus[]> {
+		const url = `${environment.apiURL}settings/status/`;
+
+    return this.http.get<entityGeneral.DataCatStatus[]>(url)
+	}
+
+  public getCatCampaing(): Observable<entityGeneral.DataCatCampaing[]> {
+		const url = `${environment.apiURL}catch/campaign-list/`;
+
+    return this.http.get<entityGeneral.DataCatCampaing[]>(url)
+	}
+  
+
   // END CATALOGS 
  
 
-  public getDataTable(type:string, filters:DataTableFilters): Observable<any> {
-		const url = `${environment.apiURL}/`;
+  public getDataTable(type?:string, filters?): Observable<entity.TableDataCompanyMapper[]> {
+    const url = `${this.apiUrl}company/${filters ? `?${filters}` : ''}`;
 
-    return this.http.get<DataTable>(url)
+    return this.http.get<entity.TableDataCompany[]>(url).pipe(
+			map((response) => Mapper.getDataTableMapper(response)),
+		);
 	}
   
-  // PROSPECTS 
-  
-  public getDataId(type:string, id:string): Observable<any> {
-		const url = `${environment.apiURL}/${id}`;
+  public getDataId(id:string): Observable<any> {
+		const url = `${this.apiUrl}company/${id}/`;
 
-    return this.http.get<DataTable>(url)
+    return this.http.get<entity.TableDataCompany>(url).pipe(
+			map((response) => Mapper.editDataTableCompanyMapper(response)),
+		);
+    
 	}
 
-  public postData(type:string, data:any): Observable<any> {
-		const url = `${environment.apiURL}/`;
+  public postData(data:entity.PostDataCompany): Observable<any> {
+		const url = `${this.apiUrl}company/`;
 
     return this.http.post<any>(url, data)
 	}
 
-  public patchData(type:string, data:any): Observable<any> {
-		const url = `${environment.apiURL}/`;
+  public patchData(data:any): Observable<any> {
+		const url = `${this.apiUrl}/`;
 
     return this.http.patch<any>(url, data)
 	}
  
-  public deleteData(type:string, id:string): Observable<any> {
-		const url = `${environment.apiURL}/${id}`;
+  public deleteData(id:string): Observable<any> {
+		const url = `${this.apiUrl}/${id}`;
 
     return this.http.delete<any>(url)
 	}
   
-  public async(type:string, data:any): Observable<any> {
-		const url = `${environment.apiURL}/`;
+  public async(data:any): Observable<any> {
+		const url = `${this.apiUrl}/`;
 
     return this.http.post<any>(url, data)
 	}
  
-  public bulkLoad(type:string, data:any): Observable<any> {
-		const url = `${environment.apiURL}/`;
+  public bulkLoad(data:any): Observable<any> {
+		const url = `${this.apiUrl}/`;
 
     return this.http.post<any>(url, data)
 	}
 
-  public excel(type:string, data:any): Observable<any> {
-		const url = `${environment.apiURL}/`;
+  public excel(data:any): Observable<any> {
+		const url = `${this.apiUrl}/`;
 
     return this.http.post<any>(url, data)
 	}

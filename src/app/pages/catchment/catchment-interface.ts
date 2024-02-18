@@ -1,3 +1,6 @@
+import * as entityGeneral from '../../shared/interfaces/general-interface';
+
+
 export interface DataTableFilters {
   status: string;
   giro: string;
@@ -37,17 +40,17 @@ export interface TableDataCampaing {
   users: User[];
   companies: Company[];
   product_category: Product;
-  owner_user: Owner;
+  owner_user: entityGeneral.Owner;
   campaign_type: Campaing;
   rol: Rol;
 }
 
 export interface TableDataCampaingMapper {
+  id?: string;
   dateStartEnd: {
     start: string;
     end: string;
   };
-  campaignId: string;
   codeAndname: object;
   companyType: string;
   totalCompanies: number;
@@ -56,7 +59,7 @@ export interface TableDataCampaingMapper {
   agents: {
     name: string;
     alls: any[];
-    main: Owner;
+    main: entityGeneral.Owner;
   };
   companiesMain: {
     amount: number;
@@ -76,12 +79,12 @@ export interface TableDataCampaingMapper {
 export interface User {
   campaign: string;
   campaign_user_id: string;
-  user: Owner;
+  user: entityGeneral.Owner;
   status: string;
 }
 
 export interface GetDataCampainMapper {
-  campaignId : string;
+  id : string;
   campaign_code : string;
   campaign_name : string;
   amount_invested : string;
@@ -152,20 +155,6 @@ export interface Product {
   category_name: string;
   description: any;
   product_category_id: string;
-}
-
-export interface Owner {
-  id: string;
-  date_joined: string;
-  email: string;
-  username: string;
-  first_name: string;
-  last_name: string;
-  last_access: string;
-  last_login: string;
-  phone_number: string;
-  profile_picture: string;
-  voice_identifier: string;
 }
 
 export interface Campaing {
