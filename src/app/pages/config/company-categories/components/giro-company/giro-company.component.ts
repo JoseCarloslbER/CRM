@@ -9,7 +9,6 @@ import { ConfigService } from 'app/pages/config/config.service';
 import { SharedModalComponent } from '../shared-modal/shared-modal.component';
 import { UpdateComponentsService } from '../components.service';
 
-
 @Component({
   selector: 'app-giro-company',
   templateUrl: './giro-company.component.html',
@@ -63,35 +62,35 @@ export class GiroCompanyComponent implements OnInit, OnDestroy {
       maxHeight: '428px',
       panelClass: 'custom-dialog',
     })
-    .afterClosed()
-    .subscribe(() => this.getDataTable());
+      .afterClosed()
+      .subscribe(() => this.getDataTable());
   }
 
   deleteData(id: string) {
     this.notificationService
-    .notificacion(
-      'Pregunta',
-      '¿Estas seguro de eliminar el registro?',
-      'question',
-    )
-    .afterClosed()
-    .subscribe((response) => {
-      if (response) {
-        this.moduleServices.deleteDataBusiness(id).subscribe({
-          next: () => {
+      .notificacion(
+        'Pregunta',
+        '¿Estas seguro de eliminar el registro?',
+        'question',
+      )
+      .afterClosed()
+      .subscribe((response) => {
+        if (response) {
+          this.moduleServices.deleteDataBusiness(id).subscribe({
+            next: () => {
               this.notificationService
-              .notificacion(
-                'Éxito',
-                'Registro eliminado.',
-                'delete',
-              )
-              .afterClosed()
-              .subscribe((_) => this.getDataTable());
-          },
-          error: (error) => console.error(error)
-        })
-      }
-    });
+                .notificacion(
+                  'Éxito',
+                  'Registro eliminado.',
+                  'delete',
+                )
+                .afterClosed()
+                .subscribe((_) => this.getDataTable());
+            },
+            error: (error) => console.error(error)
+          })
+        }
+      });
   }
 
   ngOnDestroy(): void {

@@ -154,3 +154,64 @@ export interface PatchDataSize {
 }
 
 // END SIZE 
+
+
+// ACTIVITY TYPE
+export interface TableDataActivityType {
+  type_activity_id: string;
+  activity: string;
+  icon: string;
+  color: string;
+}
+
+export interface PostDataActivityType {
+  activity:string;
+  icon: string;
+  color: string;
+}
+
+export interface GetDataActivityType {
+  type_activity_id:string;
+  activity:string;
+  icon: string;
+  color: string;
+}
+
+export interface PatchDataActivityType {
+  type_activity_id:string;
+  activity:string;
+  icon: string;
+  color: string;
+}
+
+// END ACTIVITY TYPE
+
+// SUBACTIVITY TYPE
+export interface TableDataSubactivityType {
+  sub_type_activity_id: string;
+  sub_activity: string;
+  color: string;
+  type_activity: string;
+}
+
+export interface PostDataSubactivityType {
+  sub_activity:string;
+  icon: string;
+  type_activity: string;
+}
+
+export interface GetDataSubactivityType {
+  sub_type_activity_id:string;
+  sub_activity:string;
+  color: string;
+  type_activity: string;
+}
+
+export interface PatchDataSubactivityType {
+  type_activity_id:string;
+  sub_activity:string;
+  type_activity: string;
+  color: string;
+}
+
+// END SUBACTIVITY TYPE

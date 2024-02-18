@@ -1,20 +1,22 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
-import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import * as entity from '../../config-interface';
 import { ModalnewActivityComponent } from '../modalnew-activity/modalnew-activity.component';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
+import { ConfigService } from '../../config.service';
+import { UpdateComponentsService } from '../../company-categories/components/components.service';
 
 @Component({
   selector: 'app-activity',
   templateUrl: './activity.component.html',
 })
-export class ActivityComponent implements OnInit, AfterViewInit, OnDestroy {
+export class ActivityComponent implements OnInit, OnDestroy {
   private onDestroy = new Subject<void>();
+  private updateSubscription: Subscription;
+
   public dataSource = new MatTableDataSource<any>([]);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   public longitudPagina = 50;
@@ -25,68 +27,48 @@ export class ActivityComponent implements OnInit, AfterViewInit, OnDestroy {
     'activity',
     'color',
     'icon',
-    'acciones'
+    'actions'
   ];
- 
-  
-  public dataDummy: any[] = [
-    {
-      activity: 'Administración',
-      color: '#9747FF',
-      icon: 'headphones',
-    },
-    {
-      activity: 'Administración',
-      color: '#9747FF',
-      icon: 'headphones',
-    },
-    {
-      activity: 'Administración',
-      color: '#9747FF',
-      icon: 'headphones',
-    },
-    {
-      activity: 'Administración',
-      color: '#9747FF',
-      icon: 'headphones',
-    },
-    {
-      activity: 'Administración',
-      color: '#9747FF',
-      icon: 'headphones',
-    },
-  ]
 
   constructor(
+    private moduleServices: ConfigService,
+    private updateService: UpdateComponentsService,
     private notificationService: OpenModalsService,
-    private formBuilder: FormBuilder,
     private dialog: MatDialog,
-    private router: Router
   ) { }
 
-
   ngOnInit(): void {
-    this.dataSource.data = this.dataDummy
+    this.updateSubscription = this.updateService.updateEvent$.subscribe(() => {
+      this.getDataTable();
+    });
+    this.getDataTable();
   }
 
-  ngAfterViewInit(): void {
-    
+  getDataTable() {
+    this.moduleServices.getTableDataActivityType().subscribe({
+      next: (data: entity.TableDataActivityType[]) => {
+        this.dataSource.data = data;
+      },
+      error: (error) => console.error(error)
+    })
   }
 
-  editData() {
+  editData(data: any) {
     this.dialog.open(ModalnewActivityComponent, {
       data: {
-        info:['test'],
-        type : 'actividad'
+        info: data,
+        type: 'activity'
       },
       disableClose: true,
       width: '1000px',
       maxHeight: '428px',
       panelClass: 'custom-dialog',
-    });
+    })
+      .afterClosed()
+      .subscribe(() => this.getDataTable());
   }
 
-  deleteData() {
+  deleteData(id: string) {
     this.notificationService
       .notificacion(
         'Pregunta',
@@ -94,24 +76,27 @@ export class ActivityComponent implements OnInit, AfterViewInit, OnDestroy {
         'question',
       )
       .afterClosed()
-      .subscribe((_) => {
-        this.notificationService
-          .notificacion(
-            'Éxito',
-            'Registro eliminado.',
-            'delete',
-          )
-          .afterClosed()
-          .subscribe((_) => {
-
-          });
+      .subscribe((response) => {
+        if (response) {
+          this.moduleServices.deleteDataActivityType(id).subscribe({
+            next: () => {
+              this.notificationService
+                .notificacion(
+                  'Éxito',
+                  'Registro eliminado.',
+                  'delete',
+                )
+                .afterClosed()
+                .subscribe((_) => this.getDataTable());
+            },
+            error: (error) => console.error(error)
+          })
+        }
       });
   }
 
-  
-
-
   ngOnDestroy(): void {
+    this.updateSubscription.unsubscribe();
     this.onDestroy.next();
     this.onDestroy.unsubscribe();
   }

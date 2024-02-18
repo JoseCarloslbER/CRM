@@ -257,5 +257,75 @@ export class ConfigService {
 	}
 
   // END SIZE  
+  
+  
+  // ACTIVITY TYPE 
+   
+  public getTableDataActivityType(): Observable<entity.TableDataActivityType[]> {
+		const url = `${this.apiUrl}activity-type/`;
+
+    return this.http.get<entity.TableDataActivityType[]>(url);
+	}
+
+  public getDataIdActivityType(id:string): Observable<entity.GetDataActivityType> {
+		const url = `${this.apiUrl}activity-type/${id}/`;
+
+    return this.http.get<entity.GetDataActivityType>(url);
+	}
+
+  public postDataActivityType(data:entity.PostDataActivityType): Observable<any> {
+		const url = `${this.apiUrl}activity-type/`;
+
+    return this.http.post<any>(url, data);
+	}
+
+  public patchDataActivityType(id:string, data:entity.PatchDataActivityType): Observable<any> {
+		const url = `${this.apiUrl}activity-type/${id}/`;
+
+    return this.http.patch<any>(url, data);
+	}
+ 
+  public deleteDataActivityType(id:string): Observable<any> {
+		const url = `${this.apiUrl}activity-type/${id}/`;
+
+    return this.http.delete<any>(url);
+	}
+
+  // END ACTIVITY TYPE  
+ 
+
+  // SUBACTIVITY TYPE 
+   
+  public getTableDataSubactivityType(): Observable<entity.TableDataSubactivityType[]> {
+		const url = `${this.apiUrl}activity-subtype/`;
+
+    return this.http.get<entity.TableDataSubactivityType[]>(url);
+	}
+
+  public getDataIdSubactivityType(id:string): Observable<entity.GetDataSubactivityType> {
+		const url = `${this.apiUrl}activity-subtype/${id}/`;
+
+    return this.http.get<entity.GetDataSubactivityType>(url);
+	}
+
+  public postDatasSubactivityType(data:entity.PostDataSubactivityType): Observable<any> {
+		const url = `${this.apiUrl}activity-subtype/`;
+
+    return this.http.post<any>(url, data);
+	}
+
+  public patchDataSubactivityType(id:string, data:entity.PatchDataSubactivityType): Observable<any> {
+		const url = `${this.apiUrl}activity-subtype/${id}/`;
+
+    return this.http.patch<any>(url, data);
+	}
+ 
+  public deleteDatSubactivityType(id:string): Observable<any> {
+		const url = `${this.apiUrl}activity-subtype/${id}/`;
+
+    return this.http.delete<any>(url);
+	}
+
+  // END SUBACTIVITY TYPE  
 
 }

@@ -12,41 +12,35 @@ import { SharedModalComponent } from './components/shared-modal/shared-modal.com
 export class CompanyCategoriesComponent implements OnInit, OnDestroy {
   private onDestroy = new Subject<void>();
 
-  public selectedOption : string = 'origin';
+  public selectedOption: string = 'origin';
 
-  constructor(
-    private dialog: MatDialog,
-  ) { }
+  constructor(private dialog: MatDialog) { }
 
-  ngOnInit(): void {
-    
-  }
+  ngOnInit(): void { }
 
   onTabChange(event: MatTabChangeEvent): void {
     const option = event.tab.textLabel;
 
     if (option.includes('Giro')) this.selectedOption = 'business';
-     else if (option.includes('Tamaño')) this.selectedOption = 'size';
-       else this.selectedOption = 'clientType';
+    else if (option.includes('Tamaño')) this.selectedOption = 'size';
+    else this.selectedOption = 'clientType';
   }
-
 
   newData(data = null) {
     this.dialog.open(SharedModalComponent, {
       data: {
-        info : data,
-        type : this.selectedOption,
+        info: data,
+        type: this.selectedOption,
       },
       disableClose: true,
       width: '1000px',
       maxHeight: '428px',
       panelClass: 'custom-dialog',
     })
-    .afterClosed()
-    .subscribe((_) => {
-    });
+      .afterClosed()
+      .subscribe((_) => { });
   }
-  
+
   ngOnDestroy(): void {
     this.onDestroy.next();
     this.onDestroy.unsubscribe();

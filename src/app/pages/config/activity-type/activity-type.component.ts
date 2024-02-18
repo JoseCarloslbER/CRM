@@ -1,42 +1,52 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { FormBuilder } from '@angular/forms';
-import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { ModalnewActivityComponent } from './modalnew-activity/modalnew-activity.component';
 import { MatTabChangeEvent } from '@angular/material/tabs';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-activity-type',
   templateUrl: './activity-type.component.html',
 })
-export class ActivityTypeComponent {
+export class ActivityTypeComponent implements OnInit, OnDestroy {
+  private onDestroy = new Subject<void>();
 
-  public selectionType : string = 'actividad';
+  public selectedOption: string = 'activity';
+  public title: string = 'actividad';
 
-  constructor(
+  constructor(private dialog: MatDialog) { }
 
-    private openModalsService: OpenModalsService,
-    private formBuilder: FormBuilder,
-    private dialog: MatDialog,
-    private router: Router
-  ) { }
+  ngOnInit(): void { }
 
-  newData() {
+  onTabChange(event: MatTabChangeEvent): void {
+    const option = event.tab.textLabel;
+
+    if (option.includes('Actividad')) {
+      this.selectedOption = 'activity';
+      this.title = 'actividad'
+    } else {
+      this.selectedOption = 'subactivity';
+      this.title = 'subactividad'
+    }
+  }
+
+  newData(data = null) {
     this.dialog.open(ModalnewActivityComponent, {
       data: {
-        type : this.selectionType.toLowerCase()
+        info: data,
+        type: this.selectedOption,
       },
       disableClose: true,
       width: '1000px',
       maxHeight: '428px',
       panelClass: 'custom-dialog',
-    });
+    })
+      .afterClosed()
+      .subscribe((_) => { });
   }
 
-  
-  onTabChange(event: MatTabChangeEvent): void {
-    this.selectionType = event.tab.textLabel 
+  ngOnDestroy(): void {
+    this.onDestroy.next();
+    this.onDestroy.unsubscribe();
   }
 }

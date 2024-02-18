@@ -1,18 +1,22 @@
-import { Component, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
-import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import * as entity from '../../config-interface';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { ModalnewActivityComponent } from '../modalnew-activity/modalnew-activity.component';
+import { Subject, Subscription } from 'rxjs';
+import { ConfigService } from '../../config.service';
+import { UpdateComponentsService } from '../../company-categories/components/components.service';
 
 @Component({
   selector: 'app-subactivity',
   templateUrl: './subactivity.component.html',
 })
-export class SubactivityComponent {
+export class SubactivityComponent implements OnInit, OnDestroy {
+  private onDestroy = new Subject<void>();
+  private updateSubscription: Subscription;
+
   public dataSource = new MatTableDataSource<any>([]);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   public longitudPagina = 50;
@@ -20,66 +24,52 @@ export class SubactivityComponent {
   public indicePagina = 0;
 
   public displayedColumns: string[] = [
-    'subactivity',
+    'sub_activity',
     'color',
-    'icon',
-    'acciones'
+    'actions'
   ];
 
-
-  public dataDummy: any[] = [
-    {
-      subactivity: 'Administración',
-      color: '#9747FF',
-      icon: 'headphones',
-    },
-    {
-      subactivity: 'Administración',
-      color: '#9747FF',
-      icon: 'headphones',
-    },
-    {
-      subactivity: 'Administración',
-      color: '#9747FF',
-      icon: 'headphones',
-    },
-    {
-      subactivity: 'Administración',
-      color: '#9747FF',
-      icon: 'headphones',
-    },
-    {
-      subactivity: 'Administración',
-      color: '#9747FF',
-      icon: 'headphones',
-    },
-  ]
-
   constructor(
+    private moduleServices: ConfigService,
+    private updateService: UpdateComponentsService,
     private notificationService: OpenModalsService,
-    private formBuilder: FormBuilder,
     private dialog: MatDialog,
-    private router: Router
   ) { }
 
   ngOnInit(): void {
-    this.dataSource.data = this.dataDummy
+    this.updateSubscription = this.updateService.updateEvent$.subscribe(() => {
+      this.getDataTable();
+    });
+    this.getDataTable();
   }
 
-  editData() {
+  getDataTable() {
+    this.moduleServices.getTableDataSubactivityType().subscribe({
+      next: (data: entity.TableDataSubactivityType[]) => {
+        this.dataSource.data = data;
+        console.log(data);
+
+      },
+      error: (error) => console.error(error)
+    })
+  }
+
+  editData(data: any) {
     this.dialog.open(ModalnewActivityComponent, {
       data: {
-        info:['test'],
-        type : 'subactividad'
+        info: data,
+        type: 'subactivity'
       },
       disableClose: true,
       width: '1000px',
       maxHeight: '428px',
       panelClass: 'custom-dialog',
-    });
+    })
+      .afterClosed()
+      .subscribe(() => this.getDataTable());
   }
 
-  deleteData() {
+  deleteData(id: string) {
     this.notificationService
       .notificacion(
         'Pregunta',
@@ -87,18 +77,28 @@ export class SubactivityComponent {
         'question',
       )
       .afterClosed()
-      .subscribe((_) => {
-        this.notificationService
-          .notificacion(
-            'Éxito',
-            'Registro eliminado.',
-            'delete',
-          )
-          .afterClosed()
-          .subscribe((_) => {
-
-          });
+      .subscribe((response) => {
+        if (response) {
+          this.moduleServices.deleteDatSubactivityType(id).subscribe({
+            next: () => {
+              this.notificationService
+                .notificacion(
+                  'Éxito',
+                  'Registro eliminado.',
+                  'delete',
+                )
+                .afterClosed()
+                .subscribe((_) => this.getDataTable());
+            },
+            error: (error) => console.error(error)
+          })
+        }
       });
   }
 
+  ngOnDestroy(): void {
+    this.updateSubscription.unsubscribe();
+    this.onDestroy.next();
+    this.onDestroy.unsubscribe();
+  }
 }
