@@ -9,11 +9,11 @@ import { Subject, debounceTime, takeUntil } from 'rxjs';
 import { CompaniesService } from '../companies.service';
 import * as entity from '../companies-interface';
 import * as entityGeneral from '../../../shared/interfaces/general-interface';
+import moment from 'moment'
 
 @Component({
   selector: 'app-clients',
   templateUrl: './clients.component.html',
-  styleUrl: './clients.component.scss'
 })
 export class ClientsComponent implements OnInit, AfterViewInit, OnDestroy {
   private onDestroy = new Subject<void>();
@@ -25,217 +25,101 @@ export class ClientsComponent implements OnInit, AfterViewInit, OnDestroy {
   public indicePagina = 0;
 
   public displayedColumns: string[] = [
-    'name',
-    'estatus',
+    'conpanyName',
+    'status',
     'country',
     'origin',
     'category',
-    'giro',
-    'campaign',
-    'cotizaciones',
-    'ventas',
-    'fechaUltimoContacto',
+    'business',
+    'campaing',
+    'quotes',
+    'sales',
+    'lastContactDate',
     'history',
-    'actions',
+    'acciones'
   ];
 
-  public dataDummy: any[] = [
-    {
-      estatus: 'PROSPECTO',
-      country: 'México',
-      category: 'Micro',
-      giro: 'Construccion',
-      campaign: 'Activa',
-      cotizaciones: [
-        {
-          up: '5',
-          bottom: '$15,000.00',
-
-        }
-      ],
-
-      ventas: [
-        {
-          up: '5',
-          bottom: '$15,000.00',
-
-        }
-      ],
-
-      history: 'Se envió correo publicitario y se hicieron las llamadas pertinentes para el seguimiento, pero el cliente no contestó en ningún momento.',
-      origen: 'Referencia',
-      fechaUltimoContacto: '2022-02-28',
-    },
-    {
-      estatus: 'PROSPECTO',
-      country: 'México',
-      category: 'Micro',
-      giro: 'Construccion',
-      campaign: 'Activa',
-      cotizaciones: [
-        {
-          up: '5',
-          bottom: '$15,000.00',
-
-        }
-      ],
-
-      ventas: [
-        {
-          up: '5',
-          bottom: '$15,000.00',
-
-        }
-      ],
-
-      history: 'Se envió correo publicitario y se hicieron las llamadas pertinentes para el seguimiento, pero el cliente no contestó en ningún momento.',
-      origen: 'Referencia',
-      fechaUltimoContacto: '2022-02-28',
-    },
-    {
-      estatus: 'PROSPECTO',
-      country: 'México',
-      category: 'Micro',
-      giro: 'Construccion',
-      campaign: 'Activa',
-      cotizaciones: [
-        {
-          up: '5',
-          bottom: '$15,000.00',
-
-        }
-      ],
-
-      ventas: [
-        {
-          up: '5',
-          bottom: '$15,000.00',
-
-        }
-      ],
-
-      history: 'Se envió correo publicitario y se hicieron las llamadas pertinentes para el seguimiento, pero el cliente no contestó en ningún momento.',
-      origen: 'Referencia',
-      fechaUltimoContacto: '2022-02-28',
-    },
-    {
-      estatus: 'PROSPECTO',
-      country: 'México',
-      category: 'Micro',
-      giro: 'Construccion',
-      campaign: 'Activa',
-      cotizaciones: [
-        {
-          up: '5',
-          bottom: '$15,000.00',
-
-        }
-      ],
-
-      ventas: [
-        {
-          up: '5',
-          bottom: '$15,000.00',
-
-        }
-      ],
-
-      history: 'Se envió correo publicitario y se hicieron las llamadas pertinentes para el seguimiento, pero el cliente no contestó en ningún momento.',
-      origen: 'Referencia',
-      fechaUltimoContacto: '2022-02-28',
-    },
-    {
-      estatus: 'PROSPECTO',
-      country: 'México',
-      category: 'Micro',
-      giro: 'Construccion',
-      campaign: 'Activa',
-      cotizaciones: [
-        {
-          up: '5',
-          bottom: '$15,000.00',
-
-        }
-      ],
-
-      ventas: [
-        {
-          up: '5',
-          bottom: '$15,000.00',
-
-        }
-      ],
-
-      history: 'Se envió correo publicitario y se hicieron las llamadas pertinentes para el seguimiento, pero el cliente no contestó en ningún momento.',
-      origen: 'Referencia',
-      fechaUltimoContacto: '2022-02-28',
-    },
-  ]
-
-
-
   public formFilters = this.formBuilder.group({
-    status: [{ value: null, disabled: false }],
-    business: [{ value: null, disabled: false }],
-    company: [{ value: null, disabled: false }],
-    rangeDateStart: [{ value: null, disabled: false }],
-    rangeDateEnd: [{ value: null, disabled: false }],
+    status: [{ value: '', disabled: false }],
+    business: [{ value: '', disabled: false }],
+    campaign: [{ value: '', disabled: false }],
+    rangeDateStart: [{ value: '', disabled: false }],
+    rangeDateEnd: [{ value: '', disabled: false }],
   });
 
   public catBusiness: entityGeneral.DataCatBusiness[] = [];
-
-  public fechaHoy = new Date();
+  public catStatus: entityGeneral.DataCatStatus[] = [];
+  public catCampaing: entityGeneral.DataCatCampaing[] = [];
 
   public searchBar = new FormControl('')
+
+  public selectedProject: string = 'todas';
+
+  public fechaHoy = new Date();
 
   constructor(
     private moduleServices: CompaniesService,
     private notificationService: OpenModalsService,
-    private openModalsService: OpenModalsService,
     private formBuilder: FormBuilder,
-    private dialog: MatDialog,
     private router: Router
   ) { }
 
   ngOnInit(): void {
-    this.dataSource.data = this.dataDummy
+    this.searchWithFilters();
+    this.getCatalogs()
   }
 
   ngAfterViewInit(): void {
     this.searchBar.valueChanges.pipe(takeUntil(this.onDestroy), debounceTime(500)).subscribe((content: string) => {
       console.log(content);
     })
-
-    setTimeout(() => {
-      this.getCatalogs()
-    }, 500);
-  }
-
-  searchWithFilters() {
-    let objFilters: any = {
-      ...this.formFilters.value
-    }
-
-    this.getDataTable(objFilters)
   }
 
   getCatalogs() {
-    this.moduleServices.getCatalogBusiness().pipe(takeUntil(this.onDestroy)).subscribe({
+    this.moduleServices.getCatalogBusiness().subscribe({
       next: (data: entityGeneral.DataCatBusiness[]) => {
         this.catBusiness = data;
       },
       error: (error) => console.error(error)
     });
-  }
 
-  getDataTable(filters?) {
-    this.moduleServices.getDataTable('client', filters).subscribe({
-      next: ({ data }: any) => {
-        console.log(data);
+    this.moduleServices.getCatStatus().subscribe({
+      next: (data: entityGeneral.DataCatStatus[]) => {
+        this.catStatus = data;
       },
       error: (error) => console.error(error)
+    });
+
+    this.moduleServices.getCatCampaing().subscribe({
+      next: (data: entityGeneral.DataCatCampaing[]) => {
+        this.catCampaing = data;
+      },
+      error: (error) => console.error(error)
+    });
+  }
+
+  searchWithFilters() {
+    let filters = 'company_phase=d1203730-3ac8-4f06-b095-3ec56ef3b54d&';
+
+    if (this.formFilters.get('status').value) filters += `status_id=${this.formFilters.get('status').value}&`;
+    if (this.formFilters.get('business').value) filters += `business_id=${this.formFilters.get('business').value}&`;
+    if (this.formFilters.get('campaign').value) filters += `campaign_id=${this.formFilters.get('campaign').value}&`;
+    if (this.formFilters.get('rangeDateStart').value && this.formFilters.get('rangeDateEnd').value) {
+      filters += `register_date_start=${moment(this.formFilters.get('rangeDateStart').value).format('YYYY-MM-DD')}&`,
+        filters += `register_date_end=${moment(this.formFilters.get('rangeDateEnd').value).format('YYYY-MM-DD')}&`
     }
-    )
+
+    this.getDataTable(filters)
+  }
+
+  getDataTable(filters?: string) {
+    this.moduleServices.getDataTable(filters).subscribe({
+      next: (data: entity.TableDataCompanyMapper[]) => {
+        console.log(data);
+        this.dataSource.data = data;
+      },
+      error: (error) => console.error(error)
+    })
   }
 
   editData(data: any) {
@@ -250,44 +134,34 @@ export class ClientsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.router.navigateByUrl(`/home/empresas/nuevo-cliente`)
   }
 
-  deleteData(id?:string) {
-    // this.notificationService
-    //   .notificacion(
-    //     'Pregunta',
-    //     '¿Estas seguro de eliminar el registro?',
-    //     'question',
-    //   )
-    //   .afterClosed()
-    //   .subscribe((resp) => {
-    //     if (resp) {
-    //       this.moduleServices.deleteData('client', id).pipe(takeUntil(this.onDestroy)).subscribe({
-    //         next: (_) => {
-    //           this.notificationService
-    //           .notificacion(
-    //             'Éxito',
-    //             'Registro eliminado.',
-    //             'delete',
-    //           )
-    //           .afterClosed()
-    //           .subscribe((_) => {
-
-    //           });
-    //         },
-    //         error: (error) => console.error(error)
-    //       })
-          this.notificationService
-            .notificacion(
-              'Éxito',
-              'Registro eliminado.',
-              'delete',
-            )
-            .afterClosed()
-            .subscribe((_) => { });
-    //     }
-    //   });
+  deleteData(id: string) {
+    this.notificationService
+      .notificacion(
+        'Pregunta',
+        '¿Estas seguro de eliminar el registro?',
+        'question',
+      )
+      .afterClosed()
+      .subscribe((response) => {
+        if (response) {
+          this.moduleServices.deleteData(id).subscribe({
+            next: () => {
+              this.notificationService
+                .notificacion(
+                  'Éxito',
+                  'Registro eliminado.',
+                  'delete',
+                )
+                .afterClosed()
+                .subscribe((_) => this.searchWithFilters());
+            },
+            error: (error) => console.error(error)
+          })
+        }
+      });
   }
 
-  douwnloadExel(id?:string) {
+  douwnloadExel(id?: string) {
     // this.moduleServices.excel('all',id).pipe(takeUntil(this.onDestroy)).subscribe({
     //   next: (_) => {
     //     this.notificationService
@@ -319,7 +193,7 @@ export class ClientsComponent implements OnInit, AfterViewInit, OnDestroy {
       });
   }
 
-  downloadBulkUpload(id?:string) {
+  downloadBulkUpload(id?: string) {
     // this.moduleServices.bulkLoad('client', id).pipe(takeUntil(this.onDestroy)).subscribe({
     //   next: (_) => {
     //     this.notificationService
@@ -377,20 +251,6 @@ export class ClientsComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe((_) => {
 
       });
-  }
-
-  get cantSearch() : boolean {
-    let cantSearch : boolean = true
-    if (
-      this.formFilters.get('status').value  ||
-      this.formFilters.get('giro').value ||
-      this.formFilters.get('company').value ||
-      this.formFilters.get('rangeDateStart').value && !this.formFilters.get('status').value 
-      ) {
-      cantSearch = false;
-    }
-
-    return cantSearch
   }
 
   ngOnDestroy(): void {

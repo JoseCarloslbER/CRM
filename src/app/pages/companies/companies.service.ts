@@ -69,11 +69,11 @@ export class CompaniesService {
   // END CATALOGS 
  
 
-  public getDataTable(type?:string, filters?): Observable<entity.TableDataCompanyMapper[]> {
+  public getDataTable(filters?:string): Observable<entity.TableDataCompanyMapper[]> {
     const url = `${this.apiUrl}company/${filters ? `?${filters}` : ''}`;
-
+    
     return this.http.get<entity.TableDataCompany[]>(url).pipe(
-			map((response) => Mapper.getDataTableMapper(response)),
+			map((response) => Mapper.getDataTableMapper(response))
 		);
 	}
   
@@ -81,7 +81,7 @@ export class CompaniesService {
 		const url = `${this.apiUrl}company/${id}/`;
 
     return this.http.get<entity.TableDataCompany>(url).pipe(
-			map((response) => Mapper.editDataTableCompanyMapper(response)),
+			map((response) => Mapper.editDataTableCompanyMapper(response))
 		);
     
 	}

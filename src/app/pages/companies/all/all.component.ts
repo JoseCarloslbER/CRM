@@ -29,6 +29,7 @@ export class AllComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public displayedColumnsMascomprados: string[] = ['empresa', 'fechaRegistro', 'monto'];
   public displayedColumnsAgregadasRecientemente: string[] = ['empresa', 'estatus', 'fechaRegistro', 'monto'];
+ 
   public displayedColumns: string[] = [
     'conpanyName',
     'status',
@@ -69,20 +70,16 @@ export class AllComponent implements OnInit, AfterViewInit, OnDestroy {
     rangeDateEnd: [{ value: '', disabled: false }],
   });
 
+  public searchBar = new FormControl('');
+
+  public fechaHoy = new Date();
+
+  public selectedProject: string = 'todas';
+
   public catBusiness: entityGeneral.DataCatBusiness[] = [];
   public catStatus: entityGeneral.DataCatStatus[] = [];
   public catCampaing: entityGeneral.DataCatCampaing[] = [];
 
-  public searchBar = new FormControl('')
-
-  public selectedProject: string = 'todas';
-
-  public fechaHoy = new Date();
-
-
-  // COMPANY_PHASE_PROSPECTO = "ec43fa4e-1ade-46ea-9841-1692074ce8cd"
-  // COMPANY_PHASE_CLIENTE = "d1203730-3ac8-4f06-b095-3ec56ef3b54d"
-  // COMPANY_PHASE_LEAD = "20a3bf77-6669-40ec-b214-e31122d7eb7a"
 
   constructor(
     private moduleServices: CompaniesService,
@@ -140,15 +137,13 @@ export class AllComponent implements OnInit, AfterViewInit, OnDestroy {
     this.getDataTable(filters)
   }
 
-  getDataTable(filters?) {
+  getDataTable(filters?:string) {
     this.moduleServices.getDataTable(filters).subscribe({
       next: (data: entity.TableDataCompanyMapper[]) => {
-        console.log(data);
         this.dataSource.data = data;
       },
       error: (error) => console.error(error)
-    }
-    )
+    })
   }
 
   seeClient(id: string) {

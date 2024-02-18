@@ -9,6 +9,7 @@
     }
 
     .contenedor-scroll-tabla {
+        overflow-y: unset!important;
         .table-header {
             display: flex;
             align-items: center;

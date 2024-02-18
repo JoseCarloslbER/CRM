@@ -18,7 +18,7 @@ import * as entityGeneral from '../../../../shared/interfaces/general-interface'
 export class NewClientComponent implements OnInit, AfterViewInit, OnDestroy {
   private onDestroy = new Subject<void>();
 
-  public addContact = new FormControl(false)
+  public addContact = new FormControl(true)
   public contacts: any[] = []
   public valuesContacts: any[] = []
 
@@ -31,7 +31,7 @@ export class NewClientComponent implements OnInit, AfterViewInit, OnDestroy {
     platform: [''],
     phone_number: [''],
     email: ['', Validators.required],
-    tax_id_number: ['', Validators.required], //rfc
+    tax_id_number: ['', Validators.required],
     state: ['', Validators.required],
     owner_user: ['', Validators.required],
     country: [''],

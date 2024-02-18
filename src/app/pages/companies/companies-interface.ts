@@ -37,6 +37,7 @@ export interface TableDataCompany {
 export interface TableDataCompanyMapper {
   id:string
   conpanyName : string;
+  logo : string;
   status : string;
   country : string;
   origin : string;

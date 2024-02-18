@@ -9,11 +9,11 @@ import { Subject, debounceTime, takeUntil } from 'rxjs';
 import { CompaniesService } from '../companies.service';
 import * as entity from '../companies-interface';
 import * as entityGeneral from '../../../shared/interfaces/general-interface';
+import moment from 'moment';
 
 @Component({
   selector: 'app-leads',
   templateUrl: './leads.component.html',
-  styleUrl: './leads.component.scss'
 })
 export class LeadsComponent implements OnInit, AfterViewInit, OnDestroy {
   private onDestroy = new Subject<void>();
@@ -25,217 +25,111 @@ export class LeadsComponent implements OnInit, AfterViewInit, OnDestroy {
   public indicePagina = 0;
 
   public displayedColumns: string[] = [
-    'name', 
-    'estatus', 
-    'country', 
-    'origin', 
-    'category', 
-    'giro', 
-    'campaign', 
-    'cotizaciones', 
-    'ventas', 
-    'fechaUltimoContacto', 
-    'history', 
-    'actions', 
+    'conpanyName',
+    'status',
+    'country',
+    'origin',
+    'category',
+    'business',
+    'campaing',
+    'quotes',
+    'sales',
+    'lastContactDate',
+    'history',
+    'acciones'
   ];
 
-  public dataDummy: any[] = [
-    {
-      estatus: 'LEAD',
-      country: 'México',
-      category: 'Micro',
-      giro: 'Construccion',
-      campaign: 'Activa',
-      cotizaciones : [
-        {
-          up : '5',
-          bottom : '$15,000.00',
-
-        }
-      ],
-    
-      ventas : [
-        {
-          up : '5',
-          bottom : '$15,000.00',
-
-        }
-      ],
-
-      history: 'Se envió correo publicitario y se hicieron las llamadas pertinentes para el seguimiento, pero el cliente no contestó en ningún momento.',
-      origen: 'Referencia',
-      fechaUltimoContacto: '2022-02-28',
-    },
-    {
-      estatus: 'LEAD',
-      country: 'México',
-      category: 'Micro',
-      giro: 'Construccion',
-      campaign: 'Activa',
-      cotizaciones : [
-        {
-          up : '5',
-          bottom : '$15,000.00',
-
-        }
-      ],
-    
-      ventas : [
-        {
-          up : '5',
-          bottom : '$15,000.00',
-
-        }
-      ],
-
-      history: 'Se envió correo publicitario y se hicieron las llamadas pertinentes para el seguimiento, pero el cliente no contestó en ningún momento.',
-      origen: 'Referencia',
-      fechaUltimoContacto: '2022-02-28',
-    },
-    {
-      estatus: 'LEAD',
-      country: 'México',
-      category: 'Micro',
-      giro: 'Construccion',
-      campaign: 'Activa',
-      cotizaciones : [
-        {
-          up : '5',
-          bottom : '$15,000.00',
-
-        }
-      ],
-    
-      ventas : [
-        {
-          up : '5',
-          bottom : '$15,000.00',
-
-        }
-      ],
-
-      history: 'Se envió correo publicitario y se hicieron las llamadas pertinentes para el seguimiento, pero el cliente no contestó en ningún momento.',
-      origen: 'Referencia',
-      fechaUltimoContacto: '2022-02-28',
-    },
-    {
-      estatus: 'LEAD',
-      country: 'México',
-      category: 'Micro',
-      giro: 'Construccion',
-      campaign: 'Activa',
-      cotizaciones : [
-        {
-          up : '5',
-          bottom : '$15,000.00',
-
-        }
-      ],
-    
-      ventas : [
-        {
-          up : '5',
-          bottom : '$15,000.00',
-
-        }
-      ],
-
-      history: 'Se envió correo publicitario y se hicieron las llamadas pertinentes para el seguimiento, pero el cliente no contestó en ningún momento.',
-      origen: 'Referencia',
-      fechaUltimoContacto: '2022-02-28',
-    },
-    {
-      estatus: 'LEAD',
-      country: 'México',
-      category: 'Micro',
-      giro: 'Construccion',
-      campaign: 'Activa',
-      cotizaciones : [
-        {
-          up : '5',
-          bottom : '$15,000.00',
-
-        }
-      ],
-    
-      ventas : [
-        {
-          up : '5',
-          bottom : '$15,000.00',
-
-        }
-      ],
-
-      history: 'Se envió correo publicitario y se hicieron las llamadas pertinentes para el seguimiento, pero el cliente no contestó en ningún momento.',
-      origen: 'Referencia',
-      fechaUltimoContacto: '2022-02-28',
-    },
-  ]
-
-
   public formFilters = this.formBuilder.group({
-    status: [{ value: null, disabled: false }],
-    giro: [{ value: null, disabled: false }],
-    company: [{ value: null, disabled: false }],
-    rangeDateStart: [{ value: null, disabled: false }],
-    rangeDateEnd: [{ value: null, disabled: false }],
+    status: [{ value: '', disabled: false }],
+    business: [{ value: '', disabled: false }],
+    campaign: [{ value: '', disabled: false }],
+    rangeDateStart: [{ value: '', disabled: false }],
+    rangeDateEnd: [{ value: '', disabled: false }],
   });
 
-  public catBusiness: entityGeneral.DataCatBusiness[] = [];
-
   public searchBar = new FormControl('')
-  
+
   public fechaHoy = new Date();
+
+  public selectedProject: string = 'todas';
+
+  public catBusiness: entityGeneral.DataCatBusiness[] = [];
+  public catStatus: entityGeneral.DataCatStatus[] = [];
+  public catCampaing: entityGeneral.DataCatCampaing[] = [];
 
   constructor(
     private moduleServices: CompaniesService,
     private notificationService: OpenModalsService,
     private formBuilder: FormBuilder,
-    private dialog: MatDialog,
     private router: Router
   ) { }
 
   ngOnInit(): void {
-    this.dataSource.data = this.dataDummy
+    this.searchWithFilters();
+    this.getCatalogs()
   }
-  
+
   ngAfterViewInit(): void {
-    this.searchBar.valueChanges.pipe(takeUntil(this.onDestroy), debounceTime(500)).subscribe((content:string) => {
+    this.searchBar.valueChanges.pipe(takeUntil(this.onDestroy), debounceTime(500)).subscribe((content: string) => {
       console.log(content);
     })
   }
 
+  getCatalogs() {
+    this.moduleServices.getCatalogBusiness().subscribe({
+      next: (data: entityGeneral.DataCatBusiness[]) => {
+        this.catBusiness = data;
+      },
+      error: (error) => console.error(error)
+    });
+
+    this.moduleServices.getCatStatus().subscribe({
+      next: (data: entityGeneral.DataCatStatus[]) => {
+        this.catStatus = data;
+      },
+      error: (error) => console.error(error)
+    });
+
+    this.moduleServices.getCatCampaing().subscribe({
+      next: (data: entityGeneral.DataCatCampaing[]) => {
+        this.catCampaing = data;
+      },
+      error: (error) => console.error(error)
+    });
+  }
+
   searchWithFilters() {
-    let objFilters: any = {
-      ...this.formFilters.value
+    let filters = 'company_phase=20a3bf77-6669-40ec-b214-e31122d7eb7a&';
+
+    if (this.formFilters.get('status').value) filters += `status_id=${this.formFilters.get('status').value}&`;
+    if (this.formFilters.get('business').value) filters += `business_id=${this.formFilters.get('business').value}&`;
+    if (this.formFilters.get('campaign').value) filters += `campaign_id=${this.formFilters.get('campaign').value}&`;
+    if (this.formFilters.get('rangeDateStart').value && this.formFilters.get('rangeDateEnd').value) {
+      filters += `register_date_start=${moment(this.formFilters.get('rangeDateStart').value).format('YYYY-MM-DD')}&`,
+        filters += `register_date_end=${moment(this.formFilters.get('rangeDateEnd').value).format('YYYY-MM-DD')}&`
     }
 
-    this.getDataTable(objFilters)
+    this.getDataTable(filters)
   }
 
-  getCatalogs() {
-
-  }
-
-  getDataTable(filters?) {
-    this.moduleServices.getDataTable('lead', filters).subscribe({
-      next: ({ data }: any) => {
-        console.log(data);
+  getDataTable(filters?: string) {
+    this.moduleServices.getDataTable(filters).subscribe({
+      next: (data: entity.TableDataCompanyMapper[]) => {
+        this.dataSource.data = data;
       },
       error: (error) => console.error(error)
     })
   }
 
-
-  editData(data:any) {
+  editData(data: any) {
     this.router.navigateByUrl(`/home/empresas/nuevo-prospecto`)
   }
 
-  seeData(data:any) {
+  seeData(data: any) {
     this.router.navigateByUrl(`home/adquisicion/detalle-empresa/1`)
   }
 
-  deleteData(id?:String) {
+  deleteData(id: string) {
     this.notificationService
       .notificacion(
         'Pregunta',
@@ -243,36 +137,26 @@ export class LeadsComponent implements OnInit, AfterViewInit, OnDestroy {
         'question',
       )
       .afterClosed()
-      .subscribe((resp) => {
-        if (resp) {
-          // this.moduleServices.deleteDataProspect(lead', id).pipe(takeUntil(this.onDestroy)).subscribe({
-          //   next: (_) => {
-          //     this.notificationService
-          //     .notificacion(
-          //       'Éxito',
-          //       'Registro eliminado.',
-          //       'delete',
-          //     )
-          //     .afterClosed()
-          //     .subscribe((_) => {
-
-          //     });
-          //   },
-          //   error: (error) => console.error(error)
-          // })
-          this.notificationService
-            .notificacion(
-              'Éxito',
-              'Registro eliminado.',
-              'delete',
-            )
-            .afterClosed()
-            .subscribe((_) => { });
+      .subscribe((response) => {
+        if (response) {
+          this.moduleServices.deleteData(id).subscribe({
+            next: () => {
+              this.notificationService
+                .notificacion(
+                  'Éxito',
+                  'Registro eliminado.',
+                  'delete',
+                )
+                .afterClosed()
+                .subscribe((_) => this.searchWithFilters());
+            },
+            error: (error) => console.error(error)
+          })
         }
       });
   }
 
-  douwnloadExel(id?:string) {
+  douwnloadExel(id?: string) {
     // this.moduleServices.excel('lead', id).pipe(takeUntil(this.onDestroy)).subscribe({
     //   next: (_) => {
     //     this.notificationService
@@ -302,20 +186,6 @@ export class LeadsComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe((_) => {
 
       });
-  }
-
-  get cantSearch() : boolean {
-    let cantSearch : boolean = true
-    if (
-      this.formFilters.get('status').value  ||
-      this.formFilters.get('giro').value ||
-      this.formFilters.get('company').value ||
-      this.formFilters.get('rangeDateStart').value && !this.formFilters.get('status').value 
-      ) {
-      cantSearch = false;
-    }
-
-    return cantSearch
   }
 
   ngOnDestroy(): void {
