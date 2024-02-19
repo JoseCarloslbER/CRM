@@ -77,6 +77,23 @@ export class CompaniesService {
 
     return this.http.get<entityGeneral.DataCatAgents[]>(url)
 	}
+
+  public getCatCompany(filters?:any): Observable<entityGeneral.DataCatCompany[]> {
+		const url = `${environment.apiURL}company/company/${filters ? `?${filters}` : ''}`;
+
+    return this.http.get<entityGeneral.DataCatCompany[]>(url).pipe(
+			map((response) => {
+        let dataList :any = []
+        response.forEach((data: entity.TableDataCompany): void => {
+          dataList.push({
+          companyName : data.company_name,
+          companyId : data.company_id
+          });
+        });
+        return dataList
+      })
+		);
+	}
   
 
   // END CATALOGS 

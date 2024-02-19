@@ -2,35 +2,41 @@
 
     <div class="modal-header">
         <p class="titulo-modal">{{ data ? 'Editar' : 'Registrar nueva'}} actividad</p>
-
         <mat-icon class="cursos-pointer" svgIcon="mat_outline:cancel" (click)="closeModal()"></mat-icon>
     </div>
 
     <div class="row p-5 d-flex">
-
         <p class="mb-6">*Campos obligatorios</p>
-
         <form class="col-12 modal-content-scroll" [formGroup]="formData">
             <div>
                 <div class="row">
                     <div class="col-md-6">
-                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
-                            <mat-label>Empresa*</mat-label>
-                            <input formControlName="company" matInput>
-                        </mat-form-field>
+                        <form class="example-form">
+                            <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
+                              <mat-label>Empresa</mat-label>
+                              <input type="text" placeholder="Buscar" matInput [formControl]="company" [matAutocomplete]="auto">
+                              <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                                <mat-option *ngFor="let cat of filteredOptions | async" [value]="cat.companyName" (click)="companySelected = cat.companyId">
+                                  {{cat.companyName || '-'}}
+                                </mat-option>
+                              </mat-autocomplete>
+                            </mat-form-field>
+                          </form>
 
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
-                            <mat-label>Agente*</mat-label>
-                            <mat-select placeholder="Seleccionar">
+                            <mat-label>Agente</mat-label>
+                            <mat-select formControlName="user" placeholder="Seleccionar">
                                 <mat-option [value]="cat.id" *ngFor="let cat of catAgents">
-                                    {{cat.first_name && cat.last_name ? cat?.first_name + ' ' + cat?.last_name : cat?.username |titlecase }}</mat-option>
+                                    {{cat.first_name && cat.last_name ? cat?.first_name + ' ' + cat?.last_name :
+                                    cat?.username |titlecase }}</mat-option>
                             </mat-select>
                         </mat-form-field>
 
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
-                            <mat-label>Campaña*</mat-label>
-                            <mat-select placeholder="Seleccionar">
-                                <mat-option [value]="cat.campaign_id" *ngFor="let cat of catCampaing">{{cat?.campaign_name || '-'}}</mat-option>
+                            <mat-label>Campaña</mat-label>
+                            <mat-select formControlName="campaign" placeholder="Seleccionar">
+                                <mat-option [value]="cat.campaign_id"
+                                    *ngFor="let cat of catCampaing">{{cat?.campaign_name || '-'}}</mat-option>
                             </mat-select>
                         </mat-form-field>
 
@@ -55,14 +61,15 @@
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Negocios abiertos</mat-label>
                             <mat-select placeholder="Seleccionar">
-                                <mat-option >Pendiente</mat-option>
+                                <mat-option>Pendiente</mat-option>
                             </mat-select>
                         </mat-form-field>
 
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Tipo de actividad</mat-label>
-                            <mat-select placeholder="Seleccionar">
-                                <mat-option [value]="cat.type_activity_id" *ngFor="let cat of catCompanyType">{{cat?.activity  || '-'}}</mat-option>
+                            <mat-select formControlName="type_activity" placeholder="Seleccionar">
+                                <mat-option [value]="cat.type_activity_id"
+                                    *ngFor="let cat of catCompanyType">{{cat?.activity || '-'}}</mat-option>
                             </mat-select>
                         </mat-form-field>
 
@@ -71,7 +78,7 @@
                                 <div class="col-md-6">
                                     <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                                         <mat-label>Fecha</mat-label>
-                                        <input matInput [matDatepicker]="picker1">
+                                        <input formControlName="activity_date" matInput [matDatepicker]="picker1">
                                         <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                                         <mat-datepicker #picker1></mat-datepicker>
                                     </mat-form-field>
@@ -80,7 +87,7 @@
                                 <div class="col-md-6">
                                     <div class="d-flex flex-column c-input-time">
                                         <mat-label>Hora</mat-label>
-                                        <input class="input-time" type="time" name="eta">
+                                        <input formControlName="activity_hour" class="input-time" type="time" name="eta">
                                     </div>
                                 </div>
                             </div>
@@ -89,13 +96,11 @@
                         <div class="flex-auto gt-xs:pr-3 mt-5">
                             <div class="row advantages advantages-p">
                                 <mat-form-field class="flex-auto input-default inputNewRegister">
-                                    <mat-label>Texto</mat-label>
-                                    <textarea matInput style="height: 150px;"></textarea>
+                                    <mat-label>Descripción</mat-label>
+                                    <textarea formControlName="description" matInput style="height: 150px;"></textarea>
                                 </mat-form-field>
                             </div>
                         </div>
-
-
                     </div>
                 </div>
 
