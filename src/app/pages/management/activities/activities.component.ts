@@ -10,6 +10,7 @@ import { ManagementmentService } from '../management.service';
 import * as entityGeneral from '../../../shared/interfaces/general-interface';
 import moment from 'moment';
 import * as entity from '../management-interface';
+import { TableDataActivityType } from 'app/pages/config/config-interface';
 
 @Component({
   selector: 'app-activities',
@@ -27,11 +28,11 @@ export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy {
   // TABLA 
 
   public displayedColumns: string[] = [
-    // 'name', 
+    'name', 
     'process', 
-    // 'agent', 
-    // 'activityType', 
-    // 'register', 
+    'agent', 
+    'activityType', 
+    'register', 
     'finally', 
     'description', 
     'actions', 
@@ -49,7 +50,7 @@ export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy {
   
   public fechaHoy = new Date();
 
-  public catTypes: entityGeneral.DataCatType[] = [];
+  public catActivitiesTypes: TableDataActivityType [] = [];
   public catStatus: entityGeneral.DataCatStatus[] = [];
   public catAgents: entityGeneral.DataCatAgents[] = [];
 
@@ -75,13 +76,6 @@ export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getCatalogs() {
-    this.moduleServices.getCatType().subscribe({
-      next: (data: entityGeneral.DataCatType[]) => {
-        this.catTypes = data;
-      },
-      error: (error) => console.error(error)
-    });
-
     this.moduleServices.getCatStatus().subscribe({
       next: (data: entityGeneral.DataCatStatus[]) => {
         this.catStatus = data;
@@ -95,6 +89,13 @@ export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy {
       },
       error: (error) => console.error(error)
     });
+
+    this.moduleServices.getCatActivityType().subscribe({
+      next: (data: TableDataActivityType[]) => {
+        this.catActivitiesTypes = data;
+      },
+      error: (error) => console.error(error)
+    })
   }
 
   searchWithFilters() {
@@ -102,10 +103,10 @@ export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy {
 
     if (this.formFilters.get('status').value) filters += `status_id=${this.formFilters.get('status').value}&`;
     if (this.formFilters.get('agent').value) filters += `user_id=${this.formFilters.get('agent').value}&`;
-    if (this.formFilters.get('type').value) filters += `campaign_type_id=${this.formFilters.get('type').value}&`;
+    if (this.formFilters.get('type').value) filters += `activity_type_id=${this.formFilters.get('type').value}&`;
     if (this.formFilters.get('rangeDateStart').value && this.formFilters.get('rangeDateEnd').value) {
-      filters += `start_date=${moment(this.formFilters.get('rangeDateStart').value).format('YYYY-MM-DD')}&`,
-        filters += `end_date=${moment(this.formFilters.get('rangeDateEnd').value).format('YYYY-MM-DD')}&`
+      filters += `start_date=${moment(this.formFilters.get('rangeDateStart').value).format('YYYY-MM-DD')}&`;
+      filters += `end_date=${moment(this.formFilters.get('rangeDateEnd').value).format('YYYY-MM-DD')}&`;
     }
 
     this.getDataTable(filters)
@@ -113,8 +114,7 @@ export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy {
 
   getDataTable(filters?: any) {
     this.moduleServices.getDataTableActivities(filters).subscribe({
-      next: (data: any) => {
-      // next: (data: entity.TableDataCampaingMapper[]) => {
+      next: (data: entity.TableDataActivitiesMapper[]) => {
         this.dataSource.data = data;
         console.log(data);
         
@@ -123,6 +123,18 @@ export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy {
     })
   }
 
+  newData(data=null) {
+    this.dialog.open(ModalNewActivityComponent, {
+      data: {
+        info: data,
+        type: 'activities'
+      },
+      disableClose: true,
+      width: '1000px',
+      maxHeight: '628px',
+      panelClass: 'custom-dialog',
+    });
+  }
 
   editData(data:any) {
     this.dialog.open(ModalNewActivityComponent, {
@@ -131,16 +143,7 @@ export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy {
       width: '1000px',
       maxHeight: '628px',
       panelClass: 'custom-dialog',
-    });  }
- 
-  newData() {
-    this.dialog.open(ModalNewActivityComponent, {
-      data: null,
-      disableClose: true,
-      width: '1000px',
-      maxHeight: '628px',
-      panelClass: 'custom-dialog',
-    });
+    });  
   }
  
   deleteData(id: string) {

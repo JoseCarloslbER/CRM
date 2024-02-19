@@ -101,7 +101,7 @@ export class AllComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getCatalogs() {
-    this.moduleServices.getCatalogBusiness().pipe(takeUntil(this.onDestroy)).subscribe({
+    this.moduleServices.getCatalogBusiness().subscribe({
       next: (data: DataCatBusiness[]) => {
         this.catBusiness = data;
       },

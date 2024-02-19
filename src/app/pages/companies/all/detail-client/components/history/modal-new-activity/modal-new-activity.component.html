@@ -10,30 +10,27 @@
 
         <p class="mb-6">*Campos obligatorios</p>
 
-        <form class="col-12 modal-content-scroll">
+        <form class="col-12 modal-content-scroll" [formGroup]="formData">
             <div>
                 <div class="row">
                     <div class="col-md-6">
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Empresa*</mat-label>
-                            <input matInput>
+                            <input formControlName="company" matInput>
                         </mat-form-field>
 
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Agente*</mat-label>
                             <mat-select placeholder="Seleccionar">
-                                <mat-option value="Agente">Agente 1</mat-option>
-                                <mat-option value="Agente">Agente 2</mat-option>
-                                <mat-option value="Agente">Agente 3</mat-option>
+                                <mat-option [value]="cat.id" *ngFor="let cat of catAgents">
+                                    {{cat.first_name && cat.last_name ? cat?.first_name + ' ' + cat?.last_name : cat?.username |titlecase }}</mat-option>
                             </mat-select>
                         </mat-form-field>
 
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Campaña*</mat-label>
                             <mat-select placeholder="Seleccionar">
-                                <mat-option value="Campaña">Campaña 1</mat-option>
-                                <mat-option value="Campaña">Campaña 2</mat-option>
-                                <mat-option value="Campaña">Campaña 3</mat-option>
+                                <mat-option [value]="cat.campaign_id" *ngFor="let cat of catCampaing">{{cat?.campaign_name || '-'}}</mat-option>
                             </mat-select>
                         </mat-form-field>
 
@@ -58,18 +55,14 @@
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Negocios abiertos</mat-label>
                             <mat-select placeholder="Seleccionar">
-                                <mat-option value="Negocios abiertos">Negocios abiertos 1</mat-option>
-                                <mat-option value="Negocios abiertos">Negocios abiertos 2</mat-option>
-                                <mat-option value="Negocios abiertos">Negocios abiertos 3</mat-option>
+                                <mat-option >Pendiente</mat-option>
                             </mat-select>
                         </mat-form-field>
 
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Tipo de actividad</mat-label>
                             <mat-select placeholder="Seleccionar">
-                                <mat-option value="Tipo de actividad">Tipo de actividad 1</mat-option>
-                                <mat-option value="Tipo de actividad">Tipo de actividad 2</mat-option>
-                                <mat-option value="Tipo de actividad">Tipo de actividad 3</mat-option>
+                                <mat-option [value]="cat.type_activity_id" *ngFor="let cat of catCompanyType">{{cat?.activity  || '-'}}</mat-option>
                             </mat-select>
                         </mat-form-field>
 

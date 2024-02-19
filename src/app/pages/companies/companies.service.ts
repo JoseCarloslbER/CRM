@@ -5,6 +5,7 @@ import { Observable, map } from 'rxjs';
 import * as entity from './companies-interface';
 import * as entityGeneral from '../../shared/interfaces/general-interface';
 import { Mapper } from './mapper';
+import { TableDataActivityType } from '../config/config-interface';
 
 @Injectable({
   providedIn: 'root'
@@ -63,6 +64,18 @@ export class CompaniesService {
 		const url = `${environment.apiURL}catch/campaign-list/`;
 
     return this.http.get<entityGeneral.DataCatCampaing[]>(url)
+	}
+
+  public getCatActivityType(): Observable<TableDataActivityType[]> {
+		const url = `${environment.apiURL}settings/activity-type/`;
+
+    return this.http.get<TableDataActivityType[]>(url);
+	}
+
+  public getCatAgents(): Observable<entityGeneral.DataCatAgents[]> {
+		const url = `${environment.apiURL}auth/user/`;
+
+    return this.http.get<entityGeneral.DataCatAgents[]>(url)
 	}
   
 

@@ -5,6 +5,7 @@ import { Observable, map } from 'rxjs';
 import { Mapper } from './mapper';
 import * as entityGeneral from '../../shared/interfaces/general-interface';
 import * as entity from './management-interface';
+import { TableDataActivityType } from '../config/config-interface';
 
 @Injectable({
   providedIn: 'root'
@@ -55,6 +56,13 @@ export class ManagementmentService {
     return this.http.get<entityGeneral.DataCatCompany[]>(url)
 	}
 
+  public getCatActivityType(): Observable<TableDataActivityType[]> {
+		const url = `${environment.apiURL}settings/activity-type/`;
+
+    return this.http.get<TableDataActivityType[]>(url);
+	}
+
+
   // END CATALOGS 
 
 
@@ -67,8 +75,7 @@ export class ManagementmentService {
     );
 	}
 
-  // public getDataId(id:string): Observable<entity.TableDataActivitiesMapper> {
-  public getDataId(id:string): Observable<any> {
+  public getDataId(id:string): Observable<entity.TableDataActivitiesMapper> {
 		const url = `${this.apiUrl}activity/${id}/`;
 
     return this.http.get<entity.TableDataActivities>(url).pipe(
