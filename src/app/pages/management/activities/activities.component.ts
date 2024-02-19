@@ -5,12 +5,14 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { ModalNewActivityComponent } from 'app/pages/companies/all/detail-client/components/history/modal-new-activity/modal-new-activity.component';
-import { Subject, debounceTime, takeUntil } from 'rxjs';
+import { Subject, Subscription, debounceTime, takeUntil } from 'rxjs';
 import { ManagementmentService } from '../management.service';
 import * as entityGeneral from '../../../shared/interfaces/general-interface';
 import moment from 'moment';
 import * as entity from '../management-interface';
 import { TableDataActivityType } from 'app/pages/config/config-interface';
+import { UpdateComponentsService } from 'app/pages/config/company-categories/components/components.service';
+import { ModalFinallyComponent } from './modal-finally/modal-finally.component';
 
 @Component({
   selector: 'app-activities',
@@ -18,6 +20,7 @@ import { TableDataActivityType } from 'app/pages/config/config-interface';
 })
 export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy {
   private onDestroy = new Subject<void>();
+  private updateSubscription: Subscription;
 
   public dataSource = new MatTableDataSource<any>([]);
   @ViewChild(MatPaginator) paginator!: MatPaginator
@@ -33,7 +36,7 @@ export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy {
     'agent', 
     'activityType', 
     'register', 
-    'finally', 
+    'endDate', 
     'description', 
     'actions', 
   ];
@@ -43,10 +46,10 @@ export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy {
     agent: [{ value: '', disabled: false }],
     type: [{ value: '', disabled: false }],
     rangeDateStart: [{ value: '', disabled: false }],
-    rangeDateEnd: [{ value: '', disabled: false }],
+    rangeDateEnd: [{ value: '', disabled: false }]
   });
 
-  public searchBar = new FormControl('')
+  public searchBar = new FormControl('');
   
   public fechaHoy = new Date();
 
@@ -56,15 +59,16 @@ export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(
     private moduleServices: ManagementmentService,
+    private updateService: UpdateComponentsService,
     private notificationService: OpenModalsService,
     private formBuilder: FormBuilder,
-    private dialog: MatDialog,
+    private dialog: MatDialog
   ) { }
 
-  // al crear poner proceso: 'Actividades' 
-  // si es en llamadas poner en proceso : 'llamadas '
-
   ngOnInit(): void {
+    this.updateSubscription = this.updateService.updateEvent$.subscribe(() => {
+      this.getDataTable();
+    });
     this.getDataTable();
     this.getCatalogs()
   }
@@ -123,7 +127,7 @@ export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy {
     })
   }
 
-  newData(data=null) {
+  newOrEditData(data = null) {
     this.dialog.open(ModalNewActivityComponent, {
       data: {
         info: data,
@@ -136,16 +140,19 @@ export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  editData(data:any) {
-    this.dialog.open(ModalNewActivityComponent, {
-      data: ['test'],
+  finally(data = null) {
+    this.dialog.open(ModalFinallyComponent, {
+      data: {
+        info: data,
+        type: 'activities'
+      },
       disableClose: true,
-      width: '1000px',
+      width: '350px',
       maxHeight: '628px',
       panelClass: 'custom-dialog',
-    });  
+    });
   }
- 
+
   deleteData(id: string) {
     this.notificationService
     .notificacion(

@@ -95,7 +95,7 @@ export class NewCampingnComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getDataById() {
-    this.moduleServices.getDataId(this.idData).pipe(takeUntil(this.onDestroy)).subscribe({
+    this.moduleServices.getDataId(this.idData).subscribe({
       next: (response: any) => {
         this.objEditData = response;
         this.formData.patchValue({ ...this.objEditData });
@@ -110,7 +110,7 @@ export class NewCampingnComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getCatalogs() {
-    this.moduleServices.getCatBusiness().pipe(takeUntil(this.onDestroy)).subscribe({
+    this.moduleServices.getCatBusiness().subscribe({
       next: (data: entityGeneral.DataCatBusiness[]) => {
         this.catBusiness = data;;
       },

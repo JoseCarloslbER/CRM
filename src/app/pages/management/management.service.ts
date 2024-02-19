@@ -50,7 +50,7 @@ export class ManagementmentService {
     return this.http.get<entityGeneral.DataCatProductCategory[]>(url)
 	}
 
-  public getCatCompany(filters:any): Observable<entityGeneral.DataCatCompany[]> {
+  public getCatCompany(filters?:any): Observable<entityGeneral.DataCatCompany[]> {
 		const url = `${environment.apiURL}company/company/${filters ? `?${filters}` : ''}`;
 
     return this.http.get<entityGeneral.DataCatCompany[]>(url)
@@ -60,6 +60,12 @@ export class ManagementmentService {
 		const url = `${environment.apiURL}settings/activity-type/`;
 
     return this.http.get<TableDataActivityType[]>(url);
+	}
+
+  public getCatCampaing(): Observable<entityGeneral.DataCatCampaing[]> {
+		const url = `${environment.apiURL}catch/campaign-list/`;
+
+    return this.http.get<entityGeneral.DataCatCampaing[]>(url)
 	}
 
 
@@ -75,11 +81,11 @@ export class ManagementmentService {
     );
 	}
 
-  public getDataId(id:string): Observable<entity.TableDataActivitiesMapper> {
+  public getDataId(id:string): Observable<entity.GetDataActivitiesMapper> {
 		const url = `${this.apiUrl}activity/${id}/`;
 
     return this.http.get<entity.TableDataActivities>(url).pipe(
-			map((response) => Mapper.getDataActivitiesMapper(response))
+			map((response) => Mapper.getDataMapper(response))
 		);
 	}
 

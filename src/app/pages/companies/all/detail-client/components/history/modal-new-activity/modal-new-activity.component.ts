@@ -2,10 +2,13 @@ import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
-import { Observable, Subject, debounceTime, map, startWith } from 'rxjs';
+import { Observable, Subject, map, startWith } from 'rxjs';
 import * as entityGeneral from '../../../../../../../shared/interfaces/general-interface';
-import { CompaniesService } from 'app/pages/companies/companies.service';
+import * as entityManager from '../../../../../../management/management-interface';
 import { TableDataActivityType } from 'app/pages/config/config-interface';
+import { ManagementmentService } from 'app/pages/management/management.service';
+import moment from 'moment';
+import { UpdateComponentsService } from 'app/pages/config/company-categories/components/components.service';
 
 @Component({
   selector: 'app-modal-new-activity',
@@ -20,6 +23,7 @@ import { TableDataActivityType } from 'app/pages/config/config-interface';
 })
 export class ModalNewActivityComponent implements OnInit, OnDestroy {
   private onDestroy = new Subject<void>();
+  public filteredOptions: Observable<any[]>;
 
   public formData = this.formBuilder.group({
     description: [null],
@@ -30,19 +34,22 @@ export class ModalNewActivityComponent implements OnInit, OnDestroy {
     type_activity: [null],
     campaign: [null, Validators.required],
   });
+  
+  public company = new FormControl(null);
 
   public catAgents: entityGeneral.DataCatAgents[] = [];
   public catCampaing: entityGeneral.DataCatCampaing[] = [];
   public catCompanyType: TableDataActivityType[] = [];
-  // public catCompanies: entityGeneral.DataCatCompany[] = [];
-  
   public catCompanies: any[] = [];
-  company = new FormControl(null);
-  filteredOptions: Observable<any[]>;
+
+  public objEditData: any;
+
   public companySelected : string = '';
+  public idData : string = '';
   
   constructor(
-    private moduleServices: CompaniesService,
+    private moduleManagementServices: ManagementmentService,
+    private updateService: UpdateComponentsService,
     private formBuilder: FormBuilder,
     private notificationService: OpenModalsService,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -52,10 +59,11 @@ export class ModalNewActivityComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     console.log(this.data);
 
+    this.assignInformation();
+
     setTimeout(() => {
-      
       this.getCatalogs() 
-    }, 100);
+    }, 500);
 
     this.filteredOptions = this.company.valueChanges.pipe(
       startWith(''),
@@ -63,29 +71,53 @@ export class ModalNewActivityComponent implements OnInit, OnDestroy {
     );
   }
 
+  assignInformation() {
+    if (this.data.info) {
+      this.idData = this.data?.info?.id;
+      this.getDataById() 
+    } 
+  }
+
+  getDataById() {
+    console.log(this.objEditData);
+    
+    this.moduleManagementServices.getDataId(this.idData).subscribe({
+      next: (response: entityManager.GetDataActivitiesMapper) => {
+        console.log(response);
+        this.objEditData = response;
+        this.formData.patchValue(this.objEditData);
+        this.company.patchValue(this.objEditData.companyName)
+      },
+      error: (error) => {
+        this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
+        console.error(error)
+      }
+    })
+  }
+
   getCatalogs() {
-    this.moduleServices.getCatCampaing().subscribe({
+    this.moduleManagementServices.getCatCampaing().subscribe({
       next: (data: entityGeneral.DataCatCampaing[]) => {
         this.catCampaing = data;
       },
       error: (error) => console.error(error)
     });
 
-    this.moduleServices.getCatActivityType().subscribe({
+    this.moduleManagementServices.getCatActivityType().subscribe({
       next: (data: TableDataActivityType[]) => {
         this.catCompanyType = data;
       },
       error: (error) => console.error(error)
     });
 
-    this.moduleServices.getCatAgents().subscribe({
+    this.moduleManagementServices.getCatAgents().subscribe({
       next: (data: entityGeneral.DataCatAgents[]) => {
         this.catAgents = data;
       },
       error: (error) => console.error(error)
     });
     
-    this.moduleServices.getCatCompany().subscribe({
+    this.moduleManagementServices.getCatCompany().subscribe({
       next: (data: entityGeneral.DataCatCompany[]) => {
         this.catCompanies = data;
         console.log('Company', data);
@@ -94,25 +126,74 @@ export class ModalNewActivityComponent implements OnInit, OnDestroy {
     });
   }
 
-  save() {
-    console.log(this.company.value);
+  actionSave() {
     let objData :any = {
       ...this.formData.value,
-      company : this.companySelected
+      company : this.companySelected,
     }
 
-    console.log(objData);
+    objData.activity_date = moment(this.formData.get('activity_date').value).format('YYYY-MM-DD');
+
+    if (this.data.type == 'activities') {
+      objData.process = 'Actividades';
+      console.log(objData);
+      this.saveDataPostPatchActivities(objData);
+
+    } else if (this.data.type == 'calls') {
+      objData.process = 'Llamadas'
+      this.saveDataPostPatchCalls(objData);
+
+    } else {
+      objData.process = 'Agenda';
+      this.saveDataPostPatchDaily(objData);
+    }
+  }
+
+  saveDataPostPatchActivities(objData: any) {
+    this.saveData(this.objEditData, this.moduleManagementServices.postData(objData), this.moduleManagementServices.patchData(this.idData, objData));
+  }
+  
+  saveDataPostPatchCalls(objData: any) {
+    // this.saveData(this.objEditData, this.moduleServices.postDataBusiness(objData), this.moduleServices.patchDataBusiness(this.objEditData?.business_id, objData));
+  }
+ 
+  saveDataPostPatchDaily(objData: any) {
+    // this.saveData(this.objEditData, this.moduleServices.postDataBusiness(objData), this.moduleServices.patchDataBusiness(this.objEditData?.business_id, objData));
+  }
+  
+  saveData(editData: any, postMethod: Observable<any>, patchMethod: Observable<any>) {
+    const dataService = editData ? patchMethod : postMethod;
+  
+    dataService.subscribe({
+      next: () => this.completionMessage(editData !== null),
+      error: (error) => {
+        this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error');
+        console.error(error);
+      }
+    });
   }
 
   private _filter(value: any): any[] {
-    const filterValue = value.toLowerCase();
-    return this.catCompanies.filter(option => option.companyName.toLowerCase().includes(filterValue));
+    const filterValue = value?.toLowerCase();
+    
+    return this.catCompanies.filter(option => option?.company_name?.toLowerCase()?.includes(filterValue));
   }
 
+  completionMessage(edit = false) {
+    this.notificationService
+      .notificacion(
+        'Éxito',
+        `Registro ${edit ? 'editado' : 'guardado'}.`,
+        'save',
+      )
+      .afterClosed()
+      .subscribe((_) => this.closeModal());
+  }
+
+
   closeModal() {
-    this.dialogRef.close({
-      close: true
-    })
+    this.updateService.triggerUpdate(); 
+    this.dialogRef.close({ close: true })
   }
 
   ngOnDestroy(): void {

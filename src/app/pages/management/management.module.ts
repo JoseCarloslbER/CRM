@@ -6,13 +6,15 @@ import { MaterialModule } from 'app/shared/material/material.module';
 import { MANAGEMENT_ROUTES } from './management.routes';
 import { ManagementComponent } from './management.component';
 import { ActivitiesComponent } from './activities/activities.component';
+import { ModalFinallyComponent } from './activities/modal-finally/modal-finally.component';
 
 
 
 @NgModule({
   declarations: [
     ManagementComponent,
-    ActivitiesComponent
+    ActivitiesComponent,
+    ModalFinallyComponent
   ],
   imports: [
     CommonModule,
