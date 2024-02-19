@@ -38,11 +38,11 @@ export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy {
   ];
 
   public formFilters = this.formBuilder.group({
-    status: [{ value: null, disabled: false }],
-    agent: [{ value: null, disabled: false }],
-    type: [{ value: null, disabled: false }],
-    rangeDateStart: [{ value: null, disabled: false }],
-    rangeDateEnd: [{ value: null, disabled: false }],
+    status: [{ value: '', disabled: false }],
+    agent: [{ value: '', disabled: false }],
+    type: [{ value: '', disabled: false }],
+    rangeDateStart: [{ value: '', disabled: false }],
+    rangeDateEnd: [{ value: '', disabled: false }],
   });
 
   public searchBar = new FormControl('')
