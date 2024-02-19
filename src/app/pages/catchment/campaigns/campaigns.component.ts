@@ -160,7 +160,7 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  seeDataModal(type: string, data: entity.User | entity.Company) {
+  seeDataModal(type: string, data: entityGeneral.User | entity.Company) {
     this.dialog.open(ModalInformationInTableComponent, {
       data: {
         type: type,

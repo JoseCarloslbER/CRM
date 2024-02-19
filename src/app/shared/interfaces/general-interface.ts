@@ -20,6 +20,21 @@ export interface DataCatPlatform {
   platform_id: string;
 }
 
+export interface User {
+  campaign: string;
+  campaign_user_id: string;
+  user: Owner;
+  status: string;
+}
+
+export interface Company {
+  campaign: string;
+  company: any;
+  campaign_company_id: string;
+  status: string;
+  total_quote: string;
+  total_sale: string;
+}
 export interface DataCatType {
   campaign_type_id: string;
   campaign_type_name: string;

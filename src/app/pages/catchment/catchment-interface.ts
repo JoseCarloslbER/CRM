@@ -37,7 +37,7 @@ export interface TableDataCampaing {
   owner_user_id: string;
   campaign_id: string;
   campaign_type_id: string;
-  users: User[];
+  users: entityGeneral.User[];
   companies: Company[];
   product_category: Product;
   owner_user: entityGeneral.Owner;
@@ -75,12 +75,6 @@ export interface TableDataCampaingMapper {
       totalAmount: string
     }
   };
-}
-export interface User {
-  campaign: string;
-  campaign_user_id: string;
-  user: entityGeneral.Owner;
-  status: string;
 }
 
 export interface GetDataCampainMapper {
