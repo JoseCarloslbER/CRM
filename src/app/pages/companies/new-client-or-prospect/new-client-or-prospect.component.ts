@@ -19,9 +19,9 @@ import { TableDataOrigin } from 'app/pages/config/config-interface';
 export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDestroy {
   private onDestroy = new Subject<void>();
 
-  public addContact = new FormControl(true)
-  public movilPhoneContact = new FormControl('555555')
-  public nameContact = new FormControl('TEST contact')
+  public addContact = new FormControl(false)
+  public movilPhoneContact = new FormControl('', Validators.required)
+  public nameContact = new FormControl('', Validators.required)
   public contacts: any[] = []
   public valuesContacts: any[] = []
 
@@ -30,22 +30,38 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
   public esClient: boolean = false;
 
   public formData = this.formBuilder.group({
-    company_name: ['TEST', Validators.required],
-    platform: ['d521a2a3-5f3c-4bb1-a732-fe6af76b8fb7'],
-    phone_number: ['6689898989'],
+    company_name: ['', Validators.required],
+    platform: [''],
+    phone_number: [''],
     email: ['', Validators.required],
     tax_id_number: ['', Validators.required],
-    state: ['', Validators.required],
+    state: ['', Validators.required], //poner validación al ser completo
     owner_user: ['', Validators.required],
-    country: [''],
+    country: [''], //poner validación al ser completo
     business: [''],
-    city: [''],
+    city: [''], //poner validación al ser completo
     address: [''],
-    company_type: [''],
-    company_size: [''],
-    web_page: ['https://fonts.google.com/icons'],
-    comments: ['TEST'],
-    company_phase: ['ec43fa4e-1ade-46ea-9841-1692074ce8cd'],
+    company_type: [''], //poner validación al ser completo
+    company_size: [''], //poner validación al ser completo
+    web_page: [''],
+    comments: [''],
+    company_phase: [''],
+    // company_name: ['TEST completo', Validators.required],
+    // platform: ['d521a2a3-5f3c-4bb1-a732-fe6af76b8fb7'],
+    // phone_number: ['6689898989'],
+    // email: ['testCompleDDDDDo@gmail.com', Validators.required],
+    // tax_id_number: ['rfc completo', Validators.required],
+    // state: ['', Validators.required], //poner validación al ser completo
+    // owner_user: ['b77cc580-1841-4614-ab78-a0c0d8159c5f', Validators.required],
+    // country: [''], //poner validación al ser completo
+    // business: ['73e8c289-f684-4c00-a975-085cf146a1c4'],
+    // city: [''], //poner validación al ser completo
+    // address: ['address completo'],
+    // company_type: ['8b793949-1aba-4231-9c5a-b8747e13c11d'], //poner validación al ser completo
+    // company_size: ['47b78bbc-2deb-43b5-a7c8-49552bc206dc'], //poner validación al ser completo
+    // web_page: ['https://fonts.google.com/icon4s'],
+    // comments: ['TEST'],
+    // company_phase: ['ec43fa4e-1ade-46ea-9841-1692074ce8cd'],
   });
 
   // COMPANY_PHASE_CLIENTE = "d1203730-3ac8-4f06-b095-3ec56ef3b54d"
@@ -57,6 +73,7 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
   public catStates: entityGeneral.DataCatState[] = [];
   public catCities: entityGeneral.DataCatCity[] = [];
   public catBusiness: entityGeneral.DataCatBusiness[] = [];
+  public catAgents: entityGeneral.DataCatAgents[] = [];
   public catOrigin: TableDataOrigin[] = [];
 
   public title: string = 'cliente';
@@ -85,7 +102,7 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
   verifyType() {
     if (this.url.includes('prospecto')) {
       this.title = 'prospecto';
-      this.addContact.patchValue(false)
+      // this.addContact.patchValue(false)
       this.getCatalogsInitial()
     } else {
       this.getCatalogsInitial()
@@ -98,10 +115,6 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     this.addContact.valueChanges.pipe(takeUntil(this.onDestroy)).subscribe(resp => {
       console.log(resp);
     })
-
-    setTimeout(() => {
-      // this.getCatalogs()
-    }, 500);
   }
 
   getId() {
@@ -130,6 +143,13 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
   }
 
   getCatalogs() {
+    this.moduleServices.getCatAgents().pipe(takeUntil(this.onDestroy)).subscribe({
+      next: (data: entityGeneral.DataCatAgents[]) => {
+        this.catAgents = data;
+      },
+      error: (error) => console.error(error)
+    });
+
     this.moduleServices.getCatalogCompanySize().pipe(takeUntil(this.onDestroy)).subscribe({
       next: (data: entityGeneral.DataCatCompanySize[]) => {
         this.catCompaniesSizes = data;
@@ -230,11 +250,9 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
 
     let objData : any = {
       ...this.formData.value,
-      // platform : 
     }
 
     if (!contacts.length) {
-        console.log('Agregar objeto :');
         contacts.push({
           full_name : this.nameContact.value,
           movil_phone : this.movilPhoneContact.value,

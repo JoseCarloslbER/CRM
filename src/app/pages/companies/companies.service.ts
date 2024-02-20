@@ -19,13 +19,13 @@ export class CompaniesService {
    // CATALOGS
   
    public getCatalogCompanySize(): Observable<entityGeneral.DataCatCompanySize[]> {
-		const url = `${environment.apiURL}conversion/company-size/`;
+		const url = `${environment.apiURL}settings/company-size/`;
 
     return this.http.get<entityGeneral.DataCatCompanySize[]>(url)
 	}
 
   public getCatalogCompanyType(): Observable<entityGeneral.DataCatCompanyType[]> {
-		const url = `${environment.apiURL}conversion/company-type/`;
+		const url = `${environment.apiURL}settings/company-type/`;
 
     return this.http.get<entityGeneral.DataCatCompanyType[]>(url)
 	}

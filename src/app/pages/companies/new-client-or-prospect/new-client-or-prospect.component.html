@@ -2,7 +2,6 @@
     <div class="return-header">
         <mat-icon svgIcon="mat_solid:arrow_back" (click)="toBack()"></mat-icon>
         <p class="titulo-modal form-padding-title">Registrar nuevo {{ title }}</p>
-        <!-- <p class="titulo-modal form-padding-title">{{ url.includes('editar') ? 'Editar' : 'Registrar nuevo'}} cliente</p> -->
     </div>
 
     <div class="row form-padding d-flex">
@@ -15,21 +14,28 @@
                             <mat-label>Nombre de la empresa (razón social)</mat-label>
                             <input formControlName="company_name" matInput>
                         </mat-form-field>
-                        
+
                         <mat-form-field class="gt-xs:pr-3 inputNewRegister" *ngIf="!addContact?.value">
-                            <mat-label>Teléfono móvil*</mat-label>
+                            <mat-label>Teléfono móvil</mat-label>
                             <input [formControl]="movilPhoneContact" matInput>
                         </mat-form-field>
 
                         <mat-form-field class="gt-xs:pr-3 inputNewRegister" *ngIf="addContact?.value">
-                            <mat-label>RFC*</mat-label>
+                            <mat-label>RFC</mat-label>
                             <input formControlName="tax_id_number" matInput>
                         </mat-form-field>
 
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister" *ngIf="addContact?.value">
-                            <mat-label>Ciudad</mat-label>
-                            <mat-select formControlName="country" placeholder="Seleccionar">
-                                <mat-option [value]="cat.city_id" *ngFor="let cat of catCities">{{cat?.city_name || '-'}}</mat-option>
+                            <mat-label>Giro</mat-label>
+                            <mat-select formControlName="business" placeholder="Seleccionar">
+                                <mat-option [value]="cat.business_id " *ngFor="let cat of catBusiness">{{cat?.business_name  || '-'}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister" *ngIf="addContact?.value">
+                            <mat-label>Estado</mat-label>
+                            <mat-select formControlName="state" placeholder="Seleccionar">
+                                <mat-option [value]="cat.state_id " *ngFor="let cat of catStates">{{cat?.state_name  || '-'}}</mat-option>
                             </mat-select>
                         </mat-form-field>
 
@@ -41,22 +47,15 @@
                         </mat-form-field>
 
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
-                            <mat-label>Comentario*</mat-label>
+                            <mat-label>Comentario</mat-label>
                             <textarea formControlName="comments" matInput style="height: 118px;"></textarea>
                         </mat-form-field>
                     </div>
 
                     <div class="col-md-4">
                         <mat-form-field class="gt-xs:pr-3 inputNewRegister" *ngIf="!addContact?.value">
-                            <mat-label>Contacto*</mat-label>
+                            <mat-label>Contacto</mat-label>
                             <input [formControl]="nameContact" matInput>
-                        </mat-form-field>
-                        
-                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
-                            <mat-label>Origen</mat-label>
-                            <mat-select formControlName="platform" placeholder="Seleccionar">
-                                <mat-option [value]="cat.platform_id" *ngFor="let cat of catOrigin">{{cat?.platform_name || '-'}}</mat-option>
-                            </mat-select>
                         </mat-form-field>
 
                         <mat-form-field class="gt-xs:pr-3 inputNewRegister">
@@ -65,18 +64,21 @@
                         </mat-form-field>
 
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister" *ngIf="addContact?.value">
-                            <mat-label>País</mat-label>
-                            <mat-select formControlName="country"  placeholder="Seleccionar">
-                                <mat-option [value]="cat.country_id" *ngFor="let cat of catCountries">{{cat?.country_name || '-'}}</mat-option>
-                            </mat-select>
+                            <mat-label>Correo</mat-label>
+                            <input formControlName="email" matInput required type="email">
                         </mat-form-field>
 
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister" *ngIf="addContact?.value">
                             <mat-label>Propietario (agente)</mat-label>
                             <mat-select formControlName="owner_user" placeholder="Seleccionar">
-                                <mat-option value="Pais 1">Propietario (agente) 1</mat-option>
-                                <mat-option value="Propietario (agente) 2">Propietario (agente) 2</mat-option>
-                                <mat-option value="Propietario (agente) 3">Propietario (agente) 3</mat-option>
+                                <mat-option [value]="cat.id" *ngFor="let cat of catAgents">
+                                    {{cat.first_name && cat.last_name ? cat?.first_name + ' ' + cat?.last_name : cat?.username |titlecase }}</mat-option>                            </mat-select>
+                        </mat-form-field>
+
+                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister" *ngIf="addContact?.value">
+                            <mat-label>Ciudad</mat-label>
+                            <mat-select formControlName="country" placeholder="Seleccionar">
+                                <mat-option [value]="cat.city_id" *ngFor="let cat of catCities">{{cat?.city_name || '-'}}</mat-option>
                             </mat-select>
                         </mat-form-field>
 
@@ -86,7 +88,33 @@
                                 <mat-option [value]="cat.company_size_id " *ngFor="let cat of catCompaniesSizes">{{cat?.size_name  || '-'}}</mat-option>
                             </mat-select>
                         </mat-form-field>
-                     
+                    </div>
+
+                    <div class="col-md-4">
+                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
+                            <mat-label>Teléfono fijo</mat-label>
+                            <input formControlName="phone_number"  matInput>
+                        </mat-form-field>
+
+                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
+                            <mat-label>Origen</mat-label>
+                            <mat-select formControlName="platform" placeholder="Seleccionar">
+                                <mat-option [value]="cat.platform_id" *ngFor="let cat of catOrigin">{{cat?.platform_name || '-'}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister" *ngIf="addContact?.value">
+                            <mat-label>País</mat-label>
+                            <mat-select formControlName="country"  placeholder="Seleccionar">
+                                <mat-option [value]="cat.country_id" *ngFor="let cat of catCountries">{{cat?.country_name || '-'}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <mat-form-field class="gt-xs:pr-3 inputNewRegister" *ngIf="addContact?.value">
+                            <mat-label>Domicilio</mat-label>
+                            <input formControlName="address" matInput placeholder="Colonia, calle y número">
+                        </mat-form-field>
+
                         <div class="flex-auto gt-xs:pr-3 width-100 mt-4 mb-4" *ngIf="addContact?.value">
                             <div class="row d-flex up">
                                 <div class="col-md-8">
@@ -103,44 +131,13 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="col-md-4">
-                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
-                            <mat-label>Teléfono fijo*</mat-label>
-                            <input formControlName="phone_number"  matInput>
-                        </mat-form-field>
-
-                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister" *ngIf="addContact?.value">
-                            <mat-label>Correo</mat-label>
-                            <input formControlName="email" matInput required type="email">
-                        </mat-form-field>
-                        
-                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister" *ngIf="addContact?.value">
-                            <mat-label>Estado*</mat-label>
-                            <mat-select formControlName="state" placeholder="Seleccionar">
-                                <mat-option [value]="cat.state_id " *ngFor="let cat of catStates">{{cat?.state_name  || '-'}}</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-
-                        <mat-form-field class="gt-xs:pr-3 inputNewRegister" *ngIf="addContact?.value">
-                            <mat-label>Domicilio</mat-label>
-                            <input formControlName="address" matInput placeholder="Colonia, calle y número">
-                        </mat-form-field>
-
-                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister" *ngIf="addContact?.value">
-                            <mat-label>Giro</mat-label>
-                            <mat-select formControlName="business" placeholder="Seleccionar">
-                                <mat-option [value]="cat.business_id " *ngFor="let cat of catBusiness">{{cat?.business_name  || '-'}}</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
                 </div>
 
-                <div class="input-check mt-1" *ngIf="!esClient">
+                <!-- <div class="input-check mt-1" *ngIf="!esClient">
                     <mat-checkbox class="mb-2" [checked]="true" [formControl]="addContact">
                         Realizar el registro completo
                     </mat-checkbox>
-                </div>
+                </div> -->
 
                 <div class="row mb-lg-0 mb-sm-0 mb-3">
                     <div class="section-header-modal">
