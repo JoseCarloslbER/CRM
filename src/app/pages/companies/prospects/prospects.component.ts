@@ -125,11 +125,11 @@ export class ProspectsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   newData() {
-    this.router.navigateByUrl(`/home/empresas/todos-nuevo-cliente`)
+    this.router.navigateByUrl(`/home/empresas/nuevo-prospecto`)
   }
 
   editData(id: string) {
-    this.router.navigateByUrl(`/home/empresas/editar-cliente/${id}`)
+    this.router.navigateByUrl(`/home/empresas/editar-prospecto/${id}`)
   }
 
 

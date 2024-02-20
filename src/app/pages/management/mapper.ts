@@ -6,7 +6,6 @@ export class Mapper {
 
 		response.forEach((data: entity.TableDataActivities): void => {
 			dataList.push({
-				dataOrigin: data,
 				id: data?.activity_id || '-',
 				nameLogo : {name : data?.company?.company_name || '-', logo : data?.company ? data?.company?.logo.includes('default') ? `../../../assets/images/default.png` : data?.company?.logo : `../../../assets/images/default.png`},
 				activity_date: data?.activity_date || '-',

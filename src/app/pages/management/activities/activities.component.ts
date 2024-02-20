@@ -28,8 +28,6 @@ export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy {
   public total = 0;
   public indicePagina = 0;
 
-  // TABLA 
-
   public displayedColumns: string[] = [
     'name', 
     'process', 
@@ -121,7 +119,6 @@ export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy {
       next: (data: entity.TableDataActivitiesMapper[]) => {
         this.dataSource.data = data;
         console.log(data);
-        
       },
       error: (error) => console.error(error)
     })

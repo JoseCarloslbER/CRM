@@ -20,7 +20,6 @@ export interface TableDataActivities {
 }
 
 export interface TableDataActivitiesMapper {
-  dataOrigin:any;
   id: string;
   nameLogo: object
   activity_date: string;

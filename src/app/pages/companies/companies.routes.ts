@@ -4,9 +4,8 @@ import { ProspectsComponent } from './prospects/prospects.component';
 import { LeadsComponent } from './leads/leads.component';
 import { ClientsComponent } from './clients/clients.component';
 import { CompaniesComponent } from './companies.component';
-import { NewClientComponent } from './all/new-client/new-client.component';
 import { DetailClientComponent } from './all/detail-client/detail-client.component';
-import { NewProspectComponent } from './prospects/new-prospect/new-prospect.component';
+import { NewClientOrProspectComponent } from './new-client-or-prospect/new-client-or-prospect.component';
 
 
 const companiesRoutes: Routes = [
@@ -21,11 +20,7 @@ const companiesRoutes: Routes = [
 			},
 			{
 				path: 'nuevo-cliente',
-				component: NewClientComponent,
-			},
-			{
-				path: 'todos-nuevo-cliente',
-				component: NewClientComponent,
+				component: NewClientOrProspectComponent,
 			},
 			{
 				path: 'detalle-cliente/:id',
@@ -33,7 +28,7 @@ const companiesRoutes: Routes = [
 			},
 			{
 				path: 'editar-cliente/:id',
-				component: NewClientComponent,
+				component: NewClientOrProspectComponent,
 			},
 			{
 				path: 'prospectos',
@@ -41,7 +36,7 @@ const companiesRoutes: Routes = [
 			},
 			{
 				path: 'nuevo-prospecto',
-				component: NewProspectComponent,
+				component: NewClientOrProspectComponent,
 			},
 			{
 				path: 'detalle-prospecto/:id',
@@ -49,7 +44,7 @@ const companiesRoutes: Routes = [
 			},
 			{
 				path: 'editar-prospecto/:id',
-				component: NewProspectComponent,
+				component: NewClientOrProspectComponent,
 			},
 			{
 				path: 'leads',

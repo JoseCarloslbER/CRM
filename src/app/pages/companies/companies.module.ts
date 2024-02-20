@@ -10,7 +10,6 @@ import { AllComponent } from './all/all.component';
 import { LeadsComponent } from './leads/leads.component';
 import { ClientsComponent } from './clients/clients.component';
 import { ModalFastQuoteComponent } from './prospects/modal-fast-quote/modal-fast-quote.component';
-import { NewClientComponent } from './all/new-client/new-client.component';
 import { DetailClientComponent } from './all/detail-client/detail-client.component';
 import { AdvertisingComponent } from './all/detail-client/components/advertising/advertising.component';
 import { CallsComponent } from './all/detail-client/components/calls/calls.component';
@@ -25,6 +24,7 @@ import { HistoryComponent } from './all/detail-client/components/history/history
 import { FormatoFechaPipe } from 'app/shared/pipe/fecha.pipe';
 import { ModalNewActivityComponent } from './all/detail-client/components/history/modal-new-activity/modal-new-activity.component';
 import { NewProspectComponent } from './prospects/new-prospect/new-prospect.component';
+import { NewClientOrProspectComponent } from './new-client-or-prospect/new-client-or-prospect.component';
 
 
 
@@ -36,7 +36,6 @@ import { NewProspectComponent } from './prospects/new-prospect/new-prospect.comp
     LeadsComponent,
     ClientsComponent,
     ModalFastQuoteComponent,
-    NewClientComponent,
     DetailClientComponent,
     AdvertisingComponent,
     CallsComponent,
@@ -50,7 +49,8 @@ import { NewProspectComponent } from './prospects/new-prospect/new-prospect.comp
     HistoryComponent,
     FormatoFechaPipe,
     ModalNewActivityComponent,
-    NewProspectComponent
+    NewProspectComponent,
+    NewClientOrProspectComponent
 
     
   ],

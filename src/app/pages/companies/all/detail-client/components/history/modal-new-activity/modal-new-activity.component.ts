@@ -36,6 +36,7 @@ export class ModalNewActivityComponent implements OnInit, OnDestroy {
   });
   
   public company = new FormControl(null);
+  public img = new FormControl(null);
 
   public catAgents: entityGeneral.DataCatAgents[] = [];
   public catCampaing: entityGeneral.DataCatCampaing[] = [];
@@ -76,6 +77,12 @@ export class ModalNewActivityComponent implements OnInit, OnDestroy {
       this.idData = this.data?.info?.id;
       this.getDataById() 
     } 
+  }
+
+
+  ver(){
+    console.log(this.img.value);
+    
   }
 
   getDataById() {

@@ -45,11 +45,11 @@
                                 <div class="col-md-8">
                                     <div class="d-flex flex-column inputNewRegister">
                                         <mat-label class="mb-1">Adjuntar documento</mat-label>
-                                        <input type="file" name="eta">
+                                        <input [formControl]="img" type="file" name="eta">
                                     </div>
                                 </div>
                                 <div class="col-md-4 d-flex align-items-center justify-content-end mb-3">
-                                    <button class="btn-action-add">
+                                    <button class="btn-action-add" (click)="ver()">
                                         <span>Subir</span>
                                     </button>
                                 </div>

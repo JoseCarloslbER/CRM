@@ -1,24 +1,24 @@
-import { AfterViewInit, Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatDialog } from '@angular/material/dialog';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ModalFastQuoteComponent } from '../../prospects/modal-fast-quote/modal-fast-quote.component';
-import { OpenModalsService } from 'app/shared/services/openModals.service';
-import { CompaniesService } from '../../companies.service';
 import { Subject, takeUntil } from 'rxjs';
-import * as entity from '../../companies-interface';
-import * as entityGeneral from '../../../../shared/interfaces/general-interface';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import * as entityGeneral from '../../../shared/interfaces/general-interface';
+import * as entity from '../companies-interface';
+import { OpenModalsService } from 'app/shared/services/openModals.service';
+import { CompaniesService } from '../companies.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { ModalFastQuoteComponent } from '../prospects/modal-fast-quote/modal-fast-quote.component';
 
 @Component({
-  selector: 'app-new-client',
-  templateUrl: './new-client.component.html',
-  styleUrl: './new-client.component.scss'
+  selector: 'app-new-client-or-prospect',
+  templateUrl: './new-client-or-prospect.component.html',
+  styleUrl: './new-client-or-prospect.component.scss'
 })
-export class NewClientComponent implements OnInit, AfterViewInit, OnDestroy {
+export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDestroy {
   private onDestroy = new Subject<void>();
 
-  public addContact = new FormControl(true)
+  public addContact = new FormControl(false)
   public contacts: any[] = []
   public valuesContacts: any[] = []
 
@@ -44,16 +44,6 @@ export class NewClientComponent implements OnInit, AfterViewInit, OnDestroy {
     comments: [''],
   });
 
-  asd = {
-    "company_phase": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-    "slug": "K5",
-    "amout_quotes": 2147483647,
-    "amout_sales": 2147483647,
-    "total_quotes": "string",
-    "total_sales": "string",
-    "register_date": "2024-02-17",
-    "register_user": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
-  }
 
   public catCompaniesSizes: entityGeneral.DataCatCompanySize[] = [];
   public catCompaniesTypes: entityGeneral.DataCatCompanyType[] = [];
@@ -293,5 +283,4 @@ export class NewClientComponent implements OnInit, AfterViewInit, OnDestroy {
     this.onDestroy.next();
     this.onDestroy.unsubscribe();
   }
-
 }

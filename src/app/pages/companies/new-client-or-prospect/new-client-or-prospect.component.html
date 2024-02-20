@@ -2,7 +2,8 @@
 
     <div class="return-header">
         <mat-icon svgIcon="mat_solid:arrow_back" (click)="toBack()"></mat-icon>
-        <p class="titulo-modal form-padding-title">{{ url.includes('editar') ? 'Editar' : 'Registrar nuevo'}} cliente</p>
+        <p class="titulo-modal form-padding-title">nuevo componente</p>
+        <!-- <p class="titulo-modal form-padding-title">{{ url.includes('editar') ? 'Editar' : 'Registrar nuevo'}} cliente</p> -->
 
     </div>
 
@@ -25,10 +26,10 @@
                             <input matInput>
                         </mat-form-field>
 
-                        <mat-form-field class="gt-xs:pr-3 inputNewRegister" *ngIf="addContact?.value">
+                        <!-- <mat-form-field class="gt-xs:pr-3 inputNewRegister" >
                             <mat-label>Teléfono</mat-label>
                             <input matInput>
-                        </mat-form-field>
+                        </mat-form-field> -->
 
                         <mat-form-field class="gt-xs:pr-3 inputNewRegister" *ngIf="addContact?.value">
                             <mat-label>RFC*</mat-label>
