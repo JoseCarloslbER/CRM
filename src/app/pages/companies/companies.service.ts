@@ -5,7 +5,7 @@ import { Observable, map } from 'rxjs';
 import * as entity from './companies-interface';
 import * as entityGeneral from '../../shared/interfaces/general-interface';
 import { Mapper } from './mapper';
-import { TableDataActivityType } from '../config/config-interface';
+import { TableDataActivityType, TableDataOrigin } from '../config/config-interface';
 
 @Injectable({
   providedIn: 'root'
@@ -76,6 +76,12 @@ export class CompaniesService {
 		const url = `${environment.apiURL}auth/user/`;
 
     return this.http.get<entityGeneral.DataCatAgents[]>(url)
+	}
+
+  public getCatOrigin(): Observable<TableDataOrigin[]> {
+		const url = `${environment.apiURL}settings/platform/`;
+
+    return this.http.get<TableDataOrigin[]>(url);
 	}
 
   public getCatCompany(filters?:any): Observable<entityGeneral.DataCatCompany[]> {

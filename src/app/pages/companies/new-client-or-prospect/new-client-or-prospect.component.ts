@@ -9,6 +9,7 @@ import { CompaniesService } from '../companies.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalFastQuoteComponent } from '../prospects/modal-fast-quote/modal-fast-quote.component';
+import { TableDataOrigin } from 'app/pages/config/config-interface';
 
 @Component({
   selector: 'app-new-client-or-prospect',
@@ -18,7 +19,9 @@ import { ModalFastQuoteComponent } from '../prospects/modal-fast-quote/modal-fas
 export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDestroy {
   private onDestroy = new Subject<void>();
 
-  public addContact = new FormControl(false)
+  public addContact = new FormControl(true)
+  public movilPhoneContact = new FormControl('555555')
+  public nameContact = new FormControl('TEST contact')
   public contacts: any[] = []
   public valuesContacts: any[] = []
 
@@ -27,9 +30,9 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
   public esClient: boolean = false;
 
   public formData = this.formBuilder.group({
-    company_name: ['', Validators.required],
-    platform: [''],
-    phone_number: [''],
+    company_name: ['TEST', Validators.required],
+    platform: ['d521a2a3-5f3c-4bb1-a732-fe6af76b8fb7'],
+    phone_number: ['6689898989'],
     email: ['', Validators.required],
     tax_id_number: ['', Validators.required],
     state: ['', Validators.required],
@@ -40,10 +43,13 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     address: [''],
     company_type: [''],
     company_size: [''],
-    web_page: [''],
-    comments: [''],
+    web_page: ['https://fonts.google.com/icons'],
+    comments: ['TEST'],
+    company_phase: ['ec43fa4e-1ade-46ea-9841-1692074ce8cd'],
   });
 
+  // COMPANY_PHASE_CLIENTE = "d1203730-3ac8-4f06-b095-3ec56ef3b54d"
+  // COMPANY_PHASE_LEAD = "20a3bf77-6669-40ec-b214-e31122d7eb7a"
 
   public catCompaniesSizes: entityGeneral.DataCatCompanySize[] = [];
   public catCompaniesTypes: entityGeneral.DataCatCompanyType[] = [];
@@ -51,9 +57,13 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
   public catStates: entityGeneral.DataCatState[] = [];
   public catCities: entityGeneral.DataCatCity[] = [];
   public catBusiness: entityGeneral.DataCatBusiness[] = [];
+  public catOrigin: TableDataOrigin[] = [];
+
+  public title: string = 'cliente';
 
   private idData: string = ''
   private objEditData: any;
+
 
   constructor(
     private notificationService: OpenModalsService,
@@ -66,8 +76,23 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
 
 
   ngOnInit(): void {
-    this.getId()
+    // this.getId()
+    this.verifyType()
+    setTimeout(() => {
+    }, 500);
   }
+
+  verifyType() {
+    if (this.url.includes('prospecto')) {
+      this.title = 'prospecto';
+      this.addContact.patchValue(false)
+      this.getCatalogsInitial()
+    } else {
+      this.getCatalogsInitial()
+      this.getCatalogs()
+    }
+  }
+
 
   ngAfterViewInit(): void {
     this.addContact.valueChanges.pipe(takeUntil(this.onDestroy)).subscribe(resp => {
@@ -75,7 +100,7 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     })
 
     setTimeout(() => {
-      this.getCatalogs()
+      // this.getCatalogs()
     }, 500);
   }
 
@@ -95,6 +120,15 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     });
   }
   
+  getCatalogsInitial() {
+    this.moduleServices.getCatOrigin().pipe(takeUntil(this.onDestroy)).subscribe({
+      next: (data: TableDataOrigin[]) => {
+        this.catOrigin = data;
+      },
+      error: (error) => console.error(error)
+    });
+  }
+
   getCatalogs() {
     this.moduleServices.getCatalogCompanySize().pipe(takeUntil(this.onDestroy)).subscribe({
       next: (data: entityGeneral.DataCatCompanySize[]) => {
@@ -142,12 +176,12 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
   addFormContact(datos?: any) {
     const instance: any = {
       ...(datos && { id: datos.id }),
-      nombreControl: new FormControl({ value: datos?.nombre || '', disabled: false }, Validators.required),
-      correoControl: new FormControl({ value: datos?.correo || '', disabled: false }, Validators.required),
-      telefonoControl: new FormControl({ value: datos?.correo || '', disabled: false }, Validators.required),
-      cargoControl: new FormControl({ value: datos?.correo || '', disabled: false }, Validators.required),
-      movilControl: new FormControl({ value: datos?.correo || '', disabled: false }, Validators.required),
-      extensionControl: new FormControl({ value: datos?.correo || '', disabled: false }),
+      fullNameControl: new FormControl({ value: datos?.nombre || '', disabled: false }, Validators.required),
+      emailControl: new FormControl({ value: datos?.correo || '', disabled: false }, Validators.required),
+      localPhone: new FormControl({ value: datos?.correo || '', disabled: false }, Validators.required),
+      positionControl: new FormControl({ value: datos?.correo || '', disabled: false }, Validators.required),
+      movilPhoneControl: new FormControl({ value: datos?.correo || '', disabled: false }, Validators.required),
+      extControl: new FormControl({ value: datos?.correo || '', disabled: false }),
     };
 
     this.valuesContacts.push(instance);
@@ -156,12 +190,12 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
   getContactsValue() {
     const contactValues = (e: any) => {
       let obj = {
-        nombre: e.nombreControl.value,
-        correo: e.correoControl.value,
-        telefono: e.telefonoControl.value,
-        cargo: e.cargoControl.value,
-        movil: e.movilControl.value,
-        extension: e.extensionControl.value,
+        full_name: e.fullNameControl.value,
+        email: e.emailControl.value,
+        local_phone: e.localPhone.value,
+        position: e.positionControl.value,
+        movil_phone: e.moPhonevilControl.value,
+        ext: e.extControl.value,
       }
 
       return obj
@@ -192,10 +226,25 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
   }
 
   actionSave() {
+    let contacts:entity.CompanyContacts[] = this.getContactsValue();
+
     let objData : any = {
       ...this.formData.value,
-      conctas: this.getContactsValue()
+      // platform : 
     }
+
+    if (!contacts.length) {
+        console.log('Agregar objeto :');
+        contacts.push({
+          full_name : this.nameContact.value,
+          movil_phone : this.movilPhoneContact.value,
+        });
+
+        objData.company_contacts = contacts;
+    }
+
+    console.log('OBJETO :', objData);
+    
 
     if (this.idData) this.saveDataPatch(objData)
      else this.saveDataPost(objData)

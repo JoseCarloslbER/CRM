@@ -52,6 +52,8 @@ export class ProspectsComponent implements OnInit, AfterViewInit, OnDestroy {
   public searchBar = new FormControl('')
 
   public selectedProject: string = 'todas';
+  public url = document.location.href;
+  public title: string = 'cliente';
 
   public fechaHoy = new Date();
 
@@ -65,6 +67,12 @@ export class ProspectsComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {
     this.searchWithFilters();
     this.getCatalogs()
+  }
+
+  verifyType() {
+    if (this.url.includes('prospecto')) {
+      this.title = 'prospecto'
+    }
   }
 
   ngAfterViewInit(): void {

@@ -1,21 +1,16 @@
 <div class="container-fluid p-0 overflow-hidden bg-white">
-
     <div class="return-header">
         <mat-icon svgIcon="mat_solid:arrow_back" (click)="toBack()"></mat-icon>
-        <p class="titulo-modal form-padding-title">nuevo componente</p>
+        <p class="titulo-modal form-padding-title">Registrar nuevo {{ title }}</p>
         <!-- <p class="titulo-modal form-padding-title">{{ url.includes('editar') ? 'Editar' : 'Registrar nuevo'}} cliente</p> -->
-
     </div>
 
     <div class="row form-padding d-flex">
-
         <p class="mb-6">*Campos obligatorios</p>
-
         <form class="col-12" [formGroup]="formData">
             <div>
                 <div class="row">
                     <div class="col-md-4">
-
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Nombre de la empresa (razón social)</mat-label>
                             <input formControlName="company_name" matInput>
@@ -23,13 +18,8 @@
                         
                         <mat-form-field class="gt-xs:pr-3 inputNewRegister" *ngIf="!addContact?.value">
                             <mat-label>Teléfono móvil*</mat-label>
-                            <input matInput>
+                            <input [formControl]="movilPhoneContact" matInput>
                         </mat-form-field>
-
-                        <!-- <mat-form-field class="gt-xs:pr-3 inputNewRegister" >
-                            <mat-label>Teléfono</mat-label>
-                            <input matInput>
-                        </mat-form-field> -->
 
                         <mat-form-field class="gt-xs:pr-3 inputNewRegister" *ngIf="addContact?.value">
                             <mat-label>RFC*</mat-label>
@@ -57,24 +47,21 @@
                     </div>
 
                     <div class="col-md-4">
-
                         <mat-form-field class="gt-xs:pr-3 inputNewRegister" *ngIf="!addContact?.value">
                             <mat-label>Contacto*</mat-label>
-                            <input matInput>
+                            <input [formControl]="nameContact" matInput>
                         </mat-form-field>
                         
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Origen</mat-label>
                             <mat-select formControlName="platform" placeholder="Seleccionar">
-                                <mat-option value="Pais 1">Pais 1</mat-option>
-                                <mat-option value="Pais 2">Pais 2</mat-option>
-                                <mat-option value="Pais 3">Pais 3</mat-option>
+                                <mat-option [value]="cat.platform_id" *ngFor="let cat of catOrigin">{{cat?.platform_name || '-'}}</mat-option>
                             </mat-select>
                         </mat-form-field>
 
-                        <mat-form-field class="gt-xs:pr-3 inputNewRegister" *ngIf="addContact?.value">
+                        <mat-form-field class="gt-xs:pr-3 inputNewRegister">
                             <mat-label>Página web</mat-label>
-                            <input formControlName="web_page" matInput>
+                            <input formControlName="web_page" matInput type="url">
                         </mat-form-field>
 
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister" *ngIf="addContact?.value">
@@ -93,7 +80,7 @@
                             </mat-select>
                         </mat-form-field>
 
-                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister" *ngIf="addContact?.value">
+                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister mb-1" *ngIf="addContact?.value" > 
                             <mat-label>Tamaño de empresa</mat-label>
                             <mat-select formControlName="company_size" placeholder="Seleccionar">
                                 <mat-option [value]="cat.company_size_id " *ngFor="let cat of catCompaniesSizes">{{cat?.size_name  || '-'}}</mat-option>
@@ -118,16 +105,10 @@
                     </div>
 
                     <div class="col-md-4">
-
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Teléfono fijo*</mat-label>
-                            <input  matInput>
+                            <input formControlName="phone_number"  matInput>
                         </mat-form-field>
-
-                        <!-- <mat-form-field class="gt-xs:pr-3 inputNewRegister" *ngIf="!addContact?.value">
-                            <mat-label>Página web*</mat-label>
-                            <input matInput>
-                        </mat-form-field> -->
 
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister" *ngIf="addContact?.value">
                             <mat-label>Correo</mat-label>
@@ -152,10 +133,8 @@
                                 <mat-option [value]="cat.business_id " *ngFor="let cat of catBusiness">{{cat?.business_name  || '-'}}</mat-option>
                             </mat-select>
                         </mat-form-field>
-                       
                     </div>
                 </div>
-
 
                 <div class="input-check mt-1" *ngIf="!esClient">
                     <mat-checkbox class="mb-2" [checked]="true" [formControl]="addContact">
@@ -173,37 +152,39 @@
                     <div class="col-md-4">
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Nombre y apellidos</mat-label>
-                            <input matInput [formControl]="ejecucion.nombreControl">
+                            <input matInput [formControl]="ejecucion.fullNameControl">
                         </mat-form-field>
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Teléfono fijo</mat-label>
-                            <input matInput [formControl]="ejecucion.telefonoControl">
+                            <input matInput [formControl]="ejecucion.localPhone">
                         </mat-form-field>
                     </div>
+
                     <div class="col-md-4">
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Cargo / Puesto</mat-label>
-                            <input matInput [formControl]="ejecucion.cargoControl">
+                            <input matInput [formControl]="ejecucion.positionControl">
                         </mat-form-field>
 
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Teléfono móvil</mat-label>
-                            <input matInput [formControl]="ejecucion.movilControl">
+                            <input matInput [formControl]="ejecucion.movilPhoneControl">
                         </mat-form-field>
                     </div>
 
                     <div class="col-md-4">
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Correo</mat-label>
-                            <input matInput [formControl]="ejecucion.correoControl">
+                            <input matInput [formControl]="ejecucion.emailControl">
                         </mat-form-field>
+
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Extención</mat-label>
-                            <input matInput [formControl]="ejecucion.extensionControl">
+                            <input matInput [formControl]="ejecucion.extControl">
                         </mat-form-field>
                     </div>
 
-                    <div *ngIf="valuesContacts.length > 1" class="col-md-12 d-flex align-items-center justify-content-end c-column-btns mt-5">
+                    <div *ngIf="valuesContacts.length == 1" class="col-md-12 d-flex align-items-center justify-content-end c-column-btns mt-5">
                         <div class="btn-delete" (click)="deleteContact(i)">
                             <mat-icon matTooltip="Eliminar">delete</mat-icon>
                         </div>
@@ -223,10 +204,6 @@
                     <button class="btn-action-add" (click)="actionSave()">
                         <span>Guardar</span>
                     </button>
-                    <!-- <button class="btn-action-add" [disabled]="canSave" (click)="actionSave()">
-                        <span>Guardar</span>
-                    </button> -->
-                    
                 </div>
             </div>
         </form>

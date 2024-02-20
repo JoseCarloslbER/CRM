@@ -96,5 +96,13 @@ export interface GetDataCompanyMapper {
   id : string;
   campaign_code : string;
   campaign_name : string;
+}
 
+export interface CompanyContacts {
+  full_name : string;
+  position? : string;
+  email? : string;
+  movil_phone : string;
+  local_phone? : string;
+  ext? : string;
 }
