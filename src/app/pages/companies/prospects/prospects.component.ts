@@ -51,7 +51,6 @@ export class ProspectsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public searchBar = new FormControl('')
 
-  public selectedProject: string = 'todas';
   public url = document.location.href;
   public title: string = 'cliente';
 
@@ -67,12 +66,6 @@ export class ProspectsComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {
     this.searchWithFilters();
     this.getCatalogs()
-  }
-
-  verifyType() {
-    if (this.url.includes('prospecto')) {
-      this.title = 'prospecto'
-    }
   }
 
   ngAfterViewInit(): void {
@@ -128,8 +121,8 @@ export class ProspectsComponent implements OnInit, AfterViewInit, OnDestroy {
     })
   }
 
-  seeClient(id: string) {
-    this.router.navigateByUrl(`/home/empresas/detalle-cliente/${id}`)
+  seeData(id: string) {
+    this.router.navigateByUrl(`/home/empresas/detalle-prospecto/${id}`)
   }
 
   newData() {

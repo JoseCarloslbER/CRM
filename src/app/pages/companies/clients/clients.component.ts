@@ -53,7 +53,8 @@ export class ClientsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public searchBar = new FormControl('')
 
-  public selectedProject: string = 'todas';
+  public url = document.location.href;
+  public title: string = 'cliente';
 
   public fechaHoy = new Date();
 
@@ -122,17 +123,19 @@ export class ClientsComponent implements OnInit, AfterViewInit, OnDestroy {
     })
   }
 
-  editData(data: any) {
-    this.router.navigateByUrl(`/home/empresas/nuevo-prospecto`)
-  }
 
-  seeData(data: any) {
-    this.router.navigateByUrl(`home/adquisicion/detalle-empresa/1`)
+  seeData(id: string) {
+    this.router.navigateByUrl(`home/empresas/detalle-cliente/${id}`)
   }
 
   newData() {
     this.router.navigateByUrl(`/home/empresas/nuevo-cliente`)
   }
+
+  editData(id: string) {
+    this.router.navigateByUrl(`/home/empresas/editar-cliente${id}`)
+  }
+ 
 
   deleteData(id: string) {
     this.notificationService

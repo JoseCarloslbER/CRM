@@ -110,7 +110,7 @@
                     <td mat-cell *matCellDef="let element">
                         <div class="table-column-reck-solution">
                             <img [src]="element.logo" alt="">
-                            <span class="cursor-pointer" (click)="seeClient()">{{
+                            <span class="cursor-pointer" (click)="seeData(element.id)">{{
                                 element.conpanyName }}</span>
                         </div>
                     </td>
@@ -202,7 +202,7 @@
                             <mat-icon matTooltip="Editar">visibility</mat-icon>
                         </div> -->
 
-                            <div class="btn-edit" (click)="editData(element)">
+                            <div class="btn-edit" (click)="editData(element.id)">
                                 <mat-icon matTooltip="Editar">edit_square</mat-icon>
                             </div>
 
@@ -210,7 +210,7 @@
                                 <mat-icon matTooltip="Factura">library_add</mat-icon>
                             </div>
 
-                            <div class="btn-delete" (click)="deleteData(element)">
+                            <div class="btn-delete" (click)="deleteData(element.id)">
                                 <mat-icon matTooltip="Eliminar">delete</mat-icon>
                             </div>
 

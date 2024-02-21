@@ -20,10 +20,8 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
   private onDestroy = new Subject<void>();
 
   public addContact = new FormControl(true)
-  public movilPhoneContact = new FormControl('555454355', Validators.required)
-  public nameContact = new FormControl('testsets', Validators.required)
-  // public movilPhoneContact = new FormControl('', Validators.required)
-  // public nameContact = new FormControl('', Validators.required)
+  public movilPhoneContact = new FormControl('', Validators.required)
+  public nameContact = new FormControl('', Validators.required)
   public contacts: any[] = []
   public valuesContacts: any[] = []
 
@@ -35,23 +33,19 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     company_name: ['', Validators.required],
     platform: ['', Validators.required],
     phone_number: [''],
-    email: [''], //poner validación al ser completo
+    email: [''],
     tax_id_number: [''],
-    state: [''], //poner validación al ser completo
+    state: [''],
     owner_user: [''],
-    country: [''], //poner validación al ser completo
+    country: [''],
     business: [''],
-    city: [''], //poner validación al ser completo
+    city: [''],
     address: [''],
-    company_type: [''], //poner validación al ser completo
-    company_size: [''], //poner validación al ser completo
+    company_type: [''],
+    company_size: [''],
     web_page: [''],
-    comments: [''],
+    comments: ['']
   });
-
-
-  // COMPANY_PHASE_CLIENTE = "d1203730-3ac8-4f06-b095-3ec56ef3b54d"
-  // COMPANY_PHASE_LEAD = "20a3bf77-6669-40ec-b214-e31122d7eb7a"
 
   public catCompaniesSizes: entityGeneral.DataCatCompanySize[] = [];
   public catCompaniesTypes: entityGeneral.DataCatCompanyType[] = [];
@@ -207,6 +201,7 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     if (contacts.length) objData.company_contacts = contacts;
 
     if (this.url.includes('prospecto')) objData.company_phase = 'ec43fa4e-1ade-46ea-9841-1692074ce8cd';
+    else objData.company_phase = 'd1203730-3ac8-4f06-b095-3ec56ef3b54d';
 
     console.log('OBJETO :', objData);
 
@@ -302,7 +297,7 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
       .subscribe(({ close }) => {
         console.log(close);
         if (close) this.router.navigateByUrl(`/home/conversion/nueva-cotizacion`)
-
+        else this.router.navigateByUrl(`/home/empresas/${ this.url.includes('prospecto') ? 'prospectos' : 'clientes' }`)
       });
   }
 

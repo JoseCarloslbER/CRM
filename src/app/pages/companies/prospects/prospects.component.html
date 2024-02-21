@@ -122,7 +122,7 @@
                     <td mat-cell *matCellDef="let element">
                         <div class="table-column-reck-solution">
                             <img [src]="element.logo" alt="">
-                            <span class="cursor-pointer" (click)="seeClient()">{{
+                            <span class="cursor-pointer" (click)="seeData(element.id)">{{
                                 element.conpanyName }}</span>
                         </div>
                     </td>
