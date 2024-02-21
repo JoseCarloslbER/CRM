@@ -128,14 +128,14 @@ export class CompaniesService {
     return this.http.post<any>(url, data)
 	}
 
-  public patchData(data:any): Observable<any> {
-		const url = `${this.apiUrl}/`;
+  public patchData(id:string, data:entity.GetDataCompanyMapper): Observable<any> {
+		const url = `${this.apiUrl}company/${id}/`;
 
     return this.http.patch<any>(url, data)
 	}
  
   public deleteData(id:string): Observable<any> {
-		const url = `${this.apiUrl}/${id}`;
+		const url = `${this.apiUrl}company/${id}/`;
 
     return this.http.delete<any>(url)
 	}

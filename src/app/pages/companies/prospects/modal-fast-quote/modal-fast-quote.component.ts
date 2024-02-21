@@ -13,9 +13,7 @@ export class ModalFastQuoteComponent {
 		private dialogRef: MatDialogRef<any>,
 	) { }
 
-  closeModal() {
-		this.dialogRef.close({
-      close : true
-    })
+  closeModal(close = true) {
+		this.dialogRef.close({ close })
   }
 }

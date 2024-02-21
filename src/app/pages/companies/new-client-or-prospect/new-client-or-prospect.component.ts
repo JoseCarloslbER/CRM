@@ -19,9 +19,11 @@ import { TableDataOrigin } from 'app/pages/config/config-interface';
 export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDestroy {
   private onDestroy = new Subject<void>();
 
-  public addContact = new FormControl(false)
-  public movilPhoneContact = new FormControl('', Validators.required)
-  public nameContact = new FormControl('', Validators.required)
+  public addContact = new FormControl(true)
+  public movilPhoneContact = new FormControl('555454355', Validators.required)
+  public nameContact = new FormControl('testsets', Validators.required)
+  // public movilPhoneContact = new FormControl('', Validators.required)
+  // public nameContact = new FormControl('', Validators.required)
   public contacts: any[] = []
   public valuesContacts: any[] = []
 
@@ -31,12 +33,12 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
 
   public formData = this.formBuilder.group({
     company_name: ['', Validators.required],
-    platform: [''],
+    platform: ['', Validators.required],
     phone_number: [''],
-    email: ['', Validators.required],
-    tax_id_number: ['', Validators.required],
-    state: ['', Validators.required], //poner validación al ser completo
-    owner_user: ['', Validators.required],
+    email: [''], //poner validación al ser completo
+    tax_id_number: [''],
+    state: [''], //poner validación al ser completo
+    owner_user: [''],
     country: [''], //poner validación al ser completo
     business: [''],
     city: [''], //poner validación al ser completo
@@ -45,24 +47,8 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     company_size: [''], //poner validación al ser completo
     web_page: [''],
     comments: [''],
-    company_phase: [''],
-    // company_name: ['TEST completo', Validators.required],
-    // platform: ['d521a2a3-5f3c-4bb1-a732-fe6af76b8fb7'],
-    // phone_number: ['6689898989'],
-    // email: ['testCompleDDDDDo@gmail.com', Validators.required],
-    // tax_id_number: ['rfc completo', Validators.required],
-    // state: ['', Validators.required], //poner validación al ser completo
-    // owner_user: ['b77cc580-1841-4614-ab78-a0c0d8159c5f', Validators.required],
-    // country: [''], //poner validación al ser completo
-    // business: ['73e8c289-f684-4c00-a975-085cf146a1c4'],
-    // city: [''], //poner validación al ser completo
-    // address: ['address completo'],
-    // company_type: ['8b793949-1aba-4231-9c5a-b8747e13c11d'], //poner validación al ser completo
-    // company_size: ['47b78bbc-2deb-43b5-a7c8-49552bc206dc'], //poner validación al ser completo
-    // web_page: ['https://fonts.google.com/icon4s'],
-    // comments: ['TEST'],
-    // company_phase: ['ec43fa4e-1ade-46ea-9841-1692074ce8cd'],
   });
+
 
   // COMPANY_PHASE_CLIENTE = "d1203730-3ac8-4f06-b095-3ec56ef3b54d"
   // COMPANY_PHASE_LEAD = "20a3bf77-6669-40ec-b214-e31122d7eb7a"
@@ -78,9 +64,7 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
 
   public title: string = 'cliente';
 
-  private idData: string = ''
-  private objEditData: any;
-
+  public objEditData: any;
 
   constructor(
     private notificationService: OpenModalsService,
@@ -88,109 +72,170 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
     private dialog: MatDialog,
-    private router: Router,
+    private router: Router
   ) { }
 
-
   ngOnInit(): void {
-    // this.getId()
     this.verifyType()
-    setTimeout(() => {
-    }, 500);
   }
 
   verifyType() {
+    this.getId()
+
     if (this.url.includes('prospecto')) {
       this.title = 'prospecto';
-      // this.addContact.patchValue(false)
-      this.getCatalogsInitial()
+      this.addContact.patchValue(false)
+      this.getCatalogsInitial();
     } else {
-      this.getCatalogsInitial()
-      this.getCatalogs()
+      this.getCatalogs();
     }
   }
 
-
   ngAfterViewInit(): void {
     this.addContact.valueChanges.pipe(takeUntil(this.onDestroy)).subscribe(resp => {
-      console.log(resp);
+      if (resp) {
+        this.asignValidators(true);
+        this.getCatalogs();
+      
+      } else this.asignValidators(false);
     })
   }
 
   getId() {
-    this.activatedRoute.params.pipe(takeUntil(this.onDestroy)).subscribe(({ id }: any) => {
-      this.idData = id;
-      // this.getDataById();
-
-      if (this.url.includes('detalle')) {
-        setTimeout(() => {
-          this.enableOrDisableInputs();
-          this.addFormContact(true);
-        });
-      } else {
-        this.addFormContact();
-      }
+    this.activatedRoute.params.pipe(takeUntil(this.onDestroy)).subscribe((params:any) => {
+      if (params.id) this.getDataById(params.id);
     });
   }
-  
+
   getCatalogsInitial() {
     this.moduleServices.getCatOrigin().pipe(takeUntil(this.onDestroy)).subscribe({
       next: (data: TableDataOrigin[]) => {
         this.catOrigin = data;
+        console.log(this.catOrigin);
       },
       error: (error) => console.error(error)
     });
   }
 
+  getDataById(id:string) {
+    this.moduleServices.getDataId(id).pipe(takeUntil(this.onDestroy)).subscribe({
+      next: (response: any) => {
+        this.isCompleted(response)
+        this.objEditData = response;
+        this.formData.patchValue({ ...this.objEditData });
+      },
+      error: (error) => {
+        this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
+        console.error(error)
+      }
+    })
+  }
+
   getCatalogs() {
-    this.moduleServices.getCatAgents().pipe(takeUntil(this.onDestroy)).subscribe({
+    this.getCatalogsInitial()
+
+    this.moduleServices.getCatAgents().subscribe({
       next: (data: entityGeneral.DataCatAgents[]) => {
         this.catAgents = data;
       },
       error: (error) => console.error(error)
     });
 
-    this.moduleServices.getCatalogCompanySize().pipe(takeUntil(this.onDestroy)).subscribe({
+    this.moduleServices.getCatalogCompanySize().subscribe({
       next: (data: entityGeneral.DataCatCompanySize[]) => {
         this.catCompaniesSizes = data;
       },
       error: (error) => console.error(error)
     });
 
-    this.moduleServices.getCatalogCompanyType().pipe(takeUntil(this.onDestroy)).subscribe({
+    this.moduleServices.getCatalogCompanyType().subscribe({
       next: (data: entityGeneral.DataCatCompanyType[]) => {
         this.catCompaniesTypes = data;
       },
       error: (error) => console.error(error)
     });
 
-    this.moduleServices.getCatalogCountry().pipe(takeUntil(this.onDestroy)).subscribe({
+    this.moduleServices.getCatalogCountry().subscribe({
       next: (data: entityGeneral.DataCatCountry[]) => {
         this.catCountries = data;
       },
       error: (error) => console.error(error)
     });
- 
-    this.moduleServices.getCatalogState().pipe(takeUntil(this.onDestroy)).subscribe({
+
+    this.moduleServices.getCatalogState().subscribe({
       next: (data: entityGeneral.DataCatState[]) => {
         this.catStates = data;
       },
       error: (error) => console.error(error)
     });
 
-    this.moduleServices.getCatalogCity().pipe(takeUntil(this.onDestroy)).subscribe({
+    this.moduleServices.getCatalogCity().subscribe({
       next: (data: entityGeneral.DataCatCity[]) => {
         this.catCities = data;
       },
       error: (error) => console.error(error)
     });
- 
-    this.moduleServices.getCatalogBusiness().pipe(takeUntil(this.onDestroy)).subscribe({
+
+    this.moduleServices.getCatalogBusiness().subscribe({
       next: (data: entityGeneral.DataCatBusiness[]) => {
         this.catBusiness = data;
       },
       error: (error) => console.error(error)
     });
+  }
+
+  formPatchData() {
+    this.formData.patchValue({ ...this.objEditData })
+    this.addFormContact(this.objEditData.conctacts)
+  }
+
+  actionSave() {
+    let contacts: entity.CompanyContacts[] = [...this.getContactsValue()];
+
+    let objData: any = {
+      ...this.formData.value
+    }
+
+    if ((!contacts.length && !this.addContact.value)) {
+      contacts.push({
+        full_name: this.nameContact.value,
+        movil_phone: this.movilPhoneContact.value,
+      });
+      objData.company_contacts = contacts;
+    }
+
+    if (contacts.length) objData.company_contacts = contacts;
+
+    if (this.url.includes('prospecto')) objData.company_phase = 'ec43fa4e-1ade-46ea-9841-1692074ce8cd';
+
+    console.log('OBJETO :', objData);
+
+    if (this.objEditData) this.saveDataPatch(objData);
+    else this.saveDataPost(objData);
+  }
+
+  saveDataPost(objData) {
+    this.moduleServices.postData(objData).subscribe({
+      next: () => {
+        this.completionMessage()
+      },
+      error: (error) => {
+        this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
+        console.error(error)
+      }
+    })
+  }
+
+  saveDataPatch(objData) {
+    this.moduleServices.patchData(this.objEditData.id, objData).subscribe({
+      next: () => {
+        this.completionMessage(true)
+      },
+      error: (error) => {
+        this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
+        console.error(error)
+      }
+    })
   }
 
   addFormContact(datos?: any) {
@@ -214,7 +259,7 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
         email: e.emailControl.value,
         local_phone: e.localPhone.value,
         position: e.positionControl.value,
-        movil_phone: e.moPhonevilControl.value,
+        movil_phone: e.movilPhoneControl.value,
         ext: e.extControl.value,
       }
 
@@ -226,70 +271,6 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
 
   deleteContact(index: number) {
     this.valuesContacts.splice(index, 1)
-  }
-
-  getDataById() {
-    this.moduleServices.getDataId(this.idData).pipe(takeUntil(this.onDestroy)).subscribe({
-      next: (response: any) => {
-        this.objEditData = response
-      },
-      error: (error) => {
-        this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
-        console.error(error)
-      }
-    })
-  }
-
-  formPatchData() {
-    this.formData.patchValue({...this.objEditData})
-    this.addFormContact(this.objEditData.conctacts)
-  }
-
-  actionSave() {
-    let contacts:entity.CompanyContacts[] = this.getContactsValue();
-
-    let objData : any = {
-      ...this.formData.value,
-    }
-
-    if (!contacts.length) {
-        contacts.push({
-          full_name : this.nameContact.value,
-          movil_phone : this.movilPhoneContact.value,
-        });
-
-        objData.company_contacts = contacts;
-    }
-
-    console.log('OBJETO :', objData);
-    
-
-    if (this.idData) this.saveDataPatch(objData)
-     else this.saveDataPost(objData)
-  }
-
-  saveDataPost(objData) {
-    this.moduleServices.postData(objData).pipe(takeUntil(this.onDestroy)).subscribe({
-      next: (response: any) => {
-        this.completionMessage()
-      },
-      error: (error) => {
-        this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
-        console.error(error)
-      }
-    })
-  }
-
-  saveDataPatch(objData) {
-    this.moduleServices.patchData(objData).pipe(takeUntil(this.onDestroy)).subscribe({
-      next: (response: any) => {
-        this.completionMessage(true)
-      },
-      error: (error) => {
-        this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
-        console.error(error)
-      }
-    })
   }
 
   completionMessage(edit = false) {
@@ -320,7 +301,7 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
       .afterClosed()
       .subscribe(({ close }) => {
         console.log(close);
-        this.router.navigateByUrl(`/home/conversion/nueva-cotizacion`)
+        if (close) this.router.navigateByUrl(`/home/conversion/nueva-cotizacion`)
 
       });
   }
@@ -346,6 +327,34 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     return !(this.formData.valid || this.contacts.length);
   }
 
+  isCompleted(data:entity.GetDataCompanyMapper){
+    if (data.country || data.company_type || data.city ) this.addContact.patchValue(true);
+  }
+
+  asignValidators(accion = false) {
+    if (accion) {
+      this.formData.get('country')?.setValidators(Validators.required);
+      this.formData.get('state')?.setValidators(Validators.required);
+      this.formData.get('city')?.setValidators(Validators.required);
+      this.formData.get('company_type')?.setValidators(Validators.required);
+      this.formData.get('company_size')?.setValidators(Validators.required);
+      this.formData.get('business')?.setValidators(Validators.required);
+    } else {
+      this.formData.get('country')?.clearValidators();
+      this.formData.get('state')?.clearValidators();
+      this.formData.get('city')?.clearValidators();
+      this.formData.get('company_type')?.clearValidators();
+      this.formData.get('company_size')?.clearValidators();
+      this.formData.get('business')?.clearValidators();
+    }
+	}
+
+
+  get form () {
+      console.log(this.formData);
+      
+    return ' '
+  }
   ngOnDestroy(): void {
     this.onDestroy.next();
     this.onDestroy.unsubscribe();

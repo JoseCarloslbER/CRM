@@ -210,15 +210,15 @@ export class NewProspectComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   saveDataPatch(objData) {
-    this.moduleServices.patchData(objData).pipe(takeUntil(this.onDestroy)).subscribe({
-      next: () => {
-        this.completionMessage(true)
-      },
-      error: (error) => {
-        this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
-        console.error(error)
-      }
-    })
+    // this.moduleServices.patchData(objData).pipe(takeUntil(this.onDestroy)).subscribe({
+    //   next: () => {
+    //     this.completionMessage(true)
+    //   },
+    //   error: (error) => {
+    //     this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
+    //     console.error(error)
+    //   }
+    // })
   }
 
   completionMessage(edit = false) {

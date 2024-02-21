@@ -319,3 +319,12 @@ body.fuse-splash-screen-hidden fuse-splash-screen {
 .width-new-register {
     width: 180px;
 }
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield; /* Firefox */
+}

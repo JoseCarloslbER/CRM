@@ -18,7 +18,7 @@ export interface TableDataCompany {
   slug: string;
   tax_id_number: string;
   email: string;
-  phone_number: number;
+  phone_number: string;
   web_page: string;
   address: string;
   logo: string;
@@ -93,9 +93,22 @@ export interface PostDataCompany {
 }
 
 export interface GetDataCompanyMapper {
-  id : string;
-  campaign_code : string;
-  campaign_name : string;
+  id: string
+  company_name: string
+  platform: string
+  phone_number: string
+  email: string
+  tax_id_number: string
+  state: string
+  owner_user: string
+  country: string
+  business: string
+  city: string
+  address: string
+  company_type: string
+  company_size: string
+  web_page: string
+  comments: string
 }
 
 export interface CompanyContacts {

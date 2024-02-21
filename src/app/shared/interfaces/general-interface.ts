@@ -69,7 +69,7 @@ export interface DataCatCompanyType {
 
 export interface DataCatState {
   state_name : string;
-  country_id : string;
+  state_id : string;
 }
 
 export interface DataCatCity {
