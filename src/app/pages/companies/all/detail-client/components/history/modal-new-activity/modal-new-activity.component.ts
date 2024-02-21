@@ -9,6 +9,7 @@ import { TableDataActivityType } from 'app/pages/config/config-interface';
 import { ManagementmentService } from 'app/pages/management/management.service';
 import moment from 'moment';
 import { UpdateComponentsService } from 'app/pages/config/company-categories/components/components.service';
+import { ReactivationService } from 'app/pages/reactivation/reactivation.service';
 
 @Component({
   selector: 'app-modal-new-activity',
@@ -50,6 +51,7 @@ export class ModalNewActivityComponent implements OnInit, OnDestroy {
   
   constructor(
     private moduleManagementServices: ManagementmentService,
+    private moduleReactivationServices: ReactivationService,
     private updateService: UpdateComponentsService,
     private formBuilder: FormBuilder,
     private notificationService: OpenModalsService,
@@ -79,14 +81,8 @@ export class ModalNewActivityComponent implements OnInit, OnDestroy {
     } 
   }
 
-
-  ver(){
-    console.log(this.img.value);
-    
-  }
-
   getDataById() {
-    console.log(this.objEditData);
+    console.log('this.idData', this.idData);
     
     this.moduleManagementServices.getDataId(this.idData).subscribe({
       next: (response: entityManager.GetDataActivitiesMapper) => {
@@ -161,7 +157,7 @@ export class ModalNewActivityComponent implements OnInit, OnDestroy {
   }
   
   saveDataPostPatchCalls(objData: any) {
-    // this.saveData(this.objEditData, this.moduleServices.postDataBusiness(objData), this.moduleServices.patchDataBusiness(this.objEditData?.business_id, objData));
+    this.saveData(this.objEditData, this.moduleReactivationServices.postData(objData), this.moduleReactivationServices.patchData(this.idData, objData));
   }
  
   saveDataPostPatchDaily(objData: any) {

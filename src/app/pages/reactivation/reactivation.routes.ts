@@ -25,7 +25,7 @@ const reactivationRoutes: Routes = [
 				component: MailboxComponent,
 			},
 			{
-				path: 'resultados-campanias/:id',
+				path: 'resultados-campanias/:type',
 				component: CampainResultsComponent,
 			},
 		]

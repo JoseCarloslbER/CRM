@@ -134,7 +134,9 @@ export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy {
       width: '1000px',
       maxHeight: '628px',
       panelClass: 'custom-dialog',
-    });
+    })  
+    .afterClosed()
+    .subscribe((_) => this.getDataTable());
   }
 
   finally(data = null) {

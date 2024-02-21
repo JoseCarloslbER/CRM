@@ -1,12 +1,9 @@
 import * as entity from './reactivation-interface';
 
 export class Mapper {
-	static getDataTableMapper(response: entity.TableDataCalls[]) {
-	// static getDataTableMapper(response: entity.TableDataCalls[] : entity.TableDataCallsMapper[] {
-		console.log(response[0]);
+	static getDataTableMapper(response: entity.TableDataCalls[]) : entity.TableDataCallsMapper[] {
 	
-		let dataList : any[] = [];
-		// let dataList :entity.TableDataCallsMapper[] = [];
+		let dataList :entity.TableDataCallsMapper[] = [];
 
 		response.forEach((data: entity.TableDataCalls): void => {
 			dataList.push({
@@ -16,10 +13,7 @@ export class Mapper {
 				dueDate: data?.end_date || '-',
 				expirationTime: data?.activity_hour || '-',
 				user: data?.user?.first_name && data?.user?.last_name ? data.user?.first_name.toUpperCase() + ' ' + data.user?.last_name.toUpperCase() : data.user?.username.toUpperCase(),
-				assigned: '-',
-				// assigned: data?.process || '-',
 				comments: data?.description || '-',
-
 			});
 		});
 

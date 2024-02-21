@@ -16,7 +16,7 @@ export class Mapper {
 				endDate: data?.end_date || '-',
 				finish: data?.finish || false,
 				activityType: data?.type_activity?.activity || '-',
-				agent: data.user.first_name && data.user.last_name ? data.user?.first_name.toUpperCase() + ' ' + data.user?.last_name.toUpperCase() : data.user?.username.toUpperCase()
+				agent: data?.user?.first_name && data?.user?.last_name ? data.user?.first_name.toUpperCase() + ' ' + data.user?.last_name.toUpperCase() : data.user?.username.toUpperCase()
 			});
 		});
 
@@ -33,7 +33,7 @@ export class Mapper {
 			companyName : response?.company?.company_name || '-',
 			user : response?.user?.id || '-',
 			type_activity : response?.type_activity?.type_activity_id || '-',
-			campaign : response?.campaign.campaign_id || '-',
+			campaign : response?.campaign?.campaign_id || '-',
 			description : response?.description || '-'
 		}
 	};

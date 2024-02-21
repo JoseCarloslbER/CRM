@@ -1,7 +1,7 @@
 <div class="container-fluid p-0 overflow-hidden c-modal-quotes">
 
     <div class="modal-header">
-        <p class="titulo-modal">{{ data ? 'Editar' : 'Registrar nueva'}} actividad</p>
+        <p class="titulo-modal">{{ idData ? 'Editar' : 'Registrar nueva'}} actividad</p>
         <mat-icon class="cursos-pointer" svgIcon="mat_outline:cancel" (click)="closeModal()"></mat-icon>
     </div>
 
@@ -49,7 +49,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-4 d-flex align-items-center justify-content-end mb-3">
-                                    <button class="btn-action-add" (click)="ver()">
+                                    <button class="btn-action-add">
                                         <span>Subir</span>
                                     </button>
                                 </div>

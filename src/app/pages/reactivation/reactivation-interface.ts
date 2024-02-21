@@ -20,17 +20,19 @@ export interface TableDataCalls {
 }
 
 export interface TableDataCallsMapper {
-  id: string;
-  nameLogo: object
-  activity_date: string;
-  activity_hour: string;
-  description: string;
-  process: string;
-  register: string;
-  endDate: string;
-  finish: boolean;
-  activityType: string;
-  agent: string;
+  id : string
+  nameLogo : {
+    name : string,
+    logo : string,
+  }
+  camping : {
+    name : string,
+    campaingData : object,
+  }
+  dueDate : string
+  expirationTime : string
+  user : string
+  comments : string
 }
 
 export interface GetDataCallsMapper {

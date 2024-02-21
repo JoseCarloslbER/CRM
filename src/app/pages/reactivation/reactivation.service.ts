@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'environments/environment.dev';
-import { Observable, map } from 'rxjs';
+import { Observable, Subject, map } from 'rxjs';
 import { PatchDataActivities, PostDataActivities } from '../management/management-interface';
 import * as entity from './reactivation-interface';
 import { Mapper } from './mapper';
@@ -10,6 +10,8 @@ import { Mapper } from './mapper';
   providedIn: 'root'
 })
 export class ReactivationService {
+  private dataSubject = new Subject<any>();
+
 
   private apiUrl = `${environment.apiURL}reactivation/`;
 
@@ -17,6 +19,17 @@ export class ReactivationService {
   constructor(
     private http: HttpClient
   ) { }
+
+  sendData(data: any) {
+    console.log(data);
+    data.type = 'calls'
+    
+    this.dataSubject.next(data);
+  }
+
+  getData() {
+    return this.dataSubject.asObservable();
+  }
 
   public getDataTable(filters:any): Observable<any> {
     const url = `${environment.apiURL}manage/activity/?activity_type_id=fde5d736-c7ad-4ccc-9037-d742aa3b8a44`;

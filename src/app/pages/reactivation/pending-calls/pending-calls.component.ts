@@ -100,7 +100,6 @@ export class PendingCallsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit(): void {
     this.getDataTable()
-
   }
 
   ngAfterViewInit(): void {
@@ -112,8 +111,7 @@ export class PendingCallsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   getDataTable(filters?: any) {
     this.moduleServices.getDataTable(filters).subscribe({
-      // next: (data: entity.TableDataActivitiesMapper[]) => {
-      next: (data: any) => {
+      next: (data: entity.TableDataCallsMapper[]) => {
         this.dataSource.data = data;
         console.log(data);
       },
@@ -131,7 +129,16 @@ export class PendingCallsComponent implements OnInit, AfterViewInit, OnDestroy {
       width: '1000px',
       maxHeight: '628px',
       panelClass: 'custom-dialog',
-    });
+    })  
+    .afterClosed()
+    .subscribe((_) => this.getDataTable());
+  }
+
+  seeCampaignsResults(data:any) {
+    console.log(data);
+
+    this.moduleServices.sendData(data);
+    this.router.navigateByUrl('/home/reactivacion/resultados-campanias/calls');
   }
 
   deleteData(id: string) {
@@ -161,11 +168,7 @@ export class PendingCallsComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  seeCampaignsResults(data:any) {
-    console.log(data);
-    
-    this.router.navigateByUrl(`home/reactivacion/resultados-campanias/1`)
-  }
+
 
   ngOnDestroy(): void {
     this.onDestroy.next();

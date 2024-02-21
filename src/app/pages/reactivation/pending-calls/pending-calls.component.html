@@ -50,7 +50,7 @@
                 <td mat-cell *matCellDef="let element">
                     <div class="table-column-agent-see-all">
                         <span> {{ element.camping.name }} </span>
-                        <span *ngIf="element.camping.campaingData" (click)="seeCampaignsResults(element)">Ver campaña</span>
+                        <span *ngIf="element.camping.campaingData" (click)="seeCampaignsResults(element?.camping)">Ver campaña</span>
                     </div>
                 </td>
             </ng-container>
@@ -63,7 +63,7 @@
             </ng-container>
  
             <ng-container matColumnDef="expirationTime">
-                <th mat-header-cell *matHeaderCellDef>Fecha de vencimiento</th>
+                <th mat-header-cell *matHeaderCellDef>Hora de vencimiento</th>
                 <td mat-cell *matCellDef="let element">
                     {{ element.expirationTime }}
                 </td>
