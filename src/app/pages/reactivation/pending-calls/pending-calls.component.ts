@@ -9,12 +9,11 @@ import { MatPaginator } from '@angular/material/paginator';
 import { ModalNewActivityComponent } from 'app/pages/companies/all/detail-client/components/history/modal-new-activity/modal-new-activity.component';
 import { Subject, debounceTime, takeUntil } from 'rxjs';
 import { ReactivationService } from '../reactivation.service';
-import { DataTable } from '../reactivation-interface';
+import * as entity from '../reactivation-interface';
 
 @Component({
   selector: 'app-pending-calls',
   templateUrl: './pending-calls.component.html',
-  styleUrl: './pending-calls.component.scss'
 })
 export class PendingCallsComponent implements OnInit, AfterViewInit, OnDestroy {
   private onDestroy = new Subject<void>();
@@ -25,21 +24,13 @@ export class PendingCallsComponent implements OnInit, AfterViewInit, OnDestroy {
   public total = 0;
   public indicePagina = 0;
 
-  // TABLA 
-
   public displayedColumns: string[] = [
-    'client',
-    'advertising',
-    'dueDate',
+    'name',
+    'camping',
     'dueDate',
     'expirationTime',
     'user',
-    'assigned',
     'comments',
-
-
-
-   
     'acciones',
   ];
 
@@ -87,11 +78,6 @@ export class PendingCallsComponent implements OnInit, AfterViewInit, OnDestroy {
    
   ]
 
-  public fechaHoy = new Date();
-
-  public searchBar = new FormControl('')
-
-
   public formFilters = this.formBuilder.group({
     estatus: [{ value: null, disabled: false }],
     giro: [{ value: null, disabled: false }],
@@ -100,10 +86,12 @@ export class PendingCallsComponent implements OnInit, AfterViewInit, OnDestroy {
     rangeDateEnd: [{ value: null, disabled: false }],
   });
 
+  public fechaHoy = new Date();
+
+  public searchBar = new FormControl('')
 
   constructor(
-    // private moduleServices: ReactivationService,
-    private openModalsService: OpenModalsService,
+    private moduleServices: ReactivationService,
     private notificationService: OpenModalsService,
     private formBuilder: FormBuilder,
     private dialog: MatDialog,
@@ -111,10 +99,8 @@ export class PendingCallsComponent implements OnInit, AfterViewInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    setTimeout(() => {
-      
-      this.dataSource.data = this.dataDummy
-    }, 500);
+    this.getDataTable()
+
   }
 
   ngAfterViewInit(): void {
@@ -123,70 +109,62 @@ export class PendingCallsComponent implements OnInit, AfterViewInit, OnDestroy {
     })
   }
 
-  searchWithFilters() {
-    let objFilters:any = {
-      ...this.formFilters.value
-    }
 
-    this.getDataTable(objFilters)
+  getDataTable(filters?: any) {
+    this.moduleServices.getDataTable(filters).subscribe({
+      // next: (data: entity.TableDataActivitiesMapper[]) => {
+      next: (data: any) => {
+        this.dataSource.data = data;
+        console.log(data);
+      },
+      error: (error) => console.error(error)
+    })
   }
 
-  getCatalogs() {
-    
+  newOrEditData(data = null) {
+    this.dialog.open(ModalNewActivityComponent, {
+      data: {
+        info: data,
+        type: 'calls'
+      },
+      disableClose: true,
+      width: '1000px',
+      maxHeight: '628px',
+      panelClass: 'custom-dialog',
+    });
   }
 
-  getDataTable(filters:Object) {
-    // this.moduleServices.getDataTable(filters).subscribe({
-    //     next: ({ data } : DataTable) => {
-    //       console.log(data);
-    //     },
-    //     error: (error) => console.error(error)
-    //   }
-    // )
-  }
-
-  deleteData() {
+  deleteData(id: string) {
     this.notificationService
-      .notificacion(
-        'Pregunta',
-        '¿Estas seguro de eliminar el registro?',
-        'question',
-      )
-      .afterClosed()
-      .subscribe((_) => {
-        this.notificationService
-          .notificacion(
-            'Éxito',
-            'Registro eliminado.',
-            'delete',
-          )
-          .afterClosed()
-          .subscribe((_) => {
-
-          });
-      });
-  }
-
-  seeAdvertising(data:any) {
-  }
-
-  editData() {
-    this.dialog.open(ModalNewActivityComponent, {
-      data: { },
-      disableClose: true,
-      width: '1000px',
-      maxHeight: '700px',
-      panelClass: 'custom-dialog',
+    .notificacion(
+      'Pregunta',
+      '¿Estas seguro de eliminar el registro?',
+      'question',
+    )
+    .afterClosed()
+    .subscribe((response) => {
+      if (response) {
+        this.moduleServices.deleteData(id).subscribe({
+          next: () => {
+              this.notificationService
+              .notificacion(
+                'Éxito',
+                'Registro eliminado.',
+                'delete',
+              )
+              .afterClosed()
+              .subscribe((_) => this.getDataTable());
+          },
+          error: (error) => console.error(error)
+        })
+      }
     });
   }
-  newData() {
-    this.dialog.open(ModalNewActivityComponent, {
-      data: { },
-      disableClose: true,
-      width: '1000px',
-      maxHeight: '700px',
-      panelClass: 'custom-dialog',
-    });
+
+  seeCampaignsResults(data:any) {
+    console.log(data);
+    
+    this.router.navigateByUrl(`home/reactivacion/resultados-campanias/1`)
   }
 
   ngOnDestroy(): void {

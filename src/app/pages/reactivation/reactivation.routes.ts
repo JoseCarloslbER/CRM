@@ -3,6 +3,7 @@ import { PendingCallsComponent } from './pending-calls/pending-calls.component';
 import { DiaryComponent } from './diary/diary.component';
 import { ReactivationComponent } from './reactivation.component';
 import { MailboxComponent } from './mailbox/mailbox.component';
+import { CampainResultsComponent } from '../catchment/campaigns/campain-results/campain-results.component';
 
 
 const reactivationRoutes: Routes = [
@@ -22,6 +23,10 @@ const reactivationRoutes: Routes = [
 			{
 				path: 'correos',
 				component: MailboxComponent,
+			},
+			{
+				path: 'resultados-campanias/:id',
+				component: CampainResultsComponent,
 			},
 		]
 	}
