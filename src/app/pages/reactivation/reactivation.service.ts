@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'environments/environment.dev';
-import { Observable, Subject, map } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, map } from 'rxjs';
 import { PatchDataActivities, PostDataActivities } from '../management/management-interface';
 import * as entity from './reactivation-interface';
 import { Mapper } from './mapper';
@@ -10,23 +10,19 @@ import { Mapper } from './mapper';
   providedIn: 'root'
 })
 export class ReactivationService {
-  private dataSubject = new Subject<any>();
-
+  private dataSubject = new BehaviorSubject<any>(null);
 
   private apiUrl = `${environment.apiURL}reactivation/`;
-
 
   constructor(
     private http: HttpClient
   ) { }
 
   sendData(data: any) {
-    console.log(data);
     data.type = 'calls'
-    
     this.dataSubject.next(data);
   }
-
+ 
   getData() {
     return this.dataSubject.asObservable();
   }
@@ -40,7 +36,6 @@ export class ReactivationService {
 	}
 
   public getDataId(id:string): Observable<any> {
-  // public getDataId(id:string): Observable<entity.GetDataActivitiesMapper> {
 		const url = `${environment.apiURL}manage/activity/${id}/`;
 
     return this.http.get<any>(url).pipe(

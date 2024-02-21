@@ -34,49 +34,6 @@ export class PendingCallsComponent implements OnInit, AfterViewInit, OnDestroy {
     'acciones',
   ];
 
-  public dataDummy: any[] = [
-    {
-
-      client : 'RECK SOLUCIONES',
-      advertising : 'campaña de prueba2',
-      dueDate: '2022-02-28',
-      expirationTime: '2022-02-28',
-      user : 'AgenteATCAle',
-      assigned : 'AgenteATCAle',
-      comments : 'Test nueva funcionalidad calendario.'
-    },
-    {
-
-      client : 'RECK SOLUCIONES',
-      advertising : 'campaña de prueba2',
-      dueDate: '2022-02-28',
-      expirationTime: '2022-02-28',
-      user : 'AgenteATCAle',
-      assigned : 'AgenteATCAle',
-      comments : 'Test nueva funcionalidad calendario.'
-    },
-    {
-
-      client : 'RECK SOLUCIONES',
-      advertising : 'campaña de prueba2',
-      dueDate: '2022-02-28',
-      expirationTime: '2022-02-28',
-      user : 'AgenteATCAle',
-      assigned : 'AgenteATCAle',
-      comments : 'Test nueva funcionalidad calendario.'
-    },
-    {
-
-      client : 'RECK SOLUCIONES',
-      advertising : 'campaña de prueba2',
-      dueDate: '2022-02-28',
-      expirationTime: '2022-02-28',
-      user : 'AgenteATCAle',
-      assigned : 'AgenteATCAle',
-      comments : 'Test nueva funcionalidad calendario.'
-    },
-   
-  ]
 
   public formFilters = this.formBuilder.group({
     estatus: [{ value: null, disabled: false }],
@@ -108,12 +65,10 @@ export class PendingCallsComponent implements OnInit, AfterViewInit, OnDestroy {
     })
   }
 
-
   getDataTable(filters?: any) {
     this.moduleServices.getDataTable(filters).subscribe({
       next: (data: entity.TableDataCallsMapper[]) => {
         this.dataSource.data = data;
-        console.log(data);
       },
       error: (error) => console.error(error)
     })
@@ -135,8 +90,6 @@ export class PendingCallsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   seeCampaignsResults(data:any) {
-    console.log(data);
-
     this.moduleServices.sendData(data);
     this.router.navigateByUrl('/home/reactivacion/resultados-campanias/calls');
   }
@@ -168,11 +121,8 @@ export class PendingCallsComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-
-
   ngOnDestroy(): void {
     this.onDestroy.next();
     this.onDestroy.unsubscribe();
   }
-
 }
