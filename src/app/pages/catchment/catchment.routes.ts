@@ -15,19 +15,19 @@ const catchmentRoutes: Routes = [
 				component: CampaignsComponent,
 			},
 			{
-				path: 'resultados-campanias/:id',
+				path: 'resultados-campanias/:type',
 				component: CampainResultsComponent,
 			},
 			{
-				path: 'nueva-campaña',
+				path: 'nueva-campania',
 				component: NewCampingnComponent,
 			},
 			{
-				path: 'clonar-campaña/:id',
+				path: 'clonar-campania/:id',
 				component: NewCampingnComponent,
 			},
 			{
-				path: 'editar-campaña/:id',
+				path: 'editar-campania/:id',
 				component: NewCampingnComponent,
 			},
 		]

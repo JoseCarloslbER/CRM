@@ -47,6 +47,7 @@ export interface TableDataCampaing {
 
 export interface TableDataCampaingMapper {
   id?: string;
+  campaingData:any
   dateStartEnd: {
     start: string;
     end: string;
@@ -141,6 +142,7 @@ export interface Company {
   company: any;
   campaign_company_id: string;
   status: string;
+  response:boolean;
   total_quote: string;
   total_sale: string;
 }

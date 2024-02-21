@@ -34,7 +34,6 @@ export class PendingCallsComponent implements OnInit, AfterViewInit, OnDestroy {
     'acciones',
   ];
 
-
   public formFilters = this.formBuilder.group({
     estatus: [{ value: null, disabled: false }],
     giro: [{ value: null, disabled: false }],
@@ -69,6 +68,8 @@ export class PendingCallsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.moduleServices.getDataTable(filters).subscribe({
       next: (data: entity.TableDataCallsMapper[]) => {
         this.dataSource.data = data;
+        console.log(data);
+        
       },
       error: (error) => console.error(error)
     })
@@ -90,6 +91,8 @@ export class PendingCallsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   seeCampaignsResults(data:any) {
+    console.log(data);
+    
     this.moduleServices.sendData(data);
     this.router.navigateByUrl('/home/reactivacion/resultados-campanias/calls');
   }

@@ -18,12 +18,11 @@ export class ReactivationService {
     private http: HttpClient
   ) { }
 
-  sendData(data: any) {
-    data.type = 'calls'
+  public sendData(data: any) {
     this.dataSubject.next(data);
   }
  
-  getData() {
+  public getData() {
     return this.dataSubject.asObservable();
   }
 
@@ -38,9 +37,7 @@ export class ReactivationService {
   public getDataId(id:string): Observable<any> {
 		const url = `${environment.apiURL}manage/activity/${id}/`;
 
-    return this.http.get<any>(url).pipe(
-			map((response) => Mapper.getDataMapper(response))
-		);
+    return this.http.get<any>(url);
 	}
  
   public postData(data:PostDataActivities): Observable<any> {

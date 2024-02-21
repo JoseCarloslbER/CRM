@@ -145,20 +145,10 @@
                           </tr>
                         </thead>
                         <tbody>
-                          <tr>
-                            <td class="color-3487E9">Empresa 1</td>
-                            <td>$12000.00</td>
-                            <td>$12000.00</td>
-                          </tr>
-                          <tr>
-                            <td class="color-3487E9">Empresa 2</td>
-                            <td>$12000.00</td>
-                            <td>$12000.00</td>
-                          </tr>
-                          <tr>
-                            <td class="color-3487E9">Empresa 3</td>
-                            <td>$12000.00</td>
-                            <td>$12000.00</td>
+                          <tr *ngFor="let data of campaingData?.companies">
+                            <td class="color-3487E9">{{data?.company?.company_name || '-'}}</td>
+                            <td>{{data.total_quote | currency}}</td>
+                            <td>{{data.total_sale | currency}}</td>
                           </tr>
                         </tbody>
                       </table>

@@ -116,21 +116,29 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.moduleServices.getDataTableCampaing(filters).subscribe({
       next: (data: entity.TableDataCampaingMapper[]) => {
         this.dataSource.data = data;
+        console.log(data);
+        
       },
       error: (error) => console.error(error)
     })
   }
 
   newData() {
-    this.router.navigateByUrl(`home/captacion/nueva-campaña`)
+    this.router.navigateByUrl(`home/captacion/nueva-campania`)
   }
 
   editData(id: string) {
-    this.router.navigateByUrl(`home/captacion/editar-campaña/${id}`)
+    this.router.navigateByUrl(`home/captacion/editar-campania/${id}`)
   }
 
   cloneData(id: string) {
-    this.router.navigateByUrl(`home/captacion/clonar-campaña/${id}`)
+    this.router.navigateByUrl(`home/captacion/clonar-campania/${id}`)
+  }
+
+  seeCampaignsResults(data:any) {
+    console.log(data);
+    this.moduleServices.sendData(data);
+    this.router.navigateByUrl('/home/captacion/resultados-campanias/campaign');
   }
 
   deleteData(id: string) {
@@ -173,9 +181,7 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  seeCampaignsResults() {
-    this.router.navigateByUrl(`home/captacion/resultados-campanias/1`)
-  }
+
 
   douwnloadExel() {
     //   this.moduleServices.excel(id).pipe(takeUntil(this.onDestroy)).subscribe({

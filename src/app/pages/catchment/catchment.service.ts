@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'environments/environment.dev';
-import { Observable, map } from 'rxjs';
+import { BehaviorSubject, Observable, map } from 'rxjs';
 import { DataTableFilters } from './catchment-interface';
 import * as entity from './catchment-interface';
 import { Mapper } from './mapper';
@@ -11,12 +11,21 @@ import * as entityGeneral from '../../shared/interfaces/general-interface';
   providedIn: 'root'
 })
 export class CatchmentService {
+  private dataSubject = new BehaviorSubject<any>(null);
 
   private apiUrl = `${environment.apiURL}catch/`;
 
   constructor(
     private http: HttpClient
   ) { }
+
+  public sendData(data: any) {
+    this.dataSubject.next(data);
+  }
+ 
+  public getData() {
+    return this.dataSubject.asObservable();
+  }
 
   // CATALOGS
 

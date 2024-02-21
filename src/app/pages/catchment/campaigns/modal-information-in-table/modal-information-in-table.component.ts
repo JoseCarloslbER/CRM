@@ -58,7 +58,7 @@ export class ModalInformationInTableComponent implements OnInit, OnDestroy {
       data.agent = { img: data.profile_picture.includes('default')
           ? `../../../assets/images${data.profile_picture}`
           : data.profile_picture,
-        name: `${data?.first_name || '-'} ${data?.last_name || ''}`,
+        name: `${data.first_name && data.last_name ? data?.first_name.toUpperCase() + ' ' + data?.last_name.toUpperCase() : data?.username.toUpperCase()}`,
       };
       data.rol = { main: data.main, rol: data.rol_name }
     })
