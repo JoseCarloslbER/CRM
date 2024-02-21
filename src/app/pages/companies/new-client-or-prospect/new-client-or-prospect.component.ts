@@ -14,7 +14,6 @@ import { TableDataOrigin } from 'app/pages/config/config-interface';
 @Component({
   selector: 'app-new-client-or-prospect',
   templateUrl: './new-client-or-prospect.component.html',
-  styleUrl: './new-client-or-prospect.component.scss'
 })
 export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDestroy {
   private onDestroy = new Subject<void>();
@@ -33,7 +32,7 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     company_name: ['', Validators.required],
     platform: ['', Validators.required],
     phone_number: [''],
-    email: [''],
+    email: ['', Validators.pattern(/^\S+@\S+\.\S+$/)],
     tax_id_number: [''],
     state: [''],
     owner_user: [''],
@@ -43,7 +42,7 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     address: [''],
     company_type: [''],
     company_size: [''],
-    web_page: [''],
+    web_page: ['', [Validators.pattern(/^(ftp|http|https):\/\/[^ "]+$/)]],
     comments: ['']
   });
 
@@ -344,12 +343,25 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     }
 	}
 
+  
+	configInput(event: Event, type:string, control?:string): void {
+		const inputElement = event.target as HTMLInputElement;
+		const inputValue = inputElement.value;
+		const sanitizedValue = inputValue.replace(/\D/g, '');
 
-  get form () {
-      console.log(this.formData);
-      
-    return ' '
-  }
+    if (type == 'movilPhoneContact') {
+      this.movilPhoneContact?.patchValue(sanitizedValue, { emitEvent: false });
+
+    } else if (type == 'form') {
+      const formControl = this.formData.get(control);
+      if (formControl) formControl.setValue(sanitizedValue, { emitEvent: false });
+
+    } else {
+      this.valuesContacts[0][control]?.patchValue(sanitizedValue, { emitEvent: false });
+    }
+	}
+
+
   ngOnDestroy(): void {
     this.onDestroy.next();
     this.onDestroy.unsubscribe();

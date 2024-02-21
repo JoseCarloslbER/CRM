@@ -17,7 +17,7 @@
 
                         <mat-form-field class="gt-xs:pr-3 inputNewRegister" *ngIf="!addContact?.value">
                             <mat-label>Teléfono móvil</mat-label>
-                            <input maxlength="10" type="number" [formControl]="movilPhoneContact" matInput>
+                            <input (input)="configInput($event, 'movilPhoneContact')" maxlength="10" type="text" [formControl]="movilPhoneContact" matInput>
                         </mat-form-field>
 
                         <mat-form-field class="gt-xs:pr-3 inputNewRegister" *ngIf="addContact?.value">
@@ -99,7 +99,7 @@
                     <div class="col-md-4">
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Teléfono fijo</mat-label>
-                            <input maxlength="10" type="number" formControlName="phone_number" matInput>
+                            <input (input)="configInput($event, 'form', 'phone_number')" maxlength="10" type="text"  formControlName="phone_number" matInput>
                         </mat-form-field>
 
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
@@ -162,7 +162,7 @@
                             </mat-form-field>
                             <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                                 <mat-label>Teléfono fijo</mat-label>
-                                <input maxlength="10" type="number" matInput [formControl]="ejecucion.localPhone">
+                                <input (input)="configInput($event, '', 'localPhone')" maxlength="10" type="text" matInput [formControl]="ejecucion.localPhone">
                             </mat-form-field>
                         </div>
     
@@ -174,7 +174,7 @@
     
                             <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                                 <mat-label>Teléfono móvil</mat-label>
-                                <input maxlength="10" type="number" matInput [formControl]="ejecucion.movilPhoneControl">
+                                <input (input)="configInput($event, '', 'movilPhoneControl')" maxlength="10" type="text" matInput [formControl]="ejecucion.movilPhoneControl">
                             </mat-form-field>
                         </div>
     
@@ -186,7 +186,7 @@
     
                             <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                                 <mat-label>Extención</mat-label>
-                                <input maxlength="5" type="number" matInput [formControl]="ejecucion.extControl">
+                                <input (input)="configInput($event, '', 'extControl')" maxlength="5" type="text" matInput [formControl]="ejecucion.extControl">
                             </mat-form-field>
                         </div>
     
