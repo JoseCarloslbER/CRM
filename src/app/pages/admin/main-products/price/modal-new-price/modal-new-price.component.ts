@@ -18,9 +18,8 @@ export class ModalNewPriceComponent implements OnInit, OnDestroy {
   public formData = this.formBuilder.group({
     code: [null, Validators.required],
     price: [null, Validators.required],
-    tax_percentage: [null, Validators.required],
+    tax_percentage: ['', [Validators.required, this.validateTaxPercentage]],
     currency: [null, Validators.required],
-    status_id: [null, Validators.required],
   });
 
   public catCountries: entityGeneral.DataCatCountry[] = [];
@@ -31,7 +30,6 @@ export class ModalNewPriceComponent implements OnInit, OnDestroy {
   // private idData: string = '';
   // private objEditData : entity.GetDataPrice;
 
-  public idData: string = '';
   public objEditData: any;
 
   constructor(
@@ -44,10 +42,10 @@ export class ModalNewPriceComponent implements OnInit, OnDestroy {
 	) {	}
 
   ngOnInit(): void {
-    console.log(this.data.info);
+    console.log(this.data?.info);
 
-    if (this.data.info) {
-      this.objEditData = this.data.info
+    if (this.data?.info) {
+      this.objEditData = this.data?.info
       this.asignedData();
     }
   }
@@ -59,14 +57,14 @@ export class ModalNewPriceComponent implements OnInit, OnDestroy {
   }
 
   getCatalogs() {
-    this.moduleServices.getCatCountry().pipe(takeUntil(this.onDestroy)).subscribe({
+    this.moduleServices.getCatCountry().subscribe({
       next: (data: entityGeneral.DataCatCountry[]) => {
         this.catCountries = data;
       },
       error: (error) => console.error(error)
     });
 
-    this.moduleServices.getCatProductCategory().pipe(takeUntil(this.onDestroy)).subscribe({
+    this.moduleServices.getCatProductCategory().subscribe({
       next: (data: entityGeneral.DataCatProductCategory[]) => {
         this.catProductCategories = data;
       },
@@ -79,9 +77,11 @@ export class ModalNewPriceComponent implements OnInit, OnDestroy {
       ...this.formData.value,
     }
 
+    if (this.productsApplies.value) objData.product_category_id = this.productsApplies.value;
+
     console.log(objData);
 
-    if (this.idData) this.saveDataPatch(objData)
+    if (this.objEditData) this.saveDataPatch(objData)
      else this.saveDataPost(objData)
   }
   
@@ -89,12 +89,13 @@ export class ModalNewPriceComponent implements OnInit, OnDestroy {
     this.formData.patchValue({
       ...this.objEditData,
       country : this.objEditData?.country?.country_id || '',
-      product_category : this.objEditData?.product_category?.product_category_id || ''
+      // product_category : this.objEditData?.price_id || ''
+      // product_category : this.objEditData?.product_category?.product_category_id || ''
     })
   }
 
   saveDataPost(objData:entity.PostDataPrice) {
-    this.moduleServices.postDataPrice(objData).pipe(takeUntil(this.onDestroy)).subscribe({
+    this.moduleServices.postDataPrice(objData).subscribe({
       next: (response: any) => {
         this.completionMessage()
       },
@@ -106,7 +107,7 @@ export class ModalNewPriceComponent implements OnInit, OnDestroy {
   }
 
   saveDataPatch(objData:entity.PostDataPrice) {
-    this.moduleServices.patchDataPrice(this.idData, objData).pipe(takeUntil(this.onDestroy)).subscribe({
+    this.moduleServices.patchDataPrice(this.objEditData.price_id, objData).subscribe({
       next: (response: any) => {
         this.completionMessage(true)
       },
@@ -126,6 +127,13 @@ export class ModalNewPriceComponent implements OnInit, OnDestroy {
       )
       .afterClosed()
       .subscribe((_) => { this.closeModal() });
+  }
+
+  validateTaxPercentage(control: any) {
+    const taxPercentage = control.value;
+    if (taxPercentage > 100) return { 'invalidPercentage': true };
+  
+    return null;
   }
 
   closeModal() {

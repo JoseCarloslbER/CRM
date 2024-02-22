@@ -69,19 +69,19 @@ export class AdminService {
 	}
 
   public postDataPrice(data:entity.PostDataPrice): Observable<any> {
-		const url = `${environment.apiURL}price`;
+		const url = `${this.apiUrl}price/`;
 
     return this.http.post<any>(url, data)
 	}
 
   public patchDataPrice(id:string, data:entity.PostDataPrice): Observable<any> {
-		const url = `${environment.apiURL}price${id}/`;
+		const url = `${this.apiUrl}price/${id}/`;
 
     return this.http.patch<any>(url, data)
 	}
  
   public deleteDataPrice(id:string): Observable<any> {
-		const url = `${environment.apiURL}price${id}/`;
+		const url = `${this.apiUrl}price${id}/`;
 
     return this.http.delete<any>(url)
 	}
