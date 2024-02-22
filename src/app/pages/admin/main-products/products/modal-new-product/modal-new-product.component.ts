@@ -6,11 +6,11 @@ import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { Subject, takeUntil } from 'rxjs';
 import * as entity from '../../../admin-interface';
 import * as entityGeneral from '../../../../../shared/interfaces/general-interface';
+import { UpdateComponentsService } from 'app/shared/services/updateComponents.service';
 
 @Component({
   selector: 'app-modal-new-product',
   templateUrl: './modal-new-product.component.html',
-  styleUrl: './modal-new-product.component.scss'
 })
 export class ModalNewProductComponent implements OnInit, AfterViewInit, OnDestroy {
   private onDestroy = new Subject<void>();
@@ -18,21 +18,20 @@ export class ModalNewProductComponent implements OnInit, AfterViewInit, OnDestro
   public formData = this.formBuilder.group({
     code: [null, Validators.required],
     name: [null, Validators.required],
-    price: [null, Validators.required],
-    link: [null, Validators.required],
-    product_category_id: [null, Validators.required],
-    country_id: [null, Validators.required],
-    status_id: [null, Validators.required]
+    list_price: [null, Validators.required],
+    product_category: [null, Validators.required],
+    country: [null, Validators.required],
+    link: [null],
   });
 
   public catCountries: entityGeneral.DataCatCountry[] = [];
   public catProductCategories: entityGeneral.DataCatProductCategory[] = [];
 
-
-  private idData: string = '';
-  private objEditData: entity.GetDataProduct;
+  public idData: string = '';
+  public objEditData: any;
 
   constructor(
+    private updateService: UpdateComponentsService,
     private moduleServices: AdminService,
     private formBuilder: FormBuilder,
     private notificationService: OpenModalsService,
@@ -41,11 +40,11 @@ export class ModalNewProductComponent implements OnInit, AfterViewInit, OnDestro
   ) { }
 
   ngOnInit(): void {
-    console.log(this.data?.idEdit);
+    console.log(this.data.info);
 
-    if (this.data?.idEdit) {
-      this.idData = this.data.idEdit
-      this.getDataId();
+    if (this.data.info) {
+      this.objEditData = this.data.info
+      this.asignedData();
     }
   }
 
@@ -72,33 +71,26 @@ export class ModalNewProductComponent implements OnInit, AfterViewInit, OnDestro
   }
 
   actionSave() {
-
     let objData: any = {
       ...this.formData.value,
     }
 
     console.log(objData);
-    this.completionMessage(true);
 
-    // if (this.idData) this.saveDataPatch(objData)
-    //  else this.saveDataPost(objData)
+    if (this.idData) this.saveDataPatch(objData)
+     else this.saveDataPost(objData)
   }
 
-  getDataId() {
-    this.moduleServices.getDataProductId(this.idData).pipe(takeUntil(this.onDestroy)).subscribe({
-      next: (response: any) => {
-        this.objEditData = response;
-        this.formData.patchValue(response)
-      },
-      error: (error) => {
-        this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
-        console.error(error)
-      }
+  asignedData() {
+    this.formData.patchValue({
+      ...this.objEditData,
+      country : this.objEditData?.country?.country_id || '',
+      product_category : this.objEditData?.product_category?.product_category_id || ''
     })
   }
 
   saveDataPost(objData: entity.PostDataProduct) {
-    this.moduleServices.postDataProduct(objData).pipe(takeUntil(this.onDestroy)).subscribe({
+    this.moduleServices.postDataProduct(objData).subscribe({
       next: () => {
         this.completionMessage()
       },
@@ -110,7 +102,7 @@ export class ModalNewProductComponent implements OnInit, AfterViewInit, OnDestro
   }
 
   saveDataPatch(objData: entity.PostDataProduct) {
-    this.moduleServices.patchDataProduct(this.idData, objData).pipe(takeUntil(this.onDestroy)).subscribe({
+    this.moduleServices.patchDataProduct(this.idData, objData).subscribe({
       next: () => {
         this.completionMessage(true)
       },
@@ -133,6 +125,7 @@ export class ModalNewProductComponent implements OnInit, AfterViewInit, OnDestro
   }
 
   closeModal() {
+    this.updateService.triggerUpdate();
     this.dialogRef.close({ close: true })
   }
 

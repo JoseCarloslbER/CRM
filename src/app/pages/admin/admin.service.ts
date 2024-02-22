@@ -25,8 +25,7 @@ export class AdminService {
 	}
 
   public getCatProductCategory(): Observable<DataCatProductCategory[]> {
-		const url = `${this.apiUrl}product-category/`;
-
+		const url = `${environment.apiURL}settings/product-category/`;
     return this.http.get<DataCatProductCategory[]>(url)
 	}
 
@@ -34,16 +33,10 @@ export class AdminService {
 
   // PRODUCTS 
   
-  public getDataTableProducts(): Observable<entity.DataProductTable> {
+  public getDataTableProducts(): Observable<entity.DataProductTable[]> {
 		const url = `${this.apiUrl}product/`;
 
-    return this.http.get<entity.DataProductTable>(url)
-	}
-
-  public getDataProductId(id:string): Observable<entity.GetDataProduct> {
-		const url = `${this.apiUrl}product/`;
-
-    return this.http.get<entity.GetDataProduct>(url)
+    return this.http.get<entity.DataProductTable[]>(url)
 	}
 
   public postDataProduct(data:entity.PostDataProduct): Observable<any> {
@@ -59,7 +52,7 @@ export class AdminService {
 	}
  
   public deleteDataProduct(id:string): Observable<any> {
-		const url = `${this.apiUrl}product/`;
+		const url = `${this.apiUrl}product/${id}/`;
 
     return this.http.delete<any>(url)
 	}
@@ -69,16 +62,10 @@ export class AdminService {
 
   // PRICE
 
-  public getDataTablePrices(): Observable<entity.DataPriceTable> {
-		const url = `${environment.apiURL}price`;
+  public getDataTablePrices(): Observable<entity.DataPriceTable[]> {
+		const url = `${this.apiUrl}price/`;
 
-    return this.http.get<entity.DataPriceTable>(url)
-	}
-
-  public getDataPriceId(id:string): Observable<entity.GetDataPrice> {
-		const url = `${environment.apiURL}price${id}/`;
-
-    return this.http.get<entity.GetDataPrice>(url)
+    return this.http.get<entity.DataPriceTable[]>(url)
 	}
 
   public postDataPrice(data:entity.PostDataPrice): Observable<any> {

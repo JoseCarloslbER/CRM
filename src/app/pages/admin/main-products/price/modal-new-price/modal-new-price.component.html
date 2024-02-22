@@ -37,7 +37,7 @@
 
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Precio unitario</mat-label>
-                            <input formControlName="price" class="text-right" matInput>
+                            <input formControlName="price" class="text-right" matInput type="number">
                             <span matPrefix>$</span>
                         </mat-form-field>
 
@@ -45,13 +45,6 @@
                             <mat-label>Moneda</mat-label>
                             <mat-select formControlName="currency" placeholder="Seleccionar">
                                 <mat-option [value]="1">Moneda 1</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-
-                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
-                            <mat-label>Estatus</mat-label>
-                            <mat-select formControlName="status_id" placeholder="Seleccionar">
-                                <mat-option [value]="1">Estatus 1</mat-option>
                             </mat-select>
                         </mat-form-field>
 

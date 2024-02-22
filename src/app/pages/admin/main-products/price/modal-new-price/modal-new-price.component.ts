@@ -5,11 +5,12 @@ import { OpenModalsService } from 'app/shared/services/openModals.service';
 import * as entity from '../../../admin-interface';
 import { Subject, takeUntil } from 'rxjs';
 import { AdminService } from 'app/pages/admin/admin.service';
+import { UpdateComponentsService } from 'app/shared/services/updateComponents.service';
+import * as entityGeneral from '../../../../../shared/interfaces/general-interface';
 
 @Component({
   selector: 'app-modal-new-price',
   templateUrl: './modal-new-price.component.html',
-  styleUrl: './modal-new-price.component.scss'
 })
 export class ModalNewPriceComponent implements OnInit, OnDestroy {
   private onDestroy = new Subject<void>();
@@ -22,12 +23,19 @@ export class ModalNewPriceComponent implements OnInit, OnDestroy {
     status_id: [null, Validators.required],
   });
 
+  public catCountries: entityGeneral.DataCatCountry[] = [];
+  public catProductCategories: entityGeneral.DataCatProductCategory[] = [];
+  
   public productsApplies = new FormControl(null);
 
-  private idData: string = '';
-  private objEditData : entity.GetDataPrice;
+  // private idData: string = '';
+  // private objEditData : entity.GetDataPrice;
+
+  public idData: string = '';
+  public objEditData: any;
 
   constructor(
+    private updateService: UpdateComponentsService,
     private moduleServices: AdminService,
     private formBuilder: FormBuilder,
     private notificationService: OpenModalsService,
@@ -36,38 +44,52 @@ export class ModalNewPriceComponent implements OnInit, OnDestroy {
 	) {	}
 
   ngOnInit(): void {
-    console.log(this.data?.idEdit);
-    
-    if (this.data?.idEdit) {
-      this.idData = this.data.idEdit
-      this.getDataId();
+    console.log(this.data.info);
+
+    if (this.data.info) {
+      this.objEditData = this.data.info
+      this.asignedData();
     }
   }
 
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.getCatalogs()
+    }, 500);
+  }
+
+  getCatalogs() {
+    this.moduleServices.getCatCountry().pipe(takeUntil(this.onDestroy)).subscribe({
+      next: (data: entityGeneral.DataCatCountry[]) => {
+        this.catCountries = data;
+      },
+      error: (error) => console.error(error)
+    });
+
+    this.moduleServices.getCatProductCategory().pipe(takeUntil(this.onDestroy)).subscribe({
+      next: (data: entityGeneral.DataCatProductCategory[]) => {
+        this.catProductCategories = data;
+      },
+      error: (error) => console.error(error)
+    });
+  }
+
   actionSave() {
-    console.log('FORM', this.formData.value);
-    
-    let objData : any = {
+    let objData: any = {
       ...this.formData.value,
     }
 
     console.log(objData);
-    this.completionMessage(true);
 
-    // if (this.idData) this.saveDataPatch(objData)
-    //  else this.saveDataPost(objData)
+    if (this.idData) this.saveDataPatch(objData)
+     else this.saveDataPost(objData)
   }
-
-  getDataId() {
-    this.moduleServices.getDataPriceId(this.idData).pipe(takeUntil(this.onDestroy)).subscribe({
-      next: (response: any) => {
-        this.objEditData = response;
-        this.formData.patchValue(response)
-      },
-      error: (error) => {
-        this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
-        console.error(error)
-      }
+  
+  asignedData() {
+    this.formData.patchValue({
+      ...this.objEditData,
+      country : this.objEditData?.country?.country_id || '',
+      product_category : this.objEditData?.product_category?.product_category_id || ''
     })
   }
 
@@ -107,6 +129,7 @@ export class ModalNewPriceComponent implements OnInit, OnDestroy {
   }
 
   closeModal() {
+    this.updateService.triggerUpdate();
 		this.dialogRef.close({ close : true })
   }
 

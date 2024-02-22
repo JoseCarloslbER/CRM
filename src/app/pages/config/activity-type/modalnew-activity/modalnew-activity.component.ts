@@ -6,7 +6,7 @@ import { ConfigService } from '../../config.service';
 import { FormControl, Validators } from '@angular/forms';
 import { modalInfoTable } from 'app/shared/interfaces/TableColumns';
 import * as entity from '../../config-interface';
-import { UpdateComponentsService } from '../../company-categories/components/components.service';
+import { UpdateComponentsService } from '../../../../shared/services/updateComponents.service';
 
 @Component({
   selector: 'app-modalnew-activity',

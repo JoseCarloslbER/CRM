@@ -5,7 +5,7 @@ import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { modalInfoTable } from 'app/shared/interfaces/TableColumns';
-import { UpdateComponentsService } from '../components.service';
+import { UpdateComponentsService } from '../../../../../shared/services/updateComponents.service';
 
 @Component({
   selector: 'app-shared-modal',

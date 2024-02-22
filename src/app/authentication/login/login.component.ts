@@ -58,18 +58,15 @@ export class LoginComponent implements OnInit, OnDestroy {
     ...this.signInForm.value
     }
 
-    console.log(objLogin);
-
-    // this.moduleServices.login(objLogin).pipe(takeUntil(this.onDestroy)).subscribe({
-    //   next: (response) => {
-    //     console.log(response);
-    //     if (response) {
-    //       if (this.rememberMe.value) this.saveEncryptedUser();
+    this.moduleServices.login(objLogin).subscribe({
+      next: (response) => {
+        if (response) {
+          if (this.rememberMe.value) this.saveEncryptedUser();
           this.router.navigateByUrl('/home')
-    //     }
-    //   },
-    //   error: (error) => console.error(error)
-    // })
+        }
+      },
+      error: (error) => console.error(error)
+    })
   }
 
   saveEncryptedUser() {

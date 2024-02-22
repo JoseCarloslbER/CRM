@@ -7,7 +7,7 @@ import { Subject, Subscription } from 'rxjs';
 import * as entity from '../../../config-interface';
 import { ConfigService } from 'app/pages/config/config.service';
 import { SharedModalComponent } from '../shared-modal/shared-modal.component';
-import { UpdateComponentsService } from '../components.service';
+import { UpdateComponentsService } from '../../../../../shared/services/updateComponents.service';
 
 @Component({
   selector: 'app-giro-company',

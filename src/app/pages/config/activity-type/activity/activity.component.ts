@@ -7,7 +7,7 @@ import * as entity from '../../config-interface';
 import { ModalnewActivityComponent } from '../modalnew-activity/modalnew-activity.component';
 import { Subject, Subscription } from 'rxjs';
 import { ConfigService } from '../../config.service';
-import { UpdateComponentsService } from '../../company-categories/components/components.service';
+import { UpdateComponentsService } from '../../../../shared/services/updateComponents.service';
 
 @Component({
   selector: 'app-activity',

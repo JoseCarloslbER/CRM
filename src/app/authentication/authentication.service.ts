@@ -23,7 +23,7 @@ export class AuthenticationService {
     const options = { headers, withCredentials: true };
 
     const url = `${this.apiUrl}login/`
-    
+
     return this.http.post<any>(url, credentials, options).pipe(
       map((response) => {
         console.log(response);
@@ -50,8 +50,8 @@ export class AuthenticationService {
   }
 
   isAuthenticated(): boolean {
-    return true
-    // return !!localStorage.getItem('token');
+    // return true;
+    return !!localStorage.getItem('token');
   }
 
   refreshToken(): Observable<boolean> {

@@ -8,7 +8,7 @@ import * as entityManager from '../../../../../../management/management-interfac
 import { TableDataActivityType } from 'app/pages/config/config-interface';
 import { ManagementmentService } from 'app/pages/management/management.service';
 import moment from 'moment';
-import { UpdateComponentsService } from 'app/pages/config/company-categories/components/components.service';
+import { UpdateComponentsService } from 'app/shared/services/updateComponents.service';
 import { ReactivationService } from 'app/pages/reactivation/reactivation.service';
 
 @Component({

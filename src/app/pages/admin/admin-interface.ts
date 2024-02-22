@@ -1,18 +1,17 @@
 
 // END CATALOGS
 
-// PRODUCTS
-export interface DataProductTable {
-  data : TableDataProductList[]
-}
+import * as entityGeneral from '../../shared/interfaces/general-interface';
 
-export interface TableDataProductList {
+// PRODUCTS
+
+export interface DataProductTable {
    code: string;
    name: string;
-   price: string;
+   price: DataPriceTable;
    link: string;
    product_category_id: string;
-   country_id: string;
+   country: entityGeneral.DataCatCountry;
    price_id: string;
    discount_id: string;
    status_id: string;
@@ -46,10 +45,6 @@ export interface PostDataProduct {
 
 // PRICE
 export interface DataPriceTable {
-  data : TableDataPriceList[]
-}
-
-export interface TableDataPriceList {
    code: string;
    price: string;
    tax_percentage: string;

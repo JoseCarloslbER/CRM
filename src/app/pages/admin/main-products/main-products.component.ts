@@ -15,7 +15,15 @@ import * as entity from '../admin-interface';
 @Component({
   selector: 'app-main-products',
   templateUrl: './main-products.component.html',
-  styleUrl: './main-products.component.scss'
+  styles: [
+    `
+     .c-main-product{
+      ::ng-deep .mat-mdc-tab-body-content {
+          padding: 0!important;
+        }
+    }
+    `
+  ]
 })
 export class MainProductsComponent implements OnInit, AfterViewInit, OnDestroy {
   private onDestroy = new Subject<void>();
@@ -129,21 +137,13 @@ export class MainProductsComponent implements OnInit, AfterViewInit, OnDestroy {
     
   }
 
-  getDataTable() {
-    this.moduleServices.getDataTableProducts().subscribe({
-        next: ({ data } : entity.DataProductTable) => {
-          console.log(data);
-        },
-        error: (error) => console.error(error)
-      }
-    )
-  }
-  
   onTabChange(event: MatTabChangeEvent): void {
     this.selectionType = event.tab.textLabel 
   }
 
   newData() {
+    console.log(this.selectionType);
+    
     if (this.selectionType.includes('Productos')) {
       this.modalProducts()
     } else if(this.selectionType.includes('Precios')){
@@ -153,23 +153,29 @@ export class MainProductsComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  modalProducts() {
+  modalProducts(data = null) {
     this.dialog.open(ModalNewProductComponent, {
       data: null,
       disableClose: true,
       width: '800px',
       maxHeight: '628px',
       panelClass: 'custom-dialog',
+    })
+    .afterClosed()
+    .subscribe((_) => {
     });
   }
 
-  modalPrice() {
+  modalPrice(data = null) {
     this.dialog.open(ModalNewPriceComponent, {
       data: null,
       disableClose: true,
       width: '800px',
       maxHeight: '628px',
       panelClass: 'custom-dialog',
+    })
+    .afterClosed()
+    .subscribe((_) => {
     });
   }
 
@@ -195,10 +201,6 @@ export class MainProductsComponent implements OnInit, AfterViewInit, OnDestroy {
           });
   }
 
-  get title() : string {
-    return ''
-  }
-  
   ngOnDestroy(): void {
     this.onDestroy.next();
     this.onDestroy.unsubscribe();

@@ -1,7 +1,7 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { ManagementmentService } from '../../management.service';
-import { UpdateComponentsService } from 'app/pages/config/company-categories/components/components.service';
+import { UpdateComponentsService } from 'app/shared/services/updateComponents.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';

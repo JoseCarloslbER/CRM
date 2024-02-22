@@ -8,7 +8,7 @@ import { Subject, Subscription } from 'rxjs';
 import { ConfigService } from 'app/pages/config/config.service';
 import * as entity from '../../../config-interface';
 import { SharedModalComponent } from '../shared-modal/shared-modal.component';
-import { UpdateComponentsService } from '../components.service';
+import { UpdateComponentsService } from '../../../../../shared/services/updateComponents.service';
 
 @Component({
   selector: 'app-origin-company',

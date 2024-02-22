@@ -11,7 +11,7 @@ import * as entityGeneral from '../../../shared/interfaces/general-interface';
 import moment from 'moment';
 import * as entity from '../management-interface';
 import { TableDataActivityType } from 'app/pages/config/config-interface';
-import { UpdateComponentsService } from 'app/pages/config/company-categories/components/components.service';
+import { UpdateComponentsService } from 'app/shared/services/updateComponents.service';
 import { ModalFinallyComponent } from './modal-finally/modal-finally.component';
 
 @Component({
