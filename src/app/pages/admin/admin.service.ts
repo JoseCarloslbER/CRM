@@ -4,6 +4,7 @@ import { environment } from 'environments/environment.dev';
 import { Observable } from 'rxjs';
 import * as entity from './admin-interface';
 import { DataCatCountry, DataCatProductCategory } from 'app/shared/interfaces/general-interface';
+import * as entityGeneral from '../../shared/interfaces/general-interface';
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +28,11 @@ export class AdminService {
   public getCatProductCategory(): Observable<DataCatProductCategory[]> {
 		const url = `${environment.apiURL}settings/product-category/`;
     return this.http.get<DataCatProductCategory[]>(url)
+	}
+
+  public getCatCurrency(): Observable<entityGeneral.DataCatCurrency[]> {
+		const url = `${environment.apiURL}settings/currency/`;
+    return this.http.get<entityGeneral.DataCatCurrency[]>(url)
 	}
 
   // END CATALOGS 

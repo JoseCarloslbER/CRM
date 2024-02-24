@@ -6,6 +6,8 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { Router } from '@angular/router';
+import { AuthenticationService } from 'app/authentication/authentication.service';
+import { AdminService } from 'app/pages/admin/admin.service';
 import { Subject } from 'rxjs';
 
 @Component({
@@ -27,22 +29,26 @@ export class UserComponent implements OnInit, OnDestroy
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     constructor(
+        private adminServices: AuthenticationService,
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
     ) { }
 
     ngOnInit(): void { }
 
-    ngOnDestroy(): void {
-        this._unsubscribeAll.next(null);
-        this._unsubscribeAll.complete();
-    }
-
     updateUserStatus(status: string): void {
         if ( !this.user ) return;
     }
    
     signOut(): void {
-        this._router.navigateByUrl('/autenticacion/login');
+        this.adminServices.logout().subscribe(response => {
+            if (response) this._router.navigateByUrl('/autenticacion/login');
+        })
     }
+    
+    ngOnDestroy(): void {
+        this._unsubscribeAll.next(null);
+        this._unsubscribeAll.complete();
+    }
+
 }

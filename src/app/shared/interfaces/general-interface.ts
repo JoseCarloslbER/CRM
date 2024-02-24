@@ -15,6 +15,13 @@ export interface DataCatBusiness {
   business_id: string;
 }
 
+export interface DataCatCurrency {
+  currency_name: string;
+  currency_abrev: string;
+  currency_id: string;
+  symbol: string;
+}
+
 export interface DataCatPlatform {
   platform_name: string;
   platform_id: string;

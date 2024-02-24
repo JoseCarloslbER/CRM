@@ -22,7 +22,7 @@ export class ModalNewPriceComponent implements OnInit, OnDestroy {
     currency: [null, Validators.required],
   });
 
-  public catCountries: entityGeneral.DataCatCountry[] = [];
+  public catCurrency: entityGeneral.DataCatCurrency[] = [];
   public catProductCategories: entityGeneral.DataCatProductCategory[] = [];
   
   public productsApplies = new FormControl(null);
@@ -57,9 +57,9 @@ export class ModalNewPriceComponent implements OnInit, OnDestroy {
   }
 
   getCatalogs() {
-    this.moduleServices.getCatCountry().subscribe({
-      next: (data: entityGeneral.DataCatCountry[]) => {
-        this.catCountries = data;
+    this.moduleServices.getCatCurrency().subscribe({
+      next: (data: entityGeneral.DataCatCurrency[]) => {
+        this.catCurrency = data;
       },
       error: (error) => console.error(error)
     });
@@ -88,10 +88,8 @@ export class ModalNewPriceComponent implements OnInit, OnDestroy {
   asignedData() {
     this.formData.patchValue({
       ...this.objEditData,
-      country : this.objEditData?.country?.country_id || '',
-      // product_category : this.objEditData?.price_id || ''
-      // product_category : this.objEditData?.product_category?.product_category_id || ''
     })
+    this.productsApplies.patchValue(this.objEditData?.product_category_id)
   }
 
   saveDataPost(objData:entity.PostDataPrice) {

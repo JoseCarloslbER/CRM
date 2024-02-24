@@ -48,8 +48,9 @@
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Moneda</mat-label>
                             <mat-select formControlName="currency" placeholder="Seleccionar">
-                                <mat-option [value]="'mx'">Moneda 1</mat-option>
-                            </mat-select>
+                                <mat-option [value]="cat.currency_id "
+                                    *ngFor="let cat of catCurrency">{{cat?.currency_abrev}}</mat-option>
+                                </mat-select>
                         </mat-form-field>
 
                     </div>
