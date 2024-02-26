@@ -1,38 +1,21 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { CalendarEvent, EventColor } from 'calendar-utils';
-import { CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView } from 'angular-calendar';
+import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { CalendarEvent } from 'calendar-utils';
+import { CalendarEventAction, CalendarView } from 'angular-calendar';
 import { Subject } from 'rxjs';
-import { addDays, addHours, endOfDay, endOfMonth, isSameDay, isSameMonth, startOfDay, subDays } from 'date-fns';
+import { isSameDay, isSameMonth } from 'date-fns';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalNewActivityComponent } from 'app/pages/companies/all/detail-client/components/history/modal-new-activity/modal-new-activity.component';
 import { ReactivationService } from '../reactivation.service';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
-import * as entity from '../reactivation-interface';
 
-
-const colors: Record<string, EventColor> = {
-  red: {
-    primary: '#ad2121',
-    secondary: '#FAE3E3',
-  },
-  blue: {
-    primary: '#1e90ff',
-    secondary: '#D1E8FF',
-  },
-  yellow: {
-    primary: '#e3bc08',
-    secondary: '#FDF1BA',
-  },
-};
 
 @Component({
   selector: 'app-diary',
   templateUrl: './diary.component.html',
   styleUrl: './diary.component.scss'
 })
-export class DiaryComponent implements OnInit, AfterViewInit, OnDestroy {
+export class DiaryComponent implements OnInit, OnDestroy {
   private onDestroy = new Subject<void>();
 
   @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
@@ -54,74 +37,20 @@ export class DiaryComponent implements OnInit, AfterViewInit, OnDestroy {
       label: '<i class="fas fa-fw fa-pencil-alt"></i>',
       a11yLabel: 'Edit',
       onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.handleEvent('Edited', event);
+        this.newOrEditData(event);
       },
     },
     {
       label: '<i class="fas fa-fw fa-trash-alt"></i>',
       a11yLabel: 'Delete',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
+      onClick: ({ event }: { event: any }): void => {
         this.events = this.events.filter((iEvent) => iEvent !== event);
-        this.handleEvent('Deleted', event);
+        this.deleteData(event.data.activity_id);
       },
     },
   ];
 
-  refresh = new Subject<void>();
-
-  events: CalendarEvent[] = [
-    {
-      start: subDays(startOfDay(new Date()), 1),
-      // end: addDays(new Date(), 1),
-      title: 'Reunión presentación de proyecto',
-      // color: { ...colors.red },
-      actions: this.actions,
-      // allDay: true,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true,
-      },
-      // draggable: true,
-    },
-    // {
-    //   start: startOfDay(new Date()),
-    //   title: 'Un evento sin fecha de finalización',
-    //   color: { ...colors.yellow },
-    //   actions: this.actions,
-    // },
-    // {
-    //   start: subDays(endOfMonth(new Date()), 3),
-    //   end: addDays(endOfMonth(new Date()), 3),
-    //   title: 'Un largo evento que dura 2 meses.',
-    //   color: { ...colors.blue },
-    //   allDay: true,
-    // },
-    // {
-    //   start: addHours(startOfDay(new Date()), 2),
-    //   end: addHours(new Date(), 2),
-    //   title: 'Un evento arrastrable y redimensionable',
-    //   color: { ...colors.yellow },
-    //   actions: this.actions,
-    //   resizable: {
-    //     beforeStart: true,
-    //     afterEnd: true,
-    //   },
-    //   draggable: true,
-    // },
-  ];
-
-
-  // Mostrar evento en el calendario. 
-  public objetoAgenda  = {
-    // color:{
-    //   primary : "#ad2121",
-    //   secondary : "#FAE3E3"
-    // }  NO ES NECESARIO
-
-    title : '', // description
-    actions : this.actions, // editar o eliminar evento
-    draggable : false // no se mueva el evento
-  } 
+  events: any[] = [];
 
   activeDayIsOpen: boolean = true;
 
@@ -136,54 +65,26 @@ export class DiaryComponent implements OnInit, AfterViewInit, OnDestroy {
     this.getDataTable();
   }
 
-  ngAfterViewInit(): void {
-
-  }
-
   getDataTable() {
     this.moduleServices.getDataTableDiary().subscribe({
       next: (data: any) => {
-        console.log('AGENDA:', data[0]);
+        this.events = data.map(data => {
+          return {
+            data: data,
+            start: new Date(data.activity_date),
+            title: data.description,
+            actions: this.actions
+          }
+        })
       },
       error: (error) => console.error(error)
     })
-  }
-  
-  addEvent(): void {
-    let event = [
-      ...this.events,
-      {
-        title: 'New event',
-        start: startOfDay(new Date()),
-        actions : [
-          {
-            label: '<i class="fas fa-fw fa-pencil-alt"></i>',
-            a11yLabel: 'Edit',
-            onClick: ({ event }: { event: CalendarEvent }): void => {
-              this.handleEvent('Edited', event);
-            },
-          },
-          {
-            label: '<i class="fas fa-fw fa-trash-alt"></i>',
-            a11yLabel: 'Delete',
-            onClick: ({ event }: { event: CalendarEvent }): void => {
-              this.events = this.events.filter((iEvent) => iEvent !== event);
-              this.handleEvent('Deleted', event);
-            },
-          },
-        ],
-      },
-    ];
-
-    console.log('EVENTO: ', event);
-    
-    this.events = event
   }
 
   newOrEditData(data = null) {
     this.dialog.open(ModalNewActivityComponent, {
       data: {
-        info: data,
+        info: data.data,
         type: 'diary'
       },
       disableClose: true,
@@ -194,7 +95,34 @@ export class DiaryComponent implements OnInit, AfterViewInit, OnDestroy {
       .afterClosed()
       .subscribe((_) => this.getDataTable());
   }
-  
+
+  deleteData(id: string) {
+    this.notificationService
+    .notificacion(
+      'Pregunta',
+      '¿Estas seguro de eliminar el registro?',
+      'question',
+    )
+    .afterClosed()
+    .subscribe((response) => {
+      if (response) {
+        this.moduleServices.deleteDataCallOrDaily(id).subscribe({
+          next: () => {
+              this.notificationService
+              .notificacion(
+                'Éxito',
+                'Registro eliminado.',
+                'delete',
+              )
+              .afterClosed()
+              .subscribe((_) => this.getDataTable());
+          },
+          error: (error) => console.error(error)
+        })
+      }
+    });
+  }
+
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
       if (
@@ -209,32 +137,9 @@ export class DiaryComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  eventTimesChanged({
-    event,
-    newStart,
-    newEnd,
-  }: CalendarEventTimesChangedEvent): void {
-    this.events = this.events.map((iEvent) => {
-      if (iEvent === event) {
-        return {
-          ...event,
-          start: newStart,
-          end: newEnd,
-        };
-      }
-      return iEvent;
-    });
-    this.handleEvent('Dropped or resized', event);
-  }
-
   handleEvent(action: string, event: CalendarEvent): void {
     this.modalData = { event, action };
     this.modal.open(this.modalContent, { size: 'lg' });
-  }
-
-
-  deleteEvent(eventToDelete: CalendarEvent) {
-    this.events = this.events.filter((event) => event !== eventToDelete);
   }
 
   setView(view: CalendarView) {
@@ -244,8 +149,6 @@ export class DiaryComponent implements OnInit, AfterViewInit, OnDestroy {
   closeOpenMonthViewDay() {
     this.activeDayIsOpen = false;
   }
-
-
 
   ngOnDestroy(): void {
     this.onDestroy.next();

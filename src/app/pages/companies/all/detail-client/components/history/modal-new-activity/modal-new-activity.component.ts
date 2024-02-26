@@ -76,7 +76,7 @@ export class ModalNewActivityComponent implements OnInit, OnDestroy {
 
   assignInformation() {
     if (this.data?.info) {
-      this.idData = this.data?.info?.id;
+      this.idData = this.data?.info?.id || this.data?.info?.activity_id;
       this.getDataById() 
     } 
   }
