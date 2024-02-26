@@ -27,7 +27,7 @@ export class ModalNewActivityComponent implements OnInit, OnDestroy {
   public filteredOptions: Observable<any[]>;
 
   public formData = this.formBuilder.group({
-    description: [null],
+    description: [null, Validators.required],
     activity_date: [null],
     activity_hour: [null],
     company: [null, Validators.required],

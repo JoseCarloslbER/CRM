@@ -1,4 +1,9 @@
-.c-diary {
+::ng-deep .c-diary {
+    
+    .cal-event-title:hover  {
+        text-decoration:none!important;
+        cursor: none;
+    }
 
     .c-calendar {
         min-height: 800px;
