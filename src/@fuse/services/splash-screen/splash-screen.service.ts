@@ -23,10 +23,10 @@ export class FuseSplashScreenService
     }
 
     show() {
-        // this._document.body.classList.remove('fuse-splash-screen-hidden');
+        // this._document.body.classList.remove('abrevia-splash-screen-hidden');
     }
 
     hide() {
-        this._document.body.classList.add('fuse-splash-screen-hidden');
+        this._document.body.classList.add('abrevia-splash-screen-hidden');
     }
 }

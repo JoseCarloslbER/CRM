@@ -11,7 +11,7 @@ html {
     scroll-behavior: smooth;
 }
 
-body fuse-splash-screen {
+body abrevia-splash-screen {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -30,12 +30,12 @@ body fuse-splash-screen {
     transition: opacity 400ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-body fuse-splash-screen img {
+body abrevia-splash-screen img {
     width: 120px;
     max-width: 120px;
 }
 
-body fuse-splash-screen .spinner {
+body abrevia-splash-screen .spinner {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -43,7 +43,7 @@ body fuse-splash-screen .spinner {
     width: 56px;
 }
 
-body fuse-splash-screen .spinner > div {
+body abrevia-splash-screen .spinner > div {
     width: 12px;
     height: 12px;
     background-color: #F1E00E;
@@ -53,12 +53,12 @@ body fuse-splash-screen .spinner > div {
     animation: fuse-bouncedelay 1s infinite ease-in-out both;
 }
 
-body fuse-splash-screen .spinner .bounce1 {
+body abrevia-splash-screen .spinner .bounce1 {
     -webkit-animation-delay: -0.32s;
     animation-delay: -0.32s;
 }
 
-body fuse-splash-screen .spinner .bounce2 {
+body abrevia-splash-screen .spinner .bounce2 {
     -webkit-animation-delay: -0.16s;
     animation-delay: -0.16s;
 }
@@ -83,11 +83,11 @@ body fuse-splash-screen .spinner .bounce2 {
     }
 }
 
-body:not(.fuse-splash-screen-hidden) {
+body:not(.abrevia-splash-screen-hidden) {
     overflow: hidden;
 }
 
-body.fuse-splash-screen-hidden fuse-splash-screen {
+body.abrevia-splash-screen-hidden abrevia-splash-screen {
     visibility: hidden;
     opacity: 0;
 }
