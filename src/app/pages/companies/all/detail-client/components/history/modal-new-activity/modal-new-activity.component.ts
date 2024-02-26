@@ -75,7 +75,7 @@ export class ModalNewActivityComponent implements OnInit, OnDestroy {
   }
 
   assignInformation() {
-    if (this.data.info) {
+    if (this.data?.info) {
       this.idData = this.data?.info?.id;
       this.getDataById() 
     } 
@@ -123,7 +123,6 @@ export class ModalNewActivityComponent implements OnInit, OnDestroy {
     this.moduleManagementServices.getCatCompany().subscribe({
       next: (data: entityGeneral.DataCatCompany[]) => {
         this.catCompanies = data;
-        console.log('Company', data);
       },
       error: (error) => console.error(error)
     });
@@ -144,11 +143,11 @@ export class ModalNewActivityComponent implements OnInit, OnDestroy {
 
     } else if (this.data.type == 'calls') {
       objData.process = 'Llamadas'
-      this.saveDataPostPatchCalls(objData);
+      this.saveDataPostPatchCallOrDaily(objData);
 
     } else {
       objData.process = 'Agenda';
-      this.saveDataPostPatchDaily(objData);
+      this.saveDataPostPatchCallOrDaily(objData);
     }
   }
 
@@ -156,14 +155,10 @@ export class ModalNewActivityComponent implements OnInit, OnDestroy {
     this.saveData(this.objEditData, this.moduleManagementServices.postData(objData), this.moduleManagementServices.patchData(this.idData, objData));
   }
   
-  saveDataPostPatchCalls(objData: any) {
-    this.saveData(this.objEditData, this.moduleReactivationServices.postData(objData), this.moduleReactivationServices.patchData(this.idData, objData));
+  saveDataPostPatchCallOrDaily(objData: any) {
+    this.saveData(this.objEditData, this.moduleReactivationServices.postDataCallOrDaily(objData), this.moduleReactivationServices.patchDataCallOrDaily(this.idData, objData));
   }
- 
-  saveDataPostPatchDaily(objData: any) {
-    // this.saveData(this.objEditData, this.moduleServices.postDataBusiness(objData), this.moduleServices.patchDataBusiness(this.objEditData?.business_id, objData));
-  }
-  
+
   saveData(editData: any, postMethod: Observable<any>, patchMethod: Observable<any>) {
     const dataService = editData ? patchMethod : postMethod;
   

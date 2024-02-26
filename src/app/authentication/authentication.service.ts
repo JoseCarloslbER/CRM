@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import CryptoJS from 'crypto-js';
 import { environment } from 'environments/environment.dev';
 import { Observable, catchError, map, of } from 'rxjs';
 
@@ -13,8 +14,6 @@ export class AuthenticationService {
   constructor(
     private http: HttpClient
   ) { }
-
-  //  axios.get('http://localhost:8000/api', {withCredentials: true});
 
   login(credentials: { username: string; password: string }): Observable<boolean> {
 
@@ -30,8 +29,10 @@ export class AuthenticationService {
       map((response) => {
         console.log(response);
 
-        if (response && response.token) {
-          localStorage.setItem('token', response.token);
+        if (response && response.id) {
+          localStorage.setItem('UserAbrevia', JSON.stringify(response));
+          const encryptedUser = CryptoJS.AES.encrypt(JSON.stringify(response), 'secretKey').toString();
+          localStorage.setItem('encryptedUser', encryptedUser);
           return true;
 
         } else {
@@ -52,20 +53,27 @@ export class AuthenticationService {
     return this.http.post<any>(url, null).pipe(
       map((response) => {
         if (response.message.includes('successfully')) {
-          console.log('borrar toquen');
-          localStorage.removeItem('token');
+          localStorage.removeItem('UserAbrevia');
           return true
         } else {
           return false
         }
-
       }))
-      
+  }
+
+  getDecryptedUser() {
+    const encryptedUser = localStorage.getItem('encryptedUser');
+
+    if (encryptedUser) {
+      const decryptedBytes = CryptoJS.AES.decrypt(encryptedUser, 'secretKey');
+      const decryptedUser = JSON.parse(decryptedBytes.toString(CryptoJS.enc.Utf8));
+      return decryptedUser;
+    }
   }
 
   isAuthenticated(): boolean {
     // return true;
-    return !!localStorage.getItem('token');
+    return !!localStorage.getItem('UserAbrevia');
   }
 
   refreshToken(): Observable<boolean> {

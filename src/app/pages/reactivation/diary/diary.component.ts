@@ -5,8 +5,11 @@ import { CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView } fro
 import { Subject } from 'rxjs';
 import { addDays, addHours, endOfDay, endOfMonth, isSameDay, isSameMonth, startOfDay, subDays } from 'date-fns';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ModalNewActivityComponent } from 'app/pages/companies/all/detail-client/components/history/modal-new-activity/modal-new-activity.component';
 import { MatDialog } from '@angular/material/dialog';
+import { ModalNewActivityComponent } from 'app/pages/companies/all/detail-client/components/history/modal-new-activity/modal-new-activity.component';
+import { ReactivationService } from '../reactivation.service';
+import { OpenModalsService } from 'app/shared/services/openModals.service';
+import * as entity from '../reactivation-interface';
 
 
 const colors: Record<string, EventColor> = {
@@ -39,7 +42,7 @@ export class DiaryComponent implements OnInit, AfterViewInit, OnDestroy {
   CalendarView = CalendarView;
   viewDate: Date = new Date();
 
-  typeSeleccion:string = ''
+  typeSeleccion: string = ''
 
   modalData: {
     action: string;
@@ -109,18 +112,63 @@ export class DiaryComponent implements OnInit, AfterViewInit, OnDestroy {
 
   activeDayIsOpen: boolean = true;
 
-  constructor(private modal: NgbModal,
-    private dialog: MatDialog
-    ) {}
+  constructor(
+    private moduleServices: ReactivationService,
+    private modal: NgbModal,
+    private notificationService: OpenModalsService,
+    private dialog: MatDialog,
+  ) { }
 
-    ngOnInit(): void {
-      
-    }
+  ngOnInit(): void {
+    this.getDataTable();
+  }
 
-    ngAfterViewInit(): void {
-      
-    }
+  ngAfterViewInit(): void {
 
+  }
+
+  getDataTable() {
+    this.moduleServices.getDataTableDiary().subscribe({
+      next: (data: any) => {
+        console.log('AGENDA:', data);
+      },
+      error: (error) => console.error(error)
+    })
+  }
+
+  
+  addEvent(): void {
+    this.events = [
+      ...this.events,
+      {
+        title: 'New event',
+        start: startOfDay(new Date()),
+        end: endOfDay(new Date()),
+        color: colors.red,
+        draggable: true,
+        resizable: {
+          beforeStart: true,
+          afterEnd: true,
+        },
+      },
+    ];
+  }
+
+  newOrEditData(data = null) {
+    this.dialog.open(ModalNewActivityComponent, {
+      data: {
+        info: data,
+        type: 'diary'
+      },
+      disableClose: true,
+      width: '1000px',
+      maxHeight: '628px',
+      panelClass: 'custom-dialog',
+    })
+      .afterClosed()
+      .subscribe((_) => this.getDataTable());
+  }
+  
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
       if (
@@ -158,22 +206,6 @@ export class DiaryComponent implements OnInit, AfterViewInit, OnDestroy {
     this.modal.open(this.modalContent, { size: 'lg' });
   }
 
-  addEvent(): void {
-    this.events = [
-      ...this.events,
-      {
-        title: 'New event',
-        start: startOfDay(new Date()),
-        end: endOfDay(new Date()),
-        color: colors.red,
-        draggable: true,
-        resizable: {
-          beforeStart: true,
-          afterEnd: true,
-        },
-      },
-    ];
-  }
 
   deleteEvent(eventToDelete: CalendarEvent) {
     this.events = this.events.filter((event) => event !== eventToDelete);
@@ -187,15 +219,7 @@ export class DiaryComponent implements OnInit, AfterViewInit, OnDestroy {
     this.activeDayIsOpen = false;
   }
 
-  newActivity() {
-    this.dialog.open(ModalNewActivityComponent, {
-      data: null,
-      disableClose: true,
-      width: '1000px',
-      maxHeight: '628px',
-      panelClass: 'custom-dialog',
-    });
-  }
+
 
   ngOnDestroy(): void {
     this.onDestroy.next();

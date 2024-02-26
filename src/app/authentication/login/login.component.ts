@@ -61,7 +61,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.moduleServices.login(objLogin).subscribe({
       next: (response) => {
         if (response) {
-          if (this.rememberMe.value) this.saveEncryptedUser();
+          if (this.rememberMe.value) this.saveUser();
           this.router.navigateByUrl('/home')
         }
       },
@@ -69,16 +69,16 @@ export class LoginComponent implements OnInit, OnDestroy {
     })
   }
 
-  saveEncryptedUser() {
-    const encryptedUser = CryptoJS.AES.encrypt(JSON.stringify(this.signInForm.value), 'secretKey').toString();
-    localStorage.setItem('encryptedUser', encryptedUser);
+  saveUser() {
+    const User = CryptoJS.AES.encrypt(JSON.stringify(this.signInForm.value), 'secretKey').toString();
+    localStorage.setItem('User', User);
   }
 
   getDecryptedUser() {
-    const encryptedUser = localStorage.getItem('encryptedUser');
+    const User = localStorage.getItem('User');
 
-    if (encryptedUser) {
-      const decryptedBytes = CryptoJS.AES.decrypt(encryptedUser, 'secretKey');
+    if (User) {
+      const decryptedBytes = CryptoJS.AES.decrypt(User, 'secretKey');
       const decryptedUser = JSON.parse(decryptedBytes.toString(CryptoJS.enc.Utf8));
       this.signInForm.setValue(decryptedUser);
     }

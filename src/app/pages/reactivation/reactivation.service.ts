@@ -26,7 +26,7 @@ export class ReactivationService {
     return this.dataSubject.asObservable();
   }
 
-  public getDataTable(filters:any): Observable<any> {
+  public getDataTableCalls(filters:any): Observable<any> {
     const url = `${environment.apiURL}manage/activity/?activity_type_id=fde5d736-c7ad-4ccc-9037-d742aa3b8a44`;
 
     return this.http.get<entity.TableDataCalls[]>(url).pipe(
@@ -34,28 +34,34 @@ export class ReactivationService {
     );
 	}
 
-  public getDataId(id:string): Observable<any> {
+  public getDataIdCallOrDaily(id:string): Observable<any> {
 		const url = `${environment.apiURL}manage/activity/${id}/`;
 
     return this.http.get<any>(url);
 	}
  
-  public postData(data:PostDataActivities): Observable<any> {
+  public postDataCallOrDaily(data:PostDataActivities): Observable<any> {
 		const url = `${environment.apiURL}manage/activity/`;
 
     return this.http.post<any>(url, data)
 	}
 
-  public patchData(id:string, data:PatchDataActivities): Observable<any> {
+  public patchDataCallOrDaily(id:string, data:PatchDataActivities): Observable<any> {
 		const url = `${environment.apiURL}manage/activity/${id}/`;
 
     return this.http.patch<any>(url, data)
 	}
  
-  public deleteData(id:string): Observable<any> {
+  public deleteDataCallOrDaily(id:string): Observable<any> {
 		const url = `${environment.apiURL}manage/activity/${id}/`;
 
     return this.http.delete<any>(url)
+	}
+ 
+  public getDataTableDiary(): Observable<any> {
+    const url = `${environment.apiURL}manage/activity/`;
+
+    return this.http.get<any>(url)
 	}
 
 }

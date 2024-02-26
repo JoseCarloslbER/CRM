@@ -23,7 +23,6 @@ import { ModalNewContactComponent } from './all/detail-client/components/contact
 import { HistoryComponent } from './all/detail-client/components/history/history.component';
 import { FormatoFechaPipe } from 'app/shared/pipe/fecha.pipe';
 import { ModalNewActivityComponent } from './all/detail-client/components/history/modal-new-activity/modal-new-activity.component';
-import { NewProspectComponent } from './prospects/new-prospect/new-prospect.component';
 import { NewClientOrProspectComponent } from './new-client-or-prospect/new-client-or-prospect.component';
 
 
@@ -49,10 +48,7 @@ import { NewClientOrProspectComponent } from './new-client-or-prospect/new-clien
     HistoryComponent,
     FormatoFechaPipe,
     ModalNewActivityComponent,
-    NewProspectComponent,
     NewClientOrProspectComponent
-
-    
   ],
   imports: [
     CommonModule,

@@ -65,11 +65,10 @@ export class PendingCallsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getDataTable(filters?: any) {
-    this.moduleServices.getDataTable(filters).subscribe({
+    this.moduleServices.getDataTableCalls(filters).subscribe({
       next: (data: entity.TableDataCallsMapper[]) => {
         this.dataSource.data = data;
         console.log(data);
-        
       },
       error: (error) => console.error(error)
     })
@@ -107,7 +106,7 @@ export class PendingCallsComponent implements OnInit, AfterViewInit, OnDestroy {
     .afterClosed()
     .subscribe((response) => {
       if (response) {
-        this.moduleServices.deleteData(id).subscribe({
+        this.moduleServices.deleteDataCallOrDaily(id).subscribe({
           next: () => {
               this.notificationService
               .notificacion(
