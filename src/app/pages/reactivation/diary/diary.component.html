@@ -5,20 +5,21 @@
         <div class="section-title row d-flex justify-content-between align-items-center">
           <div class="col-md-4 col-sm-12 col-12 title">
             <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
-              <mat-select placeholder="Seleccionar agente">
-                <mat-option value="Prospectoempresa">Prospecto / empresa 1</mat-option>
-                <mat-option value="Prospectoempresa">Prospecto / empresa 2</mat-option>
-                <mat-option value="Prospectoempresa">Prospecto / empresa 3</mat-option>
+              <mat-select [formControl]="agent" placeholder="Seleccionar agente">
+                <mat-option value="">Todos</mat-option>
+                <mat-option [value]="cat.id" *ngFor="let cat of catAgents">
+                    {{cat.first_name && cat.last_name ? cat?.first_name + ' ' + cat?.last_name : cat?.username |titlecase }}</mat-option>
               </mat-select>
             </mat-form-field>
           </div>
 
           <div class="col-md-4 col-sm-12 col-12 btns-section align-items-start" style="height: 105px;">
             <div class="input-search">
-              <input type="text" placeholder="Búscar">
+              <input [formControl]="searchBar" type="text" placeholder="Búscar">
               <mat-icon class="icon-size-6" matSuffix [svgIcon]="'mat_solid:search'"></mat-icon>
             </div>
           </div>
+
         </div>
       </div>
     </div>
@@ -31,7 +32,6 @@
             <div class="btn btn-outline-secondary" mwlCalendarToday [(viewDate)]="viewDate">Hoy</div>
             <mat-icon svgIcon="mat_outline:chevron_right" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate"(viewDateChange)="closeOpenMonthViewDay()"></mat-icon>
           </div>
-     
         </div>
       
         <div class="col-md-4 d-flex justify-content-center align-items-center">
@@ -53,31 +53,31 @@
 
         <div class="col-md-12 mt-5 mb-5" style="min-height: 300px;">            
           <div [ngSwitch]="view">
+
             <mwl-calendar-month-view
               *ngSwitchCase="CalendarView.Month"
               [viewDate]="viewDate"
-              [events]="events"
+              [events]="filteredEvents"
               [refresh]="refresh"
               [activeDayIsOpen]="activeDayIsOpen"
               (dayClicked)="dayClicked($event.day)"
-              (eventClicked)="handleEvent('Clicked', $event.event)"
-            >
+              (eventClicked)="handleEvent('Clicked', $event.event)">
             </mwl-calendar-month-view>
+
             <mwl-calendar-week-view
               *ngSwitchCase="CalendarView.Week"
               [viewDate]="viewDate"
-              [events]="events"
+              [events]="filteredEvents"
               [refresh]="refresh"
-              (eventClicked)="handleEvent('Clicked', $event.event)"
-            >
+              (eventClicked)="handleEvent('Clicked', $event.event)">
             </mwl-calendar-week-view>
+
             <mwl-calendar-day-view
               *ngSwitchCase="CalendarView.Day"
               [viewDate]="viewDate"
-              [events]="events"
+              [events]="filteredEvents"
               [refresh]="refresh"
-              (eventClicked)="handleEvent('Clicked', $event.event)"
-              >
+              (eventClicked)="handleEvent('Clicked', $event.event)">
             </mwl-calendar-day-view>
           </div>
 

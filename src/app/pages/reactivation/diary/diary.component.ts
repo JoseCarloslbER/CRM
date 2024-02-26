@@ -1,13 +1,15 @@
-import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { CalendarEvent } from 'calendar-utils';
 import { CalendarEventAction, CalendarView } from 'angular-calendar';
-import { Subject } from 'rxjs';
+import { Subject, debounceTime, takeUntil } from 'rxjs';
 import { isSameDay, isSameMonth } from 'date-fns';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalNewActivityComponent } from 'app/pages/companies/all/detail-client/components/history/modal-new-activity/modal-new-activity.component';
 import { ReactivationService } from '../reactivation.service';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
+import { FormControl } from '@angular/forms';
+import * as entityGeneral from '../../../shared/interfaces/general-interface';
 
 
 @Component({
@@ -15,24 +17,24 @@ import { OpenModalsService } from 'app/shared/services/openModals.service';
   templateUrl: './diary.component.html',
   styleUrl: './diary.component.scss'
 })
-export class DiaryComponent implements OnInit, OnDestroy {
+export class DiaryComponent implements OnInit, AfterViewInit, OnDestroy {
   private onDestroy = new Subject<void>();
 
   @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
 
-  view: CalendarView = CalendarView.Month;
+  public view: CalendarView = CalendarView.Month;
 
-  CalendarView = CalendarView;
-  viewDate: Date = new Date();
+  public CalendarView = CalendarView;
+  public viewDate: Date = new Date();
 
-  typeSeleccion: string = ''
+  public typeSeleccion: string = ''
 
-  modalData: {
+  public modalData: {
     action: string;
     event: CalendarEvent;
   };
 
-  actions: CalendarEventAction[] = [
+  public actions: CalendarEventAction[] = [
     {
       label: '<i class="fas fa-fw fa-pencil-alt"></i>',
       a11yLabel: 'Edit',
@@ -50,9 +52,17 @@ export class DiaryComponent implements OnInit, OnDestroy {
     },
   ];
 
-  events: any[] = [];
+  public events: any[] = [];
+  public filteredEvents: any[] = [];
 
-  activeDayIsOpen: boolean = true;
+  public catAgents: entityGeneral.DataCatAgents[] = [];
+
+  public activeDayIsOpen: boolean = true;
+
+  public searchBar = new FormControl('');
+  public agent = new FormControl('');
+
+  public filterAgent: string = '';
 
   constructor(
     private moduleServices: ReactivationService,
@@ -63,10 +73,37 @@ export class DiaryComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getDataTable();
+    this.getCatalogs();
+  }
+
+  ngAfterViewInit(): void {
+    this.searchBar.valueChanges.pipe(
+      takeUntil(this.onDestroy),
+      debounceTime(500),
+    ).subscribe((content: string) => {
+      this.filteredEvents = this.events.filter(event => event.title.toLowerCase().includes(content.toLowerCase()));
+    });
+
+    this.agent.valueChanges.pipe(takeUntil(this.onDestroy)).subscribe(data => {
+      if (data.trim()) {
+        this.filterAgent = `user_id=${data}`
+        this.getDataTable()
+      };
+      
+    })
+  }
+
+  getCatalogs() {
+    this.moduleServices.getCatAgents().subscribe({
+      next: (data: entityGeneral.DataCatAgents[]) => {
+        this.catAgents = data;
+      },
+      error: (error) => console.error(error)
+    });
   }
 
   getDataTable() {
-    this.moduleServices.getDataTableDiary().subscribe({
+    this.moduleServices.getDataTableDiary(this.filterAgent).subscribe({
       next: (data: any) => {
         this.events = data.map(data => {
           return {

@@ -5,6 +5,7 @@ import { BehaviorSubject, Observable, Subject, map } from 'rxjs';
 import { PatchDataActivities, PostDataActivities } from '../management/management-interface';
 import * as entity from './reactivation-interface';
 import { Mapper } from './mapper';
+import * as entityGeneral from '../../shared/interfaces/general-interface';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +27,19 @@ export class ReactivationService {
     return this.dataSubject.asObservable();
   }
 
-  public getDataTableCalls(filters:any): Observable<any> {
+  // CATALOGS 
+  
+  public getCatAgents(): Observable<entityGeneral.DataCatAgents[]> {
+		const url = `${environment.apiURL}auth/user/`;
+
+    return this.http.get<entityGeneral.DataCatAgents[]>(url)
+	}
+
+  // END CATALOGS 
+
+  // PENDING CALLS AND DIALY
+
+  public getDataTableCalls(): Observable<any> {
     const url = `${environment.apiURL}manage/activity/?activity_type_id=fde5d736-c7ad-4ccc-9037-d742aa3b8a44`;
 
     return this.http.get<entity.TableDataCalls[]>(url).pipe(
@@ -57,9 +70,11 @@ export class ReactivationService {
 
     return this.http.delete<any>(url)
 	}
+
+  // DIALY
  
-  public getDataTableDiary(): Observable<any> {
-    const url = `${environment.apiURL}manage/activity/`;
+  public getDataTableDiary(filter:string): Observable<any> {
+    const url = `${environment.apiURL}manage/activity/${filter ? `?${filter}` : ''}`;
 
     return this.http.get<any>(url)
 	}

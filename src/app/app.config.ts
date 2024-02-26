@@ -1,5 +1,6 @@
+import { registerLocaleData } from '@angular/common';
 import { provideHttpClient } from '@angular/common/http';
-import { APP_INITIALIZER, ApplicationConfig, inject } from '@angular/core';
+import { APP_INITIALIZER, ApplicationConfig, LOCALE_ID, inject } from '@angular/core';
 import { LuxonDateAdapter } from '@angular/material-luxon-adapter';
 import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
 import { provideAnimations } from '@angular/platform-browser/animations';
@@ -7,9 +8,12 @@ import { PreloadAllModules, provideRouter, withInMemoryScrolling, withPreloading
 import { provideFuse } from '@fuse';
 import { appRoutes } from 'app/app.routes';
 import { provideIcons } from 'app/shared/icons/icons.provider';
+import localeEs from '@angular/common/locales/es';
 
 export const appConfig: ApplicationConfig = {
     providers: [
+        { provide: LOCALE_ID, useValue: 'es' },
+
         provideAnimations(),
         provideHttpClient(),
         provideRouter(appRoutes,
@@ -56,3 +60,8 @@ export const appConfig: ApplicationConfig = {
         }),
     ],
 };
+export class AppModule {
+  constructor() {
+    registerLocaleData(localeEs);
+  }
+}

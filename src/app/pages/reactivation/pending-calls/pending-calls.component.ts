@@ -64,8 +64,8 @@ export class PendingCallsComponent implements OnInit, AfterViewInit, OnDestroy {
     })
   }
 
-  getDataTable(filters?: any) {
-    this.moduleServices.getDataTableCalls(filters).subscribe({
+  getDataTable() {
+    this.moduleServices.getDataTableCalls().subscribe({
       next: (data: entity.TableDataCallsMapper[]) => {
         this.dataSource.data = data;
         console.log(data);
