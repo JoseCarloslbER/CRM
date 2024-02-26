@@ -45,7 +45,7 @@ export class Mapper {
 					  }),
 					};
 				  }),
-				actions: data?.company?.company_phase.phase_name == 'Prospecto' ? ['Aceptar'] : []
+				actions: data?.company?.company_phase.phase_name == 'Prospecto' && data?.status?.description == 'Creado'  ? ['Aceptar'] : []
 			});
 		});
 
