@@ -30,15 +30,12 @@ export class ConversionService {
 
   // END CATALOGS
   
-   public getDataTable(filters?:string): Observable<any> {
+   public getDataTable(filters?:string): Observable<entity.TableDataQuoteMapper[]> {
     const url = `${this.apiUrl}quote/${filters ? `?${filters}` : ''}`;
     
     return this.http.get<entity.TableDataQuote[]>(url).pipe(
 			map((response) => Mapper.getDataTableMapper(response))
 		);
-    // return this.http.get<entity.TableDataCompany[]>(url).pipe(
-		// 	map((response) => Mapper.getDataTableMapper(response))
-		// );
 	}
   
   public getDataId(id:string): Observable<any> {

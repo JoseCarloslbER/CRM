@@ -3,12 +3,8 @@ import * as entity from './conversion-interface';
 import moment from 'moment';
 
 export class Mapper {
-	// static getDataTableMapper(response: entity.TableDataQuote[]) : entity.TableDataCompanyMapper[] {
-	static getDataTableMapper(response: entity.TableDataQuote[]) :any{
-		// let dataList :entity.TableDataCompanyMapper[] = [];
-		let dataList :any[] = [];
-
-		console.log(response[0]);
+	static getDataTableMapper(response: entity.TableDataQuote[]) : entity.TableDataQuoteMapper[] {
+		let dataList :entity.TableDataQuoteMapper[] = [];
 
 		let options:any[] = []
 		
@@ -33,7 +29,7 @@ export class Mapper {
 							})
 						}
 				}),
-				
+
 				products: data.quote_options.map(option => {
 					const total = option.option_products.reduce((acc, product) => acc + parseFloat(product.total), 0);
 					const places = option.option_products.reduce((acc, product) => acc + product.quantity, 0);
@@ -49,15 +45,14 @@ export class Mapper {
 					  }),
 					};
 				  }),
-				// actions:
-				
+				actions: data?.company?.company_phase.phase_name == 'Prospecto' ? ['Aceptar'] : []
 			});
 		});
 
 		return dataList
 	}
 
-	static editDataTableCompanyMapper(response: any) : entity.GetDataCompanyMapper {
+	static editDataTableCompanyMapper(response: any) {
 		return {
 			id: response?.company_id,
 			company_name: response?.company_name,

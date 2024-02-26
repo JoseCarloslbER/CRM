@@ -192,15 +192,7 @@
                                             <div class="colum-table-select">
                                                 <mat-form-field class="flex-auto input-default">
                                                     <mat-select placeholder="Seleccionar">
-                                                        <mat-option class="border-bottom"
-                                                            value="estatus-1">Aceptar</mat-option>
-                                                        <mat-option class="border-bottom"
-                                                            value="estatus-1">Descartada</mat-option>
-                                                        <mat-option class="border-bottom"
-                                                            value="estatus-1">Cancelada</mat-option>
-                                                        <mat-option class="border-bottom" value="estatus-1">
-                                                            Descartada como
-                                                            venta</mat-option>
+                                                        <mat-option class="border-bottom" [value]="action" *ngFor="let action of element.actions">{{action}}</mat-option>
                                                     </mat-select>
                                                 </mat-form-field>
                                             </div>
