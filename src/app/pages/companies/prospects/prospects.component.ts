@@ -45,11 +45,12 @@ export class ProspectsComponent implements OnInit, AfterViewInit, OnDestroy {
     rangeDateEnd: [{ value: '', disabled: false }],
   });
 
+  public searchBar = new FormControl('')
+
+
   public catBusiness: entityGeneral.DataCatBusiness[] = [];
   public catStatus: entityGeneral.DataCatStatus[] = [];
   public catCampaing: entityGeneral.DataCatCampaing[] = [];
-
-  public searchBar = new FormControl('')
 
   public url = document.location.href;
   public title: string = 'cliente';

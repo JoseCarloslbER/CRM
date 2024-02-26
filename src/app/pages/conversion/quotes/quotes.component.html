@@ -1,13 +1,9 @@
 <div class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto c-quote" cdkScrollable>
     <div class="bg-card section-padding">
         <div class="flex flex-col w-full mx-auto px-6 sm:px-8 pt-3">
-
-
-            <form class="row mt-5 mb-5" [formGroup]="formFilters">
+            <form class="row mt-5 mb-5">
                 <div class="col-12">
-
                     <div class="section-title row d-flex justify-content-between align-items-center">
-
                         <div class="col-md-7 col-sm-12 col-12 title mb-5">
                             Cotizaciones
                             <span class="green-color">$50,760.00</span>
@@ -20,46 +16,47 @@
                         </div>
                     </div>
 
-                    <div class="row d-flex align-items-center">
+                    <form [formGroup]="formFilters">
+                        <div class="row d-flex align-items-center">
+                            <div class="flex col-sm-12  col-md-6 col-lg-3 col-12 pe-2">
+                                <mat-form-field class="flex-auto input-default">
+                                    <mat-label>Estatus</mat-label>
+                                    <mat-select placeholder="Seleccionar" formControlName="status">
+                                        <mat-option value="">Todos</mat-option>
+                                        <mat-option [value]="cat.status_id"
+                                            *ngFor="let cat of catStatus">{{cat?.description || '-'}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
 
-                        <div class="flex col-sm-12  col-md-6 col-lg-3 col-12 pe-2">
-                            <mat-form-field class="flex-auto input-default">
-                                <mat-label>Estatus</mat-label>
-                                <mat-select placeholder="Seleccionar" formControlName="status">
-                                    <mat-option value="estatus-1">estatus 1</mat-option>
-                                    <mat-option value="estatus-2">estatus 2</mat-option>
-                                    <mat-option value="estatus-3">estatus 3</mat-option>
-                                </mat-select>
-                            </mat-form-field>
+                            <div class="flex col-sm-12 col-md-6 col-lg-3 col-12 pe-2">
+                                <mat-form-field class="flex-auto input-default">
+                                    <mat-label>Agente</mat-label>
+                                    <mat-select placeholder="Seleccionar" formControlName="agent">
+                                        <mat-option value="">Todos</mat-option>
+                                        <mat-option [value]="cat.id" *ngFor="let cat of catAgents">
+                                            {{cat.first_name && cat.last_name ? cat?.first_name + ' ' + cat?.last_name : cat?.username |titlecase }}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="flex col-sm-12 col-md-6 col-lg-3 col-12 pe-2">
+                                <mat-form-field class="flex-auto input-default">
+                                    <mat-label>Rango de fechas</mat-label>
+                                    <mat-date-range-input [max]="fechaHoy" [rangePicker]="campaignOnePicker"
+                                        [comparisonStart]="formFilters.value['rangeDateStart']"
+                                        [comparisonEnd]="formFilters.value['rangeDateEnd']">
+                                        <input matStartDate placeholder="Inicio" formControlName="rangeDateStart" />
+                                        <input matEndDate placeholder="Final" formControlName="rangeDateEnd" />
+                                    </mat-date-range-input>
+
+                                    <mat-datepicker-toggle matIconSuffix
+                                        [for]="campaignOnePicker"></mat-datepicker-toggle>
+                                    <mat-date-range-picker #campaignOnePicker></mat-date-range-picker>
+                                </mat-form-field>
+                            </div>
                         </div>
-
-                        <div class="flex col-sm-12 col-md-6 col-lg-3 col-12 pe-2">
-                            <mat-form-field class="flex-auto input-default">
-                                <mat-label>Agente</mat-label>
-                                <mat-select placeholder="Seleccionar" formControlName="agent">
-                                    <mat-option value="Agente-1">Agente 1</mat-option>
-                                    <mat-option value="Agente-2">Agente 2</mat-option>
-                                    <mat-option value="Agente-3">Agente 3</mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-
-                        <div class="flex col-sm-12 col-md-6 col-lg-3 col-12 pe-2">
-                            <mat-form-field class="flex-auto input-default">
-                                <mat-label>Rango de fechas</mat-label>
-                                <mat-date-range-input [max]="fechaHoy" [rangePicker]="campaignOnePicker"
-                                    [comparisonStart]="formFilters.value['rangeDateStart']"
-                                    [comparisonEnd]="formFilters.value['rangeDateEnd']">
-                                    <input matStartDate placeholder="Inicio" formControlName="rangeDateStart" />
-                                    <input matEndDate placeholder="Final" formControlName="rangeDateEnd" />
-                                </mat-date-range-input>
-
-                                <mat-datepicker-toggle matIconSuffix [for]="campaignOnePicker"></mat-datepicker-toggle>
-                                <mat-date-range-picker #campaignOnePicker></mat-date-range-picker>
-                            </mat-form-field>
-                        </div>
-
-                    </div>
+                    </form>
 
                     <div class="row d-flex justify-content-end mb-2">
                         <div class="d-flex justify-content-end col-md-2 col-xl-2 col-12 pt-md-2">
@@ -68,8 +65,6 @@
                             </button>
                         </div>
                     </div>
-                    
-
 
                     <div class="row d-flex">
                         <div class="d-flex col-md-5 col-xl-5 col-12 pt-md-2 mb-lg-0 mb-sm-0 mt-3 mb-5">
@@ -85,7 +80,6 @@
                                 <span>Excel</span>
                             </button>
                         </div>
-
                     </div>
                 </div>
             </form>
@@ -106,42 +100,40 @@
                                     class="w-100 tabla-personalizada-default">
                                     <caption></caption>
 
-                                    <ng-container matColumnDef="fechaYHora">
-                                        <th mat-header-cell *matHeaderCellDef>Fecha y hora</th>
+                                    <ng-container matColumnDef="dateAndHour">
+                                        <th mat-header-cell *matHeaderCellDef>Fecha y hora (Pendiente hora)</th>
                                         <td mat-cell *matCellDef="let element">
-                                            {{ element.fechaYHora }}
+                                            {{ element.dateAndHour }}
                                         </td>
                                     </ng-container>
 
-                                    <ng-container matColumnDef="informacion">
-                                        <th mat-header-cell *matHeaderCellDef>Información</th>
+                                    <ng-container matColumnDef="information">
+                                        <th mat-header-cell *matHeaderCellDef>Información (Pendiente confirmar dato)</th>
                                         <td mat-cell *matCellDef="let element">
-                                            <div class="table-column-information"
-                                                *ngFor="let info of element.informacion">
-                                                <h1>{{ info.numero }}</h1>
-                                                <span>{{info.status}}</span>
+                                            <div class="table-column-information" >
+                                                <h1>#{{ element?.information?.quoteNumber }}</h1>
+                                                <span>{{element.information.name}}</span>
                                                 <h2 class="cursor-pointer" (click)="downloadPdf()">
-                                                    {{info.cotizacionAprobada}}</h2>
+                                                    {{element.information.cotizacionAprobada}}</h2>
                                             </div>
                                         </td>
                                     </ng-container>
 
-
-                                    <ng-container matColumnDef="empresa">
+                                    <ng-container matColumnDef="companyName">
                                         <th mat-header-cell *matHeaderCellDef>Empresa</th>
                                         <td mat-cell *matCellDef="let element">
                                             <div class="table-column-reck-solution">
-                                                <img src="../../../../assets/images/logo/prospects-icon.png" alt="">
-                                                <span class="cursor-pointer">{{element.empresa}}</span>
+                                                <img [src]="element.conpanyName.logo" alt="">
+                                                <span class="cursor-pointer" (click)="seeData(element.id)">{{
+                                                    element.conpanyName.name }}</span>
                                             </div>
                                         </td>
                                     </ng-container>
 
-
-                                    <ng-container matColumnDef="statusCompany">
+                                    <ng-container matColumnDef="status">
                                         <th mat-header-cell *matHeaderCellDef>Status de empresa</th>
                                         <td mat-cell *matCellDef="let element" class="font-bold">
-                                            {{ element.statusCompany }}
+                                            {{ element.status }}
                                         </td>
                                     </ng-container>
 
@@ -150,10 +142,10 @@
                                         <td mat-cell *matCellDef="let element">
                                             <div *ngFor="let info of element.totalPrice">
                                                 <div class="table-column-totalPrice mb-3">
-                                                    <h1 class="font-bold">OP1: <span
-                                                            class="font-normal">{{info.op}}</span> </h1>
+                                                    <h1 class="font-bold">{{ info.name }} <span
+                                                            class="font-normal">{{info.total}}</span> </h1>
                                                     <h1 class="font-bold">Vence: <span
-                                                            class="font-normal">{{info.expires}}</span> </h1>
+                                                            class="font-normal">{{info.expire}}</span> </h1>
                                                 </div>
                                             </div>
 
@@ -169,16 +161,16 @@
                                                         <tr>
                                                             <th scope="col">Tipo</th>
                                                             <th scope="col">Lugares</th>
-                                                            <th scope="col">Curso</th>
+                                                            <th scope="col">Producto</th>
                                                             <th scope="col">Precio</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr *ngFor="let item of element.lugares">
-                                                            <td>{{item.tipo}}</td>
-                                                            <td>{{item.lugares}}</td>
-                                                            <td>{{item.curso}}</td>
-                                                            <td>{{item.precio}}</td>
+                                                        <tr *ngFor="let item of element.products">
+                                                            <td>{{item.type}}</td>
+                                                            <td>{{item.places}}</td>
+                                                            <td>{{item.product}}</td>
+                                                            <td>{{item.total}}</td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -187,14 +179,14 @@
                                     </ng-container>
 
 
-                                    <ng-container matColumnDef="estadopais">
+                                    <ng-container matColumnDef="stateCountry">
                                         <th mat-header-cell *matHeaderCellDef>Estado / País</th>
                                         <td mat-cell *matCellDef="let element">
-                                            {{ element.estadopais }}
+                                            {{ element.stateCountry }}
                                         </td>
                                     </ng-container>
 
-                                    <ng-container matColumnDef="acciones">
+                                    <ng-container matColumnDef="actions">
                                         <th mat-header-cell *matHeaderCellDef>Acciones</th>
                                         <td mat-cell *matCellDef="let element">
                                             <div class="colum-table-select">
@@ -216,26 +208,30 @@
                                         </td>
                                     </ng-container>
 
-                                    <ng-container matColumnDef="operaciones">
+                                    <ng-container matColumnDef="operations">
                                         <th mat-header-cell *matHeaderCellDef>Operaciones</th>
                                         <td mat-cell *matCellDef="let element">
                                             <div class="c-column-btns">
 
-                                                <div class="btn-edit" (click)="deleteData(element)">
+                                                <div class="btn-edit" (click)="editData(element)">
                                                     <mat-icon matTooltip="Editar">edit_square</mat-icon>
                                                 </div>
 
-                                                <div class="btn-wallet">
-                                                    <mat-icon matTooltip="Billetara">wallet</mat-icon>
+                                                <div class="btn-delete" (click)="deleteData(element)">
+                                                    <mat-icon matTooltip="Eliminar">delete</mat-icon>
                                                 </div>
 
-                                                <div class="btn-receipt" (click)="seeTicket()">
+                                                <!-- <div class="btn-wallet">
+                                                    <mat-icon matTooltip="Dinero en cuenta">wallet</mat-icon>
+                                                </div> -->
+
+                                                <!-- <div class="btn-receipt" (click)="seeTicket()">
                                                     <mat-icon matTooltip="Factura">receipt_long</mat-icon>
-                                                </div>
+                                                </div> -->
 
-                                                <div class="btn-print" (click)="downloadPdf()">
+                                                <!-- <div class="btn-print" (click)="downloadPdf()">
                                                     <mat-icon matTooltip="Descagar">print</mat-icon>
-                                                </div>
+                                                </div> -->
 
                                             </div>
                                         </td>

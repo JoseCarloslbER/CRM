@@ -9,6 +9,8 @@ import { ModalUploadDocumentComponent } from '../modal-upload-document/modal-upl
 import { Subject, debounceTime, takeUntil } from 'rxjs';
 import * as entity from '../conversion-interface';
 import { ConversionService } from '../conversion.service';
+import * as entityGeneral from '../../../shared/interfaces/general-interface';
+import moment from 'moment';
 
 @Component({
   selector: 'app-quotes',
@@ -30,235 +32,29 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
   public total = 0;
   public indicePagina = 0;
 
-  // TABLA 
-
   public displayedColumns: string[] = [
-    'fechaYHora',
-    'informacion',
-    'empresa',
-    'statusCompany',
+    'dateAndHour',
+    'information',
+    'companyName',
+    'status',
     'totalPrice',
     'products',
-    'estadopais',
-    'acciones',
-    'operaciones'
+    'stateCountry',
+    'actions',
+    'operations'
   ];
-
-
-  public dataDummy: any[] = [
-    {
-      empresa: 'RECK SOLUCIONES',
-      fechaYHora: '2023-09-30 12:38:49',
-      statusCompany: 'Cliente',
-      precioTotal: '$4,000,000.00',
-      estatus: 'LEAD',
-      estadopais: 'Mexico, Nuevo Leon',
-      totalPrice: [
-        {
-          op: ' $12354.00',
-          expires: '2023-09-30',
-        },
-        {
-          op: ' $12354.00',
-          expires: '2023-09-30',
-        }
-      ],
-      documentos: [
-        {
-          cotizacion: 'Cotización',
-          cotizacionAprobada: 'Cotización aprobada',
-        }
-      ],
-      informacion: [
-        {
-          numero: '#4234234',
-          status: 'Aprobada',
-          cotizacionAprobada: 'Cotización aprobada',
-        }
-      ],
-      lugares: [
-        {
-          no: '1548',
-          tipo: 'Lista',
-          lugares: '5',
-          curso: 'C029 - Seguridad en el mantenimiento de instalaciones eléctrica',
-          precio: '$1,995.00',
-        }
-      ],
-    },
-    {
-      empresa: 'RECK SOLUCIONES',
-      fechaYHora: '2023-09-30 12:38:49',
-      statusCompany: 'Cliente',
-      precioTotal: '$4,000,000.00',
-      estatus: 'LEAD',
-      estadopais: 'Mexico, Nuevo Leon',
-      totalPrice: [
-        {
-          op: ' $12354.00',
-          expires: '2023-09-30',
-        },
-        {
-          op: ' $12354.00',
-          expires: '2023-09-30',
-        }
-      ],
-      documentos: [
-        {
-          cotizacion: 'Cotización',
-          cotizacionAprobada: 'Cotización aprobada',
-        }
-      ],
-      informacion: [
-        {
-          numero: '#4234234',
-          status: 'Aprobada',
-          cotizacionAprobada: 'Cotización aprobada',
-        }
-      ],
-      lugares: [
-        {
-          no: '1548',
-          tipo: 'Lista',
-          lugares: '5',
-          curso: 'C029 - Seguridad en el mantenimiento de instalaciones eléctrica',
-          precio: '$1,995.00',
-        }
-      ],
-    },
-    {
-      empresa: 'RECK SOLUCIONES',
-      fechaYHora: '2023-09-30 12:38:49',
-      statusCompany: 'Cliente',
-      precioTotal: '$4,000,000.00',
-      estatus: 'LEAD',
-      estadopais: 'Mexico, Nuevo Leon',
-      totalPrice: [
-        {
-          op: ' $12354.00',
-          expires: '2023-09-30',
-        },
-        {
-          op: ' $12354.00',
-          expires: '2023-09-30',
-        }
-      ],
-      documentos: [
-        {
-          cotizacion: 'Cotización',
-          cotizacionAprobada: 'Cotización aprobada',
-        }
-      ],
-      informacion: [
-        {
-          numero: '#4234234',
-          status: 'Aprobada',
-          cotizacionAprobada: 'Cotización aprobada',
-        }
-      ],
-      lugares: [
-        {
-          no: '1548',
-          tipo: 'Lista',
-          lugares: '5',
-          curso: 'C029 - Seguridad en el mantenimiento de instalaciones eléctrica',
-          precio: '$1,995.00',
-        }
-      ],
-    },
-    {
-      empresa: 'RECK SOLUCIONES',
-      fechaYHora: '2023-09-30 12:38:49',
-      statusCompany: 'Cliente',
-      precioTotal: '$4,000,000.00',
-      estatus: 'LEAD',
-      estadopais: 'Mexico, Nuevo Leon',
-      totalPrice: [
-        {
-          op: ' $12354.00',
-          expires: '2023-09-30',
-        },
-        {
-          op: ' $12354.00',
-          expires: '2023-09-30',
-        }
-      ],
-      documentos: [
-        {
-          cotizacion: 'Cotización',
-          cotizacionAprobada: 'Cotización aprobada',
-        }
-      ],
-      informacion: [
-        {
-          numero: '#4234234',
-          status: 'Aprobada',
-          cotizacionAprobada: 'Cotización aprobada',
-        }
-      ],
-      lugares: [
-        {
-          no: '1548',
-          tipo: 'Lista',
-          lugares: '5',
-          curso: 'C029 - Seguridad en el mantenimiento de instalaciones eléctrica',
-          precio: '$1,995.00',
-        }
-      ],
-    },
-    {
-      empresa: 'RECK SOLUCIONES',
-      fechaYHora: '2023-09-30 12:38:49',
-      statusCompany: 'Cliente',
-      precioTotal: '$4,000,000.00',
-      estatus: 'LEAD',
-      estadopais: 'Mexico, Nuevo Leon',
-      totalPrice: [
-        {
-          op: ' $12354.00',
-          expires: '2023-09-30',
-        },
-        {
-          op: ' $12354.00',
-          expires: '2023-09-30',
-        }
-      ],
-      documentos: [
-        {
-          cotizacion: 'Cotización',
-          cotizacionAprobada: 'Cotización aprobada',
-        }
-      ],
-      informacion: [
-        {
-          numero: '#4234234',
-          status: 'Aprobada',
-          cotizacionAprobada: 'Cotización aprobada',
-        }
-      ],
-      lugares: [
-        {
-          no: '1548',
-          tipo: 'Lista',
-          lugares: '5',
-          curso: 'C029 - Seguridad en el mantenimiento de instalaciones eléctrica',
-          precio: '$1,995.00',
-        }
-      ],
-    },
-  
-
-  ]
-
-  public searchBar = new FormControl('')
 
   public formFilters = this.formBuilder.group({
     status: [{ value: null, disabled: false }],
     agent: [{ value: null, disabled: false }],
-    company: [{ value: null, disabled: false }],
     rangeDateStart: [{ value: null, disabled: false }],
     rangeDateEnd: [{ value: null, disabled: false }],
   });
+
+  public searchBar = new FormControl('')
+
+  public catStatus: entityGeneral.DataCatStatus[] = [];
+  public catAgents: entityGeneral.DataCatAgents[] = [];
 
   public fechaHoy = new Date();
 
@@ -271,8 +67,9 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.dataSource.data = this.dataDummy
-    this.getDataTable()
+    // this.dataSource.data = this.dataDummy
+    this.searchWithFilters();
+    this.getCatalogs()
   }
 
   ngAfterViewInit(): void {
@@ -281,18 +78,41 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
     })
   }
 
-  searchWithFilters() {
-    let objFilters: any = {
-      ...this.formFilters.value
-    }
+  getCatalogs() {
+    this.moduleServices.getCatStatus().subscribe({
+      next: (data: entityGeneral.DataCatStatus[]) => {
+        this.catStatus = data;
+      },
+      error: (error) => console.error(error)
+    });
 
-    this.getDataTable(objFilters)
+    this.moduleServices.getCatAgents().subscribe({
+      next: (data: entityGeneral.DataCatAgents[]) => {
+        this.catAgents = data;
+      },
+      error: (error) => console.error(error)
+    });
   }
 
-  getDataTable(filters?: entity.DataTableFilters) {
+  searchWithFilters() {
+    let filters = '';
+
+    if (this.formFilters.get('status').value) filters += `status_id=${this.formFilters.get('status').value}&`;
+    if (this.formFilters.get('agent').value) filters += `user_id=${this.formFilters.get('agent').value}&`;
+    if (this.formFilters.get('rangeDateStart').value && this.formFilters.get('rangeDateEnd').value) {
+      filters += `register_date_start=${moment(this.formFilters.get('rangeDateStart').value).format('YYYY-MM-DD')}&`,
+        filters += `register_date_end=${moment(this.formFilters.get('rangeDateEnd').value).format('YYYY-MM-DD')}&`
+    }
+
+    this.getDataTable(filters)
+  }
+
+  getDataTable(filters:string) {
     this.moduleServices.getDataTable(filters).pipe(takeUntil(this.onDestroy)).subscribe({
-      next: ( data : entity.DataCompanyTable[]) => {
-        console.log(data);
+      next: ( data : any) => {
+        console.log('*************************************');
+        console.log('TABLA:', data[0]);
+        this.dataSource.data = data
       },
       error: (error) => console.error(error)
     })

@@ -9,7 +9,7 @@ export class Mapper {
 		response.forEach((data: entity.TableDataCompany): void => {
 			dataList.push({
 				id: data?.company_id || '-',
-				logo : data.logo.includes('default') ? `../../../assets/images/default.png` : data.logo,
+				logo : data?.logo?.includes('default') ? `../../../assets/images/default.png` : data.logo,
 				conpanyName: data?.company_name || '-',
 				status: data?.company_phase?.phase_name || '-',
 				country : data.country?.country_name || '-',

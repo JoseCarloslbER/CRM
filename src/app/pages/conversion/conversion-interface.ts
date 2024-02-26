@@ -1,37 +1,134 @@
-// CATALOGS
+import * as entityGeneral from '../../shared/interfaces/general-interface';
+import { TableDataCampaing } from '../catchment/catchment-interface';
+import { TableDataCompany } from '../companies/companies-interface';
 
-
-
-// END CATALOGS
-
-
-// FILTERS 
-export interface DataTableFilters {
+export interface TableDataQuote {
+  quote_id: string;
+  quote_options : QuoteOption[]
+  company: TableDataCompany;
+  contact: entityGeneral.DataCatQuoteContact;
+  user: entityGeneral.User;
+  campaign: entityGeneral.DataCatCampaing | null;
+  payment_method: entityGeneral.DataCatPaymentMethod;
+  status: {
+    description :string;
+    module : boolean
+    status_id : string;
+  };
+  invoice_status: string | null;
+  quote_number: number;
+  tax_include: number;
+  register_date: string;
+  payment_date: string | null;
+  invoice_date: string | null;
+  money_in_account: boolean;
+  quote_total: string;
+}
+export interface TableDataCompanyMapper {
+  id:string
+  conpanyName : string;
+  logo : string;
   status : string;
-  giro   : string;
+  country : string;
+  origin : string;
+  category : string;
+  business : string;
+  lastContactDate : string;
+  history : string;
   campaing : string;
-  dateRange: string;
+  quotes : {
+    amount : string;
+    totalAmount : string;
+  }
+  sales : {
+    amount : string;
+    totalAmount : string;
+  }
+}
+export interface QuoteOption {
+    quote_option_id: string;
+    type_price: number,
+    subtotal: string;
+    discount: string;
+    tax: string;
+    total: string;
+    deadline: string;
+    selected: boolean;
+    quote : string;
+    status: string;
+    option_products: OptionProduct[]
 }
 
-export interface DataCompanyTable {
-  company_name : string;
-  email : string;
-  phone_number : string;
-  web_page : string;
-  address : string;
-  logo : string;
-  register_date : string;
-  register_user_id : string;
-  company_phase_id : string;
-  company_type_id : string;
-  company_size_id : string;
-  platform_id : string;
-  business_id : string;
-  city_id : string;
-  state_id : string;
-  country_id : string;
-  owner_user_id : string;
-  tax_id_number : string;
-  company_id : string;
-  status_id : string;
+export interface OptionProduct {
+  option_product_id: string,
+  product: {
+      product_id: string,
+      price: any,
+      discount: any,
+      product_category: entityGeneral.DataCatProductCategory; 
+      country:entityGeneral.DataCatCountry; 
+      code: string;
+      name: string;
+      list_price: string;
+      link: any;
+      image: string;
+  },
+  quantity: 1,
+  price: "2500.0000",
+  total: "2500.0000",
+  quote_option: "3b643f95-9944-4f20-8a93-e38fa2e6c781",
+  status: "00d91403-ffb8-44ca-ab98-96e899925216"
+}
+
+export interface PostDataCompany {
+  company_type: string;
+  business: string;
+  owner_user: string;
+  country: string;
+  state: string;
+  city: string;
+  platform: string;
+  company_size: string;
+  company_phase: string;
+  company_name: string;
+  slug: string;
+  tax_id_number: string;
+  email: string;
+  phone_number: string;
+  web_page: string;
+  address: string;
+  amout_quotes: string;
+  amout_sales: string;
+  total_quotes: string;
+  total_sales: string;
+  comments: string;
+  register_date: string;
+  register_user: string;
+}
+export interface GetDataCompanyMapper {
+  id: string
+  company_name: string
+  platform: string
+  phone_number: string
+  email: string
+  tax_id_number: string
+  state: string
+  owner_user: string
+  country: string
+  business: string
+  city: string
+  address: string
+  company_type: string
+  company_size: string
+  web_page: string
+  comments: string
+}
+
+export interface CompanyContacts {
+  full_name : string;
+  position? : string;
+  email? : string;
+  movil_phone : string;
+  local_phone? : string;
+  ext? : string;
 }

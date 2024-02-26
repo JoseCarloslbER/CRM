@@ -58,6 +58,17 @@ export interface DataCatCampaing {
   campaign_id: string;
 }
 
+export interface DataCatPaymentMethod {
+  payment_method_id :string;
+  payment_name:string;
+}
+
+export interface DataCatPaymentMethod {
+  description : string;
+  module : number
+  status_id: string;
+}
+
 export interface DataCatAgents {
   id: string;
   first_name: string;
@@ -96,6 +107,17 @@ export interface DataCatCompany {
   checked?: false;
   company_name : string;
   company_id : string;
+}
+
+export interface DataCatQuoteContact {
+  contact_id: string;
+  full_name: string;
+  position: string;
+  email: string;
+  movil_phone: string;
+  local_phone: string;
+  ext: string;
+  company: string;
 }
 
 export interface Owner {
