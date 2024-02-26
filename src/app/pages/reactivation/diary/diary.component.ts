@@ -84,7 +84,7 @@ export class DiaryComponent implements OnInit, OnDestroy {
   newOrEditData(data = null) {
     this.dialog.open(ModalNewActivityComponent, {
       data: {
-        info: data.data,
+        info: data?.data,
         type: 'diary'
       },
       disableClose: true,
