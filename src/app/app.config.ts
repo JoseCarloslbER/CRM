@@ -12,7 +12,6 @@ import localeEs from '@angular/common/locales/es';
 
 export const appConfig: ApplicationConfig = {
     providers: [
-        { provide: LOCALE_ID, useValue: 'es' },
 
         provideAnimations(),
         provideHttpClient(),
