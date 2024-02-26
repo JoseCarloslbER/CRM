@@ -77,7 +77,7 @@ export class ModalNewPriceComponent implements OnInit, OnDestroy {
       ...this.formData.value,
     }
 
-    if (this.productsApplies.value) objData.product_category_id = this.productsApplies.value;
+    if (this.productsApplies.value) objData.product_category = this.productsApplies.value;
 
     console.log(objData);
 
@@ -89,7 +89,7 @@ export class ModalNewPriceComponent implements OnInit, OnDestroy {
     this.formData.patchValue({
       ...this.objEditData,
     })
-    this.productsApplies.patchValue(this.objEditData?.product_category_id)
+    // this.productsApplies.patchValue(this.objEditData?.product_category)
   }
 
   saveDataPost(objData:entity.PostDataPrice) {
