@@ -79,13 +79,12 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
     this.searchBar.valueChanges.pipe(takeUntil(this.onDestroy), debounceTime(500)).subscribe((content: string) => {
       console.log(content);
     })
-   
-    this.actions.valueChanges.pipe(takeUntil(this.onDestroy)).subscribe((content: string) => {
-      console.log('actions', content);
-      if (content == 's') {
-        this.moneyAccount() 
-      }
-    })
+  }
+
+  getActions(type:string, data:any) {
+    if (type == 'Aceptar') {
+      this.acceptQuote(data.id) 
+    }
   }
 
   getCatalogs() {
@@ -132,6 +131,33 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
 
   newData() {
     this.router.navigateByUrl(`/home/conversion/nueva-cotizacion`)
+  }
+
+  acceptQuote(id?: string) {
+    this.notificationService
+    .notificacion(
+      'Pregunta',
+      '¿Estás seguro de aceptar la cotización?',
+      'question',
+    )
+    .afterClosed()
+    .subscribe((response) => {
+      if (response) {
+        this.moduleServices.acceptQuote(id).subscribe({
+          next: () => {
+              this.notificationService
+              .notificacion(
+                'Éxito',
+                'Cotización aceptada.',
+                'save',
+              )
+              .afterClosed()
+              .subscribe((_) => this.searchWithFilters());
+          },
+          error: (error) => console.error(error)
+        })
+      }
+    });
   }
 
   moneyAccount(data = null) {

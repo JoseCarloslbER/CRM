@@ -70,7 +70,7 @@ export class ClientTypeComponent implements OnInit, OnDestroy {
     this.notificationService
     .notificacion(
       'Pregunta',
-      '¿Estas seguro de eliminar el registro?',
+      '¿Estás seguro de eliminar el registro?',
       'question',
     )
     .afterClosed()
