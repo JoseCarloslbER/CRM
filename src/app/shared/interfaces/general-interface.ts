@@ -27,6 +27,27 @@ export interface DataCatPlatform {
   platform_id: string;
 }
 
+export interface DataCatWayToPay {
+  payment_method_id: string;
+  payment_name: string;
+}
+
+export interface DataCatProducts {
+  product_id: string;
+  price: string | null; 
+  discount: string | null;
+  code: string;
+  name: string;
+  list_price: string;
+  link: string | null;
+}
+
+export interface DataCatContact {
+  contact_id: string;
+  full_name: string;
+  company: string;
+}
+
 export interface User {
   campaign: string;
   campaign_user_id: string;

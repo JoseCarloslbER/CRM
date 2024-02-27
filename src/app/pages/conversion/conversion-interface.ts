@@ -106,3 +106,12 @@ export interface OptionProduct {
   quote_option: "3b643f95-9944-4f20-8a93-e38fa2e6c781",
   status: "00d91403-ffb8-44ca-ab98-96e899925216"
 }
+
+export interface QuoteProducts {
+  full_name : string;
+  position? : string;
+  email? : string;
+  movil_phone : string;
+  local_phone? : string;
+  ext? : string;
+}

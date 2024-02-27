@@ -119,3 +119,4 @@ export interface CompanyContacts {
   local_phone? : string;
   ext? : string;
 }
+

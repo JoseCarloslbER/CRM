@@ -61,7 +61,6 @@ export class ModalNewActivityComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     console.log(this.data);
-
     this.assignInformation();
 
     setTimeout(() => {
@@ -82,11 +81,8 @@ export class ModalNewActivityComponent implements OnInit, OnDestroy {
   }
 
   getDataById() {
-    console.log('this.idData', this.idData);
-    
     this.moduleManagementServices.getDataId(this.idData).subscribe({
       next: (response: entityManager.GetDataActivitiesMapper) => {
-        console.log(response);
         this.objEditData = response;
         this.formData.patchValue(this.objEditData);
         this.company.patchValue(this.objEditData.companyName)
@@ -187,7 +183,6 @@ export class ModalNewActivityComponent implements OnInit, OnDestroy {
       .afterClosed()
       .subscribe((_) => this.closeModal());
   }
-
 
   closeModal() {
     this.updateService.triggerUpdate(); 

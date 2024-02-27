@@ -28,6 +28,37 @@ export class ConversionService {
     return this.http.get<entityGeneral.DataCatAgents[]>(url)
 	}
 
+  public getCatCompany(filters?:any): Observable<entityGeneral.DataCatCompany[]> {
+		const url = `${environment.apiURL}company/company/${filters ? `?${filters}` : ''}`;
+
+    return this.http.get<entityGeneral.DataCatCompany[]>(url)
+	}
+
+  public getCatCampaing(): Observable<entityGeneral.DataCatCampaing[]> {
+		const url = `${environment.apiURL}catch/campaign-list/`;
+
+    return this.http.get<entityGeneral.DataCatCampaing[]>(url)
+	}
+
+  public getCatDataWayToPay(): Observable<entityGeneral.DataCatWayToPay[]> {
+		const url = `${environment.apiURL}settings/payment-method/`;
+
+    return this.http.get<entityGeneral.DataCatWayToPay[]>(url);
+	}
+
+  public getCatProducts(): Observable<entityGeneral.DataCatProducts[]> {
+		const url = `${environment.apiURL}admin/product/`;
+
+    return this.http.get<entityGeneral.DataCatProducts[]>(url);
+	}
+  
+  public getCatDataContact(filter): Observable<entityGeneral.DataCatContact[]> {
+    const url = `${environment.apiURL}company/company-contact/${filter ? `?${filter}` : ''}`;
+
+
+    return this.http.get<entityGeneral.DataCatContact[]>(url);
+	}
+
   // END CATALOGS
   
    public getDataTable(filters?:string): Observable<entity.TableDataQuoteMapper[]> {
