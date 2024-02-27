@@ -7,6 +7,7 @@ import { Subject, takeUntil } from 'rxjs';
 import * as entity from '../../../admin-interface';
 import * as entityGeneral from '../../../../../shared/interfaces/general-interface';
 import { UpdateComponentsService } from 'app/shared/services/updateComponents.service';
+import { CatalogsService } from 'app/shared/services/catalogs.service';
 
 @Component({
   selector: 'app-modal-new-product',
@@ -33,6 +34,7 @@ export class ModalNewProductComponent implements OnInit, AfterViewInit, OnDestro
   constructor(
     private updateService: UpdateComponentsService,
     private moduleServices: AdminService,
+    private catalogsServices: CatalogsService,
     private formBuilder: FormBuilder,
     private notificationService: OpenModalsService,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -55,14 +57,14 @@ export class ModalNewProductComponent implements OnInit, AfterViewInit, OnDestro
   }
 
   getCatalogs() {
-    this.moduleServices.getCatCountry().pipe(takeUntil(this.onDestroy)).subscribe({
+    this.catalogsServices.getCatCountry().pipe(takeUntil(this.onDestroy)).subscribe({
       next: (data: entityGeneral.DataCatCountry[]) => {
         this.catCountries = data;
       },
       error: (error) => console.error(error)
     });
 
-    this.moduleServices.getCatProductCategory().pipe(takeUntil(this.onDestroy)).subscribe({
+    this.catalogsServices.getCatProductCategory().pipe(takeUntil(this.onDestroy)).subscribe({
       next: (data: entityGeneral.DataCatProductCategory[]) => {
         this.catProductCategories = data;
       },

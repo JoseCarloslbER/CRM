@@ -1,26 +1,21 @@
-import { AfterViewInit, Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
-import { UpdateComponentsService } from 'app/shared/services/updateComponents.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import moment from 'moment';
 import { ConversionService } from '../conversion.service';
-import * as entity from '../conversion-interface';
 import * as entityGeneral from '../../../shared/interfaces/general-interface';
 import { CatalogsService } from 'app/shared/services/catalogs.service';
 
 @Component({
   selector: 'app-modal-close-sale',
   templateUrl: './modal-close-sale.component.html',
-  styleUrl: './modal-close-sale.component.scss'
 })
 export class ModalCloseSaleComponent implements OnInit, OnDestroy {
   private onDestroy = new Subject<void>();
 
-  public objEditData : any;
+  public objEditData: any;
 
-  
   public catWayToPay: entityGeneral.DataCatWayToPay[] = [];
   public catPaymentMethod: entityGeneral.DataCatPaymentMethod[] = [];
   public catPaymentCondiction: entityGeneral.DataCatPaymentCondition[] = [];
@@ -34,7 +29,6 @@ export class ModalCloseSaleComponent implements OnInit, OnDestroy {
     payment_condition_id: [null, Validators.required],
     invoice_use_id: [null, Validators.required],
     tax_id_number: [null, [Validators.required, Validators.minLength(12), Validators.maxLength(12)]],
-
   });
 
   constructor(
@@ -45,12 +39,11 @@ export class ModalCloseSaleComponent implements OnInit, OnDestroy {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogRef: MatDialogRef<any>
   ) { }
-  
+
   ngOnInit(): void {
     console.log(this.data.info);
     this.assignInformation();
   }
-
 
   assignInformation() {
     if (this.data.info) {
@@ -69,21 +62,21 @@ export class ModalCloseSaleComponent implements OnInit, OnDestroy {
       },
       error: (error) => console.error(error)
     });
-    
+
     this.catalogsServices.getCatPaymentMethod().subscribe({
       next: (data: entityGeneral.DataCatPaymentMethod[]) => {
         this.catPaymentMethod = data;
       },
       error: (error) => console.error(error)
     });
-   
+
     this.catalogsServices.getCatPaymentCondition().subscribe({
       next: (data: entityGeneral.DataCatPaymentCondition[]) => {
         this.catPaymentCondiction = data;
       },
       error: (error) => console.error(error)
     });
-   
+
     this.catalogsServices.getCatInvoiceUse().subscribe({
       next: (data: entityGeneral.DataCatInvoiceUse[]) => {
         this.catInvoiceUse = data;
@@ -100,14 +93,13 @@ export class ModalCloseSaleComponent implements OnInit, OnDestroy {
 
     console.log(objData);
     this.saveDataPost(objData);
-      
   }
 
-  saveDataPost(objData:any) {
+  saveDataPost(objData: any) {
     console.log(this.objEditData);
     this.moduleServices.closeSale(objData).subscribe({
       next: () => {
-        this.completionMessage(true)
+        this.completionMessage()
       },
       error: (error) => {
         this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
@@ -116,7 +108,7 @@ export class ModalCloseSaleComponent implements OnInit, OnDestroy {
     })
   }
 
-  completionMessage(edit = false) {
+  completionMessage() {
     this.notificationService
       .notificacion(
         'Éxito',

@@ -127,6 +127,18 @@ export interface DataCatCity {
   city_id : string;
 }
 
+export interface DataCatActivityType {
+  type_activity_id: string;
+  activity: string;
+  icon: string;
+  color: string;
+}
+
+export interface DataCatOrigin {
+  platform_id: string;
+  platform_name: string;
+}
+
 export interface DataCatCompanyPhase {
   phase_name : string;
   company_phase_id : string;

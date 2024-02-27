@@ -11,6 +11,7 @@ import { CatchmentService } from '../catchment.service';
 import * as entity from '../catchment-interface';
 import * as entityGeneral from '../../../shared/interfaces/general-interface';
 import moment from 'moment';
+import { CatalogsService } from 'app/shared/services/catalogs.service';
 
 @Component({
   selector: 'app-campaigns',
@@ -57,6 +58,7 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(
     private moduleServices: CatchmentService,
+    private catalogsServices: CatalogsService,
     private notificationService: OpenModalsService,
     private formBuilder: FormBuilder,
     private dialog: MatDialog,
@@ -75,21 +77,21 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getCatalogs() {
-    this.moduleServices.getCatType().subscribe({
+    this.catalogsServices.getCatType().subscribe({
       next: (data: entityGeneral.DataCatType[]) => {
         this.catTypes = data;
       },
       error: (error) => console.error(error)
     });
 
-    this.moduleServices.getCatStatus().subscribe({
+    this.catalogsServices.getCatStatus().subscribe({
       next: (data: entityGeneral.DataCatStatus[]) => {
         this.catStatus = data;
       },
       error: (error) => console.error(error)
     });
 
-    this.moduleServices.getCatAgents().subscribe({
+    this.catalogsServices.getCatAgents().subscribe({
       next: (data: entityGeneral.DataCatAgents[]) => {
         this.catAgents = data;
       },

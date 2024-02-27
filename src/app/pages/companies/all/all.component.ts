@@ -10,6 +10,7 @@ import * as entity from '../companies-interface';
 import { DataCatBusiness } from 'app/shared/interfaces/general-interface';
 import * as entityGeneral from '../../../shared/interfaces/general-interface';
 import moment from 'moment';
+import { CatalogsService } from 'app/shared/services/catalogs.service';
 
 @Component({
   selector: 'app-all',
@@ -82,6 +83,7 @@ export class AllComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
   constructor(
+    private catalogsServices: CatalogsService,
     private moduleServices: CompaniesService,
     private notificationService: OpenModalsService,
     private formBuilder: FormBuilder,
@@ -101,21 +103,21 @@ export class AllComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getCatalogs() {
-    this.moduleServices.getCatalogBusiness().subscribe({
+    this.catalogsServices.getCatBusiness().subscribe({
       next: (data: DataCatBusiness[]) => {
         this.catBusiness = data;
       },
       error: (error) => console.error(error)
     });
 
-    this.moduleServices.getCatStatus().subscribe({
+    this.catalogsServices.getCatStatus().subscribe({
       next: (data: entityGeneral.DataCatStatus[]) => {
         this.catStatus = data;
       },
       error: (error) => console.error(error)
     });
 
-    this.moduleServices.getCatCampaing().subscribe({
+    this.catalogsServices.getCatCampaing().subscribe({
       next: (data: entityGeneral.DataCatCampaing[]) => {
         this.catCampaing = data;
       },

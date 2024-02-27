@@ -10,6 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalFastQuoteComponent } from '../prospects/modal-fast-quote/modal-fast-quote.component';
 import { TableDataOrigin } from 'app/pages/config/config-interface';
+import { CatalogsService } from 'app/shared/services/catalogs.service';
 
 @Component({
   selector: 'app-new-client-or-prospect',
@@ -62,6 +63,7 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
   constructor(
     private notificationService: OpenModalsService,
     private moduleServices: CompaniesService,
+    private catalogsServices: CatalogsService,
     private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
     private dialog: MatDialog,
@@ -101,7 +103,7 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
   }
 
   getCatalogsInitial() {
-    this.moduleServices.getCatOrigin().pipe(takeUntil(this.onDestroy)).subscribe({
+    this.catalogsServices.getCatOrigin().pipe(takeUntil(this.onDestroy)).subscribe({
       next: (data: TableDataOrigin[]) => {
         this.catOrigin = data;
         console.log(this.catOrigin);
@@ -127,49 +129,49 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
   getCatalogs() {
     this.getCatalogsInitial()
 
-    this.moduleServices.getCatAgents().subscribe({
+    this.catalogsServices.getCatAgents().subscribe({
       next: (data: entityGeneral.DataCatAgents[]) => {
         this.catAgents = data;
       },
       error: (error) => console.error(error)
     });
 
-    this.moduleServices.getCatalogCompanySize().subscribe({
+    this.catalogsServices.getCatCompanySize().subscribe({
       next: (data: entityGeneral.DataCatCompanySize[]) => {
         this.catCompaniesSizes = data;
       },
       error: (error) => console.error(error)
     });
 
-    this.moduleServices.getCatalogCompanyType().subscribe({
+    this.catalogsServices.getCatCompanyType().subscribe({
       next: (data: entityGeneral.DataCatCompanyType[]) => {
         this.catCompaniesTypes = data;
       },
       error: (error) => console.error(error)
     });
 
-    this.moduleServices.getCatalogCountry().subscribe({
+    this.catalogsServices.getCatCountry().subscribe({
       next: (data: entityGeneral.DataCatCountry[]) => {
         this.catCountries = data;
       },
       error: (error) => console.error(error)
     });
 
-    this.moduleServices.getCatalogState().subscribe({
+    this.catalogsServices.getCatState().subscribe({
       next: (data: entityGeneral.DataCatState[]) => {
         this.catStates = data;
       },
       error: (error) => console.error(error)
     });
 
-    this.moduleServices.getCatalogCity().subscribe({
+    this.catalogsServices.getCatCity().subscribe({
       next: (data: entityGeneral.DataCatCity[]) => {
         this.catCities = data;
       },
       error: (error) => console.error(error)
     });
 
-    this.moduleServices.getCatalogBusiness().subscribe({
+    this.catalogsServices.getCatBusiness().subscribe({
       next: (data: entityGeneral.DataCatBusiness[]) => {
         this.catBusiness = data;
       },

@@ -9,6 +9,7 @@ import { Subject, debounceTime, takeUntil } from 'rxjs';
 import * as entity from '../companies-interface';
 import * as entityGeneral from '../../../shared/interfaces/general-interface';
 import moment from 'moment';
+import { CatalogsService } from 'app/shared/services/catalogs.service';
 @Component({
   selector: 'app-prospects',
   templateUrl: './prospects.component.html',
@@ -59,6 +60,7 @@ export class ProspectsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(
     private moduleServices: CompaniesService,
+    private catalogsServices: CatalogsService,
     private notificationService: OpenModalsService,
     private formBuilder: FormBuilder,
     private router: Router
@@ -76,21 +78,21 @@ export class ProspectsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getCatalogs() {
-    this.moduleServices.getCatalogBusiness().subscribe({
+    this.catalogsServices.getCatBusiness().subscribe({
       next: (data: entityGeneral.DataCatBusiness[]) => {
         this.catBusiness = data;
       },
       error: (error) => console.error(error)
     });
 
-    this.moduleServices.getCatStatus().subscribe({
+    this.catalogsServices.getCatStatus().subscribe({
       next: (data: entityGeneral.DataCatStatus[]) => {
         this.catStatus = data;
       },
       error: (error) => console.error(error)
     });
 
-    this.moduleServices.getCatCampaing().subscribe({
+    this.catalogsServices.getCatCampaing().subscribe({
       next: (data: entityGeneral.DataCatCampaing[]) => {
         this.catCampaing = data;
       },

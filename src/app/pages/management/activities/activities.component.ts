@@ -13,6 +13,7 @@ import * as entity from '../management-interface';
 import { TableDataActivityType } from 'app/pages/config/config-interface';
 import { UpdateComponentsService } from 'app/shared/services/updateComponents.service';
 import { ModalFinallyComponent } from './modal-finally/modal-finally.component';
+import { CatalogsService } from 'app/shared/services/catalogs.service';
 
 @Component({
   selector: 'app-activities',
@@ -58,6 +59,7 @@ export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     private moduleServices: ManagementmentService,
     private updateService: UpdateComponentsService,
+    private catalogsServices: CatalogsService,
     private notificationService: OpenModalsService,
     private formBuilder: FormBuilder,
     private dialog: MatDialog
@@ -78,21 +80,21 @@ export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getCatalogs() {
-    this.moduleServices.getCatStatus().subscribe({
+    this.catalogsServices.getCatStatus().subscribe({
       next: (data: entityGeneral.DataCatStatus[]) => {
         this.catStatus = data;
       },
       error: (error) => console.error(error)
     });
 
-    this.moduleServices.getCatAgents().subscribe({
+    this.catalogsServices.getCatAgents().subscribe({
       next: (data: entityGeneral.DataCatAgents[]) => {
         this.catAgents = data;
       },
       error: (error) => console.error(error)
     });
 
-    this.moduleServices.getCatActivityType().subscribe({
+    this.catalogsServices.getCatActivityType().subscribe({
       next: (data: TableDataActivityType[]) => {
         this.catActivitiesTypes = data;
       },

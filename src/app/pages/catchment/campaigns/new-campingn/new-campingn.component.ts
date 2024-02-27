@@ -7,6 +7,7 @@ import { CatchmentService } from '../../catchment.service';
 import * as entity from '../../catchment-interface';
 import * as entityGeneral from '../../../../shared/interfaces/general-interface';
 import moment from 'moment';
+import { CatalogsService } from 'app/shared/services/catalogs.service';
 
 @Component({
   selector: 'app-new-campingn',
@@ -65,6 +66,7 @@ export class NewCampingnComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     private notificationService: OpenModalsService,
     private moduleServices: CatchmentService,
+    private catalogsServices: CatalogsService,
     private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
     private router: Router
@@ -110,28 +112,28 @@ export class NewCampingnComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getCatalogs() {
-    this.moduleServices.getCatBusiness().subscribe({
+    this.catalogsServices.getCatBusiness().subscribe({
       next: (data: entityGeneral.DataCatBusiness[]) => {
         this.catBusiness = data;;
       },
       error: (error) => console.error(error)
     });
 
-    this.moduleServices.getCatType().pipe(takeUntil(this.onDestroy)).subscribe({
+    this.catalogsServices.getCatType().pipe(takeUntil(this.onDestroy)).subscribe({
       next: (data: entityGeneral.DataCatType[]) => {
         this.catTypes = data;;
       },
       error: (error) => console.error(error)
     });
 
-    this.moduleServices.getCatAgents().pipe(takeUntil(this.onDestroy)).subscribe({
+    this.catalogsServices.getCatAgents().pipe(takeUntil(this.onDestroy)).subscribe({
       next: (data: entityGeneral.DataCatAgents[]) => {
         this.catalogAgents = data;
       },
       error: (error) => console.error(error)
     });
 
-    this.moduleServices.getCatProductCategory().pipe(takeUntil(this.onDestroy)).subscribe({
+    this.catalogsServices.getCatProductCategory().pipe(takeUntil(this.onDestroy)).subscribe({
       next: (data: entityGeneral.DataCatProductCategory[]) => {
         this.catalogProductCategories = data;
       },
@@ -148,7 +150,7 @@ export class NewCampingnComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.formFilters.get('type')?.value) filters += `campaign_type_id=${this.formFilters.get('type').value}&`;
     if (this.formFilters.get('business')?.value) filters += `business_id=${this.formFilters.get('business').value}&`;
 
-    this.moduleServices.getCatCompany(filters).pipe(takeUntil(this.onDestroy)).subscribe({
+    this.catalogsServices.getCatCompany(filters).pipe(takeUntil(this.onDestroy)).subscribe({
       next: (data: entityGeneral.DataCatCompany[]) => {
         this.catalogCompanies = data;
       },

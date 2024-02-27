@@ -3,10 +3,11 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
 import * as entity from '../../../admin-interface';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject } from 'rxjs';
 import { AdminService } from 'app/pages/admin/admin.service';
 import { UpdateComponentsService } from 'app/shared/services/updateComponents.service';
 import * as entityGeneral from '../../../../../shared/interfaces/general-interface';
+import { CatalogsService } from 'app/shared/services/catalogs.service';
 
 @Component({
   selector: 'app-modal-new-price',
@@ -24,22 +25,20 @@ export class ModalNewPriceComponent implements OnInit, OnDestroy {
 
   public catCurrency: entityGeneral.DataCatCurrency[] = [];
   public catProductCategories: entityGeneral.DataCatProductCategory[] = [];
-  
-  public productsApplies = new FormControl(null);
 
-  // private idData: string = '';
-  // private objEditData : entity.GetDataPrice;
+  public productsApplies = new FormControl(null);
 
   public objEditData: any;
 
   constructor(
     private updateService: UpdateComponentsService,
     private moduleServices: AdminService,
+    private catalogsServices: CatalogsService,
     private formBuilder: FormBuilder,
     private notificationService: OpenModalsService,
-		@Inject(MAT_DIALOG_DATA) public data: any,
-		private dialogRef: MatDialogRef<any>,
-	) {	}
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private dialogRef: MatDialogRef<any>,
+  ) { }
 
   ngOnInit(): void {
     console.log(this.data?.info);
@@ -57,14 +56,14 @@ export class ModalNewPriceComponent implements OnInit, OnDestroy {
   }
 
   getCatalogs() {
-    this.moduleServices.getCatCurrency().subscribe({
+    this.catalogsServices.getCatCurrency().subscribe({
       next: (data: entityGeneral.DataCatCurrency[]) => {
         this.catCurrency = data;
       },
       error: (error) => console.error(error)
     });
 
-    this.moduleServices.getCatProductCategory().subscribe({
+    this.catalogsServices.getCatProductCategory().subscribe({
       next: (data: entityGeneral.DataCatProductCategory[]) => {
         this.catProductCategories = data;
       },
@@ -82,19 +81,18 @@ export class ModalNewPriceComponent implements OnInit, OnDestroy {
     console.log(objData);
 
     if (this.objEditData) this.saveDataPatch(objData)
-     else this.saveDataPost(objData)
+    else this.saveDataPost(objData)
   }
-  
+
   asignedData() {
     this.formData.patchValue({
       ...this.objEditData,
     })
-    // this.productsApplies.patchValue(this.objEditData?.product_category)
   }
 
-  saveDataPost(objData:entity.PostDataPrice) {
+  saveDataPost(objData: entity.PostDataPrice) {
     this.moduleServices.postDataPrice(objData).subscribe({
-      next: (response: any) => {
+      next: () => {
         this.completionMessage()
       },
       error: (error) => {
@@ -104,9 +102,9 @@ export class ModalNewPriceComponent implements OnInit, OnDestroy {
     })
   }
 
-  saveDataPatch(objData:entity.PostDataPrice) {
+  saveDataPatch(objData: entity.PostDataPrice) {
     this.moduleServices.patchDataPrice(this.objEditData.price_id, objData).subscribe({
-      next: (response: any) => {
+      next: () => {
         this.completionMessage(true)
       },
       error: (error) => {
@@ -130,13 +128,13 @@ export class ModalNewPriceComponent implements OnInit, OnDestroy {
   validateTaxPercentage(control: any) {
     const taxPercentage = control.value;
     if (taxPercentage > 100) return { 'invalidPercentage': true };
-  
+
     return null;
   }
 
   closeModal() {
     this.updateService.triggerUpdate();
-		this.dialogRef.close({ close : true })
+    this.dialogRef.close({ close: true })
   }
 
   ngOnDestroy(): void {

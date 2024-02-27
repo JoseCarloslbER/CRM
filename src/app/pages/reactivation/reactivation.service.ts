@@ -27,16 +27,6 @@ export class ReactivationService {
     return this.dataSubject.asObservable();
   }
 
-  // CATALOGS 
-  
-  public getCatAgents(): Observable<entityGeneral.DataCatAgents[]> {
-		const url = `${environment.apiURL}auth/user/`;
-
-    return this.http.get<entityGeneral.DataCatAgents[]>(url)
-	}
-
-  // END CATALOGS 
-
   // PENDING CALLS AND DIALY
 
   public getDataTableCalls(): Observable<any> {

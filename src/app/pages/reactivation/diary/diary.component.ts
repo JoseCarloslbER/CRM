@@ -10,6 +10,7 @@ import { ReactivationService } from '../reactivation.service';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { FormControl } from '@angular/forms';
 import * as entityGeneral from '../../../shared/interfaces/general-interface';
+import { CatalogsService } from 'app/shared/services/catalogs.service';
 
 
 @Component({
@@ -66,8 +67,9 @@ export class DiaryComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(
     private moduleServices: ReactivationService,
-    private modal: NgbModal,
+    private catalogsServices: CatalogsService,
     private notificationService: OpenModalsService,
+    private modal: NgbModal,
     private dialog: MatDialog,
   ) { }
 
@@ -94,7 +96,7 @@ export class DiaryComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getCatalogs() {
-    this.moduleServices.getCatAgents().subscribe({
+    this.catalogsServices.getCatAgents().subscribe({
       next: (data: entityGeneral.DataCatAgents[]) => {
         this.catAgents = data;
       },

@@ -10,6 +10,7 @@ import { ManagementmentService } from 'app/pages/management/management.service';
 import moment from 'moment';
 import { UpdateComponentsService } from 'app/shared/services/updateComponents.service';
 import { ReactivationService } from 'app/pages/reactivation/reactivation.service';
+import { CatalogsService } from 'app/shared/services/catalogs.service';
 
 @Component({
   selector: 'app-modal-new-activity',
@@ -53,6 +54,7 @@ export class ModalNewActivityComponent implements OnInit, OnDestroy {
     private moduleManagementServices: ManagementmentService,
     private moduleReactivationServices: ReactivationService,
     private updateService: UpdateComponentsService,
+    private catalogsServices: CatalogsService,
     private formBuilder: FormBuilder,
     private notificationService: OpenModalsService,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -95,28 +97,28 @@ export class ModalNewActivityComponent implements OnInit, OnDestroy {
   }
 
   getCatalogs() {
-    this.moduleManagementServices.getCatCampaing().subscribe({
+    this.catalogsServices.getCatCampaing().subscribe({
       next: (data: entityGeneral.DataCatCampaing[]) => {
         this.catCampaing = data;
       },
       error: (error) => console.error(error)
     });
 
-    this.moduleManagementServices.getCatActivityType().subscribe({
+    this.catalogsServices.getCatActivityType().subscribe({
       next: (data: TableDataActivityType[]) => {
         this.catCompanyType = data;
       },
       error: (error) => console.error(error)
     });
 
-    this.moduleManagementServices.getCatAgents().subscribe({
+    this.catalogsServices.getCatAgents().subscribe({
       next: (data: entityGeneral.DataCatAgents[]) => {
         this.catAgents = data;
       },
       error: (error) => console.error(error)
     });
     
-    this.moduleManagementServices.getCatCompany().subscribe({
+    this.catalogsServices.getCatCompany().subscribe({
       next: (data: entityGeneral.DataCatCompany[]) => {
         this.catCompanies = data;
       },
