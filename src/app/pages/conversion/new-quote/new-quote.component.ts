@@ -250,6 +250,8 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
       instance.product.push(newProductInstance);
     }
   
+    this.setupOptionControlSubscriptions(instance);
+
     this.optionFormValues.push(instance);
   }
   
@@ -330,6 +332,14 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
       }));
+  
+      const discount = parseFloat(optionInstance.discountControl.value.replace(',', '')) || 0;
+      const total = (subtotal - discount).toLocaleString('en-US', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      });
+  
+      optionInstance.totalControl.setValue(total);
     });
   }
 
@@ -342,6 +352,25 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
       maximumFractionDigits: 2
     }));
   }
+
+  updateTotalWithDiscount(productInstance: any, newDiscount: any) {
+    const subtotal = parseFloat(productInstance.subtotalControl.value.replace(',', '')) || 0;
+    const discount = parseFloat(newDiscount.replace(',', '')) || 0;
+  
+    const total = (subtotal - discount).toLocaleString('en-US', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
+  
+    productInstance.totalControl.setValue(total);
+  }
+
+  private setupOptionControlSubscriptions(optionInstance: any) {
+    optionInstance.discountControl.valueChanges.subscribe((newDiscount: any) => {
+      this.updateTotalWithDiscount(optionInstance, newDiscount);
+    });
+  }
+
 
   newDataProduct() {
     this.dialog.open(ModalNewProductComponent, {
