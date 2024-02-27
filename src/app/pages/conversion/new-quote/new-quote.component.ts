@@ -407,60 +407,26 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
     return this.catCompanies.filter(option => option?.company_name?.toLowerCase()?.includes(filterValue));
   }
 
-  areFormControlsEmpty(optionInstance: any): boolean {
-    let isEmpty = false;
-  
-    optionInstance.product.forEach((productInstance: any) => {
-      // Verificar si alguno de los campos en el producto está vacío
+  get canSave() {
+    const formValues = (e: any) => {
       if (
-        !productInstance.placesControl.value ||
-        !productInstance.productControl.value ||
-        !productInstance.unitPriceControl.value ||
-        !productInstance.totalPriceControl.value
+        !e?.dateControl.value ||
+        !e?.totalControl.value ||
+        !e?.timeControl.value ||
+        !e?.subtotalControl.value ||
+        !e?.product ||  // Asegúrate de que e.product exista
+        e?.product.some((productControl: any) => 
+          !productControl.placesControl?.value
+        )
       ) {
-        isEmpty = true;
+        return false;
       }
-    });
   
-    // También puedes agregar verificaciones para los campos en optionInstance si es necesario
+      return true;
+    };
   
-    return isEmpty;
+    return this.optionFormValues.every(formValues);
   }
-
-  canSave(): boolean {
-    // Marcar todos los controles como "touched"
-    this.validateAllFormControls();
-  
-    // Verificar si el formulario es válido
-    return this.formData.valid && this.optionFormValues.every(optionInstance => optionInstance.valid);
-  }
-
-  validateAllFormControls() {
-    this.optionFormValues.forEach(optionInstance => {
-      // Marcar todos los controles dentro de la opción como "touched"
-      Object.keys(optionInstance).forEach(controlName => {
-        const control = optionInstance[controlName];
-        if (control instanceof FormControl) {
-          control.markAsTouched();
-        } else if (control instanceof FormGroup || control instanceof FormArray) {
-          this.validateAllFormControlsRecursive(control);
-        }
-      });
-    });
-  }
-  
-  // Método recursivo para marcar todos los controles de FormGroup y FormArray como "touched"
-  validateAllFormControlsRecursive(formGroup: FormGroup | FormArray) {
-    Object.keys(formGroup.controls).forEach(controlName => {
-      const control = formGroup.controls[controlName];
-      if (control instanceof FormControl) {
-        control.markAsTouched();
-      } else if (control instanceof FormGroup || control instanceof FormArray) {
-        this.validateAllFormControlsRecursive(control);
-      }
-    });
-  }
-
  
   ngOnDestroy(): void {
     this.onDestroy.next();
