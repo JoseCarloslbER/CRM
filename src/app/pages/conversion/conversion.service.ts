@@ -46,16 +46,6 @@ export class ConversionService {
     return this.http.get<entityGeneral.DataCatWayToPay[]>(url);
 	}
 
-  // public getCatProducts(): Observable<entityGeneral.DataCatProducts[]> {
-	// 	const url = `${environment.apiURL}admin/product/`;
-
-  //   return this.http.get<entityGeneral.DataCatProducts[]>(url).pipe(
-  //       map(data => {
-  //         data.list_price
-  //       })
-  //   );
-	// }
-
   public getCatProducts(filters?:any): Observable<entityGeneral.DataCatProducts[]> {
 		const url = `${environment.apiURL}admin/product/`;
 
@@ -64,7 +54,6 @@ export class ConversionService {
   
   public getCatDataContact(filter): Observable<entityGeneral.DataCatContact[]> {
     const url = `${environment.apiURL}company/company-contact/${filter ? `?${filter}` : ''}`;
-
 
     return this.http.get<entityGeneral.DataCatContact[]>(url);
 	}
@@ -87,8 +76,8 @@ export class ConversionService {
 		);
 	}
 
-  public postData(data:entity.PostDataCompany): Observable<any> {
-		const url = `${this.apiUrl}company/`;
+  public postData(data:any): Observable<any> {
+		const url = `${this.apiUrl}quote/`;
 
     return this.http.post<any>(url, data)
 	}

@@ -168,12 +168,12 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
 
     console.log('OBJETO :', objData);
 
-    // if (this.idData) this.saveDataPatch(objData)
-    // else this.saveDataPost(objData)
+    if (this.idData) this.saveDataPatch(objData)
+    else this.saveDataPost(objData)
   }
 
   saveDataPost(objData) {
-    this.moduleServices.postData(objData).pipe(takeUntil(this.onDestroy)).subscribe({
+    this.moduleServices.postData(objData).subscribe({
       next: () => {
         this.completionMessage()
       },
@@ -251,7 +251,6 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   
     this.setupOptionControlSubscriptions(instance);
-
     this.optionFormValues.push(instance);
   }
   
@@ -370,7 +369,6 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
       this.updateTotalWithDiscount(optionInstance, newDiscount);
     });
   }
-
 
   newDataProduct() {
     this.dialog.open(ModalNewProductComponent, {
