@@ -31,15 +31,10 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public formData = this.formBuilder.group({
     contact: [''],
-    user: ['b77cc580-1841-4614-ab78-a0c0d8159c5f'],
-    campaign: ['f9523bda-f248-4e3f-9574-e1b154cc84c2'],
-    payment_method: ['71caafeb-eb60-496b-98b7-4ee16a79c3f0'],
+    user: [''],
+    campaign: [''],
+    payment_method: [''],
     tax_include: [false],
-    // contact: [''],
-    // user: [''],
-    // campaign: [''],
-    // payment_method: [''],
-    // tax_include: [false],
   });
 
   public catCompanies: any[] = [];
