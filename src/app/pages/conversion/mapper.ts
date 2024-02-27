@@ -1,4 +1,3 @@
-import { forEach } from 'lodash';
 import * as entity from './conversion-interface';
 import moment from 'moment';
 
@@ -6,8 +5,6 @@ export class Mapper {
 	static getDataTableMapper(response: entity.TableDataQuote[]) : entity.TableDataQuoteMapper[] {
 		let dataList :entity.TableDataQuoteMapper[] = [];
 
-		let options:any[] = []
-		
 		response.forEach((data: entity.TableDataQuote): void => {
 			dataList.push({
 				id: data?.quote_id || '-',

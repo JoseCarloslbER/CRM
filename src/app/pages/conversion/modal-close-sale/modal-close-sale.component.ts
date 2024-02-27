@@ -89,7 +89,8 @@ export class ModalCloseSaleComponent implements OnInit, OnDestroy {
     let objData: any = {
       ...this.formData.value,
       status_id: '2b95f05d-64d4-4b36-a51c-a3ca7c6bdc72',
-      quote_id : this.objEditData.id
+      quote_id : this.objEditData.id,
+      company_id : this.objEditData.conpanyName.id
     }
 
     console.log(objData);
@@ -98,7 +99,7 @@ export class ModalCloseSaleComponent implements OnInit, OnDestroy {
 
   saveDataPost(objData: any) {
     console.log(this.objEditData);
-    this.moduleServices.closeSale(objData).subscribe({
+    this.moduleServices.closeSale({quote : objData}).subscribe({
       next: () => {
         this.completionMessage()
       },
