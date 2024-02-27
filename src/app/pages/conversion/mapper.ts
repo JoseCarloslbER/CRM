@@ -11,7 +11,6 @@ export class Mapper {
 		response.forEach((data: entity.TableDataQuote): void => {
 			dataList.push({
 				id: data?.quote_id || '-',
-				// dateAndHour : moment(data.register_date).format('YYYY-MM-DD'),
 				dateAndHour : moment(data.register_date).format('YYYY-MM-DD HH:mm:ss'),
 				conpanyName : {
 					id : data?.company?.company_id || '-', 

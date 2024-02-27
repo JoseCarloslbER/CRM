@@ -88,7 +88,8 @@ export class ModalCloseSaleComponent implements OnInit, OnDestroy {
   actionSave() {
     let objData: any = {
       ...this.formData.value,
-      status_id: '2b95f05d-64d4-4b36-a51c-a3ca7c6bdc72'
+      status_id: '2b95f05d-64d4-4b36-a51c-a3ca7c6bdc72',
+      quote_id : this.objEditData.id
     }
 
     console.log(objData);
