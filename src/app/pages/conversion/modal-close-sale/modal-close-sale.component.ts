@@ -59,6 +59,8 @@ export class ModalCloseSaleComponent implements OnInit, OnDestroy {
     this.catalogsServices.getCatDataWayToPay().subscribe({
       next: (data: entityGeneral.DataCatWayToPay[]) => {
         this.catWayToPay = data;
+        console.log(data);
+        
       },
       error: (error) => console.error(error)
     });

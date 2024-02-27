@@ -44,8 +44,8 @@
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Forma de pago</mat-label>
                             <mat-select formControlName="payment_method" placeholder="Seleccionar">
-                                <mat-option [value]="cat.payment_method_id"
-                                *ngFor="let cat of catWayToPay">{{cat?.payment_name || '-'}}</mat-option>
+                                <mat-option [value]="cat.way_to_pay_id"
+                                *ngFor="let cat of catWayToPay">{{cat?.way_to_pay_name || '-'}}</mat-option>
                             </mat-select>
                         </mat-form-field>
                     </div>

@@ -28,8 +28,9 @@ export interface DataCatPlatform {
 }
 
 export interface DataCatWayToPay {
-  payment_method_id: string;
-  payment_name: string;
+  way_to_pay_id:string;
+  way_to_pay_code:string;
+  way_to_pay_name:string;
 }
 
 export interface DataCatPaymentCondition {

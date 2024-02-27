@@ -37,7 +37,7 @@ export class CatalogsService {
 	}
 
 	public getCatDataWayToPay(): Observable<entityGeneral.DataCatWayToPay[]> {
-		const url = `${environment.apiURL}settings/payment-method/`;
+		const url = `${environment.apiURL}settings/way-to-pay/`;
 
 		return this.http.get<entityGeneral.DataCatWayToPay[]>(url);
 	}
