@@ -9,6 +9,7 @@ import { ConversionService } from '../conversion.service';
 import * as entityGeneral from '../../../shared/interfaces/general-interface';
 import moment from 'moment';
 import * as entity from '../conversion-interface';
+import { CatalogsService } from 'app/shared/services/catalogs.service';
 
 @Component({
   selector: 'app-new-quote',
@@ -50,6 +51,7 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(
     private moduleServices: ConversionService,
+    private catalogsServices: CatalogsService,
     private notificationService: OpenModalsService,
     private formBuilder: FormBuilder,
     private dialog: MatDialog,
@@ -103,35 +105,35 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getCatalogs() {
-    this.moduleServices.getCatCompany().subscribe({
+    this.catalogsServices.getCatCompany().subscribe({
       next: (data: entityGeneral.DataCatCompany[]) => {
         this.catCompanies = data;
       },
       error: (error) => console.error(error)
     });
 
-    this.moduleServices.getCatAgents().subscribe({
+    this.catalogsServices.getCatAgents().subscribe({
       next: (data: entityGeneral.DataCatAgents[]) => {
         this.catAgents = data;
       },
       error: (error) => console.error(error)
     });
 
-    this.moduleServices.getCatCampaing().subscribe({
+    this.catalogsServices.getCatCampaing().subscribe({
       next: (data: entityGeneral.DataCatCampaing[]) => {
         this.catCampaing = data;
       },
       error: (error) => console.error(error)
     });
 
-    this.moduleServices.getCatDataWayToPay().subscribe({
+    this.catalogsServices.getCatDataWayToPay().subscribe({
       next: (data: entityGeneral.DataCatWayToPay[]) => {
         this.catWayToPay = data;
       },
       error: (error) => console.error(error)
     })
 
-    this.moduleServices.getCatProducts().subscribe({
+    this.catalogsServices.getCatProducts().subscribe({
       next: (data: entityGeneral.DataCatProducts[]) => {
         this.catProducts = data;
         console.log(data);
@@ -143,7 +145,7 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
   getCatalogContact(filter?: string) {
     console.log(filter);
 
-    this.moduleServices.getCatDataContact(filter).subscribe({
+    this.catalogsServices.getCatDataContact(filter).subscribe({
       next: (data: entityGeneral.DataCatContact[]) => {
         this.catContacts = data;
         console.log(data);

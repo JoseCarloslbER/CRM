@@ -13,6 +13,7 @@ import * as entityGeneral from '../../../shared/interfaces/general-interface';
 import moment from 'moment';
 import { ModalMoneyAccountComponent } from '../modal-money-account/modal-money-account.component';
 import { ModalCloseSaleComponent } from '../modal-close-sale/modal-close-sale.component';
+import { CatalogsService } from 'app/shared/services/catalogs.service';
 
 @Component({
   selector: 'app-quotes',
@@ -64,6 +65,7 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(
     private moduleServices: ConversionService,
+    private catalogsServices: CatalogsService,
     private notificationService: OpenModalsService,
     private formBuilder: FormBuilder,
     private dialog: MatDialog,
@@ -97,14 +99,14 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getCatalogs() {
-    this.moduleServices.getCatStatus().subscribe({
+    this.catalogsServices.getCatStatus().subscribe({
       next: (data: entityGeneral.DataCatStatus[]) => {
         this.catStatus = data;
       },
       error: (error) => console.error(error)
     });
 
-    this.moduleServices.getCatAgents().subscribe({
+    this.catalogsServices.getCatAgents().subscribe({
       next: (data: entityGeneral.DataCatAgents[]) => {
         this.catAgents = data;
       },
@@ -194,7 +196,7 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
       },
       disableClose: true,
       width: '1000px',
-      maxHeight: '428px',
+      maxHeight: '628px',
       panelClass: 'custom-dialog',
     })
       .afterClosed()

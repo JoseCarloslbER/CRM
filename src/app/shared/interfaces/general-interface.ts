@@ -32,6 +32,11 @@ export interface DataCatWayToPay {
   payment_name: string;
 }
 
+export interface DataCatPaymentCondition {
+  payment_condition_id: string;
+  payment_condition_name: string;
+}
+
 export interface DataCatProducts {
   product_id: string;
   price: string | null; 
@@ -82,6 +87,12 @@ export interface DataCatCampaing {
 export interface DataCatPaymentMethod {
   payment_method_id :string;
   payment_name:string;
+}
+
+export interface DataCatInvoiceUse {
+  invoice_use_id: string;
+  invoice_use_code: string;
+  invoice_use_name: string;
 }
 
 export interface DataCatPaymentMethod {

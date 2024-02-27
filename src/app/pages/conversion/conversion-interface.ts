@@ -28,6 +28,7 @@ export interface TableDataQuoteMapper {
   id: string;
   dateAndHour: string;
   actionName: string;
+  closeSale: object;
   conpanyName: {
     id: string;
     name: string;
