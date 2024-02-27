@@ -111,7 +111,7 @@
                                 <div class="col-md-2">
                                     <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                                         <mat-label>Lugares</mat-label>
-                                        <input class="text-right" [formControl]="controlProduct.placesControl" matInput>
+                                        <input class="text-right" [formControl]="controlProduct.placesControl" type="number" matInput>
                                     </mat-form-field>
                                 </div>
 
@@ -128,7 +128,7 @@
                                 <div class="col-md-2">
                                     <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                                         <mat-label>Precio unitario</mat-label>
-                                        <input class="text-right" [formControl]="controlProduct.unitPriceControl" matInput>
+                                        <input class="text-right" [formControl]="controlProduct.unitPriceControl" type="number" matInput>
                                         <span matPrefix>$</span>
                                     </mat-form-field>
                                 </div>
@@ -136,7 +136,7 @@
                                 <div class="col-md-2">
                                     <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                                         <mat-label>Precio total</mat-label>
-                                        <input class="text-right" [formControl]="controlProduct.totalPriceControl" matInput>
+                                        <input class="text-right" [formControl]="controlProduct.totalPriceControl" type="number" matInput>
                                         <span matPrefix>$</span>
                                     </mat-form-field>
                                 </div>
@@ -171,23 +171,23 @@
                             <div class="col-md-3">
                                 <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                                     <mat-label>Descuento</mat-label>
-                                    <input [formControl]="control.discountControl" class="text-right" matInput>
+                                    <input [formControl]="control.discountControl" class="text-right" type="number" matInput>
                                     <span matPrefix>$</span>
                                 </mat-form-field>
                             </div>
                             <div class="col-md-3">
                                 <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                                     <mat-label>Total</mat-label>
-                                    <input [formControl]="control.totalControl" class="text-right" matInput>
+                                    <input [formControl]="control.totalControl" class="text-right" type="number" matInput>
                                     <span matPrefix>$</span>
                                 </mat-form-field>
                             </div>
 
-                            <div class="col-md-3 d-flex align-items-center justify-content-start">
+                            <!-- <div class="col-md-3 d-flex align-items-center justify-content-start">
                                 <button class="recalculate mb-5">
                                     <span>Recalcular</span>
                                 </button>
-                            </div>
+                            </div> -->
                         </div>
 
                         <div class="row promotion">
