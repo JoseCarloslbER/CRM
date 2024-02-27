@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ModalNewProductComponent } from 'app/pages/admin/main-products/products/modal-new-product/modal-new-product.component';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
-import { Observable, Subject, map, startWith, takeUntil } from 'rxjs';
+import { Observable, Subject, map, startWith, take, takeUntil } from 'rxjs';
 import { ConversionService } from '../conversion.service';
 import * as entityGeneral from '../../../shared/interfaces/general-interface';
 import moment from 'moment';
@@ -64,7 +64,6 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit(): void {
     this.addFormOption();
-    // this.addFormProduct();
 
     setTimeout(() => {
       this.getCatalogs()
@@ -78,11 +77,13 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     this.company.valueChanges.subscribe(resp => {
-      console.log(resp);
-      if (this.companySelected) {
-        let filter = `company_id=${this.companySelected}`;
-        this.getCatalogContact(filter)
-      }
+      this.filteredOptions.pipe(take(1)).subscribe(options => {
+        const selectedCompany = options.find(cat => cat.company_name === resp);
+        if (selectedCompany) {
+          let filter = `company_id=${selectedCompany.company_id}`;
+          this.getCatalogContact(filter);
+        }
+      });
     });
   }
 
@@ -151,6 +152,8 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
     this.moduleServices.getCatDataContact(filter).subscribe({
       next: (data: entityGeneral.DataCatContact[]) => {
         this.catContacts = data;
+        console.log(data);
+        
       },
       error: (error) => console.error(error)
     })
@@ -161,11 +164,11 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
     console.log('options', options);
 
     let objData: any = {
-      ...this.formData.value
+      ...this.formData.value,
+      company : this.companySelected,
     }
 
-    objData.quote_options = options
-
+    objData.quote_options = options;
     console.log('OBJETO :', objData);
 
     if (this.idData) this.saveDataPatch(objData)
