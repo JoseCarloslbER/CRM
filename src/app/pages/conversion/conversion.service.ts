@@ -46,11 +46,21 @@ export class ConversionService {
     return this.http.get<entityGeneral.DataCatWayToPay[]>(url);
 	}
 
-  public getCatProducts(): Observable<entityGeneral.DataCatProducts[]> {
+  // public getCatProducts(): Observable<entityGeneral.DataCatProducts[]> {
+	// 	const url = `${environment.apiURL}admin/product/`;
+
+  //   return this.http.get<entityGeneral.DataCatProducts[]>(url).pipe(
+  //       map(data => {
+  //         data.list_price
+  //       })
+  //   );
+	// }
+
+  public getCatProducts(filters?:any): Observable<entityGeneral.DataCatProducts[]> {
 		const url = `${environment.apiURL}admin/product/`;
 
-    return this.http.get<entityGeneral.DataCatProducts[]>(url);
-	}
+    return this.http.get<entityGeneral.DataCatProducts[]>(url)
+  }
   
   public getCatDataContact(filter): Observable<entityGeneral.DataCatContact[]> {
     const url = `${environment.apiURL}company/company-contact/${filter ? `?${filter}` : ''}`;

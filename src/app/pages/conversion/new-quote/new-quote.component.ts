@@ -21,9 +21,9 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public addContact = new FormControl('')
 
-  public productFormValues : any[] = [];
-  public optionFormValues : any[] = [];
-  
+  public productFormValues: any[] = [];
+  public optionFormValues: any[] = [];
+
   public url = document.location.href;
 
   public company = new FormControl(null);
@@ -51,8 +51,8 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public objEditData: any;
 
-  public companySelected : string = '';
-  public idData : string = '';
+  public companySelected: string = '';
+  public idData: string = '';
 
   constructor(
     private moduleServices: ConversionService,
@@ -67,7 +67,7 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
     // this.addFormProduct();
 
     setTimeout(() => {
-      this.getCatalogs() 
+      this.getCatalogs()
     }, 500);
 
     this.filteredOptions = this.company.valueChanges.pipe(
@@ -85,7 +85,7 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     });
   }
-  
+
   assignInformation() {
     // if (this.data?.info) {
     //   this.idData = this.data?.info?.id || this.data?.info?.activity_id;
@@ -114,28 +114,28 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
       },
       error: (error) => console.error(error)
     });
- 
+
     this.moduleServices.getCatAgents().subscribe({
       next: (data: entityGeneral.DataCatAgents[]) => {
         this.catAgents = data;
       },
       error: (error) => console.error(error)
     });
- 
+
     this.moduleServices.getCatCampaing().subscribe({
       next: (data: entityGeneral.DataCatCampaing[]) => {
         this.catCampaing = data;
       },
       error: (error) => console.error(error)
     });
-    
+
     this.moduleServices.getCatDataWayToPay().subscribe({
       next: (data: entityGeneral.DataCatWayToPay[]) => {
         this.catWayToPay = data;
       },
       error: (error) => console.error(error)
     })
-  
+
     this.moduleServices.getCatProducts().subscribe({
       next: (data: entityGeneral.DataCatProducts[]) => {
         this.catProducts = data;
@@ -145,9 +145,9 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
     })
   }
 
-  getCatalogContact(filter?:string) {
+  getCatalogContact(filter?: string) {
     console.log(filter);
-    
+
     this.moduleServices.getCatDataContact(filter).subscribe({
       next: (data: entityGeneral.DataCatContact[]) => {
         this.catContacts = data;
@@ -196,51 +196,6 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
     })
   }
 
-  addFormProduct(datos?: any) {
-    const instance: any = {
-      ...(datos && { id: datos.id }),
-      placesControl: new FormControl({ value: datos?.places || '', disabled: false }),
-      productControl: new FormControl({ value: datos?.product || '', disabled: false }),
-      unitPriceControl: new FormControl({ value: datos?.unitPri || '', disabled: false }),
-      totalPriceControl: new FormControl({ value: datos?.totalPricePri || '', disabled: false }),
-    };
-
-    return [instance]
-  }
-
-  getProductsValues() {
-    const formValues = (e: any) => {
-      let obj = {
-        places: e.placesControl.value,
-        product: e.productControl.value,
-        unitPrice: e.unitPriceControl.value,
-        totalPrice: e.totalPriceControl.value,
-      }
-
-      return obj
-    };
-
-    return this.productFormValues.map(formValues);
-  }
-
-  deleteProductValue(index:number) {
-    this.productFormValues.splice(index, 1)
-  }
-
-  addFormOption(datos?: any) {
-    const instance: any = {
-      ...(datos && { id: datos?.id }),
-      subtotalControl: new FormControl({ value: datos?.subtotal || '', disabled: false }),
-      discountControl: new FormControl({ value: datos?.discount || '', disabled: false }),
-      totalControl: new FormControl({ value: datos?.total || '', disabled: false }),
-      dateControl: new FormControl({ value: datos?.date || '', disabled: false }),
-      timeControl: new FormControl({ value: datos?.time || '', disabled: false }),
-      product : this.addFormProduct()
-    };
-
-    this.optionFormValues.push(instance);
-  }
-
   getOptionsValues() {
     const formValues = (e: any) => {
       const formattedDate = moment(e.dateControl.value).format('YYYY-MM-DD');
@@ -249,19 +204,19 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
 
       const productValues = e.product.map((productControl: any) => {
         return {
-          places: productControl.placesControl.value,
+          quantity: productControl.placesControl.value,
           product: productControl.productControl.value,
-          unitPrice: productControl.unitPriceControl.value,
-          totalPrice: productControl.totalPriceControl.value,
+          price: productControl.unitPriceControl.value,
+          total: productControl.totalPriceControl.value,
         };
       });
-      
+
       let obj = {
         subtotal: e.subtotalControl.value,
         discount: e.discountControl.value,
         total: e.totalControl.value,
         deadline: combinedDateTime,
-        option_products : productValues
+        option_products: productValues
       }
 
       return obj
@@ -270,8 +225,82 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
     return this.optionFormValues.map(formValues);
   }
 
-  deleteOptionValue(index:number) {
+  deleteOptionValue(index: number) {
     this.optionFormValues.splice(index, 1)
+  }
+
+  addAdditionalProduct(optionIndex: number) {
+    const newProductInstance: any = {
+      placesControl: new FormControl({ value: '', disabled: false }),
+      productControl: new FormControl({ value: '', disabled: false }),
+      unitPriceControl: new FormControl({ value: '', disabled: false }),
+      totalPriceControl: new FormControl({ value: '', disabled: false }),
+    };
+  
+    this.setupProductControlSubscriptions(newProductInstance);
+  
+    this.optionFormValues[optionIndex]?.product.push(newProductInstance);
+  }
+
+  private setupProductControlSubscriptions(productInstance: any) {
+    productInstance.productControl.valueChanges.subscribe((selectedProduct: any) => {
+      // ... (Rest of your code for product control subscription)
+    });
+  
+    productInstance.placesControl.valueChanges.subscribe((newPlacesValue: number) => {
+      // ... (Rest of your code for places control subscription)
+    });
+  }
+  
+
+  addFormOption(datos?: any) {
+    const instance: any = {
+      ...(datos && { id: datos?.id }),
+      subtotalControl: new FormControl({ value: datos?.subtotal || '', disabled: true }),
+      discountControl: new FormControl({ value: datos?.discount || '', disabled: false }),
+      totalControl: new FormControl({ value: datos?.total || '', disabled: false }),
+      dateControl: new FormControl({ value: datos?.date || '', disabled: false }),
+      timeControl: new FormControl({ value: datos?.time || '', disabled: false }),
+      product: [{
+        ...(datos && { id: datos.id }),
+        placesControl: new FormControl({ value: datos?.places || '', disabled: false }),
+        productControl: new FormControl({ value: datos?.product || '', disabled: false }),
+        unitPriceControl: new FormControl({ value: datos?.unitPri || '', disabled: false }),
+        totalPriceControl: new FormControl({ value: datos?.totalPricePri || '', disabled: false }),
+      }],
+    };
+
+    instance.product[0].productControl.valueChanges.subscribe((selectedProduct: any) => {
+      const selectedProductInfo = this.catProducts.find(product => product.product_id === selectedProduct);
+
+      if (selectedProductInfo) {
+        const listPrice: any = selectedProductInfo.list_price;
+        const placesValue = instance.product[0].placesControl.value;
+        const newTotal = listPrice * placesValue;
+
+        instance.product[0].unitPriceControl.setValue(parseFloat(listPrice).toLocaleString('en-US', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        }));
+        instance.product[0].totalPriceControl.setValue(newTotal.toLocaleString('en-US', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        }));
+      }
+    });
+
+    instance.product[0].placesControl.valueChanges.subscribe((newPlacesValue: number) => {
+      const listPrice = instance.product[0].unitPriceControl.value;
+      const newTotal = listPrice * newPlacesValue;
+
+      instance.product[0].totalPriceControl.setValue(newTotal.toLocaleString('en-US', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      }));
+      
+    });
+
+    this.optionFormValues.push(instance);
   }
 
   newDataProduct() {
@@ -284,11 +313,11 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  toBack(){
+  toBack() {
     this.router.navigateByUrl(`/home/conversion/cotizaciones`)
   }
-  
-  toDetailQuote(){
+
+  toDetailQuote() {
     this.router.navigateByUrl(`/home/conversion/detalle-cotizacion/1`)
   }
 
@@ -300,12 +329,12 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
         'save',
       )
       .afterClosed()
-      .subscribe((_) => {});
+      .subscribe((_) => { });
   }
 
   private _filter(value: any): any[] {
     const filterValue = value?.toLowerCase();
-    
+
     return this.catCompanies.filter(option => option?.company_name?.toLowerCase()?.includes(filterValue));
   }
 
