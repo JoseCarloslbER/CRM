@@ -21,7 +21,8 @@ import { CatalogsService } from 'app/shared/services/catalogs.service';
   styles: [`
       .c-quote {
         ::ng-deep .mat-mdc-tab-body-content {
-        padding: 0!important;
+          padding: 0!important;
+          overflow: hidden!important;
         }
       }
   `]
@@ -147,10 +148,6 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   acceptQuote(data : any) {
-    console.log({quote : data});
-    
-//     quote_id
-// |   status_id
     this.notificationService
     .notificacion(
       'Pregunta',
@@ -186,7 +183,9 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
       width: '350px',
       maxHeight: '628px',
       panelClass: 'custom-dialog',
-    });
+    })
+    .afterClosed()
+    .subscribe((_) => this.searchWithFilters());
   }
 
   closeSale(data: any) {
@@ -199,8 +198,8 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
       maxHeight: '628px',
       panelClass: 'custom-dialog',
     })
-      .afterClosed()
-      .subscribe(() => {});
+    .afterClosed()
+    .subscribe((_) => this.searchWithFilters());
   }
 
   seeTicket() {

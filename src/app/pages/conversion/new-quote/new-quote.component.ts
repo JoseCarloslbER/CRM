@@ -378,7 +378,7 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
       width: '1000px',
       maxHeight: '628px',
       panelClass: 'custom-dialog',
-    });
+    })
   }
 
   toBack() {

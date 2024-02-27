@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { UpdateComponentsService } from 'app/shared/services/updateComponents.service';
 import { FormBuilder, Validators } from '@angular/forms';
@@ -27,11 +27,14 @@ export class ModalCloseSaleComponent implements OnInit, OnDestroy {
   public catInvoiceUse: entityGeneral.DataCatInvoiceUse[] = [];
 
   public formData = this.formBuilder.group({
-    qyote_option_id: [null, Validators.required],
+    company_name: [null, Validators.required],
+    quote_option_id: [null, Validators.required],
     payment_method_id: [null, Validators.required],
     way_to_pay_id: [null, Validators.required],
     payment_condition_id: [null, Validators.required],
     invoice_use_id: [null, Validators.required],
+    tax_id_number: [null, [Validators.required, Validators.minLength(12), Validators.maxLength(12)]],
+
   });
 
   constructor(
@@ -48,9 +51,15 @@ export class ModalCloseSaleComponent implements OnInit, OnDestroy {
     this.assignInformation();
   }
 
+
   assignInformation() {
-    if (this.data.info) this.objEditData = this.data?.info;
-    this.getCatalogs()
+    if (this.data.info) {
+      this.objEditData = this.data?.info;
+      this.formData.patchValue(this.data?.info?.closeSale[0]?.company)
+    }
+    setTimeout(() => {
+      this.getCatalogs()
+    }, 500);
   }
 
   getCatalogs() {
@@ -86,17 +95,18 @@ export class ModalCloseSaleComponent implements OnInit, OnDestroy {
   actionSave() {
     let objData: any = {
       ...this.formData.value,
+      status_id: '2b95f05d-64d4-4b36-a51c-a3ca7c6bdc72'
     }
 
     console.log(objData);
-    // this.saveDataPatch(objData);
+    this.saveDataPost(objData);
       
   }
 
   saveDataPost(objData:any) {
     console.log(this.objEditData);
-    this.moduleServices.postDataMoneyAccount(objData).subscribe({
-      next: (response: any) => {
+    this.moduleServices.closeSale(objData).subscribe({
+      next: () => {
         this.completionMessage(true)
       },
       error: (error) => {
@@ -110,7 +120,7 @@ export class ModalCloseSaleComponent implements OnInit, OnDestroy {
     this.notificationService
       .notificacion(
         'Éxito',
-        `Registro ${edit ? 'editado' : 'guardado'}.`,
+        `Registro actualizado.`,
         'save',
       )
       .afterClosed()

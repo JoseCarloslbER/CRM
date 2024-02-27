@@ -136,7 +136,7 @@ export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy {
       panelClass: 'custom-dialog',
     })  
     .afterClosed()
-    .subscribe((_) => this.getDataTable());
+    .subscribe((_) => this.searchWithFilters());
   }
 
   finally(data = null) {

@@ -48,27 +48,31 @@ export class Mapper {
 					  }),
 					};
 				  }),
-				actions: data?.company?.company_phase.phase_name == 'Prospecto' && data?.status?.description == 'Creado'  ? ['Aceptar'] : 
-				data?.company?.company_phase.phase_name == 'Cliente' && data?.status?.description == 'Aceptada'  ? ['Rechazar', 'Cancelar', 'Cerrar como venta'] : [],
+				actions: data?.company?.company_phase?.phase_name == 'Prospecto' && data?.status?.description == 'Creado'  ? ['Aceptar'] : 
+				data?.company?.company_phase?.phase_name == 'Cliente' && data?.status?.description == 'Aceptada'  ? ['Rechazar', 'Cancelar', 'Cerrar como venta'] : [],
 				actionName: data?.status?.description,
 				
-				closeSale: data.quote_options.map((data, index) => {
-					const total = data.option_products.reduce((acc, product) => acc + parseFloat(product.total), 0);
-					const places = data.option_products.reduce((acc, product) => acc + product.quantity, 0);
-					const productNames = data.option_products.map(product => product.product?.name || '-');
+				closeSale: data.quote_options.map((dataClose, index) => {
+					const total = dataClose?.option_products?.reduce((acc, product) => acc + parseFloat(product?.total), 0);
+					const places = dataClose?.option_products?.reduce((acc, product) => acc + product?.quantity, 0);
+					const productNames = dataClose?.option_products?.map(product => product?.product?.name || '-');
 				
 					return {
+						company: {
+							company_name: data?.company?.company_name || '-',
+							tax_id_number: data?.company?.tax_id_number || '-'
+						},
 						totalPrice: {
-							id : data.quote_option_id,
+							id : dataClose?.quote_option_id,
 							name: `OP${index + 1}:`,
-							expire: moment(data.deadline).format('YYYY-MM-DD'),
-							total: '$' + parseFloat(data.total).toLocaleString('en-US', {
+							expire: moment(dataClose.deadline).format('YYYY-MM-DD'),
+							total: '$' + parseFloat(dataClose.total).toLocaleString('en-US', {
 								minimumFractionDigits: 2,
 								maximumFractionDigits: 2
 							})
 						},
 						product: {
-							type: data.type_price === 1 ? 'Normal' : 'Promoción',
+							type: dataClose?.type_price === 1 ? 'Normal' : 'Promoción',
 							places: places,
 							products: productNames,
 							total: '$' + total.toLocaleString('en-US', {
