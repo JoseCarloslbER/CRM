@@ -94,6 +94,9 @@ export class ConversionService {
     return this.http.delete<any>(url)
 	}
   
+  public postDataMoneyAccount(data:any): Observable<any> {
+		const url = `${this.apiUrl}invoice/`;
 
-  // END CATALOGS 
+    return this.http.post<any>(url, data)
+	}
 }

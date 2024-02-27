@@ -9,6 +9,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 import { NewQuoteComponent } from './new-quote/new-quote.component';
 import { DetailsQuotesComponent } from './details-quotes/details-quotes.component';
 import { ModalUploadDocumentComponent } from './modal-upload-document/modal-upload-document.component';
+import { ModalMoneyAccountComponent } from './modal-money-account/modal-money-account.component';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { ModalUploadDocumentComponent } from './modal-upload-document/modal-uplo
     DetailsQuotesComponent,
     QuotesComponent, 
     ModalUploadDocumentComponent,
-    NewQuoteComponent
+    NewQuoteComponent,
+    ModalMoneyAccountComponent
   ],
   imports: [
     CommonModule,

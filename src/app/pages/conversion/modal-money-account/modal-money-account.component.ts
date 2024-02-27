@@ -1,18 +1,18 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
-import { ManagementmentService } from '../../management.service';
 import { UpdateComponentsService } from 'app/shared/services/updateComponents.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { PatchDataActivities } from '../../management-interface';
 import moment from 'moment';
+import { ConversionService } from '../conversion.service';
 
 @Component({
-  selector: 'app-modal-finally',
-  templateUrl: './modal-finally.component.html',
+  selector: 'app-modal-money-account',
+  templateUrl: './modal-money-account.component.html',
+  styleUrl: './modal-money-account.component.scss'
 })
-export class ModalFinallyComponent implements OnInit, OnDestroy {
+export class ModalMoneyAccountComponent implements OnInit, OnDestroy {
   private onDestroy = new Subject<void>();
 
   public objEditData : any;
@@ -23,8 +23,7 @@ export class ModalFinallyComponent implements OnInit, OnDestroy {
   });
 
   constructor(
-    private moduleManagementServices: ManagementmentService,
-    private updateService: UpdateComponentsService,
+    private moduleServices: ConversionService,
     private formBuilder: FormBuilder,
     private notificationService: OpenModalsService,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -48,14 +47,13 @@ export class ModalFinallyComponent implements OnInit, OnDestroy {
     }
 
     console.log(objData);
-    
-    this.saveDataPatch(objData);
+    // this.saveDataPatch(objData);
+      
   }
 
-  saveDataPatch(objData:PatchDataActivities) {
+  saveDataPost(objData:any) {
     console.log(this.objEditData);
-    
-    this.moduleManagementServices.patchData(this.objEditData.id, objData).subscribe({
+    this.moduleServices.postDataMoneyAccount(objData).subscribe({
       next: (response: any) => {
         this.completionMessage(true)
       },
@@ -78,7 +76,6 @@ export class ModalFinallyComponent implements OnInit, OnDestroy {
   }
 
   closeModal() {
-    this.updateService.triggerUpdate(); 
     this.dialogRef.close({ close: true })
   }
 

@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ModalNewProductComponent } from 'app/pages/admin/main-products/products/modal-new-product/modal-new-product.component';
@@ -27,7 +27,6 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
   public url = document.location.href;
 
   public company = new FormControl(null);
-
 
   public formData = this.formBuilder.group({
     contact: [''],
@@ -213,6 +212,7 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
         subtotal: e.subtotalControl.value,
         discount: e.discountControl.value,
         total: e.totalControl.value,
+        type_price: e.typePriceControl.value,
         deadline: combinedDateTime,
         option_products: productValues
       }
@@ -230,11 +230,12 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
   addFormOption(datos?: any) {
     const instance: any = {
       ...(datos && { id: datos?.id }),
-      subtotalControl: new FormControl({ value: datos?.subtotal || '', disabled: true }),
+      subtotalControl: new FormControl({ value: datos?.subtotal || '', disabled: true }, Validators.required),
       discountControl: new FormControl({ value: datos?.discount || '', disabled: false }),
-      totalControl: new FormControl({ value: datos?.total || '', disabled: false }),
-      dateControl: new FormControl({ value: datos?.date || '', disabled: false }),
-      timeControl: new FormControl({ value: datos?.time || '', disabled: false }),
+      totalControl: new FormControl({ value: datos?.total || '', disabled: false }, Validators.required),
+      typePriceControl: new FormControl({ value: datos?.typePrice || '1', disabled: false }, Validators.required),
+      dateControl: new FormControl({ value: datos?.date || '', disabled: false }, Validators.required),
+      timeControl: new FormControl({ value: datos?.time || '', disabled: false }, Validators.required),
       product: [],
     };
   
@@ -247,7 +248,6 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
       const newProductInstance: any = this.createProductInstance();
       instance.product.push(newProductInstance);
     }
-  
     this.setupOptionControlSubscriptions(instance);
     this.optionFormValues.push(instance);
   }
@@ -255,10 +255,10 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
   createProductInstance(productData?: any): any {
     const productInstance: any = {
       ...(productData && { id: productData.id }),
-      placesControl: new FormControl({ value: productData?.places || '', disabled: false }),
-      productControl: new FormControl({ value: productData?.product || '', disabled: false }),
-      unitPriceControl: new FormControl({ value: productData?.unitPri || '', disabled: false }),
-      totalPriceControl: new FormControl({ value: productData?.totalPricePri || '', disabled: false }),
+      placesControl: new FormControl({ value: productData?.places || '', disabled: false }, Validators.required),
+      productControl: new FormControl({ value: productData?.product || '', disabled: false }, Validators.required),
+      unitPriceControl: new FormControl({ value: productData?.unitPri || '', disabled: false }, Validators.required),
+      totalPriceControl: new FormControl({ value: productData?.totalPricePri || '', disabled: false }, Validators.required),
     };
   
     this.setupProductControlSubscriptions(productInstance);
@@ -308,13 +308,10 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   
   updateProductTotalPrice(productInstance: any, newPlacesValue: number) {
-    const listPrice = productInstance.unitPriceControl.value;
+    const listPrice = parseFloat(productInstance.unitPriceControl.value.replace(/,/g, ''));
     const newTotal = listPrice * newPlacesValue;
   
-    productInstance.totalPriceControl.setValue(newTotal.toLocaleString('en-US', {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2
-    }));
+    productInstance.totalPriceControl.setValue(newTotal.toFixed(2));
   }
   
   updateSubtotal() {
@@ -322,7 +319,7 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
       let subtotal = 0;
   
       optionInstance.product.forEach((productInstance: any) => {
-        subtotal += parseFloat(productInstance.totalPriceControl.value.replace(',', '')) || 0;
+        subtotal += this.parseNumber(productInstance.totalPriceControl.value) || 0;
       });
   
       optionInstance.subtotalControl.setValue(subtotal.toLocaleString('en-US', {
@@ -330,15 +327,18 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
         maximumFractionDigits: 2
       }));
   
-      const discount = parseFloat(optionInstance.discountControl.value.replace(',', '')) || 0;
+      const discountValue = optionInstance.discountControl.value;
+      const discount = this.parseNumber(discountValue) || 0;
+  
       const total = (subtotal - discount).toLocaleString('en-US', {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
       });
   
-      optionInstance.totalControl.setValue(total);
+      optionInstance.totalControl.setValue(parseFloat(total.replace(/,/g, '')));
     });
   }
+
 
   updateProductTotalPriceManually(productInstance: any, newUnitPrice: any) {
     const placesValue = productInstance.placesControl.value;
@@ -351,15 +351,15 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   updateTotalWithDiscount(productInstance: any, newDiscount: any) {
-    const subtotal = parseFloat(productInstance.subtotalControl.value.replace(',', '')) || 0;
-    const discount = parseFloat(newDiscount.replace(',', '')) || 0;
+    const subtotal = this.parseNumber(productInstance?.subtotalControl?.value) || 0;
+    const discount = this.parseNumber(newDiscount) || 0;
   
     const total = (subtotal - discount).toLocaleString('en-US', {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2
     });
   
-    productInstance.totalControl.setValue(total);
+    productInstance.totalControl.setValue(parseFloat(total.replace(/,/g, '')));
   }
 
   private setupOptionControlSubscriptions(optionInstance: any) {
@@ -397,12 +397,71 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe((_) => { });
   }
 
+  parseNumber(value: any): number {
+    return parseFloat(typeof value === 'string' ? value.replace(/,/g, '') : value) || 0;
+  }
+
   private _filter(value: any): any[] {
     const filterValue = value?.toLowerCase();
 
     return this.catCompanies.filter(option => option?.company_name?.toLowerCase()?.includes(filterValue));
   }
 
+  areFormControlsEmpty(optionInstance: any): boolean {
+    let isEmpty = false;
+  
+    optionInstance.product.forEach((productInstance: any) => {
+      // Verificar si alguno de los campos en el producto está vacío
+      if (
+        !productInstance.placesControl.value ||
+        !productInstance.productControl.value ||
+        !productInstance.unitPriceControl.value ||
+        !productInstance.totalPriceControl.value
+      ) {
+        isEmpty = true;
+      }
+    });
+  
+    // También puedes agregar verificaciones para los campos en optionInstance si es necesario
+  
+    return isEmpty;
+  }
+
+  canSave(): boolean {
+    // Marcar todos los controles como "touched"
+    this.validateAllFormControls();
+  
+    // Verificar si el formulario es válido
+    return this.formData.valid && this.optionFormValues.every(optionInstance => optionInstance.valid);
+  }
+
+  validateAllFormControls() {
+    this.optionFormValues.forEach(optionInstance => {
+      // Marcar todos los controles dentro de la opción como "touched"
+      Object.keys(optionInstance).forEach(controlName => {
+        const control = optionInstance[controlName];
+        if (control instanceof FormControl) {
+          control.markAsTouched();
+        } else if (control instanceof FormGroup || control instanceof FormArray) {
+          this.validateAllFormControlsRecursive(control);
+        }
+      });
+    });
+  }
+  
+  // Método recursivo para marcar todos los controles de FormGroup y FormArray como "touched"
+  validateAllFormControlsRecursive(formGroup: FormGroup | FormArray) {
+    Object.keys(formGroup.controls).forEach(controlName => {
+      const control = formGroup.controls[controlName];
+      if (control instanceof FormControl) {
+        control.markAsTouched();
+      } else if (control instanceof FormGroup || control instanceof FormArray) {
+        this.validateAllFormControlsRecursive(control);
+      }
+    });
+  }
+
+ 
   ngOnDestroy(): void {
     this.onDestroy.next();
     this.onDestroy.unsubscribe();

@@ -11,6 +11,7 @@ import * as entity from '../conversion-interface';
 import { ConversionService } from '../conversion.service';
 import * as entityGeneral from '../../../shared/interfaces/general-interface';
 import moment from 'moment';
+import { ModalMoneyAccountComponent } from '../modal-money-account/modal-money-account.component';
 
 @Component({
   selector: 'app-quotes',
@@ -53,6 +54,8 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public searchBar = new FormControl('')
 
+  public actions = new FormControl('')
+
   public catStatus: entityGeneral.DataCatStatus[] = [];
   public catAgents: entityGeneral.DataCatAgents[] = [];
 
@@ -75,6 +78,13 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
   ngAfterViewInit(): void {
     this.searchBar.valueChanges.pipe(takeUntil(this.onDestroy), debounceTime(500)).subscribe((content: string) => {
       console.log(content);
+    })
+   
+    this.actions.valueChanges.pipe(takeUntil(this.onDestroy)).subscribe((content: string) => {
+      console.log('actions', content);
+      if (content == 's') {
+        this.moneyAccount() 
+      }
     })
   }
 
@@ -110,17 +120,10 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
   getDataTable(filters:string) {
     this.moduleServices.getDataTable(filters).pipe(takeUntil(this.onDestroy)).subscribe({
       next: ( data : any) => {
-        console.log('*************************************');
-        console.log('TABLA:', data[0]);
         this.dataSource.data = data
       },
       error: (error) => console.error(error)
     })
-  }
-
-
-  seeQuote(data:any) {
-    this.router.navigateByUrl(`/home/conversion/detalle-cotizacion/${1}`)
   }
 
   editData(data:any) {
@@ -129,6 +132,18 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
 
   newData() {
     this.router.navigateByUrl(`/home/conversion/nueva-cotizacion`)
+  }
+
+  moneyAccount(data = null) {
+    this.dialog.open(ModalMoneyAccountComponent, {
+      data: {
+        info: data
+      },
+      disableClose: true,
+      width: '350px',
+      maxHeight: '628px',
+      panelClass: 'custom-dialog',
+    });
   }
 
   seeTicket() {

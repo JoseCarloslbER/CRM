@@ -191,7 +191,7 @@
                                         <td mat-cell *matCellDef="let element">
                                             <div class="colum-table-select">
                                                 <mat-form-field class="flex-auto input-default">
-                                                    <mat-select placeholder="Seleccionar">
+                                                    <mat-select [formControl]="actions" placeholder="Seleccionar">
                                                         <mat-option class="border-bottom" [value]="action" *ngFor="let action of element.actions">{{action}}</mat-option>
                                                     </mat-select>
                                                 </mat-form-field>
@@ -213,17 +213,17 @@
                                                     <mat-icon matTooltip="Eliminar">delete</mat-icon>
                                                 </div>
 
-                                                <!-- <div class="btn-wallet">
+                                                <div class="btn-wallet">
                                                     <mat-icon matTooltip="Dinero en cuenta">wallet</mat-icon>
-                                                </div> -->
+                                                </div>
 
-                                                <!-- <div class="btn-receipt" (click)="seeTicket()">
+                                                <div class="btn-receipt" (click)="seeTicket()">
                                                     <mat-icon matTooltip="Factura">receipt_long</mat-icon>
-                                                </div> -->
+                                                </div>
 
-                                                <!-- <div class="btn-print" (click)="downloadPdf()">
+                                                <div class="btn-print" (click)="downloadPdf()">
                                                     <mat-icon matTooltip="Descagar">print</mat-icon>
-                                                </div> -->
+                                                </div>
 
                                             </div>
                                         </td>
