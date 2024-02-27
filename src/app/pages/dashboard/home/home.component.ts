@@ -47,15 +47,15 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   public dataDummyBought: any[] = [
     {
       name: 'Empresa X SA. de CV.',
-      amount: '$50,000.00'
+      amount: '$0'
     },
     {
       name: 'Empresa X SA. de CV.',
-      amount: '$50,000.00'
+      amount: '$0'
     },
     {
       name: 'Empresa X SA. de CV.',
-      amount: '$50,000.00'
+      amount: '$0'
     },
 
   ]
@@ -68,7 +68,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   public dataDummyCountry: any[] = [
     {
       name: 'Empresa X SA. de CV.',
-      amount: '$50,000.00'
+      amount: '$0'
     },
   ]
 
@@ -80,7 +80,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   public dataDummyClients: any[] = [
     {
       name: 'Empresa X SA. de CV.',
-      amount: '$50,000.00'
+      amount: '$0'
     },
   ]
 
@@ -1800,7 +1800,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   public chartWeeklyExpenses: ApexOptions = {};
   public chartGithubIssues: ApexOptions = {};
 
-  public selectedProject: string = 'Productos';
+  public selectedProject: string = 'Estadísticas';
 
   public fechaHoy = new Date();
 
@@ -1903,13 +1903,13 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
           name: "Productos",
           type: "line",
           data: [
-            37,
-            32,
-            39,
-            27,
-            18,
-            24,
-            20
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
           ]
         },
         {

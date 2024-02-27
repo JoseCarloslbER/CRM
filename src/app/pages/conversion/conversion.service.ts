@@ -100,9 +100,9 @@ export class ConversionService {
     return this.http.post<any>(url, data)
 	}
 
-  public acceptQuote(id:string): Observable<any> {
-		const url = `${this.apiUrl}quote/${id}/`;
+  public acceptQuote(data:any): Observable<any> {
+		const url = `${this.apiUrl}tracking/`;
 
-    return this.http.get<any>(url)
+    return this.http.post<any>(url, data)
 	}
 }

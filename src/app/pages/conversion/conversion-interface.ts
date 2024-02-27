@@ -27,7 +27,9 @@ export interface TableDataQuote {
 export interface TableDataQuoteMapper {
   id: string;
   dateAndHour: string;
+  actionName: string;
   conpanyName: {
+    id: string;
     name: string;
     logo: string;
   };

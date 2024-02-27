@@ -82,8 +82,14 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getActions(type:string, data:any) {
+    console.log(data);
+    
     if (type == 'Aceptar') {
-      this.acceptQuote(data.id) 
+      this.acceptQuote({
+        company_id : data.conpanyName.id,
+        quote_id : data.id,
+        status_id : '3944df8e-d359-4569-b712-ea174be69cca'
+      }) 
     }
   }
 
@@ -120,6 +126,8 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
     this.moduleServices.getDataTable(filters).pipe(takeUntil(this.onDestroy)).subscribe({
       next: ( data : any) => {
         this.dataSource.data = data
+        console.log(data);
+        
       },
       error: (error) => console.error(error)
     })
@@ -133,7 +141,11 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
     this.router.navigateByUrl(`/home/conversion/nueva-cotizacion`)
   }
 
-  acceptQuote(id?: string) {
+  acceptQuote(data : any) {
+    console.log({quote : data});
+    
+//     quote_id
+// |   status_id
     this.notificationService
     .notificacion(
       'Pregunta',
@@ -143,7 +155,7 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
     .afterClosed()
     .subscribe((response) => {
       if (response) {
-        this.moduleServices.acceptQuote(id).subscribe({
+        this.moduleServices.acceptQuote({quote : data}).subscribe({
           next: () => {
               this.notificationService
               .notificacion(

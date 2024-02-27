@@ -12,7 +12,10 @@ export class Mapper {
 			dataList.push({
 				id: data?.quote_id || '-',
 				dateAndHour : moment(data.register_date).format('YYYY-MM-DD'),
-				conpanyName : {name : data?.company?.company_name || '-', logo : data?.company ? data?.company?.logo.includes('default') ? `../../../assets/images/default.png` : data?.company?.logo : `../../../assets/images/default.png`},
+				conpanyName : {
+					id : data?.company?.company_id || '-', 
+					name : data?.company?.company_name || '-', 
+					logo : data?.company ? data?.company?.logo.includes('default') ? `../../../assets/images/default.png` : data?.company?.logo : `../../../assets/images/default.png`},
 				status: data?.company?.company_phase.phase_name || '-',
 				stateCountry : data?.company?.country?.country_name || '-',
 				information: {
@@ -45,7 +48,9 @@ export class Mapper {
 					  }),
 					};
 				  }),
-				actions: data?.company?.company_phase.phase_name == 'Prospecto' && data?.status?.description == 'Creado'  ? ['Aceptar'] : []
+				actions: data?.company?.company_phase.phase_name == 'Prospecto' && data?.status?.description == 'Creado'  ? ['Aceptar'] : 
+				data?.company?.company_phase.phase_name == 'Cliente' && data?.status?.description == 'Aceptada'  ? ['Rechazar', 'Cancelar', 'Cerrar como venta'] : [],
+				actionName: data?.status?.description
 			});
 		});
 
