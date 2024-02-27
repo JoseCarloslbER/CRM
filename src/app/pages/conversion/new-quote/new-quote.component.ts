@@ -229,30 +229,6 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
     this.optionFormValues.splice(index, 1)
   }
 
-  addAdditionalProduct(optionIndex: number) {
-    const newProductInstance: any = {
-      placesControl: new FormControl({ value: '', disabled: false }),
-      productControl: new FormControl({ value: '', disabled: false }),
-      unitPriceControl: new FormControl({ value: '', disabled: false }),
-      totalPriceControl: new FormControl({ value: '', disabled: false }),
-    };
-  
-    this.setupProductControlSubscriptions(newProductInstance);
-  
-    this.optionFormValues[optionIndex]?.product.push(newProductInstance);
-  }
-
-  private setupProductControlSubscriptions(productInstance: any) {
-    productInstance.productControl.valueChanges.subscribe((selectedProduct: any) => {
-      // ... (Rest of your code for product control subscription)
-    });
-  
-    productInstance.placesControl.valueChanges.subscribe((newPlacesValue: number) => {
-      // ... (Rest of your code for places control subscription)
-    });
-  }
-  
-
   addFormOption(datos?: any) {
     const instance: any = {
       ...(datos && { id: datos?.id }),
@@ -261,46 +237,110 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
       totalControl: new FormControl({ value: datos?.total || '', disabled: false }),
       dateControl: new FormControl({ value: datos?.date || '', disabled: false }),
       timeControl: new FormControl({ value: datos?.time || '', disabled: false }),
-      product: [{
-        ...(datos && { id: datos.id }),
-        placesControl: new FormControl({ value: datos?.places || '', disabled: false }),
-        productControl: new FormControl({ value: datos?.product || '', disabled: false }),
-        unitPriceControl: new FormControl({ value: datos?.unitPri || '', disabled: false }),
-        totalPriceControl: new FormControl({ value: datos?.totalPricePri || '', disabled: false }),
-      }],
+      product: [],
     };
-
-    instance.product[0].productControl.valueChanges.subscribe((selectedProduct: any) => {
-      const selectedProductInfo = this.catProducts.find(product => product.product_id === selectedProduct);
-
-      if (selectedProductInfo) {
-        const listPrice: any = selectedProductInfo.list_price;
-        const placesValue = instance.product[0].placesControl.value;
-        const newTotal = listPrice * placesValue;
-
-        instance.product[0].unitPriceControl.setValue(parseFloat(listPrice).toLocaleString('en-US', {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2
-        }));
-        instance.product[0].totalPriceControl.setValue(newTotal.toLocaleString('en-US', {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2
-        }));
-      }
+  
+    if (datos && datos.product) {
+      datos.product.forEach((productData: any) => {
+        const productInstance: any = this.createProductInstance(productData);
+        instance.product.push(productInstance);
+      });
+    } else {
+      const newProductInstance: any = this.createProductInstance();
+      instance.product.push(newProductInstance);
+    }
+  
+    this.optionFormValues.push(instance);
+  }
+  
+  createProductInstance(productData?: any): any {
+    const productInstance: any = {
+      ...(productData && { id: productData.id }),
+      placesControl: new FormControl({ value: productData?.places || '', disabled: false }),
+      productControl: new FormControl({ value: productData?.product || '', disabled: false }),
+      unitPriceControl: new FormControl({ value: productData?.unitPri || '', disabled: false }),
+      totalPriceControl: new FormControl({ value: productData?.totalPricePri || '', disabled: false }),
+    };
+  
+    this.setupProductControlSubscriptions(productInstance);
+  
+    return productInstance;
+  }
+  
+  addAdditionalProduct(optionIndex: number) {
+    const newProductInstance: any = this.createProductInstance();
+    this.optionFormValues[optionIndex]?.product.push(newProductInstance);
+  }
+  
+  private setupProductControlSubscriptions(productInstance: any) {
+    productInstance.productControl.valueChanges.subscribe((selectedProduct: any) => {
+      this.updateProductPrice(productInstance, selectedProduct);
+      this.updateSubtotal();
+    });
+  
+    productInstance.placesControl.valueChanges.subscribe((newPlacesValue: number) => {
+      this.updateProductTotalPrice(productInstance, newPlacesValue);
+      this.updateSubtotal();
     });
 
-    instance.product[0].placesControl.valueChanges.subscribe((newPlacesValue: number) => {
-      const listPrice = instance.product[0].unitPriceControl.value;
-      const newTotal = listPrice * newPlacesValue;
-
-      instance.product[0].totalPriceControl.setValue(newTotal.toLocaleString('en-US', {
+    productInstance.unitPriceControl.valueChanges.subscribe((newUnitPrice: any) => {
+      this.updateProductTotalPriceManually(productInstance, newUnitPrice);
+      this.updateSubtotal();
+    });
+  }
+  
+  updateProductPrice(productInstance: any, selectedProduct: any) {
+    const selectedProductInfo = this.catProducts.find(product => product.product_id === selectedProduct);
+  
+    if (selectedProductInfo) {
+      const listPrice: any = selectedProductInfo.list_price;
+      const placesValue = productInstance.placesControl.value;
+      const newTotal = listPrice * placesValue;
+  
+      productInstance.unitPriceControl.setValue(parseFloat(listPrice).toLocaleString('en-US', {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
       }));
-      
+      productInstance.totalPriceControl.setValue(newTotal.toLocaleString('en-US', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      }));
+    }
+  }
+  
+  updateProductTotalPrice(productInstance: any, newPlacesValue: number) {
+    const listPrice = productInstance.unitPriceControl.value;
+    const newTotal = listPrice * newPlacesValue;
+  
+    productInstance.totalPriceControl.setValue(newTotal.toLocaleString('en-US', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    }));
+  }
+  
+  updateSubtotal() {
+    this.optionFormValues.forEach((optionInstance: any) => {
+      let subtotal = 0;
+  
+      optionInstance.product.forEach((productInstance: any) => {
+        subtotal += parseFloat(productInstance.totalPriceControl.value.replace(',', '')) || 0;
+      });
+  
+      optionInstance.subtotalControl.setValue(subtotal.toLocaleString('en-US', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      }));
     });
+  }
 
-    this.optionFormValues.push(instance);
+  updateProductTotalPriceManually(productInstance: any, newUnitPrice: any) {
+    const placesValue = productInstance.placesControl.value;
+    const newTotal = newUnitPrice * placesValue;
+  
+    productInstance.totalPriceControl.setValue(newTotal.toLocaleString('en-US', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    }));
   }
 
   newDataProduct() {
