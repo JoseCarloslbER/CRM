@@ -76,10 +76,10 @@
                 </div>
 
                 <form *ngIf="optionFormValues?.length">
-                    <div *ngFor="let control of optionFormValues; let i = index;">
+                    <div *ngFor="let control of optionFormValues;  let i = index; first as isFirst">
                         <div class="row mb-lg-0 mb-5 mb-sm-0 section-header-options">
                             <div class="col-md-3">
-                                Opción 1
+                                Opción {{ i + 1 }}
                             </div>
                             <div class="col-md-8">
                                 <div class="flex inputsRadioGroup" style="display: flex; align-items: center;">
@@ -99,7 +99,7 @@
                                 </div>
                             </div>
 
-                            <div *ngIf="optionFormValues?.length > 1" class="col-md-1 d-flex align-items-center justify-content-end c-column-btns">
+                            <div *ngIf="!isFirst" class="col-md-1 d-flex align-items-center justify-content-end c-column-btns">
                                 <div class="btn-delete me-5" (click)="deleteOptionValue(i)">
                                     <mat-icon matTooltip="Eliminar">delete</mat-icon>
                                 </div>
