@@ -12,6 +12,7 @@ import { ConversionService } from '../conversion.service';
 import * as entityGeneral from '../../../shared/interfaces/general-interface';
 import moment from 'moment';
 import { ModalMoneyAccountComponent } from '../modal-money-account/modal-money-account.component';
+import { ModalCloseSaleComponent } from '../modal-close-sale/modal-close-sale.component';
 
 @Component({
   selector: 'app-quotes',
@@ -90,6 +91,8 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
         quote_id : data.id,
         status_id : '3944df8e-d359-4569-b712-ea174be69cca'
       }) 
+    } else if(type == 'Cerrar como venta') {
+      this.closeSale(data)
     }
   }
 
@@ -182,6 +185,20 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
       maxHeight: '628px',
       panelClass: 'custom-dialog',
     });
+  }
+
+  closeSale(data: any) {
+    this.dialog.open(ModalCloseSaleComponent, {
+      data: {
+        info: data,
+      },
+      disableClose: true,
+      width: '1000px',
+      maxHeight: '428px',
+      panelClass: 'custom-dialog',
+    })
+      .afterClosed()
+      .subscribe(() => {});
   }
 
   seeTicket() {

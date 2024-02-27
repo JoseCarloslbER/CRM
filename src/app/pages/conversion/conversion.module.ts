@@ -10,6 +10,7 @@ import { NewQuoteComponent } from './new-quote/new-quote.component';
 import { DetailsQuotesComponent } from './details-quotes/details-quotes.component';
 import { ModalUploadDocumentComponent } from './modal-upload-document/modal-upload-document.component';
 import { ModalMoneyAccountComponent } from './modal-money-account/modal-money-account.component';
+import { ModalCloseSaleComponent } from './modal-close-sale/modal-close-sale.component';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { ModalMoneyAccountComponent } from './modal-money-account/modal-money-ac
     QuotesComponent, 
     ModalUploadDocumentComponent,
     NewQuoteComponent,
-    ModalMoneyAccountComponent
+    ModalMoneyAccountComponent,
+    ModalCloseSaleComponent
   ],
   imports: [
     CommonModule,
