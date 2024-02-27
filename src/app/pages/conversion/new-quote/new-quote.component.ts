@@ -255,10 +255,10 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
   createProductInstance(productData?: any): any {
     const productInstance: any = {
       ...(productData && { id: productData.id }),
-      placesControl: new FormControl({ value: productData?.places || '', disabled: false }, Validators.required),
+      placesControl: new FormControl({ value: productData?.places || '', disabled: true }, Validators.required),
       productControl: new FormControl({ value: productData?.product || '', disabled: false }, Validators.required),
-      unitPriceControl: new FormControl({ value: productData?.unitPri || '', disabled: false }, Validators.required),
-      totalPriceControl: new FormControl({ value: productData?.totalPricePri || '', disabled: false }, Validators.required),
+      unitPriceControl: new FormControl({ value: productData?.unitPri || '', disabled: true }, Validators.required),
+      totalPriceControl: new FormControl({ value: productData?.totalPricePri || '', disabled: true }, Validators.required),
     };
   
     this.setupProductControlSubscriptions(productInstance);
@@ -275,6 +275,7 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
     productInstance.productControl.valueChanges.subscribe((selectedProduct: any) => {
       this.updateProductPrice(productInstance, selectedProduct);
       this.updateSubtotal();
+      this.enableProductFields(productInstance);
     });
   
     productInstance.placesControl.valueChanges.subscribe((newPlacesValue: number) => {
@@ -401,6 +402,15 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
     return parseFloat(typeof value === 'string' ? value.replace(/,/g, '') : value) || 0;
   }
 
+  enableProductFields(productInstance: any) {
+    const shouldEnable = !!productInstance.productControl.value; // Verifica si hay un producto seleccionado
+  
+    // Habilita o deshabilita los campos según el valor de shouldEnable
+    productInstance.placesControl[shouldEnable ? 'enable' : 'disable']();
+    productInstance.unitPriceControl[shouldEnable ? 'enable' : 'disable']();
+    productInstance.totalPriceControl[shouldEnable ? 'enable' : 'disable']();
+  }
+  
   private _filter(value: any): any[] {
     const filterValue = value?.toLowerCase();
 
