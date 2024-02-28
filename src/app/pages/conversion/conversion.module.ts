@@ -9,8 +9,8 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 import { NewQuoteComponent } from './new-quote/new-quote.component';
 import { DetailsQuotesComponent } from './details-quotes/details-quotes.component';
 import { ModalUploadDocumentComponent } from './modal-upload-document/modal-upload-document.component';
-import { ModalMoneyAccountComponent } from './modal-money-account/modal-money-account.component';
 import { ModalCloseSaleComponent } from './modal-close-sale/modal-close-sale.component';
+import { ModalBillingComponent } from './modal-billing/modal-billing.component';
 
 
 @NgModule({
@@ -20,8 +20,8 @@ import { ModalCloseSaleComponent } from './modal-close-sale/modal-close-sale.com
     QuotesComponent, 
     ModalUploadDocumentComponent,
     NewQuoteComponent,
-    ModalMoneyAccountComponent,
-    ModalCloseSaleComponent
+    ModalCloseSaleComponent,
+    ModalBillingComponent
   ],
   imports: [
     CommonModule,

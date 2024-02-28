@@ -15,7 +15,7 @@ export interface TableDataQuote {
     module: boolean
     status_id: string;
   };
-  invoice_status: string | null;
+  invoice_status: entityGeneral.DataCatInvoiceStatus;
   quote_number: number;
   tax_include: number;
   register_date: string;
@@ -28,8 +28,10 @@ export interface TableDataQuoteMapper {
   id: string;
   dateAndHour: string;
   actionName: string;
+  moneyInAccount: boolean;
   closeSale: object;
-  conpanyName: {
+  companyInfo: any
+  companyName: {
     id: string;
     name: string;
     logo: string;

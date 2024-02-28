@@ -22,6 +22,12 @@ export interface DataCatCurrency {
   symbol: string;
 }
 
+export interface DataCatInvoiceStatus {
+  description : string;
+  module : number
+  status_id :string
+}
+
 export interface DataCatPlatform {
   platform_name: string;
   platform_id: string;

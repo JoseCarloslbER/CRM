@@ -32,7 +32,7 @@ export class AllComponent implements OnInit, AfterViewInit, OnDestroy {
   public displayedColumnsAgregadasRecientemente: string[] = ['empresa', 'estatus', 'fechaRegistro', 'monto'];
  
   public displayedColumns: string[] = [
-    'conpanyName',
+    'companyName',
     'status',
     'country',
     'origin',

@@ -8,11 +8,13 @@ import * as entityGeneral from '../../../shared/interfaces/general-interface';
 import { CatalogsService } from 'app/shared/services/catalogs.service';
 
 @Component({
-  selector: 'app-modal-close-sale',
-  templateUrl: './modal-close-sale.component.html',
+  selector: 'app-modal-billing',
+  templateUrl: './modal-billing.component.html',
+  styleUrl: './modal-billing.component.scss'
 })
-export class ModalCloseSaleComponent implements OnInit, OnDestroy {
+export class ModalBillingComponent implements OnInit, OnDestroy {
   private onDestroy = new Subject<void>();
+
 
   public formData = this.formBuilder.group({
     company_name: [null, Validators.required],
@@ -22,6 +24,10 @@ export class ModalCloseSaleComponent implements OnInit, OnDestroy {
     payment_condition_id: [null, Validators.required],
     invoice_use_id: [null, Validators.required],
     tax_id_number: [null, [Validators.required, Validators.minLength(12), Validators.maxLength(12)]],
+    
+    // serie: [null],
+    // product : [null],
+    // unit : [null],
   });
 
   public catWayToPay: entityGeneral.DataCatWayToPay[] = [];
@@ -48,7 +54,7 @@ export class ModalCloseSaleComponent implements OnInit, OnDestroy {
   assignInformation() {
     if (this.data.info) {
       this.objEditData = this.data?.info;
-      this.formData.patchValue(this.data?.info?.closeSale[0]?.company)
+      this.formData.patchValue(this.data?.info?.companyInfo)
     }
     setTimeout(() => {
       this.getCatalogs()
@@ -89,10 +95,10 @@ export class ModalCloseSaleComponent implements OnInit, OnDestroy {
 
   actionSave() {
     let objData: any = {
-      ...this.formData.value,
-      status_id: '2b95f05d-64d4-4b36-a51c-a3ca7c6bdc72',
+      status_id: 'f4fa3c48-8b48-4d39-ad09-a6699a66459f',
       quote_id : this.objEditData.id,
-      company_id : this.objEditData.companyName.id
+      company_id : this.objEditData.companyName.id,
+      invoice_status_id : '0e202967-7cba-4899-9038-d91b9a14f57e'
     }
 
     console.log(objData);
@@ -101,7 +107,7 @@ export class ModalCloseSaleComponent implements OnInit, OnDestroy {
 
   saveDataPost(objData: any) {
     console.log(this.objEditData);
-    this.moduleServices.closeSale({quote : objData}).subscribe({
+    this.moduleServices.billing({quote : objData}).subscribe({
       next: () => {
         this.completionMessage()
       },
@@ -131,4 +137,5 @@ export class ModalCloseSaleComponent implements OnInit, OnDestroy {
     this.onDestroy.next();
     this.onDestroy.unsubscribe();
   }
+
 }

@@ -7,13 +7,12 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { ModalUploadDocumentComponent } from '../modal-upload-document/modal-upload-document.component';
 import { Subject, debounceTime, takeUntil } from 'rxjs';
-import * as entity from '../conversion-interface';
 import { ConversionService } from '../conversion.service';
 import * as entityGeneral from '../../../shared/interfaces/general-interface';
 import moment from 'moment';
-import { ModalMoneyAccountComponent } from '../modal-money-account/modal-money-account.component';
 import { ModalCloseSaleComponent } from '../modal-close-sale/modal-close-sale.component';
 import { CatalogsService } from 'app/shared/services/catalogs.service';
+import { ModalBillingComponent } from '../modal-billing/modal-billing.component';
 
 @Component({
   selector: 'app-quotes',
@@ -90,7 +89,7 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
     
     if (type == 'Aceptar') {
       this.acceptQuote({
-        company_id : data.conpanyName.id,
+        company_id : data.companyName.id,
         quote_id : data.id,
         status_id : '3944df8e-d359-4569-b712-ea174be69cca'
       }) 
@@ -174,18 +173,41 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  moneyAccount(data = null) {
-    this.dialog.open(ModalMoneyAccountComponent, {
-      data: {
-        info: data
-      },
-      disableClose: true,
-      width: '350px',
-      maxHeight: '628px',
-      panelClass: 'custom-dialog',
-    })
+  moneyAccount(data:any) {
+    console.log(data);
+    let obj:any = {
+      payment_date: new Date(),
+      id_status : 'f4fa3c48-8b48-4d39-ad09-a6699a66459f',
+      quote_id : data.id,
+    }
+    console.log('moneyAccount', obj);
+    
+    this.notificationService
+    .notificacion(
+      'Pregunta',
+      '¿Estás seguro que el dinero ya está en la cuenta bancaria?',
+      'question',
+    )
     .afterClosed()
-    .subscribe((_) => this.searchWithFilters());
+    .subscribe((response) => {
+      console.log(response);
+      
+      if (response) {
+        this.moduleServices.moneyAccount(obj).subscribe({
+          next: () => {
+              this.notificationService
+              .notificacion(
+                'Éxito',
+                'Dinero en cuenta, pago confirmado.',
+                'save',
+              )
+              .afterClosed()
+              .subscribe((_) => this.searchWithFilters());
+          },
+          error: (error) => console.error(error)
+        })
+      }
+    });
   }
 
   closeSale(data: any) {
@@ -202,13 +224,56 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
     .subscribe((_) => this.searchWithFilters());
   }
 
-  seeTicket() {
+  billing(data: any) {
+    this.dialog.open(ModalBillingComponent, {
+      data: {
+        info: data,
+      },
+      disableClose: true,
+      width: '1000px',
+      maxHeight: '628px',
+      panelClass: 'custom-dialog',
+    })
+    .afterClosed()
+    .subscribe((_) => this.searchWithFilters());
+  }
+
+  addUpladFile() {
     this.dialog.open(ModalUploadDocumentComponent, {
       data: {},
       disableClose: true,
       width: '800px',
       maxHeight: '628px',
       panelClass: 'custom-dialog',
+    })
+  .afterClosed()
+  .subscribe((_) => this.searchWithFilters());
+  }
+
+  deleteData(id: string) {
+    this.notificationService
+    .notificacion(
+      'Pregunta',
+      '¿Estás seguro de eliminar el registro?',
+      'question',
+    )
+    .afterClosed()
+    .subscribe((response) => {
+      if (response) {
+        this.moduleServices.deleteData(id).subscribe({
+          next: () => {
+              this.notificationService
+              .notificacion(
+                'Éxito',
+                'Registro eliminado.',
+                'delete',
+              )
+              .afterClosed()
+              .subscribe((_) => this.searchWithFilters());
+          },
+          error: (error) => console.error(error)
+        })
+      }
     });
   }
 

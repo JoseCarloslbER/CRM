@@ -9,11 +9,21 @@ export class Mapper {
 			dataList.push({
 				id: data?.quote_id || '-',
 				dateAndHour : moment(data.register_date).format('YYYY-MM-DD HH:mm:ss'),
-				conpanyName : {
+				moneyInAccount : data?.money_in_account,
+				companyInfo: {
+					company_name: data?.company?.company_name || '-',
+					tax_id_number: data?.company?.tax_id_number || '-',
+					payment_method_id: data?.company?.payment_method?.payment_method_id || '-',
+					way_to_pay_id: data?.company?.way_to_pay?.way_to_pay_id || '-',
+					payment_condition_id: data?.company?.payment_condition?.payment_condition_id || '-',
+					invoice_use_id: data?.company?.invoice_use?.invoice_use_id || '-',
+					invoice_status : data?.invoice_status?.status_id || '-'
+				},
+				companyName : {
 					id : data?.company?.company_id || '-', 
 					name : data?.company?.company_name || '-', 
 					logo : data?.company ? data?.company?.logo.includes('default') ? `../../../assets/images/default.png` : data?.company?.logo : `../../../assets/images/default.png`},
-				status: data?.company?.company_phase.phase_name || '-',
+				status: data?.company?.company_phase?.phase_name || '-',
 				stateCountry : data?.company?.country?.country_name || '-',
 				information: {
 					name : data?.status?.description || '-',
@@ -45,20 +55,18 @@ export class Mapper {
 					  }),
 					};
 				  }),
-				actions: data?.company?.company_phase?.phase_name == 'Prospecto' && data?.status?.description == 'Creado'  ? ['Aceptar'] : 
-				data?.company?.company_phase?.phase_name == 'Cliente' && data?.status?.description == 'Aceptada'  ? ['Rechazar', 'Cancelar', 'Cerrar como venta'] : [],
-				actionName: data?.status?.description,
 				
+				  actions: data?.status?.description == 'Creado'  ? ['Aceptar'] : 
+						data?.status?.description == 'Aceptada'  ? ['Rechazar', 'Cancelar', 'Cerrar como venta'] : 
+						data?.status?.description == 'Aprobada'  ? ['Rechazar', 'Cancelar', 'Cerrar como venta'] : [],
+				
+				actionName: data?.status?.description,
 				closeSale: data.quote_options.map((dataClose, index) => {
 					const total = dataClose?.option_products?.reduce((acc, product) => acc + parseFloat(product?.total), 0);
 					const places = dataClose?.option_products?.reduce((acc, product) => acc + product?.quantity, 0);
 					const productNames = dataClose?.option_products?.map(product => product?.product?.name || '-');
 				
 					return {
-						company: {
-							company_name: data?.company?.company_name || '-',
-							tax_id_number: data?.company?.tax_id_number || '-'
-						},
 						totalPrice: {
 							id : dataClose?.quote_option_id,
 							name: `OP${index + 1}:`,

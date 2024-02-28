@@ -40,7 +40,7 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
   public catCompanies: any[] = [];
   public catAgents: entityGeneral.DataCatAgents[] = [];
   public catCampaing: entityGeneral.DataCatCampaing[] = [];
-  public catWayToPay: entityGeneral.DataCatWayToPay[] = [];
+  public catPaymentMethod: entityGeneral.DataCatPaymentMethod[] = [];
   public catProducts: entityGeneral.DataCatProducts[] = [];
   public catContacts: entityGeneral.DataCatContact[] = [];
 
@@ -126,12 +126,12 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
       error: (error) => console.error(error)
     });
 
-    this.catalogsServices.getCatDataWayToPay().subscribe({
-      next: (data: entityGeneral.DataCatWayToPay[]) => {
-        this.catWayToPay = data;
+    this.catalogsServices.getCatPaymentMethod().subscribe({
+      next: (data: entityGeneral.DataCatPaymentMethod[]) => {
+        this.catPaymentMethod = data;
       },
       error: (error) => console.error(error)
-    })
+    });
 
     this.catalogsServices.getCatProducts().subscribe({
       next: (data: entityGeneral.DataCatProducts[]) => {
@@ -157,16 +157,15 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
 
   actionSave() {
     let options: any[] = [...this.getOptionsValues()];
-    console.log('options', options);
-
     let objData: any = {
       ...this.formData.value,
       company : this.companySelected,
     }
 
     objData.quote_options = options;
-    console.log('OBJETO :', objData);
-
+    // objData.subtotal = parseFloat(objData.subtotal) ;
+    console.log(objData);
+    
     if (this.idData) this.saveDataPatch(objData)
     else this.saveDataPost(objData)
   }
@@ -211,7 +210,7 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
       });
 
       let obj = {
-        subtotal: e.subtotalControl.value,
+        subtotal: parseFloat(e.subtotalControl.value),
         discount: e.discountControl.value,
         total: e.totalControl.value,
         type_price: e.typePriceControl.value,
@@ -381,14 +380,6 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
     })
   }
 
-  toBack() {
-    this.router.navigateByUrl(`/home/conversion/cotizaciones`)
-  }
-
-  toDetailQuote() {
-    this.router.navigateByUrl(`/home/conversion/detalle-cotizacion/1`)
-  }
-
   completionMessage(edit = false) {
     this.notificationService
       .notificacion(
@@ -397,7 +388,7 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
         'save',
       )
       .afterClosed()
-      .subscribe((_) => { });
+      .subscribe((_) => this.toBack());
   }
 
   parseNumber(value: any): number {
@@ -439,7 +430,15 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
   
     return this.optionFormValues.every(formValues);
   }
- 
+
+  toBack() {
+    this.router.navigateByUrl(`/home/conversion/cotizaciones`)
+  }
+
+  toDetailQuote() {
+    this.router.navigateByUrl(`/home/conversion/detalle-cotizacion/1`)
+  }
+
   ngOnDestroy(): void {
     this.onDestroy.next();
     this.onDestroy.unsubscribe();

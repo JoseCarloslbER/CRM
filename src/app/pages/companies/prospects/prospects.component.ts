@@ -24,7 +24,7 @@ export class ProspectsComponent implements OnInit, AfterViewInit, OnDestroy {
   public indicePagina = 0;
 
   public displayedColumns: string[] = [
-    'conpanyName',
+    'companyName',
     'status',
     'country',
     'origin',

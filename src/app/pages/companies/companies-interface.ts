@@ -14,6 +14,10 @@ export interface TableDataCompany {
   company_phase: entityGeneral.DataCatCompanyPhase
   campaing?: TableDataCampaing
   last_activity: entityGeneral.DataCatLastActivity
+  invoice_use?: entityGeneral.DataCatInvoiceUse
+  payment_condition?: entityGeneral.DataCatPaymentCondition
+  payment_method?: entityGeneral.DataCatPaymentMethod
+  way_to_pay?: entityGeneral.DataCatWayToPay
   company_name: string;
   slug: string;
   tax_id_number: string;
@@ -36,7 +40,7 @@ export interface TableDataCompany {
 }
 export interface TableDataCompanyMapper {
   id:string
-  conpanyName : string;
+  companyName : string;
   logo : string;
   status : string;
   country : string;

@@ -123,9 +123,9 @@
                                         <th mat-header-cell *matHeaderCellDef>Empresa</th>
                                         <td mat-cell *matCellDef="let element">
                                             <div class="table-column-reck-solution">
-                                                <img [src]="element.conpanyName.logo" alt="">
+                                                <img [src]="element.companyName.logo" alt="">
                                                 <span class="cursor-pointer" (click)="seeData(element.id)">{{
-                                                    element.conpanyName.name }}</span>
+                                                    element.companyName.name }}</span>
                                             </div>
                                         </td>
                                     </ng-container>
@@ -188,43 +188,42 @@
 
                                     <ng-container matColumnDef="actions">
                                         <th mat-header-cell *matHeaderCellDef>Acciones</th>
-                                        <td mat-cell *matCellDef="let element">
-                                            <div class="colum-table-select">
+                                        <td mat-cell *matCellDef="let element" >
+                                            <div class="colum-table-select" *ngIf="element.actionName != 'Eliminado'">
                                                 <mat-form-field class="flex-auto input-default">
                                                     <mat-select placeholder="Seleccionar">
                                                         <mat-option [value]="element.actionName" class="border-bottom" [value]="action" *ngFor="let action of element.actions" (click)="getActions(action, element)">{{action}}</mat-option>
                                                     </mat-select>
                                                 </mat-form-field>
                                             </div>
-
                                         </td>
                                     </ng-container>
 
                                     <ng-container matColumnDef="operations">
                                         <th mat-header-cell *matHeaderCellDef>Operaciones</th>
                                         <td mat-cell *matCellDef="let element">
-                                            <div class="c-column-btns">
+                                            <div class="c-column-btns" *ngIf="element.actionName != 'Eliminado'">
 
-                                                <div class="btn-edit" (click)="editData(element)">
+                                                <div class="btn-edit" (click)="editData(element)" *ngIf="element.actionName != 'Aprobada'">
                                                     <mat-icon matTooltip="Editar">edit_square</mat-icon>
                                                 </div>
 
-                                                <div class="btn-delete" (click)="deleteData(element)">
+                                                <div class="btn-delete" (click)="deleteData(element.id)" *ngIf="element.actionName != 'Aprobada'">
                                                     <mat-icon matTooltip="Eliminar">delete</mat-icon>
                                                 </div>
 
-                                                <div class="btn-wallet">
+                                                <div class="btn-wallet" (click)="moneyAccount(element)" *ngIf="element.actionName == 'Aprobada'">
                                                     <mat-icon matTooltip="Dinero en cuenta">wallet</mat-icon>
                                                 </div>
 
-                                                <div class="btn-receipt" (click)="seeTicket()">
-                                                    <mat-icon matTooltip="Factura">receipt_long</mat-icon>
+                                                <div class="btn-receipt" (click)="billing(element)">
+                                                <!-- <div class="btn-receipt"  (click)="billing(element)" *ngIf="element.moneyInAccount"> -->
+                                                    <mat-icon matTooltip="Facturación">receipt_long</mat-icon>
                                                 </div>
-
-                                                <!-- <div class="btn-print" (click)="downloadPdf()">
-                                                    <mat-icon matTooltip="Descagar">print</mat-icon>
-                                                </div> -->
-
+                                               
+                                                <div class="btn-print" (click)="addUpladFile()" *ngIf="element.moneyInAccount">
+                                                    <mat-icon matTooltip="Agregar comprobante de pago">upload_file</mat-icon>
+                                                </div>
                                             </div>
                                         </td>
                                     </ng-container>

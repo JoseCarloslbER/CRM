@@ -4,7 +4,6 @@ import { environment } from 'environments/environment.dev';
 import { Observable, map } from 'rxjs';
 import * as entity from './conversion-interface';
 import { Mapper } from './mapper';
-import * as entityGeneral from '../../shared/interfaces/general-interface';
 
 @Injectable({
   providedIn: 'root'
@@ -38,13 +37,13 @@ export class ConversionService {
 	}
 
   public patchData(id:string, data:entity.GetDataCompanyMapper): Observable<any> {
-		const url = `${this.apiUrl}company/${id}/`;
+		const url = `${this.apiUrl}quote/${id}/`;
 
     return this.http.patch<any>(url, data)
 	}
  
   public deleteData(id:string): Observable<any> {
-		const url = `${this.apiUrl}company/${id}/`;
+		const url = `${this.apiUrl}quote/${id}/`;
 
     return this.http.delete<any>(url)
 	}
@@ -63,6 +62,18 @@ export class ConversionService {
 
   public closeSale(data:any): Observable<any> {
 		const url = `${this.apiUrl}tracking/`;
+
+    return this.http.post<any>(url, data)
+	}
+
+  public moneyAccount(data:any): Observable<any> {
+		const url = `${this.apiUrl}tracking/`;
+
+    return this.http.post<any>(url, data)
+	}
+
+  public billing(data:any): Observable<any> {
+		const url = `${this.apiUrl}invoice/`;
 
     return this.http.post<any>(url, data)
 	}

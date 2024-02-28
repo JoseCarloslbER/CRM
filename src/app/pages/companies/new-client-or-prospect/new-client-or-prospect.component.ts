@@ -34,7 +34,7 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     platform: ['', Validators.required],
     phone_number: [''],
     email: ['', Validators.pattern(/^\S+@\S+\.\S+$/)],
-    tax_id_number: [''],
+    tax_id_number: [null, [Validators.required, Validators.minLength(12), Validators.maxLength(12)]],
     state: [''],
     owner_user: [''],
     country: [''],
