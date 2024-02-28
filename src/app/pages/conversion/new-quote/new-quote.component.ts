@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalNewProductComponent } from 'app/pages/admin/main-products/products/modal-new-product/modal-new-product.component';
@@ -8,7 +8,6 @@ import { Observable, Subject, debounceTime, map, startWith, take, takeUntil } fr
 import { ConversionService } from '../conversion.service';
 import * as entityGeneral from '../../../shared/interfaces/general-interface';
 import moment from 'moment';
-import * as entity from '../conversion-interface';
 import { CatalogsService } from 'app/shared/services/catalogs.service';
 
 @Component({
@@ -86,9 +85,7 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
   getId() {
     this.activatedRoute.params.pipe(takeUntil(this.onDestroy)).subscribe((params:any) => {
       if (params.id) this.getDataById(params.id);
-        else {
-          this.addFormOption();
-        }
+        else this.addFormOption();
     });
   }
 
@@ -165,14 +162,13 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
     let objData: any = {
       ...this.formData.value,
       company : this.companySelected,
-    }
+    };
 
     objData.quote_options = options;
-    // objData.subtotal = parseFloat(objData.subtotal) ;
     console.log(objData);
     
-    // if (this.idData) this.saveDataPatch(objData)
-    // else this.saveDataPost(objData)
+    if (this.idData) this.saveDataPatch(objData)
+    else this.saveDataPost(objData)
   }
 
   saveDataPost(objData) {
@@ -229,10 +225,6 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
     };
 
     return this.optionFormValues.map(formValues);
-  }
-
-  deleteOptionValue(index: number) {
-    this.optionFormValues.splice(index, 1)
   }
 
   addFormOption(datos?: any) {
@@ -299,6 +291,10 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
   
+  deleteOptionValue(index: number) {
+    this.optionFormValues.splice(index, 1)
+  }
+
   updateProductPrice(productInstance: any, selectedProduct: any) {
     const selectedProductInfo = this.catProducts.find(product => product.product_id === selectedProduct);
   

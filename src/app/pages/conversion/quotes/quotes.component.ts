@@ -131,6 +131,8 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
     this.moduleServices.getDataTable(filters).pipe(takeUntil(this.onDestroy)).subscribe({
       next: ( data : any) => {
         this.dataSource.data = data
+        console.log(data);
+        
       },
       error: (error) => console.error(error)
     })

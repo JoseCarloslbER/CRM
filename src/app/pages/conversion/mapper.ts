@@ -4,11 +4,13 @@ import moment from 'moment';
 export class Mapper {
 	static getDataTableMapper(response: entity.TableDataQuote[]) : entity.TableDataQuoteMapper[] {
 		let dataList :entity.TableDataQuoteMapper[] = [];
+		console.log(response);
 
 		response.forEach((data: entity.TableDataQuote): void => {
+			
 			dataList.push({
 				id: data?.quote_id || '-',
-				dateAndHour : moment(data.register_date).format('YYYY-MM-DD HH:mm:ss'),
+				dateAndHour : data.register_date ? moment(data.register_date).format('YYYY-MM-DD HH:mm:ss') : '-', 
 				moneyInAccount : data?.money_in_account,
 				companyInfo: {
 					company_name: data?.company?.company_name || '-',
@@ -104,6 +106,7 @@ export class Mapper {
 		});
 
 		return {
+			id : response.quote_id || '-',
 			contact : response?.contact?.contact_id || '-',
 			user : response?.user?.id || '-',
 			campaign : response?.campaign?.campaign_id || '-',
@@ -114,8 +117,6 @@ export class Mapper {
 				name: response.company.company_name
 			},
 			quoteOptions : response.quote_options.map(data => {
-				console.log('data', data);
-				
 				return {
 					id: data?.quote_option_id || '',
 					subtotal : data?.subtotal,
