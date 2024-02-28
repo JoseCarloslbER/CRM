@@ -138,8 +138,8 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
     })
   }
 
-  editData(data:any) {
-    this.router.navigateByUrl(`/home/conversion/editar-cotizacion/1`)
+  editData(id:string) {
+    this.router.navigateByUrl(`/home/conversion/editar-cotizacion/${id}`)
   }
 
   newData() {

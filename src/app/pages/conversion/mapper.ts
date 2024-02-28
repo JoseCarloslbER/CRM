@@ -57,8 +57,7 @@ export class Mapper {
 				  }),
 				
 				  actions: data?.status?.description == 'Creado'  ? ['Aceptar'] : 
-						data?.status?.description == 'Aceptada'  ? ['Rechazar', 'Cancelar', 'Cerrar como venta'] : 
-						data?.status?.description == 'Aprobada'  ? ['Rechazar', 'Cancelar', 'Cerrar como venta'] : [],
+						data?.status?.description == 'Aceptada' || data?.status?.description == 'Aprobada' ? ['Rechazar', 'Cancelar', 'Cerrar como venta'] : [],
 				
 				actionName: data?.status?.description,
 				closeSale: data.quote_options.map((dataClose, index) => {
