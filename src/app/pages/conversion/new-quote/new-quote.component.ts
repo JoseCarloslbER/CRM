@@ -1,10 +1,10 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ModalNewProductComponent } from 'app/pages/admin/main-products/products/modal-new-product/modal-new-product.component';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
-import { Observable, Subject, map, startWith, take, takeUntil } from 'rxjs';
+import { Observable, Subject, debounceTime, map, startWith, take, takeUntil } from 'rxjs';
 import { ConversionService } from '../conversion.service';
 import * as entityGeneral from '../../../shared/interfaces/general-interface';
 import moment from 'moment';
@@ -52,6 +52,7 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     private moduleServices: ConversionService,
     private catalogsServices: CatalogsService,
+    private activatedRoute: ActivatedRoute,
     private notificationService: OpenModalsService,
     private formBuilder: FormBuilder,
     private dialog: MatDialog,
@@ -72,7 +73,7 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    this.company.valueChanges.subscribe(resp => {
+    this.company.valueChanges.pipe(debounceTime(500)).subscribe(resp => {
       this.filteredOptions.pipe(take(1)).subscribe(options => {
         const selectedCompany = options.find(cat => cat.company_name === resp);
         if (selectedCompany) {
@@ -83,25 +84,25 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  assignInformation() {
-    // if (this.data?.info) {
-    //   this.idData = this.data?.info?.id || this.data?.info?.activity_id;
-    //   this.getDataById() 
-    // } 
+  getId() {
+    this.activatedRoute.params.pipe(takeUntil(this.onDestroy)).subscribe((params:any) => {
+      if (params.id) this.getDataById(params.id);
+    });
   }
 
-  getDataById() {
-    // this.moduleServices.getDataId(this.idData).subscribe({
-    //   next: (response: entityManager.GetDataActivitiesMapper) => {
-    //     this.objEditData = response;
-    //     this.formData.patchValue(this.objEditData);
-    //     this.company.patchValue(this.objEditData.companyName)
-    //   },
-    //   error: (error) => {
-    //     this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
-    //     console.error(error)
-    //   }
-    // })
+  getDataById(id:string) {
+    this.moduleServices.getDataId(id).pipe(takeUntil(this.onDestroy)).subscribe({
+      next: (response: any) => {
+        this.objEditData = response;
+        console.log(response);
+        this.formData.patchValue(this.objEditData);
+        this.company.patchValue(this.objEditData.company.name);
+      },
+      error: (error) => {
+        this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
+        console.error(error)
+      }
+    })
   }
 
   getCatalogs() {
@@ -136,20 +137,18 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
     this.catalogsServices.getCatProducts().subscribe({
       next: (data: entityGeneral.DataCatProducts[]) => {
         this.catProducts = data;
-        console.log(data);
       },
       error: (error) => console.error(error)
     })
+
+    this.getId()
+
   }
 
   getCatalogContact(filter?: string) {
-    console.log(filter);
-
     this.catalogsServices.getCatDataContact(filter).subscribe({
       next: (data: entityGeneral.DataCatContact[]) => {
         this.catContacts = data;
-        console.log(data);
-        
       },
       error: (error) => console.error(error)
     })
@@ -396,9 +395,8 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   enableProductFields(productInstance: any) {
-    const shouldEnable = !!productInstance.productControl.value; // Verifica si hay un producto seleccionado
-  
-    // Habilita o deshabilita los campos según el valor de shouldEnable
+    const shouldEnable = !!productInstance.productControl.value; 
+
     productInstance.placesControl[shouldEnable ? 'enable' : 'disable']();
     productInstance.unitPriceControl[shouldEnable ? 'enable' : 'disable']();
     productInstance.totalPriceControl[shouldEnable ? 'enable' : 'disable']();

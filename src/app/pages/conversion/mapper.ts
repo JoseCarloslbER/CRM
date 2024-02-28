@@ -93,24 +93,19 @@ export class Mapper {
 		return dataList
 	}
 
-	static editDataTableCompanyMapper(response: any) {
+	static editDataTableCompanyMapper(response: entity.TableDataQuote) {
+		console.log(response);
+		
 		return {
-			id: response?.company_id,
-			company_name: response?.company_name,
-			platform: response?.platform?.platform_id,
-			phone_number: response?.phone_number,
-			email: response?.email,
-			tax_id_number: response?.tax_id_number,
-			state: response?.state.state_id,
-			owner_user: response?.owner_user.id,
-			country: response?.country?.country_id,
-			business: response?.business?.business_id,
-			city: response?.city.city_id,
-			address: response?.address,
-			company_type: response?.company_type?.company_type_id,
-			company_size: response?.company_size?.company_size_id,
-			web_page: response?.web_page,
-			comments: response?.comments
+			contact : response?.contact?.contact_id || '-',
+			user : response?.user?.id || '-',
+			campaign : response?.campaign?.campaign_id || '-',
+			payment_method : response?.payment_method?.payment_method_id || '-',
+			tax_include : response?.tax_include,
+			company : {
+				id : response.company.company_id,
+				name: response.company.company_name
+			}
 		}
 	};
 	

@@ -209,23 +209,25 @@
 
                                                 <div class="btn-edit" (click)="editData(element.id)"
                                                 *ngIf="element.actionName == 'Creado' || element.actionName == 'Aceptada'"
-                                                    
                                                 >
                                                     <mat-icon matTooltip="Editar">edit_square</mat-icon>
                                                 </div>
 
                                                 <div class="btn-delete" (click)="deleteData(element.id)" 
                                                 *ngIf="element.actionName == 'Creado' || element.actionName == 'Aceptada'"
-                                                
                                                 >
                                                     <mat-icon matTooltip="Eliminar">delete</mat-icon>
                                                 </div>
 
-                                                <div class="btn-wallet" (click)="moneyAccount(element)" *ngIf="element.actionName == 'Aprobada'">
+                                                <div class="btn-wallet" (click)="moneyAccount(element)" 
+                                                *ngIf="element.actionName == 'Aprobada' || element.actionName == 'Facturada'" 
+                                                >
                                                     <mat-icon matTooltip="Dinero en cuenta">wallet</mat-icon>
                                                 </div>
 
-                                                <div class="btn-receipt" (click)="billing(element)" *ngIf="element.actionName == 'Aprobada'">
+                                                <div class="btn-receipt" (click)="billing(element)" 
+                                                *ngIf="element.actionName == 'Aprobada' || element.actionName == 'Facturada'" 
+                                                >
                                                     <mat-icon matTooltip="Facturación">receipt_long</mat-icon>
                                                 </div>
 

@@ -19,7 +19,7 @@ const quotesRoutes: Routes = [
 			},
 			{
 				path: 'editar-cotizacion/:id',
-				component: DetailsQuotesComponent,
+				component: NewQuoteComponent,
 			},
 			{
 				path: 'nueva-cotizacion',

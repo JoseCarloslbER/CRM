@@ -7,7 +7,7 @@ export interface TableDataQuote {
   quote_options: QuoteOption[]
   company: TableDataCompany;
   contact: entityGeneral.DataCatQuoteContact;
-  user: entityGeneral.User;
+  user: entityGeneral.Owner;
   campaign: entityGeneral.DataCatCampaing | null;
   payment_method: entityGeneral.DataCatPaymentMethod;
   status: {
