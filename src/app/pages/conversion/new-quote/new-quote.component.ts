@@ -60,11 +60,10 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.addFormOption();
 
     setTimeout(() => {
       this.getCatalogs()
-    }, 500);
+    }, 100);
 
     this.filteredOptions = this.company.valueChanges.pipe(
       startWith(''),
@@ -87,6 +86,9 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
   getId() {
     this.activatedRoute.params.pipe(takeUntil(this.onDestroy)).subscribe((params:any) => {
       if (params.id) this.getDataById(params.id);
+        else {
+          this.addFormOption();
+        }
     });
   }
 
@@ -97,6 +99,10 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
         console.log(response);
         this.formData.patchValue(this.objEditData);
         this.company.patchValue(this.objEditData.company.name);
+        this.companySelected = this.objEditData.company.id;
+        this.objEditData.quoteOptions.forEach(resp => {
+          this.addFormOption(resp)
+        })
       },
       error: (error) => {
         this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
@@ -165,8 +171,8 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
     // objData.subtotal = parseFloat(objData.subtotal) ;
     console.log(objData);
     
-    if (this.idData) this.saveDataPatch(objData)
-    else this.saveDataPost(objData)
+    // if (this.idData) this.saveDataPatch(objData)
+    // else this.saveDataPost(objData)
   }
 
   saveDataPost(objData) {
@@ -201,6 +207,7 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
 
       const productValues = e.product.map((productControl: any) => {
         return {
+          ...({ option_product_id: productControl.id }),
           quantity: productControl.placesControl.value,
           product: productControl.productControl.value,
           price: productControl.unitPriceControl.value,
@@ -209,6 +216,7 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
       });
 
       let obj = {
+        ...({ quote_option_id: e.id }),
         subtotal: parseFloat(e.subtotalControl.value),
         discount: e.discountControl.value,
         total: e.totalControl.value,
@@ -232,16 +240,18 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
       ...(datos && { id: datos?.id }),
       subtotalControl: new FormControl({ value: datos?.subtotal || '', disabled: true }, Validators.required),
       discountControl: new FormControl({ value: datos?.discount || '', disabled: false }),
-      totalControl: new FormControl({ value: datos?.total || '', disabled: false }, Validators.required),
+      totalControl: new FormControl({ value: datos?.total || '', disabled: true }, Validators.required),
       typePriceControl: new FormControl({ value: datos?.typePrice || '1', disabled: false }, Validators.required),
       dateControl: new FormControl({ value: datos?.date || '', disabled: false }, Validators.required),
       timeControl: new FormControl({ value: datos?.time || '', disabled: false }, Validators.required),
       product: [],
     };
   
-    if (datos && datos.product) {
-      datos.product.forEach((productData: any) => {
+    if (datos && datos.optionProducts) {
+      datos.optionProducts.forEach((productData: any) => {
         const productInstance: any = this.createProductInstance(productData);
+        this.enableProductFields(productInstance);
+
         instance.product.push(productInstance);
       });
     } else {
@@ -258,7 +268,7 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
       placesControl: new FormControl({ value: productData?.places || '', disabled: true }, Validators.required),
       productControl: new FormControl({ value: productData?.product || '', disabled: false }, Validators.required),
       unitPriceControl: new FormControl({ value: productData?.unitPri || '', disabled: true }, Validators.required),
-      totalPriceControl: new FormControl({ value: productData?.totalPricePri || '', disabled: true }, Validators.required),
+      totalPriceControl: new FormControl({ value: productData?.total || '', disabled: true }, Validators.required),
     };
   
     this.setupProductControlSubscriptions(productInstance);

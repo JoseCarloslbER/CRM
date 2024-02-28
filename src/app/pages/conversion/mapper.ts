@@ -95,7 +95,14 @@ export class Mapper {
 
 	static editDataTableCompanyMapper(response: entity.TableDataQuote) {
 		console.log(response);
+		let date : string = '';
+		let time : string = '';
 		
+		response.quote_options.forEach(data => {
+			date = moment(data.deadline).format('YYYY-MM-DD');
+			time = moment(data.deadline, 'HH:mm').format('HH:mm');
+		});
+
 		return {
 			contact : response?.contact?.contact_id || '-',
 			user : response?.user?.id || '-',
@@ -105,7 +112,43 @@ export class Mapper {
 			company : {
 				id : response.company.company_id,
 				name: response.company.company_name
-			}
+			},
+			quoteOptions : response.quote_options.map(data => {
+				console.log('data', data);
+				
+				return {
+					id: data?.quote_option_id || '',
+					subtotal : data?.subtotal,
+					discount : parseFloat(data?.discount).toLocaleString('en-US', {
+						minimumFractionDigits: 2,
+						maximumFractionDigits: 2
+					}),
+					total : parseFloat(data?.total).toLocaleString('en-US', {
+						minimumFractionDigits: 2,
+						maximumFractionDigits: 2
+					}),
+					typePrice : data?.type_price,
+					date : date,
+					time : time,
+
+					optionProducts : data?.option_products.map(dataProduct => {
+						return {
+							id : dataProduct?.option_product_id,
+							places : dataProduct?.quantity,
+							product : dataProduct?.product?.product_id,
+							unitPri : parseFloat(dataProduct?.price).toLocaleString('en-US', {
+								minimumFractionDigits: 2,
+								maximumFractionDigits: 2
+							}),
+							total : parseFloat(dataProduct?.total).toLocaleString('en-US', {
+								minimumFractionDigits: 2,
+								maximumFractionDigits: 2
+							}),
+						}
+					})
+
+				}
+			})
 		}
 	};
 	
