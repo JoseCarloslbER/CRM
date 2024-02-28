@@ -1,5 +1,4 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { Subject, takeUntil } from 'rxjs';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import * as entityGeneral from '../../../shared/interfaces/general-interface';

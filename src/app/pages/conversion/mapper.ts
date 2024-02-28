@@ -12,6 +12,7 @@ export class Mapper {
 				id: data?.quote_id || '-',
 				dateAndHour : data.register_date ? moment(data.register_date).format('YYYY-MM-DD HH:mm:ss') : '-', 
 				moneyInAccount : data?.money_in_account,
+				isBilled: data?.invoice_status?.description.includes('Facturada') ? true : false,
 				companyInfo: {
 					company_name: data?.company?.company_name || '-',
 					tax_id_number: data?.company?.tax_id_number || '-',

@@ -128,7 +128,7 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getDataTable(filters:string) {
-    this.moduleServices.getDataTable(filters).pipe(takeUntil(this.onDestroy)).subscribe({
+    this.moduleServices.getDataTable(filters).subscribe({
       next: ( data : any) => {
         this.dataSource.data = data
         console.log(data);
@@ -175,12 +175,13 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
 
   moneyAccount(data:any) {
     console.log(data);
-    let obj:any = {
+    let objData:any = {
       payment_date: new Date(),
-      id_status : 'f4fa3c48-8b48-4d39-ad09-a6699a66459f',
+      status_id : 'f4fa3c48-8b48-4d39-ad09-a6699a66459f',
       quote_id : data.id,
+      company_id : data.companyName.id,
     }
-    console.log('moneyAccount', obj);
+    console.log('moneyAccount', objData);
     
     this.notificationService
     .notificacion(
@@ -193,7 +194,7 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
       console.log(response);
       
       if (response) {
-        this.moduleServices.moneyAccount(obj).subscribe({
+        this.moduleServices.moneyAccount({quote: objData}).subscribe({
           next: () => {
               this.notificationService
               .notificacion(

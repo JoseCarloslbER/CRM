@@ -59,6 +59,8 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
+    console.log(this.url.includes('dashboard'));
+    
 
     setTimeout(() => {
       this.getCatalogs()
@@ -90,7 +92,7 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getDataById(id:string) {
-    this.moduleServices.getDataId(id).pipe(takeUntil(this.onDestroy)).subscribe({
+    this.moduleServices.getDataId(id).subscribe({
       next: (response: any) => {
         this.objEditData = response;
         console.log(response);
@@ -167,7 +169,7 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
     objData.quote_options = options;
     console.log(objData);
     
-    if (this.idData) this.saveDataPatch(objData)
+    if (this.objEditData) this.saveDataPatch(objData)
     else this.saveDataPost(objData)
   }
 
@@ -293,6 +295,15 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
   
   deleteOptionValue(index: number) {
     this.optionFormValues.splice(index, 1)
+  }
+  
+  deleteProductValue(index: number) {
+    console.log();
+    console.log(this.optionFormValues);
+    
+    this.optionFormValues.forEach(data=> {
+      data.product.splice(index, 1)
+    })
   }
 
   updateProductPrice(productInstance: any, selectedProduct: any) {

@@ -220,33 +220,17 @@
                                                 </div>
 
                                                 <div class="btn-wallet" (click)="moneyAccount(element)" 
-                                                *ngIf="element.actionName == 'Aprobada' || element.actionName == 'Facturada'" 
+                                                *ngIf="(element.actionName == 'Aprobada' && !element.moneyInAccount)"
                                                 >
                                                     <mat-icon matTooltip="Dinero en cuenta">wallet</mat-icon>
                                                 </div>
 
                                                 <div class="btn-receipt" (click)="billing(element)" 
-                                                *ngIf="element.actionName == 'Aprobada' || element.actionName == 'Facturada'" 
+                                                *ngIf="element.actionName == 'Aprobada' || !element.isBilled"
                                                 >
                                                     <mat-icon matTooltip="Facturación">receipt_long</mat-icon>
                                                 </div>
 
-                                                <!-- <div class="btn-edit" (click)="editData(element.id)" *ngIf="element.actionName != 'Aprobada'">
-                                                    <mat-icon matTooltip="Editar">edit_square</mat-icon>
-                                                </div>
-
-                                                <div class="btn-delete" (click)="deleteData(element.id)" *ngIf="element.actionName != 'Aprobada'">
-                                                    <mat-icon matTooltip="Eliminar">delete</mat-icon>
-                                                </div>
-
-                                                <div class="btn-wallet" (click)="moneyAccount(element)" *ngIf="element.actionName == 'Aprobada'">
-                                                    <mat-icon matTooltip="Dinero en cuenta">wallet</mat-icon>
-                                                </div>
-
-                                                <div class="btn-receipt" (click)="billing(element)">
-                                                    <mat-icon matTooltip="Facturación">receipt_long</mat-icon>
-                                                </div> -->
-                                               
                                                 <div class="btn-print" (click)="addUpladFile()" *ngIf="element.moneyInAccount">
                                                     <mat-icon matTooltip="Agregar comprobante de pago">upload_file</mat-icon>
                                                 </div>

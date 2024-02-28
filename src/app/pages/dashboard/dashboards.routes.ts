@@ -8,6 +8,7 @@ import { NewBonoComponent } from '../admin/main-bonuses/bonuses/new-bono/new-bon
 import { NewQuoteOrProspectComponent } from './new-quote-or-prospect/new-quote-or-prospect.component';
 import { NewQuoteOrClientComponent } from './new-quote-or-client/new-quote-or-client.component';
 import { CampainResultsComponent } from '../catchment/campaigns/campain-results/campain-results.component';
+import { NewQuoteComponent } from '../conversion/new-quote/new-quote.component';
 
 const dashboardRoutes: Routes = [
 	{
@@ -47,9 +48,13 @@ const dashboardRoutes: Routes = [
 				path: 'nueva-cotizacion-prospecto',
 				component: NewQuoteOrProspectComponent,
 			},
+			// {
+			// 	path: 'nueva-cotizacion-cliente',
+			// 	component: NewQuoteOrClientComponent,
+			// },
 			{
 				path: 'nueva-cotizacion-cliente',
-				component: NewQuoteOrClientComponent,
+				component: NewQuoteComponent,
 			},
 		]
 	
