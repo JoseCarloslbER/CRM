@@ -9,6 +9,7 @@ import { NewQuoteOrProspectComponent } from './new-quote-or-prospect/new-quote-o
 import { NewQuoteOrClientComponent } from './new-quote-or-client/new-quote-or-client.component';
 import { CampainResultsComponent } from '../catchment/campaigns/campain-results/campain-results.component';
 import { NewQuoteComponent } from '../conversion/new-quote/new-quote.component';
+import { NewClientOrProspectComponent } from '../companies/new-client-or-prospect/new-client-or-prospect.component';
 
 const dashboardRoutes: Routes = [
 	{
@@ -44,9 +45,13 @@ const dashboardRoutes: Routes = [
 				path: 'resultados-campanias/:id',
 				component: CampainResultsComponent,
 			},
+			// {
+			// 	path: 'nueva-cotizacion-prospecto',
+			// 	component: NewQuoteOrProspectComponent,
+			// },
 			{
 				path: 'nueva-cotizacion-prospecto',
-				component: NewQuoteOrProspectComponent,
+				component: NewClientOrProspectComponent,
 			},
 			// {
 			// 	path: 'nueva-cotizacion-cliente',
