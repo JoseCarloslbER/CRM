@@ -82,10 +82,11 @@ export class Mapper {
 							type: dataClose?.type_price === 1 ? 'Normal' : 'Promoción',
 							places: places,
 							products: productNames,
-							total: '$' + total.toLocaleString('en-US', {
-								minimumFractionDigits: 2,
-								maximumFractionDigits: 2
-							}),
+							total: total,
+							// total: '$' + total.toLocaleString('en-US', {
+							// 	minimumFractionDigits: 2,
+							// 	maximumFractionDigits: 2
+							// }),
 						}
 					};
 				})

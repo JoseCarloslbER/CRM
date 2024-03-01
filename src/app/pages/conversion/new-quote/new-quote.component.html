@@ -120,7 +120,7 @@
                         </div>
 
                         <form>
-                            <div class="row" *ngFor="let controlProduct of control.product; let i = index;">
+                            <div class="row" *ngFor="let controlProduct of control.product; let productIndex = index;">
                                 <div class="col-md-2">
                                     <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                                         <mat-label>Lugares</mat-label>
@@ -144,7 +144,8 @@
                                     <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                                         <mat-label>Precio unitario</mat-label>
                                         <input class="text-right" [formControl]="controlProduct.unitPriceControl"
-                                            type="number" matInput>
+                                          matInput
+                                          >
                                         <span matPrefix>$</span>
                                     </mat-form-field>
                                 </div>
@@ -152,15 +153,14 @@
                                 <div class="col-md-2">
                                     <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                                         <mat-label>Precio total</mat-label>
-                                        <input class="text-right" [formControl]="controlProduct.totalPriceControl"
-                                            type="number" matInput>
+                                        <input class="text-right" [formControl]="controlProduct.totalPriceControl" matInput>
                                         <span matPrefix>$</span>
                                     </mat-form-field>
                                 </div>
 
                                 <div *ngIf="control.product?.length > 1"
                                     class="col-md-1 d-flex align-items-center justify-content-center c-column-btns">
-                                    <div class="btn-delete mb-3" (click)="deleteProductValue(i)">
+                                    <div class="btn-delete mb-3" (click)="deleteProductValue(productIndex)">
                                         <mat-icon matTooltip="Eliminar">delete</mat-icon>
                                     </div>
                                 </div>
@@ -196,8 +196,7 @@
                             <div class="col-md-3">
                                 <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                                     <mat-label>Total</mat-label>
-                                    <input [formControl]="control.totalControl" class="text-right" type="number"
-                                        matInput>
+                                    <input [formControl]="control.totalControl" class="text-right" matInput>
                                     <span matPrefix>$</span>
                                 </mat-form-field>
                             </div>

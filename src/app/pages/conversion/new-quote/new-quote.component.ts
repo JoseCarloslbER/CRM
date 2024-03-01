@@ -163,7 +163,7 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
     let options: any[] = [...this.getOptionsValues()];
     let objData: any = {
       ...this.formData.value,
-      company : this.companySelected,
+      company : {company_id : this.companySelected},
     };
 
     objData.quote_options = options;
@@ -288,8 +288,16 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
     });
 
     productInstance.unitPriceControl.valueChanges.subscribe((newUnitPrice: any) => {
-      this.updateProductTotalPriceManually(productInstance, newUnitPrice);
+      const sanitizedValue = newUnitPrice.replace(/\D/g, '');
+      productInstance.unitPriceControl.setValue(sanitizedValue, { emitEvent: false });
+
+      this.updateProductTotalPriceManually(productInstance, sanitizedValue);
       this.updateSubtotal();
+    });
+ 
+    productInstance.totalPriceControl.valueChanges.subscribe((total: any) => {
+      const sanitizedValue = total.replace(/\D/g, '');
+      productInstance.totalPriceControl.setValue(sanitizedValue, { emitEvent: false });
     });
   }
   
@@ -298,9 +306,6 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   
   deleteProductValue(index: number) {
-    console.log();
-    console.log(this.optionFormValues);
-    
     this.optionFormValues.forEach(data=> {
       data.product.splice(index, 1)
     })
@@ -313,7 +318,7 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
       const listPrice: any = selectedProductInfo.list_price;
       const placesValue = productInstance.placesControl.value;
       const newTotal = listPrice * placesValue;
-  
+      
       productInstance.unitPriceControl.setValue(parseFloat(listPrice).toLocaleString('en-US', {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
