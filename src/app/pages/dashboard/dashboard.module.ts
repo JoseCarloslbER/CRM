@@ -11,8 +11,6 @@ import { CampaignsComponent } from './campaigns/campaigns.component';
 import { GoalsComponent } from './goals/goals.component';
 import { ModalBonusProgressComponent } from './goals/modal-bonus-progress/modal-bonus-progress.component';
 import { ModalAgentsComponent } from './goals/modal-agents/modal-agents.component';
-import { NewQuoteOrClientComponent } from './new-quote-or-client/new-quote-or-client.component';
-import { NewQuoteOrProspectComponent } from './new-quote-or-prospect/new-quote-or-prospect.component';
 import { TableComponent } from './home/table/table.component';
 import { ModalCompaniesComponent } from './campaigns/modal-companies/modal-companies.component';
 
@@ -27,8 +25,6 @@ import { ModalCompaniesComponent } from './campaigns/modal-companies/modal-compa
     GoalsComponent,
     ModalBonusProgressComponent,
     ModalAgentsComponent,
-    NewQuoteOrClientComponent,
-    NewQuoteOrProspectComponent,
     TableComponent,
     ModalCompaniesComponent
   ],

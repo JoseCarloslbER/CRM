@@ -10,6 +10,8 @@ import { Subject, takeUntil } from 'rxjs';
 import { DashboardService } from '../dashboard.service';
 import { ModalCompaniesComponent } from './modal-companies/modal-companies.component';
 import * as entity from '../dashboard-interface';
+import { CatalogsService } from 'app/shared/services/catalogs.service';
+import * as entityGeneral from '../../../shared/interfaces/general-interface';
 
 @Component({
   selector: 'app-campaigns',
@@ -1920,7 +1922,7 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
     rangeDateEnd: [{ value: null, disabled: false }],
   });
 
-  public catBusiness: entity.DataCatBusiness[] = [];
+  public catBusiness: entityGeneral.DataCatBusiness[] = [];
 
   public fechaHoy = new Date();
 
@@ -1929,6 +1931,7 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
   public selectedProject: string = 'Estadísticas';
 
   constructor(
+    private catalogsServices: CatalogsService,
     private moduleServices: DashboardService,
     private dialog: MatDialog,
     private formBuilder: FormBuilder,
@@ -1954,8 +1957,8 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getCatalogs() {
-    this.moduleServices.getCatalogBusiness().pipe(takeUntil(this.onDestroy)).subscribe({
-      next: (data: entity.DataCatBusiness[]) => {
+    this.catalogsServices.getCatBusiness().pipe(takeUntil(this.onDestroy)).subscribe({
+      next: (data: entityGeneral.DataCatBusiness[]) => {
         this.catBusiness = data;
       },
       error: (error) => console.error(error)

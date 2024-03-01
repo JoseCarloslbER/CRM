@@ -13,54 +13,28 @@ export class DashboardService {
 
   constructor(private http: HttpClient) { }
 
-  // CATALOGS
-  
-  public getCatalogCompanySize(): Observable<entity.DataCatCompanySize[]> {
-		const url = `${environment.apiURL}conversion/company-size/`;
-
-    return this.http.get<entity.DataCatCompanySize[]>(url)
-	}
-
-  public getCatalogCompanyType(): Observable<entity.DataCatCompanyType[]> {
-		const url = `${environment.apiURL}conversion/company-type/`;
-
-    return this.http.get<entity.DataCatCompanyType[]>(url)
-	}
-
-  public getCatalogCountry(): Observable<entity.DataCatCountry[]> {
-		const url = `${environment.apiURL}settings/country/`;
-
-    return this.http.get<entity.DataCatCountry[]>(url)
-	}
-
-  public getCatalogState(): Observable<entity.DataCatState[]> {
-		const url = `${environment.apiURL}settings/state/`;
-
-    return this.http.get<entity.DataCatState[]>(url)
-	}
-
-  public getCatalogCity(): Observable<entity.DataCatCity[]> {
-		const url = `${environment.apiURL}settings/city/`;
-
-    return this.http.get<entity.DataCatCity[]>(url)
-	}
-
-  public getCatalogBusiness(): Observable<entity.DataCatBusiness[]> {
-		const url = `${environment.apiURL}settings/business/`;
-
-    return this.http.get<entity.DataCatBusiness[]>(url)
-	}
-
-  // END CATALOGS 
-
-
   // DASHBOARD 
 
-  public getDashboardProductsMaterial(filters:entity.DataTableFilters): Observable<any> {
-		const url = `${environment.apiURL}/`;
+  public getDashboardStatics(filters:entity.DataTableFilters): Observable<any> {
+		const url = `${this.apiUrl}statics/`;
 
     return this.http.get<any>(url)
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   public getDashboardProductsTable(): Observable<any> {
 		const url = `${environment.apiURL}/`;

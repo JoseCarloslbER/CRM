@@ -6,6 +6,8 @@ import { ApexOptions } from 'apexcharts';
 import { Subject, takeUntil } from 'rxjs';
 import { DashboardService } from '../dashboard.service';
 import * as entity from '../dashboard-interface';
+import { CatalogsService } from 'app/shared/services/catalogs.service';
+import * as entityGeneral from '../../../shared/interfaces/general-interface';
 
 @Component({
   selector: 'app-home',
@@ -1789,13 +1791,15 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public formFilters = this.formBuilder.group({
     user: [{ value: null, disabled: false }],
-    giro: [{ value: null, disabled: false }],
-    company: [{ value: null, disabled: false }],
+    business: [{ value: null, disabled: false }],
+    campaing: [{ value: null, disabled: false }],
     rangeDateStart: [{ value: null, disabled: false }],
     rangeDateEnd: [{ value: null, disabled: false }],
   });
 
-  public catBusiness: entity.DataCatBusiness[] = [];
+  public catBusiness: entityGeneral.DataCatBusiness[] = [];
+  public catAgents: entityGeneral.DataCatAgents[] = [];
+  public catCampaing: entityGeneral.DataCatCampaing[] = [];
 
   public chartWeeklyExpenses: ApexOptions = {};
   public chartGithubIssues: ApexOptions = {};
@@ -1804,7 +1808,10 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public fechaHoy = new Date();
 
+  public objStatics:any;
+
   constructor(
+    private catalogsServices: CatalogsService,
     private moduleServices: DashboardService,
     private dialog: MatDialog,
     private formBuilder: FormBuilder,
@@ -1814,6 +1821,58 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.dataGraphics()
+ 
+  }
+
+  ngAfterViewInit(): void {
+
+    this.getDashboardStatics()
+
+    setTimeout(() => {
+      this.getCatalogs()
+    }, 500);
+  }
+
+  searchWithFilters() {
+    console.log(this.formFilters.value);
+  }
+
+  getCatalogs() {
+    this.catalogsServices.getCatBusiness().pipe(takeUntil(this.onDestroy)).subscribe({
+      next: (data: entityGeneral.DataCatBusiness[]) => {
+        this.catBusiness = data;
+      },
+      error: (error) => console.error(error)
+    });
+    
+    this.catalogsServices.getCatAgents().pipe(takeUntil(this.onDestroy)).subscribe({
+      next: (data: entityGeneral.DataCatAgents[]) => {
+        this.catAgents = data;
+      },
+      error: (error) => console.error(error)
+    });
+
+    this.catalogsServices.getCatCampaing().subscribe({
+      next: (data: entityGeneral.DataCatCampaing[]) => {
+        this.catCampaing = data;
+      },
+      error: (error) => console.error(error)
+    });
+  }
+
+  getDashboardStatics(filters?:any) {
+    this.moduleServices.getDashboardStatics(filters).pipe(takeUntil(this.onDestroy)).subscribe({
+      next: (data:any) => {
+        this.objStatics = data
+        console.log(data);
+      },
+      error: (error) => console.error(error)
+    })
+  }
+
+
+  dataGraphics() {
     this.chartWeeklyExpenses = {
       chart: {
         animations: {
@@ -1966,115 +2025,6 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
         },
       },
     };
-  }
-
-  ngAfterViewInit(): void {
-    setTimeout(() => {
-      this.getCatalogs()
-    }, 500);
-  }
-
-  searchWithFilters() {
-    console.log(this.formFilters.value);
-  }
-
-  getCatalogs() {
-    this.moduleServices.getCatalogBusiness().pipe(takeUntil(this.onDestroy)).subscribe({
-      next: (data: entity.DataCatBusiness[]) => {
-        this.catBusiness = data;
-      },
-      error: (error) => console.error(error)
-    });
-  }
-
-  getDashboardProductsMaterial(filters: entity.DataTableFilters) {
-    this.moduleServices.getDashboardProductsMaterial(filters).pipe(takeUntil(this.onDestroy)).subscribe({
-      next: ({ data }: entity.DataProductsTable) => {
-        console.log(data);
-      },
-      error: (error) => console.error(error)
-    })
-  }
-
-  getDataProductsTable(filters: entity.DataTableFilters) {
-    this.moduleServices.getDashboardProductsTable().pipe(takeUntil(this.onDestroy)).subscribe({
-      next: ({ data }: entity.DataProductsTable) => {
-        console.log(data);
-      },
-      error: (error) => console.error(error)
-    })
-  }
-
-  getDataArticlesTable(filters: entity.DataTableFilters) {
-    this.moduleServices.getDashboardArticlesTable().pipe(takeUntil(this.onDestroy)).subscribe({
-      next: ({ data }: entity.DataArticlesTable) => {
-        console.log(data);
-      },
-      error: (error) => console.error(error)
-    })
-  }
-
-  getDashboardSells(filters: entity.DataTableFilters) {
-    this.moduleServices.getDashboardSells().pipe(takeUntil(this.onDestroy)).subscribe({
-      next: ({ data }: entity.DataArticlesTable) => {
-        console.log(data);
-      },
-      error: (error) => console.error(error)
-    })
-  }
-
-  getDashboardQuotes(filters: entity.DataTableFilters) {
-    this.moduleServices.getDashboardSells().pipe(takeUntil(this.onDestroy)).subscribe({
-      next: ({ data }: entity.DataArticlesTable) => {
-        console.log(data);
-      },
-      error: (error) => console.error(error)
-    })
-  }
- 
-  getDashboardSellsStatistics(filters: entity.DataTableFilters) {
-    this.moduleServices.getDashboardSellsStatistics().pipe(takeUntil(this.onDestroy)).subscribe({
-      next: ({ data }: entity.DataArticlesTable) => {
-        console.log(data);
-      },
-      error: (error) => console.error(error)
-    })
-  }
-
-  getDashboardQuotesStatistics(filters: entity.DataTableFilters) {
-    this.moduleServices.getDashboardQuotesStatistics().pipe(takeUntil(this.onDestroy)).subscribe({
-      next: ({ data }: entity.DataArticlesTable) => {
-        console.log(data);
-      },
-      error: (error) => console.error(error)
-    })
-  }
-
-  getDashboardCompaniesStatistics(filters: entity.DataTableFilters) {
-    this.moduleServices.getDashboardCompaniesStatistics().pipe(takeUntil(this.onDestroy)).subscribe({
-      next: ({ data }: entity.DataArticlesTable) => {
-        console.log(data);
-      },
-      error: (error) => console.error(error)
-    })
-  }
-
-  getDashboardClientsStatisticsTable(filters: entity.DataTableFilters) {
-    this.moduleServices.getDashboardClientsStatisticsTable().pipe(takeUntil(this.onDestroy)).subscribe({
-      next: ({ data }: entity.DataClientsStatisticsTable) => {
-        console.log(data);
-      },
-      error: (error) => console.error(error)
-    })
-  }
-
-  getDashboardCountriesStatisticsTable(filters: entity.DataTableFilters) {
-    this.moduleServices.getDashboardCountriesStatisticsTable().pipe(takeUntil(this.onDestroy)).subscribe({
-      next: ({ data }: entity.DataCountryStatisticsTable) => {
-        console.log(data);
-      },
-      error: (error) => console.error(error)
-    })
   }
 
   ngOnDestroy(): void {
