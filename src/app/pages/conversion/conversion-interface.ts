@@ -31,7 +31,15 @@ export interface TableDataQuoteMapper {
   moneyInAccount: boolean;
   isBilled: any;
   closeSale: object;
-  companyInfo: any
+  companyInfo: {
+    company_name: string;
+    tax_id_number: string;
+    payment_method_id: string;
+    way_to_pay_id: string;
+    payment_condition_id: string;
+    invoice_use_id: string;
+    invoice_status: string;
+  }
   companyName: {
     id: string;
     name: string;
@@ -56,6 +64,40 @@ export interface TableDataQuoteMapper {
   }[];
   actions: string[]
 }
+
+export interface GetDataQuoteMapper {
+  id: string;
+  contact: string;
+  user: string;
+  campaign: string;
+  payment_method: string;
+  tax_include: number;
+  company: {
+    id: string
+    name: string
+  }
+  quoteOptions: 
+    {
+      id: string;
+      subtotal: number;
+      discount: number;
+      total: number;
+      typePrice: number,
+      date: string,
+      time: string,
+      optionProducts: [
+        {
+          id: string;
+          places: string;
+          product: string;
+          unitPri: string;
+          total: string;
+        },
+      ]
+    } [] | any
+
+}
+
 
 export interface PostDataCompany {
   company_type: string;
@@ -107,17 +149,17 @@ export interface OptionProduct {
     image: string;
   },
   quantity: 1,
-  price: "2500.0000",
-  total: "2500.0000",
-  quote_option: "3b643f95-9944-4f20-8a93-e38fa2e6c781",
-  status: "00d91403-ffb8-44ca-ab98-96e899925216"
+  price: string,
+  total: string,
+  quote_option: string;
+  status: string;
 }
 
 export interface QuoteProducts {
-  full_name : string;
-  position? : string;
-  email? : string;
-  movil_phone : string;
-  local_phone? : string;
-  ext? : string;
+  full_name: string;
+  position?: string;
+  email?: string;
+  movil_phone: string;
+  local_phone?: string;
+  ext?: string;
 }

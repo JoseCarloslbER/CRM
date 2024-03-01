@@ -34,9 +34,9 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
   public esClient: boolean = false;
 
   public formData = this.formBuilder.group({
-    company_name: ['HOLA', Validators.required],
-    platform: ['d521a2a3-5f3c-4bb1-a732-fe6af76b8fb7', Validators.required],
-    phone_number: ['1231231233'],
+    company_name: ['', Validators.required],
+    platform: ['', Validators.required],
+    phone_number: [''],
     email: ['', Validators.pattern(/^\S+@\S+\.\S+$/)],
     tax_id_number: [null, [Validators.required, Validators.minLength(12), Validators.maxLength(12)]],
     state: [''],
@@ -47,8 +47,8 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     address: [''],
     company_type: [''],
     company_size: [''],
-    web_page: ['', [Validators.pattern(/^(ftp|http|https):\/\/[^ "]+$/)]],
-    comments: ['Hola test']
+    web_page: ['', [Validators.required, Validators.pattern(/^(ftp|http|https):\/\/[^ "]+$/)]],
+    comments: ['']
   });
 
   public taxInclude = new FormControl(false)
@@ -232,11 +232,23 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
 
     if (contacts.length) objData.company_contacts = contacts;
 
-    objData.quote_options = options;
     objData.tax_include = this.taxInclude.value;
 
     if (this.url.includes('prospecto')) objData.company_phase = 'ec43fa4e-1ade-46ea-9841-1692074ce8cd';
     else objData.company_phase = 'd1203730-3ac8-4f06-b095-3ec56ef3b54d';
+
+
+    console.log(
+
+     
+
+
+    );
+    
+    this.saveDataQuotePost( {
+      company: objData,
+      quote_options : options
+    })
 
     console.log('OBJETO :', objData);
 
@@ -248,6 +260,20 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     this.moduleServices.postData(objData).subscribe({
       next: () => {
         this.completionMessage()
+      },
+      error: (error) => {
+        this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
+        console.error(error)
+      }
+    })
+  }
+
+saveDataQuotePost(objData) {
+    this.moduleServices.postDataQuote(objData).subscribe({
+      next: (response : any) => {
+        console.log(response);
+        this.toQuoteDetail(response.quote_id)
+        // this.completionMessage()
       },
       error: (error) => {
         this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
@@ -339,7 +365,7 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     const instance: any = {
       ...(datos && { id: datos?.id }),
       subtotalControl: new FormControl({ value: datos?.subtotal || '', disabled: true }, Validators.required),
-      discountControl: new FormControl({ value: datos?.discount || '', disabled: false }),
+      discountControl: new FormControl({ value: datos?.discount || 0, disabled: false }),
       totalControl: new FormControl({ value: datos?.total || '', disabled: true }, Validators.required),
       typePriceControl: new FormControl({ value: datos?.typePrice || '1', disabled: false }, Validators.required),
       dateControl: new FormControl({ value: datos?.date || '', disabled: false }, Validators.required),
@@ -463,7 +489,6 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     });
   }
 
-
   updateProductTotalPriceManually(productInstance: any, newUnitPrice: any) {
     const placesValue = productInstance.placesControl.value;
     const newTotal = newUnitPrice * placesValue;
@@ -525,12 +550,6 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     productInstance.totalPriceControl[shouldEnable ? 'enable' : 'disable']();
   }
   
-  // private _filter(value: any): any[] {
-  //   const filterValue = value?.toLowerCase();
-
-  //   return this.catCompanies.filter(option => option?.company_name?.toLowerCase()?.includes(filterValue));
-  // }
-
   fastQuote() {
     this.dialog.open(ModalFastQuoteComponent, {
       data: {},
@@ -557,6 +576,11 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
 
   toAll() {
     this.router.navigateByUrl(`/home/empresas/todos`)
+  }
+  
+  toQuoteDetail(id:String) {
+    this.router.navigateByUrl(`/home/conversion/detalle-cotizacion/${id}`)
+    // home/conversion/detalle-cotizacion/9aa67cb4-ccb1-4c01-8d7f-4b269db134ce
   }
 
   enableOrDisableInputs(accion = false) {

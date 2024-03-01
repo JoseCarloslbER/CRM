@@ -92,4 +92,11 @@ export class CompaniesService {
     return this.http.post<any>(url, data)
 	}
 
+  
+  public postDataQuote(data:any): Observable<any> {
+		const url = `${environment.apiURL}conversion/quote/`;
+
+    return this.http.post<any>(url, data)
+	}
+
 }

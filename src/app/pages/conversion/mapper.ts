@@ -97,12 +97,12 @@ export class Mapper {
 	}
 
 	static editDataTableCompanyMapper(response: entity.TableDataQuote) {
-		console.log(response);
+	// static editDataTableCompanyMapper(response: entity.TableDataQuote) : entity.GetDataQuoteMapper {
 		let date : string = '';
 		let time : string = '';
 		
 		response.quote_options.forEach(data => {
-			date = moment(data.deadline).format('YYYY-MM-DD');
+			date = moment(data.deadline).format('DD-MM-YYYY');
 			time = moment(data.deadline, 'HH:mm').format('HH:mm');
 		});
 
@@ -138,6 +138,7 @@ export class Mapper {
 							id : dataProduct?.option_product_id,
 							places : dataProduct?.quantity,
 							product : dataProduct?.product?.product_id,
+							productName : dataProduct?.product?.name,
 							unitPri : parseFloat(dataProduct?.price).toLocaleString('en-US', {
 								minimumFractionDigits: 2,
 								maximumFractionDigits: 2
