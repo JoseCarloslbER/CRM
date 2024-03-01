@@ -75,11 +75,9 @@
                 </div>
             </form>
 
-            <!-- Project selector -->
             <div class="relative flex self-start pt-2 pb-1 pl-5 pr-4 cursor-pointer overflow-hidden rounded-t-xl border border-b-0 bg-default"
                 matRipple [matMenuTriggerFor]="projectsMenu">
                 <div class="flex items-center">
-
                     <div class="overflow-hidden">
                         <div class="font-medium leading-6 truncate">{{selectedProject}}</div>
                     </div>
@@ -87,18 +85,15 @@
                     <div class="flex items-center justify-center pl-2">
                         <mat-icon class="icon-size-5" [svgIcon]="'heroicons_mini:chevron-down'"></mat-icon>
                     </div>
-
                 </div>
 
                 <mat-menu #projectsMenu="matMenu" [xPosition]="'before'">
-
                     <button mat-menu-item (click)="selectedProject='Estadísticas'">Estadísticas
                     </button>
                     <button mat-menu-item (click)="selectedProject='Graficas'">Graficas
                     </button>
                     <button mat-menu-item (click)="selectedProject='Productos'">Productos
                     </button>
-
                 </mat-menu>
             </div>
         </div>
@@ -107,13 +102,11 @@
 
     <div class="flex-auto border-t section-content-padding">
         <div class="w-full mx-auto">
-
             <mat-tab-group class="sm:px-2" mat-stretch-tabs="false" [animationDuration]="'0'">
-
                 <mat-tab label="Día" style="overflow: hidden;">
                     <ng-template matTabContent style="overflow: hidden;">
-
                         <div *ngIf="selectedProject == 'Estadísticas'" style="overflow: hidden;">
+                            <br>
                             <div class="row" style="overflow: hidden;">
                                 <div class="col-md-6" >
                                     <div class="header flex-center">Cotizaciones</div>
