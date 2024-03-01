@@ -16,101 +16,16 @@ import moment from 'moment';
 @Component({
   selector: 'app-new-client-or-prospect',
   templateUrl: './new-client-or-prospect.component.html',
-  styles : [
-    `
-     .header-level1{
-        background: white;
-        height: 100px;
-        display: flex;
-        align-items: center;
-        padding: 20px 40px;
-        
-        h1 {
-            font-size: 27px;
-            font-weight: 700;
-            color: #4B5062;
-        }
-      }
-      .c-new-quote {
-
-.header-level1{
-    background: white;
-    height: 100px;
-    display: flex;
-    align-items: center;
-    padding: 20px 40px;
-    
-    h1 {
-        font-size: 27px;
-        font-weight: 700;
-        color: #4B5062;
-    }
-}
-
-
-.new-content {
-
-    .section-header-modal {
-        height: 40px;
-        background: #646878;
-        color: #EDF1F5;
-        align-items: center;
-        display: flex;
-        font-size: 16px;
-        font-weight: 700;
-        text-align: left;
-        margin: 20px 0;
-        padding-left: 40px;
-        margin-bottom: 30px;
-    }
+  styleUrl: './new-client-or-prospect.component.scss'
 
  
-    .iva {
-        span {
-            color: #646878;
-        }
-    }
-
-    .promotion {
-        span {
-            font-size: 16px;
-            font-weight: 700;
-            color: #646878;
-            margin-top: 35px;
-            margin-bottom: 20px;
-        }
-    }
-
-    .create {
-        .btn-action-add {
-            background: #FCDE01;
-            color: #1E293B;
-        }
-    }
-
-    .section-btns-two {
-        margin: 40px 0px;
-    }
-}
-}
-
-.color-yellow {
-background: yellow!important;
-}
-
-
-.display-none {
-display: none!important;
-}
-    `
-  ]
 })
 export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDestroy {
   private onDestroy = new Subject<void>();
 
   public addContact = new FormControl(true)
-  public movilPhoneContact = new FormControl('', Validators.required)
-  public nameContact = new FormControl('', Validators.required)
+  public movilPhoneContact = new FormControl('1231231233', Validators.required)
+  public nameContact = new FormControl('hola', Validators.required)
   public contacts: any[] = []
   public valuesContacts: any[] = []
 
@@ -119,9 +34,9 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
   public esClient: boolean = false;
 
   public formData = this.formBuilder.group({
-    company_name: ['', Validators.required],
-    platform: ['', Validators.required],
-    phone_number: [''],
+    company_name: ['HOLA', Validators.required],
+    platform: ['d521a2a3-5f3c-4bb1-a732-fe6af76b8fb7', Validators.required],
+    phone_number: ['1231231233'],
     email: ['', Validators.pattern(/^\S+@\S+\.\S+$/)],
     tax_id_number: [null, [Validators.required, Validators.minLength(12), Validators.maxLength(12)]],
     state: [''],
@@ -133,8 +48,11 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     company_type: [''],
     company_size: [''],
     web_page: ['', [Validators.pattern(/^(ftp|http|https):\/\/[^ "]+$/)]],
-    comments: ['']
+    comments: ['Hola test']
   });
+
+  public taxInclude = new FormControl(false)
+
 
   public catCompaniesSizes: entityGeneral.DataCatCompanySize[] = [];
   public catCompaniesTypes: entityGeneral.DataCatCompanyType[] = [];
@@ -297,6 +215,8 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
 
   actionSave() {
     let contacts: entity.CompanyContacts[] = [...this.getContactsValue()];
+    let options: any[] = [...this.getOptionsValues()];
+
 
     let objData: any = {
       ...this.formData.value
@@ -312,13 +232,16 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
 
     if (contacts.length) objData.company_contacts = contacts;
 
+    objData.quote_options = options;
+    objData.tax_include = this.taxInclude.value;
+
     if (this.url.includes('prospecto')) objData.company_phase = 'ec43fa4e-1ade-46ea-9841-1692074ce8cd';
     else objData.company_phase = 'd1203730-3ac8-4f06-b095-3ec56ef3b54d';
 
     console.log('OBJETO :', objData);
 
-    if (this.objEditData) this.saveDataPatch(objData);
-    else this.saveDataPost(objData);
+    // if (this.objEditData) this.saveDataPatch(objData);
+    // else this.saveDataPost(objData);
   }
 
   saveDataPost(objData) {
