@@ -508,7 +508,7 @@
                 </div>
             </div>
 
-            <div class="row mb-5" *ngIf="latestRegisteredCompanies?.length">
+            <div class="row mb-5 p-1" *ngIf="latestRegisteredCompanies?.length">
                 <app-table [displayedColumns]="displayedColumnsRegister" [dataDummy]="latestRegisteredCompanies"
                     [type]="'register'"></app-table>
             </div>
@@ -525,7 +525,7 @@
                     </div>
 
                     <div class="content">
-                        <div class="row" *ngIf="customersPurchasedMost?.length">
+                        <div class="row p-1" *ngIf="customersPurchasedMost?.length">
                             <app-table class="mt-0" [displayedColumns]="displayedColumnsClientsCountry" [dataDummy]="customersPurchasedMost" [type]="'clients'"></app-table>
                         </div>
                     </div>
@@ -541,7 +541,7 @@
                     </div>
 
                     <div class="content">
-                        <div class="row" *ngIf="countriesBuyMost?.length">
+                        <div class="row p-1" *ngIf="countriesBuyMost?.length">
                             <app-table class="mt-0" [displayedColumns]="displayedColumnsClientsCountry"
                                 [dataDummy]="countriesBuyMost" [type]="'country'"></app-table>
                         </div>
