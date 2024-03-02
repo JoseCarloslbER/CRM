@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'environments/environment.dev';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import * as entity from './dashboard-interface';
+import { Mapper } from './mapper';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,12 @@ export class DashboardService {
   public getDashboardStatics(filters:entity.DataTableFilters): Observable<any> {
 		const url = `${this.apiUrl}statics/`;
 
-    return this.http.get<any>(url)
+
+    return this.http.get<any>(url).pipe(
+    	map((response) => Mapper.getDataStaticsMapper(response)),
+    );
+
+    
 	}
 
 

@@ -1,4 +1,6 @@
-// CATALOGS
+import * as entityGeneral from '../../shared/interfaces/general-interface';
+import { TableDataCompany } from '../companies/companies-interface';
+
 export interface DataCatCompanySize {
   size_name : string;
   company_size_id : string;
@@ -148,3 +150,34 @@ export interface TableDataGoalsAgentsList {
    ip: string,
    extension: string,
 }
+
+export interface DatsStatics {
+  cotizaciones_abiertas_c :number;
+  cotizaciones_abiertas_l :number;
+  cotizaciones_descartadas_c :number;
+  cotizaciones_descartadas_l :number; 
+  total_cotizaciones_abiertas :number; 
+  total_cotizaciones_descartadas :number; 
+  total_cerradas_ventas :number; 
+  cotizaciones_cerradas_ventas :number;
+  empresas_mas_compran: TableDataCompany[]
+
+
+
+  empresas_por_fase: {
+    company_phase : string
+    company_phase__phase_name : string
+    total : number
+  }[];
+  empresas_por_giro : {
+    business:any
+    business_name:any
+    total:number
+  }[]
+  ranking_empresas_mas_compran : TableDataCompany[] 
+  ranking_empresas_por_pais : TableDataCompany[] 
+  ultimas_empresas : TableDataCompany[] 
+
+}
+
+

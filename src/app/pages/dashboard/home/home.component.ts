@@ -23,63 +23,12 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     'country'
   ];
 
-  public dataDummyRegister: any[] = [
-    {
-      name: 'Empresa X SA. de CV.',
-      date: '01/01/2024',
-      country: 'México'
-    },
-    {
-      name: 'Empresa X SA. de CV.',
-      date: '01/01/2024',
-      country: 'México'
-    },
-    {
-      name: 'Empresa X SA. de CV.',
-      date: '01/01/2024',
-      country: 'México'
-    },
-  ]
-
-  public displayedColumnsBought: string[] = [
-    'name',
-    'amount',
-  ];
-
-  public dataDummyBought: any[] = [
-    {
-      name: 'Empresa X SA. de CV.',
-      amount: '$0'
-    },
-    {
-      name: 'Empresa X SA. de CV.',
-      amount: '$0'
-    },
-    {
-      name: 'Empresa X SA. de CV.',
-      amount: '$0'
-    },
-
-  ]
-
-  public displayedColumnsCountry: string[] = [
+  public displayedColumnsClientsCountry: string[] = [
     'name',
     'amount',
   ];
 
   public dataDummyCountry: any[] = [
-    {
-      name: 'Empresa X SA. de CV.',
-      amount: '$0'
-    },
-  ]
-
-  public displayedColumnsClients: string[] = [
-    'name',
-    'amount',
-  ];
-
-  public dataDummyClients: any[] = [
     {
       name: 'Empresa X SA. de CV.',
       amount: '$0'
@@ -1789,6 +1738,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     },
   };
 
+
   public formFilters = this.formBuilder.group({
     user: [{ value: null, disabled: false }],
     business: [{ value: null, disabled: false }],
@@ -1805,10 +1755,15 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   public chartGithubIssues: ApexOptions = {};
 
   public selectedProject: string = 'Estadísticas';
+  public selectedOption: number | null = null;
 
   public fechaHoy = new Date();
 
   public objStatics:any;
+
+  public latestRegisteredCompanies:any[] = []
+  public customersPurchasedMost:any[] = []
+  public countriesBuyMost:any[] = []
 
   constructor(
     private catalogsServices: CatalogsService,
@@ -1816,13 +1771,14 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     private dialog: MatDialog,
     private formBuilder: FormBuilder,
     private router: Router
-  ) {
-
-  }
+  ) { }
 
   ngOnInit(): void {
     this.dataGraphics()
- 
+  }
+
+  selectOption(option: number) {
+    this.selectedOption = option;
   }
 
   ngAfterViewInit(): void {
@@ -1866,11 +1822,14 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       next: (data:any) => {
         this.objStatics = data
         console.log(data);
+        console.log(data.latestRegisteredCompanies);
+        this.latestRegisteredCompanies = data.latestRegisteredCompanies
+        this.customersPurchasedMost = data.customersPurchasedMost
+        this.countriesBuyMost = data.countriesBuyMost
       },
       error: (error) => console.error(error)
     })
   }
-
 
   dataGraphics() {
     this.chartWeeklyExpenses = {
