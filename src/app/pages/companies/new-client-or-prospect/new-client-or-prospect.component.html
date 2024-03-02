@@ -216,7 +216,8 @@
                 </div>
 
                 <div *ngIf="!dashboardQuote" class="d-flex justify-content-end col-md-3 col-xl-3 col-12 pt-md-2 mt-6">
-                    <button class="btn-action-add" [disabled]="!formData.valid" (click)="actionSave()">
+                    <button class="btn-action-add"  (click)="actionSave()">
+                    <!-- <button class="btn-action-add" [disabled]="!formData.valid" (click)="actionSave()"> -->
                         <span>Guardar</span>
                     </button>
                 </div>
@@ -228,7 +229,7 @@
         <p class="titulo-modal form-padding-title">Crear nueva cotización</p>
     </div>
 
-    <div class="row form-padding d-flex">
+    <div class="row form-padding d-flex" *ngIf="dashboardQuote">
         <form class="col-12 new-content">
             <div>
                 <div class="row iva">

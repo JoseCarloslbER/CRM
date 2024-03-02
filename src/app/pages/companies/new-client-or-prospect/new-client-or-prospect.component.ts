@@ -24,8 +24,8 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
   private onDestroy = new Subject<void>();
 
   public addContact = new FormControl(true)
-  public movilPhoneContact = new FormControl('1231231233', Validators.required)
-  public nameContact = new FormControl('hola', Validators.required)
+  public movilPhoneContact = new FormControl('', Validators.required)
+  public nameContact = new FormControl('', Validators.required)
   public contacts: any[] = []
   public valuesContacts: any[] = []
 
@@ -105,6 +105,9 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     } else if (this.url.includes('cliente')) {
       this.getCatalogs();
     }
+
+  console.log('dashboardQuote', this.dashboardQuote);
+    
   }
 
   ngAfterViewInit(): void {
@@ -237,23 +240,17 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     if (this.url.includes('prospecto')) objData.company_phase = 'ec43fa4e-1ade-46ea-9841-1692074ce8cd';
     else objData.company_phase = 'd1203730-3ac8-4f06-b095-3ec56ef3b54d';
 
-
-    console.log(
-
-     
-
-
-    );
-    
-    this.saveDataQuotePost( {
-      company: objData,
-      quote_options : options
-    })
+    if (this.dashboardQuote) {
+      this.saveDataQuotePost( {
+        company: objData,
+        quote_options : options
+      })
+    }
 
     console.log('OBJETO :', objData);
 
-    // if (this.objEditData) this.saveDataPatch(objData);
-    // else this.saveDataPost(objData);
+    if (this.objEditData) this.saveDataPatch(objData);
+    else this.saveDataPost(objData);
   }
 
   saveDataPost(objData) {

@@ -216,8 +216,9 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
       let obj = {
         ...({ quote_option_id: e.id }),
         subtotal: parseFloat(e.subtotalControl.value),
+        total: parseFloat(e.totalControl.value),
         discount: e.discountControl.value,
-        total: e.totalControl.value,
+        // total: e.totalControl.value,
         type_price: e.typePriceControl.value,
         deadline: combinedDateTime,
         option_products: productValues
@@ -288,10 +289,12 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
     });
 
     productInstance.unitPriceControl.valueChanges.subscribe((newUnitPrice: any) => {
-      const sanitizedValue = newUnitPrice.replace(/\D/g, '');
-      productInstance.unitPriceControl.setValue(sanitizedValue, { emitEvent: false });
+      // const sanitizedValue = newUnitPrice.replace(/\D/g, '');
+      // productInstance.unitPriceControl.setValue(sanitizedValue, { emitEvent: false });
 
-      this.updateProductTotalPriceManually(productInstance, sanitizedValue);
+      // this.updateProductTotalPriceManually(productInstance, sanitizedValue);
+      // this.updateSubtotal();
+      this.updateProductTotalPriceManually(productInstance, newUnitPrice);
       this.updateSubtotal();
     });
  
@@ -334,7 +337,11 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
     const listPrice = parseFloat(productInstance.unitPriceControl.value.replace(/,/g, ''));
     const newTotal = listPrice * newPlacesValue;
   
-    productInstance.totalPriceControl.setValue(newTotal.toFixed(2));
+    // productInstance.totalPriceControl.setValue(newTotal.toFixed(2));
+    productInstance.totalPriceControl.setValue(newTotal.toLocaleString('en-US', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    }));
   }
   
   updateSubtotal() {
