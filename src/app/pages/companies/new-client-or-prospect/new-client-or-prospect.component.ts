@@ -240,17 +240,18 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     if (this.url.includes('prospecto')) objData.company_phase = 'ec43fa4e-1ade-46ea-9841-1692074ce8cd';
     else objData.company_phase = 'd1203730-3ac8-4f06-b095-3ec56ef3b54d';
 
+    console.log('OBJETO :', objData);
+    
     if (this.dashboardQuote) {
       this.saveDataQuotePost( {
         company: objData,
         quote_options : options
       })
-    }
-
-    console.log('OBJETO :', objData);
-
-    if (this.objEditData) this.saveDataPatch(objData);
+    } else if (this.objEditData) this.saveDataPatch(objData);
     else this.saveDataPost(objData);
+
+    // if (this.objEditData) this.saveDataPatch(objData);
+    // else this.saveDataPost(objData);
   }
 
   saveDataPost(objData) {
@@ -269,7 +270,17 @@ saveDataQuotePost(objData) {
     this.moduleServices.postDataQuote(objData).subscribe({
       next: (response : any) => {
         console.log(response);
-        this.toQuoteDetail(response.quote_id)
+        this.notificationService
+        .notificacion(
+          'Éxito',
+          `Registro guardado.`,
+          'save',
+        )
+        .afterClosed()
+        .subscribe((_) => {
+          this.toQuoteDetail(response.quote_id)
+
+        });
         // this.completionMessage()
       },
       error: (error) => {
