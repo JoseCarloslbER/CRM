@@ -63,7 +63,7 @@ export class Mapper {
 		}
 	};
 	
-	static GetDatadetailsCompanyMapper(response: entity.TableDataCompany) : entity.GetDataDetailsCompanyMapper {
+	static GetDataDetailsCompanyMapper(response: entity.TableDataCompany) : entity.GetDataDetailsCompanyMapper {
 		console.log(response);
 		
 		return {
@@ -83,12 +83,9 @@ export class Mapper {
 		}
 	};
 	
-	static GetDatadetailsActivityMapper(response: TableDataActivities[]) {
-		// let dataList :entity.TableDataCompanyMapper[] = [];
-		let dataList :any[] = [];
+	static GetDatadetailsActivityMapper(response: TableDataActivities[]) : entity.GetDataDetailsHistoryMapper[] {
+		let dataList :entity.GetDataDetailsHistoryMapper[] = [];
 
-		console.log(response);
-		
 		response.forEach((data: TableDataActivities, index): void => {
 			const formattedDate = moment(data.activity_date).format('YYYY-MM-DD');
 			const formattedTime = moment(data.activity_hour, 'HH:mm').format('HH:mm');

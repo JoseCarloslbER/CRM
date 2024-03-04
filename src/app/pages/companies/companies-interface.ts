@@ -131,6 +131,14 @@ export interface GetDataDetailsCompanyMapper {
   phone : string;
 }
 
+export interface GetDataDetailsHistoryMapper {
+  id : string;
+  activity : string;
+  agent : string;
+  description : string;
+  date : string;
+}
+
 export interface CompanyContacts {
   full_name : string;
   position? : string;

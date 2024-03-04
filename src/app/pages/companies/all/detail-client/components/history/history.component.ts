@@ -11,6 +11,7 @@ import { CompaniesService } from 'app/pages/companies/companies.service';
 import { FormControl } from '@angular/forms';
 import { CatalogsService } from 'app/shared/services/catalogs.service';
 import * as entityGeneral from '../../../../../../shared/interfaces/general-interface';
+import { GetDataDetailsHistoryMapper } from 'app/pages/companies/companies-interface';
 
 @Component({
   selector: 'app-history',
@@ -28,7 +29,7 @@ export class HistoryComponent implements OnInit {
 
   @Input() idCompany:string = '';
 
-  public history : any[] = [];
+  public history : GetDataDetailsHistoryMapper[] = [];
   public catActivityType: entityGeneral.DataCatActivityType[] = [];
 
   public searchBar = new FormControl('')
@@ -36,7 +37,6 @@ export class HistoryComponent implements OnInit {
   constructor(
     private moduleServices: CompaniesService,
     private catalogsServices: CatalogsService,
-    private moduleServicesQuote: ConversionService,
     private notificationService: OpenModalsService,
     private dialog: MatDialog,
   ) { }
@@ -60,24 +60,17 @@ export class HistoryComponent implements OnInit {
       },
       error: (error) => console.error(error)
     });
-
   }
 
   getDataTable() {
-    console.log('getDataTable history');
-    
     this.moduleServices.getDataHistory(`company_id=${ this.idCompany }`).subscribe({
-      next: ( data : any) => {
+      next: ( data : GetDataDetailsHistoryMapper[]) => {
         this.history = data
-        console.log(this.history);
-        
-        
       },
       error: (error) => console.error(error)
     })
   }
   
-
   isSameDay(current: string, compare: string): boolean {
     return DateTime.fromISO(current).hasSame(DateTime.fromISO(compare), 'day');
   }

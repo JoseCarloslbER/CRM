@@ -33,7 +33,7 @@ export class CompaniesService {
 		);
 	}
 
-  public getDataHistory(filters?:string): Observable<any> {
+  public getDataHistory(filters?:string): Observable<entity.GetDataDetailsHistoryMapper[]> {
     const url = `${environment.apiURL}manage/activity/${filters ? `?${filters}` : ''}`;
 
     return this.http.get<TableDataActivities[]>(url).pipe(
@@ -61,7 +61,7 @@ export class CompaniesService {
 		const url = `${this.apiUrl}company/${id}/`;
 
     return this.http.get<entity.TableDataCompany>(url).pipe(
-			map((response) => Mapper.GetDatadetailsCompanyMapper(response))
+			map((response) => Mapper.GetDataDetailsCompanyMapper(response))
 		);
 	}
 
