@@ -21,12 +21,6 @@ import { GetDataDetailsHistoryMapper } from 'app/pages/companies/companies-inter
 export class HistoryComponent implements OnInit {
   private onDestroy = new Subject<void>();
   
-  public dataSource = new MatTableDataSource<any>([]);
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  public longitudPagina = 50;
-  public total = 0;
-  public indicePagina = 0;
-
   @Input() idCompany:string = '';
 
   public history : GetDataDetailsHistoryMapper[] = [];
