@@ -1,3 +1,4 @@
+import { TableDataActivities } from '../management/management-interface';
 import * as entity from './companies-interface';
 
 export class Mapper {
@@ -77,6 +78,14 @@ export class Mapper {
 			owner:`${response?.owner_user?.first_name && response?.owner_user?.last_name ? response.owner_user?.first_name.toUpperCase() + ' ' + response.owner_user?.last_name.toUpperCase() : response.owner_user?.username.toUpperCase() || '-' }`,
 			email : response?.email || '-',
 			phone : response?.phone_number || '-',
+		}
+	};
+	
+	static GetDatadetailsActivityMapper(response: TableDataActivities)  {
+		console.log(response);
+		
+		return {
+			
 		}
 	};
 	

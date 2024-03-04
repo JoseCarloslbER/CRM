@@ -5,8 +5,7 @@ import { Observable, map } from 'rxjs';
 import * as entity from './companies-interface';
 import * as entityGeneral from '../../shared/interfaces/general-interface';
 import { Mapper } from './mapper';
-import { Mapper as MapperQuote} from '../conversion/mapper';
-import { TableDataQuote, TableDataQuoteMapper } from '../conversion/conversion-interface';
+import { TableDataActivities } from '../management/management-interface';
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +30,14 @@ export class CompaniesService {
         });
         return dataList
       })
+		);
+	}
+
+  public getDataHistory(filters?:string): Observable<any> {
+    const url = `${environment.apiURL}manage/activity/${filters ? `?${filters}` : ''}`;
+
+    return this.http.get<TableDataActivities>(url).pipe(
+			map((response) => Mapper.GetDatadetailsActivityMapper(response))
 		);
 	}
 
