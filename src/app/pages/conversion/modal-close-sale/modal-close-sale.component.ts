@@ -48,7 +48,9 @@ export class ModalCloseSaleComponent implements OnInit, OnDestroy {
   assignInformation() {
     if (this.data.info) {
       this.objEditData = this.data?.info;
-      this.formData.patchValue(this.data?.info?.closeSale[0]?.company)
+      console.log(this.data?.info?.closeSale[0]);
+      
+      this.formData.patchValue(this.data?.info?.companyInfo)
     }
     setTimeout(() => {
       this.getCatalogs()

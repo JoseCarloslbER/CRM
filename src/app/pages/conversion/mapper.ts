@@ -57,7 +57,7 @@ export class Mapper {
 					};
 				  }),
 				
-				  actions: data?.status?.description == 'Creado'  ? ['Aceptar'] : 
+				  actions: data?.status?.description == 'Creada'  ? ['Aceptar'] : 
 						data?.status?.description == 'Aceptada' || data?.status?.description == 'Aprobada' ? ['Rechazar', 'Cancelar', 'Cerrar como venta'] : [],
 				
 				actionName: data?.status?.description,
