@@ -4,8 +4,6 @@ import moment from 'moment';
 export class Mapper {
 	static getDataTableMapper(response: entity.TableDataQuote[]) : entity.TableDataQuoteMapper[] {
 		let dataList :entity.TableDataQuoteMapper[] = [];
-		console.log(response);
-
 		response.forEach((data: entity.TableDataQuote): void => {
 			
 			dataList.push({

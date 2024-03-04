@@ -127,7 +127,7 @@ export class ClientsComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
   seeData(id: string) {
-    this.router.navigateByUrl(`home/empresas/detalle-cliente/${id}`)
+    this.router.navigateByUrl(`home/empresas/detalles-empresa/${id}`)
   }
 
   newData() {

@@ -123,12 +123,12 @@ export class LeadsComponent implements OnInit, AfterViewInit, OnDestroy {
     })
   }
 
-  editData(data: any) {
-    this.router.navigateByUrl(`/home/empresas/nuevo-prospecto`)
+  editData(id: string) {
+    this.router.navigateByUrl(`/home/empresas/nuevo-prospecto/${id}`)
   }
 
-  seeData(data: any) {
-    this.router.navigateByUrl(`home/adquisicion/detalle-empresa/1`)
+  seeData(id: string) {
+    this.router.navigateByUrl(`home/empresas/detalles-empresa/${id}`)
   }
 
   deleteData(id: string) {

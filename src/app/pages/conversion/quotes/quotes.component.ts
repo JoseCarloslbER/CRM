@@ -73,7 +73,6 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    // this.dataSource.data = this.dataDummy
     this.searchWithFilters();
     this.getCatalogs()
   }

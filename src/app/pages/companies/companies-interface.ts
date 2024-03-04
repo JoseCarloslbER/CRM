@@ -115,6 +115,22 @@ export interface GetDataCompanyMapper {
   comments: string
 }
 
+export interface GetDataDetailsCompanyMapper {
+  id : string;
+  companyName : string;
+  logo : string;
+  statusCompany : string;
+  city : string;
+  country : string;
+  web : string;
+  business : string;
+  category : string;
+  campaign : string;
+  owner : string;
+  email : string;
+  phone : string;
+}
+
 export interface CompanyContacts {
   full_name : string;
   position? : string;

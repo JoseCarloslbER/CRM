@@ -5,7 +5,8 @@ import { Observable, map } from 'rxjs';
 import * as entity from './companies-interface';
 import * as entityGeneral from '../../shared/interfaces/general-interface';
 import { Mapper } from './mapper';
-import { TableDataActivityType, TableDataOrigin } from '../config/config-interface';
+import { Mapper as MapperQuote} from '../conversion/mapper';
+import { TableDataQuote, TableDataQuoteMapper } from '../conversion/conversion-interface';
 
 @Injectable({
   providedIn: 'root'
@@ -16,8 +17,6 @@ export class CompaniesService {
 
   constructor(private http: HttpClient) { }
 
-   // CATALOGS
-  
   public getCatCompany(filters?:any): Observable<entityGeneral.DataCatCompany[]> {
 		const url = `${environment.apiURL}company/company/${filters ? `?${filters}` : ''}`;
 
@@ -34,10 +33,6 @@ export class CompaniesService {
       })
 		);
 	}
-  
-
-  // END CATALOGS 
- 
 
   public getDataTable(filters?:string): Observable<entity.TableDataCompanyMapper[]> {
     const url = `${this.apiUrl}company/${filters ? `?${filters}` : ''}`;
@@ -51,9 +46,16 @@ export class CompaniesService {
 		const url = `${this.apiUrl}company/${id}/`;
 
     return this.http.get<entity.TableDataCompany>(url).pipe(
-			map((response) => Mapper.editDataTableCompanyMapper(response))
+			map((response) => Mapper.getDataTableCompanyMapper(response))
 		);
-    
+	}
+  
+  public getDataDetailsCompanyId(id:string): Observable<entity.GetDataDetailsCompanyMapper> {
+		const url = `${this.apiUrl}company/${id}/`;
+
+    return this.http.get<entity.TableDataCompany>(url).pipe(
+			map((response) => Mapper.GetDatadetailsCompanyMapper(response))
+		);
 	}
 
   public postData(data:entity.PostDataCompany): Observable<any> {
@@ -92,7 +94,6 @@ export class CompaniesService {
     return this.http.post<any>(url, data)
 	}
 
-  
   public postDataQuote(data:any): Observable<any> {
 		const url = `${environment.apiURL}conversion/quote/`;
 

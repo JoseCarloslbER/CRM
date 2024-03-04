@@ -21,6 +21,14 @@ export class ConversionService {
 			map((response) => Mapper.getDataTableMapper(response))
 		);
 	}
+
+  public getDataDetailQuoteTable(filters?:string): Observable<entity.TableDataQuoteMapper[]> {
+    const url = `${environment.apiURL}conversion/quote/${filters ? `?${filters}` : ''}`
+    
+    return this.http.get<entity.TableDataQuote[]>(url).pipe(
+			map((response) => Mapper.getDataTableMapper(response))
+		);
+	}
   
   public getDataId(id:string): Observable<any> {
 		const url = `${this.apiUrl}quote/${id}/`;

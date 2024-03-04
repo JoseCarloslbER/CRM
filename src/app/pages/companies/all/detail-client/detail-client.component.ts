@@ -1,13 +1,13 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
-import { CommonModule, ViewportScroller } from '@angular/common';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatTabGroup } from '@angular/material/tabs';
-import { Subject } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
+import { CompaniesService } from '../../companies.service';
 
 
 @Component({
@@ -15,7 +15,7 @@ import { Subject } from 'rxjs';
   templateUrl: './detail-client.component.html',
   styleUrl: './detail-client.component.scss'
 })
-export class DetailClientComponent {
+export class DetailClientComponent implements OnInit {
   private onDestroy = new Subject<void>();
 
 
@@ -130,29 +130,46 @@ export class DetailClientComponent {
     },
   ]
 
+  public objEditData: any;
+
+
   constructor(
-    private openModalsService: OpenModalsService,
-    private formBuilder: FormBuilder,
-    private viewScroller: ViewportScroller,
-    private dialog: MatDialog,
-    private router: Router
+    private moduleServices: CompaniesService,
+    private activatedRoute: ActivatedRoute,
+    private notificationService: OpenModalsService,
+
   ) { }
 
   ngOnInit(): void {
     this.dataSourceQuotes.data = this.dataDummy
+    this.getId()
+  }
+
+  getId() {
+    this.activatedRoute.params.pipe(takeUntil(this.onDestroy)).subscribe((params:any) => {
+      if (params.id) this.getDataById(params.id);
+    });
+  }
+
+  getDataById(id:string) {
+    this.moduleServices.getDataDetailsCompanyId(id).pipe(takeUntil(this.onDestroy)).subscribe({
+      next: (response: any) => {
+        console.log(response);
+        this.objEditData = response;
+      },
+      error: (error) => {
+        this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
+        console.error(error)
+      }
+    })
   }
 
   selectTab(index: number) {
     this.selectedTabIndex = index;
     this.tabGroup.selectedIndex = index;
 
-      // Obten el elemento con el identificador "contactosTab"
-  const contactosTabElement = document.getElementById('contactosTab');
-
-  // Utiliza scrollIntoView para hacer scroll suave hacia el elemento
-  if (contactosTabElement) {
-    contactosTabElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
+    const contactosTabElement = document.getElementById('contactosTab');
+    if (contactosTabElement) contactosTabElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
   ngOnDestroy(): void {

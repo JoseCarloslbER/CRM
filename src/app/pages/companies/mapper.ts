@@ -39,7 +39,7 @@ export class Mapper {
 		return dataList
 	}
 
-	static editDataTableCompanyMapper(response: entity.TableDataCompany) : entity.GetDataCompanyMapper {
+	static getDataTableCompanyMapper(response: entity.TableDataCompany) : entity.GetDataCompanyMapper {
 		return {
 			id: response?.company_id,
 			company_name: response?.company_name,
@@ -57,6 +57,26 @@ export class Mapper {
 			company_size: response?.company_size?.company_size_id,
 			web_page: response?.web_page,
 			comments: response?.comments
+		}
+	};
+	
+	static GetDatadetailsCompanyMapper(response: entity.TableDataCompany) : entity.GetDataDetailsCompanyMapper {
+		console.log(response);
+		
+		return {
+			id: response?.company_id,
+			logo : response?.logo?.includes('default') ? `../../../assets/images/default.png` : response.logo,
+			companyName : response?.company_name || '-',
+			statusCompany : response?.company_phase?.phase_name || '-',
+			city : response?.city?.city_name || '-',
+			country : response?.country?.country_name || '-',
+			web : response?.web_page || '-',
+			business : response?.business?.business_name || '-',
+			category : response?.company_size?.size_name || '-',
+			campaign : response?.campaing?.campaign_name || '-',
+			owner:`${response?.owner_user?.first_name && response?.owner_user?.last_name ? response.owner_user?.first_name.toUpperCase() + ' ' + response.owner_user?.last_name.toUpperCase() : response.owner_user?.username.toUpperCase() || '-' }`,
+			email : response?.email || '-',
+			phone : response?.phone_number || '-',
 		}
 	};
 	

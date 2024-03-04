@@ -125,7 +125,7 @@ export class ProspectsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   seeData(id: string) {
-    this.router.navigateByUrl(`/home/empresas/detalle-prospecto/${id}`)
+    this.router.navigateByUrl(`/home/empresas/detalles-empresa/${id}`)
   }
 
   newData() {

@@ -6,12 +6,12 @@
 
             <div class="row card-header-clients">
                 <div class="col-lg-2 col-md-6 col-sm-12 flex-center mt-0">
-                    <img src="../../../../../assets/images/img-face.png" alt="">
+                    <img [src]="objEditData?.logo" alt="">
                 </div>
 
                 <div class="col-lg-8 col-md-12 col-sm-12 title-info-client mt-0 ms-0">
-                    <h1>A&B Ingeniería y señalización vial S.A. de C.V.</h1>
-                    <span>Prospecto</span>
+                    <h1>{{ objEditData?.companyName }}</h1>
+                    <span>{{ objEditData?.statusCompany }}</span>
 
                     <div class="row mt-5">
                         <div class="col-md-6 c-column-btns d-flex justify-content-start align-content-center gap-3 m-0">
@@ -44,48 +44,48 @@
                 <div class="col-12">
                     <div class="d-flex align-content-center gap-2">
                         <p>Ciudad / Estado:</p>
-                        <span>Orizaba / Veracruz de Ignacio de la Llave</span>
+                        <span>{{ objEditData?.city }}</span>
                     </div>
                     <div class="d-flex align-content-center gap-2">
                         <p>País:</p>
-                        <span>México</span>
+                        <span>{{ objEditData?.country }}</span>
                     </div>
                     <div class="d-flex align-content-center gap-2">
                         <p>Página Web:</p>
-                        <span>https://www.pendiente</span>
+                        <span>{{ objEditData?.web }}</span>
                     </div>
                     <div class="d-flex align-content-center gap-2">
                         <p>Giro o rubro:</p>
-                        <span>Construcciones de carreteras</span>
+                        <span>{{ objEditData?.business }}</span>
                     </div>
                     <div class="d-flex align-content-center gap-2">
                         <p>Categoría:</p>
-                        <span>Mediana</span>
+                        <span>{{ objEditData?.category }}</span>
                     </div>
                     <div class="d-flex align-content-center gap-2">
                         <p>Campaña:</p>
-                        <span>campaña de pruebas campaña de pruebas campaña de pruebas</span>
+                        <span>{{ objEditData?.campaign }}</span>
                     </div>
                     <div class="d-flex align-content-center gap-2">
                         <p>Propietario:</p>
-                        <span>Recinos Cruz - Marcio Alberto</span>
+                        <span>{{ objEditData?.owner }}</span>
                     </div>
                     <div class="d-flex align-content-center gap-2">
                         <p>Email:</p>
-                        <span>{{'ab_ingenieria@live.com.mx'}}</span>
+                        <span>{{ objEditData?.email }}</span>
                     </div>
                     <div class="d-flex align-content-center gap-2">
                         <p>Teléfono:</p>
-                        <span>2721063831</span>
+                        <span>{{ objEditData?.phone }}</span>
                     </div>
                 </div>
             </div>
 
 
-            <mat-tab-group id="contactosTab" class="mat-grupo-color sm:px-2" mat-stretch-tabs="false" [animationDuration]="'0'" [(selectedIndex)]="selectedTabIndex">
+            <mat-tab-group *ngIf="objEditData?.id" id="contactosTab" class="mat-grupo-color sm:px-2" mat-stretch-tabs="false" [animationDuration]="'0'" [(selectedIndex)]="selectedTabIndex">
                 <mat-tab label="Cotizaciones">
                     <ng-template matTabContent>
-                        <app-quotes></app-quotes>
+                        <app-quotes [idCompany]="objEditData?.id"></app-quotes>
                     </ng-template>
                 </mat-tab>
 

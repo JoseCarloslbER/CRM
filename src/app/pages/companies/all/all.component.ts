@@ -148,8 +148,8 @@ export class AllComponent implements OnInit, AfterViewInit, OnDestroy {
     })
   }
 
-  seeClient(id: string) {
-    this.router.navigateByUrl(`/home/empresas/detalle-cliente/${id}`)
+  seeData(id: string) {
+    this.router.navigateByUrl(`home/empresas/detalles-empresa/${id}`)
   }
 
   newData() {
