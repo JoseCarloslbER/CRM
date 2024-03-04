@@ -16,7 +16,7 @@ export class Mapper {
 				endDate: data?.end_date || '-',
 				finish: data?.finish || false,
 				activityType: data?.type_activity?.activity || '-',
-				agent: data?.user?.first_name && data?.user?.last_name ? data.user?.first_name.toUpperCase() + ' ' + data.user?.last_name.toUpperCase() : data.user?.username.toUpperCase()
+				agent: data?.user?.first_name && data?.user?.last_name ? data.user?.first_name.toUpperCase() + ' ' + data.user?.last_name.toUpperCase() : data?.user?.username.toUpperCase() || '-'
 			});
 		});
 

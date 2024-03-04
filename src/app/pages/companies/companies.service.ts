@@ -36,7 +36,7 @@ export class CompaniesService {
   public getDataHistory(filters?:string): Observable<any> {
     const url = `${environment.apiURL}manage/activity/${filters ? `?${filters}` : ''}`;
 
-    return this.http.get<TableDataActivities>(url).pipe(
+    return this.http.get<TableDataActivities[]>(url).pipe(
 			map((response) => Mapper.GetDatadetailsActivityMapper(response))
 		);
 	}

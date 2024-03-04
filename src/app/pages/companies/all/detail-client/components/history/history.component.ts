@@ -9,6 +9,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { ConversionService } from 'app/pages/conversion/conversion.service';
 import { CompaniesService } from 'app/pages/companies/companies.service';
 import { FormControl } from '@angular/forms';
+import { CatalogsService } from 'app/shared/services/catalogs.service';
+import * as entityGeneral from '../../../../../../shared/interfaces/general-interface';
 
 @Component({
   selector: 'app-history',
@@ -26,51 +28,23 @@ export class HistoryComponent implements OnInit {
 
   @Input() idCompany:string = '';
 
+  public history : any[] = [];
+  public catActivityType: entityGeneral.DataCatActivityType[] = [];
+
   public searchBar = new FormControl('')
-  
-  activities = [
-    {
-      id: "ef7b95a7-8e8b-4616-9619-130d9533add9",
-      activity: 'Actividad 1',
-      agent: 'AgenteATCAle',
-      description: "Se cancela la Cot#1042 debido a que ya se venció y no se obtuvo respuesta por parte del cliente.",
-      date: "2023-12-31T07:42:37.155-06:00",
-    },
-    {
-      id: "ef7b95a7-8e8b-4616-9619-130d9533add9",
-      activity: 'Actividad 1',
-      agent: 'AgenteATCAle',
-      description: "Se cancela la Cot#1042 debido a que ya se venció y no se obtuvo respuesta por parte del cliente.",
-      date: "2023-12-31T07:42:37.155-06:00",
-    },
-    {
-      id: "ef7b95a7-8e8b-4616-9619-130d9533add9",
-      activity: 'Actividad 1',
-      agent: 'AgenteATCAle',
-      description: "Se cancela la Cot#1042 debido a que ya se venció y no se obtuvo respuesta por parte del cliente.",
-      date: "2023-12-31T07:42:37.155-06:00",
-    },
-    {
-      id: "ef7b95a7-8e8b-4616-9619-130d9533add9",
-      activity: 'Actividad 1',
-      agent: 'AgenteATCAle',
-      description: "Se cancela la Cot#1042 debido a que ya se venció y no se obtuvo respuesta por parte del cliente.",
-      date: "2023-12-31T07:42:37.155-06:00",
-    },
-  ]
 
   constructor(
     private moduleServices: CompaniesService,
+    private catalogsServices: CatalogsService,
     private moduleServicesQuote: ConversionService,
     private notificationService: OpenModalsService,
     private dialog: MatDialog,
   ) { }
 
-
   ngOnInit(): void {
     console.log(this.idCompany);
-    
     if (this.idCompany) this.getDataTable()
+    this.getCatalogs()
   }
 
   ngAfterViewInit(): void {
@@ -79,12 +53,24 @@ export class HistoryComponent implements OnInit {
     })
   }
 
+  getCatalogs() {
+    this.catalogsServices.getCatActivityType().pipe(takeUntil(this.onDestroy)).subscribe({
+      next: (data: entityGeneral.DataCatActivityType[]) => {
+        this.catActivityType = data;
+      },
+      error: (error) => console.error(error)
+    });
+
+  }
+
   getDataTable() {
     console.log('getDataTable history');
     
     this.moduleServices.getDataHistory(`company_id=${ this.idCompany }`).subscribe({
       next: ( data : any) => {
-        console.log(data);
+        this.history = data
+        console.log(this.history);
+        
         
       },
       error: (error) => console.error(error)
@@ -106,12 +92,14 @@ export class HistoryComponent implements OnInit {
 
   newActivity() {
     this.dialog.open(ModalNewActivityComponent, {
-      data: ['test'],
+      data: null,
       disableClose: true,
       width: '1000px',
       maxHeight: '628px',
       panelClass: 'custom-dialog',
-    });
+    })
+    .afterClosed()
+    .subscribe((_) => this.getDataTable());
   }
 
   ngOnDestroy(): void {

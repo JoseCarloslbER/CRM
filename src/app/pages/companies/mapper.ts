@@ -1,5 +1,7 @@
 import { TableDataActivities } from '../management/management-interface';
 import * as entity from './companies-interface';
+import { Owner } from '../../shared/interfaces/general-interface';
+import moment from 'moment';
 
 export class Mapper {
 	static getDataTableMapper(response: entity.TableDataCompany[]) : entity.TableDataCompanyMapper[] {
@@ -81,13 +83,28 @@ export class Mapper {
 		}
 	};
 	
-	static GetDatadetailsActivityMapper(response: TableDataActivities)  {
+	static GetDatadetailsActivityMapper(response: TableDataActivities[]) {
+		// let dataList :entity.TableDataCompanyMapper[] = [];
+		let dataList :any[] = [];
+
 		console.log(response);
 		
-		return {
+		response.forEach((data: TableDataActivities, index): void => {
+			const formattedDate = moment(data.activity_date).format('YYYY-MM-DD');
+			const formattedTime = moment(data.activity_hour, 'HH:mm').format('HH:mm');
+			const combinedDateTime = moment(`${formattedDate}T${formattedTime}:00.000Z`).toISOString();
+
+			console.log(combinedDateTime);
 			
-		}
+			dataList.push({
+				id: data?.activity_id || '-',
+				activity: `Actividad ${index + 1 }`,
+				agent:`${data?.user?.first_name && data?.user?.last_name ? data.user?.first_name.toUpperCase() + ' ' + data.user?.last_name.toUpperCase() : data.user?.username.toUpperCase() || '-' }`,
+				description: data?.description || '-',
+				date: combinedDateTime,
+			});
+		});
+
+		return dataList
 	};
-	
-	
 }
