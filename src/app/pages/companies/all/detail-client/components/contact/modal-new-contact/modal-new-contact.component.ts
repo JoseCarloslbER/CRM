@@ -20,12 +20,20 @@ export class ModalNewContactComponent implements OnInit {
   public modalTitle: string = '';
   public esClient : boolean = false;
 
+  public formData = this.formBuilder.group({
+    full_name: ['', Validators.required],
+    email: ['', Validators.pattern(/^\S+@\S+\.\S+$/)],
+    local_phone: ['', Validators.required],
+    position: ['', Validators.required],
+    movil_phone: ['', Validators.required],
+    ext: ['', Validators.required],
+  });
+
   public objEditData:any;
 
   constructor(
     private formBuilder: FormBuilder,
     private moduleServices: CompaniesService,
-    private dialog: MatDialog,
     private router: Router,
     private notificationService: OpenModalsService,
 
@@ -37,68 +45,24 @@ export class ModalNewContactComponent implements OnInit {
     if (this.url.includes('cliente')) {
       this.modalTitle = 'Registrar nuevo cliente'
       this.esClient = true;
-    }
-     else this.modalTitle = 'Registrar nuevo prospecto'
-
-    console.log(this.modalTitle);
+    } else this.modalTitle = 'Registrar nuevo prospecto'
   }
 
   ngAfterViewInit(): void {
     this.addContact.valueChanges.subscribe(resp => {
       console.log(resp);
     })
-
-    this.addFormContact();
   }
  
-  addFormContact(datos?: any) {
-    const instance: any = {
-      ...(datos && { id: datos.id }),
-      fullNameControl: new FormControl({ value: datos?.name || '', disabled: datos?.name ? true : false }, Validators.required),
-      emailControl: new FormControl({ value: datos?.email || '', disabled: false }, Validators.required),
-      movilPhoneControl: new FormControl({ value: datos?.phoneMovil || '', disabled: false }, Validators.required),
-      localPhoneControl: new FormControl({ value: datos?.landline || '', disabled: false }, Validators.required),
-      positionControl: new FormControl({ value: datos?.position || '', disabled: false }, Validators.required),
-      extensionControl: new FormControl({ value: datos?.extension || '', disabled: false }),
-    };
-
-    this.valuesContacts.push(instance);
-  }
-
-  getContactsValue() {
-    const contactValues = (e: any) => {
-      let obj = {
-        full_name: e.fullNameControl.value,
-        email: e.emailControl.value,
-        local_phone: e.localPhoneControl.value,
-        position: e.positionControl.value,
-        movil_phone: e.movilPhoneControl.value,
-        ext: e.extensionControl.value,
-        company: this.data.info
-      }
-
-      return obj
-    };
-
-    return this.valuesContacts.map(contactValues);
-  }
-
-  deleteContact(index: number) {
-    this.valuesContacts.splice(index, 1)
-  }
-
   actionSave() {
-    let contacts: entity.CompanyContacts[] = this.getContactsValue();
-
-    console.log(this.getContactsValue());
-    
     let objData: any = {
-      ...contacts
+      ...this.formData.value,
+      company: this.data.info
     }
     
     console.log('OBJETO :', objData);
-    // if (this.objEditData) this.saveDataPatch(objData);
-    // else this.saveDataPost(objData);
+    if (this.objEditData) this.saveDataPatch(objData);
+    else this.saveDataPost(objData);
   }
 
   saveDataPost(objData) {
@@ -141,27 +105,19 @@ export class ModalNewContactComponent implements OnInit {
         'save',
       )
       .afterClosed()
-      .subscribe((_) => this.toBack());
+      .subscribe((_) => {
+        this.closeModal()
+      });
   }
 
-  get canSave() {
-    const formValues = (e: any) => {
-      if (
-        !e?.fullNameControl.value ||
-        !e?.emailControl.value ||
-        !e?.movilPhoneControl.value ||
-        !e?.localPhoneControl.value ||
-        !e?.positionControl.value ||
-        !e?.extensionControl.value
-      ) {
-        return false;
-      }
-  
-      return true;
-    };
-  
-    return this.valuesContacts.every(formValues);
-  }
+  configInput(event: Event, control:string): void {
+		const inputElement = event.target as HTMLInputElement;
+		const inputValue = inputElement.value;
+		const sanitizedValue = inputValue.replace(/\D/g, '');
+
+    const formControl = this.formData.get(control);
+    if (formControl) formControl.setValue(sanitizedValue, { emitEvent: false });
+	}
 
   closeModal() {
 		this.dialogRef.close({

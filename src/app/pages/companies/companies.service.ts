@@ -66,7 +66,7 @@ export class CompaniesService {
 	}
 
   public postDataContact(data:any): Observable<any> {
-    const url = `${this.apiUrl}company/company-contact/`;
+    const url = `${this.apiUrl}company-contact/`;
     
     return this.http.post<any>(url, data)
 	}
