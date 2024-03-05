@@ -1,14 +1,11 @@
 import { TableDataActivities } from '../management/management-interface';
 import * as entity from './companies-interface';
-import { Owner } from '../../shared/interfaces/general-interface';
 import moment from 'moment';
 
 export class Mapper {
 	static getDataTableMapper(response: entity.TableDataCompany[]) : entity.TableDataCompanyMapper[] {
 		let dataList :entity.TableDataCompanyMapper[] = [];
 
-		console.log(response);
-		
 		response.forEach((data: entity.TableDataCompany): void => {
 			dataList.push({
 				id: data?.company_id || '-',
@@ -91,8 +88,6 @@ export class Mapper {
 			const formattedTime = moment(data.activity_hour, 'HH:mm').format('HH:mm');
 			const combinedDateTime = moment(`${formattedDate}T${formattedTime}:00.000Z`).toISOString();
 
-			console.log(combinedDateTime);
-			
 			dataList.push({
 				id: data?.activity_id || '-',
 				activity: `Actividad ${index + 1 }`,

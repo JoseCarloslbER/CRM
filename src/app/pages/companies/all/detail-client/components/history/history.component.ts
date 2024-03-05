@@ -1,12 +1,9 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DateTime } from 'luxon';
 import { ModalNewActivityComponent } from './modal-new-activity/modal-new-activity.component';
 import { Subject, debounceTime, takeUntil } from 'rxjs';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
-import { ConversionService } from 'app/pages/conversion/conversion.service';
 import { CompaniesService } from 'app/pages/companies/companies.service';
 import { FormControl } from '@angular/forms';
 import { CatalogsService } from 'app/shared/services/catalogs.service';
@@ -45,7 +42,11 @@ export class HistoryComponent implements OnInit {
   ngAfterViewInit(): void {
     this.searchBar.valueChanges.pipe(takeUntil(this.onDestroy), debounceTime(500)).subscribe((content: string) => {
       console.log(content);
-    })
+    });
+
+    this.activityType.valueChanges.pipe(takeUntil(this.onDestroy), debounceTime(500)).subscribe((content: string) => {
+      if (content) this.getDataTable(content);
+    });
   }
 
   getCatalogs() {
@@ -57,8 +58,11 @@ export class HistoryComponent implements OnInit {
     });
   }
 
-  getDataTable() {
-    this.moduleServices.getDataHistoryCalls(`company_id=${ this.idCompany }`).subscribe({
+  getDataTable(type?:string) {
+    let filtro :string = `company_id=${ this.idCompany }`;
+    if (type) filtro +=`&activity_type_id=${type}`;
+
+    this.moduleServices.getDataHistoryCalls(filtro).subscribe({
       next: ( data : GetDataDetailsHistoryMapper[]) => {
         this.history = data
       },
