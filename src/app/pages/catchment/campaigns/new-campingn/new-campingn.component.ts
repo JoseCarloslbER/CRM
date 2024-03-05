@@ -87,11 +87,6 @@ export class NewCampingnComponent implements OnInit, AfterViewInit, OnDestroy {
       if (id) {
         this.idData = id;
         this.getDataById();
-        // if (this.url.includes('detalle')) {
-        //   setTimeout(() => {
-        //     // this.enableOrDisableInputs();
-        //   });
-        // }
       }
     });
   }
