@@ -61,8 +61,6 @@ export class Mapper {
 	};
 
 	static GetDataDetailsCompanyMapper(response: entity.TableDataCompany): entity.GetDataDetailsCompanyMapper {
-		console.log(response);
-
 		return {
 			id: response?.company_id,
 			logo: response?.logo?.includes('default') ? `../../../assets/images/default.png` : response.logo,
@@ -82,9 +80,9 @@ export class Mapper {
 					name: data?.full_name || '-',
 					position: data?.position || '-',
 					email: data?.email || '-',
-					landline: data?.email || '-',
+					landline: data?.local_phone || '-',
 					extension: data?.ext || '-',
-					phoneMovil: data?.email || '-'
+					phoneMovil: data?.movil_phone || '-'
 				}
 			}),
 		}

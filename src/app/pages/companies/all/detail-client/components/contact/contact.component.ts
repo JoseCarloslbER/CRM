@@ -33,6 +33,12 @@ export class ContactComponent implements OnInit {
       width: '1000px',
       maxHeight: '628px',
       panelClass: 'custom-dialog',
+    })
+    .afterClosed()
+    .subscribe((resp) => {
+      if (resp) {
+        this.contacts = resp.allsContacts
+      }
     });
   }
 

@@ -1,6 +1,10 @@
 import * as entityGeneral from '../../shared/interfaces/general-interface';
-import { TableDataCampaing } from '../catchment/catchment-interface';
 import { TableDataCompany } from '../companies/companies-interface';
+
+export interface TableDataQuoteResponse {
+  total_quotes: number,
+  quotes_data : TableDataQuote[]
+}
 
 export interface TableDataQuote {
   quote_id: string;
@@ -24,6 +28,12 @@ export interface TableDataQuote {
   money_in_account: boolean;
   quote_total: string;
 }
+
+export interface TableDataQuoteMapperResponse {
+  totalQuotes:number,
+  dataList : TableDataQuoteMapper[]
+}
+
 export interface TableDataQuoteMapper {
   id: string;
   dateAndHour: string;

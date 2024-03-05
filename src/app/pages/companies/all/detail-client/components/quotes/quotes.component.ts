@@ -11,6 +11,7 @@ import { ConversionService } from 'app/pages/conversion/conversion.service';
 import { ModalCloseSaleComponent } from 'app/pages/conversion/modal-close-sale/modal-close-sale.component';
 import { ModalBillingComponent } from 'app/pages/conversion/modal-billing/modal-billing.component';
 import { ModalUploadDocumentComponent } from 'app/pages/conversion/modal-upload-document/modal-upload-document.component';
+import { TableDataQuoteMapperResponse } from 'app/pages/conversion/conversion-interface';
 
 @Component({
   selector: 'app-quotes',
@@ -72,10 +73,9 @@ export class QuotesComponent implements OnInit {
 
   getDataTable() {
     this.moduleServicesQuote.getDataDetailQuoteTable(`company_id=${ this.idCompany }`).subscribe({
-      next: ( data : any) => {
-        this.dataSource.data = data
-        console.log(data);
-        
+      next: ( data : TableDataQuoteMapperResponse) => {
+        console.log(data.dataList);
+        this.dataSource.data = data.dataList
       },
       error: (error) => console.error(error)
     })

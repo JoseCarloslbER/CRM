@@ -2,9 +2,11 @@ import * as entity from './conversion-interface';
 import moment from 'moment';
 
 export class Mapper {
-	static getDataTableMapper(response: entity.TableDataQuote[]) : entity.TableDataQuoteMapper[] {
+	static getDataTableMapper(response: entity.TableDataQuoteResponse) : entity.TableDataQuoteMapperResponse {
+		console.log(response);
+		
 		let dataList :entity.TableDataQuoteMapper[] = [];
-		response.forEach((data: entity.TableDataQuote): void => {
+		response.quotes_data.forEach((data: entity.TableDataQuote): void => {
 			
 			dataList.push({
 				id: data?.quote_id || '-',
@@ -92,7 +94,10 @@ export class Mapper {
 			});
 		});
 
-		return dataList
+		return {
+			dataList,
+			totalQuotes: response.total_quotes
+		}
 	}
 
 	static editDataTableCompanyMapper(response: entity.TableDataQuote) {

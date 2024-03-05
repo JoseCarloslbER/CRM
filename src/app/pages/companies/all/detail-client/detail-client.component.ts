@@ -66,7 +66,7 @@ export class DetailClientComponent implements OnInit {
   }
 
   getDataById(id:string) {
-    this.moduleServices.getDataDetailsCompanyId(id).pipe(takeUntil(this.onDestroy)).subscribe({
+    this.moduleServices.getDataDetailsCompanyId(id).subscribe({
       next: (response: entity.GetDataDetailsCompanyMapper) => {
         console.log(response);
         this.objEditData = response;

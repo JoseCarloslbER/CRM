@@ -13,6 +13,7 @@ import moment from 'moment';
 import { ModalCloseSaleComponent } from '../modal-close-sale/modal-close-sale.component';
 import { CatalogsService } from 'app/shared/services/catalogs.service';
 import { ModalBillingComponent } from '../modal-billing/modal-billing.component';
+import { TableDataQuoteMapperResponse } from '../conversion-interface';
 
 @Component({
   selector: 'app-quotes',
@@ -128,10 +129,9 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
 
   getDataTable(filters:string) {
     this.moduleServices.getDataTable(filters).subscribe({
-      next: ( data : any) => {
-        this.dataSource.data = data
-        console.log(data);
-        
+      next: ( data : TableDataQuoteMapperResponse) => {
+        console.log(data.dataList);
+        this.dataSource.data = data.dataList
       },
       error: (error) => console.error(error)
     })

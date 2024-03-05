@@ -29,7 +29,8 @@ export class ModalNewContactComponent implements OnInit {
     ext: ['', Validators.required],
   });
 
-  public objEditData:any;
+  public objEditData : any;
+  public allConatcts : any[] = []
 
   constructor(
     private formBuilder: FormBuilder,
@@ -42,10 +43,7 @@ export class ModalNewContactComponent implements OnInit {
 	) {}
 
   ngOnInit(): void {
-    if (this.url.includes('cliente')) {
-      this.modalTitle = 'Registrar nuevo cliente'
-      this.esClient = true;
-    } else this.modalTitle = 'Registrar nuevo prospecto'
+   
   }
 
   ngAfterViewInit(): void {
@@ -89,6 +87,20 @@ export class ModalNewContactComponent implements OnInit {
     })
   }
 
+  getAllContacts() {
+    this.moduleServices.getDataDetailsCompanyId(this.data.info).subscribe({
+      next: (response: entity.GetDataDetailsCompanyMapper) => {
+        console.log(response);
+        this.allConatcts = response.companyContacts;
+        this.closeModal();
+      },
+      error: (error) => {
+        this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
+        console.error(error)
+      }
+    })
+  }
+
   toBack() {
     this.router.navigateByUrl(`/home/empresas/prospectos`)
   }
@@ -106,7 +118,7 @@ export class ModalNewContactComponent implements OnInit {
       )
       .afterClosed()
       .subscribe((_) => {
-        this.closeModal()
+        this.getAllContacts()
       });
   }
 
@@ -121,7 +133,8 @@ export class ModalNewContactComponent implements OnInit {
 
   closeModal() {
 		this.dialogRef.close({
-      close : true
+      close : true,
+      allsContacts: this.allConatcts
     })
   }
 }

@@ -14,18 +14,18 @@ export class ConversionService {
 
   constructor(private http: HttpClient) { }
 
-   public getDataTable(filters?:string): Observable<entity.TableDataQuoteMapper[]> {
+   public getDataTable(filters?:string): Observable<entity.TableDataQuoteMapperResponse> {
     const url = `${this.apiUrl}quote/${filters ? `?${filters}` : ''}`;
     
-    return this.http.get<entity.TableDataQuote[]>(url).pipe(
+    return this.http.get<entity.TableDataQuoteResponse>(url).pipe(
 			map((response) => Mapper.getDataTableMapper(response))
 		);
 	}
 
-  public getDataDetailQuoteTable(filters?:string): Observable<entity.TableDataQuoteMapper[]> {
+  public getDataDetailQuoteTable(filters?:string): Observable<entity.TableDataQuoteMapperResponse> {
     const url = `${environment.apiURL}conversion/quote/${filters ? `?${filters}` : ''}`
     
-    return this.http.get<entity.TableDataQuote[]>(url).pipe(
+    return this.http.get<entity.TableDataQuoteResponse>(url).pipe(
 			map((response) => Mapper.getDataTableMapper(response))
 		);
 	}
