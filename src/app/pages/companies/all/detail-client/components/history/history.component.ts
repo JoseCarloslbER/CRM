@@ -18,7 +18,7 @@ import { GetDataDetailsHistoryMapper } from 'app/pages/companies/companies-inter
 export class HistoryComponent implements OnInit {
   private onDestroy = new Subject<void>();
   
-  @Input() idCompany:string = '';
+  @Input() objEditData:any;
 
   public history : GetDataDetailsHistoryMapper[] = [];
   public catActivityType: entityGeneral.DataCatActivityType[] = [];
@@ -34,8 +34,8 @@ export class HistoryComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log(this.idCompany);
-    if (this.idCompany) this.getDataTable()
+    console.log(this.objEditData);
+    if (this.objEditData) this.getDataTable()
     this.getCatalogs()
   }
 
@@ -59,12 +59,14 @@ export class HistoryComponent implements OnInit {
   }
 
   getDataTable(type?:string) {
-    let filtro :string = `company_id=${ this.idCompany }`;
+    let filtro :string = `company_id=${ this.objEditData.id }`;
     if (type) filtro +=`&activity_type_id=${type}`;
 
     this.moduleServices.getDataHistoryCalls(filtro).subscribe({
       next: ( data : GetDataDetailsHistoryMapper[]) => {
         this.history = data
+        console.log(data);
+        
       },
       error: (error) => console.error(error)
     })
@@ -84,7 +86,10 @@ export class HistoryComponent implements OnInit {
 
   newActivity() {
     this.dialog.open(ModalNewActivityComponent, {
-      data: null,
+      data: {
+        type: 'activities',
+        complement : this.objEditData
+      },
       disableClose: true,
       width: '1000px',
       maxHeight: '628px',

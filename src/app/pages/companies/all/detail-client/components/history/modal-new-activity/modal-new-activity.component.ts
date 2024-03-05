@@ -80,6 +80,12 @@ export class ModalNewActivityComponent implements OnInit, OnDestroy {
       this.idData = this.data?.info?.id || this.data?.info?.activity_id;
       this.getDataById() 
     } 
+
+    if (this.data?.complement) {
+        this.companySelected = this.data.complement.id
+        this.company.patchValue(this.data.complement.companyName)
+        this.company.disable()
+    }
   }
 
   getDataById() {
