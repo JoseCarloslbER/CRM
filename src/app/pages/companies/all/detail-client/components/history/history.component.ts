@@ -27,6 +27,7 @@ export class HistoryComponent implements OnInit {
   public catActivityType: entityGeneral.DataCatActivityType[] = [];
 
   public searchBar = new FormControl('')
+  public activityType = new FormControl('')
 
   constructor(
     private moduleServices: CompaniesService,

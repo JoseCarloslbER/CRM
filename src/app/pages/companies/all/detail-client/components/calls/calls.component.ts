@@ -26,8 +26,139 @@ export class CallsComponent implements OnInit {
   public catActivityType: entityGeneral.DataCatActivityType[] = [];
 
   public searchBar = new FormControl('')
+  public activityType = new FormControl('')
 
   activities = [
+    {
+      id: "ef7b95a7-8e8b-4616-9619-130d9533add9",
+      activity: 'Llamada',
+      period : [
+        {
+          start : '18:01',
+          end : '18:20',
+        }
+      ],
+      agent: 'AgenteATCAle',
+      description: "Se cancela la Cot#1042 debido a que ya se venció y no se obtuvo respuesta por parte del cliente.",
+      date: "2023-12-31T07:42:37.155-06:00",
+    },
+    {
+      id: "ef7b95a7-8e8b-4616-9619-130d9533add9",
+      activity: 'Llamada',
+      period : [
+        {
+          start : '18:01',
+          end : '18:20',
+        }
+      ],
+      agent: 'AgenteATCAle',
+      description: "Se cancela la Cot#1042 debido a que ya se venció y no se obtuvo respuesta por parte del cliente.",
+      date: "2023-12-31T07:42:37.155-06:00",
+    },
+    {
+      id: "ef7b95a7-8e8b-4616-9619-130d9533add9",
+      activity: 'Llamada',
+      period : [
+        {
+          start : '18:01',
+          end : '18:20',
+        }
+      ],
+      agent: 'AgenteATCAle',
+      description: "Se cancela la Cot#1042 debido a que ya se venció y no se obtuvo respuesta por parte del cliente.",
+      date: "2023-12-31T07:42:37.155-06:00",
+    },
+    {
+      id: "ef7b95a7-8e8b-4616-9619-130d9533add9",
+      activity: 'Llamada',
+      period : [
+        {
+          start : '18:01',
+          end : '18:20',
+        }
+      ],
+      agent: 'AgenteATCAle',
+      description: "Se cancela la Cot#1042 debido a que ya se venció y no se obtuvo respuesta por parte del cliente.",
+      date: "2023-12-31T07:42:37.155-06:00",
+    },
+    {
+      id: "ef7b95a7-8e8b-4616-9619-130d9533add9",
+      activity: 'Llamada',
+      period : [
+        {
+          start : '18:01',
+          end : '18:20',
+        }
+      ],
+      agent: 'AgenteATCAle',
+      description: "Se cancela la Cot#1042 debido a que ya se venció y no se obtuvo respuesta por parte del cliente.",
+      date: "2023-12-31T07:42:37.155-06:00",
+    },
+    {
+      id: "ef7b95a7-8e8b-4616-9619-130d9533add9",
+      activity: 'Llamada',
+      period : [
+        {
+          start : '18:01',
+          end : '18:20',
+        }
+      ],
+      agent: 'AgenteATCAle',
+      description: "Se cancela la Cot#1042 debido a que ya se venció y no se obtuvo respuesta por parte del cliente.",
+      date: "2023-12-31T07:42:37.155-06:00",
+    },
+    {
+      id: "ef7b95a7-8e8b-4616-9619-130d9533add9",
+      activity: 'Llamada',
+      period : [
+        {
+          start : '18:01',
+          end : '18:20',
+        }
+      ],
+      agent: 'AgenteATCAle',
+      description: "Se cancela la Cot#1042 debido a que ya se venció y no se obtuvo respuesta por parte del cliente.",
+      date: "2023-12-31T07:42:37.155-06:00",
+    },
+    {
+      id: "ef7b95a7-8e8b-4616-9619-130d9533add9",
+      activity: 'Llamada',
+      period : [
+        {
+          start : '18:01',
+          end : '18:20',
+        }
+      ],
+      agent: 'AgenteATCAle',
+      description: "Se cancela la Cot#1042 debido a que ya se venció y no se obtuvo respuesta por parte del cliente.",
+      date: "2023-12-31T07:42:37.155-06:00",
+    },
+    {
+      id: "ef7b95a7-8e8b-4616-9619-130d9533add9",
+      activity: 'Llamada',
+      period : [
+        {
+          start : '18:01',
+          end : '18:20',
+        }
+      ],
+      agent: 'AgenteATCAle',
+      description: "Se cancela la Cot#1042 debido a que ya se venció y no se obtuvo respuesta por parte del cliente.",
+      date: "2023-12-31T07:42:37.155-06:00",
+    },
+    {
+      id: "ef7b95a7-8e8b-4616-9619-130d9533add9",
+      activity: 'Llamada',
+      period : [
+        {
+          start : '18:01',
+          end : '18:20',
+        }
+      ],
+      agent: 'AgenteATCAle',
+      description: "Se cancela la Cot#1042 debido a que ya se venció y no se obtuvo respuesta por parte del cliente.",
+      date: "2023-12-31T07:42:37.155-06:00",
+    },
     {
       id: "ef7b95a7-8e8b-4616-9619-130d9533add9",
       activity: 'Llamada',

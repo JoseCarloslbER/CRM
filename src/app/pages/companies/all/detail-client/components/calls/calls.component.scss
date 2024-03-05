@@ -1,5 +1,10 @@
 .c-call {
 
+    .c-scroll {
+        height: 600px;
+        overflow: auto;
+    }
+
     .failed-call {
         color: white;
         background: #008525;
