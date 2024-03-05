@@ -1913,7 +1913,6 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
     },
   };
 
-
   public formFilters = this.formBuilder.group({
     user: [{ value: null, disabled: false }],
     giro: [{ value: null, disabled: false }],
@@ -1929,6 +1928,7 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
   public chartWeeklyExpenses: ApexOptions = {};
 
   public selectedProject: string = 'Estadísticas';
+  public selectedOption: number | null = null;
 
   constructor(
     private catalogsServices: CatalogsService,
@@ -2001,7 +2001,7 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
     })
   }
 
-  seeData(data: any) {
+  seeData(data?: any) {
     this.router.navigateByUrl(`/home/captacion/campanias`)
   }
 
@@ -2017,6 +2017,10 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
       maxHeight: '700px',
       panelClass: 'custom-dialog',
     });
+  }
+
+  selectOption(option: number) {
+    this.selectedOption = option;
   }
 
   seeCampaignsResults() {

@@ -166,20 +166,3 @@
 }
 
 
-.tap-options {
-    display: flex;
-    gap: 20px;
-
-    span {
-        font-size: 17px;
-        width: 60px;
-        font-weight: 600;
-        color: #4B5062;
-        cursor: pointer;
-        transition: border-bottom 0.3s ease;
-    }
-
-    span.selected {
-        border-bottom: 2px solid #4B5062; 
-    }
-}

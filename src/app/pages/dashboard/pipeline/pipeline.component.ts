@@ -89,6 +89,8 @@ export class PipelineComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public fechaHoy = new Date();
 
+  public selectedOption: number | null = null;
+
   constructor(
     private moduleServices: DashboardService,
     private formBuilder: FormBuilder,
@@ -118,6 +120,10 @@ export class PipelineComponent implements OnInit, AfterViewInit, OnDestroy {
       },
       error: (error) => console.error(error)
     })
+  }
+
+  selectOption(option: number) {
+    this.selectedOption = option;
   }
 
   onTabChange(event: MatTabChangeEvent): void {

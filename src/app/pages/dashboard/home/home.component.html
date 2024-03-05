@@ -103,11 +103,11 @@
     <div class="flex-auto border-t section-content-padding">
         <div class="w-full mx-auto">
 
-            <div class="row tap-options">
-                <span (click)="selectOption(1)" [class.selected]="selectedOption === 1">Día</span>
-                <span (click)="selectOption(2)" [class.selected]="selectedOption === 2">Mes</span>
-                <span (click)="selectOption(3)" [class.selected]="selectedOption === 3">Año</span>
-            </div>
+        <div class="row tap-options">
+            <span (click)="selectOption(1)" [class.selected]="selectedOption === 1">Día</span>
+            <span (click)="selectOption(2)" [class.selected]="selectedOption === 2">Mes</span>
+            <span (click)="selectOption(3)" [class.selected]="selectedOption === 3">Año</span>
+        </div>
 
         <div *ngIf="selectedProject == 'Estadísticas'" style="overflow: hidden;">
             <br>

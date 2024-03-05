@@ -64,6 +64,9 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public fechaHoy = new Date();
 
+  public totalQuotes : number = 0;
+  public selectedOption: number | null = null;
+
   constructor(
     private moduleServices: ConversionService,
     private catalogsServices: CatalogsService,
@@ -130,8 +133,8 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
   getDataTable(filters:string) {
     this.moduleServices.getDataTable(filters).subscribe({
       next: ( data : TableDataQuoteMapperResponse) => {
-        console.log(data.dataList);
-        this.dataSource.data = data.dataList
+        this.dataSource.data = data.dataList;
+        this.totalQuotes = data.totalQuotes;
       },
       error: (error) => console.error(error)
     })
@@ -143,6 +146,10 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
 
   newData() {
     this.router.navigateByUrl(`/home/conversion/nueva-cotizacion`)
+  }
+
+  selectOption(option: number) {
+    this.selectedOption = option;
   }
 
   acceptQuote(data : any) {

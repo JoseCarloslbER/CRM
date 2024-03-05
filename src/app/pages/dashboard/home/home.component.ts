@@ -28,13 +28,6 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     'amount',
   ];
 
-  public dataDummyCountry: any[] = [
-    {
-      name: 'Empresa X SA. de CV.',
-      amount: '$0'
-    },
-  ]
-
   public data = {
     visitors: {
       series: {
