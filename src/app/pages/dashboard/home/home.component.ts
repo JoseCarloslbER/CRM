@@ -5,7 +5,6 @@ import { Router } from '@angular/router';
 import { ApexOptions } from 'apexcharts';
 import { Subject, takeUntil } from 'rxjs';
 import { DashboardService } from '../dashboard.service';
-import * as entity from '../dashboard-interface';
 import { CatalogsService } from 'app/shared/services/catalogs.service';
 import * as entityGeneral from '../../../shared/interfaces/general-interface';
 

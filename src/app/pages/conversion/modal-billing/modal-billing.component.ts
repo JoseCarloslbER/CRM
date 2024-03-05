@@ -10,7 +10,6 @@ import { CatalogsService } from 'app/shared/services/catalogs.service';
 @Component({
   selector: 'app-modal-billing',
   templateUrl: './modal-billing.component.html',
-  styleUrl: './modal-billing.component.scss'
 })
 export class ModalBillingComponent implements OnInit, OnDestroy {
   private onDestroy = new Subject<void>();
@@ -24,10 +23,6 @@ export class ModalBillingComponent implements OnInit, OnDestroy {
     payment_condition_id: [null, Validators.required],
     invoice_use_id: [null, Validators.required],
     tax_id_number: [null, [Validators.required, Validators.minLength(12), Validators.maxLength(12)]],
-    
-    // serie: [null],
-    // product : [null],
-    // unit : [null],
   });
 
   public catWayToPay: entityGeneral.DataCatWayToPay[] = [];

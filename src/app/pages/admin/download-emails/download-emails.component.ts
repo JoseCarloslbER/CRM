@@ -1,5 +1,4 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -13,7 +12,6 @@ import { AdminService } from '../admin.service';
 @Component({
   selector: 'app-download-emails',
   templateUrl: './download-emails.component.html',
-  styleUrl: './download-emails.component.scss'
 })
 export class DownloadEmailsComponent implements OnInit, AfterViewInit, OnDestroy {
   private onDestroy = new Subject<void>();

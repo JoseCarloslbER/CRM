@@ -11,7 +11,6 @@ import * as entity from '../../admin-interface';
 @Component({
   selector: 'app-discounts',
   templateUrl: './discounts.component.html',
-  styleUrl: './discounts.component.scss'
 })
 export class DiscountsComponent implements OnInit, OnDestroy {
   private onDestroy = new Subject<void>();

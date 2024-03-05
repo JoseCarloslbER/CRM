@@ -1,5 +1,4 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { FuseConfirmationService } from '@fuse/services/confirmation/confirmation.service';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { FormBuilder } from '@angular/forms';
@@ -10,7 +9,6 @@ import { Subject } from 'rxjs';
 @Component({
   selector: 'app-new-user',
   templateUrl: './new-user.component.html',
-  styleUrl: './new-user.component.scss'
 })
 export class NewUserComponent implements OnInit, AfterViewInit, OnDestroy {
   private onDestroy = new Subject<void>();

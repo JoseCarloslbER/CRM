@@ -1,5 +1,4 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -11,7 +10,6 @@ import { Subject } from 'rxjs';
 @Component({
   selector: 'app-bonuses',
   templateUrl: './bonuses.component.html',
-  styleUrl: './bonuses.component.scss'
 })
 export class BonusesComponent implements OnInit, AfterViewInit, OnDestroy {
   private onDestroy = new Subject<void>();

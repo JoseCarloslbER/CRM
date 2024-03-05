@@ -1,5 +1,4 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -9,7 +8,6 @@ import { Subject } from 'rxjs';
 @Component({
   selector: 'app-new-rol',
   templateUrl: './new-rol.component.html',
-  styleUrl: './new-rol.component.scss'
 })
 export class NewRolComponent implements OnInit, AfterViewInit, OnDestroy {
   private onDestroy = new Subject<void>();

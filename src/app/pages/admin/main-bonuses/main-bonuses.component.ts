@@ -9,7 +9,6 @@ import { MatTabChangeEvent } from '@angular/material/tabs';
 @Component({
   selector: 'app-main-bonuses',
   templateUrl: './main-bonuses.component.html',
-  styleUrl: './main-bonuses.component.scss'
 })
 export class MainBonusesComponent {
   public fechaHoy = new Date();
