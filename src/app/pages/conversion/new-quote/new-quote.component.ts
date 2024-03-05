@@ -435,24 +435,32 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   get canSave() {
-    const formValues = (e: any) => {
-      if (
-        !e?.dateControl.value ||
-        !e?.totalControl.value ||
-        !e?.timeControl.value ||
-        !e?.subtotalControl.value ||
-        !e?.product ||  // Asegúrate de que e.product exista
-        e?.product.some((productControl: any) => 
-          !productControl.placesControl?.value
-        )
-      ) {
-        return false;
-      }
-  
-      return true;
-    };
-  
-    return this.optionFormValues.every(formValues);
+    let save: boolean = true;
+
+    console.log('this.formData.valid', this.formData.valid);
+    console.log('this.formData.valid', this.formData);
+    
+    if (this.formData.valid) {
+      if (this.optionFormValues?.length) {
+        this.optionFormValues.forEach(control => {
+          if (
+            !control?.subtotalControl?.value ||
+            !control?.typePriceControl?.value ||
+            !control?.totalControl?.value ||
+            !control?.dateControl?.value ||
+            !control?.timeControl?.value ||
+            !control?.product || 
+            control?.product.some((productControl: any) => 
+              !productControl.placesControl?.value
+            )
+            ) {
+            save = false;
+          }
+        });
+      } 
+    }
+    else save = false;
+    return save
   }
 
   toBack() {
