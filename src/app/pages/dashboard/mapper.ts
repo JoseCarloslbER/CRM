@@ -40,8 +40,8 @@ export class Mapper {
 			
 			countriesBuyMost: response.ranking_empresas_por_pais.map(data => {
 				return {
-					name : data?.country?.country_name ||'-',
-					amount: '$' + parseFloat(data.total_sales).toLocaleString('en-US', {
+					name : data?.country_name ||'-',
+					amount: '$' + parseFloat(data.quote_total_sum).toLocaleString('en-US', {
 						minimumFractionDigits: 2,
 						maximumFractionDigits: 2
 					})

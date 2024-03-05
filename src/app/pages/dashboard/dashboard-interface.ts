@@ -175,7 +175,12 @@ export interface DatsStatics {
     total:number
   }[]
   ranking_empresas_mas_compran : TableDataCompany[] 
-  ranking_empresas_por_pais : TableDataCompany[] 
+  ranking_empresas_por_pais : {
+  company__country__country_name : string;
+  company__country_id : string;
+  country_name : string;
+  quote_total_sum : string
+  }[] 
   ultimas_empresas : TableDataCompany[] 
 
 }
