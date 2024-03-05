@@ -57,7 +57,7 @@ export class HistoryComponent implements OnInit {
   }
 
   getDataTable() {
-    this.moduleServices.getDataHistory(`company_id=${ this.idCompany }`).subscribe({
+    this.moduleServices.getDataHistoryCalls(`company_id=${ this.idCompany }`).subscribe({
       next: ( data : GetDataDetailsHistoryMapper[]) => {
         this.history = data
       },

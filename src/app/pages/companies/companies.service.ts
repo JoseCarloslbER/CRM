@@ -33,7 +33,7 @@ export class CompaniesService {
 		);
 	}
 
-  public getDataHistory(filters?:string): Observable<entity.GetDataDetailsHistoryMapper[]> {
+  public getDataHistoryCalls(filters?:string): Observable<entity.GetDataDetailsHistoryMapper[]> {
     const url = `${environment.apiURL}manage/activity/${filters ? `?${filters}` : ''}`;
 
     return this.http.get<TableDataActivities[]>(url).pipe(

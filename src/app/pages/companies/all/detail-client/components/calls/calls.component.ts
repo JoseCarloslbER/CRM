@@ -89,9 +89,11 @@ export class CallsComponent implements OnInit {
   getDataTable() {
     const filtros = `company_id=${ this.idCompany }&activity_type_id=fde5d736-c7ad-4ccc-9037-d742aa3b8a44`
     
-    this.moduleServices.getDataHistory(filtros).subscribe({
+    this.moduleServices.getDataHistoryCalls(filtros).subscribe({
       next: ( data : GetDataDetailsHistoryMapper[]) => {
         this.calls = data
+        console.log(data);
+        
       },
       error: (error) => console.error(error)
     })
