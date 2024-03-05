@@ -75,7 +75,7 @@
 
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister" *ngIf="addContact?.value">
                             <mat-label>Correo</mat-label>
-                            <input formControlName="email" matInput required type="email">
+                            <input formControlName="email" matInput type="email">
                         </mat-form-field>
 
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister" *ngIf="addContact?.value">
@@ -411,7 +411,7 @@
                     <div
                         class="d-flex col-md-3 col-xl-2 col-12 d-flex justify-content-end pt-md-1 align-items-end mb-lg-0 mb-5 mb-sm-0">
                         <button mat-flat-button class="btn-yellow" 
-                        (click)="actionSave()" [disabled]="!formData.valid"
+                        (click)="actionSave()" [disabled]="!canSave"
                         >
                             <span>Guardar cotización</span>
                         </button>

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import * as entityGeneral from '../../../shared/interfaces/general-interface';
@@ -37,7 +37,7 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     company_name: ['', Validators.required],
     platform: ['', Validators.required],
     phone_number: [''],
-    email: ['', Validators.pattern(/^\S+@\S+\.\S+$/)],
+    email: [''],
     tax_id_number: [''],
     state: [''],
     owner_user: [''],
@@ -73,6 +73,7 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
   public catProducts: entityGeneral.DataCatProducts[] = [];
 
   constructor(
+    private cdr: ChangeDetectorRef,
     private notificationService: OpenModalsService,
     private moduleServices: CompaniesService,
     private catalogsServices: CatalogsService,
@@ -117,7 +118,7 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
   getId() {
     this.activatedRoute.params.pipe(takeUntil(this.onDestroy)).subscribe((params: any) => {
       if (params.id) this.getDataById(params.id);
-      else this.addFormOption();
+      else if (!params.id && this.url.includes('dashboard')) this.addFormOption();
     });
   }
 
@@ -368,7 +369,7 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
       typePriceControl: new FormControl({ value: datos?.typePrice || '1', disabled: false }, Validators.required),
       dateControl: new FormControl({ value: datos?.date || '', disabled: false }, Validators.required),
       timeControl: new FormControl({ value: datos?.time || '', disabled: false }, Validators.required),
-      product: [],
+      product: []
     };
 
     if (datos && datos.optionProducts) {
@@ -590,28 +591,39 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
   }
 
   asignValidators(accion = false) {
-    if (accion) {
-      this.formData.get('country')?.setValidators(Validators.required);
-      this.formData.get('state')?.setValidators(Validators.required);
-      this.formData.get('city')?.setValidators(Validators.required);
-      this.formData.get('company_type')?.setValidators(Validators.required);
-      this.formData.get('company_size')?.setValidators(Validators.required);
-      this.formData.get('business')?.setValidators(Validators.required);
-      this.formData.get('tax_id_number')?.setValidators([Validators.required, Validators.minLength(12), Validators.maxLength(12)]);
-    } else {
-      this.formData.get('country')?.clearValidators();
-      this.formData.get('state')?.clearValidators();
-      this.formData.get('city')?.clearValidators();
-      this.formData.get('company_type')?.clearValidators();
-      this.formData.get('company_size')?.clearValidators();
-      this.formData.get('business')?.clearValidators();
-      this.formData.get('tax_id_number')?.clearValidators();
-    }
-  }
+    const newFormGroup = this.formBuilder.group({ ...this.formData.getRawValue() });
 
+    if (accion) {
+      newFormGroup.get('country')?.setValidators(Validators.required);
+      newFormGroup.get('state')?.setValidators(Validators.required);
+      newFormGroup.get('city')?.setValidators(Validators.required);
+      newFormGroup.get('company_type')?.setValidators(Validators.required);
+      newFormGroup.get('company_size')?.setValidators(Validators.required);
+      newFormGroup.get('business')?.setValidators(Validators.required);
+      newFormGroup.get('email')?.setValidators([Validators.required, Validators.pattern(/^\S+@\S+\.\S+$/)]);
+      newFormGroup.get('tax_id_number')?.setValidators([Validators.required, Validators.minLength(12), Validators.maxLength(12)]);
+    } else {
+      newFormGroup.get('country')?.clearValidators();
+      newFormGroup.get('state')?.clearValidators();
+      newFormGroup.get('city')?.clearValidators();
+      newFormGroup.get('company_type')?.clearValidators();
+      newFormGroup.get('company_size')?.clearValidators();
+      newFormGroup.get('business')?.clearValidators();
+      newFormGroup.get('email')?.clearValidators();
+      newFormGroup.get('tax_id_number')?.clearValidators();
+    }
+
+    console.log(newFormGroup);
+    newFormGroup.updateValueAndValidity();
+    this.formData = newFormGroup;
+  }
 
   get canSave() {
     let save: boolean = true;
+
+    console.log('this.formData.valid', this.formData.valid);
+    console.log('this.formData.valid', this.formData);
+    
     if (this.formData.valid) {
       if (this.valuesContacts.length) {
         this.valuesContacts.forEach(control => {
@@ -621,6 +633,24 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
             !control?.localPhone?.value ||
             !control?.positionControl?.value ||
             !control?.movilPhoneControl?.value) {
+            save = false;
+          }
+        });
+      } 
+
+      if (this.optionFormValues?.length) {
+        this.optionFormValues.forEach(control => {
+          if (
+            !control?.subtotalControl?.value ||
+            !control?.typePriceControl?.value ||
+            !control?.totalControl?.value ||
+            !control?.dateControl?.value ||
+            !control?.timeControl?.value ||
+            !control?.product || 
+            control?.product.some((productControl: any) => 
+              !productControl.placesControl?.value
+            )
+            ) {
             save = false;
           }
         });
