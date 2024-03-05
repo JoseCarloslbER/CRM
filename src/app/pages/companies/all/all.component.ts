@@ -156,8 +156,15 @@ export class AllComponent implements OnInit, AfterViewInit, OnDestroy {
     this.router.navigateByUrl(`/home/empresas/todos-nuevo-cliente`)
   }
 
-  editData(id: string) {
-    this.router.navigateByUrl(`/home/empresas/editar-cliente/${id}`)
+  editData(data: any) {
+    console.log(data);
+
+    if (data.status == 'Prospecto') {
+      this.router.navigateByUrl(`/home/empresas/editar-prospecto/${data.id}`)
+    } else  if (data.status == 'Cliente') {
+      this.router.navigateByUrl(`/home/empresas/editar-cliente/${data.id}`)
+    }
+    
   }
 
   cambiarOpcion(opcion: string) {

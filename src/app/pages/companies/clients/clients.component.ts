@@ -135,7 +135,7 @@ export class ClientsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   editData(id: string) {
-    this.router.navigateByUrl(`/home/empresas/editar-cliente${id}`)
+    this.router.navigateByUrl(`/home/empresas/editar-cliente/${id}`)
   }
  
 
