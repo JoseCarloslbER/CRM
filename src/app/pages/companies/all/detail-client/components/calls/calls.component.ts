@@ -22,7 +22,7 @@ export class CallsComponent implements OnInit {
   
   @Input() idCompany:string = '';
 
-  public history : GetDataDetailsHistoryMapper[] = [];
+  public calls : GetDataDetailsHistoryMapper[] = [];
   public catActivityType: entityGeneral.DataCatActivityType[] = [];
 
   public searchBar = new FormControl('')
@@ -91,7 +91,7 @@ export class CallsComponent implements OnInit {
     
     this.moduleServices.getDataHistory(filtros).subscribe({
       next: ( data : GetDataDetailsHistoryMapper[]) => {
-        this.history = data
+        this.calls = data
       },
       error: (error) => console.error(error)
     })

@@ -50,24 +50,24 @@
                       
                             <div class="flex flex-col flex-auto items-start">
                               <ng-container *ngIf="activity?.activity">
-                                <div class="history-title">{{activity?.activity}}</div>
+                                <div class="history-title">{{activity.activity}}</div>
                               </ng-container>
                       
                               <div class="flex flex-col sm:flex-row sm:items-center mt-2 sm:mt-1 sm:space-x-2 text-md leading-5">
                                 <div class="d-flex flex-column">
                                   <div class="text-secondary">
-                                    {{activity?.date | formatoFecha}}
+                                    {{activity.date | formatoFecha}}
                                   </div>
                       
                                   <div class="history-agent">
-                                    {{activity?.agent }}
+                                    {{activity.agent }}
                                   </div>
                                 </div>
                               </div>
                       
                               <ng-container *ngIf="activity.description">
                                 <div class="mt-4 py-4 px-5 rounded-lg bg-gray-200 dark:bg-gray-800">
-                                  {{activity?.description}}
+                                  {{activity.description}}
                                 </div>
                               </ng-container>
                             </div>
