@@ -18,7 +18,7 @@ import moment from 'moment';
   templateUrl: './new-client-or-prospect.component.html',
   styleUrl: './new-client-or-prospect.component.scss'
 
- 
+
 })
 export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDestroy {
   private onDestroy = new Subject<void>();
@@ -38,7 +38,7 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     platform: ['', Validators.required],
     phone_number: [''],
     email: ['', Validators.pattern(/^\S+@\S+\.\S+$/)],
-    tax_id_number: [null, [Validators.required, Validators.minLength(12), Validators.maxLength(12)]],
+    tax_id_number: [''],
     state: [''],
     owner_user: [''],
     country: [''],
@@ -53,7 +53,6 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
 
   public taxInclude = new FormControl(false)
 
-
   public catCompaniesSizes: entityGeneral.DataCatCompanySize[] = [];
   public catCompaniesTypes: entityGeneral.DataCatCompanyType[] = [];
   public catCountries: entityGeneral.DataCatCountry[] = [];
@@ -66,7 +65,7 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
   public title: string = 'cliente';
 
   public objEditData: any;
-  public dashboardQuote:boolean = false;
+  public dashboardQuote: boolean = false;
 
   public productFormValues: any[] = [];
   public optionFormValues: any[] = [];
@@ -91,23 +90,18 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     this.getId()
 
     console.log(this.url);
-    if (this.url.includes('prospecto') && this.url.includes('dashboard')){
-      console.log('DASHBOARD');
+    if (this.url.includes('prospecto') && this.url.includes('dashboard')) {
       this.addContact.patchValue(false)
       this.title = 'prospecto';
       this.dashboardQuote = true;
       this.getCatalogsInitial();
     } else if (this.url.includes('prospecto')) {
-      console.log('prospecto');
       this.title = 'prospecto';
       this.addContact.patchValue(false)
       this.getCatalogsInitial();
     } else if (this.url.includes('cliente')) {
       this.getCatalogs();
     }
-
-  console.log('dashboardQuote', this.dashboardQuote);
-    
   }
 
   ngAfterViewInit(): void {
@@ -115,13 +109,13 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
       if (resp) {
         this.asignValidators(true);
         this.getCatalogs();
-      
+
       } else this.asignValidators(false);
     })
   }
 
   getId() {
-    this.activatedRoute.params.pipe(takeUntil(this.onDestroy)).subscribe((params:any) => {
+    this.activatedRoute.params.pipe(takeUntil(this.onDestroy)).subscribe((params: any) => {
       if (params.id) this.getDataById(params.id);
       else this.addFormOption();
     });
@@ -131,7 +125,6 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     this.catalogsServices.getCatOrigin().pipe(takeUntil(this.onDestroy)).subscribe({
       next: (data: TableDataOrigin[]) => {
         this.catOrigin = data;
-        console.log(this.catOrigin);
       },
       error: (error) => console.error(error)
     });
@@ -144,7 +137,7 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     })
   }
 
-  getDataById(id:string) {
+  getDataById(id: string) {
     this.moduleServices.getDataId(id).pipe(takeUntil(this.onDestroy)).subscribe({
       next: (response: any) => {
         this.isCompleted(response)
@@ -241,11 +234,11 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     else objData.company_phase = 'd1203730-3ac8-4f06-b095-3ec56ef3b54d';
 
     console.log('OBJETO :', objData);
-    
+
     if (this.dashboardQuote) {
-      this.saveDataQuotePost( {
+      this.saveDataQuotePost({
         company: objData,
-        quote_options : options
+        quote_options: options
       })
     } else if (this.objEditData) this.saveDataPatch(objData);
     else this.saveDataPost(objData);
@@ -277,19 +270,19 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
 
   saveDataQuotePost(objData) {
     this.moduleServices.postDataQuote(objData).subscribe({
-      next: (response : any) => {
+      next: (response: any) => {
         console.log(response);
         this.notificationService
-        .notificacion(
-          'Éxito',
-          `Registro guardado.`,
-          'save',
-        )
-        .afterClosed()
-        .subscribe((_) => {
-          this.toQuoteDetail(response.quote_id)
+          .notificacion(
+            'Éxito',
+            `Registro guardado.`,
+            'save',
+          )
+          .afterClosed()
+          .subscribe((_) => {
+            this.toQuoteDetail(response.quote_id)
 
-        });
+          });
         // this.completionMessage()
       },
       error: (error) => {
@@ -303,7 +296,7 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     const instance: any = {
       ...(datos && { id: datos.id }),
       fullNameControl: new FormControl({ value: datos?.nombre || '', disabled: false }, Validators.required),
-      emailControl: new FormControl({ value: datos?.correo || '', disabled: false }, Validators.required),
+      emailControl: new FormControl({ value: datos?.correo || '', disabled: false }, [Validators.required, Validators.pattern(/^\S+@\S+\.\S+$/)]),
       localPhone: new FormControl({ value: datos?.correo || '', disabled: false }, Validators.required),
       positionControl: new FormControl({ value: datos?.correo || '', disabled: false }, Validators.required),
       movilPhoneControl: new FormControl({ value: datos?.correo || '', disabled: false }, Validators.required),
@@ -377,7 +370,7 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
       timeControl: new FormControl({ value: datos?.time || '', disabled: false }, Validators.required),
       product: [],
     };
-  
+
     if (datos && datos.optionProducts) {
       datos.optionProducts.forEach((productData: any) => {
         const productInstance: any = this.createProductInstance(productData);
@@ -392,7 +385,7 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     this.setupOptionControlSubscriptions(instance);
     this.optionFormValues.push(instance);
   }
-  
+
   createProductInstance(productData?: any): any {
     const productInstance: any = {
       ...(productData && { id: productData.id }),
@@ -401,24 +394,24 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
       unitPriceControl: new FormControl({ value: productData?.unitPri || '', disabled: true }, Validators.required),
       totalPriceControl: new FormControl({ value: productData?.total || '', disabled: true }, Validators.required),
     };
-  
+
     this.setupProductControlSubscriptions(productInstance);
-  
+
     return productInstance;
   }
-  
+
   addAdditionalProduct(optionIndex: number) {
     const newProductInstance: any = this.createProductInstance();
     this.optionFormValues[optionIndex]?.product.push(newProductInstance);
   }
-  
+
   private setupProductControlSubscriptions(productInstance: any) {
     productInstance.productControl.valueChanges.subscribe((selectedProduct: any) => {
       this.updateProductPrice(productInstance, selectedProduct);
       this.updateSubtotal();
       this.enableProductFields(productInstance);
     });
-  
+
     productInstance.placesControl.valueChanges.subscribe((newPlacesValue: number) => {
       this.updateProductTotalPrice(productInstance, newPlacesValue);
       this.updateSubtotal();
@@ -429,28 +422,28 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
       this.updateSubtotal();
     });
   }
-  
+
   deleteOptionValue(index: number) {
     this.optionFormValues.splice(index, 1)
   }
-  
+
   deleteProductValue(index: number) {
     console.log();
     console.log(this.optionFormValues);
-    
-    this.optionFormValues.forEach(data=> {
+
+    this.optionFormValues.forEach(data => {
       data.product.splice(index, 1)
     })
   }
 
   updateProductPrice(productInstance: any, selectedProduct: any) {
     const selectedProductInfo = this.catProducts.find(product => product.product_id === selectedProduct);
-  
+
     if (selectedProductInfo) {
       const listPrice: any = selectedProductInfo.list_price;
       const placesValue = productInstance.placesControl.value;
       const newTotal = listPrice * placesValue;
-  
+
       productInstance.unitPriceControl.setValue(parseFloat(listPrice).toLocaleString('en-US', {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
@@ -461,35 +454,35 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
       }));
     }
   }
-  
+
   updateProductTotalPrice(productInstance: any, newPlacesValue: number) {
     const listPrice = parseFloat(productInstance.unitPriceControl.value.replace(/,/g, ''));
     const newTotal = listPrice * newPlacesValue;
-  
+
     productInstance.totalPriceControl.setValue(newTotal.toFixed(2));
   }
-  
+
   updateSubtotal() {
     this.optionFormValues.forEach((optionInstance: any) => {
       let subtotal = 0;
-  
+
       optionInstance.product.forEach((productInstance: any) => {
         subtotal += this.parseNumber(productInstance.totalPriceControl.value) || 0;
       });
-  
+
       optionInstance.subtotalControl.setValue(subtotal.toLocaleString('en-US', {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
       }));
-  
+
       const discountValue = optionInstance.discountControl.value;
       const discount = this.parseNumber(discountValue) || 0;
-  
+
       const total = (subtotal - discount).toLocaleString('en-US', {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
       });
-  
+
       optionInstance.totalControl.setValue(parseFloat(total.replace(/,/g, '')));
     });
   }
@@ -497,7 +490,7 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
   updateProductTotalPriceManually(productInstance: any, newUnitPrice: any) {
     const placesValue = productInstance.placesControl.value;
     const newTotal = newUnitPrice * placesValue;
-  
+
     productInstance.totalPriceControl.setValue(newTotal.toLocaleString('en-US', {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2
@@ -507,12 +500,12 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
   updateTotalWithDiscount(productInstance: any, newDiscount: any) {
     const subtotal = this.parseNumber(productInstance?.subtotalControl?.value) || 0;
     const discount = this.parseNumber(newDiscount) || 0;
-  
+
     const total = (subtotal - discount).toLocaleString('en-US', {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2
     });
-  
+
     productInstance.totalControl.setValue(parseFloat(total.replace(/,/g, '')));
   }
 
@@ -548,13 +541,13 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
   }
 
   enableProductFields(productInstance: any) {
-    const shouldEnable = !!productInstance.productControl.value; 
+    const shouldEnable = !!productInstance.productControl.value;
 
     productInstance.placesControl[shouldEnable ? 'enable' : 'disable']();
     productInstance.unitPriceControl[shouldEnable ? 'enable' : 'disable']();
     productInstance.totalPriceControl[shouldEnable ? 'enable' : 'disable']();
   }
-  
+
   fastQuote() {
     this.dialog.open(ModalFastQuoteComponent, {
       data: {},
@@ -567,7 +560,7 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
       .subscribe(({ close }) => {
         console.log(close);
         if (close) this.router.navigateByUrl(`/home/conversion/nueva-cotizacion`)
-        else this.router.navigateByUrl(`/home/empresas/${ this.url.includes('prospecto') ? 'prospectos' : 'clientes' }`)
+        else this.router.navigateByUrl(`/home/empresas/${this.url.includes('prospecto') ? 'prospectos' : 'clientes'}`)
       });
   }
 
@@ -582,8 +575,8 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
   toAll() {
     this.router.navigateByUrl(`/home/empresas/todos`)
   }
-  
-  toQuoteDetail(id:String) {
+
+  toQuoteDetail(id: String) {
     this.router.navigateByUrl(`/home/conversion/detalle-cotizacion/${id}`)
   }
 
@@ -592,8 +585,8 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     this.formData.get('name')?.[key]();
   }
 
-  isCompleted(data:entity.GetDataCompanyMapper){
-    if (data.country || data.company_type || data.city ) this.addContact.patchValue(true);
+  isCompleted(data: entity.GetDataCompanyMapper) {
+    if (data.country || data.company_type || data.city) this.addContact.patchValue(true);
   }
 
   asignValidators(accion = false) {
@@ -604,6 +597,7 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
       this.formData.get('company_type')?.setValidators(Validators.required);
       this.formData.get('company_size')?.setValidators(Validators.required);
       this.formData.get('business')?.setValidators(Validators.required);
+      this.formData.get('tax_id_number')?.setValidators([Validators.required, Validators.minLength(12), Validators.maxLength(12)]);
     } else {
       this.formData.get('country')?.clearValidators();
       this.formData.get('state')?.clearValidators();
@@ -611,13 +605,35 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
       this.formData.get('company_type')?.clearValidators();
       this.formData.get('company_size')?.clearValidators();
       this.formData.get('business')?.clearValidators();
+      this.formData.get('tax_id_number')?.clearValidators();
     }
-	}
-  
-	configInput(event: Event, type:string, control?:string): void {
-		const inputElement = event.target as HTMLInputElement;
-		const inputValue = inputElement.value;
-		const sanitizedValue = inputValue.replace(/\D/g, '');
+  }
+
+
+  get canSave() {
+    let save: boolean = true;
+    if (this.formData.valid) {
+      if (this.valuesContacts.length) {
+        this.valuesContacts.forEach(control => {
+          if (
+            !control?.fullNameControl?.value ||
+            !control?.emailControl?.value ||
+            !control?.localPhone?.value ||
+            !control?.positionControl?.value ||
+            !control?.movilPhoneControl?.value) {
+            save = false;
+          }
+        });
+      } 
+    }
+    else save = false;
+    return save
+  }
+
+  configInput(event: Event, type: string, control?: string): void {
+    const inputElement = event.target as HTMLInputElement;
+    const inputValue = inputElement.value;
+    const sanitizedValue = inputValue.replace(/\D/g, '');
 
     if (type == 'movilPhoneContact') {
       this.movilPhoneContact?.patchValue(sanitizedValue, { emitEvent: false });
@@ -629,7 +645,7 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     } else {
       this.valuesContacts[0][control]?.patchValue(sanitizedValue, { emitEvent: false });
     }
-	}
+  }
 
   ngOnDestroy(): void {
     this.onDestroy.next();

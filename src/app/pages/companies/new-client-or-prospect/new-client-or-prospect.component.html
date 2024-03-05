@@ -208,7 +208,7 @@
                 </div>
             </div>
 
-            <div  class="row d-flex justify-content-between align-items-center mb-3 mt-5">
+            <div class="row d-flex justify-content-between align-items-center mb-3 mt-5">
                 <div class="d-flex col-md-6 col-xl-6 col-12 pt-md-2 mb-6">
                     <button [style.display]="!objEditData ? 'block' : 'none'" class="btn-gray" (click)="addFormContact()">
                         <span>Agregar contacto</span>
@@ -216,8 +216,7 @@
                 </div>
 
                 <div *ngIf="!dashboardQuote" class="d-flex justify-content-end col-md-3 col-xl-3 col-12 pt-md-2 mt-6">
-                    <button class="btn-action-add"  (click)="actionSave()">
-                    <!-- <button class="btn-action-add" [disabled]="!formData.valid" (click)="actionSave()"> -->
+                    <button class="btn-action-add" [disabled]="!canSave" (click)="actionSave()">
                         <span>Guardar</span>
                     </button>
                 </div>
@@ -412,7 +411,7 @@
                     <div
                         class="d-flex col-md-3 col-xl-2 col-12 d-flex justify-content-end pt-md-1 align-items-end mb-lg-0 mb-5 mb-sm-0">
                         <button mat-flat-button class="btn-yellow" 
-                        (click)="actionSave()"
+                        (click)="actionSave()" [disabled]="!formData.valid"
                         >
                             <span>Guardar cotización</span>
                         </button>
@@ -421,8 +420,4 @@
             </div>
         </form>
     </div>
-
-
-
-
 </div>
