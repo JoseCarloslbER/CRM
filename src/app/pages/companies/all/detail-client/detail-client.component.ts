@@ -2,12 +2,11 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
-import { FormBuilder } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { MatTabGroup } from '@angular/material/tabs';
 import { Subject, takeUntil } from 'rxjs';
 import { CompaniesService } from '../../companies.service';
+import * as entity from '../../companies-interface';
 
 
 @Component({
@@ -17,7 +16,6 @@ import { CompaniesService } from '../../companies.service';
 })
 export class DetailClientComponent implements OnInit {
   private onDestroy = new Subject<void>();
-
 
   public dataSourceQuotes = new MatTableDataSource<any>([]);
   public dataSourceCampaign = new MatTableDataSource<any>([]);
@@ -29,7 +27,7 @@ export class DetailClientComponent implements OnInit {
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
   @ViewChild('contactTab') contactTab: ElementRef;
 
-  selectedTabIndex = 0;
+  public selectedTabIndex = 0;
 
   public displayedColumns: string[] = [
     'empresa',
@@ -47,91 +45,8 @@ export class DetailClientComponent implements OnInit {
     'acciones',
   ];
 
-  public dataDummy: any[] = [
-    {
-      empresa: 'RECK SOLUCIONES',
-      fecha: '2023-09-30 12:38:49',
-      folio: '#123345',
-      precioTotal: '$4,000,000.00',
-      nivelInteres: 'Alto',
-      estatus: 'LEAD',
-      agente: 'Atendió: Marketing',
-      estadopais: 'Mexico, Nuevo Leon',
-      actividades: 'Ver historial',
-      lugares: [
-        {
-          no: '1548',
-          tipo: 'Lista',
-          lugares: '5',
-          curso: 'C029 - Seguridad en el mantenimiento de instalaciones eléctrica',
-          precio: '$1,995.00',
-        }
-      ],
-    },
-    {
-      empresa: 'RECK SOLUCIONES',
-      fecha: '2023-09-30 12:38:49',
-      folio: '#123345',
-      precioTotal: '$4,000,000.00',
-      nivelInteres: 'Alto',
-      estatus: 'LEAD',
-      agente: 'Atendió: Marketing',
-      estadopais: 'Mexico, Nuevo Leon',
-      actividades: 'Ver historial',
-      lugares: [
-        {
-          no: '1548',
-          tipo: 'Lista',
-          lugares: '5',
-          curso: 'C029 - Seguridad en el mantenimiento de instalaciones eléctrica',
-          precio: '$1,995.00',
-        }
-      ],
-    },
-    {
-      empresa: 'RECK SOLUCIONES',
-      fecha: '2023-09-30 12:38:49',
-      folio: '#123345',
-      precioTotal: '$4,000,000.00',
-      nivelInteres: 'Alto',
-      estatus: 'LEAD',
-      agente: 'Atendió: Marketing',
-      estadopais: 'Mexico, Nuevo Leon',
-      actividades: 'Ver historial',
-      lugares: [
-        {
-          no: '1548',
-          tipo: 'Lista',
-          lugares: '5',
-          curso: 'C029 - Seguridad en el mantenimiento de instalaciones eléctrica',
-          precio: '$1,995.00',
-        }
-      ],
-    },
-    {
-      empresa: 'RECK SOLUCIONES',
-      fecha: '2023-09-30 12:38:49',
-      folio: '#123345',
-      precioTotal: '$4,000,000.00',
-      nivelInteres: 'Alto',
-      estatus: 'LEAD',
-      agente: 'Atendió: Marketing',
-      estadopais: 'Mexico, Nuevo Leon',
-      actividades: 'Ver historial',
-      lugares: [
-        {
-          no: '1548',
-          tipo: 'Lista',
-          lugares: '5',
-          curso: 'C029 - Seguridad en el mantenimiento de instalaciones eléctrica',
-          precio: '$1,995.00',
-        }
-      ],
-    },
-  ]
-
+  public companyContacts: any[] = [];
   public objEditData: any;
-
 
   constructor(
     private moduleServices: CompaniesService,
@@ -141,7 +56,6 @@ export class DetailClientComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.dataSourceQuotes.data = this.dataDummy
     this.getId()
   }
 
@@ -153,9 +67,12 @@ export class DetailClientComponent implements OnInit {
 
   getDataById(id:string) {
     this.moduleServices.getDataDetailsCompanyId(id).pipe(takeUntil(this.onDestroy)).subscribe({
-      next: (response: any) => {
+      next: (response: entity.GetDataDetailsCompanyMapper) => {
         console.log(response);
         this.objEditData = response;
+        this.companyContacts = response.companyContacts;
+        console.log('companyContacts:', this.companyContacts);
+        
       },
       error: (error) => {
         this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')

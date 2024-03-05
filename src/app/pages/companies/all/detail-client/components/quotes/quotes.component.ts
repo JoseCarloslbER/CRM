@@ -49,7 +49,6 @@ export class QuotesComponent implements OnInit {
 
   public searchBar = new FormControl('')
 
-
   constructor(
     private moduleServices: CompaniesService,
     private moduleServicesQuote: ConversionService,
@@ -97,7 +96,6 @@ export class QuotesComponent implements OnInit {
       this.closeSale(data)
     }
   }
-
 
   acceptQuote(data : any) {
     this.notificationService

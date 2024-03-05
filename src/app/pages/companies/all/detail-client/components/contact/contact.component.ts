@@ -1,32 +1,34 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, Input, OnInit } from '@angular/core';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
-import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
 import { ModalNewContactComponent } from './modal-new-contact/modal-new-contact.component';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-contact',
   templateUrl: './contact.component.html',
   styleUrl: './contact.component.scss'
 })
-export class ContactComponent {
+export class ContactComponent implements OnInit {
+  private onDestroy = new Subject<void>();
+
+  @Input() contacts:string = '';
+  @Input() idCompany:string = '';
+
   constructor(
     private notificationService: OpenModalsService,
-    private formBuilder: FormBuilder,
     private dialog: MatDialog,
-    private router: Router
   ) { }
 
   ngOnInit(): void {
+    console.log('this.contacts', this.contacts);
   }
 
-
-  
   newContact() {
     this.dialog.open(ModalNewContactComponent, {
-      data: ['test'],
+      data: {
+        info : this.idCompany
+      },
       disableClose: true,
       width: '1000px',
       maxHeight: '628px',
@@ -34,5 +36,8 @@ export class ContactComponent {
     });
   }
 
-
+  ngOnDestroy(): void {
+    this.onDestroy.next();
+    this.onDestroy.unsubscribe();
+  }
 }

@@ -1,9 +1,10 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
+import { CompaniesService } from 'app/pages/companies/companies.service';
+import * as entity from '../../../../../companies-interface';
 
 @Component({
   selector: 'app-modal-new-contact',
@@ -19,26 +20,18 @@ export class ModalNewContactComponent implements OnInit {
   public modalTitle: string = '';
   public esClient : boolean = false;
 
-  public formulario = this.formBuilder.group({
-    nombre: ['', Validators.required],
-    correo: ['', Validators.required],
-    telefono: ['', Validators.required],
-    cargo: ['', Validators.required],
-    movil: ['', Validators.required],
-    extension: ['', Validators.required],
-  });
+  public objEditData:any;
 
   constructor(
     private formBuilder: FormBuilder,
+    private moduleServices: CompaniesService,
     private dialog: MatDialog,
     private router: Router,
     private notificationService: OpenModalsService,
 
 		@Inject(MAT_DIALOG_DATA) public data: any,
 		private dialogRef: MatDialogRef<any>,
-	) {
-	
-	}
+	) {}
 
   ngOnInit(): void {
     if (this.url.includes('cliente')) {
@@ -57,16 +50,16 @@ export class ModalNewContactComponent implements OnInit {
 
     this.addFormContact();
   }
-
+ 
   addFormContact(datos?: any) {
     const instance: any = {
       ...(datos && { id: datos.id }),
-      nombreControl: new FormControl({ value: datos?.nombre || '', disabled: false }, Validators.required),
-      correoControl: new FormControl({ value: datos?.correo || '', disabled: false }, Validators.required),
-      telefonoControl: new FormControl({ value: datos?.correo || '', disabled: false }, Validators.required),
-      cargoControl: new FormControl({ value: datos?.correo || '', disabled: false }, Validators.required),
-      movilControl: new FormControl({ value: datos?.correo || '', disabled: false }, Validators.required),
-      extensionControl: new FormControl({ value: datos?.correo || '', disabled: false }),
+      fullNameControl: new FormControl({ value: datos?.name || '', disabled: datos?.name ? true : false }, Validators.required),
+      emailControl: new FormControl({ value: datos?.email || '', disabled: false }, Validators.required),
+      movilPhoneControl: new FormControl({ value: datos?.phoneMovil || '', disabled: false }, Validators.required),
+      localPhoneControl: new FormControl({ value: datos?.landline || '', disabled: false }, Validators.required),
+      positionControl: new FormControl({ value: datos?.position || '', disabled: false }, Validators.required),
+      extensionControl: new FormControl({ value: datos?.extension || '', disabled: false }),
     };
 
     this.valuesContacts.push(instance);
@@ -75,12 +68,13 @@ export class ModalNewContactComponent implements OnInit {
   getContactsValue() {
     const contactValues = (e: any) => {
       let obj = {
-        nombre: e.nombreControl.value,
-        correo: e.correoControl.value,
-        telefono: e.telefonoControl.value,
-        cargo: e.cargoControl.value,
-        movil: e.movilControl.value,
-        extension: e.extensionControl.value,
+        full_name: e.fullNameControl.value,
+        email: e.emailControl.value,
+        local_phone: e.localPhoneControl.value,
+        position: e.positionControl.value,
+        movil_phone: e.movilPhoneControl.value,
+        ext: e.extensionControl.value,
+        company: this.data.info
       }
 
       return obj
@@ -92,36 +86,44 @@ export class ModalNewContactComponent implements OnInit {
   deleteContact(index: number) {
     this.valuesContacts.splice(index, 1)
   }
-  fastQuote() {
-    // this.dialog.open(ModalFastQuoteComponent, {
-    //   data: {},
-    //   disableClose: true,
-    //   width: '400px',
-    //   maxHeight: '400px',
-    //   panelClass: 'custom-dialog',
-    // })
-    //   .afterClosed()
-    //   .subscribe(({ close }) => {
-    //     console.log(close);
-    //     this.router.navigateByUrl(`/home/conversion/nueva-cotizacion`)
 
-    //   });
+  actionSave() {
+    let contacts: entity.CompanyContacts[] = this.getContactsValue();
+
+    console.log(this.getContactsValue());
+    
+    let objData: any = {
+      ...contacts
+    }
+    
+    console.log('OBJETO :', objData);
+    // if (this.objEditData) this.saveDataPatch(objData);
+    // else this.saveDataPost(objData);
   }
 
-  save() {
-    this.notificationService
-      .notificacion(
-        'Éxito',
-        'Registro guardado.',
-        'save',
-      )
-      .afterClosed()
-      .subscribe((_) => {
-        this.closeModal()
-      });
+  saveDataPost(objData) {
+    this.moduleServices.postDataContact(objData).subscribe({
+      next: () => {
+        this.completionMessage()
+      },
+      error: (error) => {
+        this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
+        console.error(error)
+      }
+    })
   }
 
-
+  saveDataPatch(objData) {
+    this.moduleServices.patchDataContact(this.objEditData.id, objData).subscribe({
+      next: () => {
+        this.completionMessage(true)
+      },
+      error: (error) => {
+        this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
+        console.error(error)
+      }
+    })
+  }
 
   toBack() {
     this.router.navigateByUrl(`/home/empresas/prospectos`)
@@ -129,6 +131,36 @@ export class ModalNewContactComponent implements OnInit {
 
   toAll() {
     this.router.navigateByUrl(`/home/empresas/todos`)
+  }
+  
+  completionMessage(edit = false) {
+    this.notificationService
+      .notificacion(
+        'Éxito',
+        `Registro ${edit ? 'editado' : 'guardado'}.`,
+        'save',
+      )
+      .afterClosed()
+      .subscribe((_) => this.toBack());
+  }
+
+  get canSave() {
+    const formValues = (e: any) => {
+      if (
+        !e?.fullNameControl.value ||
+        !e?.emailControl.value ||
+        !e?.movilPhoneControl.value ||
+        !e?.localPhoneControl.value ||
+        !e?.positionControl.value ||
+        !e?.extensionControl.value
+      ) {
+        return false;
+      }
+  
+      return true;
+    };
+  
+    return this.valuesContacts.every(formValues);
   }
 
   closeModal() {

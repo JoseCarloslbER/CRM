@@ -28,7 +28,7 @@ export class CatchmentService {
   }
 
   // CAMPAIGNS
-  public getDataTableCampaing(filters?:DataTableFilters): Observable<entity.TableDataCampaingMapper[]> {
+  public getDataTableCampaing(filters?:string): Observable<entity.TableDataCampaingMapper[]> {
 		const url = `${this.apiUrl}campaign/${filters ? `?${filters}` : ''}`;
 
     return this.http.get<entity.TableDataCampaing[]>(url).pipe(

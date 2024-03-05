@@ -3,43 +3,43 @@ import * as entity from './companies-interface';
 import moment from 'moment';
 
 export class Mapper {
-	static getDataTableMapper(response: entity.TableDataCompany[]) : entity.TableDataCompanyMapper[] {
-		let dataList :entity.TableDataCompanyMapper[] = [];
+	static getDataTableMapper(response: entity.TableDataCompany[]): entity.TableDataCompanyMapper[] {
+		let dataList: entity.TableDataCompanyMapper[] = [];
 
 		response.forEach((data: entity.TableDataCompany): void => {
 			dataList.push({
 				id: data?.company_id || '-',
-				logo : data?.logo?.includes('default') ? `../../../assets/images/default.png` : data.logo,
+				logo: data?.logo?.includes('default') ? `../../../assets/images/default.png` : data.logo,
 				companyName: data?.company_name || '-',
 				status: data?.company_phase?.phase_name || '-',
-				country : data.country?.country_name || '-',
+				country: data.country?.country_name || '-',
 				origin: data?.platform?.platform_name || '-',
 				category: data?.company_type?.type_name || '-',
 				business: data?.business?.business_name || '-',
 				campaing: data?.campaing?.campaign_name || '-',
 				quotes: {
-					amount : data.amout_quotes,
+					amount: data.amout_quotes,
 					totalAmount: '$' + parseFloat(data.total_quotes).toLocaleString('en-US', {
 						minimumFractionDigits: 2,
 						maximumFractionDigits: 2
 					})
 				},
 				sales: {
-					amount : data.amout_sales,
+					amount: data.amout_sales,
 					totalAmount: '$' + parseFloat(data.total_sales).toLocaleString('en-US', {
 						minimumFractionDigits: 2,
 						maximumFractionDigits: 2
 					})
 				},
-				lastContactDate : data?.last_activity?.date_contact || '-',
-				history : data?.last_activity?.activity_description || '-'
+				lastContactDate: data?.last_activity?.date_contact || '-',
+				history: data?.last_activity?.activity_description || '-'
 			});
 		});
 
 		return dataList
 	}
 
-	static getDataTableCompanyMapper(response: entity.TableDataCompany) : entity.GetDataCompanyMapper {
+	static getDataTableCompanyMapper(response: entity.TableDataCompany): entity.GetDataCompanyMapper {
 		return {
 			id: response?.company_id,
 			company_name: response?.company_name,
@@ -59,29 +59,39 @@ export class Mapper {
 			comments: response?.comments
 		}
 	};
-	
-	static GetDataDetailsCompanyMapper(response: entity.TableDataCompany) : entity.GetDataDetailsCompanyMapper {
+
+	static GetDataDetailsCompanyMapper(response: entity.TableDataCompany): entity.GetDataDetailsCompanyMapper {
 		console.log(response);
-		
+
 		return {
 			id: response?.company_id,
-			logo : response?.logo?.includes('default') ? `../../../assets/images/default.png` : response.logo,
-			companyName : response?.company_name || '-',
-			statusCompany : response?.company_phase?.phase_name || '-',
-			city : response?.city?.city_name || '-',
-			country : response?.country?.country_name || '-',
-			web : response?.web_page || '-',
-			business : response?.business?.business_name || '-',
-			category : response?.company_size?.size_name || '-',
-			campaign : response?.campaing?.campaign_name || '-',
-			owner:`${response?.owner_user?.first_name && response?.owner_user?.last_name ? response.owner_user?.first_name.toUpperCase() + ' ' + response.owner_user?.last_name.toUpperCase() : response.owner_user?.username.toUpperCase() || '-' }`,
-			email : response?.email || '-',
-			phone : response?.phone_number || '-',
+			logo: response?.logo?.includes('default') ? `../../../assets/images/default.png` : response.logo,
+			companyName: response?.company_name || '-',
+			statusCompany: response?.company_phase?.phase_name || '-',
+			city: response?.city?.city_name || '-',
+			country: response?.country?.country_name || '-',
+			web: response?.web_page || '-',
+			business: response?.business?.business_name || '-',
+			category: response?.company_size?.size_name || '-',
+			campaign: response?.campaing?.campaign_name || '-',
+			owner: `${response?.owner_user?.first_name && response?.owner_user?.last_name ? response.owner_user?.first_name.toUpperCase() + ' ' + response.owner_user?.last_name.toUpperCase() : response.owner_user?.username.toUpperCase() || '-'}`,
+			email: response?.email || '-',
+			phone: response?.phone_number || '-',
+			companyContacts: response.company_contacts.map((data) => {
+				return {
+					name: data?.full_name || '-',
+					position: data?.position || '-',
+					email: data?.email || '-',
+					landline: data?.email || '-',
+					extension: data?.ext || '-',
+					phoneMovil: data?.email || '-'
+				}
+			}),
 		}
 	};
-	
-	static GetDatadetailsActivityMapper(response: TableDataActivities[]) : entity.GetDataDetailsHistoryMapper[] {
-		let dataList :entity.GetDataDetailsHistoryMapper[] = [];
+
+	static GetDatadetailsActivityMapper(response: TableDataActivities[]): entity.GetDataDetailsHistoryMapper[] {
+		let dataList: entity.GetDataDetailsHistoryMapper[] = [];
 
 		response.forEach((data: TableDataActivities, index): void => {
 			const formattedDate = moment(data.activity_date).format('YYYY-MM-DD');
@@ -90,8 +100,8 @@ export class Mapper {
 
 			dataList.push({
 				id: data?.activity_id || '-',
-				activity: `Actividad ${index + 1 }`,
-				agent:`${data?.user?.first_name && data?.user?.last_name ? data.user?.first_name.toUpperCase() + ' ' + data.user?.last_name.toUpperCase() : data.user?.username.toUpperCase() || '-' }`,
+				activity: `Actividad ${index + 1}`,
+				agent: `${data?.user?.first_name && data?.user?.last_name ? data.user?.first_name.toUpperCase() + ' ' + data.user?.last_name.toUpperCase() : data.user?.username.toUpperCase() || '-'}`,
 				description: data?.description || '-',
 				date: combinedDateTime,
 			});

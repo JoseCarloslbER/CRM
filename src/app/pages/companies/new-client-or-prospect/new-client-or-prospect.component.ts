@@ -249,9 +249,6 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
       })
     } else if (this.objEditData) this.saveDataPatch(objData);
     else this.saveDataPost(objData);
-
-    // if (this.objEditData) this.saveDataPatch(objData);
-    // else this.saveDataPost(objData);
   }
 
   saveDataPost(objData) {
@@ -266,7 +263,19 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     })
   }
 
-saveDataQuotePost(objData) {
+  saveDataPatch(objData) {
+    this.moduleServices.patchData(this.objEditData.id, objData).subscribe({
+      next: () => {
+        this.completionMessage(true)
+      },
+      error: (error) => {
+        this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
+        console.error(error)
+      }
+    })
+  }
+
+  saveDataQuotePost(objData) {
     this.moduleServices.postDataQuote(objData).subscribe({
       next: (response : any) => {
         console.log(response);
@@ -282,18 +291,6 @@ saveDataQuotePost(objData) {
 
         });
         // this.completionMessage()
-      },
-      error: (error) => {
-        this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
-        console.error(error)
-      }
-    })
-  }
-
-  saveDataPatch(objData) {
-    this.moduleServices.patchData(this.objEditData.id, objData).subscribe({
-      next: () => {
-        this.completionMessage(true)
       },
       error: (error) => {
         this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
@@ -588,7 +585,6 @@ saveDataQuotePost(objData) {
   
   toQuoteDetail(id:String) {
     this.router.navigateByUrl(`/home/conversion/detalle-cotizacion/${id}`)
-    // home/conversion/detalle-cotizacion/9aa67cb4-ccb1-4c01-8d7f-4b269db134ce
   }
 
   enableOrDisableInputs(accion = false) {

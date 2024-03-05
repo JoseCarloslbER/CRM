@@ -129,6 +129,7 @@ export interface GetDataDetailsCompanyMapper {
   owner : string;
   email : string;
   phone : string;
+  companyContacts:any[] 
 }
 
 export interface GetDataDetailsHistoryMapper {

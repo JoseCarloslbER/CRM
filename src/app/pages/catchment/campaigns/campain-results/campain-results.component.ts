@@ -1,12 +1,7 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject, Subscription, takeUntil } from 'rxjs';
-import { OpenModalsService } from 'app/shared/services/openModals.service';
-import { FormBuilder } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CompaniesService } from 'app/pages/companies/companies.service';
 import { ReactivationService } from 'app/pages/reactivation/reactivation.service';
-import { TableDataCampaing } from '../../catchment-interface';
 import { CatchmentService } from '../../catchment.service';
 
 @Component({

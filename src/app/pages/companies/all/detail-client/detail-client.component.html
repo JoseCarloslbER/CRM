@@ -3,12 +3,10 @@
     
     <div class=" row flex-auto -mt-px pt-4 sm:pt-6 p-8">
         <div class="col-12 bg-card card-client">
-
             <div class="row card-header-clients">
                 <div class="col-lg-2 col-md-6 col-sm-12 flex-center mt-0">
                     <img [src]="objEditData?.logo" alt="">
                 </div>
-
                 <div class="col-lg-8 col-md-12 col-sm-12 title-info-client mt-0 ms-0">
                     <h1>{{ objEditData?.companyName }}</h1>
                     <span>{{ objEditData?.statusCompany }}</span>
@@ -33,9 +31,7 @@
                             </button>
                         </div>
                     </div>
-
                 </div>
-                
             </div>
 
             <h2>Información de la empresa</h2>
@@ -81,7 +77,6 @@
                 </div>
             </div>
 
-
             <mat-tab-group *ngIf="objEditData?.id" id="contactosTab" class="mat-grupo-color sm:px-2" mat-stretch-tabs="false" [animationDuration]="'0'" [(selectedIndex)]="selectedTabIndex">
                 <mat-tab label="Cotizaciones">
                     <ng-template matTabContent>
@@ -107,15 +102,15 @@
                     </ng-template>
                 </mat-tab>
 
-                <mat-tab label="Contactos" >
+                <mat-tab label="Contactos">
                     <ng-template matTabContent>
-                        <app-contact></app-contact>
+                        <app-contact [contacts]="companyContacts" [idCompany]="objEditData?.id"></app-contact>
                     </ng-template>
                 </mat-tab>
 
                 <mat-tab label="Campañas">
                     <ng-template matTabContent>
-                        <app-advertising></app-advertising>
+                        <app-campaign [idCompany]="objEditData?.id"></app-campaign>
                     </ng-template>
                 </mat-tab>
      
@@ -127,6 +122,5 @@
 
             </mat-tab-group>
         </div>
-
     </div>
 </div>

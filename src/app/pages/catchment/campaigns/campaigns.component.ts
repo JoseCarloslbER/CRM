@@ -183,8 +183,6 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-
-
   douwnloadExel() {
     //   this.moduleServices.excel(id).pipe(takeUntil(this.onDestroy)).subscribe({
     //   next: (_) => {
