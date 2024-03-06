@@ -1730,7 +1730,6 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     },
   };
 
-
   public formFilters = this.formBuilder.group({
     user: [{ value: null, disabled: false }],
     business: [{ value: null, disabled: false }],
@@ -1774,7 +1773,6 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-
     this.getDashboardStatics()
 
     setTimeout(() => {
@@ -1810,11 +1808,10 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getDashboardStatics(filters?:any) {
-    this.moduleServices.getDashboardStatics(filters).pipe(takeUntil(this.onDestroy)).subscribe({
+    this.moduleServices.getDashboardStatics(filters).subscribe({
       next: (data:any) => {
         this.objStatics = data
-        console.log(data);
-        console.log(data.latestRegisteredCompanies);
+        console.log(this.objStatics);
         this.latestRegisteredCompanies = data.latestRegisteredCompanies
         this.customersPurchasedMost = data.customersPurchasedMost
         this.countriesBuyMost = data.countriesBuyMost

@@ -1,34 +1,34 @@
 import { TableDataCompany } from '../companies/companies-interface';
 
 export interface DataTableFilters {
-  user : string;
-  giro   : string;
-  campaing : string;
+  user: string;
+  giro: string;
+  campaing: string;
   dateRange: string;
 }
 
 export interface DataProductsTable {
-   data : TableDataProductsList[]
+  data: TableDataProductsList[]
 }
 
 export interface TableDataProductsList {
-    companies: string,
-    date: string,
-    datecountry: string,
+  companies: string,
+  date: string,
+  datecountry: string,
 }
 
 export interface DataArticlesTable {
-   data : TableDataArticlesList[]
+  data: TableDataArticlesList[]
 }
 
 export interface TableDataArticlesList {
-    companies: string,
-    date: string,
-    datecountry: string,
+  companies: string,
+  date: string,
+  datecountry: string,
 }
 
 export interface DataCompaniesStatistics {
-  data : TableDataCompaniesStatisticsList[]
+  data: TableDataCompaniesStatisticsList[]
   status: any[]
   categories: any[]
   rankingCountrys: any[]
@@ -36,107 +36,141 @@ export interface DataCompaniesStatistics {
 
 
 export interface TableDataCompaniesStatisticsList {
-    companies: string,
-    date: string,
-    datecountry: string,
+  companies: string,
+  date: string,
+  datecountry: string,
 }
 
 export interface DataClientsStatisticsTable {
-  data : TableDataClientsList[]
+  data: TableDataClientsList[]
 }
 
 export interface TableDataClientsList {
-   client: string,
-   amount: string,
+  client: string,
+  amount: string,
 }
 
 export interface DataCountryStatisticsTable {
-  data : TableDataCountryList[]
+  data: TableDataCountryList[]
 }
 
 export interface TableDataCountryList {
-   country: string,
-   amount: string,
+  country: string,
+  amount: string,
 }
 
 export interface DataCampaingsHistoryTable {
-  data : TableDataCampaingsHistoryList[]
+  data: TableDataCampaingsHistoryList[]
 }
 
 export interface TableDataCampaingsHistoryList {
-   name: string,
-   type: string,
-   period: string,
-   companies: string,
-   amountInvested: string,
-   results: string,
-   quotes: string,
-   sells: string,
+  name: string,
+  type: string,
+  period: string,
+  companies: string,
+  amountInvested: string,
+  results: string,
+  quotes: string,
+  sells: string,
 }
 
 export interface DataGoalsTable {
-  data : TableDataGoalsList[]
+  data: TableDataGoalsList[]
 }
 
 export interface TableDataGoalsList {
-   goal: string,
-   taskAsigned: string,
-   agent: string,
+  goal: string,
+  taskAsigned: string,
+  agent: string,
 }
 
 export interface DataGoalsHistoryTable {
-  data : TableDataGoalsHistoryList[]
+  data: TableDataGoalsHistoryList[]
 }
 
 export interface TableDataGoalsHistoryList {
-   name: string,
-   taskAsigned: string,
-   perdio: string,
-   agent: string,
-   compliance: string,
-   bonusAchieved: string,
+  name: string,
+  taskAsigned: string,
+  perdio: string,
+  agent: string,
+  compliance: string,
+  bonusAchieved: string,
 }
 
 export interface DataGoalAgentsTable {
-  data : TableDataGoalsAgentsList[]
+  data: TableDataGoalsAgentsList[]
 }
 
 export interface TableDataGoalsAgentsList {
-   agent: string,
-   rol: string,
-   progress: string,
-   ip: string,
-   extension: string,
+  agent: string,
+  rol: string,
+  progress: string,
+  ip: string,
+  extension: string,
 }
 
 export interface DatsStatics {
-  cotizaciones_abiertas_c :number;
-  cotizaciones_abiertas_l :number;
-  cotizaciones_descartadas_c :number;
-  cotizaciones_descartadas_l :number; 
-  total_cotizaciones_abiertas :number; 
-  total_cotizaciones_descartadas :number; 
-  total_cerradas_ventas :number; 
-  cotizaciones_cerradas_ventas :number;
+  cotizaciones_abiertas_c: number;
+  cotizaciones_abiertas_l: number;
+  cotizaciones_descartadas_c: number;
+  cotizaciones_descartadas_l: number;
+  total_cotizaciones_abiertas: number;
+  total_cotizaciones_descartadas: number;
+  total_cerradas_ventas: number;
+  cotizaciones_cerradas_ventas: number;
   empresas_mas_compran: TableDataCompany[]
   empresas_por_fase: {
-    company_phase : string
-    company_phase__phase_name : string
-    total : number
+    company_phase: string
+    company_phase__phase_name: string
+    total: number
   }[];
-  empresas_por_giro : {
-    business:any
-    business_name:any
-    total:number
+  empresas_por_giro: {
+    business: any
+    business_name: any
+    total: number
   }[]
-  ranking_empresas_mas_compran : TableDataCompany[] 
-  ranking_empresas_por_pais : {
-  company__country__country_name : string;
-  company__country_id : string;
-  country_name : string;
-  quote_total_sum : string
-  }[] 
-  ultimas_empresas : TableDataCompany[] 
+  ranking_empresas_mas_compran: TableDataCompany[]
+  ranking_empresas_por_pais: {
+    company__country__country_name: string;
+    company__country_id: string;
+    country_name: string;
+    quote_total_sum: string
+  }[]
+  ultimas_empresas: TableDataCompany[]
 }
 
-
+export interface DatsStaticsMapper {
+  open: {
+    lead: number;
+    client: number;
+    total: number;
+  },
+  discarded: {
+    lead: number;
+    client: number;
+    total: number;
+  },
+  closedQuotesSales: number;
+  totalClosedQuotesSales: number;
+  latestRegisteredCompanies: {
+    name: string;
+    date: string;
+    country: string;
+  }[];
+  customersPurchasedMost: {
+    name: string;
+    amount: string;
+  }[];
+  countriesBuyMost: {
+    name: string;
+    amount: string;
+  }[];
+  dataStatus: {
+    name: string;
+    total: number;
+  }[];
+  categories: {
+    name: string;
+    total: number;
+  }[];
+}

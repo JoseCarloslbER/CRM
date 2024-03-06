@@ -161,26 +161,8 @@
                                                 <h2>{{ objStatics?.open?.total | currency }}</h2>
                                             </div>
                                             <div class="flex items-center">
-                                                <!-- <mat-icon class="mr-1 icon-size-5 text-green-500"
-                                                    [svgIcon]="'heroicons_solid:arrow-trending-down'"></mat-icon> -->
-                                                <!-- <div
-                                                    class="font-medium text-sm text-secondary leading-none whitespace-nowrap">
-                                                    <span class="text-green-500">2%</span>
-                                                    Abajo proyectado
-                                                </div> -->
                                             </div>
                                         </div>
-                                        <!-- <div class="flex flex-col flex-auto ml-8">
-                                            <apx-chart class="flex-auto w-full h-16"
-                                                [chart]="chartWeeklyExpenses.chart"
-                                                [colors]="chartWeeklyExpenses.colors"
-                                                [series]="chartWeeklyExpenses.series"
-                                                [stroke]="chartWeeklyExpenses.stroke"
-                                                [tooltip]="chartWeeklyExpenses.tooltip"
-                                                [xaxis]="chartWeeklyExpenses.xaxis"
-                                                [yaxis]="chartWeeklyExpenses.yaxis">
-                                            </apx-chart>
-                                        </div> -->
                                     </div>
                                 </div>
                             </div>
@@ -229,26 +211,8 @@
                                                 <h2>{{ objStatics?.discarded?.total | currency }}</h2>
                                             </div>
                                             <div class="flex items-center">
-                                                <!-- <mat-icon class="mr-1 icon-size-5 text-green-500"
-                                                    [svgIcon]="'heroicons_solid:arrow-trending-down'"></mat-icon> -->
-                                                <!-- <div
-                                                    class="font-medium text-sm text-secondary leading-none whitespace-nowrap">
-                                                    <span class="text-green-500">2%</span>
-                                                    Abajo proyectado
-                                                </div> -->
                                             </div>
                                         </div>
-                                        <!-- <div class="flex flex-col flex-auto ml-8 ">
-                                            <apx-chart class="flex-auto w-full h-16 shoaw-dash"
-                                                [chart]="chartWeeklyExpenses.chart"
-                                                [colors]="chartWeeklyExpenses.colors"
-                                                [series]="chartWeeklyExpenses.series"
-                                                [stroke]="chartWeeklyExpenses.stroke"
-                                                [tooltip]="chartWeeklyExpenses.tooltip"
-                                                [xaxis]="chartWeeklyExpenses.xaxis"
-                                                [yaxis]="chartWeeklyExpenses.yaxis">
-                                            </apx-chart>
-                                        </div> -->
                                     </div>
                                 </div>
                             </div>
@@ -292,28 +256,8 @@
 
                                             </div>
                                             <div class="flex items-center">
-                                                <!-- <mat-icon class="mr-1 icon-size-5 text-green-500"
-                                                    [svgIcon]="'heroicons_solid:arrow-trending-down'"></mat-icon> -->
-                                                <!-- <div
-                                                    class="font-medium text-sm text-secondary leading-none whitespace-nowrap">
-                                                    <span class="text-green-500">2%</span>
-                                                    Abajo proyectado
-                                                </div> -->
                                             </div>
                                         </div>
-
-
-                                        <!-- <div class="flex flex-col flex-auto ml-8">
-                                            <apx-chart class="flex-auto w-full h-16"
-                                                [chart]="chartWeeklyExpenses.chart"
-                                                [colors]="chartWeeklyExpenses.colors"
-                                                [series]="chartWeeklyExpenses.series"
-                                                [stroke]="chartWeeklyExpenses.stroke"
-                                                [tooltip]="chartWeeklyExpenses.tooltip"
-                                                [xaxis]="chartWeeklyExpenses.xaxis"
-                                                [yaxis]="chartWeeklyExpenses.yaxis">
-                                            </apx-chart>
-                                        </div> -->
                                     </div>
                                 </div>
                             </div>
@@ -363,28 +307,8 @@
                                                 <h3>{{ objStatics?.totalClosedQuotesSales | currency }}</h3>
                                             </div>
                                             <div class="flex items-center">
-                                                <!-- <mat-icon class="mr-1 icon-size-5 text-green-500"
-                                                    [svgIcon]="'heroicons_solid:arrow-trending-down'"></mat-icon> -->
-                                                <!-- <div
-                                                    class="font-medium text-sm text-secondary leading-none whitespace-nowrap">
-                                                    <span class="text-green-500">2%</span>
-                                                    Abajo proyectado
-                                                </div> -->
                                             </div>
                                         </div>
-
-
-                                        <!-- <div class="flex flex-col flex-auto ml-8">
-                                            <apx-chart class="flex-auto w-full h-16"
-                                                [chart]="chartWeeklyExpenses.chart"
-                                                [colors]="chartWeeklyExpenses.colors"
-                                                [series]="chartWeeklyExpenses.series"
-                                                [stroke]="chartWeeklyExpenses.stroke"
-                                                [tooltip]="chartWeeklyExpenses.tooltip"
-                                                [xaxis]="chartWeeklyExpenses.xaxis"
-                                                [yaxis]="chartWeeklyExpenses.yaxis">
-                                            </apx-chart>
-                                        </div> -->
                                     </div>
                                 </div>
                             </div>
@@ -405,25 +329,15 @@
                                 <div
                                     class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden mb-md-0 min-heigt">
                                     <div class="flex items-start justify-between">
-                                        <div
-                                            class="text-lg font-bold tracking-tight leading-6 truncate">
+                                        <div class="text-lg font-bold tracking-tight leading-6 truncate">
                                             Estatus</div>
                                     </div>
 
                                     <div class="row">
                                         <div class="content-list">
-                                            <div>
-                                                <p>Prospecto</p>
-                                                <span>0</span>
-                                            </div>
-
-                                            <div>
-                                                <p>Lead</p>
-                                                <span>0</span>
-                                            </div>
-                                            <div>
-                                                <p>Cliente</p>
-                                                <span>0</span>
+                                            <div *ngFor="let data of objStatics?.dataStatus">
+                                                <p>{{ data?.name }}</p>
+                                                <span>{{ data?.total }}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -478,26 +392,9 @@
 
                                     <div class="row">
                                         <div class="content-list">
-                                            <div>
-                                                <p>Micro</p> <span>0</span>
-                                            </div>
-                                            <div>
-                                                <p>Pequeña</p> <span>0</span>
-                                            </div>
-                                            <div>
-                                                <p>Pyme</p> <span>0</span>
-                                            </div>
-                                            <div>
-                                                <p>Mediana</p> <span>0</span>
-                                            </div>
-                                            <div>
-                                                <p>Grande</p> <span>0</span>
-                                            </div>
-                                            <div>
-                                                <p>Corporativa</p> <span>0</span>
-                                            </div>
-                                            <div>
-                                                <p>Pendiente</p> <span>0</span>
+                                            <div *ngFor="let data of objStatics?.categories">
+                                                <p>{{ data?.name }}</p>
+                                                <span>{{ data?.total }}</span>
                                             </div>
                                         </div>
                                     </div>
