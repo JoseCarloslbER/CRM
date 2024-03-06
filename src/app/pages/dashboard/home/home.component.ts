@@ -7,6 +7,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { DashboardService } from '../dashboard.service';
 import { CatalogsService } from 'app/shared/services/catalogs.service';
 import * as entityGeneral from '../../../shared/interfaces/general-interface';
+import * as entity from '../dashboard-interface';
 
 @Component({
   selector: 'app-home',
@@ -1809,7 +1810,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   getDashboardStatics(filters?:any) {
     this.moduleServices.getDashboardStatics(filters).subscribe({
-      next: (data:any) => {
+      next: (data : entity.DatsStaticsMapper) => {
         this.objStatics = data
         console.log(this.objStatics);
         this.latestRegisteredCompanies = data.latestRegisteredCompanies

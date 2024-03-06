@@ -5,8 +5,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { DashboardService } from '../dashboard.service';
-import { Subject, takeUntil } from 'rxjs';
-import * as entidades from '../dashboard-interface';
+import { Subject } from 'rxjs';
+import * as entity from '../dashboard-interface';
 
 @Component({
   selector: 'app-pipeline',
@@ -99,6 +99,7 @@ export class PipelineComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit(): void {
     this.dataSource.data = this.dataDummy
+    this.getPipeline()
   }
 
   ngAfterViewInit(): void {
@@ -113,9 +114,9 @@ export class PipelineComponent implements OnInit, AfterViewInit, OnDestroy {
     this.router.navigateByUrl(`/home/conversion/nueva-cotizacion`)
   }
   
-  getPipeline(filters:entidades.DataTableFilters) {
-    this.moduleServices.getPipeline(filters).pipe(takeUntil(this.onDestroy)).subscribe({
-      next: ({ data }: entidades.DataProductsTable) => {
+  getPipeline(filters?:string) {
+    this.moduleServices.getPipeline(filters).subscribe({
+      next: (data : entity.DatsPipeLine) => {
         console.log(data);
       },
       error: (error) => console.error(error)

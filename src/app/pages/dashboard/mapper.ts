@@ -54,4 +54,10 @@ export class Mapper {
 			})
 		}
 	};
+	static getDataPipelineMapper(response : entity.DatsPipeLine) {
+		console.log(response);
+		
+		return {
+		}
+	};
 }

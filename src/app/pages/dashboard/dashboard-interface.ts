@@ -1,4 +1,5 @@
 import { TableDataCompany } from '../companies/companies-interface';
+import { TableDataQuote } from '../conversion/conversion-interface';
 
 export interface DataTableFilters {
   user: string;
@@ -173,4 +174,14 @@ export interface DatsStaticsMapper {
     name: string;
     total: number;
   }[];
+}
+
+
+export interface DatsPipeLine {
+  suma_sales: number;
+  suma_quote_leads: number;
+  suma_quote_clients: number;
+  quotes_clients : TableDataQuote[]
+  quotes_leads : TableDataQuote[]
+  quotes_sales : TableDataQuote[]
 }

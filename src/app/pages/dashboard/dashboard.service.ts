@@ -16,16 +16,46 @@ export class DashboardService {
 
   // DASHBOARD 
 
-  public getDashboardStatics(filters:entity.DataTableFilters): Observable<any> {
+  public getDashboardStatics(filters?:string): Observable<any> {
 		const url = `${this.apiUrl}statics/`;
-
 
     return this.http.get<any>(url).pipe(
     	map((response) => Mapper.getDataStaticsMapper(response)),
     );
-
-    
 	}
+
+  // END DASHBOARD  
+
+
+  // PIPELINE
+  public getPipeline(filters?:string): Observable<any> {
+		const url = `${this.apiUrl}pipeline/`;
+
+    return this.http.get<entity.DatsPipeLine>(url).pipe(
+    	map((response) => Mapper.getDataPipelineMapper(response)),
+    );
+	}
+  // END PIPELINE  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -111,17 +141,6 @@ export class DashboardService {
   // END DASHBOARD
 
 
-  // PIPELINE
-
-  public getPipeline(filters:any): Observable<any> {
-		const url = `${environment.apiURL}/`;
-
-    return this.http.get<any>(url)
-	}
-  
-  // END PIPELINE
-  
-  
   // CAMPAINGS
   
   public getCampaings(filters:any): Observable<any> {
