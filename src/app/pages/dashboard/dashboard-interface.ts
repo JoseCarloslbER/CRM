@@ -184,4 +184,5 @@ export interface DatsPipeLine {
   quotes_clients : TableDataQuote[]
   quotes_leads : TableDataQuote[] | any
   quotes_sales : TableDataQuote[]
+  quotes_sales_lead? : TableDataQuote[]
 }

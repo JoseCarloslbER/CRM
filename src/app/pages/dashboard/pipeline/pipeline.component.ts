@@ -120,6 +120,8 @@ export class PipelineComponent implements OnInit, AfterViewInit, OnDestroy {
         this.dataPipele = data;
         console.log(this.dataPipele);
         
+        console.log(this.dataPipele.quoteClients);
+        
       },
       error: (error) => console.error(error)
     })

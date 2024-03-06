@@ -58,30 +58,60 @@ export class Mapper {
 
 	static getDataPipelineMapper(response : entity.DatsPipeLine) {
 		console.log(response);
-		const firstQuoteClient:any = [response?.quotes_leads[0].quote_options[0].option_products[0]];
+		const firstQuoteLead:any = [response?.quotes_leads[0]?.quote_options[0]?.option_products[0]] || [];
+		const firstQuoteClient:any = [response?.quotes_clients[0]?.quote_options[0]?.option_products[0]] || [];
+		const firstClientSale:any = [response?.quotes_sales[0]?.quote_options[0]?.option_products[0]] || [];
 		
 		return {
-			totalSales : response?.suma_sales,
-			totalQuoteLeads : response?.quotes_leads,
-			totalQuoteClients : response?.quotes_clients,
-			quoteClients : response.quotes_clients.map(data => {
-				return {
-					companyName : data?.company.company_name ||'-',
-					logo : data?.company ? data?.company?.logo.includes('default') ? `../../../assets/images/default.png` : data?.company?.logo : `../../../assets/images/default.png`,
-					status : data?.company.status?.description ||'-',
-				}
+			totalSales: '$' + response?.suma_sales.toLocaleString('en-US', {
+				minimumFractionDigits: 2,
+				maximumFractionDigits: 2
 			}),
-			quoteLeads : response.quotes_leads.map(data => {
-				console.log('data', data);
-				
+			totalQuoteLeads: '$' + response?.suma_quote_leads.toLocaleString('en-US', {
+				minimumFractionDigits: 2,
+				maximumFractionDigits: 2
+			}),
+			totalClientSales: '$' + response?.suma_quote_clients.toLocaleString('en-US', {
+				minimumFractionDigits: 2,
+				maximumFractionDigits: 2
+			}),
+			// totalSaleSales: '$' + response?.suma_quote_.toLocaleString('en-US', {
+			// 	minimumFractionDigits: 2,
+			// 	maximumFractionDigits: 2
+			// }),
+			quoteClients : response?.quotes_clients.map(data => {
 				return {
+					idQuote : data.invoice_date,
 					companyName : data?.company.company_name ||'-',
 					logo : data?.company ? data?.company?.logo.includes('default') ? `../../../assets/images/default.png` : data?.company?.logo : `../../../assets/images/default.png`,
 					status : data?.status?.description ||'-',
 					quoteNumber : data?.quote_number || '-',
+					moneyAccount: data?.money_in_account,
 					optionOne : firstQuoteClient.map(optionData => {
-						console.log('optionData', optionData);
-						
+						return {
+							listPrice: '$' + parseFloat(optionData?.product?.list_price).toLocaleString('en-US', {
+								minimumFractionDigits: 2,
+								maximumFractionDigits: 2
+							}),
+							platform : response?.quotes_clients[0]?.company?.platform?.platform_name,
+							amount: '$' + parseFloat(optionData.total).toLocaleString('en-US', {
+								minimumFractionDigits: 2,
+								maximumFractionDigits: 2
+							}),
+							places : optionData?.quantity || 0,
+							validity : moment(response?.quotes_leads[0].quote_options[0].deadline).format('DD-MM-YYYY')
+						}
+					})
+				}
+			}),
+			quoteLeads : response?.quotes_leads.map(data => {
+				return {
+					idQuote : data.invoice_date,
+					companyName : data?.company.company_name ||'-',
+					logo : data?.company ? data?.company?.logo.includes('default') ? `../../../assets/images/default.png` : data?.company?.logo : `../../../assets/images/default.png`,
+					status : data?.status?.description ||'-',
+					quoteNumber : data?.quote_number || '-',
+					optionOne : firstQuoteLead.map(optionData => {
 						return {
 							listPrice: '$' + parseFloat(optionData?.product?.list_price).toLocaleString('en-US', {
 								minimumFractionDigits: 2,
@@ -98,7 +128,56 @@ export class Mapper {
 					})
 				}
 			}),
-			quoteSales : response?.quotes_clients,
+			// leadsSales : response?.quotes_sales_lead.map(data => {
+			// 	return {
+			// 		idQuote : data.invoice_date,
+			// 		companyName : data?.company.company_name ||'-',
+			// 		logo : data?.company ? data?.company?.logo.includes('default') ? `../../../assets/images/default.png` : data?.company?.logo : `../../../assets/images/default.png`,
+			// 		status : data?.status?.description ||'-',
+			// 		quoteNumber : data?.quote_number || '-',
+			// 		moneyAccount: data?.money_in_account,
+			// 		amount: '$' + parseFloat(firstClientSale[0].total).toLocaleString('en-US', {
+			// 			minimumFractionDigits: 2,
+			// 			maximumFractionDigits: 2
+			// 		}),
+			// 		optionOne : firstClientSale.map(optionData => {
+			// 			return {
+			// 				listPrice: '$' + parseFloat(optionData?.product?.list_price).toLocaleString('en-US', {
+			// 					minimumFractionDigits: 2,
+			// 					maximumFractionDigits: 2
+			// 				}),
+			// 				platform : response?.quotes_sales[0]?.company?.platform?.platform_name,
+			// 				places : optionData?.quantity || 0,
+			// 				validity : moment(response?.quotes_leads[0].quote_options[0].deadline).format('DD-MM-YYYY')
+			// 			}
+			// 		})
+			// 	}
+			// }),
+			clientSales : response.quotes_sales.map(data => {
+				return {
+					idQuote : data.invoice_date,
+					companyName : data?.company.company_name ||'-',
+					logo : data?.company ? data?.company?.logo.includes('default') ? `../../../assets/images/default.png` : data?.company?.logo : `../../../assets/images/default.png`,
+					status : data?.status?.description ||'-',
+					quoteNumber : data?.quote_number || '-',
+					moneyAccount: data?.money_in_account,
+					amount: '$' + parseFloat(firstClientSale[0].total).toLocaleString('en-US', {
+						minimumFractionDigits: 2,
+						maximumFractionDigits: 2
+					}),
+					optionOne : firstClientSale.map(optionData => {
+						return {
+							listPrice: '$' + parseFloat(optionData?.product?.list_price).toLocaleString('en-US', {
+								minimumFractionDigits: 2,
+								maximumFractionDigits: 2
+							}),
+							platform : response?.quotes_sales[0]?.company?.platform?.platform_name,
+							places : optionData?.quantity || 0,
+							validity : moment(response?.quotes_leads[0].quote_options[0].deadline).format('DD-MM-YYYY')
+						}
+					})
+				}
+			}),
 		}
 	};
 }
