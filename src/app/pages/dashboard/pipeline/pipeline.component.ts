@@ -1,12 +1,14 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { DashboardService } from '../dashboard.service';
 import { Subject } from 'rxjs';
-import * as entity from '../dashboard-interface';
+import { OpenModalsService } from 'app/shared/services/openModals.service';
+import { ConversionService } from 'app/pages/conversion/conversion.service';
+import { ModalBillingComponent } from 'app/pages/conversion/modal-billing/modal-billing.component';
+import { MatDialog } from '@angular/material/dialog';
+import { ModalUploadDocumentComponent } from 'app/pages/conversion/modal-upload-document/modal-upload-document.component';
 
 @Component({
   selector: 'app-pipeline',
@@ -15,67 +17,6 @@ import * as entity from '../dashboard-interface';
 })
 export class PipelineComponent implements OnInit, AfterViewInit, OnDestroy {
   private onDestroy = new Subject<void>();
-
-  public dataSource = new MatTableDataSource<any>([]);
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  public longitudPagina = 50;
-  public total = 0;
-  public indicePagina = 0;
-
-  public displayedColumns: string[] = [
-    'fechaYHora',
-    'informacion',
-    'empresa',
-    'statusCompany',
-    'totalPrice',
-    'products',
-    'estadopais',
-    'acciones',
-    'operaciones'
-  ];
-
-  public dataDummy: any[] = [
-    {
-      empresa: 'RECK SOLUCIONES',
-      fechaYHora: '2023-09-30 12:38:49',
-      statusCompany: 'Cliente',
-      precioTotal: '$4,000,000.00',
-      estatus: 'LEAD',
-      estadopais: 'Mexico, Nuevo Leon',
-      totalPrice: [
-        {
-          op: ' $12354.00',
-          expires: '2023-09-30',
-        },
-        {
-          op: ' $12354.00',
-          expires: '2023-09-30',
-        }
-      ],
-      documentos: [
-        {
-          cotizacion: 'Cotización',
-          cotizacionAprobada: 'Cotización aprobada',
-        }
-      ],
-      informacion: [
-        {
-          numero: '#4234234',
-          status: 'Aprobada',
-          cotizacionAprobada: 'Cotización aprobada',
-        }
-      ],
-      lugares: [
-        {
-          no: '1548',
-          tipo: 'Lista',
-          lugares: '5',
-          curso: 'C029 - Seguridad en el mantenimiento de instalaciones eléctrica',
-          precio: '$1,995.00',
-        }
-      ],
-    }
-  ]
 
   public formFilters = this.formBuilder.group({
     client: [{ value: null, disabled: false }],
@@ -93,13 +34,15 @@ export class PipelineComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(
     private moduleServices: DashboardService,
+    private moduleServicesQuote: ConversionService,
+    private notificationService: OpenModalsService,
     private formBuilder: FormBuilder,
+    private dialog: MatDialog,
     private router: Router
   ) { }
 
   ngOnInit(): void {
-    this.dataSource.data = this.dataDummy
-    this.getPipeline()
+    this.searchWithFilters()
   }
 
   ngAfterViewInit(): void {
@@ -108,6 +51,7 @@ export class PipelineComponent implements OnInit, AfterViewInit, OnDestroy {
 
   searchWithFilters() {
     console.log(this.formFilters.value);
+    this.getPipeline()
   }
 
   newDataQuote() {
@@ -125,6 +69,66 @@ export class PipelineComponent implements OnInit, AfterViewInit, OnDestroy {
       },
       error: (error) => console.error(error)
     })
+  }
+
+  moneyAccount(data:any) {
+    let objData:any = {
+      payment_date: new Date(),
+      status_id : 'f4fa3c48-8b48-4d39-ad09-a6699a66459f',
+      quote_id : data.id,
+      company_id : data.companyName.id,
+    }
+    
+    this.notificationService
+    .notificacion(
+      'Pregunta',
+      '¿Estás seguro que el dinero ya está en la cuenta bancaria?',
+      'question',
+    )
+    .afterClosed()
+    .subscribe((response) => {
+      if (response) {
+        this.moduleServicesQuote.moneyAccount({quote: objData}).subscribe({
+          next: () => {
+              this.notificationService
+              .notificacion(
+                'Éxito',
+                'Dinero en cuenta, pago confirmado.',
+                'save',
+              )
+              .afterClosed()
+              .subscribe((_) => this.searchWithFilters());
+          },
+          error: (error) => console.error(error)
+        })
+      }
+    });
+  }
+
+  billing(data: any) {
+    this.dialog.open(ModalBillingComponent, {
+      data: {
+        info: data,
+      },
+      disableClose: true,
+      width: '1000px',
+      maxHeight: '628px',
+      panelClass: 'custom-dialog',
+    })
+    .afterClosed()
+    .subscribe((_) => this.searchWithFilters());
+  }
+
+  addUpladFile() {
+    this.dialog.open(ModalUploadDocumentComponent, {
+      data: {},
+      disableClose: true,
+      width: '800px',
+      maxHeight: '628px',
+      panelClass: 'custom-dialog',
+    })
+  .afterClosed()
+  .subscribe((_) => this.searchWithFilters());
   }
 
   selectOption(option: number) {

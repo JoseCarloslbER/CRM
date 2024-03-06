@@ -193,8 +193,7 @@
                             <td mat-cell *matCellDef="let element" >
                                 <div class="colum-table-select" 
                                 *ngIf="element.actionName == 'Creada' || 
-                                element.actionName == 'Aceptada'"
-                                >                                            
+                                element.actionName == 'Aceptada'">                                            
                                 <mat-form-field class="flex-auto input-default">
                                         <mat-select placeholder="Seleccionar">
                                             <mat-option [value]="element.actionName" class="border-bottom" [value]="action" *ngFor="let action of element.actions" (click)="getActions(action, element)">{{action}}</mat-option>

@@ -63,15 +63,15 @@ export class Mapper {
 		const firstClientSale:any = [response?.quotes_sales[0]?.quote_options[0]?.option_products[0]] || [];
 		
 		return {
-			totalSales: '$' + response?.suma_sales.toLocaleString('en-US', {
+			totalQuoteLeads: '$' + response?.suma_sales.toLocaleString('en-US', {
 				minimumFractionDigits: 2,
 				maximumFractionDigits: 2
 			}),
-			totalQuoteLeads: '$' + response?.suma_quote_leads.toLocaleString('en-US', {
+			totalQuoteClients: '$' + response?.suma_quote_clients.toLocaleString('en-US', {
 				minimumFractionDigits: 2,
 				maximumFractionDigits: 2
 			}),
-			totalClientSales: '$' + response?.suma_quote_clients.toLocaleString('en-US', {
+			totalClientSales: '$' + response?.suma_sales.toLocaleString('en-US', {
 				minimumFractionDigits: 2,
 				maximumFractionDigits: 2
 			}),
@@ -81,12 +81,19 @@ export class Mapper {
 			// }),
 			quoteClients : response?.quotes_clients.map(data => {
 				return {
-					idQuote : data.invoice_date,
-					companyName : data?.company.company_name ||'-',
-					logo : data?.company ? data?.company?.logo.includes('default') ? `../../../assets/images/default.png` : data?.company?.logo : `../../../assets/images/default.png`,
+					id : data.quote_id,
+					companyName : {
+						id : data?.company?.company_id || '-', 
+						name : data?.company?.company_name || '-', 
+						logo : data?.company ? data?.company?.logo.includes('default') ? `../../../assets/images/default.png` : data?.company?.logo : `../../../assets/images/default.png`
+					},
 					status : data?.status?.description ||'-',
 					quoteNumber : data?.quote_number || '-',
-					moneyAccount: data?.money_in_account,
+					moneyInAccount: data?.money_in_account,
+					actionName: data?.status?.description,
+					isBilled: data?.invoice_status?.description.includes('Facturada') ? true : false,
+					actions: data?.status?.description == 'Creada'  ? ['Aceptar'] : 
+					data?.status?.description == 'Aceptada' || data?.status?.description == 'Aprobada' ? ['Rechazar', 'Cancelar', 'Cerrar como venta'] : [],
 					optionOne : firstQuoteClient.map(optionData => {
 						return {
 							listPrice: '$' + parseFloat(optionData?.product?.list_price).toLocaleString('en-US', {
@@ -99,16 +106,19 @@ export class Mapper {
 								maximumFractionDigits: 2
 							}),
 							places : optionData?.quantity || 0,
-							validity : moment(response?.quotes_leads[0].quote_options[0].deadline).format('DD-MM-YYYY')
+							validity : moment(response?.quotes_leads[0]?.quote_options[0]?.deadline).format('DD-MM-YYYY') || '-'
 						}
 					})
 				}
 			}),
 			quoteLeads : response?.quotes_leads.map(data => {
 				return {
-					idQuote : data.invoice_date,
-					companyName : data?.company.company_name ||'-',
-					logo : data?.company ? data?.company?.logo.includes('default') ? `../../../assets/images/default.png` : data?.company?.logo : `../../../assets/images/default.png`,
+					id : data.quote_id,
+					companyName : {
+						id : data?.company?.company_id || '-', 
+						name : data?.company?.company_name || '-', 
+						logo : data?.company ? data?.company?.logo.includes('default') ? `../../../assets/images/default.png` : data?.company?.logo : `../../../assets/images/default.png`
+					},
 					status : data?.status?.description ||'-',
 					quoteNumber : data?.quote_number || '-',
 					optionOne : firstQuoteLead.map(optionData => {
@@ -130,12 +140,12 @@ export class Mapper {
 			}),
 			// leadsSales : response?.quotes_sales_lead.map(data => {
 			// 	return {
-			// 		idQuote : data.invoice_date,
+			// 		id : data.quote_id,
 			// 		companyName : data?.company.company_name ||'-',
 			// 		logo : data?.company ? data?.company?.logo.includes('default') ? `../../../assets/images/default.png` : data?.company?.logo : `../../../assets/images/default.png`,
 			// 		status : data?.status?.description ||'-',
 			// 		quoteNumber : data?.quote_number || '-',
-			// 		moneyAccount: data?.money_in_account,
+			// 		moneyInAccount: data?.money_in_account,
 			// 		amount: '$' + parseFloat(firstClientSale[0].total).toLocaleString('en-US', {
 			// 			minimumFractionDigits: 2,
 			// 			maximumFractionDigits: 2
@@ -148,19 +158,33 @@ export class Mapper {
 			// 				}),
 			// 				platform : response?.quotes_sales[0]?.company?.platform?.platform_name,
 			// 				places : optionData?.quantity || 0,
-			// 				validity : moment(response?.quotes_leads[0].quote_options[0].deadline).format('DD-MM-YYYY')
+			// 				validity : moment(response?.quotes_leads[0]?.quote_options[0]?.deadline).format('DD-MM-YYYY') || '-'
 			// 			}
 			// 		})
 			// 	}
 			// }),
 			clientSales : response.quotes_sales.map(data => {
 				return {
-					idQuote : data.invoice_date,
-					companyName : data?.company.company_name ||'-',
-					logo : data?.company ? data?.company?.logo.includes('default') ? `../../../assets/images/default.png` : data?.company?.logo : `../../../assets/images/default.png`,
+					id : data.quote_id,
+					companyName : {
+						id : data?.company?.company_id || '-', 
+						name : data?.company?.company_name || '-', 
+						logo : data?.company ? data?.company?.logo.includes('default') ? `../../../assets/images/default.png` : data?.company?.logo : `../../../assets/images/default.png`
+					},	
 					status : data?.status?.description ||'-',
 					quoteNumber : data?.quote_number || '-',
-					moneyAccount: data?.money_in_account,
+					moneyInAccount: data?.money_in_account,
+					actionName: data?.status?.description,
+					isBilled: data?.invoice_status?.description.includes('Facturada') ? true : false,
+					companyInfo: {
+						company_name: data?.company?.company_name || '-',
+						tax_id_number: data?.company?.tax_id_number || '-',
+						payment_method_id: data?.company?.payment_method?.payment_method_id || '-',
+						way_to_pay_id: data?.company?.way_to_pay?.way_to_pay_id || '-',
+						payment_condition_id: data?.company?.payment_condition?.payment_condition_id || '-',
+						invoice_use_id: data?.company?.invoice_use?.invoice_use_id || '-',
+						invoice_status : data?.invoice_status?.status_id || '-'
+					},
 					amount: '$' + parseFloat(firstClientSale[0].total).toLocaleString('en-US', {
 						minimumFractionDigits: 2,
 						maximumFractionDigits: 2
@@ -173,7 +197,7 @@ export class Mapper {
 							}),
 							platform : response?.quotes_sales[0]?.company?.platform?.platform_name,
 							places : optionData?.quantity || 0,
-							validity : moment(response?.quotes_leads[0].quote_options[0].deadline).format('DD-MM-YYYY')
+							validity : moment(response?.quotes_leads[0]?.quote_options[0]?.deadline).format('DD-MM-YYYY') || '-'
 						}
 					})
 				}
