@@ -218,7 +218,7 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
         option_products: productValues
       }
 
-      return obj
+      return obj;
     };
 
     return this.optionFormValues.map(formValues);
@@ -228,19 +228,18 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
     const instance: any = {
       ...(datos && { id: datos?.id }),
       subtotalControl: new FormControl({ value: datos?.subtotal || '', disabled: true }, Validators.required),
-      discountControl: new FormControl({ value: datos?.discount || '', disabled: false }),
+      discountControl: new FormControl({ value: datos?.discount || 0, disabled: false }),
       totalControl: new FormControl({ value: datos?.total || '', disabled: true }, Validators.required),
       typePriceControl: new FormControl({ value: datos?.typePrice || '1', disabled: false }, Validators.required),
       dateControl: new FormControl({ value: datos?.date || '', disabled: false }, Validators.required),
       timeControl: new FormControl({ value: datos?.time || '', disabled: false }, Validators.required),
-      product: [],
+      product: []
     };
   
     if (datos && datos.optionProducts) {
       datos.optionProducts.forEach((productData: any) => {
         const productInstance: any = this.createProductInstance(productData);
         this.enableProductFields(productInstance);
-
         instance.product.push(productInstance);
       });
     } else {

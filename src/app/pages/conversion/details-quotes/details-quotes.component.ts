@@ -39,7 +39,7 @@ export class DetailsQuotesComponent implements OnInit {
     this.moduleServices.getDataId(id).subscribe({
       next: (response: GetDataQuoteMapper) => {
         this.objEditData = response;
-        console.log(response);
+        console.log('objEditData', this.objEditData);
         this.quotesOptions = response.quoteOptions;
         console.log(this.quotesOptions);
         

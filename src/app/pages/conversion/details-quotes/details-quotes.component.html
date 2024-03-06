@@ -4,19 +4,18 @@
         <div class="col-12 bg-card card-quotes">
 
             <div class="row card-header-quotes">
-                <div class="col-md-7 title">
-                    <span>Cotización # 1614</span>
-                    <span>Fecha: 2023-09-30</span>
+                <div class="col-md-5 title">
+                    <span>Cotización #{{ objEditData?.quoteNumber || '-' }}</span>
+                    <span>Fecha: {{ objEditData?.regiterDate || '-'  }}</span>
                 </div>
 
-                <div class="col-md-5 img-title">
+                <div class="col-md-7 img-title">
                     <div class="row">
-                        <div class="col-6 img">
-                            <img src="../../../../assets/images/img-face.png" alt="">
+                        <div class="col-4 img">
+                            <img [src]="objEditData?.company?.logo" alt="">
                         </div>
-                        <div class="col-6 text-img">
-                            <span>Dakve S.A. de C.V.</span>
-                            <span>Lorem ipsum </span>
+                        <div class="col-8 text-img">
+                            <span>{{objEditData?.company?.name}}</span>
                         </div>
                     </div>
                 </div>
@@ -66,7 +65,7 @@
                             </span>
                             <br>
                              <span class="text-center fuente">
-                                ${{ product.total }} <br>
+                                ${{ option.total }} <br>
                                 <span *ngIf="isLast">
                                     (IVA Incluido)
                                 </span>

@@ -140,6 +140,10 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
     })
   }
 
+  seeData(id:string) {
+    this.router.navigateByUrl(`/home/conversion/detalle-cotizacion/${id}`)
+  }
+
   editData(id:string) {
     this.router.navigateByUrl(`/home/conversion/editar-cotizacion/${id}`)
   }
@@ -147,6 +151,8 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
   newData() {
     this.router.navigateByUrl(`/home/conversion/nueva-cotizacion`)
   }
+
+
 
   selectOption(option: number) {
     this.selectedOption = option;
@@ -180,7 +186,6 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   moneyAccount(data:any) {
-    console.log(data);
     let objData:any = {
       payment_date: new Date(),
       status_id : 'f4fa3c48-8b48-4d39-ad09-a6699a66459f',
@@ -197,8 +202,6 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
     )
     .afterClosed()
     .subscribe((response) => {
-      console.log(response);
-      
       if (response) {
         this.moduleServices.moneyAccount({quote: objData}).subscribe({
           next: () => {
@@ -294,7 +297,6 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
     )
     .afterClosed()
     .subscribe((_) => {
-
     });
   }
 
@@ -308,7 +310,6 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
           )
           .afterClosed()
           .subscribe((_) => {
-
           });
   }
 

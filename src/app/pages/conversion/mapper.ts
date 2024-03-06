@@ -7,10 +7,9 @@ export class Mapper {
 		
 		let dataList :entity.TableDataQuoteMapper[] = [];
 		response.quotes_data.forEach((data: entity.TableDataQuote): void => {
-			
 			dataList.push({
 				id: data?.quote_id || '-',
-				dateAndHour : data.register_date ? moment(data.register_date).format('YYYY-MM-DD HH:mm:ss') : '-', 
+				dateAndHour : data.register_date ? moment(data.register_date).format('MM-DD-YYYY HH:mm:ss') : '-', 
 				moneyInAccount : data?.money_in_account,
 				isBilled: data?.invoice_status?.description.includes('Facturada') ? true : false,
 				companyInfo: {
@@ -35,16 +34,16 @@ export class Mapper {
 				totalPrice: data.quote_options.map((data, index) => {
 						return {
 							name : `OP${index + 1}:`,
-							expire : moment(data.deadline).format('YYYY-MM-DD'),
+							expire : moment(data.deadline).format('MM-DD-YYYY'),
 							total: '$' + parseFloat(data.total).toLocaleString('en-US', {
 								minimumFractionDigits: 2,
 								maximumFractionDigits: 2
 							})
 						}
 				}),
-
 				products: data.quote_options.map(option => {
-					const total = option.option_products.reduce((acc, product) => acc + parseFloat(product.total), 0);
+					console.log(option.total);
+					
 					const places = option.option_products.reduce((acc, product) => acc + product.quantity, 0);
 					const productNames = option.option_products.map(product => product.product?.name || '-');
 				  
@@ -52,13 +51,12 @@ export class Mapper {
 					  type: option.type_price === 1 ? 'Normal' : 'Promoción',
 					  places: places,
 					  product: productNames,
-					  total: '$' + total.toLocaleString('en-US', {
+					  total: '$' + parseFloat(option.total).toLocaleString('en-US', {
 						minimumFractionDigits: 2,
 						maximumFractionDigits: 2
-					  }),
+					}),
 					};
 				  }),
-				
 				  actions: data?.status?.description == 'Creada'  ? ['Aceptar'] : 
 						data?.status?.description == 'Aceptada' || data?.status?.description == 'Aprobada' ? ['Rechazar', 'Cancelar', 'Cerrar como venta'] : [],
 				
@@ -72,7 +70,7 @@ export class Mapper {
 						totalPrice: {
 							id : dataClose?.quote_option_id,
 							name: `OP${index + 1}:`,
-							expire: moment(dataClose.deadline).format('YYYY-MM-DD'),
+							expire: moment(dataClose.deadline).format('MM-DD-YYYY'),
 							total: '$' + parseFloat(dataClose.total).toLocaleString('en-US', {
 								minimumFractionDigits: 2,
 								maximumFractionDigits: 2
@@ -82,15 +80,13 @@ export class Mapper {
 							type: dataClose?.type_price === 1 ? 'Normal' : 'Promoción',
 							places: places,
 							products: productNames,
-							total: total,
-							// total: '$' + total.toLocaleString('en-US', {
-							// 	minimumFractionDigits: 2,
-							// 	maximumFractionDigits: 2
-							// }),
+							total: '$' + parseFloat(dataClose.total).toLocaleString('en-US', {
+								minimumFractionDigits: 2,
+								maximumFractionDigits: 2
+							}),
 						}
 					};
 				})
-
 			});
 		});
 
@@ -100,8 +96,8 @@ export class Mapper {
 		}
 	}
 
-	static editDataTableCompanyMapper(response: entity.TableDataQuote) {
-	// static editDataTableCompanyMapper(response: entity.TableDataQuote) : entity.GetDataQuoteMapper {
+	static GetDataTableCompanyMapper(response: entity.TableDataQuote) {
+		console.log(response);
 		let date : string = '';
 		let time : string = '';
 		
@@ -112,14 +108,17 @@ export class Mapper {
 
 		return {
 			id : response.quote_id || '-',
+			regiterDate : moment(response?.register_date).format('DD-MM-YYYY'),
+			quoteNumber : response?.quote_number || '-',
 			contact : response?.contact?.contact_id || '-',
 			user : response?.user?.id || '-',
 			campaign : response?.campaign?.campaign_id || '-',
 			payment_method : response?.payment_method?.payment_method_id || '-',
 			tax_include : response?.tax_include,
 			company : {
-				id : response.company.company_id,
-				name: response.company.company_name
+				id : response.company?.company_id,
+				name: response.company?.company_name,
+				logo : response?.company?.logo ? response?.company?.logo.includes('default') ? `../../../assets/images/default.png` : response?.company?.logo : `../../../assets/images/default.png` 
 			},
 			quoteOptions : response.quote_options.map(data => {
 				return {
@@ -136,7 +135,6 @@ export class Mapper {
 					typePrice : data?.type_price,
 					date : date,
 					time : time,
-
 					optionProducts : data?.option_products.map(dataProduct => {
 						return {
 							id : dataProduct?.option_product_id,
@@ -153,11 +151,8 @@ export class Mapper {
 							}),
 						}
 					})
-
 				}
 			})
 		}
 	};
-	
-	
 }

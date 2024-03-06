@@ -34,7 +34,7 @@ export class ConversionService {
 		const url = `${this.apiUrl}quote/${id}/`;
 
     return this.http.get<entity.TableDataQuote>(url).pipe(
-			map((response) => Mapper.editDataTableCompanyMapper(response))
+			map((response) => Mapper.GetDataTableCompanyMapper(response))
 		);
 	}
 
