@@ -1,3 +1,4 @@
+import moment from 'moment';
 import * as entity from './dashboard-interface';
 
 export class Mapper {
@@ -54,10 +55,48 @@ export class Mapper {
 			})
 		}
 	};
+
+
 	static getDataPipelineMapper(response : entity.DatsPipeLine) {
 		console.log(response);
+
+		const firstQuoteClient:any = [response?.quotes_leads[0].quote_options[0]];
+		console.log(firstQuoteClient);
 		
 		return {
+
+			totalSales : response?.suma_sales,
+			totalQuoteLeads : response?.quotes_leads,
+			totalQuoteClients : response?.quotes_clients,
+			quoteClients : response.quotes_clients.map(data => {
+				return {
+					companyName : data?.company.company_name ||'-',
+					logo : data?.company ? data?.company?.logo.includes('default') ? `../../../assets/images/default.png` : data?.company?.logo : `../../../assets/images/default.png`,
+					status : data?.company.status?.description ||'-',
+				}
+			}),
+			quoteLeads : response.quotes_leads.map(data => {
+				return {
+					companyName : data?.company.company_name ||'-',
+					logo : data?.company ? data?.company?.logo.includes('default') ? `../../../assets/images/default.png` : data?.company?.logo : `../../../assets/images/default.png`,
+					status : data?.company.status?.description ||'-',
+					quoteNumber : data?.quote_number ||'-',
+					optionOne : firstQuoteClient.map(optionData => {
+					console.log(optionData);
+					// return {
+					// 	type: optionData.type_price === 1 ? 'Normal' : 'Promoción',
+					// 	places : optionData.option_products[0].quantity,
+					// 	amount: '$' + parseFloat(optionData.total).toLocaleString('en-US', {
+					// 		minimumFractionDigits: 2,
+					// 		maximumFractionDigits: 2
+					// 	}),
+					// 	date: moment(optionData.deadline).format('YYYY-MM-DD')
+					// }
+					})
+				}
+			}),
+
+			quoteSales : response?.quotes_clients,
 		}
 	};
 }

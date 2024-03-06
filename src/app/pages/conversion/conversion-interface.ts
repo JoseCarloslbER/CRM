@@ -8,7 +8,7 @@ export interface TableDataQuoteResponse {
 
 export interface TableDataQuote {
   quote_id: string;
-  quote_options: QuoteOption[]
+  quote_options: QuoteOption[];
   company: TableDataCompany;
   contact: entityGeneral.DataCatQuoteContact;
   user: entityGeneral.Owner;

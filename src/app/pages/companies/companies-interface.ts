@@ -33,11 +33,19 @@ export interface TableDataCompany {
   comments: string;
   register_date: string;
   register_user: string;
+  status: Status;
   company_contacts: Contacts[]
   camaping: {
     campaing_name: string
   };
 }
+
+export interface Status {
+  description : string;
+  module: number;
+  status_id: string;
+}
+
 export interface TableDataCompanyMapper {
   id:string
   companyName : string;
@@ -59,6 +67,7 @@ export interface TableDataCompanyMapper {
     totalAmount : string;
   }
 }
+
 export interface Contacts {
   contact_id: string;
   full_name: string;

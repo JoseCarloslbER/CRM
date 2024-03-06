@@ -1,70 +1,133 @@
-<div class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto c-pipeline" cdkScrollable>
+<div
+    class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto c-pipeline"
+    cdkScrollable
+>
     <div class="bg-card section-padding">
         <div class="flex flex-col w-full mx-auto px-6 sm:px-8 pt-3">
             <form class="row mt-5 mb-5" [formGroup]="formFilters">
                 <div class="col-12">
-
-                    <div class="section-title row d-flex justify-content-between align-items-center">
-                        <div class="col-md-12 col-sm-12 col-12 title mb-5 mb-lg-0 mb-md-0 mb-sm-0">
+                    <div
+                        class="section-title row d-flex justify-content-between align-items-center"
+                    >
+                        <div
+                            class="col-md-12 col-sm-12 col-12 title mb-5 mb-lg-0 mb-md-0 mb-sm-0"
+                        >
                             Pipeline
                         </div>
                     </div>
 
                     <div class="row d-flex align-items-center">
-
-                        <div class="flex col-sm-12  col-md-6 col-lg-3 col-12 pe-2">
+                        <div
+                            class="flex col-sm-12 col-md-6 col-lg-3 col-12 pe-2"
+                        >
                             <mat-form-field class="flex-auto input-default">
                                 <mat-label>Cliente</mat-label>
-                                <mat-select placeholder="Seleccionar" formControlName="client">
-                                    <mat-option value="Cliente-1">Cliente 1</mat-option>
-                                    <mat-option value="Cliente-2">Cliente 2</mat-option>
-                                    <mat-option value="Cliente-3">Cliente 3</mat-option>
+                                <mat-select
+                                    placeholder="Seleccionar"
+                                    formControlName="client"
+                                >
+                                    <mat-option value="Cliente-1"
+                                        >Cliente 1</mat-option
+                                    >
+                                    <mat-option value="Cliente-2"
+                                        >Cliente 2</mat-option
+                                    >
+                                    <mat-option value="Cliente-3"
+                                        >Cliente 3</mat-option
+                                    >
                                 </mat-select>
                             </mat-form-field>
                         </div>
 
-                        <div class="flex col-sm-12 col-md-6 col-lg-3 col-12 pe-2">
+                        <div
+                            class="flex col-sm-12 col-md-6 col-lg-3 col-12 pe-2"
+                        >
                             <mat-form-field class="flex-auto input-default">
                                 <mat-label>Agente</mat-label>
-                                <mat-select placeholder="Seleccionar" formControlName="agent">
-                                    <mat-option value="Agente-1">Agente 1</mat-option>
-                                    <mat-option value="Agente-2">Agente 2</mat-option>
-                                    <mat-option value="Agente-3">Agente 3</mat-option>
+                                <mat-select
+                                    placeholder="Seleccionar"
+                                    formControlName="agent"
+                                >
+                                    <mat-option value="Agente-1"
+                                        >Agente 1</mat-option
+                                    >
+                                    <mat-option value="Agente-2"
+                                        >Agente 2</mat-option
+                                    >
+                                    <mat-option value="Agente-3"
+                                        >Agente 3</mat-option
+                                    >
                                 </mat-select>
                             </mat-form-field>
                         </div>
 
-                        <div class="flex col-sm-12 col-md-6 col-lg-3 col-12 pe-2">
+                        <div
+                            class="flex col-sm-12 col-md-6 col-lg-3 col-12 pe-2"
+                        >
                             <mat-form-field class="flex-auto input-default">
                                 <mat-label>Estatus</mat-label>
-                                <mat-select placeholder="Seleccionar" formControlName="agent">
-                                    <mat-option value="Agente-1">Estatus 1</mat-option>
-                                    <mat-option value="Estatus-2">Estatus 2</mat-option>
-                                    <mat-option value="Estatus-3">Estatus 3</mat-option>
+                                <mat-select
+                                    placeholder="Seleccionar"
+                                    formControlName="agent"
+                                >
+                                    <mat-option value="Agente-1"
+                                        >Estatus 1</mat-option
+                                    >
+                                    <mat-option value="Estatus-2"
+                                        >Estatus 2</mat-option
+                                    >
+                                    <mat-option value="Estatus-3"
+                                        >Estatus 3</mat-option
+                                    >
                                 </mat-select>
                             </mat-form-field>
                         </div>
 
-                        <div class="flex col-sm-12 col-md-6 col-lg-3 col-12 pe-2">
+                        <div
+                            class="flex col-sm-12 col-md-6 col-lg-3 col-12 pe-2"
+                        >
                             <mat-form-field class="flex-auto input-default">
                                 <mat-label>Rango de fechas</mat-label>
-                                <mat-date-range-input [max]="fechaHoy" [rangePicker]="campaignOnePicker"
-                                    [comparisonStart]="formFilters.value['rangeDateStart']"
-                                    [comparisonEnd]="formFilters.value['rangeDateEnd']">
-                                    <input matStartDate placeholder="Inicio" formControlName="rangeDateStart" />
-                                    <input matEndDate placeholder="Final" formControlName="rangeDateEnd" />
+                                <mat-date-range-input
+                                    [max]="fechaHoy"
+                                    [rangePicker]="campaignOnePicker"
+                                    [comparisonStart]="
+                                        formFilters.value['rangeDateStart']
+                                    "
+                                    [comparisonEnd]="
+                                        formFilters.value['rangeDateEnd']
+                                    "
+                                >
+                                    <input
+                                        matStartDate
+                                        placeholder="Inicio"
+                                        formControlName="rangeDateStart"
+                                    />
+                                    <input
+                                        matEndDate
+                                        placeholder="Final"
+                                        formControlName="rangeDateEnd"
+                                    />
                                 </mat-date-range-input>
 
-                                <mat-datepicker-toggle matIconSuffix [for]="campaignOnePicker"></mat-datepicker-toggle>
-                                <mat-date-range-picker #campaignOnePicker></mat-date-range-picker>
+                                <mat-datepicker-toggle
+                                    matIconSuffix
+                                    [for]="campaignOnePicker"
+                                ></mat-datepicker-toggle>
+                                <mat-date-range-picker
+                                    #campaignOnePicker
+                                ></mat-date-range-picker>
                             </mat-form-field>
                         </div>
-
-                        
                     </div>
                     <div class="row d-flex justify-content-end">
-                        <div class="d-flex justify-content-end col-md-2 col-xl-2 col-12 pt-md-2">
-                            <button class="btn-search" (click)="searchWithFilters()">
+                        <div
+                            class="d-flex justify-content-end col-md-2 col-xl-2 col-12 pt-md-2"
+                        >
+                            <button
+                                class="btn-search"
+                                (click)="searchWithFilters()"
+                            >
                                 <span>Buscar</span>
                             </button>
                         </div>
@@ -74,26 +137,43 @@
         </div>
     </div>
 
-
     <div class="flex-auto border-t section-content-padding">
         <div class="w-full mx-auto">
-
             <div class="row tap-options">
-                <span (click)="selectOption(1)" [class.selected]="selectedOption === 1">Día</span>
-                <span (click)="selectOption(2)" [class.selected]="selectedOption === 2">Mes</span>
-                <span (click)="selectOption(3)" [class.selected]="selectedOption === 3">Año</span>
+                <span
+                    (click)="selectOption(1)"
+                    [class.selected]="selectedOption === 1"
+                    >Día</span
+                >
+                <span
+                    (click)="selectOption(2)"
+                    [class.selected]="selectedOption === 2"
+                    >Mes</span
+                >
+                <span
+                    (click)="selectOption(3)"
+                    [class.selected]="selectedOption === 3"
+                    >Año</span
+                >
             </div>
 
             <div class="row c-pipeline-header pt-5">
-
                 <div class="container-pipeline">
                     <div class="pipeline-header">Cot. Leads</div>
                     <div class="pipeline-subheader">TOTAL: $ 79,325.01</div>
-
-                    <div class="bg-card card-pipeline  fast-quote-card" style="height: 400px;">
+                    <div
+                        class="bg-card card-pipeline fast-quote-card"
+                        style="height: 400px"
+                    >
                         <div class="card-title-pipeline">
-                            <img src="../../../../assets/images/img-face.png" alt="">
-                            <h1>Celida Maria Barreda Cárdenas/ Servicios Integrales del Bajío</h1>
+                            <img
+                                src="../../../../assets/images/img-face.png"
+                                alt=""
+                            />
+                            <h1>
+                                Celida Maria Barreda Cárdenas/ Servicios
+                                Integrales del Bajío
+                            </h1>
 
                             <div class="status">
                                 <h2>Estatus:</h2>
@@ -106,24 +186,30 @@
                         <div class="pipeline-content-card">
                             <div class="d-flex align-items-center gap-2">
                                 <div class="text-end"><h1>Cotización:</h1></div>
-                                <div class="text-start"><span class="font-bold"># 1696</span></div>
+                                <div class="text-start">
+                                    <span class="font-bold"># 1696</span>
+                                </div>
                             </div>
-
                             <div class="d-flex align-items-center gap-2">
                                 <div class="text-end"><h1>Opción 1:</h1></div>
-                                <div class="text-start"><span>Precio lista</span></div>
-                            </div>
-                            <div class="d-flex align-items-center gap-2">
-                                <div class="text-end"><h1>Interés:</h1></div>
-                                <div class="text-start"><div class="pipeline-medium">Medio</div></div>
+                                <div class="text-start">
+                                    <span>Precio lista</span>
+                                </div>
                             </div>
                             <div class="d-flex align-items-center gap-2">
                                 <div class="text-end"><h1>Giro:</h1></div>
-                                <div class="text-start"><span>Mantenimiento en Sistemas de Refrigeración</span></div>
+                                <div class="text-start">
+                                    <span
+                                        >Mantenimiento en Sistemas de
+                                        Refrigeración</span
+                                    >
+                                </div>
                             </div>
                             <div class="d-flex align-items-center gap-2">
                                 <div class="text-end"><h1>Monto:</h1></div>
-                                <div class="text-start"><span>$ 2,100.00</span></div>
+                                <div class="text-start">
+                                    <span>$ 2,100.00</span>
+                                </div>
                             </div>
                             <div class="d-flex align-items-center gap-2">
                                 <div class="text-end"><h1>Lugares:</h1></div>
@@ -131,7 +217,9 @@
                             </div>
                             <div class="d-flex align-items-center gap-2">
                                 <div class="text-end"><h1>Vigencia:</h1></div>
-                                <div class="text-start"><span>06/Dec/2023</span></div>
+                                <div class="text-start">
+                                    <span>06/Dec/2023</span>
+                                </div>
                             </div>
                         </div>
 
@@ -141,22 +229,28 @@
                                 <span>Formalizar</span>
                             </button>
                         </div>
-
                     </div>
-
                 </div>
 
                 <div class="container-pipeline">
                     <div class="pipeline-header">Cot. Clientes</div>
                     <div class="pipeline-subheader">TOTAL: $ 50,860.00</div>
-
                     <div class="bg-card card-pipeline formal-quote-card">
-                        <div class="card-title-pipeline d-flex align-items-center">
-                            <img class="mb-0" src="../../../../assets/images/img-face.png" alt="">
-                            <h1>Celida Maria Barreda Cárdenas/ Servicios Integrales del Bajío</h1>
+                        <div
+                            class="card-title-pipeline d-flex align-items-center flex-wrap pb-0"
+                        >
+                            <img
+                                class=""
+                                src="../../../../assets/images/img-face.png"
+                                alt=""
+                            />
+                            <h1>
+                                Celida Maria Barreda Cárdenas/ Servicios
+                                Integrales del Bajío
+                            </h1>
                         </div>
 
-                        <div class="status flex-row gap-3">
+                        <div class="status">
                             <h2>Estatus:</h2>
                             <button class="btn-action-add">
                                 <span>Abierta</span>
@@ -166,19 +260,24 @@
                         <div class="pipeline-content-card card-formal-padding">
                             <div class="d-flex align-items-center gap-2">
                                 <div class="text-end"><h1>Venta:</h1></div>
-                                <div class="text-start"><span class="font-bold"># 1696</span></div>
-                            </div>
-                            <div class="d-flex align-items-center gap-2">
-                                <div class="text-end"><h1>Interés:</h1></div>
-                                <div class="text-start"><div class="pipeline-medium">Medio</div></div>
+                                <div class="text-start">
+                                    <span class="font-bold"># 1696</span>
+                                </div>
                             </div>
                             <div class="d-flex align-items-center gap-2">
                                 <div class="text-end"><h1>Giro:</h1></div>
-                                <div class="text-start"><span>Mantenimie-nto en Sistemas de Refrigeración</span></div>
+                                <div class="text-start">
+                                    <span
+                                        >Mantenimie-nto en Sistemas de
+                                        Refrigeración</span
+                                    >
+                                </div>
                             </div>
                             <div class="d-flex align-items-center gap-2">
                                 <div class="text-end"><h1>Monto:</h1></div>
-                                <div class="text-start"><span>$ 2,100.00</span></div>
+                                <div class="text-start">
+                                    <span>$ 2,100.00</span>
+                                </div>
                             </div>
                             <div class="d-flex align-items-center gap-2">
                                 <div class="text-end"><h1>Lugares:</h1></div>
@@ -186,21 +285,31 @@
                             </div>
                             <div class="d-flex align-items-center gap-2">
                                 <div class="text-end"><h1>Fecha:</h1></div>
-                                <div class="text-start"><span>06/Dec/2023</span></div>
+                                <div class="text-start">
+                                    <span>06/Dec/2023</span>
+                                </div>
                             </div>
                         </div>
 
                         <div class="pipline-actions-formal">
                             <h1>Acciones</h1>
-                            <div class="d-flex align-items-center justify-content-center gap-2 mb-1">
-                                <mat-icon  svgIcon="mat_outline:check_box"></mat-icon>
+                            <div
+                                class="d-flex align-items-center justify-content-center gap-2 mb-1"
+                            >
+                                <mat-icon
+                                    svgIcon="mat_outline:check_box"
+                                ></mat-icon>
                                 <h2>Dinero en cuenta</h2>
                             </div>
-
-                            <span class="font-format-blue-light mb-1">Cambiar estatus</span>
-                            <span class="font-format-blue-light mb-1">Facturar</span>
-                            <span class="font-format-blue-light mb-1">Agregar comprobante de pago</span>
-
+                            <span class="font-format-blue-light mb-1"
+                                >Cambiar estatus</span
+                            >
+                            <span class="font-format-blue-light mb-1"
+                                >Facturar</span
+                            >
+                            <span class="font-format-blue-light mb-1"
+                                >Agregar comprobante de pago</span
+                            >
                         </div>
                     </div>
                 </div>
@@ -211,7 +320,10 @@
 
                     <div class="bg-card card-pipeline sells-card">
                         <div class="card-title-pipeline">
-                            <img src="../../../../assets/images/img-face.png" alt="">
+                            <img
+                                src="../../../../assets/images/img-face.png"
+                                alt=""
+                            />
                             <h1>Acabados y Diseños Jayro, SA de CV</h1>
                         </div>
                         <div class="pipeline-total">
@@ -219,91 +331,105 @@
                             <span>$ 2,100.00</span>
                         </div>
 
-                    <div class="pipeline-content-card">
-                        <div class="d-flex align-items-center gap-2">
-                            <div class="text-end"><h1>Cotización:</h1></div>
-                            <div class="text-start"><span class="font-bold"># 1696</span></div>
-                        </div>
+                        <div class="pipeline-content-card">
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="text-end"><h1>Cotización:</h1></div>
+                                <div class="text-start">
+                                    <span class="font-bold"># 1696</span>
+                                </div>
+                            </div>
 
-                        <div class="d-flex align-items-center gap-2">
-                            <div class="text-end"><h1>Opción 1:</h1></div>
-                            <div class="text-start"><span>Precio lista</span></div>
-                        </div>
-                        <div class="d-flex align-items-center gap-2">
-                            <div class="text-end"><h1>Interés:</h1></div>
-                            <div class="text-start"><div class="pipeline-high">Alto</div></div>
-                        </div>
-                        <div class="d-flex align-items-center gap-2">
-                            <div class="text-end"><h1>Giro:</h1></div>
-                            <div class="text-start"><span>Mantenimiento en Sistemas de Refrigeración</span></div>
-                        </div>
-                        <div class="d-flex align-items-center gap-2">
-                            <div class="text-end"><h1>Monto:</h1></div>
-                            <div class="text-start"><span>$ 2,100.00</span></div>
-                        </div>
-                        <div class="d-flex align-items-center gap-2">
-                            <div class="text-end"><h1>Lugares:</h1></div>
-                            <div class="text-start"><span>5</span></div>
-                        </div>
-                        <div class="d-flex align-items-center gap-2">
-                            <div class="text-end"><h1>Vigencia:</h1></div>
-                            <div class="text-start"><span>06/Dec/2023</span></div>
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="text-end"><h1>Opción 1:</h1></div>
+                                <div class="text-start">
+                                    <span>Precio lista</span>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="text-end"><h1>Giro:</h1></div>
+                                <div class="text-start">
+                                    <span
+                                        >Mantenimiento en Sistemas de
+                                        Refrigeración</span
+                                    >
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="text-end"><h1>Monto:</h1></div>
+                                <div class="text-start">
+                                    <span>$ 2,100.00</span>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="text-end"><h1>Lugares:</h1></div>
+                                <div class="text-start"><span>5</span></div>
+                            </div>
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="text-end"><h1>Vigencia:</h1></div>
+                                <div class="text-start">
+                                    <span>06/Dec/2023</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-
                 </div>
                 <div class="container-pipeline">
                     <div class="pipeline-header">Ventas clientes</div>
                     <div class="pipeline-subheader">TOTAL: $ 3,956,505.21</div>
-
                     <div class="bg-card card-pipeline sells-card">
                         <div class="card-title-pipeline">
-                            <img src="../../../../assets/images/img-face.png" alt="">
+                            <img
+                                src="../../../../assets/images/img-face.png"
+                                alt=""
+                            />
                             <h1>Acabados y Diseños Jayro, SA de CV</h1>
                         </div>
                         <div class="pipeline-total">
                             <h2>Total:</h2>
                             <span>$ 2,100.00</span>
                         </div>
-
-                    <div class="pipeline-content-card">
-                        <div class="d-flex align-items-center gap-2">
-                            <div class="text-end"><h1>Cotización:</h1></div>
-                            <div class="text-start"><span class="font-bold"># 1696</span></div>
-                        </div>
-
-                        <div class="d-flex align-items-center gap-2">
-                            <div class="text-end"><h1>Opción 1:</h1></div>
-                            <div class="text-start"><span>Precio lista</span></div>
-                        </div>
-                        <div class="d-flex align-items-center gap-2">
-                            <div class="text-end"><h1>Interés:</h1></div>
-                            <div class="text-start"><div class="pipeline-high">Alto</div></div>
-                        </div>
-                        <div class="d-flex align-items-center gap-2">
-                            <div class="text-end"><h1>Giro:</h1></div>
-                            <div class="text-start"><span>Mantenimiento en Sistemas de Refrigeración</span></div>
-                        </div>
-                        <div class="d-flex align-items-center gap-2">
-                            <div class="text-end"><h1>Monto:</h1></div>
-                            <div class="text-start"><span>$ 2,100.00</span></div>
-                        </div>
-                        <div class="d-flex align-items-center gap-2">
-                            <div class="text-end"><h1>Lugares:</h1></div>
-                            <div class="text-start"><span>5</span></div>
-                        </div>
-                        <div class="d-flex align-items-center gap-2">
-                            <div class="text-end"><h1>Vigencia:</h1></div>
-                            <div class="text-start"><span>06/Dec/2023</span></div>
+                        <div class="pipeline-content-card">
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="text-end"><h1>Cotización:</h1></div>
+                                <div class="text-start">
+                                    <span class="font-bold"># 1696</span>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="text-end"><h1>Opción 1:</h1></div>
+                                <div class="text-start">
+                                    <span>Precio lista</span>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="text-end"><h1>Giro:</h1></div>
+                                <div class="text-start">
+                                    <span
+                                        >Mantenimiento en Sistemas de
+                                        Refrigeración</span
+                                    >
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="text-end"><h1>Monto:</h1></div>
+                                <div class="text-start">
+                                    <span>$ 2,100.00</span>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="text-end"><h1>Lugares:</h1></div>
+                                <div class="text-start"><span>5</span></div>
+                            </div>
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="text-end"><h1>Vigencia:</h1></div>
+                                <div class="text-start">
+                                    <span>06/Dec/2023</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-
-                </div>
             </div>
-
         </div>
     </div>
-
 </div>
