@@ -22,8 +22,6 @@ export class PipelineComponent implements OnInit, AfterViewInit, OnDestroy {
   public total = 0;
   public indicePagina = 0;
 
-  // TABLA 
-
   public displayedColumns: string[] = [
     'fechaYHora',
     'informacion',
@@ -91,6 +89,8 @@ export class PipelineComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public selectedOption: number | null = null;
 
+  public dataPipele : any;
+
   constructor(
     private moduleServices: DashboardService,
     private formBuilder: FormBuilder,
@@ -116,8 +116,10 @@ export class PipelineComponent implements OnInit, AfterViewInit, OnDestroy {
   
   getPipeline(filters?:string) {
     this.moduleServices.getPipeline(filters).subscribe({
-      next: (data : entity.DatsPipeLine) => {
-        console.log(data);
+      next: (data : any) => {
+        this.dataPipele = data;
+        console.log(this.dataPipele);
+        
       },
       error: (error) => console.error(error)
     })

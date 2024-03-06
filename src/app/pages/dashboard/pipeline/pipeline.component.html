@@ -161,64 +161,56 @@
                 <div class="container-pipeline">
                     <div class="pipeline-header">Cot. Leads</div>
                     <div class="pipeline-subheader">TOTAL: $ 79,325.01</div>
-                    <div
-                        class="bg-card card-pipeline fast-quote-card"
-                        style="height: 400px"
-                    >
+                    <div class="bg-card card-pipeline fast-quote-card" *ngFor="let data of dataPipele?.quoteLeads; let i = index">
                         <div class="card-title-pipeline">
                             <img
-                                src="../../../../assets/images/img-face.png"
-                                alt=""
+                                [src]="data?.logo" alt=""
                             />
                             <h1>
-                                Celida Maria Barreda Cárdenas/ Servicios
-                                Integrales del Bajío
+                           {{ data?.companyName }}
                             </h1>
 
                             <div class="status">
                                 <h2>Estatus:</h2>
                                 <button class="btn-action-add">
-                                    <span>Abierta</span>
+                                    <span>{{ data?.status }}</span>
                                 </button>
                             </div>
                         </div>
 
-                        <div class="pipeline-content-card">
+                        <div class="pipeline-content-card" *ngFor="let dataOption of data.optionOne">
                             <div class="d-flex align-items-center gap-2">
                                 <div class="text-end"><h1>Cotización:</h1></div>
                                 <div class="text-start">
-                                    <span class="font-bold"># 1696</span>
+                                    <span class="font-bold">#{{ data?.quoteNumber }}</span>
                                 </div>
                             </div>
                             <div class="d-flex align-items-center gap-2">
                                 <div class="text-end"><h1>Opción 1:</h1></div>
                                 <div class="text-start">
-                                    <span>Precio lista</span>
+                                    <span>{{ dataOption?.listPrice }}</span>
                                 </div>
                             </div>
                             <div class="d-flex align-items-center gap-2">
                                 <div class="text-end"><h1>Giro:</h1></div>
                                 <div class="text-start">
-                                    <span
-                                        >Mantenimiento en Sistemas de
-                                        Refrigeración</span
-                                    >
+                                    <span>{{ dataOption?.platform }}</span>
                                 </div>
                             </div>
                             <div class="d-flex align-items-center gap-2">
                                 <div class="text-end"><h1>Monto:</h1></div>
                                 <div class="text-start">
-                                    <span>$ 2,100.00</span>
+                                    <span>{{ dataOption?.amount }}</span>
                                 </div>
                             </div>
                             <div class="d-flex align-items-center gap-2">
                                 <div class="text-end"><h1>Lugares:</h1></div>
-                                <div class="text-start"><span>5</span></div>
+                                <div class="text-start"><span>{{ dataOption?.places }}</span></div>
                             </div>
                             <div class="d-flex align-items-center gap-2">
                                 <div class="text-end"><h1>Vigencia:</h1></div>
                                 <div class="text-start">
-                                    <span>06/Dec/2023</span>
+                                    <span>{{ dataOption?.validity }}</span>
                                 </div>
                             </div>
                         </div>

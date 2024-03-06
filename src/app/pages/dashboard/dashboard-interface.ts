@@ -182,6 +182,6 @@ export interface DatsPipeLine {
   suma_quote_leads: number;
   suma_quote_clients: number;
   quotes_clients : TableDataQuote[]
-  quotes_leads : TableDataQuote[]
+  quotes_leads : TableDataQuote[] | any
   quotes_sales : TableDataQuote[]
 }
