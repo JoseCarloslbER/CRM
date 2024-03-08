@@ -1,50 +1,38 @@
-<!-- Loading bar -->
 <fuse-loading-bar></fuse-loading-bar>
 
-<!-- Navigation -->
 <fuse-vertical-navigation
     class="dark bg-gray-900 print:hidden"
     [mode]="isScreenSmall ? 'over' : 'side'"
     [name]="'mainNavigation'"
     [navigation]="menu"
     [opened]="!isScreenSmall">
-
     
-    <!-- HEADER SIDEBAR-->
     <ng-container fuseVerticalNavigationContentHeader>
         <div class="flex items-center w-full p-4 pl-6">
-
-            <!-- Logo -->
             <div class="flex items-center justify-center cursor-pointer" [routerLink]="['/home/dashboard/principal']" routerLinkActive="router-link-active" >
                 <img class="logo-crm" src="../../../../assets/images/logo/logo-sidebar-crm.png">
             </div>
 
-            <!-- Components -->
             <div class="flex items-center ml-auto">
                 <user [showAvatar]="false"></user>
             </div>
-
         </div>
 
-        <!-- PRESENTATION -->
         <div class="flex flex-col items-center w-full p-4">
             <div class="relative w-24 h-24">
-                <img class="w-full h-full rounded-full" *ngIf="user?.avatar" [src]="user?.avatar" alt="User avatar">
-                <mat-icon class="icon-size-24" *ngIf="!user?.avatar" [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                <img class="w-full h-full rounded-full" [src]="photo" alt="User avatar">
             </div>
 
             <div class="flex flex-col items-center justify-center w-full mt-6">
                 <div class="colorUserName w-full whitespace-nowrap text-ellipsis overflow-hidden text-center leading-normal font-medium">
-                    Nombre del agente Usuario
+                    {{ userName }}
                 </div>
             </div>
         </div>
-
     </ng-container>
 
 </fuse-vertical-navigation>
 
-<!-- Wrapper -->
 <div class="flex flex-col flex-auto w-full min-w-0">
     <div class="relative flex flex-0 items-center w-full h-16 px-4 md:px-6 z-49 shadow dark:shadow-none dark:border-b bg-card dark:bg-transparent print:hidden colorHeader">
         
@@ -61,10 +49,6 @@
                 <shortcuts></shortcuts>
                 <mat-icon class="color-icon-header cursor-pointer" (click)="goMailbox()">inbox</mat-icon>
                 <notifications></notifications>
-                <!-- <img src="../../../assets/images/Vector.png" class="cursor-pointer" (click)="quickChat.toggle()" alt="" style="width: 25px; height: 25px;"> -->
-                <!-- <button class="lg:hidden" mat-icon-button (click)="quickChat.toggle()"> -->
-                <!-- <mat-icon [svgIcon]="'heroicons_outline:chat-bubble-left-right'"></mat-icon> -->
-            <!-- </button> -->
             </div>
         </div>
     </div>

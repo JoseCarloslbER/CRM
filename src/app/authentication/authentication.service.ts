@@ -30,15 +30,13 @@ export class AuthenticationService {
         console.log(response);
 
         if (response && response.id) {
-          localStorage.setItem('UserAbrevia', JSON.stringify(response));
           const encryptedUser = CryptoJS.AES.encrypt(JSON.stringify(response), 'secretKey').toString();
-          localStorage.setItem('encryptedUser', encryptedUser);
+          localStorage.setItem('UserAbrevia', encryptedUser);
+          
           return true;
-
         } else {
           return false;
         }
-
       }),
       catchError((error) => {
         console.error('Error during login', error);
@@ -62,7 +60,7 @@ export class AuthenticationService {
   }
 
   getDecryptedUser() {
-    const encryptedUser = localStorage.getItem('encryptedUser');
+    const encryptedUser = localStorage.getItem('UserAbrevia');
 
     if (encryptedUser) {
       const decryptedBytes = CryptoJS.AES.decrypt(encryptedUser, 'secretKey');

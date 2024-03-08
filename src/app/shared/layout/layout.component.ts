@@ -1,5 +1,5 @@
 import { NgIf } from '@angular/common';
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router, RouterModule, RouterOutlet } from '@angular/router';
 import { Subject } from 'rxjs';
 import { FuseNavigationItem, FuseNavigationService, FuseVerticalNavigationComponent } from '@fuse/components/navigation';
@@ -12,6 +12,7 @@ import { UserComponent } from './common/user/user.component';
 import { SearchComponent } from './common/search/search.component';
 import { ShortcutsComponent } from './common/shortcuts/shortcuts.component';
 import { QuickChatComponent } from './common/quick-chat/quick-chat.component';
+import { AuthenticationService } from 'app/authentication/authentication.service';
 
 @Component({
     selector: 'layout',
@@ -23,7 +24,7 @@ import { QuickChatComponent } from './common/quick-chat/quick-chat.component';
         QuickChatComponent,
         RouterModule, FuseLoadingBarComponent, FuseVerticalNavigationComponent, NotificationsComponent, UserComponent, NgIf, MatIconModule, MatButtonModule, SearchComponent, ShortcutsComponent, MessagesComponent, RouterOutlet],
 })
-export class LayoutComponent implements OnInit, OnDestroy {
+export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
 
     public menu: FuseNavigationItem[] = [
         {
@@ -241,19 +242,26 @@ export class LayoutComponent implements OnInit, OnDestroy {
 
     isScreenSmall: boolean;
     user: any;
+    userName:string = ''
+    photo:string = ''
 
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     constructor(
+        private authenticationService: AuthenticationService,
         private _fuseNavigationService: FuseNavigationService,
         private router:Router
     ) { }
 
     ngOnInit(): void {}
 
-    ngOnDestroy(): void {
-        this._unsubscribeAll.next(null);
-        this._unsubscribeAll.complete();
+    ngAfterViewInit(): void {
+        setTimeout(() => {
+            this.user = this.authenticationService.getDecryptedUser();
+            console.log(this.user);
+            this.userName = this.user?.first_name && this.user?.last_name ? this.user?.first_name.toUpperCase() + ' ' + this.user?.last_name.toUpperCase() : this.user?.username.toUpperCase();
+            this.photo = this.user?.profile_picture ? this.user?.profile_picture.includes('default') ? `../../../assets/images/default.png` : this.user?.profile_picture : `../../../assets/images/default.png`
+        }, 500);
     }
 
     toggleNavigation(name: string): void {
@@ -271,5 +279,10 @@ export class LayoutComponent implements OnInit, OnDestroy {
   
     public gocalendar() {
         this.router.navigateByUrl('/home/reactivacion/agenda')
+    }
+
+    ngOnDestroy(): void {
+        this._unsubscribeAll.next(null);
+        this._unsubscribeAll.complete();
     }
 }

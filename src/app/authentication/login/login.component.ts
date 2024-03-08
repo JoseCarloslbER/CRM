@@ -37,11 +37,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     password: [null, Validators.required]
   });
 
-  objUser = {
-    email : 'jose@abrevia.com',
-    password: '123456'
-  }
-
   constructor(
     private moduleServices:AuthenticationService,
     private formBuilder: UntypedFormBuilder,
