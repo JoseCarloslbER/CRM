@@ -22,12 +22,11 @@ export class DashboardService {
       map((response) => Mapper.getDataStaticsMapper(response)),
     );
   }
-
   // END HOME  
 
   // PIPELINE
   public getPipeline(filters?: string): Observable<any> {
-    const url = `${this.apiUrl}pipeline/`;
+    const url = `${this.apiUrl}pipeline/${filters ? `?${filters}` : ''}`;
 
     return this.http.get<entity.DatsPipeLine>(url).pipe(
       map((response) => Mapper.getDataPipelineMapper(response)),

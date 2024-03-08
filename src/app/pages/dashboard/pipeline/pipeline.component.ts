@@ -9,6 +9,9 @@ import { ConversionService } from 'app/pages/conversion/conversion.service';
 import { ModalBillingComponent } from 'app/pages/conversion/modal-billing/modal-billing.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalUploadDocumentComponent } from 'app/pages/conversion/modal-upload-document/modal-upload-document.component';
+import moment from 'moment';
+import * as entityGeneral from '../../../shared/interfaces/general-interface';
+import { CatalogsService } from 'app/shared/services/catalogs.service';
 
 @Component({
   selector: 'app-pipeline',
@@ -19,21 +22,26 @@ export class PipelineComponent implements OnInit, OnDestroy {
   private onDestroy = new Subject<void>();
 
   public formFilters = this.formBuilder.group({
-    client: [{ value: null, disabled: false }],
-    agent: [{ value: null, disabled: false }],
-    status: [{ value: null, disabled: false }],
-    rangeDateStart: [{ value: null, disabled: false }],
-    rangeDateEnd: [{ value: null, disabled: false }],
+    client: [{ value: '', disabled: false }],
+    agent: [{ value: '', disabled: false }],
+    status: [{ value: '', disabled: false }],
+    rangeDateStart: [{ value: '', disabled: false }],
+    rangeDateEnd: [{ value: '', disabled: false }],
   });
 
   public fechaHoy = new Date();
 
-  public selectedOption: number | null = null;
+  public catStatus: entityGeneral.DataCatStatus[] = [];
+  public catAgents: entityGeneral.DataCatAgents[] = [];
+  public catCompanies: entityGeneral.DataCatCompany[] = [];
+
+  public filterDayMonthYear: string = 'Día'
 
   public dataPipele : any;
 
   constructor(
     private moduleServices: DashboardService,
+    private catalogsServices: CatalogsService,
     private moduleServicesQuote: ConversionService,
     private notificationService: OpenModalsService,
     private formBuilder: FormBuilder,
@@ -42,21 +50,54 @@ export class PipelineComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.searchWithFilters()
+    this.searchWithFilters();
+    this.getCatalogs();
+  }
+
+  getCatalogs() {
+    this.catalogsServices.getCatStatus().subscribe({
+      next: (data: entityGeneral.DataCatStatus[]) => {
+        this.catStatus = data;
+      },
+      error: (error) => console.error(error)
+    });
+
+    this.catalogsServices.getCatAgents().subscribe({
+      next: (data: entityGeneral.DataCatAgents[]) => {
+        this.catAgents = data;
+      },
+      error: (error) => console.error(error)
+    });
+ 
+    this.catalogsServices.getCatCompany().subscribe({
+      next: (data: entityGeneral.DataCatCompany[]) => {
+        this.catCompanies = data;
+      },
+      error: (error) => console.error(error)
+    });
   }
 
   searchWithFilters() {
-    this.getPipeline()
+    let filters: string = '';
+
+    if (this.filterDayMonthYear == 'Día') filters += `current_day=true&`
+     else if (this.filterDayMonthYear == 'Mes') filters += `current_month=true&`
+     else filters += `current_year=true&`
+    if (this.formFilters.get('client').value) filters += `company_id=${this.formFilters.get('client').value}&`;
+    if (this.formFilters.get('agent').value) filters += `user_id=${this.formFilters.get('agent').value}&`;
+    if (this.formFilters.get('status').value) filters += `status_id=${this.formFilters.get('status').value}&`;
+    if (this.formFilters.get('rangeDateStart').value && this.formFilters.get('rangeDateEnd').value) {
+      filters += `register_date_start=${moment(this.formFilters.get('rangeDateStart').value).format('YYYY-MM-DD')}&`,
+        filters += `register_date_end=${moment(this.formFilters.get('rangeDateEnd').value).format('YYYY-MM-DD')}&`
+    }
+
+    this.getPipeline(filters)
   }
 
   getPipeline(filters?:string) {
     this.moduleServices.getPipeline(filters).subscribe({
       next: (data : any) => {
         this.dataPipele = data;
-        console.log(this.dataPipele);
-        
-        console.log(this.dataPipele.quoteClients);
-        
       },
       error: (error) => console.error(error)
     })
@@ -126,8 +167,9 @@ export class PipelineComponent implements OnInit, OnDestroy {
   .subscribe((_) => this.searchWithFilters());
   }
 
-  selectOption(option: number) {
-    this.selectedOption = option;
+  selectOption(option: string) {
+    this.filterDayMonthYear = option;
+    this.searchWithFilters();
   }
 
   onTabChange(event: MatTabChangeEvent): void {
