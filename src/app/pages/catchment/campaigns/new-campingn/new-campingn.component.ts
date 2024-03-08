@@ -24,7 +24,7 @@ export class NewCampingnComponent implements OnInit, AfterViewInit, OnDestroy {
   public formData = this.formBuilder.group({
     campaign_code: [null],
     campaign_name: [null, Validators.required],
-    amount_invested: [null, Validators.required],
+    amount_invested: ['', Validators.required],
     campaign_type: [null, Validators.required],
     owner_user: [null, Validators.required],
     users: [null, Validators.required],
@@ -36,7 +36,7 @@ export class NewCampingnComponent implements OnInit, AfterViewInit, OnDestroy {
     goal_total_responses: [null],
     goal_number_quotes: [null],
     goal_number_sales: [null],
-    goal_amount: [null]
+    goal_amount: ['']
   });
 
   public formCompanies = this.formBuilder.group({
@@ -242,6 +242,25 @@ export class NewCampingnComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     return action
+  }
+
+  configInput(event: Event, control:string): void {
+		const inputElement = event.target as HTMLInputElement;
+		const inputValue = inputElement.value;
+		const sanitizedValue = inputValue.replace(/\D/g, '');
+
+    const formControl = this.formData.get(control);
+    if (formControl) formControl.setValue(sanitizedValue, { emitEvent: false });
+	}
+
+  cleanData() {
+    return {
+      ...this.formData.value,
+      amount_invested : parseFloat(this.formData.get('amount_invested')?.value.replace(/[^0-9.-]+/g,"")),
+      goal_amount : parseFloat(this.formData.get('goal_amount')?.value.replace(/[^0-9.-]+/g,"")),
+      end_date : moment(this.formData.get('end_date').value).format('YYYY-MM-DD'),
+      start_date : moment(this.formData.get('start_date').value).format('YYYY-MM-DD')
+    }
   }
 
   ngOnDestroy(): void {

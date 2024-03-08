@@ -72,8 +72,8 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     this.searchBar.valueChanges.pipe(takeUntil(this.onDestroy), debounceTime(500)).subscribe((content: string) => {
-      console.log(content);
-    })
+      this.applyFilter(content); 
+    });
   }
 
   getCatalogs() {
@@ -113,7 +113,6 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.getDataTable(filters)
   }
 
-
   getDataTable(filters?: any) {
     this.moduleServices.getDataTableCampaing(filters).subscribe({
       next: (data: entity.TableDataCampaingMapper[]) => {
@@ -121,6 +120,11 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
       },
       error: (error) => console.error(error)
     })
+  }
+
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim().toLowerCase();
+    this.dataSource.filter = filterValue;
   }
 
   newData() {

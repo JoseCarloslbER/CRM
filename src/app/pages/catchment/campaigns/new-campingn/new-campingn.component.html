@@ -1,5 +1,4 @@
 <div class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto bg-white" cdkScrollable>
-
     <div class="return-header">
         <mat-icon svgIcon="mat_solid:arrow_back" (click)="toBack()"></mat-icon>
         <p class="titulo-modal form-padding-title">{{ url.includes('editar') ? 'Editar' : url.includes('clonar') ?
@@ -8,13 +7,10 @@
     </div>
 
     <div class="row form-padding d-flex">
-
         <p class="mb-6">*Campos obligatorios</p>
-
         <form class="col-12" [formGroup]="formData">
             <div>
                 <div class="row">
-
                     <div class="col-md-4">
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Código</mat-label>
@@ -37,12 +33,11 @@
                                     titlecase }}</mat-option>
                             </mat-select>
                         </mat-form-field>
-
                     </div>
 
                     <div class="col-md-4">
                         <mat-form-field class="gt-xs:pr-3 inputNewRegister">
-                            <mat-label>Nombre de la campaña</mat-label>
+                            <mat-label>Nombre de campaña</mat-label>
                             <input formControlName="campaign_name" matInput>
                         </mat-form-field>
 
@@ -63,13 +58,12 @@
                                     '-'}}</mat-option>
                             </mat-select>
                         </mat-form-field>
-
                     </div>
 
                     <div class="col-md-4">
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Monto invertido</mat-label>
-                            <input formControlName="amount_invested" class="text-right" matInput>
+                            <input (input)="configInput($event, 'amount_invested')" formControlName="amount_invested" class="text-right" matInput>
                             <span matPrefix>$</span>
                         </mat-form-field>
 
@@ -171,7 +165,6 @@
                                 <mat-label>Cantidad de respuestas</mat-label>
                                 <input formControlName="goal_total_responses" type="number" matInput>
                             </mat-form-field>
-
                         </div>
                         <div class="col-md-4">
                             <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
@@ -181,7 +174,7 @@
 
                             <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                                 <mat-label>Monto total</mat-label>
-                                <input class="text-right" formControlName="goal_amount" type="number" matInput>
+                                <input (input)="configInput($event, 'goal_amount')" class="text-right" formControlName="goal_amount" type="text" matInput>
                                 <span matPrefix>$</span>
                             </mat-form-field>
                         </div>
@@ -193,7 +186,6 @@
                             </mat-form-field>
                         </div>
                     </div>
-
                 </div>
 
                 <div class="row d-flex justify-content-end align-items-center mb-3 mt-5">

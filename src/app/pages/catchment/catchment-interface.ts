@@ -52,7 +52,7 @@ export interface TableDataCampaingMapper {
     start: string;
     end: string;
   };
-  codeAndname: object;
+  codeAndname: any;
   companyType: string;
   totalCompanies: number;
   totalSalesAmount: object;

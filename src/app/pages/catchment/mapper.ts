@@ -1,63 +1,66 @@
 import * as entity from './catchment-interface';
 
 export class Mapper {
-	static getDataTableCampaingMapper(response: entity.TableDataCampaing[]) : entity.TableDataCampaingMapper[] {
-		let dataList :entity.TableDataCampaingMapper[] = [];
+	static getDataTableCampaingMapper(response: entity.TableDataCampaing[]) {
+	// static getDataTableCampaingMapper(response: entity.TableDataCampaing[]) : entity.TableDataCampaingMapper[] {
+		let dataList : any[] = [];
 
 		response.forEach((data: entity.TableDataCampaing): void => {
 			dataList.push({
 				id: data.campaign_id,
 				dateStartEnd: {start: data.start_date, end: data.end_date},
-				codeAndname: {code: data.campaign_code, name: data.campaign_name},
-				companyType : data.campaign_type.campaign_type_name,
-				totalCompanies : data.total_companies,
+				// codeAndname: {code: data?.campaign_code || '-', name: data?.campaign_name || '-'},
+				name: data?.campaign_name || '-',
+				code: data?.campaign_code || '-',
+				companyType : data?.campaign_type?.campaign_type_name || '-',
+				totalCompanies : data?.total_companies,
 				totalSalesAmount: {
-					amount: data.total_sales, 
-					totalAmount: '$' + parseFloat(data.total_amount).toLocaleString('en-US', {
+					amount: data?.total_sales, 
+					totalAmount: '$' + parseFloat(data?.total_amount || '0').toLocaleString('en-US', {
 						minimumFractionDigits: 2,
 						maximumFractionDigits: 2
 					})
 				},
-				amounInvested : '$' + parseFloat(data.amount_invested).toLocaleString('en-US', {
+				amounInvested : '$' + parseFloat(data?.amount_invested || '0').toLocaleString('en-US', {
 					minimumFractionDigits: 2,
 					maximumFractionDigits: 2,
 				}),
-				agents: {name : `${data?.owner_user?.first_name && data?.owner_user?.last_name ? data.owner_user?.first_name.toUpperCase() + ' ' + data.owner_user?.last_name.toUpperCase() : data.owner_user?.username.toUpperCase() }`, alls : data.users, main: data.owner_user } ,
-				companiesMain : { amount : data.companies.length, alls : data.companies },
+				agents: {name : `${data?.owner_user?.first_name && data?.owner_user?.last_name ? data.owner_user?.first_name.toUpperCase() + ' ' + data.owner_user?.last_name.toUpperCase() : data.owner_user?.username.toUpperCase() }`, alls : data?.users, main: data?.owner_user } ,
+				companiesMain : { amount : data?.companies?.length, alls : data?.companies },
 				quotesMade : { 
 					left : {
-						amount: data.number_quotes_lead,
-						totalAmount: '$' + parseFloat(data.amout_quotes_lead).toLocaleString('en-US', {
+						amount: data?.number_quotes_lead,
+						totalAmount: '$' + parseFloat(data?.amout_quotes_lead || '0').toLocaleString('en-US', {
 							minimumFractionDigits: 2,
 							maximumFractionDigits: 2
 						})
 					},
 					right : {
-						amount: data.number_quotes_client,
-						totalAmount: '$' + parseFloat(data.amout_quotes_client).toLocaleString('en-US', {
+						amount: data?.number_quotes_client,
+						totalAmount: '$' + parseFloat(data?.amout_quotes_client || '0').toLocaleString('en-US', {
 							minimumFractionDigits: 2,
 							maximumFractionDigits: 2
 						})
 					} 
 				},
 				campaingData : {
-					campaign_name: data.campaign_name,
-					goal_total_companies: data.goal_total_companies,
-					goal_total_responses: data.goal_total_responses,
-					goal_number_quotes: data.goal_number_quotes,
-					goal_number_sales: data.goal_number_sales,
-					goal_amount: data.goal_amount,
-					amount_invested: data.amount_invested,
-					start_date: data.start_date,
-					end_date: data.end_date,
-					total_companies: data.total_companies,
-					number_quotes_lead: data.number_quotes_lead,
-					number_quotes_client: data.number_quotes_client,
-					total_sales: data.total_sales,
-					total_amount: data.total_amount,
-					average_quote: data.average_quote,
-					average_sales: data.average_sales,
-					companies: data.companies?.length ? data.companies?.filter(data=> data.response) : []
+					campaign_name: data?.campaign_name,
+					goal_total_companies: data?.goal_total_companies,
+					goal_total_responses: data?.goal_total_responses,
+					goal_number_quotes: data?.goal_number_quotes,
+					goal_number_sales: data?.goal_number_sales,
+					goal_amount: data?.goal_amount,
+					amount_invested: data?.amount_invested,
+					start_date: data?.start_date,
+					end_date: data?.end_date,
+					total_companies: data?.total_companies,
+					number_quotes_lead: data?.number_quotes_lead,
+					number_quotes_client: data?.number_quotes_client,
+					total_sales: data?.total_sales,
+					total_amount: data?.total_amount,
+					average_quote: data?.average_quote,
+					average_sales: data?.average_sales,
+					companies: data?.companies?.length ? data?.companies?.filter(data=> data.response) : []
 				},
 			});
 		});
@@ -65,12 +68,15 @@ export class Mapper {
 		return dataList
 	}
 	
-	static editDataTableCampaingMapper(response: entity.TableDataCampaing) : entity.GetDataCampainMapper {
+	static GetDataTableCampaingMapper(response: entity.TableDataCampaing) : entity.GetDataCampainMapper {
 		return {
 			id: response.campaign_id,
 			campaign_code : response.campaign_code,
 			campaign_name : response.campaign_name,
-			amount_invested : response.amount_invested,
+			amount_invested: parseFloat(response?.amount_invested || '0').toLocaleString('en-US', {
+				minimumFractionDigits: 2,
+				maximumFractionDigits: 2
+			}),
 			campaign_type : response.campaign_type.campaign_type_id,
 			owner_user : response.owner_user.id,
 			users : response.users.map(data => data.user.id),
@@ -82,7 +88,10 @@ export class Mapper {
 			goal_total_responses : response.goal_total_responses,
 			goal_number_quotes : response.goal_number_quotes,
 			goal_number_sales : response.goal_number_sales,
-			goal_amount : response.goal_amount,
+			goal_amount: parseFloat(response?.goal_amount || '0').toLocaleString('en-US', {
+				minimumFractionDigits: 2,
+				maximumFractionDigits: 2
+			}),
 			companiesSelected : response.companies.map(data => data.company),
 			formCompanies : {
 				companies : response.companies.map(data => data.company.company_id)

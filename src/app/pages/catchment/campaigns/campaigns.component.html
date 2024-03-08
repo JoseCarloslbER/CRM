@@ -80,7 +80,7 @@
                     <div class="row d-flex">
                         <div class="d-flex col-md-5 col-xl-5 col-12 pt-md-2 mb-lg-0 mb-sm-0 mt-3 mb-5">
                             <div class="input-search">
-                                <input type="text" placeholder="Búscar">
+                                <input [formControl]="searchBar" type="text" placeholder="Búscar">
                                 <mat-icon class="icon-size-6" matSuffix [svgIcon]="'mat_solid:search'"></mat-icon>
                             </div>
                         </div>
@@ -107,8 +107,8 @@
                     <th mat-header-cell *matHeaderCellDef># Nombre</th>
                     <td mat-cell *matCellDef="let element">
                         <div class="table-column-date-start-end">
-                            <span> {{ element?.codeAndname?.code || '-' }} </span>
-                            <span> {{ element?.codeAndname?.name || '-' }} </span>
+                            <span> {{ element?.code || '-' }} </span>
+                            <span> {{ element?.name || '-' }} </span>
                         </div>
                     </td>
                 </ng-container>
@@ -179,22 +179,6 @@
                     </td>
                 </ng-container>
 
-                <!-- <ng-container matColumnDef="allQuotes">
-                <th mat-header-cell *matHeaderCellDef>
-                    Total de cotizaciones realizadas 
-                    <br>
-                    L | C
-                </th>
-                <td mat-cell *matCellDef="let element"> 
-                    <div class="table-column-three-buttons" *ngFor="let info of element.cotizaciones"> 
-                        <div class="d-flex align-items-center justify-content-between">  
-                            <div class="table-column-lead"> {{ info.left }} </div>
-                            <div class="table-column-lead"> {{ info.right }} </div> 
-                        </div> 
-                        <div class="table-column-lead-green"> {{ info.bottom }} </div> 
-                    </div>
-                </td>
-            </ng-container> -->
 
                 <ng-container matColumnDef="quotesMade">
                     <th mat-header-cell *matHeaderCellDef>
@@ -226,9 +210,6 @@
                     <th mat-header-cell *matHeaderCellDef>Acciones</th>
                     <td mat-cell *matCellDef="let element">
                         <div class="c-column-btns">
-                            <!-- <div class="btn-see">
-                                <mat-icon matTooltip="Ver" (click)="seeData()">visibility</mat-icon>
-                            </div> -->
 
                             <div class="btn-edit" (click)="editData(element.id)">
                                 <mat-icon matTooltip="Editar">edit_square</mat-icon>

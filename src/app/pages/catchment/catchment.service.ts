@@ -40,7 +40,7 @@ export class CatchmentService {
 		const url = `${this.apiUrl}campaign/${id}/`;
 
     return this.http.get<entity.TableDataCampaing>(url).pipe(
-			map((response) => Mapper.editDataTableCampaingMapper(response))
+			map((response) => Mapper.GetDataTableCampaingMapper(response))
 		);
 	}
 
