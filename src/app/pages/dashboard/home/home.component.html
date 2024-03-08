@@ -33,7 +33,7 @@
                             <mat-form-field class="flex-auto input-default">
                                 <mat-label>Giro</mat-label>
                                 <mat-select placeholder="Seleccionar" formControlName="business">
-                                    <mat-option [value]="null">Todos</mat-option>
+                                    <mat-option value="">Todos</mat-option>
                                     <mat-option [value]="cat.business_id" *ngFor="let cat of catBusiness">{{cat?.business_name || '-'}}</mat-option>
                                 </mat-select>
                             </mat-form-field>
@@ -42,8 +42,8 @@
                         <div class="flex col-sm-12 col-md-6 col-lg-3 col-12 pe-2">
                             <mat-form-field class="flex-auto input-default">
                                 <mat-label>Campaña</mat-label>
-                                <mat-select placeholder="Seleccionar" formControlName="campaing">
-                                    <mat-option [value]="null">Todos</mat-option>
+                                <mat-select placeholder="Seleccionar" formControlName="campaign">
+                                    <mat-option value="">Todos</mat-option>
                                     <mat-option [value]="cat.campaign_id" *ngFor="let cat of catCampaing">{{cat?.campaign_name || '-'}}</mat-option>
                                 </mat-select>
                             </mat-form-field>
@@ -104,9 +104,9 @@
         <div class="w-full mx-auto">
 
         <div class="row tap-options">
-            <span (click)="selectOption(1)" [class.selected]="selectedOption === 1">Día</span>
-            <span (click)="selectOption(2)" [class.selected]="selectedOption === 2">Mes</span>
-            <span (click)="selectOption(3)" [class.selected]="selectedOption === 3">Año</span>
+            <span (click)="selectOption('Día')" [class.selected]="filterDayMonthYear === 'Día'">Día</span>
+            <span (click)="selectOption('Mes')" [class.selected]="filterDayMonthYear === 'Mes'">Mes</span>
+            <span (click)="selectOption('Año')" [class.selected]="filterDayMonthYear === 'Año'">Año</span>
         </div>
 
         <div *ngIf="selectedProject == 'Estadísticas'" style="overflow: hidden;">

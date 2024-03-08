@@ -65,7 +65,7 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
   public fechaHoy = new Date();
 
   public totalQuotes : number = 0;
-  public selectedOption: number | null = null;
+  public filterDayMonthYear: string = 'Día'
 
   constructor(
     private moduleServices: ConversionService,
@@ -78,7 +78,7 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit(): void {
     this.searchWithFilters();
-    this.getCatalogs()
+    this.getCatalogs();
   }
 
   ngAfterViewInit(): void {
@@ -120,6 +120,9 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
   searchWithFilters() {
     let filters = '';
 
+    if (this.filterDayMonthYear == 'Día') filters += `current_day=true&`
+      else if (this.filterDayMonthYear == 'Mes') filters += `current_month=true&`
+        else filters += `current_year=true&`
     if (this.formFilters.get('status').value) filters += `status_id=${this.formFilters.get('status').value}&`;
     if (this.formFilters.get('agent').value) filters += `user_id=${this.formFilters.get('agent').value}&`;
     if (this.formFilters.get('rangeDateStart').value && this.formFilters.get('rangeDateEnd').value) {
@@ -152,10 +155,9 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
     this.router.navigateByUrl(`/home/conversion/nueva-cotizacion`)
   }
 
-
-
-  selectOption(option: number) {
-    this.selectedOption = option;
+  selectOption(option: string) {
+    this.filterDayMonthYear = option;
+    this.searchWithFilters();
   }
 
   acceptQuote(data : any) {

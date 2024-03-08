@@ -8,6 +8,7 @@ import { DashboardService } from '../dashboard.service';
 import { CatalogsService } from 'app/shared/services/catalogs.service';
 import * as entityGeneral from '../../../shared/interfaces/general-interface';
 import * as entity from '../dashboard-interface';
+import moment from 'moment';
 
 @Component({
   selector: 'app-home',
@@ -1732,11 +1733,11 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   };
 
   public formFilters = this.formBuilder.group({
-    user: [{ value: null, disabled: false }],
-    business: [{ value: null, disabled: false }],
-    campaing: [{ value: null, disabled: false }],
-    rangeDateStart: [{ value: null, disabled: false }],
-    rangeDateEnd: [{ value: null, disabled: false }],
+    user: [{ value: '', disabled: false }],
+    business: [{ value: '', disabled: false }],
+    campaign: [{ value: '', disabled: false }],
+    rangeDateStart: [{ value: '', disabled: false }],
+    rangeDateEnd: [{ value: '', disabled: false }],
   });
 
   public catBusiness: entityGeneral.DataCatBusiness[] = [];
@@ -1747,15 +1748,15 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   public chartGithubIssues: ApexOptions = {};
 
   public selectedProject: string = 'Estadísticas';
-  public selectedOption: number | null = null;
+  public filterDayMonthYear: string = 'Día'
 
   public fechaHoy = new Date();
 
-  public objStatics:any;
+  public objStatics: any;
 
-  public latestRegisteredCompanies:any[] = []
-  public customersPurchasedMost:any[] = []
-  public countriesBuyMost:any[] = []
+  public latestRegisteredCompanies: any[] = []
+  public customersPurchasedMost: any[] = []
+  public countriesBuyMost: any[] = []
 
   constructor(
     private catalogsServices: CatalogsService,
@@ -1766,11 +1767,9 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.dataGraphics()
-  }
+    this.searchWithFilters();
+    this.getCatalogs();
 
-  selectOption(option: number) {
-    this.selectedOption = option;
   }
 
   ngAfterViewInit(): void {
@@ -1781,10 +1780,6 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     }, 500);
   }
 
-  searchWithFilters() {
-    console.log(this.formFilters.value);
-  }
-
   getCatalogs() {
     this.catalogsServices.getCatBusiness().pipe(takeUntil(this.onDestroy)).subscribe({
       next: (data: entityGeneral.DataCatBusiness[]) => {
@@ -1792,7 +1787,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       },
       error: (error) => console.error(error)
     });
-    
+
     this.catalogsServices.getCatAgents().pipe(takeUntil(this.onDestroy)).subscribe({
       next: (data: entityGeneral.DataCatAgents[]) => {
         this.catAgents = data;
@@ -1808,11 +1803,27 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  getHomeStatics(filters?:any) {
+  searchWithFilters() {
+    let filters: string = '';
+
+    if (this.filterDayMonthYear == 'Día') filters += `current_day=true&`
+    else if (this.filterDayMonthYear == 'Mes') filters += `current_month=true&`
+    else filters += `current_year=true&`
+    if (this.formFilters.get('user').value) filters += `user_id=${this.formFilters.get('user').value}&`;
+    if (this.formFilters.get('business').value) filters += `business_id=${this.formFilters.get('business').value}&`;
+    if (this.formFilters.get('campaign').value) filters += `campaign_id=${this.formFilters.get('campaign').value}&`;
+    if (this.formFilters.get('rangeDateStart').value && this.formFilters.get('rangeDateEnd').value) {
+      filters += `register_date_start=${moment(this.formFilters.get('rangeDateStart').value).format('YYYY-MM-DD')}&`,
+        filters += `register_date_end=${moment(this.formFilters.get('rangeDateEnd').value).format('YYYY-MM-DD')}&`
+    }
+
+    this.getHomeStatics(filters)
+  }
+
+  getHomeStatics(filters?: string) {
     this.moduleServices.getHomeStatics(filters).subscribe({
-      next: (data : entity.DatsStaticsMapper) => {
-        this.objStatics = data
-        console.log(this.objStatics);
+      next: (data: entity.DatsStaticsMapper) => {
+        this.objStatics = data;
         this.latestRegisteredCompanies = data.latestRegisteredCompanies
         this.customersPurchasedMost = data.customersPurchasedMost
         this.countriesBuyMost = data.countriesBuyMost
@@ -1976,6 +1987,11 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     };
   }
 
+  selectOption(option: string) {
+    this.filterDayMonthYear = option;
+    this.searchWithFilters();
+  }
+  
   ngOnDestroy(): void {
     this.onDestroy.next();
     this.onDestroy.unsubscribe();

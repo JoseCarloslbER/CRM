@@ -63,8 +63,6 @@ export class DiaryComponent implements OnInit, AfterViewInit, OnDestroy {
   public searchBar = new FormControl('');
   public agent = new FormControl('');
 
-  public filterAgent: string = '';
-
   constructor(
     private moduleServices: ReactivationService,
     private catalogsServices: CatalogsService,
@@ -87,11 +85,7 @@ export class DiaryComponent implements OnInit, AfterViewInit, OnDestroy {
     });
 
     this.agent.valueChanges.pipe(takeUntil(this.onDestroy)).subscribe(data => {
-      if (data.trim()) {
-        this.filterAgent = `user_id=${data}`
-        this.getDataTable()
-      };
-      
+      if (data.trim()) this.getDataTable( `user_id=${data}`)
     })
   }
 
@@ -104,8 +98,8 @@ export class DiaryComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  getDataTable() {
-    this.moduleServices.getDataTableDiary(this.filterAgent).subscribe({
+  getDataTable(filtros?: string) {
+    this.moduleServices.getDataTableDiary(filtros).subscribe({
       next: (data: any) => {
         this.events = data.map(data => {
           return {
@@ -193,5 +187,4 @@ export class DiaryComponent implements OnInit, AfterViewInit, OnDestroy {
     this.onDestroy.next();
     this.onDestroy.unsubscribe();
   }
-
 }

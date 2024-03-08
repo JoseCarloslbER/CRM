@@ -1776,12 +1776,14 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit(): void {
     this.searchWithFilters()
+    this.getCatalogs()
+
   }
 
   ngAfterViewInit(): void {
-    setTimeout(() => {
-      this.getCatalogs()
-    }, 500);
+    // setTimeout(() => {
+    //   this.getCatalogs()
+    // }, 500);
   }
 
   getCatalogs() {
@@ -1812,7 +1814,7 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
 
     if (this.filterDayMonthYear == 'Día') filters += `current_day=true&`
      else if (this.filterDayMonthYear == 'Mes') filters += `current_month=true&`
-     else filters += `current_year=true&`
+      else filters += `current_year=true&`
     if (this.formFilters.get('user').value) filters += `user_id=${this.formFilters.get('user').value}&`;
     if (this.formFilters.get('business').value) filters += `business_id=${this.formFilters.get('business').value}&`;
     if (this.formFilters.get('campaign').value) filters += `campaign_id=${this.formFilters.get('campaign').value}&`;

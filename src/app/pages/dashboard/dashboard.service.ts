@@ -16,7 +16,7 @@ export class DashboardService {
 
   // HOME 
   public getHomeStatics(filters?: string): Observable<any> {
-    const url = `${this.apiUrl}statics/`;
+    const url = `${this.apiUrl}statics/${filters ? `?${filters}` : ''}`;
 
     return this.http.get<any>(url).pipe(
       map((response) => Mapper.getDataStaticsMapper(response)),
