@@ -14,6 +14,7 @@ import { CatalogsService } from 'app/shared/services/catalogs.service';
 import * as entityGeneral from '../../../shared/interfaces/general-interface';
 import { ModalInformationInTableComponent } from 'app/shared/components/modal-information-in-table/modal-information-in-table.component';
 import moment from 'moment';
+import { CatchmentService } from 'app/pages/catchment/catchment.service';
 
 @Component({
   selector: 'app-campaigns',
@@ -1767,6 +1768,7 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
   public objDataCampaing: any;
 
   constructor(
+    private moduleServicesCatchment: CatchmentService,
     private catalogsServices: CatalogsService,
     private moduleServices: DashboardService,
     private dialog: MatDialog,
@@ -1857,10 +1859,9 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
- 
-
-  seeCampaignsResults() {
-    this.router.navigateByUrl(`home/dashboard/resultados-campanias/1`)
+  seeCampaignsResults(data:any) {
+    this.moduleServicesCatchment.sendData(data);
+    this.router.navigateByUrl('/home/captacion/resultados-campanias/campaign');
   }
 
   ngOnDestroy(): void {
