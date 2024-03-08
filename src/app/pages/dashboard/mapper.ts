@@ -15,6 +15,7 @@ export class Mapper {
 				total  : response?.total_cotizaciones_descartadas
 			},
 			closedQuotesSales : response?.cotizaciones_cerradas_ventas,
+			totalEntries : response?.total_entradas,
 			totalClosedQuotesSales : response?.total_cerradas_ventas,
 			latestRegisteredCompanies: response.ultimas_empresas.map(data => {
 				return {

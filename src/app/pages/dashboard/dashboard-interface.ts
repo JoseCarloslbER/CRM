@@ -120,6 +120,7 @@ export interface DatsStatics {
   total_cotizaciones_descartadas: number;
   total_cerradas_ventas: number;
   cotizaciones_cerradas_ventas: number;
+  total_entradas: number;
   empresas_mas_compran: TableDataCompany[]
   empresas_por_fase: {
     company_phase: string
@@ -153,6 +154,7 @@ export interface DatsStaticsMapper {
     total: number;
   },
   closedQuotesSales: number;
+  totalEntries: number;
   totalClosedQuotesSales: number;
   latestRegisteredCompanies: {
     name: string;
