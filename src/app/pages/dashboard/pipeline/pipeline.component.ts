@@ -15,7 +15,7 @@ import { ModalUploadDocumentComponent } from 'app/pages/conversion/modal-upload-
   templateUrl: './pipeline.component.html',
   styleUrl: './pipeline.component.scss'
 })
-export class PipelineComponent implements OnInit, AfterViewInit, OnDestroy {
+export class PipelineComponent implements OnInit, OnDestroy {
   private onDestroy = new Subject<void>();
 
   public formFilters = this.formBuilder.group({
@@ -45,19 +45,10 @@ export class PipelineComponent implements OnInit, AfterViewInit, OnDestroy {
     this.searchWithFilters()
   }
 
-  ngAfterViewInit(): void {
-    
-  }
-
   searchWithFilters() {
-    console.log(this.formFilters.value);
     this.getPipeline()
   }
 
-  newDataQuote() {
-    this.router.navigateByUrl(`/home/conversion/nueva-cotizacion`)
-  }
-  
   getPipeline(filters?:string) {
     this.moduleServices.getPipeline(filters).subscribe({
       next: (data : any) => {
@@ -69,6 +60,10 @@ export class PipelineComponent implements OnInit, AfterViewInit, OnDestroy {
       },
       error: (error) => console.error(error)
     })
+  }
+
+  newDataQuote() {
+    this.router.navigateByUrl(`/home/conversion/nueva-cotizacion`)
   }
 
   moneyAccount(data:any) {

@@ -135,7 +135,7 @@
                     <td mat-cell *matCellDef="let element">
                         <div class="table-column-agent-see-all">
                             <span> {{ element?.agents?.name || '' }} </span>
-                            <span (click)="seeDataModal('agents', element?.agents)">Ver todos</span>
+                            <span *ngIf="element?.agents?.length" (click)="seeDataModal('agents', element?.agents)">Ver todos</span>
                         </div>
                     </td>
                 </ng-container>
@@ -147,7 +147,7 @@
                             <div class="table-column-status table-column-lead-width mb-4">
                                 {{ element?.companiesMain?.amount || '0' }}
                             </div>
-                            <span (click)="seeDataModal('companies', element?.companiesMain?.alls)">Ver empresas</span>
+                            <span *ngIf="element?.companiesMain?.alls?.length" (click)="seeDataModal('companies', element?.companiesMain?.alls)">Ver empresas</span>
                         </div>
                     </td>
                 </ng-container>
@@ -222,7 +222,7 @@
                     </td>
                 </ng-container>
 
-                <ng-container matColumnDef="acciones">
+                <ng-container matColumnDef="actions">
                     <th mat-header-cell *matHeaderCellDef>Acciones</th>
                     <td mat-cell *matCellDef="let element">
                         <div class="c-column-btns">

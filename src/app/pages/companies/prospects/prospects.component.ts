@@ -101,7 +101,7 @@ export class ProspectsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   searchWithFilters() {
-    let filters = 'company_phase=ec43fa4e-1ade-46ea-9841-1692074ce8cd&';
+    let filters: string = 'company_phase=ec43fa4e-1ade-46ea-9841-1692074ce8cd&';
 
     if (this.formFilters.get('status').value) filters += `status_id=${this.formFilters.get('status').value}&`;
     if (this.formFilters.get('business').value) filters += `business_id=${this.formFilters.get('business').value}&`;

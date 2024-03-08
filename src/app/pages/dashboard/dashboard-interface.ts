@@ -1,3 +1,4 @@
+import { TableDataCampaing } from '../catchment/catchment-interface';
 import { TableDataCompany } from '../companies/companies-interface';
 import { TableDataQuote } from '../conversion/conversion-interface';
 
@@ -176,7 +177,6 @@ export interface DatsStaticsMapper {
   }[];
 }
 
-
 export interface DatsPipeLine {
   suma_sales: number;
   suma_quote_leads: number;
@@ -185,4 +185,36 @@ export interface DatsPipeLine {
   quotes_leads : TableDataQuote[] | any
   quotes_sales : TableDataQuote[]
   quotes_sales_lead? : TableDataQuote[]
+}
+
+export interface DataCampaings {
+  total_campanias: number;
+  total_monto_invertido: number;
+  costo_promedio_campania: number;
+  total_prospectos_alcanzados: number;
+  costo_promedio_campania_prospecto: number;
+  total_cotizaciones_realizadas: number;
+  costo_promedio_cotizacion: number;
+  monto_total_cotizaciones_realizadas: number | null,
+  total_ventas_cerradas : number;
+  monto_total_ventas: number;
+  costo_promedio_venta: number;
+  porcentaje_campania_contra_total_ventas: number;
+  historial_campanias: TableDataCampaing[]
+}
+
+export interface DataCampaingsMapper {
+  totalCampaign : number;
+  totalAmountInvestedCampaign : string;
+  costCampaign : string;
+  totalProspectsQuote : number;
+  costProspectQuote : string;
+  totalQuoteMade : number;
+  costQuote : string;
+  totalAmountQuotesMade : string;
+  totalSalesclosed : number;
+  costSale : string;
+  totalSalesAmount : string;
+  percentageSales : number;
+  campaignHistory : any[];
 }

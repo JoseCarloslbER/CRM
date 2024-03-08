@@ -12,6 +12,8 @@ import { ModalCompaniesComponent } from './modal-companies/modal-companies.compo
 import * as entity from '../dashboard-interface';
 import { CatalogsService } from 'app/shared/services/catalogs.service';
 import * as entityGeneral from '../../../shared/interfaces/general-interface';
+import { ModalInformationInTableComponent } from 'app/shared/components/modal-information-in-table/modal-information-in-table.component';
+import moment from 'moment';
 
 @Component({
   selector: 'app-campaigns',
@@ -27,188 +29,19 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
   public longitudPagina = 50;
   public total = 0;
   public indicePagina = 0;
-  public displayedColumns: string[] = [
-    'campaign',
-    'type',
-    'period',
+
+  public displayedColumnsCampaign: string[] = [
+    'codeAndname',
+    'dateStartEnd',
+    'companyType',
+    'agents',
     'companies',
-    'amountInvested',
-    'resuls',
-    'quotes',
-    'sells',
+    'results',
+    'amounInvested',
+    'totalCompanies',
+    'quotesMade',
+    'totalSalesAmount',
   ];
-
-  private companyInfoColumns: string[] = [
-    'company',
-    'contact',
-    'status'
-  ]
-
-  private datacompany: any[] = [
-    {
-      company: 'RECK SOLUCIONES',
-      status: 'LEAD',
-      contact: [
-        {
-          nombre: 'Ing Alberto Avendaño',
-          email: 'aavendano@anpasa.com',
-          telefono: 'N/A',
-          celular: '5516349327',
-        }
-      ],
-    },
-    {
-      company: 'RECK SOLUCIONES',
-      status: 'LEAD',
-      contact: [
-        {
-          nombre: 'Ing Alberto Avendaño',
-          email: 'aavendano@anpasa.com',
-          telefono: 'N/A',
-          celular: '5516349327',
-        }
-      ],
-    },
-    {
-      company: 'RECK SOLUCIONES',
-      status: 'LEAD',
-      contact: [
-        {
-          nombre: 'Ing Alberto Avendaño',
-          email: 'aavendano@anpasa.com',
-          telefono: 'N/A',
-          celular: '5516349327',
-        }
-      ],
-    },
-    {
-      company: 'RECK SOLUCIONES',
-      status: 'LEAD',
-      contact: [
-        {
-          nombre: 'Ing Alberto Avendaño',
-          email: 'aavendano@anpasa.com',
-          telefono: 'N/A',
-          celular: '5516349327',
-        }
-      ],
-    },
-    {
-      company: 'RECK SOLUCIONES',
-      status: 'LEAD',
-      contact: [
-        {
-          nombre: 'Ing Alberto Avendaño',
-          email: 'aavendano@anpasa.com',
-          telefono: 'N/A',
-          celular: '5516349327',
-        }
-      ],
-    },
-    {
-      company: 'RECK SOLUCIONES',
-      status: 'LEAD',
-      contact: [
-        {
-          nombre: 'Ing Alberto Avendaño',
-          email: 'aavendano@anpasa.com',
-          telefono: 'N/A',
-          celular: '5516349327',
-        }
-      ],
-    },
-    {
-      company: 'RECK SOLUCIONES',
-      status: 'LEAD',
-      contact: [
-        {
-          nombre: 'Ing Alberto Avendaño',
-          email: 'aavendano@anpasa.com',
-          telefono: 'N/A',
-          celular: '5516349327',
-        }
-      ],
-    },
-    {
-      company: 'RECK SOLUCIONES',
-      status: 'LEAD',
-      contact: [
-        {
-          nombre: 'Ing Alberto Avendaño',
-          email: 'aavendano@anpasa.com',
-          telefono: 'N/A',
-          celular: '5516349327',
-        }
-      ],
-    },
-
-  ]
-
-  public dataDummy: any[] = [
-    {
-      campaign: 'Nombre 1',
-      type: 'Tipo 1',
-      period: {
-        inicial: '2022-02-28',
-        final: '2022-02-28'
-      },
-      companies: '20',
-      amountInvested: '$20.00',
-      resuls: [
-        {
-          left: '5',
-          right: '5',
-          bottom: '$15,000.00',
-        }
-      ],
-      quotes: [
-        {
-          up: '5',
-          bottom: '$15,000.00',
-
-        }
-      ],
-      sells: [
-        {
-          up: '5',
-          bottom: '$15,000.00',
-
-        }
-      ],
-    },
-    {
-      campaign: 'Nombre 1',
-      type: 'Tipo 1',
-      period: {
-        inicial: '2022-02-28',
-        final: '2022-02-28'
-      },
-      companies: '20',
-      amountInvested: '$20.00',
-      resuls: [
-        {
-          left: '5',
-          right: '5',
-          bottom: '$15,000.00',
-        }
-      ],
-      quotes: [
-        {
-          up: '5',
-          bottom: '$15,000.00',
-
-        }
-      ],
-      sells: [
-        {
-          up: '5',
-          bottom: '$15,000.00',
-
-        }
-      ],
-    },
-
-  ]
 
   public data = {
     visitors: {
@@ -1914,21 +1747,24 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
   };
 
   public formFilters = this.formBuilder.group({
-    user: [{ value: null, disabled: false }],
-    giro: [{ value: null, disabled: false }],
-    company: [{ value: null, disabled: false }],
-    rangeDateStart: [{ value: null, disabled: false }],
-    rangeDateEnd: [{ value: null, disabled: false }],
+    user: [{ value: '', disabled: false }],
+    business: [{ value: '', disabled: false }],
+    campaign: [{ value: '', disabled: false }],
+    rangeDateStart: [{ value: '', disabled: false }],
+    rangeDateEnd: [{ value: '', disabled: false }],
   });
 
   public catBusiness: entityGeneral.DataCatBusiness[] = [];
+  public catAgents: entityGeneral.DataCatAgents[] = [];
+  public catCampaing: entityGeneral.DataCatCampaing[] = [];
 
   public fechaHoy = new Date();
 
   public chartWeeklyExpenses: ApexOptions = {};
 
-  public selectedProject: string = 'Estadísticas';
-  public selectedOption: number | null = null;
+  public filterDayMonthYear: string = 'Día'
+
+  public objDataCampaing: any;
 
   constructor(
     private catalogsServices: CatalogsService,
@@ -1939,21 +1775,13 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.dataSource.data = this.dataDummy
+    this.searchWithFilters()
   }
 
   ngAfterViewInit(): void {
     setTimeout(() => {
       this.getCatalogs()
     }, 500);
-  }
-
-  onTabChange(event: MatTabChangeEvent): void {
-    console.log(event.tab.textLabel);
-  }
-
-  searchWithFilters() {
-    console.log(this.formFilters.value);
   }
 
   getCatalogs() {
@@ -1963,39 +1791,45 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
       },
       error: (error) => console.error(error)
     });
-  }
 
-  getCampaings(filters: entity.DataTableFilters) {
-    this.moduleServices.getCampaings(filters).pipe(takeUntil(this.onDestroy)).subscribe({
-      next: ({ data }: entity.DataCampaingsHistoryTable) => {
-        console.log(data);
+    this.catalogsServices.getCatAgents().pipe(takeUntil(this.onDestroy)).subscribe({
+      next: (data: entityGeneral.DataCatAgents[]) => {
+        this.catAgents = data;
       },
       error: (error) => console.error(error)
-    })
-  }
+    });
 
-  getCampaingsQuotes(filters: entity.DataTableFilters) {
-    this.moduleServices.getCampaingsQuotes(filters).pipe(takeUntil(this.onDestroy)).subscribe({
-      next: ({ data }: entity.DataCampaingsHistoryTable) => {
-        console.log(data);
+    this.catalogsServices.getCatCampaing().subscribe({
+      next: (data: entityGeneral.DataCatCampaing[]) => {
+        this.catCampaing = data;
       },
       error: (error) => console.error(error)
-    })
+    });
   }
 
-  getCampaingsSells(filters: entity.DataTableFilters) {
-    this.moduleServices.getCampaingsSells(filters).pipe(takeUntil(this.onDestroy)).subscribe({
-      next: ({ data }: entity.DataCampaingsHistoryTable) => {
-        console.log(data);
-      },
-      error: (error) => console.error(error)
-    })
+  searchWithFilters() {
+    let filters: string = '';
+
+    if (this.filterDayMonthYear == 'Día') filters += `current_day=true&`
+     else if (this.filterDayMonthYear == 'Mes') filters += `current_month=true&`
+     else filters += `current_year=true&`
+    if (this.formFilters.get('user').value) filters += `user_id=${this.formFilters.get('user').value}&`;
+    if (this.formFilters.get('business').value) filters += `business_id=${this.formFilters.get('business').value}&`;
+    if (this.formFilters.get('campaign').value) filters += `campaign_id=${this.formFilters.get('campaign').value}&`;
+    if (this.formFilters.get('rangeDateStart').value && this.formFilters.get('rangeDateEnd').value) {
+      filters += `register_date_start=${moment(this.formFilters.get('rangeDateStart').value).format('YYYY-MM-DD')}&`,
+        filters += `register_date_end=${moment(this.formFilters.get('rangeDateEnd').value).format('YYYY-MM-DD')}&`
+    }
+
+    this.getCampaings(filters)
   }
 
-  getCampaingsHistoryTable(filters: entity.DataTableFilters) {
-    this.moduleServices.getCampaingsHistoryTable(filters).pipe(takeUntil(this.onDestroy)).subscribe({
-      next: ({ data }: entity.DataCampaingsHistoryTable) => {
+  getCampaings(filters?: string) {
+    this.moduleServices.getCampaing(filters).subscribe({
+      next: (data: entity.DataCampaingsMapper) => {
         console.log(data);
+        this.objDataCampaing = data;
+        this.dataSource.data = data.campaignHistory;
       },
       error: (error) => console.error(error)
     })
@@ -2005,12 +1839,16 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.router.navigateByUrl(`/home/captacion/campanias`)
   }
 
-  seeCompanies() {
-    this.dialog.open(ModalCompaniesComponent, {
+  selectOption(option: string) {
+    this.filterDayMonthYear = option;
+    this.searchWithFilters();
+  }
+
+  seeDataModal(type: string, data: any) {
+    this.dialog.open(ModalInformationInTableComponent, {
       data: {
-        info: this.datacompany,
-        columns: this.companyInfoColumns,
-        type: 'companies'
+        type: type,
+        info: data
       },
       disableClose: true,
       width: '1000px',
@@ -2019,9 +1857,7 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  selectOption(option: number) {
-    this.selectedOption = option;
-  }
+ 
 
   seeCampaignsResults() {
     this.router.navigateByUrl(`home/dashboard/resultados-campanias/1`)

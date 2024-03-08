@@ -204,4 +204,105 @@ export class Mapper {
 			}),
 		}
 	};
+
+	static getDataCampaignsMapper(response : entity.DataCampaings) : entity.DataCampaingsMapper {
+		console.log('getDataCampaingsMapper', response);
+
+		return {
+			totalCampaign : response?.total_campanias || 0,
+			totalAmountInvestedCampaign : '$' + response?.total_monto_invertido.toLocaleString('en-US', {
+				minimumFractionDigits: 2,
+				maximumFractionDigits: 2
+			}),
+			costCampaign : '$' + response?.costo_promedio_campania.toLocaleString('en-US', {
+				minimumFractionDigits: 2,
+				maximumFractionDigits: 2
+			}),
+			totalProspectsQuote : response?.total_prospectos_alcanzados || 0,
+			costProspectQuote : '$' + response?.costo_promedio_campania_prospecto.toLocaleString('en-US', {
+				minimumFractionDigits: 2,
+				maximumFractionDigits: 2
+			}),
+			totalQuoteMade : response?.total_prospectos_alcanzados || 0,
+			costQuote : '$' + response?.costo_promedio_cotizacion.toLocaleString('en-US', {
+				minimumFractionDigits: 2,
+				maximumFractionDigits: 2
+			}),
+			totalAmountQuotesMade : '$' + response?.total_cotizaciones_realizadas.toLocaleString('en-US', {
+				minimumFractionDigits: 2,
+				maximumFractionDigits: 2
+			}),
+			totalSalesclosed : response.total_ventas_cerradas || 0,
+			costSale : '$' + response?.costo_promedio_venta.toLocaleString('en-US', {
+				minimumFractionDigits: 2,
+				maximumFractionDigits: 2
+			}),
+
+			totalSalesAmount : '$' + response?.monto_total_ventas.toLocaleString('en-US', {
+				minimumFractionDigits: 2,
+				maximumFractionDigits: 2
+			}),
+			
+			percentageSales : response.porcentaje_campania_contra_total_ventas || 0,
+
+			campaignHistory : response.historial_campanias.map(data => {
+				return {
+					id: data.campaign_id,
+					dateStartEnd: {start: data.start_date, end: data.end_date},
+					codeAndname: {code: data.campaign_code, name: data.campaign_name},
+					companyType : data?.campaign_type?.campaign_type_name,
+					totalCompanies : data.total_companies,
+					totalSalesAmount: {
+						amount: data.total_sales, 
+						totalAmount: '$' + parseFloat(data.total_amount).toLocaleString('en-US', {
+							minimumFractionDigits: 2,
+							maximumFractionDigits: 2
+						})
+					},
+					amounInvested : '$' + parseFloat(data.amount_invested).toLocaleString('en-US', {
+						minimumFractionDigits: 2,
+						maximumFractionDigits: 2,
+					}),
+					agents: {name : `${ data?.owner_user ? data?.owner_user?.first_name && data?.owner_user?.last_name ? data.owner_user?.first_name.toUpperCase() + ' ' + data.owner_user?.last_name.toUpperCase() : data.owner_user?.username.toUpperCase()  : '-' }`, alls : data.users, main: data.owner_user } ,
+					companiesMain : { amount : data.companies?.length, alls : data?.companies || [] },
+					quotesMade : { 
+						left : {
+							amount: data.number_quotes_lead,
+							totalAmount: '$' + parseFloat(data.amout_quotes_lead).toLocaleString('en-US', {
+								minimumFractionDigits: 2,
+								maximumFractionDigits: 2
+							})
+						},
+						right : {
+							amount: data.number_quotes_client,
+							totalAmount: '$' + parseFloat(data.amout_quotes_client).toLocaleString('en-US', {
+								minimumFractionDigits: 2,
+								maximumFractionDigits: 2
+							})
+						} 
+					},
+					campaingData : {
+						campaign_name: data?.campaign_name || '-',
+						goal_total_companies: data?.goal_total_companies || '-',
+						goal_total_responses: data?.goal_total_responses || '-',
+						goal_number_quotes: data?.goal_number_quotes || '-',
+						goal_number_sales: data?.goal_number_sales || '-',
+						goal_amount: data.goal_amount,
+						amount_invested: data.amount_invested,
+						start_date: data.start_date,
+						end_date: data.end_date,
+						total_companies: data.total_companies,
+						number_quotes_lead: data.number_quotes_lead,
+						number_quotes_client: data.number_quotes_client,
+						total_sales: data.total_sales,
+						total_amount: data.total_amount,
+						average_quote: data.average_quote,
+						average_sales: data.average_sales,
+						companies: data.companies?.length ? data.companies?.filter(data=> data.response) : []
+					},	
+				}
+			}),
+			
+		}
+	}
 }

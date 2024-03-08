@@ -37,7 +37,7 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
     'totalCompanies',
     'quotesMade',
     'totalSalesAmount',
-    'acciones',
+    'actions',
   ];
 
   public formFilters = this.formBuilder.group({
@@ -118,8 +118,6 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.moduleServices.getDataTableCampaing(filters).subscribe({
       next: (data: entity.TableDataCampaingMapper[]) => {
         this.dataSource.data = data;
-        console.log(data);
-        
       },
       error: (error) => console.error(error)
     })

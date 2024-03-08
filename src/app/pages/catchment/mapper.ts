@@ -6,25 +6,6 @@ export class Mapper {
 
 		response.forEach((data: entity.TableDataCampaing): void => {
 			dataList.push({
-				campaingData : {
-					campaign_name: data.campaign_name,
-					goal_total_companies: data.goal_total_companies,
-					goal_total_responses: data.goal_total_responses,
-					goal_number_quotes: data.goal_number_quotes,
-					goal_number_sales: data.goal_number_sales,
-					goal_amount: data.goal_amount,
-					amount_invested: data.amount_invested,
-					start_date: data.start_date,
-					end_date: data.end_date,
-					total_companies: data.total_companies,
-					number_quotes_lead: data.number_quotes_lead,
-					number_quotes_client: data.number_quotes_client,
-					total_sales: data.total_sales,
-					total_amount: data.total_amount,
-					average_quote: data.average_quote,
-					average_sales: data.average_sales,
-					companies: data.companies.filter(data=> data.response)
-				},
 				id: data.campaign_id,
 				dateStartEnd: {start: data.start_date, end: data.end_date},
 				codeAndname: {code: data.campaign_code, name: data.campaign_name},
@@ -58,7 +39,26 @@ export class Mapper {
 							maximumFractionDigits: 2
 						})
 					} 
-				} 
+				},
+				campaingData : {
+					campaign_name: data.campaign_name,
+					goal_total_companies: data.goal_total_companies,
+					goal_total_responses: data.goal_total_responses,
+					goal_number_quotes: data.goal_number_quotes,
+					goal_number_sales: data.goal_number_sales,
+					goal_amount: data.goal_amount,
+					amount_invested: data.amount_invested,
+					start_date: data.start_date,
+					end_date: data.end_date,
+					total_companies: data.total_companies,
+					number_quotes_lead: data.number_quotes_lead,
+					number_quotes_client: data.number_quotes_client,
+					total_sales: data.total_sales,
+					total_amount: data.total_amount,
+					average_quote: data.average_quote,
+					average_sales: data.average_sales,
+					companies: data.companies?.length ? data.companies?.filter(data=> data.response) : []
+				},
 			});
 		});
 
