@@ -1,12 +1,12 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
-import { Subject } from 'rxjs';
+import { Subject, debounceTime, takeUntil } from 'rxjs';
 import { AdminService } from '../admin.service';
 
 @Component({
@@ -134,6 +134,8 @@ export class DownloadEmailsComponent implements OnInit, AfterViewInit, OnDestroy
 
   public fechaHoy = new Date();
   public isBono :boolean = true;
+
+  public searchBar = new FormControl('')
   
   constructor(
     private moduleServices: AdminService,
@@ -149,7 +151,9 @@ export class DownloadEmailsComponent implements OnInit, AfterViewInit, OnDestroy
 
 
   ngAfterViewInit(): void {
- 
+    this.searchBar.valueChanges.pipe(takeUntil(this.onDestroy), debounceTime(500)).subscribe((content: string) => {
+      this.applyFilter(content)
+    })
   }
 
 
@@ -184,6 +188,11 @@ export class DownloadEmailsComponent implements OnInit, AfterViewInit, OnDestroy
           .subscribe((_) => {
 
           });
+  }
+
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim().toLowerCase();
+    this.dataSource.filter = filterValue;
   }
 
   ngOnDestroy(): void {

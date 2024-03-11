@@ -163,9 +163,12 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
     };
 
     objData.quote_options = options;
+
+    console.log(objData);
     
-    if (this.objEditData) this.saveDataPatch(objData)
-    else this.saveDataPost(objData)
+    
+    // if (this.objEditData) this.saveDataPatch(objData)
+    // else this.saveDataPost(objData)
   }
 
   saveDataPost(objData) {
@@ -193,12 +196,12 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getOptionsValues() {
-    const formValues = (e: any) => {
-      const formattedDate = moment(e.dateControl.value).format('YYYY-MM-DD');
-      const formattedTime = moment(e.timeControl.value, 'HH:mm').format('HH:mm');
+    const formValues = (control: any, index: number) => {
+      const formattedDate = moment(control.dateControl.value).format('YYYY-MM-DD');
+      const formattedTime = moment(control.timeControl.value, 'HH:mm').format('HH:mm');
       const combinedDateTime = moment(`${formattedDate}T${formattedTime}:00.000Z`).toISOString();
 
-      const productValues = e.product.map((productControl: any) => {
+      const productValues = control.product.map((productControl: any) => {
         return {
           ...({ option_product_id: productControl.id }),
           quantity: productControl.placesControl.value,
@@ -209,13 +212,14 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
       });
 
       let obj = {
-        ...({ quote_option_id: e.id }),
-        subtotal: parseFloat(e.subtotalControl.value),
-        discount: e.discountControl.value,
-        total: e.totalControl.value,
-        type_price: e.typePriceControl.value,
+        ...({ quote_option_id: control.id }),
+        subtotal: parseFloat(control.subtotalControl.value),
+        discount: control.discountControl.value,
+        total: control.totalControl.value,
+        type_price: control.typePriceControl.value,
         deadline: combinedDateTime,
-        option_products: productValues
+        option_products: productValues,
+        quote_option : index + 1
       }
 
       return obj;
@@ -316,7 +320,6 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-    
   updateProductTotalPrice(productInstance: any, newPlacesValue: number) {
     const listPrice = parseFloat(productInstance.unitPriceControl.value.replace(/,/g, ''));
     const newTotal = listPrice * newPlacesValue;
@@ -359,7 +362,6 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
       optionInstance.totalControl.setValue(parseFloat(total.replace(/,/g, '')));
     });
   }
-
 
   updateProductTotalPriceManually(productInstance: any, newUnitPrice: any) {
     const placesValue = productInstance.placesControl.value;

@@ -258,7 +258,6 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     ngAfterViewInit(): void {
         setTimeout(() => {
             this.user = this.authenticationService.getDecryptedUser();
-            console.log(this.user);
             this.userName = this.user?.first_name && this.user?.last_name ? this.user?.first_name.toUpperCase() + ' ' + this.user?.last_name.toUpperCase() : this.user?.username.toUpperCase();
             this.photo = this.user?.profile_picture ? this.user?.profile_picture.includes('default') ? `../../../assets/images/default.png` : this.user?.profile_picture : `../../../assets/images/default.png`
         }, 500);
@@ -273,11 +272,11 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
         return new Date().getFullYear();
     }
 
-    public goMailbox() {
+    goMailbox() {
         this.router.navigateByUrl('/home/reactivacion/correos')
     }
   
-    public gocalendar() {
+    gocalendar() {
         this.router.navigateByUrl('/home/reactivacion/agenda')
     }
 

@@ -3,6 +3,7 @@ import * as entity from './dashboard-interface';
 
 export class Mapper {
 	static getDataStaticsMapper(response : entity.DatsStatics) : entity.DatsStaticsMapper {
+		console.log(response);
 		return {
 			open: {
 				lead   : response?.cotizaciones_abiertas_l,
@@ -17,11 +18,17 @@ export class Mapper {
 			closedQuotesSales : response?.cotizaciones_cerradas_ventas,
 			totalEntries : response?.total_entradas,
 			totalClosedQuotesSales : response?.total_cerradas_ventas,
-			latestRegisteredCompanies: response.ultimas_empresas.map(data => {
+			latestRegisteredCompanies: response.ultimas_empresas.map((data:any) => {
 				return {
 					name : data?.company_name || '-',
-					date : data?.register_date || '-',
-					country : data?.country?.country_name || '-' 
+					date : data?.register_date_format || '-',
+					country : data?.country_name_format.includes('Sin país definido') ? '-' : data?.country_name_format
+				}
+			}),
+			rankingCompaniesCountry: response.ranking_empresas_registradas_por_pais.map((data) => {
+				return {
+					name : data?.country_name.includes('Sin país definido') ? '-' : data?.country_name,
+					total : data?.total_empresas || '-',
 				}
 			}),
 			customersPurchasedMost: response.empresas_mas_compran.map(data => {
@@ -58,7 +65,6 @@ export class Mapper {
 	};
 
 	static getDataPipelineMapper(response : entity.DatsPipeLine) {
-		console.log(response);
 		const firstQuoteLead:any = [response?.quotes_leads[0]?.quote_options[0]?.option_products[0]] || [];
 		const firstQuoteClient:any = [response?.quotes_clients[0]?.quote_options[0]?.option_products[0]] || [];
 		const firstClientSale:any = [response?.quotes_sales[0]?.quote_options[0]?.option_products[0]] || [];
@@ -207,8 +213,8 @@ export class Mapper {
 	};
 
 	static getDataCampaignsMapper(response : entity.DataCampaings) : entity.DataCampaingsMapper {
-		console.log('getDataCampaingsMapper', response);
-
+		console.log(response);
+		
 		return {
 			totalCampaign : response?.total_campanias || 0,
 			totalAmountInvestedCampaign : '$' + response?.total_monto_invertido.toLocaleString('en-US', {
@@ -243,9 +249,7 @@ export class Mapper {
 				minimumFractionDigits: 2,
 				maximumFractionDigits: 2
 			}),
-			
 			percentageSales : response.porcentaje_campania_contra_total_ventas || 0,
-
 			campaignHistory : response.historial_campanias.map(data => {
 				return {
 					id: data.campaign_id,
@@ -303,7 +307,6 @@ export class Mapper {
 					},	
 				}
 			}),
-			
 		}
 	}
 }

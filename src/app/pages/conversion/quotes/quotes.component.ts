@@ -83,8 +83,14 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     this.searchBar.valueChanges.pipe(takeUntil(this.onDestroy), debounceTime(500)).subscribe((content: string) => {
-      console.log(content);
+      this.applyFilter(content)
     })
+
+    // applyFilter(filterValue: string) {
+    //   filterValue = filterValue.trim().toLowerCase();
+    //   this.dataSource.filter = filterValue;
+    // }
+    // [formControl]="searchBar"
   }
 
   getActions(type:string, data:any) {
@@ -315,6 +321,11 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
           });
   }
 
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim().toLowerCase();
+    this.dataSource.filter = filterValue;
+  }
+  
   ngOnDestroy(): void {
     this.onDestroy.next();
     this.onDestroy.unsubscribe();

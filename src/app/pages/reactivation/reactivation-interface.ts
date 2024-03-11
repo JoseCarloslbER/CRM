@@ -21,12 +21,10 @@ export interface TableDataCalls {
 
 export interface TableDataCallsMapper {
   id : string
-  nameLogo : {
-    name : string,
-    logo : string,
-  }
+  companyName : string;
+  campaingName : string;
+  logo : string;
   camping : {
-    name : string,
     campaingData : object,
   }
   dueDate : string

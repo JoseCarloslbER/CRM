@@ -60,7 +60,7 @@ export class PendingCallsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     this.searchBar.valueChanges.pipe(takeUntil(this.onDestroy), debounceTime(500)).subscribe((content:string) => {
-      console.log(content);
+      this.applyFilter(content)
     })
   }
 
@@ -94,6 +94,11 @@ export class PendingCallsComponent implements OnInit, AfterViewInit, OnDestroy {
     
     this.moduleServices.sendData(data);
     this.router.navigateByUrl('/home/reactivacion/resultados-campanias/calls');
+  }
+
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim().toLowerCase();
+    this.dataSource.filter = filterValue;
   }
 
   deleteData(id: string) {

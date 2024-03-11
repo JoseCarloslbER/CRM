@@ -27,8 +27,6 @@ export class Mapper {
 
 	static getDataMapper(response : entity.TableDataActivities) : entity.GetDataActivitiesMapper {
 		console.log(response);
-		
-		
 		return {
 			id: response?.activity_id || '-',
 			quote_id: response?.quote || '-',

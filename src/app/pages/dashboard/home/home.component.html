@@ -347,26 +347,9 @@
 
                                     <div class="row">
                                         <div class="content-list">
-                                            <div>
-                                                <p>Micro</p> <span>0</span>
-                                            </div>
-                                            <div>
-                                                <p>Pequeña</p> <span>0</span>
-                                            </div>
-                                            <div>
-                                                <p>Pyme</p> <span>0</span>
-                                            </div>
-                                            <div>
-                                                <p>Mediana</p> <span>0</span>
-                                            </div>
-                                            <div>
-                                                <p>Grande</p> <span>0</span>
-                                            </div>
-                                            <div>
-                                                <p>Corporativa</p> <span>0</span>
-                                            </div>
-                                            <div>
-                                                <p>Pendiente</p> <span>0</span>
+                                            <div *ngFor="let data of objStatics?.rankingCompaniesCountry">
+                                                <p>{{ data?.name }}</p>
+                                                <span>{{ data?.total }}</span>
                                             </div>
                                         </div>
                                     </div>

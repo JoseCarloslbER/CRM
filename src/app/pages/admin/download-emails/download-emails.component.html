@@ -65,7 +65,7 @@
                     <div class="row d-flex">
                         <div class="d-flex col-md-5 col-xl-5 col-12 pt-md-2">
                             <div class="input-search">
-                                <input type="text" placeholder="Búscar">
+                                <input [formControl]="searchBar" type="text" placeholder="Búscar">
                                 <mat-icon class="icon-size-6" matSuffix [svgIcon]="'mat_solid:search'"></mat-icon>
                             </div>
                         </div>

@@ -8,9 +8,10 @@ export class Mapper {
 		response.forEach((data: entity.TableDataCalls): void => {
 			dataList.push({
 				id: data?.activity_id || '-',
-				nameLogo : {name : data?.company?.company_name || '-', logo : data?.company ? data?.company?.logo.includes('default') ? `../../../assets/images/default.png` : data?.company?.logo : `../../../assets/images/default.png`},
+				logo: data?.company ? data?.company?.logo.includes('default') ? `../../../assets/images/default.png` : data?.company?.logo : `../../../assets/images/default.png`,
+				companyName: data?.company?.company_name || '-',
+				campaingName: data.campaign?.campaign_name || '-', 
 				camping : { 
-					name : data.campaign?.campaign_name || '-', 
 					campaingData : {
 						campaign_name: data.campaign.campaign_name,
 						goal_total_companies: data.campaign.goal_total_companies,

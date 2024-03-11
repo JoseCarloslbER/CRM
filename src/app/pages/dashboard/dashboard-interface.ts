@@ -140,6 +140,10 @@ export interface DatsStatics {
     quote_total_sum: string
   }[]
   ultimas_empresas: TableDataCompany[]
+  ranking_empresas_registradas_por_pais: {
+    country_name: string;
+    total_empresas: number;
+  }[]
 }
 
 export interface DatsStaticsMapper {
@@ -154,6 +158,7 @@ export interface DatsStaticsMapper {
     total: number;
   },
   closedQuotesSales: number;
+  rankingCompaniesCountry : any
   totalEntries: number;
   totalClosedQuotesSales: number;
   latestRegisteredCompanies: {

@@ -71,10 +71,9 @@
                     </div>
 
                     <div class="row d-flex">
-
                         <div class="d-flex col-md-5 col-xl-5 col-12 pt-md-2 mb-lg-0 mb-sm-0 mt-3 mb-5">
                             <div class="input-search">
-                                <input type="text" placeholder="Búscar">
+                                <input [formControl]="searchBar" type="text" placeholder="Búscar">
                                 <mat-icon class="icon-size-6" matSuffix [svgIcon]="'mat_solid:search'"></mat-icon>
                             </div>
                         </div>
@@ -93,7 +92,6 @@
             <div class="relative flex self-start pt-2 pb-1 pl-5 pr-4 cursor-pointer overflow-hidden rounded-t-xl border border-b-0 bg-default"
                 matRipple [matMenuTriggerFor]="projectsMenu">
                 <div class="flex items-center">
-
                     <div class="overflow-hidden">
                         <div class="font-medium leading-6 truncate">{{selectedProject}}</div>
                     </div>
@@ -101,11 +99,9 @@
                     <div class="flex items-center justify-center pl-2">
                         <mat-icon class="icon-size-5" [svgIcon]="'heroicons_mini:chevron-down'"></mat-icon>
                     </div>
-
                 </div>
 
                 <mat-menu #projectsMenu="matMenu" [xPosition]="'before'">
-
                     <button mat-menu-item (click)="cambiarOpcion('todas')">Todas
                     </button>
                     <button mat-menu-item (click)="cambiarOpcion('agregadasRecientemente')">Agregadas recientemente
@@ -116,7 +112,6 @@
             </div>
         </div>
     </div>
-
 
     <div class="flex-auto border-t section-content-padding">
         <div class="w-full mx-auto">
@@ -138,7 +133,6 @@
                                                 <span class="cursor-pointer" (click)="seeData(element.id)">{{
                                                     element.companyName }}</span>
                                             </div>
-
                                         </td>
                                     </ng-container>
 
@@ -266,54 +260,64 @@
 
                     </ng-template>
                 </mat-tab>
-                <mat-tab *ngIf="selectedProject == 'Agregadas recientemente'">
+                <mat-tab *ngIf="selectedProject != 'Todas'">
                     <ng-template matTabContent>
                         <div class="row">
                             <div class="col-12 contenedor-scroll-tabla">
                                 <div class="table-header ">
-                                    <h1 class="mb-5">Empresas agregadas recientemente</h1>
+                                    <h1 class="mb-5">
+                                        {{ selectedProject == 'Agregadas recientemente' ?
+                                        'Empresas agregadas recientemente' :
+                                        'Empresas que más han comprado' }}
+                                    </h1>
                                 </div>
 
-                                <table mat-table #table [dataSource]="dataSourceAgregadosRecientemente"
+                                <table mat-table #table [dataSource]="dataSourceRecentlyAddedMoreBuyed"
                                     class="w-100 tabla-personalizada-default">
                                     <caption></caption>
 
-                                    <ng-container matColumnDef="empresa">
-                                        <th mat-header-cell *matHeaderCellDef>Empresa</th>
+                                    <ng-container matColumnDef="companyName">
+                                        <th mat-header-cell *matHeaderCellDef>Nombre de la empresa</th>
                                         <td mat-cell *matCellDef="let element">
-                                            {{ element.empresa }}
+                                            <div class="table-column-reck-solution">
+                                                <img [src]="element.logo" alt="">
+                                                <span class="cursor-pointer" (click)="seeData(element.id)">{{
+                                                    element?.companyName || '-' }}</span>
+                                            </div>
                                         </td>
                                     </ng-container>
 
-                                    <ng-container matColumnDef="estatus">
+                                    <ng-container matColumnDef="status">
                                         <th mat-header-cell *matHeaderCellDef>Estatus</th>
                                         <td mat-cell *matCellDef="let element">
-                                            {{element.estatus}}
+                                            <div class="table-column-status">
+                                                {{ element?.status || '-' }}
+                                            </div>
                                         </td>
                                     </ng-container>
 
-                                    <ng-container matColumnDef="fechaRegistro">
+                                    <ng-container matColumnDef="registrationDate">
                                         <th mat-header-cell *matHeaderCellDef>Fecha de registro</th>
                                         <td mat-cell *matCellDef="let element">
-                                            {{element.fechaRegistro}}
+                                            {{element?.registrationDate || '-'}}
                                         </td>
                                     </ng-container>
 
-                                    <ng-container matColumnDef="monto">
+                                    <ng-container matColumnDef="amount">
                                         <th mat-header-cell *matHeaderCellDef>Monto</th>
                                         <td mat-cell *matCellDef="let element" class="table-texto-largo">
-                                            {{element.monto}}
+                                            {{element?.amount || '-'}}
                                         </td>
                                     </ng-container>
 
                                     <tr *matNoDataRow>
                                         <td class="mat-cell"
-                                            [attr.colspan]="displayedColumnsAgregadasRecientemente.length">
+                                            [attr.colspan]="displayedColumnsRecentlyAddedMoreBuyed.length">
                                             <h5 class="text-center my-5">No se encontraron resultados.</h5>
                                         </td>
                                     </tr>
-                                    <tr mat-header-row *matHeaderRowDef="displayedColumnsAgregadasRecientemente"></tr>
-                                    <tr mat-row *matRowDef="let row; columns: displayedColumnsAgregadasRecientemente">
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumnsRecentlyAddedMoreBuyed"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumnsRecentlyAddedMoreBuyed">
                                     </tr>
                                 </table>
                             </div>
@@ -334,70 +338,7 @@
 
                     </ng-template>
                 </mat-tab>
-
-                <mat-tab *ngIf="selectedProject == 'Más comprados'">
-                    <ng-template matTabContent>
-                        <div class="row">
-                            <div class="col-12 contenedor-scroll-tabla">
-                                <div class="table-header mb-5">
-                                    <h1>Empresas que más han comprado</h1>
-                                    <span>Total: $1,000.00</span>
-                                </div>
-
-                                <table mat-table #table [dataSource]="dataSourceMasComprados"
-                                    class="w-100 tabla-personalizada-default">
-                                    <caption></caption>
-
-                                    <ng-container matColumnDef="empresa">
-                                        <th mat-header-cell *matHeaderCellDef>Empresa</th>
-                                        <td mat-cell *matCellDef="let element">
-                                            {{ element.empresa }}
-                                        </td>
-                                    </ng-container>
-                                    <ng-container matColumnDef="fechaRegistro">
-                                        <th mat-header-cell *matHeaderCellDef>Fecha de registro</th>
-                                        <td mat-cell *matCellDef="let element">
-                                            {{element.fechaRegistro}}
-                                        </td>
-                                    </ng-container>
-
-                                    <ng-container matColumnDef="monto">
-                                        <th mat-header-cell *matHeaderCellDef>Monto</th>
-                                        <td mat-cell *matCellDef="let element" class="table-texto-largo">
-                                            {{element.monto}}
-                                        </td>
-                                    </ng-container>
-
-                                    <tr *matNoDataRow>
-                                        <td class="mat-cell" [attr.colspan]="displayedColumnsMascomprados.length">
-                                            <h5 class="text-center my-5">No se encontraron resultados.</h5>
-                                        </td>
-                                    </tr>
-                                    <tr mat-header-row *matHeaderRowDef="displayedColumnsMascomprados"></tr>
-                                    <tr mat-row *matRowDef="let row; columns: displayedColumnsMascomprados"></tr>
-                                </table>
-                            </div>
-
-                            <!-- <div class="d-flex justify-content-end" style="background: none;"> 
-                                <mat-paginator
-                                    #paginator
-                                    [length]="total"
-                                    [pageIndex]="indicePagina"
-                                    [pageSize]="longitudPagina"
-                                    [pageSizeOptions]="[5, 10, 25, 50, 100]"
-                                    (page)="cambiaPagina($event)"
-                                    class="w-100"
-                                ></mat-paginator>
-                            </div> -->
-                        </div>
-
-
-                    </ng-template>
-                </mat-tab>
-
-
             </mat-tab-group>
         </div>
     </div>
-
 </div>

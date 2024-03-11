@@ -73,7 +73,7 @@ export class LeadsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     this.searchBar.valueChanges.pipe(takeUntil(this.onDestroy), debounceTime(500)).subscribe((content: string) => {
-      console.log(content);
+      this.applyFilter(content); 
     })
   }
 
@@ -129,6 +129,11 @@ export class LeadsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   seeData(id: string) {
     this.router.navigateByUrl(`home/empresas/detalles-empresa/${id}`)
+  }
+
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim().toLowerCase();
+    this.dataSource.filter = filterValue;
   }
 
   deleteData(id: string) {

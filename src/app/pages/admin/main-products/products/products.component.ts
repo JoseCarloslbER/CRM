@@ -1,19 +1,20 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { ModalNewProductComponent } from './modal-new-product/modal-new-product.component';
-import { Subject, Subscription, takeUntil } from 'rxjs';
+import { Subject, Subscription, debounceTime, takeUntil } from 'rxjs';
 import { AdminService } from '../../admin.service';
 import * as entity from '../../admin-interface';
 import { UpdateComponentsService } from 'app/shared/services/updateComponents.service';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
 })
-export class ProductsComponent implements OnInit, OnDestroy {
+export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
   private onDestroy = new Subject<void>();
   private updateSubscription: Subscription;
 
@@ -32,6 +33,8 @@ export class ProductsComponent implements OnInit, OnDestroy {
     'actions'
   ];
 
+  public searchBar = new FormControl('')
+
   constructor(
     private updateService: UpdateComponentsService,
     private moduleServices: AdminService,
@@ -45,6 +48,12 @@ export class ProductsComponent implements OnInit, OnDestroy {
       this.getDataTable();
     });
     this.getDataTable();
+  }
+
+  ngAfterViewInit(): void {
+    this.searchBar.valueChanges.pipe(takeUntil(this.onDestroy), debounceTime(500)).subscribe((content: string) => {
+      this.applyFilter(content)
+    })
   }
 
   getDataTable() {
@@ -97,6 +106,11 @@ export class ProductsComponent implements OnInit, OnDestroy {
       }
     });
   }
+
+  applyFilter(filterValue: string) {
+      filterValue = filterValue.trim().toLowerCase();
+      this.dataSource.filter = filterValue;
+    }
 
   ngOnDestroy(): void {
     this.onDestroy.next();

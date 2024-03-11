@@ -21,15 +21,13 @@ export class AllComponent implements OnInit, AfterViewInit, OnDestroy {
   private onDestroy = new Subject<void>();
 
   public dataSource = new MatTableDataSource<any>([]);
-  public dataSourceAgregadosRecientemente = new MatTableDataSource<any>([]);
-  public dataSourceMasComprados = new MatTableDataSource<any>([]);
+  public dataSourceRecentlyAddedMoreBuyed = new MatTableDataSource<any>([]);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   public longitudPagina = 50;
   public total = 0;
   public indicePagina = 0;
 
-  public displayedColumnsMascomprados: string[] = ['empresa', 'fechaRegistro', 'monto'];
-  public displayedColumnsAgregadasRecientemente: string[] = ['empresa', 'estatus', 'fechaRegistro', 'monto'];
+  public displayedColumnsRecentlyAddedMoreBuyed: string[] = ['companyName', 'status', 'registrationDate', 'amount'];
  
   public displayedColumns: string[] = [
     'companyName',
@@ -81,7 +79,6 @@ export class AllComponent implements OnInit, AfterViewInit, OnDestroy {
   public catStatus: entityGeneral.DataCatStatus[] = [];
   public catCampaing: entityGeneral.DataCatCampaing[] = [];
 
-
   constructor(
     private catalogsServices: CatalogsService,
     private moduleServices: CompaniesService,
@@ -98,7 +95,7 @@ export class AllComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     this.searchBar.valueChanges.pipe(takeUntil(this.onDestroy), debounceTime(500)).subscribe((content: string) => {
-      console.log(content);
+      this.applyFilter(content); 
     })
   }
 
@@ -138,11 +135,15 @@ export class AllComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.getDataTable(filters)
   }
-
+     
   getDataTable(filters?:string) {
     this.moduleServices.getDataTable(filters).subscribe({
       next: (data: entity.TableDataCompanyMapper[]) => {
-        this.dataSource.data = data;
+        if (this.selectedProject == 'Todas') {
+          this.dataSource.data = data;
+        } else {
+          this.dataSourceRecentlyAddedMoreBuyed.data = data;
+        } 
       },
       error: (error) => console.error(error)
     })
@@ -172,11 +173,21 @@ export class AllComponent implements OnInit, AfterViewInit, OnDestroy {
       this.selectedProject = 'Todas'
     } else if (opcion == 'agregadasRecientemente') {
       this.selectedProject = 'Agregadas recientemente'
-      this.dataSourceAgregadosRecientemente.data = this.datosAgregadosRecientemente
+      this.getDataTable('company_recent=true');
     } else {
       this.selectedProject = 'Más comprados'
-      this.dataSourceMasComprados.data = this.datosMascomprados
+      this.getDataTable('company_buy=true');
     }
+  }
+
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim().toLowerCase();
+
+    if (this.selectedProject == 'Todas') {
+      this.dataSource.filter = filterValue;
+    } else {
+      this.dataSourceRecentlyAddedMoreBuyed.filter = filterValue;
+    } 
   }
 
   deleteData(id: string) {

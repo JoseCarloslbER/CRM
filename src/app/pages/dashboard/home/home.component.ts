@@ -1823,6 +1823,8 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   getHomeStatics(filters?: string) {
     this.moduleServices.getHomeStatics(filters).subscribe({
       next: (data: entity.DatsStaticsMapper) => {
+        console.log(data);
+        
         this.objStatics = data;
         this.latestRegisteredCompanies = data.latestRegisteredCompanies
         this.customersPurchasedMost = data.customersPurchasedMost

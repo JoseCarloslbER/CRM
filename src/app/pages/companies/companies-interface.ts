@@ -51,6 +51,8 @@ export interface TableDataCompanyMapper {
   companyName : string;
   logo : string;
   status : string;
+  registrationDate : string;
+  amount : string;
   country : string;
   origin : string;
   category : string;

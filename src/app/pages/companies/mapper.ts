@@ -12,6 +12,11 @@ export class Mapper {
 				logo: data?.logo?.includes('default') ? `../../../assets/images/default.png` : data.logo,
 				companyName: data?.company_name || '-',
 				status: data?.company_phase?.phase_name || '-',
+				amount: '$' + parseFloat(data.total_sales).toLocaleString('en-US', {
+					minimumFractionDigits: 2,
+					maximumFractionDigits: 2
+				}),
+				registrationDate: moment(data.register_date).format('DD-MM-YYYY') || '-',
 				country: data.country?.country_name || '-',
 				origin: data?.platform?.platform_name || '-',
 				category: data?.company_type?.type_name || '-',
