@@ -138,5 +138,9 @@ export class CatalogsService {
 		return this.http.get<entityGeneral.DataCatOrigin[]>(url);
 	}
 
+	public getCatQuoteOpen(id:string): Observable<entityGeneral.DataCatQuoteOpen> {
+		const url = `${environment.apiURL}conversion/quote-open/?company_id=${id}`;
 
+		return this.http.get<entityGeneral.DataCatQuoteOpen>(url);
+	}
 }

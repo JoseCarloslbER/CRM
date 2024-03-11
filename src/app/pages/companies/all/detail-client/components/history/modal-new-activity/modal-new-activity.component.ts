@@ -1,8 +1,8 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
-import { Observable, Subject, map, startWith } from 'rxjs';
+import { Observable, Subject, map, startWith, takeUntil } from 'rxjs';
 import * as entityGeneral from '../../../../../../../shared/interfaces/general-interface';
 import * as entityManager from '../../../../../../management/management-interface';
 import { TableDataActivityType } from 'app/pages/config/config-interface';
@@ -23,7 +23,7 @@ import { CatalogsService } from 'app/shared/services/catalogs.service';
       }
   `]
 })
-export class ModalNewActivityComponent implements OnInit, OnDestroy {
+export class ModalNewActivityComponent implements OnInit, AfterViewInit, OnDestroy {
   private onDestroy = new Subject<void>();
   public filteredOptions: Observable<any[]>;
 
@@ -35,13 +35,15 @@ export class ModalNewActivityComponent implements OnInit, OnDestroy {
     user: [null, Validators.required],
     type_activity: [null],
     campaign: [null, Validators.required],
+    quote: [{ value: null, disable: true }],
   });
   
   public company = new FormControl(null);
   public img = new FormControl(null);
 
   public catAgents: entityGeneral.DataCatAgents[] = [];
-  public catCampaing: entityGeneral.DataCatCampaing[] = [];
+  public catQuoteOpens: entityGeneral.DataCatQuoteOpenList[] = [];
+  public catCampaings: entityGeneral.DataCatCampaing[] = [];
   public catCompanyType: TableDataActivityType[] = [];
   public catCompanies: any[] = [];
 
@@ -74,6 +76,19 @@ export class ModalNewActivityComponent implements OnInit, OnDestroy {
       map(value => this._filter(value))
     );
   }
+  
+  ngAfterViewInit(): void {(
+    this.company.valueChanges.pipe(takeUntil(this.onDestroy))).subscribe(content => {
+      setTimeout(() => {
+        if (this.companySelected) {
+          this.formData.get('quote').enable();
+          this.getQuotesOpens();
+        } else {
+          this.formData.get('quote').disable();
+        }
+      }, 500);
+    })
+  }
 
   assignInformation() {
     if (this.data?.info) {
@@ -105,7 +120,7 @@ export class ModalNewActivityComponent implements OnInit, OnDestroy {
   getCatalogs() {
     this.catalogsServices.getCatCampaing().subscribe({
       next: (data: entityGeneral.DataCatCampaing[]) => {
-        this.catCampaing = data;
+        this.catCampaings = data;
       },
       error: (error) => console.error(error)
     });
@@ -132,6 +147,15 @@ export class ModalNewActivityComponent implements OnInit, OnDestroy {
     });
   }
 
+  getQuotesOpens() {
+    this.catalogsServices.getCatQuoteOpen(this.companySelected).subscribe({
+      next: (response: entityGeneral.DataCatQuoteOpen) => {
+        this.catQuoteOpens = response.data;
+      },
+      error: (error) => console.error(error)
+    });
+  }
+
   actionSave() {
     let objData :any = {
       ...this.formData.value,
@@ -139,13 +163,13 @@ export class ModalNewActivityComponent implements OnInit, OnDestroy {
     }
 
     objData.activity_date = moment(this.formData.get('activity_date').value).format('YYYY-MM-DD');
-
+    
     if (this.data.type == 'activities') {
       objData.process = 'Actividades';
       console.log(objData);
       this.saveDataPostPatchActivities(objData);
 
-    } else if (this.data.type == 'calls') {
+    } else if (this.data.type == 'calls') { 
       objData.process = 'Llamadas'
       this.saveDataPostPatchCallOrDaily(objData);
 

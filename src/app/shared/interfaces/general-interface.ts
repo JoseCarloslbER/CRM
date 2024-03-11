@@ -146,6 +146,16 @@ export interface DataCatOrigin {
   platform_name: string;
 }
 
+export interface DataCatQuoteOpen {
+  data : DataCatQuoteOpenList[]
+}
+
+export interface DataCatQuoteOpenList {
+  quote_id : string;
+  quote_number : string;
+  register_date : string;
+}
+
 export interface DataCatCompanyPhase {
   phase_name : string;
   company_phase_id : string;

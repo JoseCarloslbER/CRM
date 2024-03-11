@@ -92,7 +92,7 @@ export class Mapper {
 		let dataList: entity.GetDataDetailsHistoryMapper[] = [];
 
 		response.forEach((data: TableDataActivities, index): void => {
-			const formattedDate = moment(data.activity_date).format('YYYY-MM-DD');
+			const formattedDate = moment(data.activity_date).format('DD-MM-YYYY');
 			const formattedTime = moment(data.activity_hour, 'HH:mm').format('HH:mm');
 			const combinedDateTime = moment(`${formattedDate}T${formattedTime}:00.000Z`).toISOString();
 

@@ -47,7 +47,7 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     address: [''],
     company_type: [''],
     company_size: [''],
-    web_page: ['', [Validators.required, Validators.pattern(/^(ftp|http|https):\/\/[^ "]+$/)]],
+    web_page: ['https://', [Validators.required, Validators.pattern(/^(ftp|http|https):\/\/[^ "]+$/)]],
     comments: ['']
   });
 
@@ -366,7 +366,7 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
       subtotalControl: new FormControl({ value: datos?.subtotal || '', disabled: true }, Validators.required),
       discountControl: new FormControl({ value: datos?.discount || 0, disabled: false }),
       totalControl: new FormControl({ value: datos?.total || '', disabled: true }, Validators.required),
-      typePriceControl: new FormControl({ value: datos?.typePrice || '1', disabled: false }, Validators.required),
+      typePriceControl: new FormControl({ value: datos?.typePrice || 1, disabled: false }, Validators.required),
       dateControl: new FormControl({ value: datos?.date || '', disabled: false }, Validators.required),
       timeControl: new FormControl({ value: datos?.time || '', disabled: false }, Validators.required),
       product: []

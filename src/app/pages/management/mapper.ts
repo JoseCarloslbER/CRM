@@ -1,10 +1,11 @@
+import moment from 'moment';
 import * as entity from './management-interface';
 
 export class Mapper {
 	static getDataTableMapper(response: entity.TableDataActivities[]) : entity.TableDataActivitiesMapper[] {
 		let dataList :entity.TableDataActivitiesMapper[] = [];
 
-		response.forEach((data: entity.TableDataActivities): void => {
+		response.forEach((data: entity.TableDataActivities): void => {	
 			dataList.push({
 				id: data?.activity_id || '-',
 				nameLogo : {name : data?.company?.company_name || '-', logo : data?.company ? data?.company?.logo.includes('default') ? `../../../assets/images/default.png` : data?.company?.logo : `../../../assets/images/default.png`},
@@ -12,8 +13,8 @@ export class Mapper {
 				activity_hour: data?.activity_hour || '-',
 				description: data?.description || '-',
 				process: data?.process || '-',
-				register: data.activity_date + ' ' + data.activity_hour,
-				endDate: data?.end_date || '-',
+				register: moment(data.activity_date).format('DD-MM-YYYY'),
+				endDate: moment(data.end_date).format('DD-MM-YYYY'),
 				finish: data?.finish || false,
 				activityType: data?.type_activity?.activity || '-',
 				agent: data?.user?.first_name && data?.user?.last_name ? data.user?.first_name.toUpperCase() + ' ' + data.user?.last_name.toUpperCase() : data?.user?.username.toUpperCase() || '-'

@@ -11,6 +11,7 @@ import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { FormControl } from '@angular/forms';
 import * as entityGeneral from '../../../shared/interfaces/general-interface';
 import { CatalogsService } from 'app/shared/services/catalogs.service';
+import { DatePipe } from '@angular/common';
 
 
 @Component({
@@ -102,13 +103,17 @@ export class DiaryComponent implements OnInit, AfterViewInit, OnDestroy {
     this.moduleServices.getDataTableDiary(filtros).subscribe({
       next: (data: any) => {
         this.events = data.map(data => {
+          const fechaActual = new Date();
+          const formattedDate = new DatePipe('en-US').transform(fechaActual, 'yyyy-MM-ddTHH:mm:ss.SSSZ');
+
           return {
             data: data,
-            start: new Date(data.activity_date),
+            start: new Date(formattedDate),
             title: data.description,
             actions: this.actions
           }
         })
+        this.filteredEvents = this.events;
       },
       error: (error) => console.error(error)
     })
