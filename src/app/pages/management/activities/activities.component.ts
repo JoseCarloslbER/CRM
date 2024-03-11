@@ -75,7 +75,7 @@ export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     this.searchBar.valueChanges.pipe(takeUntil(this.onDestroy), debounceTime(500)).subscribe((content: string) => {
-      console.log(content);
+      this.applyFilter(content); 
     })
   }
 
@@ -193,6 +193,11 @@ export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy {
           .subscribe((_) => {
 
           });
+  }
+
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim().toLowerCase();
+    this.dataSource.filter = filterValue;
   }
 
   ngOnDestroy(): void {

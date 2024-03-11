@@ -8,7 +8,8 @@ export class Mapper {
 		response.forEach((data: entity.TableDataActivities): void => {	
 			dataList.push({
 				id: data?.activity_id || '-',
-				nameLogo : {name : data?.company?.company_name || '-', logo : data?.company ? data?.company?.logo.includes('default') ? `../../../assets/images/default.png` : data?.company?.logo : `../../../assets/images/default.png`},
+				companyName : data?.company?.company_name || '-',
+				logo : data?.company ? data?.company?.logo.includes('default') ? `../../../assets/images/default.png` : data?.company?.logo : `../../../assets/images/default.png`,
 				activity_date: data?.activity_date || '-',
 				activity_hour: data?.activity_hour || '-',
 				description: data?.description || '-',
@@ -25,9 +26,12 @@ export class Mapper {
 	}
 
 	static getDataMapper(response : entity.TableDataActivities) : entity.GetDataActivitiesMapper {
+		console.log(response);
+		
 		
 		return {
 			id: response?.activity_id || '-',
+			quote_id: response?.quote || '-',
 			activity_date : response?.activity_date || '-',
 			activity_hour : response?.activity_hour || '-',
 			company : response?.company?.company_id || '-',

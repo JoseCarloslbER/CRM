@@ -77,8 +77,8 @@ export class ModalNewActivityComponent implements OnInit, AfterViewInit, OnDestr
     );
   }
   
-  ngAfterViewInit(): void {(
-    this.company.valueChanges.pipe(takeUntil(this.onDestroy))).subscribe(content => {
+  ngAfterViewInit(): void {
+    this.company.valueChanges.pipe(takeUntil(this.onDestroy)).subscribe(content => {
       setTimeout(() => {
         if (this.companySelected) {
           this.formData.get('quote').enable();
@@ -92,8 +92,10 @@ export class ModalNewActivityComponent implements OnInit, AfterViewInit, OnDestr
 
   assignInformation() {
     if (this.data?.info) {
-      this.idData = this.data?.info?.id || this.data?.info?.activity_id;
-      this.getDataById() 
+      setTimeout(() => {
+        this.idData = this.data?.info?.id || this.data?.info?.activity_id;
+        this.getDataById() 
+      }, 500);
     } 
 
     if (this.data?.complement) {
@@ -108,7 +110,8 @@ export class ModalNewActivityComponent implements OnInit, AfterViewInit, OnDestr
       next: (response: entityManager.GetDataActivitiesMapper) => {
         this.objEditData = response;
         this.formData.patchValue(this.objEditData);
-        this.company.patchValue(this.objEditData.companyName)
+        this.company.patchValue(this.objEditData.companyName);
+        this.companySelected = this.objEditData?.company;
       },
       error: (error) => {
         this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
@@ -151,6 +154,7 @@ export class ModalNewActivityComponent implements OnInit, AfterViewInit, OnDestr
     this.catalogsServices.getCatQuoteOpen(this.companySelected).subscribe({
       next: (response: entityGeneral.DataCatQuoteOpen) => {
         this.catQuoteOpens = response.data;
+        if (this.objEditData) this.formData.get('quote').patchValue(this.objEditData.quote_id);
       },
       error: (error) => console.error(error)
     });

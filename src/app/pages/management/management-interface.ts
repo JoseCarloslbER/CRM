@@ -5,6 +5,7 @@ import { TableDataActivityType } from '../config/config-interface';
 
 export interface TableDataActivities {
   activity_id: string;
+  quote: string;
   description: string;
   activity_date: string;
   activity_hour: string;
@@ -21,7 +22,8 @@ export interface TableDataActivities {
 
 export interface TableDataActivitiesMapper {
   id: string;
-  nameLogo: object
+  companyName: string;
+  logo: string;
   activity_date: string;
   activity_hour: string;
   description: string;
@@ -36,6 +38,7 @@ export interface TableDataActivitiesMapper {
 export interface GetDataActivitiesMapper {
   id : string;
   activity_date : string;
+  quote_id: string;
   activity_hour : string;
   company : string;
   companyName : string;
