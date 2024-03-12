@@ -107,7 +107,7 @@ export class AllComponent implements OnInit, AfterViewInit, OnDestroy {
       error: (error) => console.error(error)
     });
 
-    this.catalogsServices.getCatStatus().subscribe({
+    this.catalogsServices.getCatStatus('module_id=1').subscribe({
       next: (data: entityGeneral.DataCatStatus[]) => {
         this.catStatus = data;
       },

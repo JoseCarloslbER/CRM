@@ -259,7 +259,10 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
         setTimeout(() => {
             this.user = this.authenticationService.getDecryptedUser();
             this.userName = this.user?.first_name && this.user?.last_name ? this.user?.first_name.toUpperCase() + ' ' + this.user?.last_name.toUpperCase() : this.user?.username.toUpperCase();
-            this.photo = this.user?.profile_picture ? this.user?.profile_picture.includes('default') ? `../../../assets/images/default.png` : this.user?.profile_picture : `../../../assets/images/default.png`
+            // this.photo = this.user?.profile_picture
+            // ? this.user.profile_picture.includes('default') ? false : this.user.profile_picture
+            // : false;            
+            this.photo = this.user?.profile_picture ? this.user?.profile_picture.includes('default') ? `../../../assets/images/user-default.png` : this.user?.profile_picture : `../../../assets/images/user-default.png`
         }, 500);
     }
 

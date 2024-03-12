@@ -85,30 +85,10 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
     this.searchBar.valueChanges.pipe(takeUntil(this.onDestroy), debounceTime(500)).subscribe((content: string) => {
       this.applyFilter(content)
     })
-
-    // applyFilter(filterValue: string) {
-    //   filterValue = filterValue.trim().toLowerCase();
-    //   this.dataSource.filter = filterValue;
-    // }
-    // [formControl]="searchBar"
-  }
-
-  getActions(type:string, data:any) {
-    console.log(data);
-    
-    if (type == 'Aceptar') {
-      this.acceptQuote({
-        company_id : data.companyName.id,
-        quote_id : data.id,
-        status_id : '3944df8e-d359-4569-b712-ea174be69cca'
-      }) 
-    } else if(type == 'Cerrar como venta') {
-      this.closeSale(data)
-    }
   }
 
   getCatalogs() {
-    this.catalogsServices.getCatStatus().subscribe({
+    this.catalogsServices.getCatStatus('module_id=5').subscribe({
       next: (data: entityGeneral.DataCatStatus[]) => {
         this.catStatus = data;
       },
@@ -149,6 +129,30 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
     })
   }
 
+  getActions(type:string, data:any) {
+    if (type == 'Aceptar') {
+      this.acceptQuote({
+        company_id : data.companyName.id,
+        quote_id : data.id,
+        status_id : '3944df8e-d359-4569-b712-ea174be69cca'
+      }) 
+    } else if(type == 'Cerrar como venta') {
+      this.closeSale(data)
+    } else if (type == 'Rechazar') {
+      this.rejectQuote({
+        company_id : data.companyName.id,
+        quote_id : data.id,
+        status_id : '92014f59-ea76-41ea-bbad-396c4fe3dd73'
+      }) 
+    } else if (type == 'Cancelar') {
+      this.cancelQuote({
+        company_id : data.companyName.id,
+        quote_id : data.id,
+        status_id : '0830d65c-8fb3-488b-aa3f-56f0ebbd6983'
+      }) 
+    }
+  }
+
   seeData(id:string) {
     this.router.navigateByUrl(`/home/conversion/detalle-cotizacion/${id}`)
   }
@@ -182,6 +186,60 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
               .notificacion(
                 'Éxito',
                 'Cotización aceptada.',
+                'save',
+              )
+              .afterClosed()
+              .subscribe((_) => this.searchWithFilters());
+          },
+          error: (error) => console.error(error)
+        })
+      }
+    });
+  }
+
+  rejectQuote(data : any) {
+    this.notificationService
+    .notificacion(
+      'Pregunta',
+      '¿Estás seguro de rechazar la cotización?',
+      'question',
+    )
+    .afterClosed()
+    .subscribe((response) => {
+      if (response) {
+        this.moduleServices.rejectQuote({ quote : data }).subscribe({
+          next: () => {
+              this.notificationService
+              .notificacion(
+                'Éxito',
+                'Cotización rechazada.',
+                'save',
+              )
+              .afterClosed()
+              .subscribe((_) => this.searchWithFilters());
+          },
+          error: (error) => console.error(error)
+        })
+      }
+    });
+  }
+ 
+  cancelQuote(data : any) {
+    this.notificationService
+    .notificacion(
+      'Pregunta',
+      '¿Estás seguro de cancelar la cotización?',
+      'question',
+    )
+    .afterClosed()
+    .subscribe((response) => {
+      if (response) {
+        this.moduleServices.cancelQuote({ quote : data }).subscribe({
+          next: () => {
+              this.notificationService
+              .notificacion(
+                'Éxito',
+                'Cotización rechazada.',
                 'save',
               )
               .afterClosed()

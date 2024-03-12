@@ -67,8 +67,20 @@ export class ConversionService {
 
     return this.http.post<any>(url, data);
 	}
+  
+  public rejectQuote(data:any): Observable<any> {
+		const url = `${this.apiUrl}tracking/`;
+
+    return this.http.post<any>(url, data);
+	}
 
   public closeSale(data:any): Observable<any> {
+		const url = `${this.apiUrl}tracking/`;
+
+    return this.http.post<any>(url, data);
+	}
+
+  public cancelQuote(data:any): Observable<any> {
 		const url = `${this.apiUrl}tracking/`;
 
     return this.http.post<any>(url, data);

@@ -21,8 +21,7 @@
                     <div class="col-md-4">
                         <form class="example-form">
                             <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
-                                <mat-label>{{url.includes('dashboard') ? 'Buscar LEAD / Cliente' : 'Prospecto / Empresa'
-                                    }}</mat-label>
+                                <mat-label>Buscar empresas</mat-label>
                                 <input type="text" placeholder="Buscar por nombre..." matInput [formControl]="company"
                                     [matAutocomplete]="auto">
                                 <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
@@ -31,6 +30,9 @@
                                         {{ cat.company_name || '-' }}
                                     </mat-option>
                                 </mat-autocomplete>
+
+                                <mat-icon class="cursor-pointer" *ngIf="companySelected" matTooltip="Limpiar" (click)="cleanCompany()">close</mat-icon>
+
                             </mat-form-field>
                         </form>
 

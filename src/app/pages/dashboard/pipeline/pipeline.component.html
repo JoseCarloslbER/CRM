@@ -147,6 +147,37 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="pipline-actions-formal">
+                            <h1>Acciones</h1>
+
+                            <div class="colum-table-select">
+                                <mat-form-field class="flex-auto input-default"
+                                    *ngIf="data.actionName == 'Creada' || data.actionName == 'Aceptada'">
+                                    <mat-select placeholder="Seleccionar">
+                                        <mat-option [value]="data.actionName" class="border-bottom" [value]="action"
+                                            *ngFor="let action of data.actions"
+                                            (click)="getActions(action, data)">{{action}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="c-column-btns" *ngIf="data.actionName != 'Eliminado'">
+                                <div class="btn-wallet" (click)="moneyAccount(data)"
+                                    *ngIf="(data.actionName == 'Aprobada' && !data.moneyInAccount)">
+                                    <mat-icon matTooltip="Dinero en cuenta">wallet</mat-icon>
+                                </div>
+
+                                <div class="btn-receipt" (click)="billing(data)"
+                                    *ngIf="data.actionName == 'Aprobada PC' && !data.isBilled">
+                                    <mat-icon matTooltip="Facturación">receipt_long</mat-icon>
+                                </div>
+
+                                <div class="btn-print" (click)="addUpladFile()" *ngIf="data.moneyInAccount">
+                                    <mat-icon matTooltip="Agregar comprobante de pago">upload_file</mat-icon>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -167,8 +198,7 @@
                             </button>
                         </div>
 
-                        <div class="pipeline-content-card card-formal-padding"
-                            *ngFor="let dataOption of data?.optionOne">
+                        <div class="pipeline-content-card card-formal-padding" *ngFor="let dataOption of data?.optionOne">
                             <div class="d-flex align-items-center gap-2">
                                 <div class="text-end">
                                     <h1>Cotización:</h1>

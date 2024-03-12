@@ -12,8 +12,9 @@ export class CatalogsService {
 	constructor(private http: HttpClient) { }
 
 	// CATALOGS
-	public getCatStatus(): Observable<entityGeneral.DataCatStatus[]> {
-		const url = `${environment.apiURL}settings/status/`;
+	public getCatStatus(filtro?:string): Observable<entityGeneral.DataCatStatus[]> {
+		const url = `${environment.apiURL}settings/status/${filtro ? `?${filtro}` : ''}`;
+
 
 		return this.http.get<entityGeneral.DataCatStatus[]>(url)
 	}

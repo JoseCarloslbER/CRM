@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatTabChangeEvent } from '@angular/material/tabs';
@@ -12,6 +12,7 @@ import { ModalUploadDocumentComponent } from 'app/pages/conversion/modal-upload-
 import moment from 'moment';
 import * as entityGeneral from '../../../shared/interfaces/general-interface';
 import { CatalogsService } from 'app/shared/services/catalogs.service';
+import { ModalCloseSaleComponent } from 'app/pages/conversion/modal-close-sale/modal-close-sale.component';
 
 @Component({
   selector: 'app-pipeline',
@@ -55,7 +56,7 @@ export class PipelineComponent implements OnInit, OnDestroy {
   }
 
   getCatalogs() {
-    this.catalogsServices.getCatStatus().subscribe({
+    this.catalogsServices.getCatStatus('module_id=1').subscribe({
       next: (data: entityGeneral.DataCatStatus[]) => {
         this.catStatus = data;
       },
@@ -98,9 +99,35 @@ export class PipelineComponent implements OnInit, OnDestroy {
     this.moduleServices.getPipeline(filters).subscribe({
       next: (data : any) => {
         this.dataPipele = data;
+        console.log(this.dataPipele);
+        
       },
       error: (error) => console.error(error)
     })
+  }
+
+  getActions(type:string, data:any) {
+    if (type == 'Aceptar') {
+      this.acceptQuote({
+        company_id : data.companyName.id,
+        quote_id : data.id,
+        status_id : '3944df8e-d359-4569-b712-ea174be69cca'
+      }) 
+    } else if(type == 'Cerrar como venta') {
+      this.closeSale(data)
+    } else if (type == 'Rechazar') {
+      this.rejectQuote({
+        company_id : data.companyName.id,
+        quote_id : data.id,
+        status_id : '92014f59-ea76-41ea-bbad-396c4fe3dd73'
+      }) 
+    } else if (type == 'Cancelar') {
+      this.cancelQuote({
+        company_id : data.companyName.id,
+        quote_id : data.id,
+        status_id : '0830d65c-8fb3-488b-aa3f-56f0ebbd6983'
+      }) 
+    }
   }
 
   newDataQuote() {
@@ -153,6 +180,101 @@ export class PipelineComponent implements OnInit, OnDestroy {
     })
     .afterClosed()
     .subscribe((_) => this.searchWithFilters());
+  }
+
+  closeSale(data: any) {
+    this.dialog.open(ModalCloseSaleComponent, {
+      data: {
+        info: data,
+      },
+      disableClose: true,
+      width: '1000px',
+      maxHeight: '628px',
+      panelClass: 'custom-dialog',
+    })
+    .afterClosed()
+    .subscribe((_) => this.searchWithFilters());
+  }
+
+  acceptQuote(data : any) {
+    this.notificationService
+    .notificacion(
+      'Pregunta',
+      '¿Estás seguro de aceptar la cotización?',
+      'question',
+    )
+    .afterClosed()
+    .subscribe((response) => {
+      if (response) {
+        this.moduleServicesQuote.acceptQuote({quote : data}).subscribe({
+          next: () => {
+              this.notificationService
+              .notificacion(
+                'Éxito',
+                'Cotización aceptada.',
+                'save',
+              )
+              .afterClosed()
+              .subscribe((_) => this.searchWithFilters());
+          },
+          error: (error) => console.error(error)
+        })
+      }
+    });
+  }
+
+  rejectQuote(data : any) {
+    this.notificationService
+    .notificacion(
+      'Pregunta',
+      '¿Estás seguro de rechazar la cotización?',
+      'question',
+    )
+    .afterClosed()
+    .subscribe((response) => {
+      if (response) {
+        this.moduleServicesQuote.rejectQuote({ quote : data }).subscribe({
+          next: () => {
+              this.notificationService
+              .notificacion(
+                'Éxito',
+                'Cotización rechazada.',
+                'save',
+              )
+              .afterClosed()
+              .subscribe((_) => this.searchWithFilters());
+          },
+          error: (error) => console.error(error)
+        })
+      }
+    });
+  }
+
+  cancelQuote(data : any) {
+    this.notificationService
+    .notificacion(
+      'Pregunta',
+      '¿Estás seguro de cancelar la cotización?',
+      'question',
+    )
+    .afterClosed()
+    .subscribe((response) => {
+      if (response) {
+        this.moduleServicesQuote.cancelQuote({ quote : data }).subscribe({
+          next: () => {
+              this.notificationService
+              .notificacion(
+                'Éxito',
+                'Cotización rechazada.',
+                'save',
+              )
+              .afterClosed()
+              .subscribe((_) => this.searchWithFilters());
+          },
+          error: (error) => console.error(error)
+        })
+      }
+    });
   }
 
   addUpladFile() {

@@ -24,7 +24,8 @@ export class Mapper {
 				companyName : {
 					id : data?.company?.company_id || '-', 
 					name : data?.company?.company_name || '-', 
-					logo : data?.company ? data?.company?.logo.includes('default') ? `../../../assets/images/default.png` : data?.company?.logo : `../../../assets/images/default.png`},
+					logo : data?.company ? data?.company?.logo.includes('default') ? `../../../assets/images/default.png` : data?.company?.logo : `../../../assets/images/default.png`
+				},
 				status: data?.company?.company_phase?.phase_name || '-',
 				stateCountry : data?.company?.country?.country_name || '-',
 				information: {
@@ -57,9 +58,10 @@ export class Mapper {
 					}),
 					};
 				  }),
-				  actions: data?.status?.description == 'Creada'  ? ['Aceptar'] : 
+				  actions: data?.status?.description == 'Creada'  ? ['Aceptar', 'Rechazar'] : 
 						data?.status?.description == 'Aceptada' || data?.status?.description == 'Aprobada' ? ['Rechazar', 'Cancelar', 'Cerrar como venta'] : [],
 				
+				status_id: data?.status?.status_id,
 				actionName: data?.status?.description,
 				closeSale: data.quote_options.map((dataClose, index) => {
 					const total = dataClose?.option_products?.reduce((acc, product) => acc + parseFloat(product?.total), 0);

@@ -13,7 +13,7 @@
                     <div class="col-md-6">
                         <form class="example-form">
                             <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
-                              <mat-label>Empresa</mat-label>
+                              <mat-label>Buscar empresas</mat-label>
                               <input type="text" placeholder="Buscar por nombre..." matInput [formControl]="company" [matAutocomplete]="auto">
                               <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
                                 <mat-option *ngFor="let cat of filteredOptions | async" [value]="cat.company_name" (click)="companySelected = cat.company_id">

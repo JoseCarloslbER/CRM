@@ -165,8 +165,6 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
     objData.quote_options = options;
 
     console.log(objData);
-    
-    
     // if (this.objEditData) this.saveDataPatch(objData)
     // else this.saveDataPost(objData)
   }
@@ -206,20 +204,21 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
           ...({ option_product_id: productControl.id }),
           quantity: productControl.placesControl.value,
           product: productControl.productControl.value,
-          price: productControl.unitPriceControl.value,
-          total: productControl.totalPriceControl.value,
+          price: parseFloat(productControl.unitPriceControl.value.replace(/,/g, '')),
+          total: parseFloat(productControl.totalPriceControl.value.replace(/,/g, '')),
         };
       });
 
       let obj = {
         ...({ quote_option_id: control.id }),
-        subtotal: parseFloat(control.subtotalControl.value),
+        subtotal: parseFloat(control.subtotalControl.value.replace(/,/g, '')),
+        total: parseFloat(control.totalControl.value.replace(/,/g, '')),
         discount: control.discountControl.value,
-        total: control.totalControl.value,
         type_price: control.typePriceControl.value,
         deadline: combinedDateTime,
         option_products: productValues,
         quote_option : index + 1
+        // total: control.totalControl.value,
       }
 
       return obj;
@@ -359,7 +358,7 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
         maximumFractionDigits: 2
       });
   
-      optionInstance.totalControl.setValue(parseFloat(total.replace(/,/g, '')));
+      optionInstance.totalControl.setValue(total);
     });
   }
 
@@ -382,7 +381,7 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
       maximumFractionDigits: 2
     });
   
-    productInstance.totalControl.setValue(parseFloat(total.replace(/,/g, '')));
+    productInstance.totalControl.setValue(total);
   }
 
   private setupOptionControlSubscriptions(optionInstance: any) {
@@ -454,6 +453,12 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     else save = false;
     return save
+  }
+
+  cleanCompany() {
+    console.log('Antes:', this.company.value);
+    this.company.patchValue('')
+    console.log('Despues:', this.company.value);
   }
 
   toBack() {

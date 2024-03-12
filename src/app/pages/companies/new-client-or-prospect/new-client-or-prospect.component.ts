@@ -272,7 +272,6 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
   saveDataQuotePost(objData) {
     this.moduleServices.postDataQuote(objData).subscribe({
       next: (response: any) => {
-        console.log(response);
         this.notificationService
           .notificacion(
             'Éxito',
@@ -429,9 +428,6 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
   }
 
   deleteProductValue(index: number) {
-    console.log();
-    console.log(this.optionFormValues);
-
     this.optionFormValues.forEach(data => {
       data.product.splice(index, 1)
     })
@@ -559,7 +555,6 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     })
       .afterClosed()
       .subscribe(({ close }) => {
-        console.log(close);
         if (close) this.router.navigateByUrl(`/home/conversion/nueva-cotizacion`)
         else this.router.navigateByUrl(`/home/empresas/${this.url.includes('prospecto') ? 'prospectos' : 'clientes'}`)
       });
@@ -613,7 +608,6 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
       newFormGroup.get('tax_id_number')?.clearValidators();
     }
 
-    console.log(newFormGroup);
     newFormGroup.updateValueAndValidity();
     this.formData = newFormGroup;
   }
@@ -621,9 +615,6 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
   get canSave() {
     let save: boolean = true;
 
-    console.log('this.formData.valid', this.formData.valid);
-    console.log('this.formData.valid', this.formData);
-    
     if (this.formData.valid) {
       if (this.valuesContacts.length) {
         this.valuesContacts.forEach(control => {

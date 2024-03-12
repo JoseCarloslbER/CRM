@@ -80,7 +80,7 @@ export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getCatalogs() {
-    this.catalogsServices.getCatStatus().subscribe({
+    this.catalogsServices.getCatStatus('module_id=1').subscribe({
       next: (data: entityGeneral.DataCatStatus[]) => {
         this.catStatus = data;
       },
