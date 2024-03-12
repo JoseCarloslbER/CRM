@@ -244,6 +244,7 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     user: any;
     userName:string = ''
     photo:string = ''
+    
 
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 

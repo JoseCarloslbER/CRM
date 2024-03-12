@@ -1,63 +1,30 @@
 <div class="fixed lg:sticky top-0 bottom-0 lg:left-full w-full sm:w-96 lg:w-16 lg:h-screen lg:shadow">
     <div class="flex flex-col w-full sm:w-96 h-full transition-transform duration-400 ease-drawer bg-card" [ngClass]="{'-translate-x-full sm:-translate-x-96 lg:-translate-x-80 shadow': opened, 'translate-x-0': !opened}">
-
         <div class="quick-chat-header flex flex-0 items-center justify-start cursor-pointer" style="background: #4B5062 !important" >
-
-            <ng-container *ngIf="!opened || (opened && !selectedChat)">
+            <ng-container >
                 <div class="flex flex-auto items-center justify-center">
                     <div class="flex flex-0 items-center justify-center w-16">
                         <img src="../../../assets/images/Vector.png" class="cursor-pointer"alt="" style="width: 25px; height: 25px;">
                     </div>
-                    <div class="text-lg font-medium text-secondary">Team Chat</div>
                     <button class="ml-auto mr-4" mat-icon-button>
-                        <mat-icon [svgIcon]="'heroicons_outline:x-mark'"></mat-icon>
-                    </button>
-                </div>
-            </ng-container>
-
-            <ng-container *ngIf="opened && selectedChat">
-                <div class="flex flex-auto items-center ml-3">
-                    <div class="relative flex flex-0 items-center justify-center w-10 h-10">
-                        <ng-container *ngIf="chat.contact.avatar">
-                            <img class="w-full h-full rounded-full object-cover"  [src]="chat.contact.avatar" alt="Contact avatar"/>
-                        </ng-container>
-                        <ng-container *ngIf="!chat.contact.avatar">
-                            <div class="flex items-center justify-center w-full h-full rounded-full text-lg uppercase bg-gray-200 text-gray-600 dark:bg-gray-700 dark:text-gray-200">
-                                {{chat.contact.name.charAt(0)}}
-                            </div>
-                        </ng-container>
-                    </div>
-                    <div class="ml-4 text-lg font-medium leading-5 truncate">{{chat.contact.name}}</div>
-                    <button
-                        class="ml-auto mr-4"
-                        mat-icon-button>
                         <mat-icon [svgIcon]="'heroicons_outline:x-mark'"></mat-icon>
                     </button>
                 </div>
             </ng-container>
         </div>
 
-        <!-- Content -->
         <div class="flex flex-auto border-t overflow-hidden">
             <div class="flex-0 w-16 h-full overflow-y-auto overscroll-y-contain sm:overflow-hidden sm:overscroll-auto" fuseScrollbar [fuseScrollbarOptions]="{wheelPropagation: false}">
                 <div class="flex-auto">
                     <ng-container *ngFor="let chat of chats; trackBy: trackByFn">
-                        <button class="flex items-center py-3 px-4 cursor-pointer "  [matTooltip]="chat.contact.name"
-                            [ngClass]="{'hover:bg-gray-100 dark:hover:bg-hover': !selectedChat || selectedChat.id !== chat.id,
-                                        'bg-primary-50 dark:bg-hover': selectedChat && selectedChat.id === chat.id}"
-                           >
+
+                        <button class="flex items-center py-3 px-4 cursor-pointer" [matTooltip]="chat.name">
                             <div class="relative flex flex-0 items-center justify-center w-8 h-8">
-                                <ng-container *ngIf="chat.unreadCount > 0">
-                                    <div class="absolute bottom-0 right-0 flex-0 w-2 h-2 -ml-0.5 rounded-full ring-2 ring-bg-card dark:ring-gray-900 bg-primary dark:bg-primary-500 text-on-primary"
-                                        [class.ring-primary-50]="selectedChat && selectedChat.id === chat.id"></div>
+                                <ng-container *ngIf="chat.on">
+                                    <div class="absolute bottom-0 right-0 flex-0 w-2 h-2 -ml-0.5 rounded-full ring-2 ring-bg-card dark:ring-gray-900 dark:bg-primary-500 text-on-primary" style="background: rgb(84, 202, 54);"></div>
                                 </ng-container>
-                                <ng-container *ngIf="chat.contact.avatar">
-                                    <img   class="w-full h-full rounded-full object-cover" [src]="chat.contact.avatar" alt="Contact avatar"/>
-                                </ng-container>
-                                <ng-container *ngIf="!chat.contact.avatar">
-                                    <div class="flex items-center justify-center w-full h-full rounded-full text-lg uppercase bg-gray-200 text-gray-600 dark:bg-gray-700 dark:text-gray-200">
-                                        {{chat.contact.name.charAt(0)}}
-                                    </div>
+                                <ng-container>
+                                    <img class="w-full h-full rounded-full object-cover" [src]="chat.photo"/>
                                 </ng-container>
                             </div>
                         </button>
@@ -67,20 +34,3 @@
         </div>
     </div>
 </div>
-
-<ng-template #selectChatOrStartNew>
-    <div class="flex flex-col flex-auto items-center justify-center w-full h-full p-4">
-        <mat-icon
-            class="icon-size-24"
-            [svgIcon]="'heroicons_outline:chat-bubble-bottom-center-text'"></mat-icon>
-        <div class="mt-4 text-xl text-center font-medium tracking-tight text-secondary">Select a conversation</div>
-    </div>
-</ng-template>
-
-<ng-template #speechBubbleExtension>
-    <svg width="100%" height="100%" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
-        <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-            <path d="M1.01522827,0.516204834 C-8.83532715,54.3062744 61.7609863,70.5215302 64.8009949,64.3061218 C68.8074951,54.8859711 30.1663208,52.9997559 37.5036011,0.516204834 L1.01522827,0.516204834 Z" fill="currentColor" fill-rule="nonzero"></path>
-        </g>
-    </svg>
-</ng-template>
