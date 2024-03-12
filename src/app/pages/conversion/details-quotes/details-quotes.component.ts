@@ -4,6 +4,9 @@ import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { ConversionService } from '../conversion.service';
 import { Subject, takeUntil } from 'rxjs';
 import { GetDataQuoteMapper } from '../conversion-interface';
+import { FormControl } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { ModalEmailComponent } from './modal-email/modal-email.component';
 
 @Component({
   selector: 'app-details-quotes',
@@ -18,10 +21,14 @@ export class DetailsQuotesComponent implements OnInit {
   public idTest = '9aa67cb4-ccb1-4c01-8d7f-4b269db134ce'
   public quotesOptions: any[] = [];
 
+  public emailText = new FormControl('');
+
   constructor(
     private moduleServices: ConversionService,
     private notificationService: OpenModalsService,
     private activatedRoute: ActivatedRoute,
+    private dialog: MatDialog,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -30,7 +37,6 @@ export class DetailsQuotesComponent implements OnInit {
   
   getId() {
     this.activatedRoute.params.pipe(takeUntil(this.onDestroy)).subscribe((params:any) => {
-      console.log(params);
       if (params.id) this.getDataById(params.id);
     });
   }
@@ -39,10 +45,7 @@ export class DetailsQuotesComponent implements OnInit {
     this.moduleServices.getDataId(id).subscribe({
       next: (response: GetDataQuoteMapper) => {
         this.objEditData = response;
-        console.log('objEditData', this.objEditData);
         this.quotesOptions = response.quoteOptions;
-        console.log(this.quotesOptions);
-        
       },
       error: (error) => {
         this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
@@ -52,15 +55,26 @@ export class DetailsQuotesComponent implements OnInit {
   }
 
   sendEmail(){
-    this.notificationService
-      .notificacion(
-        'Éxito',
-        'Correo enviado.',
-        'save',
-      )
-      .afterClosed()
-      .subscribe((_) => {
-      });
+    let objEmail:any = {
+      quote_id : this.objEditData.id,
+      message : this.emailText.value,
+    };
+
+    this.dialog.open(ModalEmailComponent, {
+      data: {
+        info: objEmail,
+      },
+      disableClose: true,
+      width: '350px',
+      maxHeight: '628px',
+      panelClass: 'custom-dialog',
+    })
+    .afterClosed()
+    .subscribe((_) => this.toBack() );
+  }
+
+  toBack(){
+    this.router.navigateByUrl(`/home/conversion/cotizaciones`)
   }
 
   ngOnDestroy(): void {

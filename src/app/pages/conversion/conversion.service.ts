@@ -97,4 +97,10 @@ export class ConversionService {
 
     return this.http.post<any>(url, data);
 	}
+
+  public sendEmail(data:any): Observable<any> {
+		const url = `${environment.apiURL}mail/send-quote-email/?email_send=${data.email_send}&quote_id=${data.quote_id}&message=${data.message}`;
+
+    return this.http.get<any>(url, data);
+	}
 }

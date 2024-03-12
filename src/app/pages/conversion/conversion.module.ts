@@ -11,6 +11,7 @@ import { DetailsQuotesComponent } from './details-quotes/details-quotes.componen
 import { ModalUploadDocumentComponent } from './modal-upload-document/modal-upload-document.component';
 import { ModalCloseSaleComponent } from './modal-close-sale/modal-close-sale.component';
 import { ModalBillingComponent } from './modal-billing/modal-billing.component';
+import { ModalEmailComponent } from './details-quotes/modal-email/modal-email.component';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { ModalBillingComponent } from './modal-billing/modal-billing.component';
     ModalUploadDocumentComponent,
     NewQuoteComponent,
     ModalCloseSaleComponent,
-    ModalBillingComponent
+    ModalBillingComponent,
+    ModalEmailComponent
   ],
   imports: [
     CommonModule,

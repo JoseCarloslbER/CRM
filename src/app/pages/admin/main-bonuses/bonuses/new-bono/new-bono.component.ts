@@ -33,7 +33,6 @@ export class NewBonoComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     private notificationService: OpenModalsService,
     private formBuilder: FormBuilder,
-    private dialog: MatDialog,
     private router: Router
   ) { }
 
