@@ -30,9 +30,7 @@
                                         {{ cat.company_name || '-' }}
                                     </mat-option>
                                 </mat-autocomplete>
-
                                 <mat-icon class="cursor-pointer" *ngIf="companySelected" matTooltip="Limpiar" (click)="cleanCompany()">close</mat-icon>
-
                             </mat-form-field>
                         </form>
 
@@ -145,9 +143,7 @@
                                 <div class="col-md-2">
                                     <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                                         <mat-label>Precio unitario</mat-label>
-                                        <input class="text-right" [formControl]="controlProduct.unitPriceControl"
-                                          matInput
-                                          >
+                                        <input class="text-right" [formControl]="controlProduct.unitPriceControl" matInput (input)="onInputChange($event, productIndex)">
                                         <span matPrefix>$</span>
                                     </mat-form-field>
                                 </div>

@@ -220,6 +220,13 @@ export class ModalNewActivityComponent implements OnInit, AfterViewInit, OnDestr
       .subscribe((_) => this.closeModal());
   }
 
+  cleanCompany() {
+    this.company.patchValue('')
+    this.catQuoteOpens = []
+    this.formData.get('quote').disable();
+    this.formData.get('quote').patchValue(null)
+  }
+
   closeModal() {
     this.updateService.triggerUpdate(); 
     this.dialogRef.close({ close: true })

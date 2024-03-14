@@ -20,6 +20,7 @@
                                   {{cat.company_name || '-'}}
                                 </mat-option>
                               </mat-autocomplete>
+                              <mat-icon class="cursor-pointer" *ngIf="companySelected" matTooltip="Limpiar" (click)="cleanCompany()">close</mat-icon>
                             </mat-form-field>
                           </form>
 
