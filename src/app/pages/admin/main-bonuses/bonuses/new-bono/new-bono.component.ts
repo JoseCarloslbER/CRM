@@ -1,8 +1,6 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 

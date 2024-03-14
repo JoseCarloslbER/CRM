@@ -29,11 +29,11 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
   public company = new FormControl(null);
 
   public formData = this.formBuilder.group({
-    contact: [''],
-    user: [''],
-    campaign: [''],
-    payment_method: [''],
-    tax_include: [false],
+    contact: ['', Validators.required],
+    user: ['', Validators.required],
+    campaign: ['', Validators.required],
+    payment_method: ['', Validators.required],
+    tax_include: [false, Validators.required],
   });
 
   public catCompanies: any[] = [];
@@ -82,13 +82,13 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getId() {
-    this.activatedRoute.params.pipe(takeUntil(this.onDestroy)).subscribe((params:any) => {
+    this.activatedRoute.params.pipe(takeUntil(this.onDestroy)).subscribe((params: any) => {
       if (params.id) this.getDataById(params.id);
-        else this.addFormOption();
+      else this.addFormOption();
     });
   }
 
-  getDataById(id:string) {
+  getDataById(id: string) {
     this.moduleServices.getDataId(id).subscribe({
       next: (response: any) => {
         this.objEditData = response;
@@ -142,8 +142,7 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
       error: (error) => console.error(error)
     })
 
-    this.getId()
-
+    this.getId();
   }
 
   getCatalogContact(filter?: string) {
@@ -159,7 +158,7 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
     let options: any[] = [...this.getOptionsValues()];
     let objData: any = {
       ...this.formData.value,
-      company : {company_id : this.companySelected},
+      company: { company_id: this.companySelected },
     };
 
     objData.quote_options = options;
@@ -193,6 +192,33 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
     })
   }
 
+  addFormOption(datos?: any) {
+    const instance: any = {
+      ...(datos && { id: datos?.id }),
+      subtotalControl: new FormControl({ value: datos?.subtotal || '', disabled: true }, Validators.required),
+      discountControl: new FormControl({ value: datos?.discount || 0, disabled: true }),
+      totalControl: new FormControl({ value: datos?.total || '', disabled: true }, Validators.required),
+      typePriceControl: new FormControl({ value: datos?.typePrice || 1, disabled: false }, Validators.required),
+      dateControl: new FormControl({ value: datos?.date || '', disabled: false }, Validators.required),
+      timeControl: new FormControl({ value: datos?.time || '', disabled: false }, Validators.required),
+      product: []
+    };
+
+    if (datos && datos.optionProducts) {
+      datos.optionProducts.forEach((productData: any) => {
+        const productInstance: any = this.createProductInstance(productData);
+        this.enableProductFields(productInstance);
+        instance.product.push(productInstance);
+      });
+    } else {
+      const newProductInstance: any = this.createProductInstance();
+      instance.product.push(newProductInstance);
+    }
+
+    this.setupOptionControlSubscriptions(instance);
+    this.optionFormValues.push(instance);
+  }
+
   getOptionsValues() {
     const formValues = (control: any, index: number) => {
       const formattedDate = moment(control.dateControl.value).format('YYYY-MM-DD');
@@ -217,8 +243,7 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
         type_price: control.typePriceControl.value,
         deadline: combinedDateTime,
         option_products: productValues,
-        quote_option : index + 1
-        // total: control.totalControl.value,
+        quote_option: index + 1
       }
 
       return obj;
@@ -227,32 +252,6 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
     return this.optionFormValues.map(formValues);
   }
 
-  addFormOption(datos?: any) {
-    const instance: any = {
-      ...(datos && { id: datos?.id }),
-      subtotalControl: new FormControl({ value: datos?.subtotal || '', disabled: true }, Validators.required),
-      discountControl: new FormControl({ value: datos?.discount || 0, disabled: false }),
-      totalControl: new FormControl({ value: datos?.total || '', disabled: true }, Validators.required),
-      typePriceControl: new FormControl({ value: datos?.typePrice || 1, disabled: false }, Validators.required),
-      dateControl: new FormControl({ value: datos?.date || '', disabled: false }, Validators.required),
-      timeControl: new FormControl({ value: datos?.time || '', disabled: false }, Validators.required),
-      product: []
-    };
-  
-    if (datos && datos.optionProducts) {
-      datos.optionProducts.forEach((productData: any) => {
-        const productInstance: any = this.createProductInstance(productData);
-        this.enableProductFields(productInstance);
-        instance.product.push(productInstance);
-      });
-    } else {
-      const newProductInstance: any = this.createProductInstance();
-      instance.product.push(newProductInstance);
-    }
-    this.setupOptionControlSubscriptions(instance);
-    this.optionFormValues.push(instance);
-  }
-  
   createProductInstance(productData?: any): any {
     const productInstance: any = {
       ...(productData && { id: productData.id }),
@@ -261,27 +260,27 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
       unitPriceControl: new FormControl({ value: productData?.unitPri || '', disabled: true }, Validators.required),
       totalPriceControl: new FormControl({ value: productData?.total || '', disabled: true }, Validators.required),
     };
-  
+
     this.setupProductControlSubscriptions(productInstance);
-  
+
     return productInstance;
   }
-  
+
   addAdditionalProduct(optionIndex: number) {
     const newProductInstance: any = this.createProductInstance();
     this.optionFormValues[optionIndex]?.product.push(newProductInstance);
   }
-  
+
   private setupProductControlSubscriptions(productInstance: any) {
     productInstance.productControl.valueChanges.subscribe((selectedProduct: any) => {
       this.updateProductPrice(productInstance, selectedProduct);
       this.updateSubtotal();
       this.enableProductFields(productInstance);
     });
-  
+
     productInstance.placesControl.valueChanges.subscribe((newPlacesValue: number) => {
       this.updateProductTotalPrice(productInstance, newPlacesValue);
-      this.updateSubtotal();
+      this.updateSubtotal(true, newPlacesValue);
     });
 
     productInstance.unitPriceControl.valueChanges.subscribe((newUnitPrice: any) => {
@@ -289,98 +288,127 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
       this.updateSubtotal();
     });
   }
-  
+
   deleteOptionValue(index: number) {
     this.optionFormValues.splice(index, 1)
   }
-  
+
   deleteProductValue(index: number) {
-    this.optionFormValues.forEach(data=> {
+    this.optionFormValues.forEach(data => {
       data.product.splice(index, 1)
     })
   }
 
   updateProductPrice(productInstance: any, selectedProduct: any) {
     const selectedProductInfo = this.catProducts.find(product => product.product_id === selectedProduct);
-  
+
     if (selectedProductInfo) {
       const listPrice: any = selectedProductInfo.list_price;
       const placesValue = productInstance.placesControl.value;
-      const newTotal = listPrice * placesValue;
-  
+
       productInstance.unitPriceControl.setValue(parseFloat(listPrice).toLocaleString('en-US', {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
       }));
+
+      if (placesValue) {
+        const newTotal = listPrice * placesValue;
+
+        productInstance.totalPriceControl.setValue(newTotal.toLocaleString('en-US', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        }));
+      } else {
+        productInstance.totalPriceControl.setValue(parseFloat(listPrice).toLocaleString('en-US', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        }));
+      }
+    }
+  }
+
+  updateProductTotalPrice(productInstance: any, newPlacesValue: number) {
+    const listPrice = parseFloat(productInstance.unitPriceControl.value.replace(/,/g, ''));
+
+    if (newPlacesValue && listPrice) {
+      const newTotal = listPrice * newPlacesValue;
       productInstance.totalPriceControl.setValue(newTotal.toLocaleString('en-US', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      }));
+    } 
+  }
+
+  updateSubtotal(places?: boolean, value?: any) {
+    this.optionFormValues.forEach((optionInstance: any) => {
+      let subtotal = 0;
+
+      optionInstance.product.forEach((productInstance: any) => {
+        subtotal += this.parseNumber(productInstance.totalPriceControl.value) || 0;
+      });
+
+      if (subtotal) {
+        optionInstance.subtotalControl.setValue(subtotal.toLocaleString('en-US', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        }));
+      }
+
+      const discountValue = optionInstance.discountControl.value;
+      const discount = this.parseNumber(discountValue) || 0;
+
+      if (value && optionInstance?.product.length >= 1) {
+        optionInstance.discountControl.enable();
+
+        const total = (subtotal - discount).toLocaleString('en-US', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        });
+
+        optionInstance.totalControl.setValue(total);
+
+      } else if (!value && discount && optionInstance?.product.length == 1) {
+        optionInstance.discountControl.disable();
+        optionInstance.discountControl.patchValue(0);
+
+      } else {
+        optionInstance.discountControl.disable();
+        optionInstance.discountControl.patchValue(0);
+      }
+    });
+  }
+
+  updateProductTotalPriceManually(productInstance: any, newUnitPrice: any) {
+    const placesValue = productInstance.placesControl.value;
+
+    if (newUnitPrice && placesValue) {
+      const newTotal = newUnitPrice * placesValue;
+      productInstance.totalPriceControl.setValue(newTotal.toLocaleString('en-US', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      }));
+    } else if(newUnitPrice) {
+      productInstance.totalPriceControl.setValue(parseFloat(newUnitPrice).toLocaleString('en-US', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      }));
+    } else {
+      productInstance.totalPriceControl.setValue(parseFloat('0').toLocaleString('en-US', {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
       }));
     }
   }
 
-  updateProductTotalPrice(productInstance: any, newPlacesValue: number) {
-    const listPrice = parseFloat(productInstance.unitPriceControl.value.replace(/,/g, ''));
-    const newTotal = listPrice * newPlacesValue;
-  
-    productInstance.totalPriceControl.setValue(newTotal.toFixed(2));
-  }
-  
-  // updateProductTotalPrice(productInstance: any, newPlacesValue: number) {
-  //   const listPrice = parseFloat(productInstance.unitPriceControl.value.replace(/,/g, ''));
-  //   const newTotal = listPrice * newPlacesValue;
-  
-  //   // productInstance.totalPriceControl.setValue(newTotal.toFixed(2));
-  //   productInstance.totalPriceControl.setValue(newTotal.toLocaleString('en-US', {
-  //     minimumFractionDigits: 2,
-  //     maximumFractionDigits: 2
-  //   }));
-  // }
-  
-  updateSubtotal() {
-    this.optionFormValues.forEach((optionInstance: any) => {
-      let subtotal = 0;
-  
-      optionInstance.product.forEach((productInstance: any) => {
-        subtotal += this.parseNumber(productInstance.totalPriceControl.value) || 0;
-      });
-  
-      optionInstance.subtotalControl.setValue(subtotal.toLocaleString('en-US', {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2
-      }));
-  
-      const discountValue = optionInstance.discountControl.value;
-      const discount = this.parseNumber(discountValue) || 0;
-  
-      const total = (subtotal - discount).toLocaleString('en-US', {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2
-      });
-  
-      optionInstance.totalControl.setValue(total);
-    });
-  }
-
-  updateProductTotalPriceManually(productInstance: any, newUnitPrice: any) {
-    const placesValue = productInstance.placesControl.value;
-    const newTotal = newUnitPrice * placesValue;
-  
-    productInstance.totalPriceControl.setValue(newTotal.toLocaleString('en-US', {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2
-    }));
-  }
-
   updateTotalWithDiscount(productInstance: any, newDiscount: any) {
     const subtotal = this.parseNumber(productInstance?.subtotalControl?.value) || 0;
     const discount = this.parseNumber(newDiscount) || 0;
-  
+
     const total = (subtotal - discount).toLocaleString('en-US', {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2
     });
-  
+
     productInstance.totalControl.setValue(total);
   }
 
@@ -388,6 +416,14 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
     optionInstance.discountControl.valueChanges.subscribe((newDiscount: any) => {
       this.updateTotalWithDiscount(optionInstance, newDiscount);
     });
+  }
+
+  enableProductFields(productInstance: any) {
+    const shouldEnable = !!productInstance.productControl.value;
+
+    productInstance.placesControl[shouldEnable ? 'enable' : 'disable']();
+    productInstance.unitPriceControl[shouldEnable ? 'enable' : 'disable']();
+    productInstance.totalPriceControl[shouldEnable ? 'enable' : 'disable']();
   }
 
   newDataProduct() {
@@ -415,14 +451,6 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
     return parseFloat(typeof value === 'string' ? value.replace(/,/g, '') : value) || 0;
   }
 
-  enableProductFields(productInstance: any) {
-    const shouldEnable = !!productInstance.productControl.value; 
-
-    productInstance.placesControl[shouldEnable ? 'enable' : 'disable']();
-    productInstance.unitPriceControl[shouldEnable ? 'enable' : 'disable']();
-    productInstance.totalPriceControl[shouldEnable ? 'enable' : 'disable']();
-  }
-  
   private _filter(value: any): any[] {
     const filterValue = value?.toLowerCase();
 
@@ -441,24 +469,22 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
             !control?.totalControl?.value ||
             !control?.dateControl?.value ||
             !control?.timeControl?.value ||
-            !control?.product || 
-            control?.product.some((productControl: any) => 
+            !control?.product ||
+            control?.product.some((productControl: any) =>
               !productControl.placesControl?.value
             )
-            ) {
+          ) {
             save = false;
           }
         });
-      } 
+      }
     }
     else save = false;
     return save
   }
 
   cleanCompany() {
-    console.log('Antes:', this.company.value);
     this.company.patchValue('')
-    console.log('Despues:', this.company.value);
   }
 
   toBack() {
