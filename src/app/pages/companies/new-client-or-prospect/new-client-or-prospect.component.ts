@@ -627,7 +627,7 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
             save = false;
           }
         });
-      } 
+      }
 
       if (this.optionFormValues?.length) {
         this.optionFormValues.forEach(control => {
@@ -637,15 +637,15 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
             !control?.totalControl?.value ||
             !control?.dateControl?.value ||
             !control?.timeControl?.value ||
-            !control?.product || 
-            control?.product.some((productControl: any) => 
+            !control?.product ||
+            control?.product.some((productControl: any) =>
               !productControl.placesControl?.value
             )
-            ) {
+          ) {
             save = false;
           }
         });
-      } 
+      }
     }
     else save = false;
     return save

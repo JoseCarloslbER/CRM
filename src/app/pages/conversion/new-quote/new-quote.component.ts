@@ -135,14 +135,17 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
       error: (error) => console.error(error)
     });
 
+    this.getProducts();
+    this.getId();
+  }
+
+  getProducts() {
     this.catalogsServices.getCatProducts().subscribe({
       next: (data: entityGeneral.DataCatProducts[]) => {
         this.catProducts = data;
       },
       error: (error) => console.error(error)
     })
-
-    this.getId();
   }
 
   getCatalogContact(filter?: string) {
@@ -266,13 +269,6 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
     return productInstance;
   }
 
-  onInputChange(event: any, productIndex: number) {
-    const newValue = event.target.value.replace(/[^\d.]/g, '');
-    this.optionFormValues.forEach((optionInstance: any) => {
-      optionInstance.product[productIndex].unitPriceControl.setValue(newValue, { emitEvent: false });
-    });
-  }
-
   addAdditionalProduct(optionIndex: number) {
     const newProductInstance: any = this.createProductInstance();
     this.optionFormValues[optionIndex]?.product.push(newProductInstance);
@@ -287,11 +283,10 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
 
     productInstance.placesControl.valueChanges.subscribe((newPlacesValue: number) => {
       this.updateProductTotalPrice(productInstance, newPlacesValue);
-      this.updateSubtotal(true, newPlacesValue);
+      this.updateSubtotal(newPlacesValue);
     });
 
     productInstance.unitPriceControl.valueChanges.subscribe((newUnitPrice: any) => {
-      console.log('newUnitPrice', newUnitPrice);
       if (!isNaN(newUnitPrice)) {
         this.updateProductTotalPriceManually(productInstance, newUnitPrice);
         this.updateSubtotal();
@@ -349,7 +344,7 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  updateSubtotal(places?: boolean, value?: any) {
+  updateSubtotal(value?: any) {
     this.optionFormValues.forEach((optionInstance: any) => {
       let subtotal = 0;
 
@@ -367,30 +362,20 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
       const discountValue = optionInstance.discountControl.value;
       const discount = this.parseNumber(discountValue) || 0;
 
-      console.log('discount', discount);
-      console.log('subtotal',subtotal);
-      
-      // if (subtotal < discount) {
-      //   console.log('no puede ser mayor el descuento');
-        
-      //   return
-      // } else {
+      if (value && optionInstance?.product.length >= 1) {
+        optionInstance.discountControl.enable();
 
-        if (value && optionInstance?.product.length >= 1) {
-          optionInstance.discountControl.enable();
+        const total = (subtotal - discount).toLocaleString('en-US', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        });
 
-          const total = (subtotal - discount).toLocaleString('en-US', {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2
-          });
+        optionInstance.totalControl.setValue(total);
 
-          optionInstance.totalControl.setValue(total);
-
-        } else if (!value && discount && optionInstance?.product.length < 2) {
-          optionInstance.discountControl.disable();
-          optionInstance.discountControl.patchValue(0);
-        }
-      // }
+      } else if (!value && discount && optionInstance?.product.length < 2) {
+        optionInstance.discountControl.disable();
+        optionInstance.discountControl.patchValue(0);
+      }
 
     });
   }
@@ -420,7 +405,7 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
   updateTotalWithDiscount(productInstance: any, newDiscount: any) {
     const subtotal = this.parseNumber(productInstance?.subtotalControl?.value) || 0;
     const discount = this.parseNumber(newDiscount) || 0;
-    
+
     if (subtotal < discount) {
       const total = (subtotal).toLocaleString('en-US', {
         minimumFractionDigits: 2,
@@ -433,7 +418,7 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
       });
-  
+
       productInstance.totalControl.setValue(total);
     }
   }
@@ -459,6 +444,8 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
       maxHeight: '628px',
       panelClass: 'custom-dialog',
     })
+      .afterClosed()
+      .subscribe(() => this.getProducts());
   }
 
   completionMessage(edit = false) {
@@ -508,8 +495,16 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
     return save
   }
 
+  onInputChange(event: any, productIndex: number) {
+    const newValue = event.target.value.replace(/[^\d.]/g, '');
+    this.optionFormValues.forEach((optionInstance: any) => {
+      optionInstance.product[productIndex].unitPriceControl.setValue(newValue, { emitEvent: false });
+    });
+  }
+
   cleanCompany() {
-    this.company.patchValue('')
+    this.company.patchValue('');
+    this.companySelected = '';
   }
 
   toBack() {

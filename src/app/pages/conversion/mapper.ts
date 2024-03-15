@@ -3,8 +3,6 @@ import moment from 'moment';
 
 export class Mapper {
 	static getDataTableMapper(response: entity.TableDataQuoteResponse) : entity.TableDataQuoteMapperResponse {
-		console.log(response);
-		
 		let dataList :entity.TableDataQuoteMapper[] = [];
 		response.quotes_data.forEach((data: entity.TableDataQuote): void => {
 			dataList.push({
@@ -43,8 +41,6 @@ export class Mapper {
 						}
 				}),
 				products: data.quote_options.map(option => {
-					console.log(option.total);
-					
 					const places = option.option_products.reduce((acc, product) => acc + product.quantity, 0);
 					const productNames = option.option_products.map(product => product.product?.name || '-');
 				  
@@ -64,7 +60,6 @@ export class Mapper {
 				status_id: data?.status?.status_id,
 				actionName: data?.status?.description,
 				closeSale: data.quote_options.map((dataClose, index) => {
-					const total = dataClose?.option_products?.reduce((acc, product) => acc + parseFloat(product?.total), 0);
 					const places = dataClose?.option_products?.reduce((acc, product) => acc + product?.quantity, 0);
 					const productNames = dataClose?.option_products?.map(product => product?.product?.name || '-');
 				
@@ -99,7 +94,6 @@ export class Mapper {
 	}
 
 	static GetDataTableCompanyMapper(response: entity.TableDataQuote) {
-		console.log(response);
 		let date : string = '';
 		let time : string = '';
 		

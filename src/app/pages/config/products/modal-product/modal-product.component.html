@@ -21,7 +21,8 @@
                     <mat-form-field class="flex-auto gt-xs:pr-3 width-100">
                         <mat-label>Giro*</mat-label>
                         <mat-select placeholder="Seleccionar">
-                            <mat-option [value]="cat.business_id" *ngFor="let cat of catBusiness">{{cat?.business_name || '-'}}</mat-option>
+                            <mat-option [value]="cat.business_id" *ngFor="let cat of catBusiness">{{cat?.business_name
+                                || '-'}}</mat-option>
                         </mat-select>
                     </mat-form-field>
 
@@ -51,7 +52,7 @@
 
             <div class="row">
                 <div class="input-check">
-                    <mat-checkbox class="mb-2" [checked]="true" >
+                    <mat-checkbox class="mb-2" [checked]="true">
                         Realizar el registro completo
                     </mat-checkbox>
                 </div>

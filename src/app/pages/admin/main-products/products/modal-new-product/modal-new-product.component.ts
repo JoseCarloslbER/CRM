@@ -22,7 +22,8 @@ export class ModalNewProductComponent implements OnInit, AfterViewInit, OnDestro
     list_price: [null, Validators.required],
     product_category: [null, Validators.required],
     country: [null, Validators.required],
-    link: [null],
+    link: ['https://', [Validators.required, Validators.pattern(/^(ftp|http|https):\/\/[^ "]+$/)]],
+
   });
 
   public catCountries: entityGeneral.DataCatCountry[] = [];
@@ -80,14 +81,14 @@ export class ModalNewProductComponent implements OnInit, AfterViewInit, OnDestro
     console.log(objData);
 
     if (this.idData) this.saveDataPatch(objData)
-     else this.saveDataPost(objData)
+    else this.saveDataPost(objData)
   }
 
   asignedData() {
     this.formData.patchValue({
       ...this.objEditData,
-      country : this.objEditData?.country?.country_id || '',
-      product_category : this.objEditData?.product_category?.product_category_id || ''
+      country: this.objEditData?.country?.country_id || '',
+      product_category: this.objEditData?.product_category?.product_category_id || ''
     })
   }
 
