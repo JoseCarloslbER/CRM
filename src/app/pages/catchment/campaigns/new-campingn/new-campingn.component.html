@@ -158,18 +158,18 @@
                         <div class="col-md-4">
                             <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                                 <mat-label>Total de empresas a alcanzar</mat-label>
-                                <input formControlName="goal_total_companies" type="number" matInput>
+                                <input formControlName="goal_total_companies" type="number" min="0" matInput>
                             </mat-form-field>
 
                             <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                                 <mat-label>Cantidad de respuestas</mat-label>
-                                <input formControlName="goal_total_responses" type="number" matInput>
+                                <input formControlName="goal_total_responses" type="number" min="0" matInput>
                             </mat-form-field>
                         </div>
                         <div class="col-md-4">
                             <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                                 <mat-label>Cantidad de cotizaciones</mat-label>
-                                <input formControlName="goal_number_quotes" type="number" matInput>
+                                <input formControlName="goal_number_quotes" type="number" min="0" matInput>
                             </mat-form-field>
 
                             <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
@@ -182,7 +182,7 @@
                         <div class="col-md-4">
                             <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                                 <mat-label>Cantidad de cierres de venta</mat-label>
-                                <input formControlName="goal_number_sales" type="number" matInput>
+                                <input formControlName="goal_number_sales" type="number" min="0" matInput>
                             </mat-form-field>
                         </div>
                     </div>
