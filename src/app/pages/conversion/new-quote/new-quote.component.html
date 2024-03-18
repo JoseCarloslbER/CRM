@@ -126,7 +126,7 @@
                                     <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                                         <mat-label>Lugares</mat-label>
                                         <input class="text-right" [formControl]="controlProduct.placesControl"
-                                            type="number" matInput>
+                                            type="number" min="1" matInput>
                                     </mat-form-field>
                                 </div>
 
@@ -250,7 +250,6 @@
 
                     <div
                         class="d-flex col-md-3 col-xl-2 col-12 d-flex justify-content-end pt-md-1 align-items-end mb-lg-0 mb-5 mb-sm-0">
-                        <!-- <button mat-flat-button class="btn-yellow" (click)="actionSave()"> -->
                         <button mat-flat-button class="btn-yellow" [disabled]="!canSave" (click)="actionSave()">
                             <span>Guardar cotización</span>
                         </button>

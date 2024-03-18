@@ -17,39 +17,39 @@
                             </div>
                         </div>
                     </div>
+
                     <form [formGroup]="formFilters">
                         <div class="row d-flex align-items-center">
+                            <div class="flex col-sm-12  col-md-6 col-lg-3 col-12 pe-2">
+                                <mat-form-field class="flex-auto input-default">
+                                    <mat-label>Estatus</mat-label>
+                                    <mat-select formControlName="status" placeholder="Seleccionar">
+                                        <mat-option value="">Todos</mat-option>
+                                        <mat-option [value]="cat.status_id"
+                                            *ngFor="let cat of catStatus">{{cat?.description || '-'}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
 
                             <div class="flex col-sm-12 col-md-6 col-lg-3 col-12 pe-2">
                                 <mat-form-field class="flex-auto input-default">
-                                    <mat-label>Usuario</mat-label>
-                                    <mat-select placeholder="Seleccionar" formControlName="user">
+                                    <mat-label>Tipo</mat-label>
+                                    <mat-select formControlName="type" placeholder="Seleccionar">
+                                        <mat-option value="">Todos</mat-option>
+                                        <mat-option [value]="cat.campaign_type_id"
+                                            *ngFor="let cat of catTypes">{{cat?.campaign_type_name ||
+                                            '-'}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="flex col-sm-12 col-md-6 col-lg-3 col-12 pe-2">
+                                <mat-form-field class="flex-auto input-default">
+                                    <mat-label>Agente</mat-label>
+                                    <mat-select formControlName="agent" placeholder="Seleccionar">
                                         <mat-option value="">Todos</mat-option>
                                         <mat-option [value]="cat.id" *ngFor="let cat of catAgents">
-                                            {{cat.first_name && cat.last_name ? cat?.first_name + ' ' + cat?.last_name :
-                                            cat?.username |titlecase }}</mat-option>
-                                    </mat-select>
-                                </mat-form-field>
-                            </div>
-
-                            <div class="flex col-sm-12 col-md-6 col-lg-3 col-12 pe-2">
-                                <mat-form-field class="flex-auto input-default">
-                                    <mat-label>Giro</mat-label>
-                                    <mat-select placeholder="Seleccionar" formControlName="business">
-                                        <mat-option value="">Todos</mat-option>
-                                        <mat-option [value]="cat.business_id"
-                                            *ngFor="let cat of catBusiness">{{cat?.business_name || '-'}}</mat-option>
-                                    </mat-select>
-                                </mat-form-field>
-                            </div>
-
-                            <div class="flex col-sm-12 col-md-6 col-lg-3 col-12 pe-2">
-                                <mat-form-field class="flex-auto input-default">
-                                    <mat-label>Campaña</mat-label>
-                                    <mat-select placeholder="Seleccionar" formControlName="campaign">
-                                        <mat-option value="">Todos</mat-option>
-                                        <mat-option [value]="cat.campaign_id"
-                                            *ngFor="let cat of catCampaing">{{cat?.campaign_name || '-'}}</mat-option>
+                                            {{cat.first_name && cat.last_name ? cat?.first_name + ' ' + cat?.last_name : cat?.username |titlecase }}</mat-option>
                                     </mat-select>
                                 </mat-form-field>
                             </div>
@@ -88,7 +88,6 @@
         <div class="w-full mx-auto">
 
             <div class="row tap-options">
-                <span (click)="selectOption('Día')" [class.selected]="filterDayMonthYear === 'Día'">Día</span>
                 <span (click)="selectOption('Mes')" [class.selected]="filterDayMonthYear === 'Mes'">Mes</span>
                 <span (click)="selectOption('Año')" [class.selected]="filterDayMonthYear === 'Año'">Año</span>
             </div>

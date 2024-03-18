@@ -77,7 +77,7 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getCatalogs() {
-    this.catalogsServices.getCatType().subscribe({
+    this.catalogsServices.getCatCapaignType().subscribe({
       next: (data: entityGeneral.DataCatType[]) => {
         this.catTypes = data;
       },
@@ -116,6 +116,7 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
   getDataTable(filters?: any) {
     this.moduleServices.getDataTableCampaing(filters).subscribe({
       next: (data: entity.TableDataCampaingMapper[]) => {
+        console.log(data);
         this.dataSource.data = data;
       },
       error: (error) => console.error(error)

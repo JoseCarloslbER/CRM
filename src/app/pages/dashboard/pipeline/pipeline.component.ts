@@ -30,6 +30,99 @@ export class PipelineComponent implements OnInit, OnDestroy {
     rangeDateEnd: [{ value: '', disabled: false }],
   });
 
+  dummy = [
+    {
+      companyName : {
+        logo : '',
+        name : 'name',
+      },
+      status : 'alv',
+      actionName : 'Creada',
+      optionOne: [
+        {
+          quoteNumber: 1,
+          listPrice: 1,
+          places: 1,
+          validity: 'test',
+          platform: 'test',
+          amountplatform: '$100',
+        }
+      ]
+    },
+    {
+      companyName : {
+        logo : '',
+        name : 'name',
+      },
+      status : 'alv',
+      actionName : 'Creada',
+      optionOne: [
+        {
+          quoteNumber: 1,
+          listPrice: 1,
+          places: 1,
+          validity: 'test',
+          platform: 'test',
+          amountplatform: '$100',
+        }
+      ]
+    },
+    {
+      companyName : {
+        logo : '',
+        name : 'name',
+      },
+      status : 'alv',
+      actionName : 'Creada',
+      optionOne: [
+        {
+          quoteNumber: 1,
+          listPrice: 1,
+          places: 1,
+          validity: 'test',
+          platform: 'test',
+          amountplatform: '$100',
+        }
+      ]
+    },
+    {
+      companyName : {
+        logo : '',
+        name : 'name',
+      },
+      status : 'alv',
+      actionName : 'Creada',
+      optionOne: [
+        {
+          quoteNumber: 1,
+          listPrice: 1,
+          places: 1,
+          validity: 'test',
+          platform: 'test',
+          amountplatform: '$100',
+        }
+      ]
+    },
+    {
+      companyName : {
+        logo : '',
+        name : 'name',
+      },
+      status : 'alv',
+      actionName : 'Creada',
+      optionOne: [
+        {
+          quoteNumber: 1,
+          listPrice: 1,
+          places: 1,
+          validity: 'test',
+          platform: 'test',
+          amountplatform: '$100',
+        }
+      ]
+    },
+  ]
+
   public fechaHoy = new Date();
 
   public catStatus: entityGeneral.DataCatStatus[] = [];

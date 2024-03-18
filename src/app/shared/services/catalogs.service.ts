@@ -97,7 +97,7 @@ export class CatalogsService {
 		return this.http.get<entityGeneral.DataCatBusiness[]>(url)
 	}
 
-	public getCatType(): Observable<entityGeneral.DataCatType[]> {
+	public getCatCapaignType(): Observable<entityGeneral.DataCatType[]> {
 		const url = `${environment.apiURL}settings/campaign-type/`;
 
 		return this.http.get<entityGeneral.DataCatType[]>(url)

@@ -258,9 +258,15 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
   createProductInstance(productData?: any): any {
     const productInstance: any = {
       ...(productData && { id: productData.id }),
-      placesControl: new FormControl({ value: productData?.places || '', disabled: true }, Validators.required),
+      placesControl: new FormControl(
+        { value: productData?.unitPri || '', disabled: true },
+        [Validators.required, (control: FormControl) => control.value > 0 ? null : { 'positiveNumber': true }]
+      ),
       productControl: new FormControl({ value: productData?.product || '', disabled: false }, Validators.required),
-      unitPriceControl: new FormControl({ value: productData?.unitPri || '', disabled: true }, Validators.required),
+      unitPriceControl: new FormControl(
+        { value: productData?.unitPri || '', disabled: true },
+        [Validators.required, (control: FormControl) => control.value > 0 ? null : { 'positiveNumber': true }]
+      ),
       totalPriceControl: new FormControl({ value: productData?.total || '', disabled: true }, Validators.required),
     };
 
@@ -282,12 +288,14 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
     });
 
     productInstance.placesControl.valueChanges.subscribe((newPlacesValue: number) => {
-      this.updateProductTotalPrice(productInstance, newPlacesValue);
-      this.updateSubtotal(newPlacesValue);
+      if (newPlacesValue > 0) {
+        this.updateProductTotalPrice(productInstance, newPlacesValue);
+        this.updateSubtotal(newPlacesValue);
+      }
     });
 
     productInstance.unitPriceControl.valueChanges.subscribe((newUnitPrice: any) => {
-      if (!isNaN(newUnitPrice)) {
+      if (!isNaN(newUnitPrice) && newUnitPrice > 0) {
         this.updateProductTotalPriceManually(productInstance, newUnitPrice);
         this.updateSubtotal();
       }
@@ -354,6 +362,10 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
 
       if (subtotal) {
         optionInstance.subtotalControl.setValue(subtotal.toLocaleString('en-US', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        }));
+        optionInstance.totalControl.setValue(subtotal.toLocaleString('en-US', {
           minimumFractionDigits: 2,
           maximumFractionDigits: 2
         }));
@@ -475,6 +487,8 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.formData.valid) {
       if (this.optionFormValues?.length) {
         this.optionFormValues.forEach(control => {
+          console.log(control.product);
+          
           if (
             !control?.subtotalControl?.value ||
             !control?.typePriceControl?.value ||
@@ -482,9 +496,9 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
             !control?.dateControl?.value ||
             !control?.timeControl?.value ||
             !control?.product ||
-            control?.product.some((productControl: any) =>
-              !productControl.placesControl?.value
-            )
+            control?.product.some((productControl: any) => {
+              return !(productControl.unitPriceControl?.value > 0 && productControl.placesControl?.value > 0);
+          })
           ) {
             save = false;
           }

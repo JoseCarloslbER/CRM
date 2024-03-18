@@ -46,6 +46,7 @@ export class NewCampingnComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public catBusiness: entityGeneral.DataCatBusiness[] = [];
   public catTypes: entityGeneral.DataCatType[] = [];
+  public catCompanyType: entityGeneral.DataCatCompanyType[] = [];
   public catalogAgents: entityGeneral.DataCatAgents[] = [];
   public catalogProductCategories: entityGeneral.DataCatProductCategory[] = [];
   public catalogUsers: entityGeneral.DataCatProductCategory[] = [];
@@ -114,7 +115,15 @@ export class NewCampingnComponent implements OnInit, AfterViewInit, OnDestroy {
       error: (error) => console.error(error)
     });
 
-    this.catalogsServices.getCatType().pipe(takeUntil(this.onDestroy)).subscribe({
+    
+    this.catalogsServices.getCatCompanyType().pipe(takeUntil(this.onDestroy)).subscribe({
+      next: (data: entityGeneral.DataCatCompanyType[]) => {
+        this.catCompanyType = data;;
+      },
+      error: (error) => console.error(error)
+    });
+
+    this.catalogsServices.getCatCapaignType().pipe(takeUntil(this.onDestroy)).subscribe({
       next: (data: entityGeneral.DataCatType[]) => {
         this.catTypes = data;;
       },

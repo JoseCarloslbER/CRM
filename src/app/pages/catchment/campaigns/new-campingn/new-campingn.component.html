@@ -93,8 +93,8 @@
                                 <mat-label>Tipo</mat-label>
                                 <mat-select formControlName="type" placeholder="Seleccionar">
                                     <mat-option value="">Todos</mat-option>
-                                    <mat-option [value]="cat.campaign_type_id "
-                                        *ngFor="let cat of catTypes">{{cat?.campaign_type_name || '-'}}</mat-option>
+                                    <mat-option [value]="cat.company_type_id"
+                                        *ngFor="let cat of catCompanyType">{{cat?.type_name  || '-'}}</mat-option>
                                 </mat-select>
                             </mat-form-field>
                         </div>

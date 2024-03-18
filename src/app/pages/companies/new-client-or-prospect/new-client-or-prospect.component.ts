@@ -328,32 +328,33 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
   }
 
   getOptionsValues() {
-    const formValues = (e: any) => {
-      const formattedDate = moment(e.dateControl.value).format('YYYY-MM-DD');
-      const formattedTime = moment(e.timeControl.value, 'HH:mm').format('HH:mm');
+    const formValues = (control: any, index: number) => {
+      const formattedDate = moment(control.dateControl.value).format('YYYY-MM-DD');
+      const formattedTime = moment(control.timeControl.value, 'HH:mm').format('HH:mm');
       const combinedDateTime = moment(`${formattedDate}T${formattedTime}:00.000Z`).toISOString();
 
-      const productValues = e.product.map((productControl: any) => {
+      const productValues = control.product.map((productControl: any) => {
         return {
           ...({ option_product_id: productControl.id }),
           quantity: productControl.placesControl.value,
           product: productControl.productControl.value,
-          price: productControl.unitPriceControl.value,
-          total: productControl.totalPriceControl.value,
+          price: parseFloat(productControl.unitPriceControl.value.replace(/,/g, '')),
+          total: parseFloat(productControl.totalPriceControl.value.replace(/,/g, '')),
         };
       });
 
       let obj = {
-        ...({ quote_option_id: e.id }),
-        subtotal: parseFloat(e.subtotalControl.value),
-        discount: e.discountControl.value,
-        total: e.totalControl.value,
-        type_price: e.typePriceControl.value,
+        ...({ quote_option_id: control.id }),
+        subtotal: parseFloat(control.subtotalControl.value.replace(/,/g, '')),
+        total: parseFloat(control.totalControl.value.replace(/,/g, '')),
+        discount: control.discountControl.value,
+        type_price: control.typePriceControl.value,
         deadline: combinedDateTime,
-        option_products: productValues
+        option_products: productValues,
+        quote_option: index + 1
       }
 
-      return obj
+      return obj;
     };
 
     return this.optionFormValues.map(formValues);
@@ -363,7 +364,7 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     const instance: any = {
       ...(datos && { id: datos?.id }),
       subtotalControl: new FormControl({ value: datos?.subtotal || '', disabled: true }, Validators.required),
-      discountControl: new FormControl({ value: datos?.discount || 0, disabled: false }),
+      discountControl: new FormControl({ value: datos?.discount || 0, disabled: true }),
       totalControl: new FormControl({ value: datos?.total || '', disabled: true }, Validators.required),
       typePriceControl: new FormControl({ value: datos?.typePrice || 1, disabled: false }, Validators.required),
       dateControl: new FormControl({ value: datos?.date || '', disabled: false }, Validators.required),
@@ -375,13 +376,13 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
       datos.optionProducts.forEach((productData: any) => {
         const productInstance: any = this.createProductInstance(productData);
         this.enableProductFields(productInstance);
-
         instance.product.push(productInstance);
       });
     } else {
       const newProductInstance: any = this.createProductInstance();
       instance.product.push(newProductInstance);
     }
+
     this.setupOptionControlSubscriptions(instance);
     this.optionFormValues.push(instance);
   }
@@ -389,9 +390,15 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
   createProductInstance(productData?: any): any {
     const productInstance: any = {
       ...(productData && { id: productData.id }),
-      placesControl: new FormControl({ value: productData?.places || '', disabled: true }, Validators.required),
+      placesControl: new FormControl(
+        { value: productData?.unitPri || '', disabled: true },
+        [Validators.required, (control: FormControl) => control.value > 0 ? null : { 'positiveNumber': true }]
+      ),
       productControl: new FormControl({ value: productData?.product || '', disabled: false }, Validators.required),
-      unitPriceControl: new FormControl({ value: productData?.unitPri || '', disabled: true }, Validators.required),
+      unitPriceControl: new FormControl(
+        { value: productData?.unitPri || '', disabled: true },
+        [Validators.required, (control: FormControl) => control.value > 0 ? null : { 'positiveNumber': true }]
+      ),
       totalPriceControl: new FormControl({ value: productData?.total || '', disabled: true }, Validators.required),
     };
 
@@ -413,13 +420,17 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     });
 
     productInstance.placesControl.valueChanges.subscribe((newPlacesValue: number) => {
-      this.updateProductTotalPrice(productInstance, newPlacesValue);
-      this.updateSubtotal();
+      if (newPlacesValue > 0) {
+        this.updateProductTotalPrice(productInstance, newPlacesValue);
+        this.updateSubtotal(newPlacesValue);
+      }
     });
 
     productInstance.unitPriceControl.valueChanges.subscribe((newUnitPrice: any) => {
-      this.updateProductTotalPriceManually(productInstance, newUnitPrice);
-      this.updateSubtotal();
+      if (!isNaN(newUnitPrice) && newUnitPrice > 0) {
+        this.updateProductTotalPriceManually(productInstance, newUnitPrice);
+        this.updateSubtotal();
+      }
     });
   }
 
@@ -439,12 +450,33 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     if (selectedProductInfo) {
       const listPrice: any = selectedProductInfo.list_price;
       const placesValue = productInstance.placesControl.value;
-      const newTotal = listPrice * placesValue;
 
       productInstance.unitPriceControl.setValue(parseFloat(listPrice).toLocaleString('en-US', {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
       }));
+
+      if (placesValue) {
+        const newTotal = listPrice * placesValue;
+
+        productInstance.totalPriceControl.setValue(newTotal.toLocaleString('en-US', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        }));
+      } else {
+        productInstance.totalPriceControl.setValue(parseFloat(listPrice).toLocaleString('en-US', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        }));
+      }
+    }
+  }
+
+  updateProductTotalPrice(productInstance: any, newPlacesValue: number) {
+    const listPrice = parseFloat(productInstance.unitPriceControl.value.replace(/,/g, ''));
+
+    if (newPlacesValue && listPrice) {
+      const newTotal = listPrice * newPlacesValue;
       productInstance.totalPriceControl.setValue(newTotal.toLocaleString('en-US', {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
@@ -452,58 +484,87 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     }
   }
 
-  updateProductTotalPrice(productInstance: any, newPlacesValue: number) {
-    const listPrice = parseFloat(productInstance.unitPriceControl.value.replace(/,/g, ''));
-    const newTotal = listPrice * newPlacesValue;
-
-    productInstance.totalPriceControl.setValue(newTotal.toFixed(2));
-  }
-
-  updateSubtotal() {
+  updateSubtotal(value?: any) {
     this.optionFormValues.forEach((optionInstance: any) => {
       let subtotal = 0;
 
       optionInstance.product.forEach((productInstance: any) => {
         subtotal += this.parseNumber(productInstance.totalPriceControl.value) || 0;
-      });
+      })
 
-      optionInstance.subtotalControl.setValue(subtotal.toLocaleString('en-US', {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2
-      }));
+      if (subtotal) {
+        optionInstance.subtotalControl.setValue(subtotal.toLocaleString('en-US', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        }));
+        optionInstance.totalControl.setValue(subtotal.toLocaleString('en-US', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        }));
+      }
 
       const discountValue = optionInstance.discountControl.value;
       const discount = this.parseNumber(discountValue) || 0;
 
-      const total = (subtotal - discount).toLocaleString('en-US', {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2
-      });
+      if (value && optionInstance?.product.length >= 1) {
+        optionInstance.discountControl.enable();
 
-      optionInstance.totalControl.setValue(parseFloat(total.replace(/,/g, '')));
+        const total = (subtotal - discount).toLocaleString('en-US', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        });
+
+        optionInstance.totalControl.setValue(total);
+
+      } else if (!value && discount && optionInstance?.product.length < 2) {
+        optionInstance.discountControl.disable();
+        optionInstance.discountControl.patchValue(0);
+      }
+
     });
   }
 
   updateProductTotalPriceManually(productInstance: any, newUnitPrice: any) {
     const placesValue = productInstance.placesControl.value;
-    const newTotal = newUnitPrice * placesValue;
 
-    productInstance.totalPriceControl.setValue(newTotal.toLocaleString('en-US', {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2
-    }));
+    if (newUnitPrice && placesValue) {
+      const newTotal = newUnitPrice * placesValue;
+      productInstance.totalPriceControl.setValue(newTotal.toLocaleString('en-US', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      }));
+    } else if (newUnitPrice) {
+      productInstance.totalPriceControl.setValue(parseFloat(newUnitPrice).toLocaleString('en-US', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      }));
+    } else {
+      productInstance.totalPriceControl.setValue(parseFloat('0').toLocaleString('en-US', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      }));
+    }
   }
 
   updateTotalWithDiscount(productInstance: any, newDiscount: any) {
     const subtotal = this.parseNumber(productInstance?.subtotalControl?.value) || 0;
     const discount = this.parseNumber(newDiscount) || 0;
 
-    const total = (subtotal - discount).toLocaleString('en-US', {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2
-    });
+    if (subtotal < discount) {
+      const total = (subtotal).toLocaleString('en-US', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      });
 
-    productInstance.totalControl.setValue(parseFloat(total.replace(/,/g, '')));
+      productInstance.discountControl.setValue(total);
+    } else {
+      const total = (subtotal - discount).toLocaleString('en-US', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      });
+
+      productInstance.totalControl.setValue(total);
+    }
   }
 
   private setupOptionControlSubscriptions(optionInstance: any) {
@@ -542,7 +603,6 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
 
     productInstance.placesControl[shouldEnable ? 'enable' : 'disable']();
     productInstance.unitPriceControl[shouldEnable ? 'enable' : 'disable']();
-    productInstance.totalPriceControl[shouldEnable ? 'enable' : 'disable']();
   }
 
   fastQuote() {
