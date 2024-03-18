@@ -87,8 +87,7 @@
                     <div class="pipeline-header">Cot. Leads</div>
                     <div class="pipeline-subheader">TOTAL: {{ dataPipele?.totalQuoteLeads }}</div>
                     <div class="scroll">
-                        <div class="bg-card card-pipeline fast-quote-card" *ngFor="let data of dummy; let i = index">
-                            <!-- *ngFor="let data of dataPipele?.quoteLeads; let i = index"> -->
+                        <div class="bg-card card-pipeline fast-quote-card" *ngFor="let data of dataPipele?.quoteLeads; let i = index">
                             <div class="card-title-pipeline">
                                 <img [src]="data?.companyName?.logo" alt="" />
                                 <h1> {{ data?.companyName?.name }} </h1>
