@@ -195,6 +195,33 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
     })
   }
 
+  // addFormOption(datos?: any) {
+  //   const instance: any = {
+  //     ...(datos && { id: datos?.id }),
+  //     subtotalControl: new FormControl({ value: datos?.subtotal || '', disabled: true }, Validators.required),
+  //     discountControl: new FormControl({ value: datos?.discount || 0, disabled: true }),
+  //     totalControl: new FormControl({ value: datos?.total || '', disabled: true }, Validators.required),
+  //     typePriceControl: new FormControl({ value: datos?.typePrice || 1, disabled: false }, Validators.required),
+  //     dateControl: new FormControl({ value: datos?.date || '', disabled: false }, Validators.required),
+  //     timeControl: new FormControl({ value: datos?.time || '', disabled: false }, Validators.required),
+  //     product: []
+  //   };
+
+  //   if (datos && datos.optionProducts) {
+  //     datos.optionProducts.forEach((productData: any) => {
+  //       const productInstance: any = this.createProductInstance(productData);
+  //       this.enableProductFields(productInstance);
+  //       instance.product.push(productInstance);
+  //     });
+  //   } else {
+  //     const newProductInstance: any = this.createProductInstance();
+  //     instance.product.push(newProductInstance);
+  //   }
+
+  //   this.setupOptionControlSubscriptions(instance);
+  //   this.optionFormValues.push(instance);
+  // }
+
   addFormOption(datos?: any) {
     const instance: any = {
       ...(datos && { id: datos?.id }),
@@ -206,18 +233,17 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
       timeControl: new FormControl({ value: datos?.time || '', disabled: false }, Validators.required),
       product: []
     };
-
+  
     if (datos && datos.optionProducts) {
-      datos.optionProducts.forEach((productData: any) => {
+      datos.optionProducts.forEach((productData: any, productIndex: number) => {
         const productInstance: any = this.createProductInstance(productData);
-        this.enableProductFields(productInstance);
         instance.product.push(productInstance);
       });
     } else {
       const newProductInstance: any = this.createProductInstance();
       instance.product.push(newProductInstance);
     }
-
+  
     this.setupOptionControlSubscriptions(instance);
     this.optionFormValues.push(instance);
   }
@@ -509,11 +535,10 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
     return save
   }
 
-  onInputChange(event: any, productIndex: number) {
+  onInputChange(event: any, optionIndex: number, productIndex: number) {
     const newValue = event.target.value.replace(/[^\d.]/g, '');
-    this.optionFormValues.forEach((optionInstance: any) => {
-      optionInstance.product[productIndex].unitPriceControl.setValue(newValue, { emitEvent: false });
-    });
+    const currentOption = this.optionFormValues[optionIndex];
+    currentOption.product[productIndex].unitPriceControl.setValue(newValue, { emitEvent: false });
   }
 
   cleanCompany() {

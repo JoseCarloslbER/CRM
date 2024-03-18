@@ -728,6 +728,12 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     }
   }
 
+  onInputChange(event: any, optionIndex: number, productIndex: number) {
+    const newValue = event.target.value.replace(/[^\d.]/g, '');
+    const currentOption = this.optionFormValues[optionIndex];
+    currentOption.product[productIndex].unitPriceControl.setValue(newValue, { emitEvent: false });
+  }
+
   ngOnDestroy(): void {
     this.onDestroy.next();
     this.onDestroy.unsubscribe();
