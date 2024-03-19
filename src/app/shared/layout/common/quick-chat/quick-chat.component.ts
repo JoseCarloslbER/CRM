@@ -1,6 +1,6 @@
 import { TextFieldModule } from '@angular/cdk/text-field';
 import { DatePipe, NgClass, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -19,13 +19,16 @@ import { MaterialModule } from 'app/shared/material/material.module';
     standalone   : true,
     imports      : [MaterialModule, NgClass, NgIf, MatIconModule, MatButtonModule, FuseScrollbarDirective, NgFor, NgTemplateOutlet, MatFormFieldModule, MatInputModule, TextFieldModule, DatePipe],
 })
-export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
+export class QuickChatComponent implements OnInit, OnDestroy {
+    private onDestroy = new Subject<void>();
+
     @ViewChild('messageInput') messageInput: ElementRef;
+    @ViewChild('elementoObservado') elementoObservado: ElementRef;
+    private mutationObserver: MutationObserver;
+
     chat: Chat;
     opened: boolean = false;
     selectedChat: Chat;
-    private _mutationObserver: MutationObserver;
-    private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     chats:any = [
         {
@@ -140,17 +143,20 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
 
     constructor() { }
 
-    ngOnInit(): void {}
-  
-    ngAfterViewInit(): void {}
+    ngOnInit(): void {
+        const config: MutationObserverInit = {};
 
+        if (this.elementoObservado) this.mutationObserver.observe(this.elementoObservado.nativeElement, config);
+    }
+  
     trackByFn(index: number, item: any): any {
         return item.id || index;
     }
     
     ngOnDestroy(): void {
-        this._mutationObserver.disconnect();
-        this._unsubscribeAll.next(null);
-        this._unsubscribeAll.complete();
+        this.onDestroy.next();
+        this.onDestroy.unsubscribe();
+
+        if (this.mutationObserver) this.mutationObserver.disconnect();
     }
 }

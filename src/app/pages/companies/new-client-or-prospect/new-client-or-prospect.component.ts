@@ -51,7 +51,7 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     comments: ['']
   });
 
-  public taxInclude = new FormControl(false)
+  public taxInclude = new FormControl(true)
 
   public catCompaniesSizes: entityGeneral.DataCatCompanySize[] = [];
   public catCompaniesTypes: entityGeneral.DataCatCompanyType[] = [];
@@ -73,7 +73,6 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
   public catProducts: entityGeneral.DataCatProducts[] = [];
 
   constructor(
-    private cdr: ChangeDetectorRef,
     private notificationService: OpenModalsService,
     private moduleServices: CompaniesService,
     private catalogsServices: CatalogsService,
@@ -366,7 +365,7 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
       subtotalControl: new FormControl({ value: datos?.subtotal || '', disabled: true }, Validators.required),
       discountControl: new FormControl({ value: datos?.discount || 0, disabled: true }),
       totalControl: new FormControl({ value: datos?.total || '', disabled: true }, Validators.required),
-      typePriceControl: new FormControl({ value: datos?.typePrice || 1, disabled: false }, Validators.required),
+      typePriceControl: new FormControl({ value: datos?.typePrice || this.optionFormValues.length >= 1 ? 2 : 1, disabled: false }, Validators.required),
       dateControl: new FormControl({ value: datos?.date || '', disabled: false }, Validators.required),
       timeControl: new FormControl({ value: datos?.time || '', disabled: false }, Validators.required),
       product: []

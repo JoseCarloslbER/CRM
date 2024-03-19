@@ -50,6 +50,8 @@ export class AuthenticationService {
 
     return this.http.post<any>(url, null).pipe(
       map((response) => {
+        console.log(response);
+        
         if (response.message.includes('successfully')) {
           localStorage.removeItem('UserAbrevia');
           return true
@@ -70,7 +72,6 @@ export class AuthenticationService {
   }
 
   isAuthenticated(): boolean {
-    // return true;
     return !!localStorage.getItem('UserAbrevia');
   }
 

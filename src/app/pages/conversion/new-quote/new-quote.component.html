@@ -76,7 +76,7 @@
 
                 <div class="row iva">
                     <div class="flex flex-col mt-4 gt-sm:mt-0 gt-sm:ml-16 inputsRadioGroupBold">
-                        <span class="font-semibold mb-2">Cotización con iva</span>
+                        <span class="font-semibold mb-2">Cotización con IVA</span>
                         <mat-radio-group formControlName="tax_include" class="d-flex flex-row" [value]="'just-good'">
                             <mat-radio-button class="mb-2" [value]="true">
                                 <span class="font-14-500-4B5062">Si</span>
@@ -136,7 +136,7 @@
                                         <mat-select [formControl]="controlProduct.productControl"
                                             placeholder="Seleccionar">
                                             <mat-option [value]="cat.product_id"
-                                                *ngFor="let cat of catProducts">{{cat?.name || '-'}}</mat-option>
+                                                *ngFor="let cat of catProducts">{{cat?.code + ' - ' + cat?.name || '-'}}</mat-option>
                                         </mat-select>
                                     </mat-form-field>
                                 </div>
@@ -205,7 +205,7 @@
                         </div>
 
                         <div class="row promotion">
-                            <span>Vigencia promoción {{ i + 1 }}</span>
+                            <span>Vigencia opción {{ i + 1 }}</span>
                             <div class="col-md-6">
                                 <div class="row p-0">
                                     <div class="col-md-6">

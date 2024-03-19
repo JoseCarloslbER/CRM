@@ -30,7 +30,6 @@ export class UserComponent implements OnInit, OnDestroy
 
     constructor(
         private adminServices: AuthenticationService,
-        private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
     ) { }
 

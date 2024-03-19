@@ -33,7 +33,7 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
     user: ['', Validators.required],
     campaign: ['', Validators.required],
     payment_method: ['', Validators.required],
-    tax_include: [false, Validators.required],
+    tax_include: [true, Validators.required],
   });
 
   public catCompanies: any[] = [];
@@ -195,40 +195,13 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
     })
   }
 
-  // addFormOption(datos?: any) {
-  //   const instance: any = {
-  //     ...(datos && { id: datos?.id }),
-  //     subtotalControl: new FormControl({ value: datos?.subtotal || '', disabled: true }, Validators.required),
-  //     discountControl: new FormControl({ value: datos?.discount || 0, disabled: true }),
-  //     totalControl: new FormControl({ value: datos?.total || '', disabled: true }, Validators.required),
-  //     typePriceControl: new FormControl({ value: datos?.typePrice || 1, disabled: false }, Validators.required),
-  //     dateControl: new FormControl({ value: datos?.date || '', disabled: false }, Validators.required),
-  //     timeControl: new FormControl({ value: datos?.time || '', disabled: false }, Validators.required),
-  //     product: []
-  //   };
-
-  //   if (datos && datos.optionProducts) {
-  //     datos.optionProducts.forEach((productData: any) => {
-  //       const productInstance: any = this.createProductInstance(productData);
-  //       this.enableProductFields(productInstance);
-  //       instance.product.push(productInstance);
-  //     });
-  //   } else {
-  //     const newProductInstance: any = this.createProductInstance();
-  //     instance.product.push(newProductInstance);
-  //   }
-
-  //   this.setupOptionControlSubscriptions(instance);
-  //   this.optionFormValues.push(instance);
-  // }
-
   addFormOption(datos?: any) {
     const instance: any = {
       ...(datos && { id: datos?.id }),
       subtotalControl: new FormControl({ value: datos?.subtotal || '', disabled: true }, Validators.required),
       discountControl: new FormControl({ value: datos?.discount || 0, disabled: true }),
       totalControl: new FormControl({ value: datos?.total || '', disabled: true }, Validators.required),
-      typePriceControl: new FormControl({ value: datos?.typePrice || 1, disabled: false }, Validators.required),
+      typePriceControl: new FormControl({ value: datos?.typePrice || this.optionFormValues.length >= 1 ? 2 : 1, disabled: false }, Validators.required),
       dateControl: new FormControl({ value: datos?.date || '', disabled: false }, Validators.required),
       timeControl: new FormControl({ value: datos?.time || '', disabled: false }, Validators.required),
       product: []

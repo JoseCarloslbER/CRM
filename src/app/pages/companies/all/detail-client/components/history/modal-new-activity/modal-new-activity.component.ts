@@ -28,16 +28,15 @@ export class ModalNewActivityComponent implements OnInit, AfterViewInit, OnDestr
   public filteredOptions: Observable<any[]>;
 
   public formData = this.formBuilder.group({
-    description: [null, Validators.required],
-    activity_date: [null],
-    activity_hour: [null],
-    company: [null, Validators.required],
-    user: [null, Validators.required],
-    type_activity: [null],
-    campaign: [null, Validators.required],
-    quote: [{ value: null, disable: true }],
+    description: ['', Validators.required],
+    activity_date: ['', Validators.required],
+    activity_hour: ['', Validators.required],
+    user: ['', Validators.required],
+    type_activity: ['', Validators.required],
+    campaign: ['', Validators.required],
+    quote: [{ value: '', disable: true }],
   });
-  
+
   public company = new FormControl(null);
   public img = new FormControl(null);
 
@@ -49,9 +48,9 @@ export class ModalNewActivityComponent implements OnInit, AfterViewInit, OnDestr
 
   public objEditData: any;
 
-  public companySelected : string = '';
-  public idData : string = '';
-  
+  public companySelected: string = '';
+  public idData: string = '';
+
   constructor(
     private moduleManagementServices: ManagementmentService,
     private moduleReactivationServices: ReactivationService,
@@ -68,7 +67,7 @@ export class ModalNewActivityComponent implements OnInit, AfterViewInit, OnDestr
     this.assignInformation();
 
     setTimeout(() => {
-      this.getCatalogs() 
+      this.getCatalogs()
     }, 500);
 
     this.filteredOptions = this.company.valueChanges.pipe(
@@ -76,7 +75,7 @@ export class ModalNewActivityComponent implements OnInit, AfterViewInit, OnDestr
       map(value => this._filter(value))
     );
   }
-  
+
   ngAfterViewInit(): void {
     this.company.valueChanges.pipe(takeUntil(this.onDestroy)).subscribe(content => {
       setTimeout(() => {
@@ -94,14 +93,14 @@ export class ModalNewActivityComponent implements OnInit, AfterViewInit, OnDestr
     if (this.data?.info) {
       setTimeout(() => {
         this.idData = this.data?.info?.id || this.data?.info?.activity_id;
-        this.getDataById() 
+        this.getDataById()
       }, 500);
-    } 
+    }
 
     if (this.data?.complement) {
-        this.companySelected = this.data.complement.id
-        this.company.patchValue(this.data.complement.companyName)
-        this.company.disable()
+      this.companySelected = this.data.complement.id
+      this.company.patchValue(this.data.complement.companyName)
+      this.company.disable()
     }
   }
 
@@ -141,7 +140,7 @@ export class ModalNewActivityComponent implements OnInit, AfterViewInit, OnDestr
       },
       error: (error) => console.error(error)
     });
-    
+
     this.catalogsServices.getCatCompany().subscribe({
       next: (data: entityGeneral.DataCatCompany[]) => {
         this.catCompanies = data;
@@ -161,19 +160,19 @@ export class ModalNewActivityComponent implements OnInit, AfterViewInit, OnDestr
   }
 
   actionSave() {
-    let objData :any = {
+    let objData: any = {
       ...this.formData.value,
-      company : this.companySelected,
+      company: this.companySelected,
     }
 
     objData.activity_date = moment(this.formData.get('activity_date').value).format('YYYY-MM-DD');
-    
+
     if (this.data.type == 'activities') {
       objData.process = 'Actividades';
       console.log(objData);
       this.saveDataPostPatchActivities(objData);
 
-    } else if (this.data.type == 'calls') { 
+    } else if (this.data.type == 'calls') {
       objData.process = 'Llamadas'
       this.saveDataPostPatchCallOrDaily(objData);
 
@@ -186,14 +185,14 @@ export class ModalNewActivityComponent implements OnInit, AfterViewInit, OnDestr
   saveDataPostPatchActivities(objData: any) {
     this.saveData(this.objEditData, this.moduleManagementServices.postData(objData), this.moduleManagementServices.patchData(this.idData, objData));
   }
-  
+
   saveDataPostPatchCallOrDaily(objData: any) {
     this.saveData(this.objEditData, this.moduleReactivationServices.postDataCallOrDaily(objData), this.moduleReactivationServices.patchDataCallOrDaily(this.idData, objData));
   }
 
   saveData(editData: any, postMethod: Observable<any>, patchMethod: Observable<any>) {
     const dataService = editData ? patchMethod : postMethod;
-  
+
     dataService.subscribe({
       next: () => this.completionMessage(editData !== null),
       error: (error) => {
@@ -205,7 +204,7 @@ export class ModalNewActivityComponent implements OnInit, AfterViewInit, OnDestr
 
   private _filter(value: any): any[] {
     const filterValue = value?.toLowerCase();
-    
+
     return this.catCompanies.filter(option => option?.company_name?.toLowerCase()?.includes(filterValue));
   }
 
@@ -220,15 +219,20 @@ export class ModalNewActivityComponent implements OnInit, AfterViewInit, OnDestr
       .subscribe((_) => this.closeModal());
   }
 
+  get canSave(): boolean {
+    return this.formData.valid && !!this.companySelected;
+  }
+
   cleanCompany() {
     this.company.patchValue('')
     this.catQuoteOpens = []
     this.formData.get('quote').disable();
-    this.formData.get('quote').patchValue(null)
+    this.formData.get('quote').patchValue(null);
+    this.companySelected = '';
   }
 
   closeModal() {
-    this.updateService.triggerUpdate(); 
+    this.updateService.triggerUpdate();
     this.dialogRef.close({ close: true })
   }
 

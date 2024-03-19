@@ -25,6 +25,7 @@ import { AuthenticationService } from 'app/authentication/authentication.service
         RouterModule, FuseLoadingBarComponent, FuseVerticalNavigationComponent, NotificationsComponent, UserComponent, NgIf, MatIconModule, MatButtonModule, SearchComponent, ShortcutsComponent, MessagesComponent, RouterOutlet],
 })
 export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
+    private onDestroy = new Subject<void>();
 
     public menu: FuseNavigationItem[] = [
         {
@@ -249,7 +250,7 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     constructor(
-        private authenticationService: AuthenticationService,
+        private adminServices: AuthenticationService,
         private _fuseNavigationService: FuseNavigationService,
         private router:Router
     ) { }
@@ -258,11 +259,8 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
 
     ngAfterViewInit(): void {
         setTimeout(() => {
-            this.user = this.authenticationService.getDecryptedUser();
+            this.user = this.adminServices.getDecryptedUser();
             this.userName = this.user?.first_name && this.user?.last_name ? this.user?.first_name.toUpperCase() + ' ' + this.user?.last_name.toUpperCase() : this.user?.username.toUpperCase();
-            // this.photo = this.user?.profile_picture
-            // ? this.user.profile_picture.includes('default') ? false : this.user.profile_picture
-            // : false;            
             this.photo = this.user?.profile_picture ? this.user?.profile_picture.includes('default') ? `../../../assets/images/user-default.png` : this.user?.profile_picture : `../../../assets/images/user-default.png`
         }, 500);
     }
@@ -275,6 +273,12 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     get currentYear(): number {
         return new Date().getFullYear();
     }
+     
+    signOut() {
+        this.adminServices.logout().subscribe(response => {
+            if (response) this.router.navigateByUrl('/autenticacion/login');
+        })
+    }
 
     goMailbox() {
         this.router.navigateByUrl('/home/reactivacion/correos')
@@ -285,7 +289,7 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this._unsubscribeAll.next(null);
-        this._unsubscribeAll.complete();
+        this.onDestroy.next();
+        this.onDestroy.unsubscribe();
     }
 }
