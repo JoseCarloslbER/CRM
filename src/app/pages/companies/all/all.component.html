@@ -1,12 +1,24 @@
 <div class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto c-company" cdkScrollable>
-
     <div class="bg-card section-padding">
-        <div class="flex flex-col w-full mx-auto px-6 sm:px-8 pt-3">
-            <form class="row mt-5 mb-5" [formGroup]="formFilters">
+        <div class="flex flex-col w-full mx-auto px-6 sm:px-8">
+            <form class="row mt-3 mb-2" [formGroup]="formFilters">
                 <div class="col-12">
 
                     <div class="section-title row d-flex justify-content-between align-items-center">
-                        <div class="col-md-4 col-sm-12 col-12 title mb-5">Todos</div>
+                        <div class="col-md-4 col-sm-12 col-12 title mb-3">Todos</div>
+
+                        <div class="col-md-8 col-sm-12 col-12 btns-section mb-5">
+                            <div class="container p-0">
+                                <div class="row d-flex justify-content-end">
+                                    <div class="col-sm-4 col-lg-2 col-5 d-flex justify-content-end p-0">
+                                        <button class="btn-excel ml-3" (click)="douwnloadExel()">
+                                            <mat-icon svgIcon="mat_outline:file_download"></mat-icon>
+                                            <span>Excel</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <form [formGroup]="formFilters">
@@ -62,30 +74,35 @@
                         </div>
                     </form>
 
-                    <div class="row d-flex justify-content-end mb-2">
-                        <div class="d-flex justify-content-end col-md-2 col-xl-2 col-12 pt-md-2">
+                    <div class="row d-flex justify-content-end">
+
+                        <div class="col-md-10 d-flex">
+                            <div class="container row">
+                                <div class="d-flex col-md-5 col-xl-5 col-12 mb-4">
+                                    <div class="input-search">
+                                        <input [formControl]="searchBar" type="text" placeholder="Búscar">
+                                        <mat-icon class="icon-size-6" matSuffix [svgIcon]="'mat_solid:search'"></mat-icon>
+                                    </div>
+                                </div>
+        
+                                <!-- <div
+                                    class="d-flex col-md-2 col-xl-2 col-12 justify-content-end align-items-end mb-4">
+                                    <button class="btn-excel ml-3" (click)="douwnloadExel()">
+                                        <mat-icon svgIcon="mat_outline:file_download"></mat-icon>
+                                        <span>Excel</span>
+                                    </button>
+                                </div> -->
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-end col-md-2 col-xl-2 col-12">
                             <button class="btn-search" (click)="searchWithFilters()">
                                 <span>Buscar</span>
                             </button>
                         </div>
                     </div>
 
-                    <div class="row d-flex">
-                        <div class="d-flex col-md-5 col-xl-5 col-12 pt-md-2 mb-lg-0 mb-sm-0 mt-3 mb-5">
-                            <div class="input-search">
-                                <input [formControl]="searchBar" type="text" placeholder="Búscar">
-                                <mat-icon class="icon-size-6" matSuffix [svgIcon]="'mat_solid:search'"></mat-icon>
-                            </div>
-                        </div>
-
-                        <div
-                            class="d-flex col-md-7 col-xl-7 col-12 pt-md-2 justify-content-end align-items-end mt-3 mb-5">
-                            <button class="btn-excel ml-3" (click)="douwnloadExel()">
-                                <mat-icon svgIcon="mat_outline:file_download"></mat-icon>
-                                <span>Excel</span>
-                            </button>
-                        </div>
-                    </div>
+                  
                 </div>
             </form>
 

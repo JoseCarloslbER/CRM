@@ -22,9 +22,8 @@ quick-chat {
     }
 }
 
-/* Adjustments depending on the selected layout */
 .quick-chat-header {
-    height: 64px;
+    height: 50px;
 
     enterprise-layout &,
     modern-layout & {
@@ -33,7 +32,6 @@ quick-chat {
 }
 
 
-/* Overlay */
 .quick-chat-overlay {
     position: fixed;
     top: 0;
