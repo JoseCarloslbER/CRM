@@ -1,17 +1,18 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
-import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-bonuses',
   templateUrl: './bonuses.component.html',
+  styleUrl: './bonuses.component.scss'
 })
-export class BonusesComponent implements OnInit, AfterViewInit, OnDestroy {
+export class BonusesComponent implements OnInit, OnDestroy {
   private onDestroy = new Subject<void>();
 
   public dataSource = new MatTableDataSource<any>([]);
@@ -30,10 +31,8 @@ export class BonusesComponent implements OnInit, AfterViewInit, OnDestroy {
     'base',
     'meta',
     'comments',
-
     'acciones'
   ];
- 
   
   public dataDummy: any[] = [
     {
@@ -56,11 +55,13 @@ export class BonusesComponent implements OnInit, AfterViewInit, OnDestroy {
           sol2 :  ' Solución Y'
         }
       ],
-    },
-    
-    
+    }
   ]
 
+  public fechaHoy = new Date();
+
+  public isBono :boolean = true;
+  
   constructor(
     private notificationService: OpenModalsService,
     private formBuilder: FormBuilder,
@@ -68,27 +69,13 @@ export class BonusesComponent implements OnInit, AfterViewInit, OnDestroy {
     private router: Router
   ) { }
 
-
   ngOnInit(): void {
     this.dataSource.data = this.dataDummy
-  }
-
-  ngAfterViewInit(): void {
-    
   }
 
   newData() {
     this.router.navigateByUrl(`/home/admin/nuevo-bono`)
   }
-  
-  editData() {
-    this.router.navigateByUrl(`/home/admin/editar-bono/1`)
-  }
-  
-  cloneData() {
-    this.router.navigateByUrl(`/home/admin/clonar-bono/1`)
-  }
-
 
   deleteData() {
     this.notificationService
@@ -110,6 +97,21 @@ export class BonusesComponent implements OnInit, AfterViewInit, OnDestroy {
 
           });
       });
+  }
+
+
+  douwnloadExel(){
+    this.notificationService
+          .notificacion(
+            'Éxito',
+            'Excel descargado.',
+            'save',
+            'heroicons_outline:document-arrow-down'
+          )
+          .afterClosed()
+          .subscribe((_) => {
+
+          });
   }
 
   ngOnDestroy(): void {

@@ -6,6 +6,7 @@ import { WayToPayComponent } from './way-to-pay/way-to-pay.component';
 import { ProductCategoriesComponent } from './product-categories/product-categories.component';
 import { CompanyCategoriesComponent } from './company-categories/company-categories.component';
 import { CampaignCategoriesComponent } from './campaign-categories/campaign-categories.component';
+import { SolutionsComponent } from './solutions/solutions.component';
 
 const configRoutes: Routes = [
 	{
@@ -34,11 +35,14 @@ const configRoutes: Routes = [
 				component: CompanyCategoriesComponent,
 			},
 			{
-				path: 'categoria-campaña',
+				path: 'tipo-campanias',
 				component: CampaignCategoriesComponent,
 			},
+			{
+				path: 'soluciones',
+				component: SolutionsComponent,
+			},
 		]
-	
 	}
 ];
 

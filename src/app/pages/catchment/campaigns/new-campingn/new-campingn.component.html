@@ -51,11 +51,11 @@
                         </mat-form-field>
 
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
-                            <mat-label>Solución</mat-label>
-                            <mat-select formControlName="product_category" placeholder="Seleccionar">
-                                <mat-option [value]="cat.product_category_id  "
-                                    *ngFor="let cat of catalogProductCategories">{{cat?.category_name ||
-                                    '-'}}</mat-option>
+                            <mat-label>Soluciones</mat-label>
+                            <mat-select formControlName="solutions" multiple>
+                                <mat-option [value]="cat.solution_id"
+                                *ngFor="let cat of catalogSolutions">{{cat?.solution_name ||
+                                '-'}}</mat-option>
                             </mat-select>
                         </mat-form-field>
                     </div>

@@ -118,6 +118,40 @@ export class ConfigService {
 	}
 
   // END CAMPAING TYPE  
+  
+  // SOLUTIONS
+   
+  public getTableDataSolution(): Observable<entity.TableDataSolution[]> {
+		const url = `${this.apiUrl}solution/`;
+
+    return this.http.get<entity.TableDataSolution[]>(url);
+	}
+
+  public getDataIdSolution(id:string): Observable<entity.GetDataSolution> {
+		const url = `${this.apiUrl}solution/${id}/`;
+
+    return this.http.get<entity.GetDataSolution>(url);
+	}
+
+  public postDataSolution(data:entity.PostDataSolution): Observable<any> {
+		const url = `${this.apiUrl}solution/`;
+
+    return this.http.post<any>(url, data);
+	}
+
+  public patchDataSolution(id:string, data:entity.PatchDataSolution): Observable<any> {
+		const url = `${this.apiUrl}solution/${id}/`;
+
+    return this.http.patch<any>(url, data);
+	}
+ 
+  public deleteDataSolution(id:string): Observable<any> {
+		const url = `${this.apiUrl}solution/${id}/`;
+
+    return this.http.delete<any>(url);
+	}
+
+  // END SOLUTIONS 
 
   
   // COMPANY TYPE 

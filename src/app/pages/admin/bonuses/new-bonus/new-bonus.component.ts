@@ -5,11 +5,11 @@ import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 
 @Component({
-  selector: 'app-new-bono',
-  templateUrl: './new-bono.component.html',
-  styleUrl: './new-bono.component.scss'
+  selector: 'app-new-bonus',
+  templateUrl: './new-bonus.component.html',
+  styleUrl: './new-bonus.component.scss'
 })
-export class NewBonoComponent implements OnInit, AfterViewInit, OnDestroy {
+export class NewBonusComponent implements OnInit, AfterViewInit, OnDestroy {
   private onDestroy = new Subject<void>();
 
   public fechaHoy = new Date();
@@ -114,4 +114,5 @@ export class NewBonoComponent implements OnInit, AfterViewInit, OnDestroy {
     this.onDestroy.next();
     this.onDestroy.unsubscribe();
   }
+
 }

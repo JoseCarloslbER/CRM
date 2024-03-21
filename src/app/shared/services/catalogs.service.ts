@@ -80,9 +80,15 @@ export class CatalogsService {
 	}
 
 	public getCatProductCategory(): Observable<entityGeneral.DataCatProductCategory[]> {
-		const url = `${environment.apiURL}settings/product-category/`;
+		const url = `${environment.apiURL}settings/solutions/`;
 
 		return this.http.get<entityGeneral.DataCatProductCategory[]>(url)
+	}
+
+	public getCatSolutions(): Observable<entityGeneral.DataCatSolutions[]> {
+		const url = `${environment.apiURL}settings/solution/`;
+
+		return this.http.get<entityGeneral.DataCatSolutions[]>(url)
 	}
 
 	public getCatCurrency(): Observable<entityGeneral.DataCatCurrency[]> {

@@ -4,10 +4,10 @@ import { HomeComponent } from './home/home.component';
 import { PipelineComponent } from './pipeline/pipeline.component';
 import { GoalsComponent } from './goals/goals.component';
 import { CampaignsComponent } from './campaigns/campaigns.component';
-import { NewBonoComponent } from '../admin/main-bonuses/bonuses/new-bono/new-bono.component';
 import { CampainResultsComponent } from '../catchment/campaigns/campain-results/campain-results.component';
 import { NewQuoteComponent } from '../conversion/new-quote/new-quote.component';
 import { NewClientOrProspectComponent } from '../companies/new-client-or-prospect/new-client-or-prospect.component';
+import { NewBonusComponent } from '../admin/bonuses/new-bonus/new-bonus.component';
 
 const dashboardRoutes: Routes = [
 	{
@@ -29,11 +29,11 @@ const dashboardRoutes: Routes = [
 			},
 			{
 				path: 'nueva-meta',
-				component: NewBonoComponent,
+				component: NewBonusComponent,
 			},
 			{
 				path: 'editar-meta/:id',
-				component: NewBonoComponent,
+				component: NewBonusComponent,
 			},
 			{
 				path: 'campanias',

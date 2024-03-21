@@ -5,21 +5,21 @@ import { Subject } from 'rxjs';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ConfigService } from '../../config.service';
 import { modalInfoTable } from 'app/shared/interfaces/TableColumns';
-import * as entity from '../../config-interface';
 
 @Component({
-  selector: 'app-modal-new-campaing-categories',
-  templateUrl: './modal-new-campaing-categories.component.html',
+  selector: 'app-new-solution',
+  templateUrl: './new-solution.component.html',
+  styleUrl: './new-solution.component.scss'
 })
-export class ModalNewCampaingCategoriesComponent implements OnInit {
+export class NewSolutionComponent implements OnInit {
   private onDestroy = new Subject<void>();
 
   public formData = this.formBuilder.group({
-    campaign_type_name: ['', Validators.required],
-    campaign_abbrev: ['', [Validators.required, Validators.pattern('[A-Za-z]{2}')]]
+    solution_name: ['', Validators.required],
+    description: ['', Validators.required],
   });
 
-  private objEditData: entity.GetDataCampaingType;
+  private objEditData: any;
 
   constructor(
     private moduleServices: ConfigService,
@@ -48,7 +48,7 @@ export class ModalNewCampaingCategoriesComponent implements OnInit {
   }
 
   saveDataPost(objData) {
-    this.moduleServices.postDataCampaingType(objData).subscribe({
+    this.moduleServices.postDataSolution(objData).subscribe({
       next: () => {
         this.completionMessage()
       },
@@ -60,7 +60,7 @@ export class ModalNewCampaingCategoriesComponent implements OnInit {
   }
 
   saveDataPatch(objData) {
-    this.moduleServices.patchDataCampaingType(this.objEditData.campaign_type_id, objData).subscribe({
+    this.moduleServices.patchDataSolution(this.objEditData.solution_id, objData).subscribe({
       next: () => {
         this.completionMessage(true)
       },
@@ -80,14 +80,6 @@ export class ModalNewCampaingCategoriesComponent implements OnInit {
       )
       .afterClosed()
       .subscribe((_) => this.closeModal());
-  }
-
-  onAbbreviationInput(event: Event): void {
-    const inputElement = event.target as HTMLInputElement;
-    const inputValue = inputElement.value;
-
-    if (inputValue.length > 2) inputElement.value = inputValue.substr(0, 2);
-    if (!/^[a-zA-Z]*$/.test(inputElement.value)) inputElement.value = inputValue.replace(/[^a-zA-Z]/g, '');
   }
 
   closeModal() {

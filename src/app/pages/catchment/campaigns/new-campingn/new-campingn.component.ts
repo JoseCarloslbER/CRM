@@ -30,7 +30,7 @@ export class NewCampingnComponent implements OnInit, AfterViewInit, OnDestroy {
     users: [null, Validators.required],
     start_date: [null, Validators.required],
     end_date: [null, Validators.required],
-    product_category: [null, Validators.required],
+    solutions: [null, Validators.required],
     description: [null, Validators.required],
     goal_total_companies: [null],
     goal_total_responses: [null],
@@ -48,8 +48,7 @@ export class NewCampingnComponent implements OnInit, AfterViewInit, OnDestroy {
   public catTypes: entityGeneral.DataCatType[] = [];
   public catCompanyType: entityGeneral.DataCatCompanyType[] = [];
   public catalogAgents: entityGeneral.DataCatAgents[] = [];
-  public catalogProductCategories: entityGeneral.DataCatProductCategory[] = [];
-  public catalogUsers: entityGeneral.DataCatProductCategory[] = [];
+  public catalogSolutions: entityGeneral.DataCatSolutions[] = [];
   public catalogCompanies: entityGeneral.DataCatCompany[] = [];
 
   public fechaHoy = new Date();
@@ -116,30 +115,30 @@ export class NewCampingnComponent implements OnInit, AfterViewInit, OnDestroy {
     });
 
     
-    this.catalogsServices.getCatCompanyType().pipe(takeUntil(this.onDestroy)).subscribe({
+    this.catalogsServices.getCatCompanyType().subscribe({
       next: (data: entityGeneral.DataCatCompanyType[]) => {
         this.catCompanyType = data;;
       },
       error: (error) => console.error(error)
     });
 
-    this.catalogsServices.getCatCapaignType().pipe(takeUntil(this.onDestroy)).subscribe({
+    this.catalogsServices.getCatCapaignType().subscribe({
       next: (data: entityGeneral.DataCatType[]) => {
         this.catTypes = data;;
       },
       error: (error) => console.error(error)
     });
 
-    this.catalogsServices.getCatAgents().pipe(takeUntil(this.onDestroy)).subscribe({
+    this.catalogsServices.getCatAgents().subscribe({
       next: (data: entityGeneral.DataCatAgents[]) => {
         this.catalogAgents = data;
       },
       error: (error) => console.error(error)
     });
 
-    this.catalogsServices.getCatProductCategory().pipe(takeUntil(this.onDestroy)).subscribe({
-      next: (data: entityGeneral.DataCatProductCategory[]) => {
-        this.catalogProductCategories = data;
+    this.catalogsServices.getCatSolutions().subscribe({
+      next: (data: entityGeneral.DataCatSolutions[]) => {
+        this.catalogSolutions = data;
       },
       error: (error) => console.error(error)
     });
@@ -154,7 +153,7 @@ export class NewCampingnComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.formFilters.get('type')?.value) filters += `campaign_type_id=${this.formFilters.get('type').value}&`;
     if (this.formFilters.get('business')?.value) filters += `business_id=${this.formFilters.get('business').value}&`;
 
-    this.catalogsServices.getCatCompany(filters).pipe(takeUntil(this.onDestroy)).subscribe({
+    this.catalogsServices.getCatCompany(filters).subscribe({
       next: (data: entityGeneral.DataCatCompany[]) => {
         this.catalogCompanies = data;
       },
@@ -171,12 +170,14 @@ export class NewCampingnComponent implements OnInit, AfterViewInit, OnDestroy {
     objData.end_date = moment(this.formData.get('end_date').value).format('YYYY-MM-DD')
     objData.start_date = moment(this.formData.get('start_date').value).format('YYYY-MM-DD')
 
+    console.log(objData);
+    
     if (this.idData && this.url.includes('editar')) this.saveDataPatch(objData)
     else this.saveDataPost(objData)
   }
 
   saveDataPost(objData) {
-    this.moduleServices.postData(objData).pipe(takeUntil(this.onDestroy)).subscribe({
+    this.moduleServices.postData(objData).subscribe({
       next: () => {
         this.completionMessage()
       },
@@ -188,7 +189,7 @@ export class NewCampingnComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   saveDataPatch(objData) {
-    this.moduleServices.patchData(this.objEditData.id, objData).pipe(takeUntil(this.onDestroy)).subscribe({
+    this.moduleServices.patchData(this.objEditData.id, objData).subscribe({
       next: () => {
         this.completionMessage(true)
       },

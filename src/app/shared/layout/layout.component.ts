@@ -233,7 +233,13 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
                             id   : '4',
                             title: 'Tipos campañas',
                             type : 'basic',
-                            link : '/home/configuracion/categoria-campaña'
+                            link : '/home/configuracion/tipo-campanias'
+                        },
+                        {
+                            id   : '5',
+                            title: 'Soluciones',
+                            type : 'basic',
+                            link : '/home/configuracion/soluciones'
                         },
                     ],
                 }

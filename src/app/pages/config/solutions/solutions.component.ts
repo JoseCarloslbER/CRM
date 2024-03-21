@@ -3,16 +3,17 @@ import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
-import { ModalNewCampaingCategoriesComponent } from './modal-new-campaing-categories/modal-new-campaing-categories.component';
 import { Subject } from 'rxjs';
 import * as entity from '../config-interface';
 import { ConfigService } from '../config.service';
+import { NewSolutionComponent } from './new-solution/new-solution.component';
 
 @Component({
-  selector: 'app-campaign-categories',
-  templateUrl: './campaign-categories.component.html',
+  selector: 'app-solutions',
+  templateUrl: './solutions.component.html',
+  styleUrl: './solutions.component.scss'
 })
-export class CampaignCategoriesComponent implements OnInit, OnDestroy {
+export class SolutionsComponent implements OnInit, OnDestroy {
   private onDestroy = new Subject<void>();
 
   public dataSource = new MatTableDataSource<any>([]);
@@ -22,8 +23,8 @@ export class CampaignCategoriesComponent implements OnInit, OnDestroy {
   public indicePagina = 0;
 
   public displayedColumns: string[] = [
-    'campaign_type_name',
-    'campaign_abbrev',
+    'solution_name',
+    'description',
     'acciones'
   ];
 
@@ -38,10 +39,9 @@ export class CampaignCategoriesComponent implements OnInit, OnDestroy {
   }
 
   getDataTable() {
-    this.moduleServices.getTableDataCampaingType().subscribe({
-      next: (data: entity.TableDataCampaingType[]) => {
+    this.moduleServices.getTableDataSolution().subscribe({
+      next: (data: entity.TableDataSolution[]) => {
         console.log(data);
-        
         this.dataSource.data = data;
       },
       error: (error) => console.error(error)
@@ -49,7 +49,7 @@ export class CampaignCategoriesComponent implements OnInit, OnDestroy {
   }
 
   newOrEditData(data = null) {
-    this.dialog.open(ModalNewCampaingCategoriesComponent, {
+    this.dialog.open(NewSolutionComponent, {
       data: {
         info : data
       },
@@ -74,7 +74,7 @@ export class CampaignCategoriesComponent implements OnInit, OnDestroy {
     .afterClosed()
     .subscribe((response) => {
       if (response) {
-        this.moduleServices.deleteDataCampaingType(id).subscribe({
+        this.moduleServices.deleteDataSolution(id).subscribe({
           next: () => {
               this.notificationService
               .notificacion(
@@ -100,11 +100,14 @@ export class CampaignCategoriesComponent implements OnInit, OnDestroy {
             'heroicons_outline:document-arrow-down'
           )
           .afterClosed()
-          .subscribe((_) => { });
+          .subscribe((_) => {
+
+          });
   }
 
   ngOnDestroy(): void {
     this.onDestroy.next();
     this.onDestroy.unsubscribe();
   }
+
 }

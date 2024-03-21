@@ -66,6 +66,32 @@ export interface PatchDataCampaingType {
 
 // END CAMPAING TYPE 
 
+// SOLUTIONS
+export interface TableDataSolution {
+  solution_id: string;
+  solution_name: string;
+  description: string;
+}
+
+export interface PostDataSolution {
+  solution_name:string;
+  description:string;
+}
+
+export interface GetDataSolution {
+  solution_id?:string;
+  solution_name:string;
+  description:string;
+}
+
+export interface PatchDataSolution {
+  solution_id:string;
+  solution_name:string;
+  description:string;
+}
+
+// END SOLUTIONS 
+
 
 // COMPANY TYPE
 export interface TableDataCompanyType {

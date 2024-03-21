@@ -1,25 +1,23 @@
 <div class="container-fluid p-0 overflow-hidden">
-
     <div class="modal-header">
-        <p class="titulo-modal">{{ data?.info ? 'Editar' : 'Registrar nueva'}} tipo de campaña</p>
+        <p class="titulo-modal">{{ data?.info ? 'Editar' : 'Registrar nueva'}} categoría de campaña</p>
         <mat-icon class="cursos-pointer" svgIcon="mat_outline:cancel" (click)="closeModal()"></mat-icon>
     </div>
 
     <div class="row p-5 d-flex">
         <p class="mb-6">*Campos obligatorios</p>
-
         <form class="col-12 modal-content-scroll" [formGroup]="formData">
             <div class="row">
                 <div class="col-md-6">
                     <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                         <mat-label>Nombre</mat-label>
-                        <input formControlName="campaign_type_name" matInput>
+                        <input formControlName="solution_name" matInput>
                     </mat-form-field>
                 </div>
                 <div class="col-md-6">
                     <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
-                        <mat-label>Abreviatura</mat-label>
-                        <input (input)="onAbbreviationInput($event)" formControlName="campaign_abbrev" matInput>
+                        <mat-label>Descripción</mat-label>
+                        <input formControlName="description" matInput>
                     </mat-form-field>
                 </div>
             </div>

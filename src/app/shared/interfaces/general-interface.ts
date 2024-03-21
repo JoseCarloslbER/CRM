@@ -5,6 +5,12 @@ export interface DataCatProductCategory {
   product_category_id : string;
 }
 
+export interface DataCatSolutions {
+  solution_name : string;
+  description : string;
+  solution_id : string;
+}
+
 export interface DataCatCountry {
   country_name : string;
   country_id : string;

@@ -24,8 +24,8 @@ import { GiroCompanyComponent } from './company-categories/components/giro-compa
 import { OriginCompanyComponent } from './company-categories/components/origin-company/origin-company.component';
 import { SizeCompanyComponent } from './company-categories/components/size-company/size-company.component';
 import { SharedModalComponent } from './company-categories/components/shared-modal/shared-modal.component';
-
-
+import { SolutionsComponent } from './solutions/solutions.component';
+import { NewSolutionComponent } from './solutions/new-solution/new-solution.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +48,9 @@ import { SharedModalComponent } from './company-categories/components/shared-mod
     GiroCompanyComponent,
     OriginCompanyComponent,
     SizeCompanyComponent,
-    SharedModalComponent
+    SharedModalComponent,
+    SolutionsComponent,
+    NewSolutionComponent
     
   ],
   imports: [
