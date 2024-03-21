@@ -2,7 +2,11 @@
     ::ng-deep .mat-mdc-tab-body-content {
         padding: 0!important;
     }
-
+    
+    .btn-search {
+        margin-bottom: 16px;
+    }
+    
     .scroll {
         height: 515px;
         overflow: auto;

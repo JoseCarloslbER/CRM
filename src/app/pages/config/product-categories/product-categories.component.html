@@ -1,15 +1,14 @@
 <div class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto c-config" s cdkScrollable>
-
     <div class="bg-card rounded-4 section-padding-admin">
         <div class="flex flex-col w-full mx-auto px-6 sm:px-8">
-            <form class="row mt-5 mb-5">
+            <form class="row mt-3 mb-2">
                 <div class="col-12">
                     <div class="section-title row d-flex justify-content-between align-items-center">
-                        <div class="col-md-7 col-sm-12 col-12 title mb-5 mb-lg-0 mb-md-0 mb-sm-0">
+                        <div class="col-md-7 col-sm-12 col-12 title mb-3">
                             Categorías de productos
                         </div>
 
-                        <div class="col-md-5 col-sm-12 col-12 btns-section mb-5 mb-lg-0 mb-md-0 mb-sm-0">
+                        <div class="col-md-5 col-sm-12 col-12 btns-section mb-3">
                             <button class="btn-yellow-newRegister">
                                 <span (click)="newOrEditData()">Registrar nueva</span>
                             </button>
@@ -19,7 +18,7 @@
             </form>
         </div>
 
-        <div class="c-general-table">
+        <div class="c-general-table pt-3">
             <div class="col-12 contenedor-scroll-tabla">
                 <table mat-table #table [dataSource]="dataSource" class="w-100 tabla-personalizada-default">
                     <caption></caption>
