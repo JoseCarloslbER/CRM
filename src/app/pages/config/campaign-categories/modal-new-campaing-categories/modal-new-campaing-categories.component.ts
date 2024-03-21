@@ -15,7 +15,8 @@ export class ModalNewCampaingCategoriesComponent implements OnInit {
   private onDestroy = new Subject<void>();
 
   public formData = this.formBuilder.group({
-    campaign_type_name: ['', Validators.required]
+    campaign_type_name: ['', Validators.required],
+    campaign_abbrev: ['', [Validators.required, Validators.pattern('[A-Za-z]{2}')]]
   });
 
   private objEditData: entity.GetDataCampaingType;
@@ -79,6 +80,14 @@ export class ModalNewCampaingCategoriesComponent implements OnInit {
       )
       .afterClosed()
       .subscribe((_) => this.closeModal());
+  }
+
+  onAbbreviationInput(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    const inputValue = inputElement.value;
+
+    if (inputValue.length > 2) inputElement.value = inputValue.substr(0, 2);
+    if (!/^[a-zA-Z]*$/.test(inputElement.value)) inputElement.value = inputValue.replace(/[^a-zA-Z]/g, '');
   }
 
   closeModal() {

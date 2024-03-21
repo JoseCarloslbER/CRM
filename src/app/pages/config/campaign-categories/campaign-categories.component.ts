@@ -1,7 +1,5 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
-import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
@@ -25,6 +23,7 @@ export class CampaignCategoriesComponent  implements OnInit, OnDestroy {
 
   public displayedColumns: string[] = [
     'campaign_type_name',
+    'campaign_abbrev',
     'acciones'
   ];
 
@@ -41,6 +40,8 @@ export class CampaignCategoriesComponent  implements OnInit, OnDestroy {
   getDataTable() {
     this.moduleServices.getTableDataCampaingType().subscribe({
       next: (data: entity.TableDataCampaingType[]) => {
+        console.log(data);
+        
         this.dataSource.data = data;
       },
       error: (error) => console.error(error)

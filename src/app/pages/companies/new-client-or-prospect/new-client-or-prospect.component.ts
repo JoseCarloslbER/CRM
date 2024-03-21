@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import * as entityGeneral from '../../../shared/interfaces/general-interface';
@@ -17,11 +17,10 @@ import moment from 'moment';
   selector: 'app-new-client-or-prospect',
   templateUrl: './new-client-or-prospect.component.html',
   styleUrl: './new-client-or-prospect.component.scss'
-
-
 })
 export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDestroy {
   private onDestroy = new Subject<void>();
+  private formatTimer: ReturnType<typeof setTimeout>;
 
   public addContact = new FormControl(true)
   public movilPhoneContact = new FormControl('', Validators.required)
@@ -396,7 +395,7 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
       productControl: new FormControl({ value: productData?.product || '', disabled: false }, Validators.required),
       unitPriceControl: new FormControl(
         { value: productData?.unitPri || '', disabled: true },
-        [Validators.required, (control: FormControl) => control.value > 0 ? null : { 'positiveNumber': true }]
+        [Validators.required, (control: FormControl) => parseFloat(control.value.replace(/,/g, '')) > 0 ? null : { 'positiveNumber': true }]
       ),
       totalPriceControl: new FormControl({ value: productData?.total || '', disabled: true }, Validators.required),
     };
@@ -419,14 +418,12 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     });
 
     productInstance.placesControl.valueChanges.subscribe((newPlacesValue: number) => {
-      if (newPlacesValue > 0) {
-        this.updateProductTotalPrice(productInstance, newPlacesValue);
-        this.updateSubtotal(newPlacesValue);
-      }
+      this.updateProductTotalPrice(productInstance, newPlacesValue);
+      this.updateSubtotal(newPlacesValue);
     });
 
     productInstance.unitPriceControl.valueChanges.subscribe((newUnitPrice: any) => {
-      if (!isNaN(newUnitPrice) && newUnitPrice > 0) {
+      if (!isNaN(newUnitPrice) ) {
         this.updateProductTotalPriceManually(productInstance, newUnitPrice);
         this.updateSubtotal();
       }
@@ -439,7 +436,16 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
 
   deleteProductValue(index: number) {
     this.optionFormValues.forEach(data => {
-      data.product.splice(index, 1)
+      console.log(data);
+      let productOption = data.product.splice(index, 1)
+      let unitPrice = productOption[0].totalPriceControl?.value;
+      let totalPrice = data.totalControl?.value;
+      let result = (parseFloat(totalPrice.replace(/,/g, '')) - parseFloat(unitPrice.replace(/,/g, ''))).toLocaleString('en-US', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      });
+      data.subtotalControl.setValue(result)
+      data.totalControl.setValue(result)
     })
   }
 
@@ -477,6 +483,11 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     if (newPlacesValue && listPrice) {
       const newTotal = listPrice * newPlacesValue;
       productInstance.totalPriceControl.setValue(newTotal.toLocaleString('en-US', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      }));
+    } else {
+      productInstance.totalPriceControl.setValue(listPrice.toLocaleString('en-US', {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
       }));
@@ -537,7 +548,7 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
       }));
-    } else {
+    } else if (!newUnitPrice) {
       productInstance.totalPriceControl.setValue(parseFloat('0').toLocaleString('en-US', {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
@@ -730,7 +741,22 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
   onInputChange(event: any, optionIndex: number, productIndex: number) {
     const newValue = event.target.value.replace(/[^\d.]/g, '');
     const currentOption = this.optionFormValues[optionIndex];
-    currentOption.product[productIndex].unitPriceControl.setValue(newValue, { emitEvent: false });
+
+    if (this.formatTimer) clearTimeout(this.formatTimer);
+
+    if (event.key === 'Backspace' && event.target.value.includes('.')) return;
+
+    this.formatTimer = setTimeout(() => {
+      if (parseFloat(newValue)) {
+        let formattedValue = parseFloat(newValue).toLocaleString('en-US', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        });
+        currentOption.product[productIndex].unitPriceControl.setValue(formattedValue);
+      } else {
+        currentOption.product[productIndex].unitPriceControl.setValue('');
+      }
+    }, 300);
   }
 
   ngOnDestroy(): void {

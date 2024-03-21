@@ -16,6 +16,12 @@
                         <input formControlName="campaign_type_name" matInput>
                     </mat-form-field>
                 </div>
+                <div class="col-md-6">
+                    <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
+                        <mat-label>abreviatura </mat-label>
+                        <input (input)="onAbbreviationInput($event)" formControlName="campaign_abbrev" matInput>
+                    </mat-form-field>
+                </div>
             </div>
 
             <div class="row d-flex justify-content-end">

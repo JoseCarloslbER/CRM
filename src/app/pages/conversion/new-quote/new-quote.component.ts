@@ -18,6 +18,7 @@ import { CatalogsService } from 'app/shared/services/catalogs.service';
 export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
   private onDestroy = new Subject<void>();
   public filteredOptions: Observable<any[]>;
+  private formatTimer: ReturnType<typeof setTimeout>;
 
   public addContact = new FormControl('')
 
@@ -31,7 +32,7 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
   public formData = this.formBuilder.group({
     contact: ['', Validators.required],
     user: ['', Validators.required],
-    campaign: ['', Validators.required],
+    campaign: [''],
     payment_method: ['', Validators.required],
     tax_include: [true, Validators.required],
   });
@@ -206,7 +207,7 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
       timeControl: new FormControl({ value: datos?.time || '', disabled: false }, Validators.required),
       product: []
     };
-  
+
     if (datos && datos.optionProducts) {
       datos.optionProducts.forEach((productData: any, productIndex: number) => {
         const productInstance: any = this.createProductInstance(productData);
@@ -216,7 +217,7 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
       const newProductInstance: any = this.createProductInstance();
       instance.product.push(newProductInstance);
     }
-  
+
     this.setupOptionControlSubscriptions(instance);
     this.optionFormValues.push(instance);
   }
@@ -264,7 +265,7 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
       productControl: new FormControl({ value: productData?.product || '', disabled: false }, Validators.required),
       unitPriceControl: new FormControl(
         { value: productData?.unitPri || '', disabled: true },
-        [Validators.required, (control: FormControl) => control.value > 0 ? null : { 'positiveNumber': true }]
+        [Validators.required, (control: FormControl) => parseFloat(control.value.replace(/,/g, '')) > 0 ? null : { 'positiveNumber': true }]
       ),
       totalPriceControl: new FormControl({ value: productData?.total || '', disabled: true }, Validators.required),
     };
@@ -287,14 +288,12 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
     });
 
     productInstance.placesControl.valueChanges.subscribe((newPlacesValue: number) => {
-      if (newPlacesValue > 0) {
-        this.updateProductTotalPrice(productInstance, newPlacesValue);
-        this.updateSubtotal(newPlacesValue);
-      }
+      this.updateProductTotalPrice(productInstance, newPlacesValue);
+      this.updateSubtotal(newPlacesValue);
     });
 
     productInstance.unitPriceControl.valueChanges.subscribe((newUnitPrice: any) => {
-      if (!isNaN(newUnitPrice) && newUnitPrice > 0) {
+      if (!isNaN(newUnitPrice) ) {
         this.updateProductTotalPriceManually(productInstance, newUnitPrice);
         this.updateSubtotal();
       }
@@ -307,7 +306,16 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
 
   deleteProductValue(index: number) {
     this.optionFormValues.forEach(data => {
-      data.product.splice(index, 1)
+      console.log(data);
+      let productOption = data.product.splice(index, 1)
+      let unitPrice = productOption[0].totalPriceControl?.value;
+      let totalPrice = data.totalControl?.value;
+      let result = (parseFloat(totalPrice.replace(/,/g, '')) - parseFloat(unitPrice.replace(/,/g, ''))).toLocaleString('en-US', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      });
+      data.subtotalControl.setValue(result)
+      data.totalControl.setValue(result)
     })
   }
 
@@ -345,6 +353,11 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
     if (newPlacesValue && listPrice) {
       const newTotal = listPrice * newPlacesValue;
       productInstance.totalPriceControl.setValue(newTotal.toLocaleString('en-US', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      }));
+    } else {
+      productInstance.totalPriceControl.setValue(listPrice.toLocaleString('en-US', {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
       }));
@@ -405,7 +418,7 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
       }));
-    } else {
+    } else if (!newUnitPrice) {
       productInstance.totalPriceControl.setValue(parseFloat('0').toLocaleString('en-US', {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
@@ -487,7 +500,7 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
       if (this.optionFormValues?.length) {
         this.optionFormValues.forEach(control => {
           console.log(control.product);
-          
+
           if (
             !control?.subtotalControl?.value ||
             !control?.typePriceControl?.value ||
@@ -497,7 +510,7 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
             !control?.product ||
             control?.product.some((productControl: any) => {
               return !(productControl.unitPriceControl?.value > 0 && productControl.placesControl?.value > 0);
-          })
+            })
           ) {
             save = false;
           }
@@ -511,7 +524,22 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
   onInputChange(event: any, optionIndex: number, productIndex: number) {
     const newValue = event.target.value.replace(/[^\d.]/g, '');
     const currentOption = this.optionFormValues[optionIndex];
-    currentOption.product[productIndex].unitPriceControl.setValue(newValue, { emitEvent: false });
+
+    if (this.formatTimer) clearTimeout(this.formatTimer);
+
+    if (event.key === 'Backspace' && event.target.value.includes('.')) return;
+
+    this.formatTimer = setTimeout(() => {
+      if (parseFloat(newValue)) {
+        let formattedValue = parseFloat(newValue).toLocaleString('en-US', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        });
+        currentOption.product[productIndex].unitPriceControl.setValue(formattedValue);
+      } else {
+        currentOption.product[productIndex].unitPriceControl.setValue('');
+      }
+    }, 300);
   }
 
   cleanCompany() {

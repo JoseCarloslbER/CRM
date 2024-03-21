@@ -303,7 +303,7 @@
                                         <mat-label>Precio unitario</mat-label>
                                         <input class="text-right" [formControl]="controlProduct.unitPriceControl"
                                             matInput 
-                                            (input)="onInputChange($event, i, productIndex)">
+                                            (keyup)="onInputChange($event, i, productIndex)">
                                         <span matPrefix>$</span>
                                     </mat-form-field>
                                 </div>
