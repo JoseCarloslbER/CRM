@@ -371,9 +371,8 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     };
 
     if (datos && datos.optionProducts) {
-      datos.optionProducts.forEach((productData: any) => {
+      datos.optionProducts.forEach((productData: any, productIndex: number) => {
         const productInstance: any = this.createProductInstance(productData);
-        this.enableProductFields(productInstance);
         instance.product.push(productInstance);
       });
     } else {

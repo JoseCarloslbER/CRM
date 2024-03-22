@@ -155,6 +155,29 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
             ]
         },
         {
+            id: "5",
+            title: "COMUNICACIONES",
+            type: "group",
+            children: [
+                {
+                    id: "1",
+                    title: "Slack",
+                    type: "basic",
+                    iconGoogleFonts: "forum",
+                    link: "/home/comunicaciones/slack",
+
+                },
+                {
+                    id: "2",
+                    title: "Tawk.to",
+                    type: "basic",
+                    iconGoogleFonts: "forum",
+                    link: "/home/comunicaciones/tawk",
+
+                }
+            ]
+        },
+        {
             id: "6",
             title: "GESTIÓN",
             type: "group",
@@ -252,9 +275,6 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     userName:string = ''
     photo:string = ''
     
-
-    private _unsubscribeAll: Subject<any> = new Subject<any>();
-
     constructor(
         private adminServices: AuthenticationService,
         private _fuseNavigationService: FuseNavigationService,

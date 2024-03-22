@@ -28,6 +28,10 @@ const pageRoutes: Routes = [
 				loadChildren: () => import('./reactivation/reactivation.module').then((m) => m.ReactivationModule),
 			},
 			{
+				path: 'comunicaciones',
+				loadChildren: () => import('./comunications/comunications.module').then((m) => m.ComunicationsModule),
+			},
+			{
 				path: 'gestion',
 				loadChildren: () => import('./management/management.module').then((m) => m.ManagementModule),
 			},

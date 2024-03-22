@@ -283,7 +283,7 @@
                                     <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                                         <mat-label>Lugares</mat-label>
                                         <input class="text-right" [formControl]="controlProduct.placesControl"
-                                            type="number" matInput>
+                                            type="number" min="1" matInput>
                                     </mat-form-field>
                                 </div>
 
@@ -293,7 +293,7 @@
                                         <mat-select [formControl]="controlProduct.productControl"
                                             placeholder="Seleccionar">
                                             <mat-option [value]="cat.product_id"
-                                            *ngFor="let cat of catProducts">{{cat?.code + ' - ' + cat?.name || '-'}}</mat-option>
+                                                *ngFor="let cat of catProducts">{{cat?.code + ' - ' + cat?.name || '-'}}</mat-option>
                                         </mat-select>
                                     </mat-form-field>
                                 </div>
@@ -312,14 +312,14 @@
                                     <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                                         <mat-label>Precio total</mat-label>
                                         <input class="text-right" [formControl]="controlProduct.totalPriceControl"
-                                            type="number" matInput>
+                                            matInput>
                                         <span matPrefix>$</span>
                                     </mat-form-field>
                                 </div>
 
                                 <div *ngIf="control.product?.length > 1"
                                     class="col-md-1 d-flex align-items-center justify-content-center c-column-btns">
-                                    <div class="btn-delete mb-3" (click)="deleteProductValue(i)">
+                                    <div class="btn-delete mb-3" (click)="deleteProductValue(productIndex)">
                                         <mat-icon matTooltip="Eliminar">delete</mat-icon>
                                     </div>
                                 </div>
@@ -355,8 +355,7 @@
                             <div class="col-md-3">
                                 <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                                     <mat-label>Total</mat-label>
-                                    <input [formControl]="control.totalControl" class="text-right" type="number"
-                                        matInput>
+                                    <input [formControl]="control.totalControl" class="text-right" matInput>
                                     <span matPrefix>$</span>
                                 </mat-form-field>
                             </div>
@@ -374,14 +373,6 @@
                                             <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                                             <mat-datepicker #picker1></mat-datepicker>
                                         </mat-form-field>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <div class="d-flex flex-column c-input-time">
-                                            <mat-label>Hora</mat-label>
-                                            <input [formControl]="control.timeControl" class="input-time" type="time"
-                                                name="eta">
-                                        </div>
                                     </div>
                                 </div>
                             </div>
