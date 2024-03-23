@@ -30,7 +30,6 @@ export class PipelineComponent implements OnInit, OnDestroy {
     rangeDateEnd: [{ value: '', disabled: false }],
   });
 
-
   public fechaHoy = new Date();
 
   public catStatus: entityGeneral.DataCatStatus[] = [];

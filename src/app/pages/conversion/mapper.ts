@@ -2,9 +2,14 @@ import * as entity from './conversion-interface';
 import moment from 'moment';
 
 export class Mapper {
-	static getDataTableMapper(response: entity.TableDataQuoteResponse) : entity.TableDataQuoteMapperResponse {
-		let dataList :entity.TableDataQuoteMapper[] = [];
-		response.quotes_data.forEach((data: entity.TableDataQuote): void => {
+	static getDataTableMapper(response: any) : any {
+		console.log(response);
+		
+	// static getDataTableMapper(response: entity.TableDataQuoteResponse) : entity.TableDataQuoteMapperResponse {
+		let dataList :any[] = [];
+		// let dataList :entity.TableDataQuoteMapper[] = [];
+		response.quotes_data.forEach((data: any): void => {
+		// response.quotes_data.forEach((data: entity.TableDataQuote): void => {
 			dataList.push({
 				id: data?.quote_id || '-',
 				dateAndHour : data.register_date ? moment(data.register_date).format('MM-DD-YYYY HH:mm:ss') : '-', 
@@ -54,11 +59,12 @@ export class Mapper {
 					}),
 					};
 				  }),
-				  actions: data?.status?.description == 'Creada'  ? ['Aceptar', 'Rechazar'] : 
-						data?.status?.description == 'Aceptada' || data?.status?.description == 'Aprobada' ? ['Rechazar', 'Cancelar', 'Cerrar como venta'] : [],
-				
+				actions: data?.status?.status_id == '5fb730e9-3802-461f-a4f3-592ff04c4387'  ? ['Aceptar', 'Rechazar'] : 
+					data?.status?.status_id == '3944df8e-d359-4569-b712-ea174be69cca' || data?.status?.description == 'Aprobada' ? ['Rechazar', 'Cancelar', 'Cerrar como venta'] : [],
 				status_id: data?.status?.status_id,
-				actionName: data?.status?.description,
+				btnEdit: data?.status?.status_id == '5fb730e9-3802-461f-a4f3-592ff04c4387' || data?.status?.status_id == '3944df8e-d359-4569-b712-ea174be69cca'? true : false,
+				actionStatusId: data?.status?.status_id,
+				actionName: data?.status?.status_id,
 				closeSale: data.quote_options.map((dataClose, index) => {
 					const places = dataClose?.option_products?.reduce((acc, product) => acc + product?.quantity, 0);
 					const productNames = dataClose?.option_products?.map(product => product?.product?.name || '-');

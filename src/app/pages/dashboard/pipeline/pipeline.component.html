@@ -151,14 +151,10 @@
 
                             <div class="pipline-actions-formal">
                                 <h1>Acciones</h1>
-
-                                <div class="colum-table-select">
-                                    <mat-form-field class="flex-auto input-default"
-                                        *ngIf="data.actionName == 'Creada' || data.actionName == 'Aceptada'">
+                                <div class="colum-table-select" *ngIf="data?.actionStatusId == '3944df8e-d359-4569-b712-ea174be69cca'">                                            
+                                    <mat-form-field class="flex-auto input-default">
                                         <mat-select placeholder="Seleccionar">
-                                            <mat-option [value]="data.actionName" class="border-bottom" [value]="action"
-                                                *ngFor="let action of data.actions"
-                                                (click)="getActions(action, data)">{{action}}</mat-option>
+                                            <mat-option [value]="data?.actionName" class="border-bottom" [value]="action" *ngFor="let action of data.actions" (click)="getActions(action, element)">{{action}}</mat-option>
                                         </mat-select>
                                     </mat-form-field>
                                 </div>
@@ -254,13 +250,10 @@
                             <div class="pipline-actions-formal">
                                 <h1>Acciones</h1>
 
-                                <div class="colum-table-select">
-                                    <mat-form-field class="flex-auto input-default"
-                                        *ngIf="data.actionName == 'Creada' || data.actionName == 'Aceptada'">
+                                <div class="colum-table-select" *ngIf="data?.actionStatusId == '3944df8e-d359-4569-b712-ea174be69cca'">                                            
+                                    <mat-form-field class="flex-auto input-default">
                                         <mat-select placeholder="Seleccionar">
-                                            <mat-option [value]="data.actionName" class="border-bottom" [value]="action"
-                                                *ngFor="let action of data.actions"
-                                                (click)="getActions(action, data)">{{action}}</mat-option>
+                                            <mat-option [value]="data?.actionName" class="border-bottom" [value]="action" *ngFor="let action of data.actions" (click)="getActions(action, element)">{{action}}</mat-option>
                                         </mat-select>
                                     </mat-form-field>
                                 </div>
@@ -342,21 +335,6 @@
                                     </div>
                                 </div>
                             </div>
-
-                            <!-- <div class="pipline-actions-formal">
-                            <h1>Acciones</h1>
-
-                            <div class="c-column-btns">
-                                <div class="btn-receipt" (click)="billing(data)"
-                                *ngIf="data.actionName == 'Aprobada PC' && !data.isBilled">
-                                    <mat-icon matTooltip="Facturación">receipt_long</mat-icon>
-                                </div>
-
-                                <div class="btn-print" (click)="addUpladFile()" *ngIf="data.moneyInAccount">
-                                    <mat-icon matTooltip="Agregar comprobante de pago">upload_file</mat-icon>
-                                </div>
-                            </div>
-                        </div> -->
                         </div>
                     </div>
                 </div>

@@ -65,6 +65,9 @@ export class Mapper {
 	};
 
 	static getDataPipelineMapper(response : entity.DatsPipeLine) {
+		console.log('MAPPER', response);
+		console.log('MAPPER QUOTES LEADS', response.quotes_leads);
+		
 		const firstQuoteLead:any = [response?.quotes_leads[0]?.quote_options[0]?.option_products[0]] || [];
 		const firstQuoteClient:any = [response?.quotes_clients[0]?.quote_options[0]?.option_products[0]] || [];
 		const firstClientSale:any = [response?.quotes_sales[0]?.quote_options[0]?.option_products[0]] || [];
@@ -99,8 +102,9 @@ export class Mapper {
 					moneyInAccount: data?.money_in_account,
 					actionName: data?.status?.description,
 					isBilled: data?.invoice_status?.description.includes('Facturada') ? true : false,
-					actions: data?.status?.description == 'Creada'  ? ['Aceptar'] : 
-					data?.status?.description == 'Aceptada' || data?.status?.description == 'Aprobada' ? ['Rechazar', 'Cancelar', 'Cerrar como venta'] : [],
+					actionStatusId: data?.status?.status_id,
+					actions: data?.status?.status_id == '5fb730e9-3802-461f-a4f3-592ff04c4387'  ? ['Aceptar', 'Rechazar'] : 
+					data?.status?.status_id == '3944df8e-d359-4569-b712-ea174be69cca' || data?.status?.description == 'Aprobada' ? ['Rechazar', 'Cancelar', 'Cerrar como venta'] : [],
 					optionOne : firstQuoteClient.map(optionData => {
 						return {
 							listPrice: '$' + parseFloat(optionData?.product?.list_price).toLocaleString('en-US', {
@@ -131,8 +135,9 @@ export class Mapper {
 					moneyInAccount: data?.money_in_account,
 					actionName: data?.status?.description,
 					isBilled: data?.invoice_status?.description.includes('Facturada') ? true : false,
-					actions: data?.status?.description == 'Creada'  ? ['Aceptar'] : 
-					data?.status?.description == 'Aceptada' || data?.status?.description == 'Aprobada' ? ['Rechazar', 'Cancelar', 'Cerrar como venta'] : [],
+					actionStatusId: data?.status?.status_id,
+					actions: data?.status?.status_id == '5fb730e9-3802-461f-a4f3-592ff04c4387'  ? ['Aceptar', 'Rechazar'] : 
+					data?.status?.status_id == '3944df8e-d359-4569-b712-ea174be69cca' || data?.status?.description == 'Aprobada' ? ['Rechazar', 'Cancelar', 'Cerrar como venta'] : [],
 					companyInfo: {
 						company_name: data?.company?.company_name || '-',
 						tax_id_number: data?.company?.tax_id_number || '-',
