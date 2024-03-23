@@ -1812,9 +1812,8 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
   searchWithFilters() {
     let filters: string = '';
 
-    if (this.filterDayMonthYear == 'Mes') filters += `current_day=true&`
-    else if (this.filterDayMonthYear == 'Año') filters += `current_month=true&`
-    else filters += `current_year=true&`
+    if (this.filterDayMonthYear == 'Mes') filters += `current_month=true&`
+    else if (this.filterDayMonthYear == 'Año') filters += `current_year=true&`
     if (this.formFilters.get('status').value) filters += `status_id=${this.formFilters.get('status').value}&`;
     if (this.formFilters.get('type').value) filters += `campaign_type_id=${this.formFilters.get('type').value}&`;
     if (this.formFilters.get('agent').value) filters += `user_id=${this.formFilters.get('agent').value}&`;

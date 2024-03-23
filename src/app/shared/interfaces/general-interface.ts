@@ -128,6 +128,7 @@ export interface DataCatCompanySize {
 export interface DataCatCompanyType {
   type_name : string;
   company_type_id : string;
+  campaign_abbrev : string;
 }
 
 export interface DataCatState {

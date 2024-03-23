@@ -20,8 +20,10 @@
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Tipo</mat-label>
                             <mat-select formControlName="campaign_type" placeholder="Seleccionar">
-                                <mat-option [value]="cat.campaign_type_id "
+                                <mat-option [value]="cat.campaign_type_id" (click)="objcampaingType = cat;"
                                     *ngFor="let cat of catTypes">{{cat?.campaign_type_name || '-'}}</mat-option>
+                                <!-- <mat-option [value]="cat.campaign_type_id "
+                                    *ngFor="let cat of catTypes">{{cat?.campaign_type_name || '-'}}</mat-option> -->
                             </mat-select>
                         </mat-form-field>
 

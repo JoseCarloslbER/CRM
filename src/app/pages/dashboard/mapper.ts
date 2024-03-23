@@ -280,6 +280,7 @@ export class Mapper {
 				maximumFractionDigits: 2
 			}),
 			totalSalesclosed : response.total_ventas_cerradas || 0,
+			totalEntries : response.total_entradas || 0,
 			costSale : '$' + response?.costo_promedio_venta.toLocaleString('en-US', {
 				minimumFractionDigits: 2,
 				maximumFractionDigits: 2

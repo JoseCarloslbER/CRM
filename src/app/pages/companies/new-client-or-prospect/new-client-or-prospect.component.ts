@@ -328,8 +328,6 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
   getOptionsValues() {
     const formValues = (control: any, index: number) => {
       const formattedDate = moment(control.dateControl.value).format('YYYY-MM-DD');
-      const formattedTime = moment(control.timeControl.value, 'HH:mm').format('HH:mm');
-      const combinedDateTime = moment(`${formattedDate}T${formattedTime}:00.000Z`).toISOString();
 
       const productValues = control.product.map((productControl: any) => {
         return {
@@ -347,7 +345,7 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
         total: parseFloat(control.totalControl.value.replace(/,/g, '')),
         discount: control.discountControl.value,
         type_price: control.typePriceControl.value,
-        deadline: combinedDateTime,
+        deadline: formattedDate,
         option_products: productValues,
         quote_option: index + 1
       }
@@ -366,7 +364,6 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
       totalControl: new FormControl({ value: datos?.total || '', disabled: true }, Validators.required),
       typePriceControl: new FormControl({ value: datos?.typePrice || this.optionFormValues.length >= 1 ? 2 : 1, disabled: false }, Validators.required),
       dateControl: new FormControl({ value: datos?.date || '', disabled: false }, Validators.required),
-      timeControl: new FormControl({ value: datos?.time || '', disabled: false }, Validators.required),
       product: []
     };
 
@@ -705,7 +702,6 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
             !control?.typePriceControl?.value ||
             !control?.totalControl?.value ||
             !control?.dateControl?.value ||
-            !control?.timeControl?.value ||
             !control?.product ||
             control?.product.some((productControl: any) =>
               !productControl.placesControl?.value

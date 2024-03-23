@@ -2,7 +2,7 @@ import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, debounceTime, takeUntil } from 'rxjs';
 import { CatchmentService } from '../../catchment.service';
 import * as entity from '../../catchment-interface';
 import * as entityGeneral from '../../../../shared/interfaces/general-interface';
@@ -22,7 +22,7 @@ export class NewCampingnComponent implements OnInit, AfterViewInit, OnDestroy {
   });
 
   public formData = this.formBuilder.group({
-    campaign_code: [null],
+    campaign_code: [{ value: '', disabled: true }],
     campaign_name: [null, Validators.required],
     amount_invested: ['', Validators.required],
     campaign_type: [null, Validators.required],
@@ -61,6 +61,7 @@ export class NewCampingnComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private idData: string = '';
   private objEditData: any;
+  private objcampaingType: any;
 
 
   constructor(
@@ -80,6 +81,11 @@ export class NewCampingnComponent implements OnInit, AfterViewInit, OnDestroy {
     setTimeout(() => {
       this.getCatalogs()
     }, 500);
+
+
+    this.formData.get('campaign_type').valueChanges.pipe(debounceTime(500), takeUntil(this.onDestroy)).subscribe(content => {
+      this.formData.get('campaign_code').patchValue(this.objcampaingType.campaign_abbrev)
+    })
   }
 
   getId() {
@@ -114,17 +120,17 @@ export class NewCampingnComponent implements OnInit, AfterViewInit, OnDestroy {
       error: (error) => console.error(error)
     });
 
-    
     this.catalogsServices.getCatCompanyType().subscribe({
       next: (data: entityGeneral.DataCatCompanyType[]) => {
-        this.catCompanyType = data;;
+        this.catCompanyType = data;
       },
       error: (error) => console.error(error)
     });
 
     this.catalogsServices.getCatCapaignType().subscribe({
       next: (data: entityGeneral.DataCatType[]) => {
-        this.catTypes = data;;
+        this.catTypes = data;
+        console.log(data);
       },
       error: (error) => console.error(error)
     });

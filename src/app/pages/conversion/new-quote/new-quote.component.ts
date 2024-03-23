@@ -30,7 +30,7 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
   public company = new FormControl(null);
 
   public formData = this.formBuilder.group({
-    contact: ['', Validators.required],
+    contact: [''],
     user: ['', Validators.required],
     campaign: [''],
     payment_method: ['', Validators.required],
@@ -204,7 +204,6 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
       totalControl: new FormControl({ value: datos?.total || '', disabled: true }, Validators.required),
       typePriceControl: new FormControl({ value: datos?.typePrice || this.optionFormValues.length >= 1 ? 2 : 1, disabled: false }, Validators.required),
       dateControl: new FormControl({ value: datos?.date || '', disabled: false }, Validators.required),
-      timeControl: new FormControl({ value: datos?.time || '', disabled: false }, Validators.required),
       product: []
     };
 
@@ -225,8 +224,6 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
   getOptionsValues() {
     const formValues = (control: any, index: number) => {
       const formattedDate = moment(control.dateControl.value).format('YYYY-MM-DD');
-      const formattedTime = moment(control.timeControl.value, 'HH:mm').format('HH:mm');
-      const combinedDateTime = moment(`${formattedDate}T${formattedTime}:00.000Z`).toISOString();
 
       const productValues = control.product.map((productControl: any) => {
         return {
@@ -244,7 +241,7 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
         total: parseFloat(control.totalControl.value.replace(/,/g, '')),
         discount: control.discountControl.value,
         type_price: control.typePriceControl.value,
-        deadline: combinedDateTime,
+        deadline: formattedDate,
         option_products: productValues,
         quote_option: index + 1
       }
@@ -499,14 +496,11 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.formData.valid) {
       if (this.optionFormValues?.length) {
         this.optionFormValues.forEach(control => {
-          console.log(control.product);
-
           if (
             !control?.subtotalControl?.value ||
             !control?.typePriceControl?.value ||
             !control?.totalControl?.value ||
             !control?.dateControl?.value ||
-            !control?.timeControl?.value ||
             !control?.product ||
             control?.product.some((productControl: any) => {
               return !(productControl.unitPriceControl?.value > 0 && productControl.placesControl?.value > 0);

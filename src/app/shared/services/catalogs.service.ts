@@ -80,7 +80,7 @@ export class CatalogsService {
 	}
 
 	public getCatProductCategory(): Observable<entityGeneral.DataCatProductCategory[]> {
-		const url = `${environment.apiURL}settings/solutions/`;
+		const url = `${environment.apiURL}settings/product-category/`;
 
 		return this.http.get<entityGeneral.DataCatProductCategory[]>(url)
 	}

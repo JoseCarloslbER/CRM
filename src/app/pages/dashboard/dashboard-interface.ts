@@ -206,6 +206,7 @@ export interface DataCampaings {
   total_ventas_cerradas : number;
   monto_total_ventas: number;
   costo_promedio_venta: number;
+  total_entradas: number;
   porcentaje_campania_contra_total_ventas: number;
   historial_campanias: TableDataCampaing[]
 }
@@ -220,6 +221,7 @@ export interface DataCampaingsMapper {
   costQuote : string;
   totalAmountQuotesMade : string;
   totalSalesclosed : number;
+  totalEntries : number;
   costSale : string;
   totalSalesAmount : string;
   percentageSales : number;
