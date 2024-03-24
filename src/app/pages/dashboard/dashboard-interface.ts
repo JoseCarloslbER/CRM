@@ -188,10 +188,22 @@ export interface DatsPipeLine {
   suma_sales: number;
   suma_quote_leads: number;
   suma_quote_clients: number;
+  suma_sales_leads: number;
   quotes_clients : TableDataQuote[]
   quotes_leads : TableDataQuote[] | any
   quotes_sales : TableDataQuote[]
-  quotes_sales_lead? : TableDataQuote[]
+  quotes_sales_leads : TableDataQuote[]
+}
+
+export interface DatsPipeLineMapper {
+  totalQuoteLeads: string;
+  totalQuoteClients: string;
+  totalClientSales: string;
+  totalSaleSales: string;
+  quoteClients : any[]
+  quoteLeads : any[]
+  leadsSales : any[]
+  clientSales : any[]
 }
 
 export interface DataCampaings {

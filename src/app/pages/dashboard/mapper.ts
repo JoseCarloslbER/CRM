@@ -64,14 +64,8 @@ export class Mapper {
 		}
 	};
 
-	static getDataPipelineMapper(response : entity.DatsPipeLine) {
+	static getDataPipelineMapper(response : entity.DatsPipeLine) : entity.DatsPipeLineMapper {
 		console.log('MAPPER', response);
-		console.log('MAPPER QUOTES LEADS', response.quotes_leads);
-		
-		const firstQuoteLead:any = [response?.quotes_leads[0]?.quote_options[0]?.option_products[0]] || [];
-		const firstQuoteClient:any = [response?.quotes_clients[0]?.quote_options[0]?.option_products[0]] || [];
-		const firstClientSale:any = [response?.quotes_sales[0]?.quote_options[0]?.option_products[0]] || [];
-		
 		return {
 			totalQuoteLeads: '$' + response?.suma_quote_leads.toLocaleString('en-US', {
 				minimumFractionDigits: 2,
@@ -85,11 +79,13 @@ export class Mapper {
 				minimumFractionDigits: 2,
 				maximumFractionDigits: 2
 			}),
-			// totalSaleSales: '$' + response?.suma_quote_.toLocaleString('en-US', {
-			// 	minimumFractionDigits: 2,
-			// 	maximumFractionDigits: 2
-			// }),
+			totalSaleSales: '$' + response?.suma_sales_leads.toLocaleString('en-US', {
+				minimumFractionDigits: 2,
+				maximumFractionDigits: 2
+			}),
 			quoteClients : response?.quotes_clients.map(data => {
+				// console.log('quoteClients', data);
+
 				return {
 					id : data.quote_id,
 					companyName : {
@@ -105,24 +101,29 @@ export class Mapper {
 					actionStatusId: data?.status?.status_id,
 					actions: data?.status?.status_id == '5fb730e9-3802-461f-a4f3-592ff04c4387'  ? ['Aceptar', 'Rechazar'] : 
 					data?.status?.status_id == '3944df8e-d359-4569-b712-ea174be69cca' || data?.status?.description == 'Aprobada' ? ['Rechazar', 'Cancelar', 'Cerrar como venta'] : [],
-					optionOne : firstQuoteClient.map(optionData => {
-						return {
-							listPrice: '$' + parseFloat(optionData?.product?.list_price).toLocaleString('en-US', {
-								minimumFractionDigits: 2,
-								maximumFractionDigits: 2
-							}),
-							platform : response?.quotes_clients[0]?.company?.platform?.platform_name,
-							amount: '$' + parseFloat(optionData.total).toLocaleString('en-US', {
-								minimumFractionDigits: 2,
-								maximumFractionDigits: 2
-							}),
-							places : optionData?.quantity || 0,
-							validity : moment(response?.quotes_leads[0]?.quote_options[0]?.deadline).format('DD-MM-YYYY') || '-'
+					optionOne: (() => {
+						const optionData = data?.quote_options[0];
+						if (optionData) {
+							return [{
+								listPrice: '$' + parseFloat(optionData?.option_products[0]?.product?.list_price).toLocaleString('en-US', {
+									minimumFractionDigits: 2,
+									maximumFractionDigits: 2
+								}),
+								platform: response?.quotes_leads[0]?.company?.platform?.platform_name,
+								amount: '$' + parseFloat(optionData?.total).toLocaleString('en-US', {
+									minimumFractionDigits: 2,
+									maximumFractionDigits: 2
+								}),
+								places: optionData?.option_products[0]?.quantity || 0,
+								validity: moment(optionData.deadline).format('DD-MM-YYYY')
+							}];
 						}
-					})
+					})(),
 				}
 			}),
 			quoteLeads : response?.quotes_leads.map(data => {
+				// console.log('quoteLeads', data);
+
 				return {
 					id : data.quote_id,
 					companyName : {
@@ -147,21 +148,24 @@ export class Mapper {
 						invoice_use_id: data?.company?.invoice_use?.invoice_use_id || '-',
 						invoice_status : data?.invoice_status?.status_id || '-'
 					},
-					optionOne : firstQuoteLead.map(optionData => {
-						return {
-							listPrice: '$' + parseFloat(optionData?.product?.list_price).toLocaleString('en-US', {
-								minimumFractionDigits: 2,
-								maximumFractionDigits: 2
-							}),
-							platform : response?.quotes_leads[0]?.company?.platform?.platform_name,
-							amount: '$' + parseFloat(optionData.total).toLocaleString('en-US', {
-								minimumFractionDigits: 2,
-								maximumFractionDigits: 2
-							}),
-							places : optionData?.quantity || 0,
-							validity : moment(response?.quotes_leads[0].quote_options[0].deadline).format('DD-MM-YYYY')
+					optionOne: (() => {
+						const optionData = data?.quote_options[0];
+						if (optionData) {
+							return [{
+								listPrice: '$' + parseFloat(optionData?.option_products[0]?.product?.list_price).toLocaleString('en-US', {
+									minimumFractionDigits: 2,
+									maximumFractionDigits: 2
+								}),
+								platform: response?.quotes_leads[0]?.company?.platform?.platform_name,
+								amount: '$' + parseFloat(optionData?.total).toLocaleString('en-US', {
+									minimumFractionDigits: 2,
+									maximumFractionDigits: 2
+								}),
+								places: optionData?.option_products[0]?.quantity || 0,
+								validity: moment(optionData.deadline).format('DD-MM-YYYY')
+							}];
 						}
-					}),
+					})(),
 					closeSale: data.quote_options.map((dataClose, index) => {
 						const total = dataClose?.option_products?.reduce((acc, product) => acc + parseFloat(product?.total), 0);
 						const places = dataClose?.option_products?.reduce((acc, product) => acc + product?.quantity, 0);
@@ -190,31 +194,52 @@ export class Mapper {
 					})
 				}
 			}),
-			// leadsSales : response?.quotes_sales_lead.map(data => {
-			// 	return {
-			// 		id : data.quote_id,
-			// 		companyName : data?.company.company_name ||'-',
-			// 		logo : data?.company ? data?.company?.logo.includes('default') ? `../../../assets/images/default.png` : data?.company?.logo : `../../../assets/images/default.png`,
-			// 		status : data?.status?.description ||'-',
-			// 		quoteNumber : data?.quote_number || '-',
-			// 		moneyInAccount: data?.money_in_account,
-			// 		amount: '$' + parseFloat(firstClientSale[0].total).toLocaleString('en-US', {
-			// 			minimumFractionDigits: 2,
-			// 			maximumFractionDigits: 2
-			// 		}),
-			// 		optionOne : firstClientSale.map(optionData => {
-			// 			return {
-			// 				listPrice: '$' + parseFloat(optionData?.product?.list_price).toLocaleString('en-US', {
-			// 					minimumFractionDigits: 2,
-			// 					maximumFractionDigits: 2
-			// 				}),
-			// 				platform : response?.quotes_sales[0]?.company?.platform?.platform_name,
-			// 				places : optionData?.quantity || 0,
-			// 				validity : moment(response?.quotes_leads[0]?.quote_options[0]?.deadline).format('DD-MM-YYYY') || '-'
-			// 			}
-			// 		})
-			// 	}
-			// }),
+			leadsSales : response?.quotes_sales_leads.map(data => {
+				return {
+					id : data.quote_id,
+					companyName : {
+						id : data?.company?.company_id || '-', 
+						name : data?.company?.company_name || '-', 
+						logo : data?.company ? data?.company?.logo.includes('default') ? `../../../assets/images/default.png` : data?.company?.logo : `../../../assets/images/default.png`
+					},	
+					status : data?.status?.description ||'-',
+					quoteNumber : data?.quote_number || '-',
+					moneyInAccount: data?.money_in_account,
+					actionName: data?.status?.description,
+					isBilled: data?.invoice_status?.description.includes('Facturada') ? true : false,
+					companyInfo: {
+						company_name: data?.company?.company_name || '-',
+						tax_id_number: data?.company?.tax_id_number || '-',
+						payment_method_id: data?.company?.payment_method?.payment_method_id || '-',
+						way_to_pay_id: data?.company?.way_to_pay?.way_to_pay_id || '-',
+						payment_condition_id: data?.company?.payment_condition?.payment_condition_id || '-',
+						invoice_use_id: data?.company?.invoice_use?.invoice_use_id || '-',
+						invoice_status : data?.invoice_status?.status_id || '-'
+					},
+					amount: '$' + parseFloat(data.quote_options[0].total).toLocaleString('en-US', {
+						minimumFractionDigits: 2,
+						maximumFractionDigits: 2
+					}),
+					optionOne: (() => {
+						const optionData = data?.quote_options[0];
+						if (optionData) {
+							return [{
+								listPrice: '$' + parseFloat(optionData?.option_products[0]?.product?.list_price).toLocaleString('en-US', {
+									minimumFractionDigits: 2,
+									maximumFractionDigits: 2
+								}),
+								platform: response?.quotes_leads[0]?.company?.platform?.platform_name,
+								amount: '$' + parseFloat(optionData?.total).toLocaleString('en-US', {
+									minimumFractionDigits: 2,
+									maximumFractionDigits: 2
+								}),
+								places: optionData?.option_products[0]?.quantity || 0,
+								validity: moment(optionData.deadline).format('DD-MM-YYYY')
+							}];
+						}
+					})(),
+				}
+			}),
 			clientSales : response.quotes_sales.map(data => {
 				return {
 					id : data.quote_id,
@@ -237,29 +262,35 @@ export class Mapper {
 						invoice_use_id: data?.company?.invoice_use?.invoice_use_id || '-',
 						invoice_status : data?.invoice_status?.status_id || '-'
 					},
-					amount: '$' + parseFloat(firstClientSale[0].total).toLocaleString('en-US', {
+					amount: '$' + parseFloat(data.quote_options[0].total).toLocaleString('en-US', {
 						minimumFractionDigits: 2,
 						maximumFractionDigits: 2
 					}),
-					optionOne : firstClientSale.map(optionData => {
-						return {
-							listPrice: '$' + parseFloat(optionData?.product?.list_price).toLocaleString('en-US', {
-								minimumFractionDigits: 2,
-								maximumFractionDigits: 2
-							}),
-							platform : response?.quotes_sales[0]?.company?.platform?.platform_name,
-							places : optionData?.quantity || 0,
-							validity : moment(response?.quotes_leads[0]?.quote_options[0]?.deadline).format('DD-MM-YYYY') || '-'
+					optionOne: (() => {
+						const optionData = data?.quote_options[0];
+						if (optionData) {
+							return [{
+								listPrice: '$' + parseFloat(optionData?.option_products[0]?.product?.list_price).toLocaleString('en-US', {
+									minimumFractionDigits: 2,
+									maximumFractionDigits: 2
+								}),
+								platform: response?.quotes_leads[0]?.company?.platform?.platform_name,
+								amount: '$' + parseFloat(optionData?.total).toLocaleString('en-US', {
+									minimumFractionDigits: 2,
+									maximumFractionDigits: 2
+								}),
+								places: optionData?.option_products[0]?.quantity || 0,
+								validity: moment(optionData.deadline).format('DD-MM-YYYY')
+							}];
 						}
-					})
+					})(),
 				}
 			}),
 		}
+
 	};
 
 	static getDataCampaignsMapper(response : entity.DataCampaings) : entity.DataCampaingsMapper {
-		console.log(response);
-		
 		return {
 			totalCampaign : response?.total_campanias || 0,
 			totalAmountInvestedCampaign : '$' + response?.total_monto_invertido.toLocaleString('en-US', {
@@ -317,8 +348,7 @@ export class Mapper {
 					agents: {name : `${ data?.owner_user ? data?.owner_user?.first_name && data?.owner_user?.last_name ? data.owner_user?.first_name.toUpperCase() + ' ' + data.owner_user?.last_name.toUpperCase() : data.owner_user?.username.toUpperCase()  : '-' }`, alls : data.users, main: data.owner_user } ,
 					companiesMain : { amount : data.companies?.length, alls : data?.companies || [] },
 					quotesMade : { 
-						left : {
-							amount: data.number_quotes_lead,
+						left : {  
 							totalAmount: '$' + parseFloat(data.amout_quotes_lead).toLocaleString('en-US', {
 								minimumFractionDigits: 2,
 								maximumFractionDigits: 2
