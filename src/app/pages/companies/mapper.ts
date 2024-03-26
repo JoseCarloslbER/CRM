@@ -17,7 +17,7 @@ export class Mapper {
 					minimumFractionDigits: 2,
 					maximumFractionDigits: 2
 				}),
-				registrationDate: moment(data.register_date).format('DD-MM-YYYY') || '-',
+				registrationDate: data.register_date ? moment(data.register_date).format('DD-MM-YYYY') :'-',
 				country: data.country?.country_name || '-',
 				origin: data?.platform?.platform_name || '-',
 				category: data?.company_type?.type_name || '-',
@@ -67,11 +67,12 @@ export class Mapper {
 	};
 
 	static GetDataDetailsCompanyMapper(response: entity.TableDataCompany): entity.GetDataDetailsCompanyMapper {
+		
 		return {
 			id: response?.company_id,
 			logo: response?.logo?.includes('default') ? `../../../assets/images/default.png` : response.logo,
 			companyName: response?.company_name || '-',
-			statusCompany: response?.company_phase?.phase_name || '-',
+			statusCompany: response?.company_phase?.phase_name.toLowerCase() || '-',
 			city: response?.city?.city_name || '-',
 			country: response?.country?.country_name || '-',
 			web: response?.web_page || '-',

@@ -9,11 +9,11 @@
                 </div>
                 <div class="col-lg-8 col-md-12 col-sm-12 title-info-client mt-0 ms-0">
                     <h1>{{ objEditData?.companyName }}</h1>
-                    <span>{{ objEditData?.statusCompany }}</span>
+                    <span>{{ objEditData?.statusCompany | titlecase }}</span>
 
                     <div class="row mt-5">
                         <div class="col-md-6 c-column-btns d-flex justify-content-start align-content-center gap-3 m-0">
-                            <div class="btn-see">
+                            <div class="btn-see" (click)="goEdit()">
                                 <mat-icon matTooltip="Editar">edit_square</mat-icon>
                             </div>
     

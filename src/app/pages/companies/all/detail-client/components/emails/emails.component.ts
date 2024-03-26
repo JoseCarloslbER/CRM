@@ -12,19 +12,18 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class EmailsComponent {
   emails = [
-    {
-      id: "ef7b95a7-8e8b-4616-9619-130d9533add9",
-      title: 'Empresa S.A',
-      asunt: 'Asunto',
-      description: "Nulla pulvinar ex id orci tempor, id accumsan metus pretium. Proin mollis venenatis magn...",
-    },
-    {
-      id: "ef7b95a7-8e8b-4616-9619-130d9533add9",
-      title: 'Empresa S.A',
-      asunt: 'Asunto',
-      description: "Nulla pulvinar ex id orci tempor, id accumsan metus pretium. Proin mollis venenatis magn...",
-    },
-    
+    // {
+    //   id: "ef7b95a7-8e8b-4616-9619-130d9533add9",
+    //   title: 'Empresa S.A',
+    //   asunt: 'Asunto',
+    //   description: "Nulla pulvinar ex id orci tempor, id accumsan metus pretium. Proin mollis venenatis magn...",
+    // },
+    // {
+    //   id: "ef7b95a7-8e8b-4616-9619-130d9533add9",
+    //   title: 'Empresa S.A',
+    //   asunt: 'Asunto',
+    //   description: "Nulla pulvinar ex id orci tempor, id accumsan metus pretium. Proin mollis venenatis magn...",
+    // },
   ]
 
   constructor(

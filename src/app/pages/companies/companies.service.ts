@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'environments/environment.dev';
-import { Observable, map } from 'rxjs';
+import { BehaviorSubject, Observable, map } from 'rxjs';
 import * as entity from './companies-interface';
 import * as entityGeneral from '../../shared/interfaces/general-interface';
 import { Mapper } from './mapper';
@@ -11,10 +11,21 @@ import { TableDataActivities } from '../management/management-interface';
   providedIn: 'root'
 })
 export class CompaniesService {
+  private dataSubject = new BehaviorSubject<any>(null);
 
   private apiUrl = `${environment.apiURL}company/`;
 
   constructor(private http: HttpClient) { }
+
+  
+  public sendData(data: any) {
+    console.log(data);
+    this.dataSubject.next(data);
+  }
+ 
+  public getData() {
+    return this.dataSubject.asObservable();
+  }
 
   public getCatCompany(filters?:any): Observable<entityGeneral.DataCatCompany[]> {
 		const url = `${environment.apiURL}company/company/${filters ? `?${filters}` : ''}`;

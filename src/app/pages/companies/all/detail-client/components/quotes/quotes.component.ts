@@ -49,6 +49,7 @@ export class QuotesComponent implements OnInit {
   ];
 
   public searchBar = new FormControl('')
+  public companyData:any = '';
 
   constructor(
     private moduleServices: CompaniesService,
@@ -76,12 +77,14 @@ export class QuotesComponent implements OnInit {
       next: ( data : TableDataQuoteMapperResponse) => {
         console.log(data.dataList);
         this.dataSource.data = data.dataList
+        this.companyData = data.dataList[0].companyName
       },
       error: (error) => console.error(error)
     })
   }
 
   newData() {
+    this.moduleServices.sendData(this.companyData);
     this.router.navigateByUrl('/home/conversion/nueva-cotizacion')
   }
 

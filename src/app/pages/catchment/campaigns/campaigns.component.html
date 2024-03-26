@@ -44,7 +44,7 @@
                                     <mat-select formControlName="agent" placeholder="Seleccionar">
                                         <mat-option value="">Todos</mat-option>
                                         <mat-option [value]="cat.id" *ngFor="let cat of catAgents">
-                                            {{cat.first_name && cat.last_name ? cat?.first_name + ' ' + cat?.last_name : cat?.username |titlecase }}</mat-option>
+                                            {{cat.first_name && cat.last_name ? cat?.first_name + ' ' + cat?.last_name : cat?.username | titlecase }}</mat-option>
                                     </mat-select>
                                 </mat-form-field>
                             </div>

@@ -2,12 +2,11 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatTabGroup } from '@angular/material/tabs';
 import { Subject, takeUntil } from 'rxjs';
 import { CompaniesService } from '../../companies.service';
 import * as entity from '../../companies-interface';
-
 
 @Component({
   selector: 'app-detail-client',
@@ -52,7 +51,7 @@ export class DetailClientComponent implements OnInit {
     private moduleServices: CompaniesService,
     private activatedRoute: ActivatedRoute,
     private notificationService: OpenModalsService,
-
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -87,6 +86,10 @@ export class DetailClientComponent implements OnInit {
 
     const contactosTabElement = document.getElementById('contactosTab');
     if (contactosTabElement) contactosTabElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  goEdit() {
+    this.router.navigateByUrl(`/home/empresas/editar-${this.objEditData?.statusCompany}/${this.objEditData?.id}`)
   }
 
   ngOnDestroy(): void {

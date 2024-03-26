@@ -19,7 +19,7 @@
                             <input formControlName="company_name" matInput>
                         </mat-form-field>
 
-                        <mat-form-field class="gt-xs:pr-3 inputNewRegister" *ngIf="!addContact?.value">
+                        <mat-form-field class="gt-xs:pr-3 inputNewRegister" *ngIf="!addContact?.value && !url.includes('editar')">
                             <mat-label>Teléfono móvil</mat-label>
                             <input (input)="configInput($event, 'movilPhoneContact')" maxlength="10" type="text" [formControl]="movilPhoneContact" matInput>
                         </mat-form-field>
@@ -67,7 +67,7 @@
                     </div>
 
                     <div class="col-md-4">
-                        <mat-form-field class="gt-xs:pr-3 inputNewRegister" *ngIf="!addContact?.value">
+                        <mat-form-field class="gt-xs:pr-3 inputNewRegister" *ngIf="!addContact?.value && !url.includes('editar')">
                             <mat-label>Contacto</mat-label>
                             <input [formControl]="nameContact" matInput>
                         </mat-form-field>

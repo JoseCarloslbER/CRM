@@ -9,6 +9,7 @@ import { ConversionService } from '../conversion.service';
 import * as entityGeneral from '../../../shared/interfaces/general-interface';
 import moment from 'moment';
 import { CatalogsService } from 'app/shared/services/catalogs.service';
+import { CompaniesService } from 'app/pages/companies/companies.service';
 
 @Component({
   selector: 'app-new-quote',
@@ -48,10 +49,12 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public companySelected: string = '';
   public idData: string = '';
+  public backToDetail: string = '';
 
   constructor(
     private moduleServices: ConversionService,
     private catalogsServices: CatalogsService,
+    private moduleCompanieServices: CompaniesService,
     private activatedRoute: ActivatedRoute,
     private notificationService: OpenModalsService,
     private formBuilder: FormBuilder,
@@ -68,16 +71,27 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
       startWith(''),
       map(value => this._filter(value))
     );
+
+    
+    console.log('get info');
+    
+    this.moduleCompanieServices.getData().pipe(takeUntil(this.onDestroy)).subscribe((data) => {
+     console.log('getData', data);
+     if (data) {
+        this.companySelected = data.id
+        this.company.patchValue(data.name);
+        this.company.disable()
+        this.backToDetail = `/home/empresas/detalles-empresa/${data.id}`;
+        if (this.companySelected) this.getCatalogContact(data.id)
+      }
+    });
   }
 
   ngAfterViewInit(): void {
     this.company.valueChanges.pipe(debounceTime(500)).subscribe(resp => {
       this.filteredOptions.pipe(take(1)).subscribe(options => {
         const selectedCompany = options.find(cat => cat.company_name === resp);
-        if (selectedCompany) {
-          let filter = `company_id=${selectedCompany.company_id}`;
-          this.getCatalogContact(filter);
-        }
+        if (selectedCompany) this.getCatalogContact(selectedCompany.company_id);
       });
     });
   }
@@ -149,7 +163,9 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
     })
   }
 
-  getCatalogContact(filter?: string) {
+  getCatalogContact(id?: string) {
+    let filter = `company_id=${id}`;
+
     this.catalogsServices.getCatDataContact(filter).subscribe({
       next: (data: entityGeneral.DataCatContact[]) => {
         this.catContacts = data;
@@ -542,11 +558,11 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   toBack() {
-    this.router.navigateByUrl(`/home/conversion/cotizaciones`)
-  }
-
-  toDetailQuote() {
-    this.router.navigateByUrl(`/home/conversion/detalle-cotizacion/1`)
+    if (this.backToDetail) {
+      this.router.navigateByUrl(this.backToDetail)
+    } else {
+      this.router.navigateByUrl(`/home/conversion/cotizaciones`)
+    }
   }
 
   ngOnDestroy(): void {

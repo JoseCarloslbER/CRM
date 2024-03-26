@@ -2,10 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'environments/environment.dev';
 import { BehaviorSubject, Observable, map } from 'rxjs';
-import { DataTableFilters } from './catchment-interface';
 import * as entity from './catchment-interface';
 import { Mapper } from './mapper';
-import * as entityGeneral from '../../shared/interfaces/general-interface';
 
 @Injectable({
   providedIn: 'root'

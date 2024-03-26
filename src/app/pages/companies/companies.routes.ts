@@ -47,6 +47,10 @@ const companiesRoutes: Routes = [
 				component: LeadsComponent,
 			},
 			{
+				path: 'editar-lead/:id',
+				component: NewClientOrProspectComponent,
+			},
+			{
 				path: 'clientes',
 				component: ClientsComponent,
 			},

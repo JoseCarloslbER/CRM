@@ -102,6 +102,9 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
       this.getCatalogsInitial();
     } else if (this.url.includes('cliente')) {
       this.getCatalogs();
+    } else {
+      this.title = 'lead';
+      this.getCatalogs();
     }
   }
 
