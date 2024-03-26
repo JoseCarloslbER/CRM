@@ -88,8 +88,6 @@ export class Mapper {
 				maximumFractionDigits: 2
 			}),
 			quoteClients : response?.quotes_clients.map(data => {
-				// console.log('quoteClients', data);
-
 				return {
 					id : data.quote_id,
 					companyName : {
@@ -103,8 +101,8 @@ export class Mapper {
 					actionName: data?.status?.description,
 					isBilled: data?.invoice_status?.description.includes('Facturada') ? true : false,
 					actionStatusId: data?.status?.status_id,
-					actions: data?.status?.status_id == '5fb730e9-3802-461f-a4f3-592ff04c4387'  ? ['Aceptar', 'Rechazar'] : 
-					data?.status?.status_id == '3944df8e-d359-4569-b712-ea174be69cca' || data?.status?.description == 'Aprobada' ? ['Rechazar', 'Cancelar', 'Cerrar como venta'] : [],
+					actions: data?.status?.status_id == '5fb730e9-3802-461f-a4f3-592ff04c4387' ? ['Aceptar', 'Rechazar'] : 
+					data?.status?.status_id == '3944df8e-d359-4569-b712-ea174be69cca' ? ['Rechazar', 'Cancelar', 'Cerrar como venta'] : [],
 					optionOne: (() => {
 						const optionData = data?.quote_options[0];
 						if (optionData) {
@@ -123,11 +121,35 @@ export class Mapper {
 							}];
 						}
 					})(),
+					closeSale: data.quote_options.map((dataClose, index) => {
+						const total = dataClose?.option_products?.reduce((acc, product) => acc + parseFloat(product?.total), 0);
+						const places = dataClose?.option_products?.reduce((acc, product) => acc + product?.quantity, 0);
+						const productNames = dataClose?.option_products?.map(product => product?.product?.name || '-');
+					
+						return {
+							totalPrice: {
+								id : dataClose?.quote_option_id,
+								name: `OP${index + 1}:`,
+								expire: moment(dataClose.deadline).format('MM-DD-YYYY'),
+								total: '$' + parseFloat(dataClose.total).toLocaleString('en-US', {
+									minimumFractionDigits: 2,
+									maximumFractionDigits: 2
+								})
+							},
+							product: {
+								type: dataClose?.type_price === 1 ? 'Normal' : 'Promoción',
+								places: places,
+								products: productNames,
+								total: '$' + parseFloat(dataClose.total).toLocaleString('en-US', {
+									minimumFractionDigits: 2,
+									maximumFractionDigits: 2
+								}),
+							}
+						};
+					})
 				}
 			}),
 			quoteLeads : response?.quotes_leads.map(data => {
-				// console.log('quoteLeads', data);
-
 				return {
 					id : data.quote_id,
 					companyName : {
@@ -141,8 +163,8 @@ export class Mapper {
 					actionName: data?.status?.description,
 					isBilled: data?.invoice_status?.description.includes('Facturada') ? true : false,
 					actionStatusId: data?.status?.status_id,
-					actions: data?.status?.status_id == '5fb730e9-3802-461f-a4f3-592ff04c4387'  ? ['Aceptar', 'Rechazar'] : 
-					data?.status?.status_id == '3944df8e-d359-4569-b712-ea174be69cca' || data?.status?.description == 'Aprobada' ? ['Rechazar', 'Cancelar', 'Cerrar como venta'] : [],
+					actions: data?.status?.status_id == '5fb730e9-3802-461f-a4f3-592ff04c4387' ? ['Aceptar', 'Rechazar'] : 
+					data?.status?.status_id == '3944df8e-d359-4569-b712-ea174be69cca' ? ['Rechazar', 'Cancelar', 'Cerrar como venta'] : [],
 					companyInfo: {
 						company_name: data?.company?.company_name || '-',
 						tax_id_number: data?.company?.tax_id_number || '-',

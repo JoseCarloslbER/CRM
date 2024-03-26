@@ -2,6 +2,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ComunicationsComponent } from './comunications.component';
 import { SlackComponent } from './slack/slack.component';
 import { TawkComponent } from './tawk/tawk.component';
+import { VoipComponent } from './voip/voip.component';
 
 const comunicationsRoutes: Routes = [
 	{
@@ -15,6 +16,10 @@ const comunicationsRoutes: Routes = [
 			{
 				path: 'tawk',
 				component: TawkComponent,
+			},
+			{
+				path: 'voip',
+				component: VoipComponent,
 			},
 		]
 	

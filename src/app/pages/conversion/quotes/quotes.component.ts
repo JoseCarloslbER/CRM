@@ -123,7 +123,7 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
     this.moduleServices.getDataTable(filters).subscribe({
       next: ( data : TableDataQuoteMapperResponse) => {
         this.dataSource.data = data.dataList;
-        console.log(data.dataList);
+        // console.log(data.dataList);
         
         this.totalQuotes = data.totalQuotes;
       },

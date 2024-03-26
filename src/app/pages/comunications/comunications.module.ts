@@ -17,6 +17,7 @@ import { ComunicationsComponent } from './comunications.component';
 import { COMUNICATIONS_ROUTES } from './comunications.routes';
 import { MaterialModule } from 'app/shared/material/material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { VoipComponent } from './voip/voip.component';
 
 
 
@@ -24,7 +25,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   declarations: [
     SlackComponent,
     TawkComponent,
-    ComunicationsComponent
+    ComunicationsComponent,
+    VoipComponent
   ],
   imports: [
     CommonModule,

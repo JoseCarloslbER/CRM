@@ -3,12 +3,14 @@ import moment from 'moment';
 
 export class Mapper {
 	static getDataTableMapper(response: any) : any {
-		console.log(response);
+		console.log(response.quotes_data[0]);
 		
 	// static getDataTableMapper(response: entity.TableDataQuoteResponse) : entity.TableDataQuoteMapperResponse {
 		let dataList :any[] = [];
 		// let dataList :entity.TableDataQuoteMapper[] = [];
 		response.quotes_data.forEach((data: any): void => {
+			console.log('status_id', data?.status?.status_id);
+			
 		// response.quotes_data.forEach((data: entity.TableDataQuote): void => {
 			dataList.push({
 				id: data?.quote_id || '-',
@@ -34,7 +36,7 @@ export class Mapper {
 				information: {
 					name : data?.status?.description || '-',
 					quoteNumber : data?.quote_number || 0
-				},
+				}, 
 				totalPrice: data.quote_options.map((data, index) => {
 						return {
 							name : `OP${index + 1}:`,
@@ -59,8 +61,8 @@ export class Mapper {
 					}),
 					};
 				  }),
-				actions: data?.status?.status_id == '5fb730e9-3802-461f-a4f3-592ff04c4387'  ? ['Aceptar', 'Rechazar'] : 
-					data?.status?.status_id == '3944df8e-d359-4569-b712-ea174be69cca' || data?.status?.description == 'Aprobada' ? ['Rechazar', 'Cancelar', 'Cerrar como venta'] : [],
+				actions: data?.status?.status_id == '5fb730e9-3802-461f-a4f3-592ff04c4387' ? ['Aceptar', 'Rechazar'] : 
+				data?.status?.status_id == '3944df8e-d359-4569-b712-ea174be69cca' ? ['Rechazar', 'Cancelar', 'Cerrar como venta'] : [],
 				status_id: data?.status?.status_id,
 				btnEdit: data?.status?.status_id == '5fb730e9-3802-461f-a4f3-592ff04c4387' || data?.status?.status_id == '3944df8e-d359-4569-b712-ea174be69cca'? true : false,
 				actionStatusId: data?.status?.status_id,
@@ -92,6 +94,9 @@ export class Mapper {
 				})
 			});
 		});
+
+		console.log('dataList', dataList);
+		
 
 		return {
 			dataList,

@@ -173,7 +173,13 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
                     type: "basic",
                     iconGoogleFonts: "forum",
                     link: "/home/comunicaciones/tawk",
-
+                },
+                {
+                    id: "3",
+                    title: "Voip",
+                    type: "basic",
+                    iconGoogleFonts: "forum",
+                    link: "/home/comunicaciones/voip",
                 }
             ]
         },

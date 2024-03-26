@@ -153,22 +153,26 @@
 
                             <div class="pipline-actions-formal">
                                 <h1>Acciones</h1>
-                                <div class="colum-table-select" *ngIf="data?.actionStatusId == '3944df8e-d359-4569-b712-ea174be69cca'">                                            
-                                    <mat-form-field class="flex-auto input-default">
+                                <div class="colum-table-select" 
+                                *ngIf="data.actionStatusId == '5fb730e9-3802-461f-a4f3-592ff04c4387' || 
+                                data.actionStatusId == '3944df8e-d359-4569-b712-ea174be69cca'">                                            
+                                <mat-form-field class="flex-auto input-default">
                                         <mat-select placeholder="Seleccionar">
-                                            <mat-option [value]="data?.actionName" class="border-bottom" [value]="action" *ngFor="let action of data.actions" (click)="getActions(action, data)">{{action}}</mat-option>
+                                            <mat-option [value]="data.actionName" class="border-bottom" [value]="action" *ngFor="let action of data.actions" (click)="getActions(action, data)">{{action}}</mat-option>
                                         </mat-select>
                                     </mat-form-field>
                                 </div>
 
                                 <div class="c-column-btns" *ngIf="data.actionName != 'Eliminado'">
-                                    <div class="btn-wallet" (click)="moneyAccount(data)"
-                                        *ngIf="(data.actionName == 'Aprobada' && !data.moneyInAccount)">
+                                    <div class="btn-wallet" (click)="moneyAccount(data)" 
+                                    *ngIf="(data.actionStatusId == '2b95f05d-64d4-4b36-a51c-a3ca7c6bdc72' && !data.moneyInAccount)"
+                                    >
                                         <mat-icon matTooltip="Dinero en cuenta">wallet</mat-icon>
                                     </div>
 
-                                    <div class="btn-receipt" (click)="billing(data)"
-                                        *ngIf="data.actionName == 'Aprobada PC' && !data.isBilled">
+                                    <div class="btn-receipt" (click)="billing(data)" 
+                                    *ngIf="data.actionStatusId == 'f4fa3c48-8b48-4d39-ad09-a6699a66459f' && !data.isBilled"
+                                    >
                                         <mat-icon matTooltip="Facturación">receipt_long</mat-icon>
                                     </div>
 
@@ -251,23 +255,26 @@
 
                             <div class="pipline-actions-formal">
                                 <h1>Acciones</h1>
-
-                                <div class="colum-table-select" *ngIf="data?.actionStatusId == '3944df8e-d359-4569-b712-ea174be69cca'">                                            
-                                    <mat-form-field class="flex-auto input-default">
+                                <div class="colum-table-select" 
+                                *ngIf="data.actionStatusId == '5fb730e9-3802-461f-a4f3-592ff04c4387' || 
+                                data.actionStatusId == '3944df8e-d359-4569-b712-ea174be69cca'">                                            
+                                <mat-form-field class="flex-auto input-default">
                                         <mat-select placeholder="Seleccionar">
-                                            <mat-option [value]="data?.actionName" class="border-bottom" [value]="action" *ngFor="let action of data.actions" (click)="getActions(action, data)">{{action}}</mat-option>
+                                            <mat-option [value]="data.actionName" class="border-bottom" [value]="action" *ngFor="let action of data.actions" (click)="getActions(action, data)">{{action}}</mat-option>
                                         </mat-select>
                                     </mat-form-field>
                                 </div>
 
                                 <div class="c-column-btns" *ngIf="data.actionName != 'Eliminado'">
-                                    <div class="btn-wallet" (click)="moneyAccount(data)"
-                                        *ngIf="(data.actionName == 'Aprobada' && !data.moneyInAccount)">
+                                    <div class="btn-wallet" (click)="moneyAccount(data)" 
+                                    *ngIf="(data.actionStatusId == '2b95f05d-64d4-4b36-a51c-a3ca7c6bdc72' && !data.moneyInAccount)"
+                                    >
                                         <mat-icon matTooltip="Dinero en cuenta">wallet</mat-icon>
                                     </div>
 
-                                    <div class="btn-receipt" (click)="billing(data)"
-                                        *ngIf="data.actionName == 'Aprobada PC' && !data.isBilled">
+                                    <div class="btn-receipt" (click)="billing(data)" 
+                                    *ngIf="data.actionStatusId == 'f4fa3c48-8b48-4d39-ad09-a6699a66459f' && !data.isBilled"
+                                    >
                                         <mat-icon matTooltip="Facturación">receipt_long</mat-icon>
                                     </div>
 
