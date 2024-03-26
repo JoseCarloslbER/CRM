@@ -44,7 +44,6 @@ export class DetailClientComponent implements OnInit {
     'acciones',
   ];
 
-  public companyContacts: any[] = [];
   public objEditData: any;
 
   constructor(
@@ -69,9 +68,6 @@ export class DetailClientComponent implements OnInit {
       next: (response: entity.GetDataDetailsCompanyMapper) => {
         console.log(response);
         this.objEditData = response;
-        this.companyContacts = response.companyContacts;
-        console.log('companyContacts:', this.companyContacts);
-        
       },
       error: (error) => {
         this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')

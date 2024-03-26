@@ -38,6 +38,7 @@ export interface TableDataQuoteMapper {
   id: string;
   dateAndHour: string;
   actionName: string;
+  actionStatusId: string;
   status_id: string;
   moneyInAccount: boolean;
   isBilled: any;
@@ -56,6 +57,7 @@ export interface TableDataQuoteMapper {
     name: string;
     logo: string;
   };
+  companyNameMain: string;
   status: string;
   stateCountry: string;
   information: {

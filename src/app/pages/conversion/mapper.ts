@@ -2,12 +2,9 @@ import * as entity from './conversion-interface';
 import moment from 'moment';
 
 export class Mapper {
-	static getDataTableMapper(response: any) : any {
-		console.log(response.quotes_data[0]);
-		
-	// static getDataTableMapper(response: entity.TableDataQuoteResponse) : entity.TableDataQuoteMapperResponse {
-		let dataList :any[] = [];
-		// let dataList :entity.TableDataQuoteMapper[] = [];
+	static getDataTableMapper(response: entity.TableDataQuoteResponse) : entity.TableDataQuoteMapperResponse {
+		let dataList :entity.TableDataQuoteMapper[] = [];
+
 		response.quotes_data.forEach((data: any): void => {
 			console.log('status_id', data?.status?.status_id);
 			
@@ -31,6 +28,7 @@ export class Mapper {
 					name : data?.company?.company_name || '-', 
 					logo : data?.company ? data?.company?.logo.includes('default') ? `../../../assets/images/default.png` : data?.company?.logo : `../../../assets/images/default.png`
 				},
+				companyNameMain : data?.company?.company_name || '-', 
 				status: data?.company?.company_phase?.phase_name || '-',
 				stateCountry : data?.company?.country?.country_name || '-',
 				information: {
@@ -64,7 +62,7 @@ export class Mapper {
 				actions: data?.status?.status_id == '5fb730e9-3802-461f-a4f3-592ff04c4387' ? ['Aceptar', 'Rechazar'] : 
 				data?.status?.status_id == '3944df8e-d359-4569-b712-ea174be69cca' ? ['Rechazar', 'Cancelar', 'Cerrar como venta'] : [],
 				status_id: data?.status?.status_id,
-				btnEdit: data?.status?.status_id == '5fb730e9-3802-461f-a4f3-592ff04c4387' || data?.status?.status_id == '3944df8e-d359-4569-b712-ea174be69cca'? true : false,
+				// btnEdit: data?.status?.status_id == '5fb730e9-3802-461f-a4f3-592ff04c4387' || data?.status?.status_id == '3944df8e-d359-4569-b712-ea174be69cca'? true : false,
 				actionStatusId: data?.status?.status_id,
 				actionName: data?.status?.status_id,
 				closeSale: data.quote_options.map((dataClose, index) => {

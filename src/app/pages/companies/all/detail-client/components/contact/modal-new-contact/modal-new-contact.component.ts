@@ -1,10 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { CompaniesService } from 'app/pages/companies/companies.service';
-import * as entity from '../../../../../companies-interface';
 
 @Component({
   selector: 'app-modal-new-contact',
@@ -37,25 +36,21 @@ export class ModalNewContactComponent implements OnInit {
     private moduleServices: CompaniesService,
     private router: Router,
     private notificationService: OpenModalsService,
-
 		@Inject(MAT_DIALOG_DATA) public data: any,
 		private dialogRef: MatDialogRef<any>,
 	) {}
 
   ngOnInit(): void {
-   
+   if (this.data.info) {
+    this.objEditData = this.data.info
+      this.formData.patchValue(this.objEditData)
+   }
   }
 
-  ngAfterViewInit(): void {
-    this.addContact.valueChanges.subscribe(resp => {
-      console.log(resp);
-    })
-  }
- 
   actionSave() {
     let objData: any = {
       ...this.formData.value,
-      company: this.data.info
+      company: this.data.idCompany
     }
     
     console.log('OBJETO :', objData);
@@ -76,7 +71,7 @@ export class ModalNewContactComponent implements OnInit {
   }
 
   saveDataPatch(objData) {
-    this.moduleServices.patchDataContact(this.objEditData.id, objData).subscribe({
+    this.moduleServices.patchDataContact(this.objEditData.contact_id, objData).subscribe({
       next: () => {
         this.completionMessage(true)
       },
@@ -88,8 +83,8 @@ export class ModalNewContactComponent implements OnInit {
   }
 
   getAllContacts() {
-    this.moduleServices.getDataDetailsCompanyId(this.data.info).subscribe({
-      next: (response: entity.GetDataDetailsCompanyMapper) => {
+    this.moduleServices.getDataContact(`?company_id=${this.data.idCompany}`).subscribe({
+      next: (response: any) => {
         console.log(response);
         this.allConatcts = response.companyContacts;
         this.closeModal();

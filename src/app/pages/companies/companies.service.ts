@@ -76,6 +76,12 @@ export class CompaniesService {
 		);
 	}
 
+  public getDataContact(filtro): Observable<any> {
+    const url = `${this.apiUrl}company-contact/${filtro}`;
+    
+    return this.http.get<any>(url)
+	}
+  
   public postDataContact(data:any): Observable<any> {
     const url = `${this.apiUrl}company-contact/`;
     
@@ -83,9 +89,15 @@ export class CompaniesService {
 	}
   
   public patchDataContact(id:string, data:any): Observable<any> {
-    const url = `${this.apiUrl}company/company-contact/${id}/`;
+    const url = `${this.apiUrl}company-contact/${id}/`;
 
     return this.http.patch<any>(url, data)
+  }
+  
+  public deleteDataContact(id:string): Observable<any> {
+    const url = `${this.apiUrl}company-contact/${id}/`;
+
+    return this.http.delete<any>(url)
   }
  
   public postData(data:entity.PostDataCompany): Observable<any> {

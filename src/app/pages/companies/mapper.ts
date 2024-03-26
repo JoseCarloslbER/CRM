@@ -67,7 +67,6 @@ export class Mapper {
 	};
 
 	static GetDataDetailsCompanyMapper(response: entity.TableDataCompany): entity.GetDataDetailsCompanyMapper {
-		
 		return {
 			id: response?.company_id,
 			logo: response?.logo?.includes('default') ? `../../../assets/images/default.png` : response.logo,
@@ -84,29 +83,25 @@ export class Mapper {
 			phone: response?.phone_number || '-',
 			companyContacts: response.company_contacts.map((data) => {
 				return {
-					name: data?.full_name || '-',
+					id: data?.contact_id || '-',
+					full_name: data?.full_name || '-',
 					position: data?.position || '-',
 					email: data?.email || '-',
-					landline: data?.local_phone || '-',
-					extension: data?.ext || '-',
-					phoneMovil: data?.movil_phone || '-'
+					local_phone: data?.local_phone || '-',
+					ext: data?.ext || '-',
+					movil_phone: data?.movil_phone || '-'
 				}
 			}),
 		}
 	};
 
-	static GetDatadetailsActivityMapper(response: TableDataActivities[]): any[] {
-	// static GetDatadetailsActivityMapper(response: TableDataActivities[]): entity.GetDataDetailsHistoryMapper[] {
-		let dataList: any[] = [];
-		// let dataList: entity.GetDataDetailsHistoryMapper[] = [];
+	static GetDatadetailsActivityMapper(response: TableDataActivities[]): entity.GetDataDetailsHistoryMapper[] {
+		let dataList: entity.GetDataDetailsHistoryMapper[] = [];
 
-		console.log('GetDatadetailsActivityMapper', response);
-		
 		response.forEach((data: TableDataActivities, index): void => {
 			const dateTimeString = `${data.activity_date}T${data.activity_hour}`;
 			const dateTime = DateTime.fromISO(dateTimeString);
 			const relativeFormat = dateTime.toRelativeCalendar();
-			
 
 			dataList.push({
 				id: data?.activity_id || '-',

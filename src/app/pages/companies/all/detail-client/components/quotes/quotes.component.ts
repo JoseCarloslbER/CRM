@@ -2,7 +2,7 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
-import { FormBuilder, FormControl } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Subject, debounceTime, takeUntil } from 'rxjs';
@@ -55,27 +55,23 @@ export class QuotesComponent implements OnInit {
     private moduleServices: CompaniesService,
     private moduleServicesQuote: ConversionService,
     private notificationService: OpenModalsService,
-    private formBuilder: FormBuilder,
     private dialog: MatDialog,
     private router: Router
   ) { }
 
   ngOnInit(): void {
-    console.log(this.idCompany);
-    
     if (this.idCompany) this.getDataTable()
   }
   
   ngAfterViewInit(): void {
     this.searchBar.valueChanges.pipe(takeUntil(this.onDestroy), debounceTime(500)).subscribe((content: string) => {
-      console.log(content);
+      this.applyFilter(content)
     })
   }
 
   getDataTable() {
     this.moduleServicesQuote.getDataDetailQuoteTable(`company_id=${ this.idCompany }`).subscribe({
       next: ( data : TableDataQuoteMapperResponse) => {
-        console.log(data.dataList);
         this.dataSource.data = data.dataList
         this.companyData = data.dataList[0].companyName
       },
@@ -128,14 +124,12 @@ export class QuotesComponent implements OnInit {
   }
 
   moneyAccount(data:any) {
-    console.log(data);
     let objData:any = {
       payment_date: new Date(),
       status_id : 'f4fa3c48-8b48-4d39-ad09-a6699a66459f',
       quote_id : data.id,
       company_id : data.companyName.id,
     }
-    console.log('moneyAccount', objData);
     
     this.notificationService
     .notificacion(
@@ -145,8 +139,6 @@ export class QuotesComponent implements OnInit {
     )
     .afterClosed()
     .subscribe((response) => {
-      console.log(response);
-      
       if (response) {
         this.moduleServicesQuote.moneyAccount({quote: objData}).subscribe({
           next: () => {
@@ -244,6 +236,12 @@ export class QuotesComponent implements OnInit {
           .subscribe((_) => {
 
           });
+  }
+
+  
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim().toLowerCase();
+    this.dataSource.filter = filterValue;
   }
 
   ngOnDestroy(): void {

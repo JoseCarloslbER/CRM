@@ -148,6 +148,7 @@ export interface GetDataDetailsHistoryMapper {
   activity : string;
   agent : string;
   description : string;
+  dateNames : string;
   date : string;
   dateName : string;
 }
