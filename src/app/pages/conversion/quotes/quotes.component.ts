@@ -289,6 +289,8 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   closeSale(data: any) {
+    console.log(data);
+    
     this.dialog.open(ModalCloseSaleComponent, {
       data: {
         info: data,

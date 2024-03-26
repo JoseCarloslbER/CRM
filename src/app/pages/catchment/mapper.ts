@@ -1,15 +1,14 @@
 import * as entity from './catchment-interface';
 
 export class Mapper {
-	static getDataTableCampaingMapper(response: entity.TableDataCampaing[]) {
-	// static getDataTableCampaingMapper(response: entity.TableDataCampaing[]) : entity.TableDataCampaingMapper[] {
+	// static getDataTableCampaingMapper(response: entity.TableDataCampaing[]) {
+	static getDataTableCampaingMapper(response: entity.TableDataCampaing[]) : entity.TableDataCampaingMapper[] {
 		let dataList : any[] = [];
 
 		response.forEach((data: entity.TableDataCampaing): void => {
 			dataList.push({
 				id: data.campaign_id,
 				dateStartEnd: {start: data.start_date, end: data.end_date},
-				// codeAndname: {code: data?.campaign_code || '-', name: data?.campaign_name || '-'},
 				name: data?.campaign_name || '-',
 				code: data?.campaign_code || '-',
 				companyType : data?.campaign_type?.campaign_type_name || '-',
@@ -80,9 +79,9 @@ export class Mapper {
 			campaign_type : response.campaign_type.campaign_type_id,
 			owner_user : response.owner_user.id,
 			users : response.users.map(data => data.user.id),
+			solutions : response.solutions.map(data => data?.solution?.solution_id),
 			start_date : response.start_date,
 			end_date : response.end_date,
-			product_category : response.product_category.product_category_id,
 			description : response.description,
 			goal_total_companies : response.goal_total_companies,
 			goal_total_responses : response.goal_total_responses,

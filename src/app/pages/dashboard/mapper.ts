@@ -67,6 +67,10 @@ export class Mapper {
 	static getDataPipelineMapper(response : entity.DatsPipeLine) : entity.DatsPipeLineMapper {
 		console.log('MAPPER', response);
 		return {
+			totalSum: '$' + (response?.suma_sales_leads + response.suma_sales).toLocaleString('en-US', {
+				minimumFractionDigits: 2,
+				maximumFractionDigits: 2
+			}),
 			totalQuoteLeads: '$' + response?.suma_quote_leads.toLocaleString('en-US', {
 				minimumFractionDigits: 2,
 				maximumFractionDigits: 2

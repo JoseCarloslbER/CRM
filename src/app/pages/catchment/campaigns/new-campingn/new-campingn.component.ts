@@ -28,9 +28,9 @@ export class NewCampingnComponent implements OnInit, AfterViewInit, OnDestroy {
     campaign_type: [null, Validators.required],
     owner_user: [null, Validators.required],
     users: [null, Validators.required],
+    solutions: [null, Validators.required],
     start_date: [null, Validators.required],
     end_date: [null, Validators.required],
-    solutions: [null, Validators.required],
     description: [null, Validators.required],
     goal_total_companies: [null],
     goal_total_responses: [null],
@@ -41,7 +41,7 @@ export class NewCampingnComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public formCompanies = this.formBuilder.group({
     companies: [[], Validators.required],
-    radioOption: ['']
+    radioOption: [{ value: '', disabled: false }]
   });
 
   public catBusiness: entityGeneral.DataCatBusiness[] = [];
@@ -62,6 +62,7 @@ export class NewCampingnComponent implements OnInit, AfterViewInit, OnDestroy {
   private idData: string = '';
   private objEditData: any;
   private objcampaingType: any;
+  private enableCompanies: boolean = false;
 
 
   constructor(
@@ -82,9 +83,15 @@ export class NewCampingnComponent implements OnInit, AfterViewInit, OnDestroy {
       this.getCatalogs()
     }, 500);
 
-
     this.formData.get('campaign_type').valueChanges.pipe(debounceTime(500), takeUntil(this.onDestroy)).subscribe(content => {
-      this.formData.get('campaign_code').patchValue(this.objcampaingType.campaign_abbrev)
+      if (!this.idData) this.formData.get('campaign_code').patchValue(this.objcampaingType?.campaign_abbrev)
+    })
+
+    this.formCompanies.get('radioOption').valueChanges.pipe(debounceTime(500), takeUntil(this.onDestroy)).subscribe(content => {
+      this.filterRegistros()
+    })
+    this.formCompanies.get('companies').valueChanges.pipe(debounceTime(500), takeUntil(this.onDestroy)).subscribe(content => {
+      this.filterRegistros()
     })
   }
 
@@ -101,6 +108,7 @@ export class NewCampingnComponent implements OnInit, AfterViewInit, OnDestroy {
     this.moduleServices.getDataId(this.idData).subscribe({
       next: (response: any) => {
         this.objEditData = response;
+        console.log(this.objEditData);
         this.formData.patchValue({ ...this.objEditData });
         this.formCompanies.patchValue({ ...this.objEditData?.formCompanies });
         this.companiesSelected = this.objEditData.companiesSelected;
@@ -176,8 +184,6 @@ export class NewCampingnComponent implements OnInit, AfterViewInit, OnDestroy {
     objData.end_date = moment(this.formData.get('end_date').value).format('YYYY-MM-DD')
     objData.start_date = moment(this.formData.get('start_date').value).format('YYYY-MM-DD')
 
-    console.log(objData);
-    
     if (this.idData && this.url.includes('editar')) this.saveDataPatch(objData)
     else this.saveDataPost(objData)
   }
@@ -224,7 +230,6 @@ export class NewCampingnComponent implements OnInit, AfterViewInit, OnDestroy {
         selectedCompanies.includes(cat.company_id)
       );
     }
-    console.log(this.companiesSelected);
   }
 
   completionMessage(edit = false) {
@@ -264,8 +269,8 @@ export class NewCampingnComponent implements OnInit, AfterViewInit, OnDestroy {
 		const inputElement = event.target as HTMLInputElement;
 		const inputValue = inputElement.value;
 		const sanitizedValue = inputValue.replace(/\D/g, '');
-
     const formControl = this.formData.get(control);
+    
     if (formControl) formControl.setValue(sanitizedValue, { emitEvent: false });
 	}
 

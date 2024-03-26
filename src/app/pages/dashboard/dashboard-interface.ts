@@ -196,6 +196,7 @@ export interface DatsPipeLine {
 }
 
 export interface DatsPipeLineMapper {
+  totalSum: string;
   totalQuoteLeads: string;
   totalQuoteClients: string;
   totalClientSales: string;

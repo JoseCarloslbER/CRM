@@ -149,6 +149,7 @@ export interface GetDataDetailsHistoryMapper {
   agent : string;
   description : string;
   date : string;
+  dateName : string;
 }
 
 export interface CompanyContacts {

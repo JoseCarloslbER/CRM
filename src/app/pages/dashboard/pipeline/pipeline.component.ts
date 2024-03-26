@@ -107,6 +107,8 @@ export class PipelineComponent implements OnInit, OnDestroy {
   }
 
   getActions(type:string, data:any) {
+    console.log('getActions', data);
+    
     if (type == 'Aceptar') {
       this.acceptQuote({
         company_id : data.companyName.id,
@@ -183,6 +185,8 @@ export class PipelineComponent implements OnInit, OnDestroy {
   }
 
   closeSale(data: any) {
+    console.log(data);
+    
     this.dialog.open(ModalCloseSaleComponent, {
       data: {
         info: data,

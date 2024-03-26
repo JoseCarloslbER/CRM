@@ -1,3 +1,4 @@
+import { DateTime } from 'luxon';
 import { TableDataActivities } from '../management/management-interface';
 import * as entity from './companies-interface';
 import moment from 'moment';
@@ -93,20 +94,27 @@ export class Mapper {
 		}
 	};
 
-	static GetDatadetailsActivityMapper(response: TableDataActivities[]): entity.GetDataDetailsHistoryMapper[] {
-		let dataList: entity.GetDataDetailsHistoryMapper[] = [];
+	static GetDatadetailsActivityMapper(response: TableDataActivities[]): any[] {
+	// static GetDatadetailsActivityMapper(response: TableDataActivities[]): entity.GetDataDetailsHistoryMapper[] {
+		let dataList: any[] = [];
+		// let dataList: entity.GetDataDetailsHistoryMapper[] = [];
 
+		console.log('GetDatadetailsActivityMapper', response);
+		
 		response.forEach((data: TableDataActivities, index): void => {
-			const formattedDate = moment(data.activity_date).format('DD-MM-YYYY');
-			const formattedTime = moment(data.activity_hour, 'HH:mm').format('HH:mm');
-			const combinedDateTime = moment(`${formattedDate}T${formattedTime}:00.000Z`).toISOString();
+			const dateTimeString = `${data.activity_date}T${data.activity_hour}`;
+			const dateTime = DateTime.fromISO(dateTimeString);
+			const relativeFormat = dateTime.toRelativeCalendar();
+			
 
 			dataList.push({
 				id: data?.activity_id || '-',
 				activity: `Actividad ${index + 1}`,
 				agent: `${data?.user?.first_name && data?.user?.last_name ? data.user?.first_name.toUpperCase() + ' ' + data.user?.last_name.toUpperCase() : data.user?.username.toUpperCase() || '-'}`,
 				description: data?.description || '-',
-				date: combinedDateTime,
+				dateNames: relativeFormat,
+				date: relativeFormat,
+				dateName: dateTimeString,
 			});
 		});
 

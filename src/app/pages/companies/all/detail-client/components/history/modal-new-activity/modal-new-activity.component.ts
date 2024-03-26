@@ -33,7 +33,7 @@ export class ModalNewActivityComponent implements OnInit, AfterViewInit, OnDestr
     activity_hour: ['', Validators.required],
     user: ['', Validators.required],
     type_activity: ['', Validators.required],
-    campaign: ['', Validators.required],
+    campaign: [''],
     quote: [{ value: '', disable: true }],
   });
 
@@ -101,6 +101,7 @@ export class ModalNewActivityComponent implements OnInit, AfterViewInit, OnDestr
       this.companySelected = this.data.complement.id
       this.company.patchValue(this.data.complement.companyName)
       this.company.disable()
+      this.getQuotesOpens()
     }
   }
 
@@ -153,6 +154,8 @@ export class ModalNewActivityComponent implements OnInit, AfterViewInit, OnDestr
     this.catalogsServices.getCatQuoteOpen(this.companySelected).subscribe({
       next: (response: entityGeneral.DataCatQuoteOpen) => {
         this.catQuoteOpens = response.data;
+        console.log(this.catQuoteOpens);
+        
         if (this.objEditData) this.formData.get('quote').patchValue(this.objEditData.quote_id);
       },
       error: (error) => console.error(error)

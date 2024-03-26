@@ -74,8 +74,10 @@
         </div>
     </div>
 
-    <div class="flex-auto border-t section-content-padding">
+    <div class="flex-auto border-t section-content-padding pt-4">
         <div class="w-full mx-auto">
+            <div class="d-flex justify-content-end font-bold gap-1">TOTAL : <span class="font-medium">{{dataPipele?.totalSum || '-' }}</span></div>
+
             <div class="row tap-options">
                 <span (click)="selectOption('Día')" [class.selected]="filterDayMonthYear === 'Día'">Día</span>
                 <span (click)="selectOption('Mes')" [class.selected]="filterDayMonthYear === 'Mes'">Mes</span>
@@ -154,7 +156,7 @@
                                 <div class="colum-table-select" *ngIf="data?.actionStatusId == '3944df8e-d359-4569-b712-ea174be69cca'">                                            
                                     <mat-form-field class="flex-auto input-default">
                                         <mat-select placeholder="Seleccionar">
-                                            <mat-option [value]="data?.actionName" class="border-bottom" [value]="action" *ngFor="let action of data.actions" (click)="getActions(action, element)">{{action}}</mat-option>
+                                            <mat-option [value]="data?.actionName" class="border-bottom" [value]="action" *ngFor="let action of data.actions" (click)="getActions(action, data)">{{action}}</mat-option>
                                         </mat-select>
                                     </mat-form-field>
                                 </div>
@@ -253,7 +255,7 @@
                                 <div class="colum-table-select" *ngIf="data?.actionStatusId == '3944df8e-d359-4569-b712-ea174be69cca'">                                            
                                     <mat-form-field class="flex-auto input-default">
                                         <mat-select placeholder="Seleccionar">
-                                            <mat-option [value]="data?.actionName" class="border-bottom" [value]="action" *ngFor="let action of data.actions" (click)="getActions(action, element)">{{action}}</mat-option>
+                                            <mat-option [value]="data?.actionName" class="border-bottom" [value]="action" *ngFor="let action of data.actions" (click)="getActions(action, data)">{{action}}</mat-option>
                                         </mat-select>
                                     </mat-form-field>
                                 </div>

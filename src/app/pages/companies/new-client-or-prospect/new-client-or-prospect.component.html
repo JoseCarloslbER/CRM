@@ -57,9 +57,13 @@
                         </mat-form-field>
 
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
-                            <mat-label>Comentario</mat-label>
-                            <textarea formControlName="comments" matInput style="height: 118px;"></textarea>
+                            <mat-label>Campaña</mat-label>
+                            <mat-select formControlName="campaign" placeholder="Seleccionar">
+                                <mat-option [value]="cat.campaign_id"
+                                    *ngFor="let cat of catCampaing">{{cat?.campaign_name || '-'}}</mat-option>
+                            </mat-select>
                         </mat-form-field>
+
                     </div>
 
                     <div class="col-md-4">
@@ -94,12 +98,17 @@
                             </mat-select>
                         </mat-form-field>
 
-                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister mb-1" *ngIf="addContact?.value">
+                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister" *ngIf="addContact?.value">
                             <mat-label>Tamaño de empresa</mat-label>
                             <mat-select formControlName="company_size" placeholder="Seleccionar">
                                 <mat-option [value]="cat.company_size_id "
                                     *ngFor="let cat of catCompaniesSizes">{{cat?.size_name || '-'}}</mat-option>
                             </mat-select>
+                        </mat-form-field>
+                        
+                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
+                            <mat-label>Comentario</mat-label>
+                            <textarea formControlName="comments" matInput style="height: 118px;"></textarea>
                         </mat-form-field>
                     </div>
 

@@ -38,8 +38,9 @@ export interface TableDataCampaing {
   campaign_id: string;
   campaign_type_id: string;
   users: entityGeneral.User[];
+  solutions: any[];
   companies: Company[];
-  product_category: Product;
+  response: Company[];
   owner_user: entityGeneral.Owner;
   campaign_type: Campaing;
   rol: Rol;
@@ -88,7 +89,6 @@ export interface GetDataCampainMapper {
   users : string[];
   start_date : string;
   end_date : string;
-  product_category : string;
   description : string;
   goal_total_companies : number;
   goal_total_responses : number;
@@ -96,6 +96,7 @@ export interface GetDataCampainMapper {
   goal_number_sales : number;
   goal_amount : string;
   companiesSelected : any[];
+  solutions : any[];
   formCompanies :  {
     companies : string [];
   }

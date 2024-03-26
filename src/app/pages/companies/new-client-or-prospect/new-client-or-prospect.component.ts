@@ -39,6 +39,7 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     email: [''],
     tax_id_number: [''],
     state: [''],
+    campaign: [''],
     owner_user: [''],
     country: [''],
     business: [''],
@@ -55,6 +56,7 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
   public catCompaniesSizes: entityGeneral.DataCatCompanySize[] = [];
   public catCompaniesTypes: entityGeneral.DataCatCompanyType[] = [];
   public catCountries: entityGeneral.DataCatCountry[] = [];
+  public catCampaing: entityGeneral.DataCatCampaing[] = [];
   public catStates: entityGeneral.DataCatState[] = [];
   public catCities: entityGeneral.DataCatCity[] = [];
   public catBusiness: entityGeneral.DataCatBusiness[] = [];
@@ -133,7 +135,14 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
         this.catProducts = data;
       },
       error: (error) => console.error(error)
-    })
+    });
+
+    this.catalogsServices.getCatCampaing().subscribe({
+      next: (data: entityGeneral.DataCatCampaing[]) => {
+        this.catCampaing = data;
+      },
+      error: (error) => console.error(error)
+    });
   }
 
   getDataById(id: string) {

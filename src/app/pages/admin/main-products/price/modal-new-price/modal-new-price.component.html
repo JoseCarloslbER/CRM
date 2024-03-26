@@ -27,7 +27,7 @@
                             <mat-label>Categoria de productos a los que aplica</mat-label>
                             <mat-select [formControl]="productsApplies" placeholder="Seleccionar">
                                 <mat-option [value]="cat.product_category_id "
-                                    *ngFor="let cat of catProductCategories">{{cat?.description || '-'}}</mat-option>
+                                    *ngFor="let cat of catProductCategories">{{cat?.category_name || '-'}}</mat-option>
                             </mat-select>
                         </mat-form-field>
                     </div>
