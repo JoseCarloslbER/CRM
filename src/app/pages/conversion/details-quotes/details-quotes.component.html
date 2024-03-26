@@ -50,7 +50,7 @@
                         <div class="col-md-2 header-content-quote">
                             <br>
                             <span class="fuente">
-                                {{ product.places }} lugares
+                                {{ product?.places }} lugares
                             </span>
                         </div>
                         <div class="col-md-2 header-content-quote">
@@ -60,7 +60,7 @@
                             </span>
                             <br>
                             <span class="text-center fuente">
-                                ${{ option.total }} <br>
+                                ${{ product?.total }} <br>
                                 <span *ngIf="isLast">
                                     (IVA Incluido)
                                 </span>
@@ -68,6 +68,7 @@
                         </div>
                     </div>
                 </div>
+                <div class="mt-5 d-flex justify-content-end font-bold gap-1" style="font-size: 16px;">TOTAL : <span class="font-medium">{{option?.totalProducts | currency}}</span></div>
                 <br>
                 <hr>
             </div>
@@ -84,8 +85,8 @@
                             </li>
                             <li>Precios en MXP</li>
                             <li>Aplica para cualquier curso disponible de la plataforma abrevius bajo los Términos y
-                                Condiciones comerciales establecidos. /<a href="#">Ver aquí catálogo de cursos
-                                    disponibles</a></li>
+                                Condiciones comerciales establecidos. /<a href="#">Ver aquí catálogo de cursos disponibles</a>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -101,6 +102,7 @@
                             cuenta: 0111202383 / CLABE: 012 320 00111202383 3</span>
                     </div>
                 </div>
+                
                 <div class="row" style="padding: 20px 23px 0 23px;">
                     <div class="header-content-quote pays">
                         Notificar pago:

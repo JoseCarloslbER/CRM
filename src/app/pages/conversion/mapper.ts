@@ -5,10 +5,7 @@ export class Mapper {
 	static getDataTableMapper(response: entity.TableDataQuoteResponse) : entity.TableDataQuoteMapperResponse {
 		let dataList :entity.TableDataQuoteMapper[] = [];
 
-		response.quotes_data.forEach((data: any): void => {
-			console.log('status_id', data?.status?.status_id);
-			
-		// response.quotes_data.forEach((data: entity.TableDataQuote): void => {
+		response.quotes_data.forEach((data: entity.TableDataQuote): void => {
 			dataList.push({
 				id: data?.quote_id || '-',
 				dateAndHour : data.register_date ? moment(data.register_date).format('MM-DD-YYYY HH:mm:ss') : '-', 
@@ -93,9 +90,6 @@ export class Mapper {
 			});
 		});
 
-		console.log('dataList', dataList);
-		
-
 		return {
 			dataList,
 			totalQuotes: response.total_quotes
@@ -125,7 +119,7 @@ export class Mapper {
 				name: response.company?.company_name,
 				logo : response?.company?.logo ? response?.company?.logo.includes('default') ? `../../../assets/images/default.png` : response?.company?.logo : `../../../assets/images/default.png` 
 			},
-			quoteOptions : response.quote_options.map(data => {
+			quoteOptions : response.quote_options.map((data:any) => {
 				return {
 					id: data?.quote_option_id || '',
 					subtotal : data?.subtotal,
@@ -140,6 +134,10 @@ export class Mapper {
 					typePrice : data?.type_price,
 					date : date,
 					time : time,
+					totalProducts : data.option_products.reduce((total, item) => {
+						const totalNumber = parseFloat(item.total.replace(',', ''));
+						return total + totalNumber;
+					}, 0),
 					optionProducts : data?.option_products.map(dataProduct => {
 						return {
 							id : dataProduct?.option_product_id,
