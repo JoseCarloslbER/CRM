@@ -14,6 +14,7 @@ import { TableDataActivityType } from 'app/pages/config/config-interface';
 import { UpdateComponentsService } from 'app/shared/services/updateComponents.service';
 import { ModalFinallyComponent } from './modal-finally/modal-finally.component';
 import { CatalogsService } from 'app/shared/services/catalogs.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-activities',
@@ -59,6 +60,7 @@ export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     private moduleServices: ManagementmentService,
     private updateService: UpdateComponentsService,
+    private router: Router,
     private catalogsServices: CatalogsService,
     private notificationService: OpenModalsService,
     private formBuilder: FormBuilder,
@@ -179,6 +181,10 @@ export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy {
         })
       }
     });
+  }
+
+  seeDataCompany(id: string) {
+    this.router.navigateByUrl(`/home/empresas/detalles-empresa/${id}`);
   }
 
   douwnloadExel(){

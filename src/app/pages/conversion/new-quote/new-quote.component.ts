@@ -184,8 +184,8 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
     objData.quote_options = options;
 
     console.log(objData);
-    if (this.objEditData) this.saveDataPatch(objData)
-    else this.saveDataPost(objData)
+    // if (this.objEditData) this.saveDataPatch(objData)
+    // else this.saveDataPost(objData)
   }
 
   saveDataPost(objData) {

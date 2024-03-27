@@ -92,7 +92,9 @@
                         <div class="bg-card card-pipeline fast-quote-card" *ngFor="let data of dataPipele?.quoteLeads; let i = index">
                             <div class="card-title-pipeline">
                                 <img [src]="data?.companyName?.logo" alt="" />
-                                <h1> {{ data?.companyName?.name }} </h1>
+                                <h1 class="text-line-bottom cursor-pointer" (click)="seeData(data?.companyName?.id)">
+                                    {{data?.companyName?.name || '-'}}
+                                </h1>
 
                                 <div class="status">
                                     <h2>Estatus:</h2>
@@ -193,7 +195,9 @@
                             *ngFor="let data of dataPipele?.quoteClients; let i = index">
                             <div class="card-title-pipeline d-flex align-items-center flex-column pb-0">
                                 <img [src]="data?.companyName?.logo" alt="" />
-                                <h1> {{ data?.companyName?.name }} </h1>
+                                <h1 class="text-line-bottom cursor-pointer" (click)="seeData(data?.companyName?.id)">
+                                    {{data?.companyName?.name || '-'}}
+                                </h1>
                             </div>
 
                             <div class="status">
@@ -295,7 +299,9 @@
                             *ngFor="let data of dataPipele?.leadsSales; let i = index">
                             <div class="card-title-pipeline">
                                 <img [src]="data?.companyName?.logo" alt="" />
-                                <h1> {{ data?.companyName?.name }} </h1>
+                                <h1 class="text-line-bottom cursor-pointer" (click)="seeData(data?.companyName?.id)">
+                                    {{data?.companyName?.name || '-'}}
+                                </h1>
                             </div>
 
                             <div class="pipeline-total">
@@ -370,7 +376,9 @@
                             *ngFor="let data of dataPipele?.clientSales; let i = index">
                             <div class="card-title-pipeline">
                                 <img [src]="data?.companyName?.logo" alt="" />
-                                <h1> {{ data?.companyName?.name }} </h1>
+                                <h1 class="text-line-bottom cursor-pointer" (click)="seeData(data?.companyName?.id)">
+                                    {{data?.companyName?.name || '-'}}
+                                </h1>
                             </div>
 
                             <div class="pipeline-total">

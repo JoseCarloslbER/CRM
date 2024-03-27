@@ -65,7 +65,7 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
   public fechaHoy = new Date();
 
   public totalQuotes : number = 0;
-  public filterDayMonthYear: string = 'Día'
+  public filterDayMonthYear: string = 'Mes'
 
   constructor(
     private moduleServices: ConversionService,
@@ -157,6 +157,10 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
 
   seeData(id:string) {
     this.router.navigateByUrl(`/home/conversion/detalle-cotizacion/${id}`)
+  }
+
+  seeDataCompany(id: string) {
+    this.router.navigateByUrl(`/home/empresas/detalles-empresa/${id}`);
   }
 
   editData(id:string) {

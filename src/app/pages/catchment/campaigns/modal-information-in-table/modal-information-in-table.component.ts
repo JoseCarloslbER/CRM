@@ -4,6 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { modalInfoTable } from 'app/shared/interfaces/TableColumns';
 import { Subject } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-modal-information-in-table',
@@ -36,6 +37,7 @@ export class ModalInformationInTableComponent implements OnInit, OnDestroy {
   public agentData: any[] = []
 
   constructor(
+    private router: Router,
     @Inject(MAT_DIALOG_DATA) public data: modalInfoTable,
     private dialogRef: MatDialogRef<any>,
   ) { }
@@ -79,14 +81,19 @@ export class ModalInformationInTableComponent implements OnInit, OnDestroy {
       };
       data.companyPhase = data?.company?.company_phase?.phase_name;
       data.contact = {
-        name  : data.company.company_contacts[0].full_name,
-        email : data.company.company_contacts[0].email,
-        phone : data.company.company_contacts[0].local_phone,
-        movil : data.company.company_contacts[0].movil_phone
+        name  : data?.company?.company_contacts[0]?.full_name,
+        email : data?.company?.company_contacts[0]?.email,
+        phone : data?.company?.company_contacts[0]?.local_phone,
+        movil : data?.company?.company_contacts[0]?.movil_phone
       }
     })
 
     this.dataSource.data = companyData;
+  }
+
+  seeData(id: string) {
+    this.router.navigateByUrl(`/home/empresas/detalles-empresa/${id}`);
+    this.closeModal()
   }
 
   closeModal() {

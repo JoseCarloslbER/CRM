@@ -10,9 +10,10 @@ import { DashboardService } from '../dashboard.service';
 import * as entity from '../dashboard-interface';
 import { CatalogsService } from 'app/shared/services/catalogs.service';
 import * as entityGeneral from '../../../shared/interfaces/general-interface';
-import { ModalInformationInTableComponent } from 'app/shared/components/modal-information-in-table/modal-information-in-table.component';
+// import { ModalInformationInTableComponent } from 'app/shared/components/modal-information-in-table/modal-information-in-table.component';
 import moment from 'moment';
 import { CatchmentService } from 'app/pages/catchment/catchment.service';
+import { ModalInformationInTableComponent } from 'app/pages/catchment/campaigns/modal-information-in-table/modal-information-in-table.component';
 
 @Component({
   selector: 'app-campaigns',

@@ -9,6 +9,7 @@ export class Mapper {
 			dataList.push({
 				id: data?.activity_id || '-',
 				companyName : data?.company?.company_name || '-',
+				companyId : data?.company?.company_id || '-',
 				logo : data?.company ? data?.company?.logo.includes('default') ? `../../../assets/images/default.png` : data?.company?.logo : `../../../assets/images/default.png`,
 				activity_date: data?.activity_date || '-',
 				activity_hour: data?.activity_hour || '-',

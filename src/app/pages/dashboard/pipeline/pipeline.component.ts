@@ -36,7 +36,7 @@ export class PipelineComponent implements OnInit, OnDestroy {
   public catAgents: entityGeneral.DataCatAgents[] = [];
   public catCompanies: entityGeneral.DataCatCompany[] = [];
 
-  public filterDayMonthYear: string = 'Día'
+  public filterDayMonthYear: string = 'Mes'
 
   public dataPipele : any;
 
@@ -134,6 +134,11 @@ export class PipelineComponent implements OnInit, OnDestroy {
 
   newDataQuote() {
     this.router.navigateByUrl(`/home/conversion/nueva-cotizacion`)
+  }
+
+  seeData(id: string) {
+    console.log(id);
+    this.router.navigateByUrl(`/home/empresas/detalles-empresa/${id}`);
   }
 
   moneyAccount(data:any) {

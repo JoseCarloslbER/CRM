@@ -177,12 +177,15 @@ export class NewCampingnComponent implements OnInit, AfterViewInit, OnDestroy {
 
   actionSave() {
     let objData: any = {
-      ...this.formData.value,
+      ...this.cleanData(),
       companies: this.companiesSelected.map(data => data.company_id)
     }
 
-    objData.end_date = moment(this.formData.get('end_date').value).format('YYYY-MM-DD')
-    objData.start_date = moment(this.formData.get('start_date').value).format('YYYY-MM-DD')
+    console.log(objData);
+    
+
+    // objData.end_date = moment(this.formData.get('end_date').value).format('YYYY-MM-DD')
+    // objData.start_date = moment(this.formData.get('start_date').value).format('YYYY-MM-DD')
 
     if (this.idData && this.url.includes('editar')) this.saveDataPatch(objData)
     else this.saveDataPost(objData)

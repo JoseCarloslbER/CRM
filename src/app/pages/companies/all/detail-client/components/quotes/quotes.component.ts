@@ -224,6 +224,10 @@ export class QuotesComponent implements OnInit {
   .subscribe((_) => this.getDataTable());
   }
 
+  seeData(id:string) {
+    this.router.navigateByUrl(`/home/conversion/detalle-cotizacion/${id}`)
+  }
+
   douwnloadExel(){
     this.notificationService
           .notificacion(

@@ -5,6 +5,7 @@ import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { MatDialog } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { DashboardService } from '../../dashboard.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-table',
@@ -27,11 +28,16 @@ export class TableComponent implements OnInit, OnDestroy {
   constructor(
     private moduleServices: DashboardService,
     private notificationService: OpenModalsService,
-    private dialog: MatDialog
+    private router: Router
   ) { }
   
   ngOnInit(): void {
     this.dataSource.data = this.dataDummy
+  }
+
+  seeData(id: string) {
+    console.log(id);
+    // this.router.navigateByUrl(`/home/empresas/detalles-empresa/${id}`);
   }
 
   douwnloadExel(){

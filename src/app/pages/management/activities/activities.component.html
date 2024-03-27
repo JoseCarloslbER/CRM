@@ -107,7 +107,9 @@
                     <td mat-cell *matCellDef="let element">
                         <div class="table-column-reck-solution">
                             <img [src]="element.logo" alt="">
-                            <span>{{ element.companyName }}</span>
+                            <span class="cursor-pointer" (click)="seeDataCompany(element?.companyId)">{{
+                                element.companyName }}
+                            </span>
                         </div>
                     </td>
                 </ng-container>

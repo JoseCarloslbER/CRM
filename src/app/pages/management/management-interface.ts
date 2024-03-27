@@ -23,6 +23,7 @@ export interface TableDataActivities {
 export interface TableDataActivitiesMapper {
   id: string;
   companyName: string;
+  companyId: string;
   logo: string;
   activity_date: string;
   activity_hour: string;

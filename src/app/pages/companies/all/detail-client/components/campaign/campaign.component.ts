@@ -8,9 +8,9 @@ import { CatchmentService } from 'app/pages/catchment/catchment.service';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { FormControl } from '@angular/forms';
 import { TableDataCampaingMapper } from 'app/pages/catchment/catchment-interface';
-import { ModalInformationInTableComponent } from 'app/shared/components/modal-information-in-table/modal-information-in-table.component';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
+import { ModalInformationInTableComponent } from 'app/pages/catchment/campaigns/modal-information-in-table/modal-information-in-table.component';
 
 @Component({
   selector: 'app-campaign',

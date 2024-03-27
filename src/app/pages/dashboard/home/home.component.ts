@@ -1748,7 +1748,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   public chartGithubIssues: ApexOptions = {};
 
   public selectedProject: string = 'Estadísticas';
-  public filterDayMonthYear: string = 'Día'
+  public filterDayMonthYear: string = 'Mes'
 
   public fechaHoy = new Date();
 
