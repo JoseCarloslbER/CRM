@@ -5,9 +5,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { AdminService } from '../../admin.service';
 import * as entity from '../../admin-interface';
+import { UpdateComponentsService } from 'app/shared/services/updateComponents.service';
 
 @Component({
   selector: 'app-users',
@@ -15,6 +16,7 @@ import * as entity from '../../admin-interface';
 })
 export class UsersComponent implements OnInit, AfterViewInit, OnDestroy {
   private onDestroy = new Subject<void>();
+  private updateSubscription: Subscription;
 
   public dataSource = new MatTableDataSource<any>([]);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -33,13 +35,15 @@ export class UsersComponent implements OnInit, AfterViewInit, OnDestroy {
  
   constructor(
     private moduleServices: AdminService,
+    private updateService: UpdateComponentsService,
     private notificationService: OpenModalsService,
-    private formBuilder: FormBuilder,
-    private dialog: MatDialog,
     private router: Router
   ) { }
 
   ngOnInit(): void {
+    this.updateSubscription = this.updateService.updateEvent$.subscribe(() => {
+      this.getDataTable();
+    });
     this.getDataTable();
   }
 
@@ -86,9 +90,7 @@ export class UsersComponent implements OnInit, AfterViewInit, OnDestroy {
                 'delete',
               )
               .afterClosed()
-              .subscribe((_) => {
-                // this.getAllContacts()
-              });
+              .subscribe((_) => this.getDataTable());
           },
           error: (error) => console.error(error)
         })
