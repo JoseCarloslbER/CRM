@@ -1,16 +1,19 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { CompaniesService } from 'app/pages/companies/companies.service';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-modal-new-contact',
   templateUrl: './modal-new-contact.component.html',
   styleUrls: []
 })
-export class ModalNewContactComponent implements OnInit {
+export class ModalNewContactComponent implements OnInit, OnDestroy {
+  private onDestroy = new Subject<void>();
+
   public addContact = new FormControl('')
   public contactos: any[] = []
   public valuesContacts: any[] = []
@@ -131,5 +134,10 @@ export class ModalNewContactComponent implements OnInit {
       close : true,
       allsContacts: this.allConatcts
     })
+  }
+  
+  ngOnDestroy(): void {
+    this.onDestroy.next();
+    this.onDestroy.unsubscribe();
   }
 }

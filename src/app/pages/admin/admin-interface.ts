@@ -99,3 +99,52 @@ export interface PostDataDiscount {
 }
 
 // END DISCOUNTS 
+
+// USERS
+
+export interface TableDataUsers {
+  id: string,
+  email: string,
+  username: string,
+  last_login: string,
+  first_name: string
+  last_name: string,
+  date_joined: string
+  phone_number: string,
+  voice_identifier: string,
+  profile_picture: string,
+  last_access: string
+}
+
+export interface TableDataUsersMapper {
+  id : string;
+  userName : string;
+  logo : string;
+  role : string;
+  email : string;
+  ip : string;
+  ext : string;
+}
+
+
+export interface TableDataUserList {
+   code: string;
+   name: string;
+   User_id: string;
+   status_id: string;
+}
+
+export interface GetDataUser {
+  code: string;
+  name: string;
+  User_id: string;
+  status_id: string;
+}
+
+export interface PostDataUser {
+  code: string;
+  name: string;
+  status_id: string;
+}
+
+// END USERS 

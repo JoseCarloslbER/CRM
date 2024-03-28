@@ -72,11 +72,7 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
       map(value => this._filter(value))
     );
 
-    
-    console.log('get info');
-    
     this.moduleCompanieServices.getData().pipe(takeUntil(this.onDestroy)).subscribe((data) => {
-     console.log('getData', data);
      if (data) {
         this.companySelected = data.id
         this.company.patchValue(data.name);
@@ -184,8 +180,8 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
     objData.quote_options = options;
 
     console.log(objData);
-    // if (this.objEditData) this.saveDataPatch(objData)
-    // else this.saveDataPost(objData)
+    if (this.objEditData) this.saveDataPatch(objData)
+    else this.saveDataPost(objData)
   }
 
   saveDataPost(objData) {

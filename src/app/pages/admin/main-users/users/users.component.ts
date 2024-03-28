@@ -6,6 +6,8 @@ import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { Subject } from 'rxjs';
+import { AdminService } from '../../admin.service';
+import * as entity from '../../admin-interface';
 
 @Component({
   selector: 'app-users',
@@ -21,102 +23,81 @@ export class UsersComponent implements OnInit, AfterViewInit, OnDestroy {
   public indicePagina = 0;
 
   public displayedColumns: string[] = [
-    'user',
-    'rol',
+    'userName',
+    'role',
     'ip',
-    'exention',
+    'email',
+    'ext',
     'acciones'
   ];
  
-  
-  public dataDummy: any[] = [
-    {
-      user: 'Agente 1',
-      rol: 'Atención a cliente',
-      exention: '3002',
-      comments: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-      ip: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    },
-    {
-      user: 'Agente 1',
-      rol: 'Atención a cliente',
-      exention: '3002',
-      comments: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-      ip: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    },
-    {
-      user: 'Agente 1',
-      rol: 'Atención a cliente',
-      exention: '3002',
-      comments: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-      ip: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    },
-    {
-      user: 'Agente 1',
-      rol: 'Atención a cliente',
-      exention: '3002',
-      comments: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-      ip: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    },
-    {
-      user: 'Agente 1',
-      rol: 'Atención a cliente',
-      exention: '3002',
-      comments: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-      ip: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    },
-    
-  ]
-
   constructor(
+    private moduleServices: AdminService,
     private notificationService: OpenModalsService,
     private formBuilder: FormBuilder,
     private dialog: MatDialog,
     private router: Router
   ) { }
 
-
   ngOnInit(): void {
-    this.dataSource.data = this.dataDummy
+    this.getDataTable();
   }
 
   ngAfterViewInit(): void {
     
   }
 
+  getDataTable() {
+    this.moduleServices.getDataTableUsers().subscribe({
+      next: (data: entity.TableDataUsersMapper[]) => {
+        this.dataSource.data = data;
+        console.log(data);
+      },
+      error: (error) => console.error(error)
+    })
+  }
+
   newData() {
     this.router.navigateByUrl(`/home/admin/nuevo-usuario`)
   }
 
-  editData() {
-    this.router.navigateByUrl(`/home/admin/editar-usuario/1`)
+  editData(id:string) {
+    this.router.navigateByUrl(`/home/admin/editar-usuario/${id}`)
   }
 
-  deleteData() {
+  deleteData(id: string) {
+    console.log('deleteData', id);
+    
     this.notificationService
-      .notificacion(
-        'Pregunta',
-        '¿Estás seguro de eliminar el registro?',
-        'question',
-      )
-      .afterClosed()
-      .subscribe((_) => {
-        this.notificationService
-          .notificacion(
-            'Éxito',
-            'Registro eliminado.',
-            'delete',
-          )
-          .afterClosed()
-          .subscribe((_) => {
-
-          });
-      });
+    .notificacion(
+      'Pregunta',
+      '¿Estás seguro de eliminar el registro?',
+      'question',
+    )
+    .afterClosed()
+    .subscribe((response) => {
+      if (response) {
+        this.moduleServices.deleteDataUser(id).subscribe({
+          next: () => {
+              this.notificationService
+              .notificacion(
+                'Éxito',
+                'Registro eliminado.',
+                'delete',
+              )
+              .afterClosed()
+              .subscribe((_) => {
+                // this.getAllContacts()
+              });
+          },
+          error: (error) => console.error(error)
+        })
+      }
+    });
   }
 
   ngOnDestroy(): void {
     this.onDestroy.next();
     this.onDestroy.unsubscribe();
   }
-
 }

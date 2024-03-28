@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'environments/environment.dev';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import * as entity from './admin-interface';
+import { Mapper } from './mapper';
 
 @Injectable({
   providedIn: 'root'
@@ -103,5 +104,41 @@ export class AdminService {
     return this.http.delete<any>(url)
   }
 
-  // END PRICE 
+  // END DISCOUNTS 
+
+  // USERS
+
+  public getDataTableUsers() {
+		const url = `${environment.apiURL}auth/user/`;
+
+    return this.http.get<entity.TableDataUsers[]>(url).pipe(
+			map((response) => Mapper.getDataTableMapper(response)));
+	}
+
+  public getDataUsertId(id: string) {
+    const url = `${environment.apiURL}auth/user/${id}/`;
+
+    return this.http.get<any>(url).pipe(
+			map((response) => Mapper.getDataUserMapper(response)));
+  }
+
+  public postDataUser(data: entity.PostDataUser): Observable<any> {
+    const url = `${environment.apiURL}auth/user/`;
+
+    return this.http.post<any>(url, data)
+  }
+
+  public patchDataUser(id: string, data: entity.PostDataUser): Observable<any> {
+    const url = `${environment.apiURL}auth/user/${id}/`;
+
+    return this.http.patch<any>(url, data)
+  }
+
+  public deleteDataUser(id: string): Observable<any> {
+    const url = `${environment.apiURL}auth/user/${id}/`;
+
+    return this.http.delete<any>(url)
+  }
+
+  // END USERS 
 }

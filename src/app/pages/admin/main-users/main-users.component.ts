@@ -5,6 +5,7 @@ import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { MatTabChangeEvent } from '@angular/material/tabs';
+import { NewUserComponent } from './users/new-user/new-user.component';
 
 @Component({
   selector: 'app-main-users',
@@ -29,5 +30,17 @@ export class MainUsersComponent {
 
   newData() {
     this.router.navigateByUrl(`/home/admin/${this.isUser ? 'nuevo-usuario' : 'nuevo-rol'}`)
+  }
+
+  newUser() {
+    this.dialog.open(NewUserComponent, {
+      data: null,
+      disableClose: true,
+      width: '800px',
+      maxHeight: '628px',
+      panelClass: 'custom-dialog'
+    })
+    .afterClosed()
+    .subscribe((_) => {});
   }
 }
