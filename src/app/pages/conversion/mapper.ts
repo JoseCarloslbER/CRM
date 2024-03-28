@@ -97,14 +97,6 @@ export class Mapper {
 	}
 
 	static GetDataTableCompanyMapper(response: entity.TableDataQuote) {
-		let date : string = '';
-		let time : string = '';
-		
-		response.quote_options.forEach(data => {
-			date = moment(data.deadline).format('DD-MM-YYYY');
-			time = moment(data.deadline, 'HH:mm').format('HH:mm');
-		});
-
 		return {
 			id : response.quote_id || '-',
 			regiterDate : moment(response?.register_date).format('DD-MM-YYYY'),
@@ -132,8 +124,7 @@ export class Mapper {
 						maximumFractionDigits: 2
 					}),
 					typePrice : data?.type_price,
-					date : date,
-					time : time,
+					date : moment(data.deadline).format('YYYY-MM-DD'),
 					totalProducts : data.option_products.reduce((total, item) => {
 						const totalNumber = parseFloat(item.total.replace(',', ''));
 						return total + totalNumber;
