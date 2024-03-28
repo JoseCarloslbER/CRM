@@ -16,7 +16,6 @@ export class CompaniesService {
   private apiUrl = `${environment.apiURL}company/`;
 
   constructor(private http: HttpClient) { }
-
   
   public sendData(data: any) {
     console.log(data);
@@ -28,7 +27,7 @@ export class CompaniesService {
   }
 
   public getCatCompany(filters?:any): Observable<entityGeneral.DataCatCompany[]> {
-		const url = `${environment.apiURL}company/company/${filters ? `?${filters}` : ''}`;
+		const url = `${this.apiUrl}company/${filters ? `?${filters}` : ''}`;
 
     return this.http.get<entityGeneral.DataCatCompany[]>(url).pipe(
 			map((response) => {
@@ -42,6 +41,15 @@ export class CompaniesService {
         return dataList
       })
 		);
+	}
+
+  public getDataCompanySearch(filter:string): Observable<any> {
+    const url = `${this.apiUrl}company-search/?company_query=${filter}`;
+
+    return this.http.get<any>(url)
+    // .pipe(
+		// 	map((response) => Mapper.GetDatadetailsActivityMapper(response))
+		// );
 	}
 
   public getDataHistoryCalls(filters?:string): Observable<entity.GetDataDetailsHistoryMapper[]> {
@@ -76,30 +84,6 @@ export class CompaniesService {
 		);
 	}
 
-  public getDataContact(filtro): Observable<any> {
-    const url = `${this.apiUrl}company-contact/${filtro}`;
-    
-    return this.http.get<any>(url)
-	}
-  
-  public postDataContact(data:any): Observable<any> {
-    const url = `${this.apiUrl}company-contact/`;
-    
-    return this.http.post<any>(url, data)
-	}
-  
-  public patchDataContact(id:string, data:any): Observable<any> {
-    const url = `${this.apiUrl}company-contact/${id}/`;
-
-    return this.http.patch<any>(url, data)
-  }
-  
-  public deleteDataContact(id:string): Observable<any> {
-    const url = `${this.apiUrl}company-contact/${id}/`;
-
-    return this.http.delete<any>(url)
-  }
- 
   public postData(data:entity.PostDataCompany): Observable<any> {
 		const url = `${this.apiUrl}company/`;
 
@@ -142,6 +126,27 @@ export class CompaniesService {
     return this.http.post<any>(url, data)
 	}
 
+  public getDataContact(filtro): Observable<any> {
+    const url = `${this.apiUrl}company-contact/${filtro}`;
+    
+    return this.http.get<any>(url)
+	}
   
+  public postDataContact(data:any): Observable<any> {
+    const url = `${this.apiUrl}company-contact/`;
+    
+    return this.http.post<any>(url, data)
+	}
+  
+  public patchDataContact(id:string, data:any): Observable<any> {
+    const url = `${this.apiUrl}company-contact/${id}/`;
 
+    return this.http.patch<any>(url, data)
+  }
+  
+  public deleteDataContact(id:string): Observable<any> {
+    const url = `${this.apiUrl}company-contact/${id}/`;
+
+    return this.http.delete<any>(url)
+  }
 }
