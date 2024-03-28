@@ -122,13 +122,13 @@ export class AdminService {
 			map((response) => Mapper.getDataUserMapper(response)));
   }
 
-  public postDataUser(data: entity.PostDataUser): Observable<any> {
+  public postDataUser(data): Observable<any> {
     const url = `${environment.apiURL}auth/user/`;
 
     return this.http.post<any>(url, data)
   }
 
-  public patchDataUser(id: string, data: entity.PostDataUser): Observable<any> {
+  public patchDataUser(id: string, data): Observable<any> {
     const url = `${environment.apiURL}auth/user/${id}/`;
 
     return this.http.patch<any>(url, data)
@@ -141,4 +141,38 @@ export class AdminService {
   }
 
   // END USERS 
+
+  // ROLES
+
+  public getDataTableRoles() {
+		const url = `${environment.apiURL}settings/rol/`;
+
+    return this.http.get<entity.TableDataUsers[]>(url)
+	}
+
+  public getDataRolId(id: string) {
+    const url = `${environment.apiURL}settings/rol/${id}/`;
+
+    return this.http.get<any>(url)
+  }
+
+  public postDataRol(data): Observable<any> {
+    const url = `${environment.apiURL}settings/rol/`;
+
+    return this.http.post<any>(url, data)
+  }
+
+  public patchDataRol(id: string, data): Observable<any> {
+    const url = `${environment.apiURL}settings/rol/${id}/`;
+
+    return this.http.patch<any>(url, data)
+  }
+
+  public deleteDataRol(id: string): Observable<any> {
+    const url = `${environment.apiURL}settings/rol/${id}/`;
+
+    return this.http.delete<any>(url)
+  }
+
+  // END ROLES 
 }

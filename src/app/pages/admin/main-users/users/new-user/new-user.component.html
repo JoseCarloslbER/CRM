@@ -48,11 +48,10 @@
                         </mat-form-field>
                     
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
-                            <mat-label>Rol*</mat-label>
-                            <mat-select placeholder="Seleccionar">
-                                <mat-option value="Rol* 1">Rol 1</mat-option>
-                                <mat-option value="Rol* 2">Rol 2</mat-option>
-                                <mat-option value="Rol* 3">Rol 3</mat-option>
+                            <mat-label>Rol</mat-label>
+                            <mat-select formControlName="user_rol" placeholder="Seleccionar">
+                                <mat-option [value]="cat.rol_id  "
+                                *ngFor="let cat of catRoles">{{cat?.rol_name  || '-'}}</mat-option>
                             </mat-select>
                         </mat-form-field>
 

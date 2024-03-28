@@ -4,6 +4,8 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { AdminService } from 'app/pages/admin/admin.service';
+import { CatalogsService } from 'app/shared/services/catalogs.service';
+import * as entityGeneral from '../../../../../shared/interfaces/general-interface';
 
 @Component({
   selector: 'app-new-user',
@@ -24,12 +26,16 @@ export class NewUserComponent implements OnInit, OnDestroy {
     voice_identifier: ['', Validators.required],
     user_id_slack: ['', Validators.required],
     password : ['', Validators.required],
+    user_rol : ['', Validators.required],
   });
 
   public objEditData : any;
 
+  public catRoles: entityGeneral.DataCatRol[] = [];
+
   constructor(
     private moduleServices: AdminService,
+    private catalogsServices: CatalogsService,
     private notificationService: OpenModalsService,
     private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
@@ -38,6 +44,7 @@ export class NewUserComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getId();
+    this.getCatalogs()
   }
 
   getId() {
@@ -51,6 +58,18 @@ export class NewUserComponent implements OnInit, OnDestroy {
       next: (response: any) => {
         this.objEditData = response;
         this.formData.patchValue(this.objEditData);
+      },
+      error: (error) => {
+        this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
+        console.error(error)
+      }
+    })
+  }
+
+  getCatalogs() {
+    this.catalogsServices.getCatRoles().subscribe({
+      next: (response: any) => {
+        this.catRoles = response;
       },
       error: (error) => {
         this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')

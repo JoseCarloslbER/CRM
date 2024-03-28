@@ -3,7 +3,6 @@ import * as entityGeneral from '../../shared/interfaces/general-interface';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'environments/environment.dev';
-import { TableDataActivityType } from 'app/pages/config/config-interface';
 
 @Injectable({
 	providedIn: 'root',
@@ -29,6 +28,12 @@ export class CatalogsService {
 		const url = `${environment.apiURL}company/company/${filters ? `?${filters}` : ''}`;
 
 		return this.http.get<entityGeneral.DataCatCompany[]>(url)
+	}
+	
+	public getCatRoles(): Observable<entityGeneral.DataCatRol[]> {
+		const url = `${environment.apiURL}settings/rol/`;
+
+		return this.http.get<entityGeneral.DataCatRol[]>(url)
 	}
 
 	public getCatCampaing(): Observable<entityGeneral.DataCatCampaing[]> {

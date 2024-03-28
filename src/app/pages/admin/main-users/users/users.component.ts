@@ -1,7 +1,5 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
-import { FormBuilder } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
@@ -14,7 +12,7 @@ import { UpdateComponentsService } from 'app/shared/services/updateComponents.se
   selector: 'app-users',
   templateUrl: './users.component.html',
 })
-export class UsersComponent implements OnInit, AfterViewInit, OnDestroy {
+export class UsersComponent implements OnInit, OnDestroy {
   private onDestroy = new Subject<void>();
   private updateSubscription: Subscription;
 
@@ -47,10 +45,6 @@ export class UsersComponent implements OnInit, AfterViewInit, OnDestroy {
     this.getDataTable();
   }
 
-  ngAfterViewInit(): void {
-    
-  }
-
   getDataTable() {
     this.moduleServices.getDataTableUsers().subscribe({
       next: (data: entity.TableDataUsersMapper[]) => {
@@ -61,17 +55,11 @@ export class UsersComponent implements OnInit, AfterViewInit, OnDestroy {
     })
   }
 
-  newData() {
-    this.router.navigateByUrl(`/home/admin/nuevo-usuario`)
-  }
-
   editData(id:string) {
     this.router.navigateByUrl(`/home/admin/editar-usuario/${id}`)
   }
 
   deleteData(id: string) {
-    console.log('deleteData', id);
-    
     this.notificationService
     .notificacion(
       'Pregunta',

@@ -177,6 +177,11 @@ export interface DataCatCompany {
   company_id : string;
 }
 
+export interface DataCatRol {
+  rol_name : string;
+  rol_id : string;
+}
+
 export interface DataCatQuoteContact {
   contact_id: string;
   full_name: string;

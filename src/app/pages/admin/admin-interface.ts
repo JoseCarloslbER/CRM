@@ -126,25 +126,17 @@ export interface TableDataUsersMapper {
   ext : string;
 }
 
-
-export interface TableDataUserList {
-   code: string;
-   name: string;
-   User_id: string;
-   status_id: string;
-}
-
-export interface GetDataUser {
-  code: string;
-  name: string;
-  User_id: string;
-  status_id: string;
-}
-
-export interface PostDataUser {
-  code: string;
-  name: string;
-  status_id: string;
-}
-
 // END USERS 
+
+// ROLES
+
+export interface TableDataRoles {
+  rol_id: string,
+  rol_name: string,
+  permissions: any
+}
+
+export interface TableDataRolesMapper {
+}
+
+// END ROLES 

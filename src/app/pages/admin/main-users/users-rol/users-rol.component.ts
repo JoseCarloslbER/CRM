@@ -1,19 +1,19 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
-import { FormBuilder } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
+import { UpdateComponentsService } from 'app/shared/services/updateComponents.service';
+import { AdminService } from '../../admin.service';
 
 @Component({
   selector: 'app-users-rol',
   templateUrl: './users-rol.component.html',
 })
-export class UsersRolComponent implements OnInit, AfterViewInit, OnDestroy {
+export class UsersRolComponent implements OnInit, OnDestroy {
   private onDestroy = new Subject<void>();
+  private updateSubscription: Subscription;
 
   public dataSource = new MatTableDataSource<any>([]);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -23,79 +23,64 @@ export class UsersRolComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public displayedColumns: string[] = [
     'name',
-    'comments',
     'acciones'
   ];
 
-
-  public dataDummy: any[] = [
-    {
-      name: 'Atención a cliente',
-      comments: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    },
-    {
-      name: 'Atención a cliente',
-      comments: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    },
-    {
-      name: 'Atención a cliente',
-      comments: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    },
-    {
-      name: 'Campaña',
-      comments: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    },
-    {
-      name: 'Campaña',
-      comments: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    },
-  ]
-
-
   constructor(
+    private moduleServices: AdminService,
     private notificationService: OpenModalsService,
-    private formBuilder: FormBuilder,
-    private dialog: MatDialog,
+    private updateService: UpdateComponentsService,
     private router: Router
   ) { }
 
-
   ngOnInit(): void {
-    this.dataSource.data = this.dataDummy
+    this.updateSubscription = this.updateService.updateEvent$.subscribe(() => {
+      this.getDataTable();
+    });
+    this.getDataTable();
   }
 
-  ngAfterViewInit(): void {
-    
+  getDataTable() {
+    this.moduleServices.getDataTableRoles().subscribe({
+      next: (data:any) => {
+        this.dataSource.data = data;
+        console.log(data);
+      },
+      error: (error) => console.error(error)
+    })
   }
 
-  editData() {
-    this.router.navigateByUrl(`/home/admin/editar-rol/1`)
+  editData(id:string) {
+    this.router.navigateByUrl(`/home/admin/editar-rol/${id}`)
   }
-  
 
-  deleteData() {
+  deleteData(id: string) {
     this.notificationService
-      .notificacion(
-        'Pregunta',
-        '¿Estás seguro de eliminar el registro?',
-        'question',
-      )
-      .afterClosed()
-      .subscribe((_) => {
-        this.notificationService
-          .notificacion(
-            'Éxito',
-            'Registro eliminado.',
-            'delete',
-          )
-          .afterClosed()
-          .subscribe((_) => {
-
-          });
-      });
+    .notificacion(
+      'Pregunta',
+      '¿Estás seguro de eliminar el registro?',
+      'question',
+    )
+    .afterClosed()
+    .subscribe((response) => {
+      if (response) {
+        this.moduleServices.deleteDataRol(id).subscribe({
+          next: () => {
+              this.notificationService
+              .notificacion(
+                'Éxito',
+                'Registro eliminado.',
+                'delete',
+              )
+              .afterClosed()
+              .subscribe((_) => this.getDataTable());
+          },
+          error: (error) => console.error(error)
+        })
+      }
+    });
   }
 
-  
   ngOnDestroy(): void {
     this.onDestroy.next();
     this.onDestroy.unsubscribe();
