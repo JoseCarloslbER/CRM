@@ -8,9 +8,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { RouterLink } from '@angular/router';
-// import { ChatService } from 'app/modules/admin/apps/chat/chat.service';
-// import { Chat } from 'app/modules/admin/apps/chat/chat.types';
-// import { ContactInfoComponent } from 'app/modules/admin/apps/chat/contact-info/contact-info.component';
 import { SlackComponent } from './slack/slack.component';
 import { TawkComponent } from './tawk/tawk.component';
 import { ComunicationsComponent } from './comunications.component';
@@ -18,15 +15,23 @@ import { COMUNICATIONS_ROUTES } from './comunications.routes';
 import { MaterialModule } from 'app/shared/material/material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { VoipComponent } from './voip/voip.component';
-
-
+import { ProfileComponent } from './tawk/profile/profile.component';
+import { NewChatComponent } from './tawk/new-chat/new-chat.component';
+import { ContactInfoComponent } from './tawk/contact-info/contact-info.component';
+import { ConversationComponent } from './tawk/conversation/conversation.component';
+import { EmptyConversationComponent } from './tawk/empty-conversation/empty-conversation.component';
 
 @NgModule({
   declarations: [
     SlackComponent,
     TawkComponent,
     ComunicationsComponent,
-    VoipComponent
+    VoipComponent,
+    ProfileComponent,
+    NewChatComponent,
+    ContactInfoComponent,
+    ConversationComponent,
+    EmptyConversationComponent
   ],
   imports: [
     CommonModule,
