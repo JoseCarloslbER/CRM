@@ -3,6 +3,7 @@ import { ComunicationsComponent } from './comunications.component';
 import { SlackComponent } from './slack/slack.component';
 import { TawkComponent } from './tawk/tawk.component';
 import { VoipComponent } from './voip/voip.component';
+import { ConversationComponent } from './tawk/conversation/conversation.component';
 
 const comunicationsRoutes: Routes = [
 	{
@@ -20,6 +21,10 @@ const comunicationsRoutes: Routes = [
 			{
 				path: 'voip',
 				component: VoipComponent,
+			},
+			{
+				path     : 'tawk/:id',
+				component: ConversationComponent,
 			},
 		]
 	
