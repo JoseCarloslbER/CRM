@@ -303,6 +303,7 @@ export class SlackComponent implements OnInit, OnDestroy {
     getSlackChats(){
         this._chatService.getSlackChatList().subscribe({
             next: (data) => {
+                console.log(data)
                 this.chat = data
             },
             error: (error) => console.error(error)

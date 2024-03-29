@@ -64,6 +64,65 @@ export class ChatService
         return this.http.post<any>(url, data)
 	}
 
+    public getTawktoChatList(): Observable<quickChat.Chat[]> {
+        const url = `${this.apiUrl}tawkto/`;
+    
+        return this.http.get<any>(url).pipe(
+            map((response: any) => {
+                const chats: quickChat.Chat[] = []; // Inicializa el arreglo de conversaciones
+    
+                response['chats']['data'].forEach((data: any) => {
+                    const chat: quickChat.Chat = {
+                        id: data.id, // Utiliza el ID del chat de la respuesta
+                        contactId: data.visitor.id, // Utiliza el ID del visitante como ID de contacto
+                        unreadCount: null, // Asigna el recuento de mensajes no leídos si es necesario
+                        muted: false, // Asigna si el chat está silenciado si es necesario
+                        lastMessage: null, // Asigna el último mensaje si es necesario
+                        lastMessageAt: null, // Asigna la fecha del último mensaje si es necesario
+                        messages: [] // Inicializa el arreglo de mensajes
+                    };
+
+                    // Construye el objeto de contacto
+                    const contact = {
+                        id: data.visitor.id,
+                        name: data.visitor.name,
+                        details: {
+                        emails: [{ email: data.visitor.email, label: 'Email' }],
+                        phoneNumbers: [], // Puedes agregar los números de teléfono si están disponibles
+                        title: '', // Ajusta esto según la lógica de tu aplicación
+                        company: '', // Ajusta esto según la lógica de tu aplicación
+                        birthday: '', // Ajusta esto según la lógica de tu aplicación
+                        address: '' // Ajusta esto según la lógica de tu aplicación
+                        }
+                    };
+
+                    // Agrega el contacto al chat
+                    chat.contact = contact;
+
+                    // Agrega el chat al arreglo de chats
+                    chats.push(chat);
+    
+                    data.messages.forEach((messageData: any) => {
+                        const message = {
+                            id: messageData.id, // Utiliza el ID del mensaje de la respuesta
+                            chatId: data.id, // Utiliza el ID del chat actual como ID de chat del mensaje
+                            contactId: data.visitor.id, // Utiliza el ID del visitante como ID de contacto del mensaje
+                            isMine: false, // Marca el mensaje como no propio
+                            value: messageData.msg, // Utiliza el contenido del mensaje de la respuesta
+                            createdAt: messageData.time, // Utiliza la fecha de creación del mensaje de la respuesta
+                            userName: data.visitor.name // Utiliza el nombre del visitante como nombre de usuario
+                        };
+                        chat.messages.push(message); // Agrega el mensaje al arreglo de mensajes del chat
+                    });
+    
+                    chats.push(chat); // Agrega el chat al arreglo de conversaciones
+                });
+    
+                return chats; // Devuelve el arreglo de conversaciones
+            })
+        );
+    }
+
 
     // -----------------------------------------------------------------------------------------------------
     // @ Accessors

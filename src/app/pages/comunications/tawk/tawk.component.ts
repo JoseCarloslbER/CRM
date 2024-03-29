@@ -3877,8 +3877,8 @@ export class TawkComponent {
       this._chatService.chats$
           .pipe(takeUntil(this._unsubscribeAll))
           .subscribe((chats: Chat[]) => {
-              this.chats = this.filteredChats = this.chats2;
-              console.log('INFORMACIÓN DE CHATS: ', this.chats);
+              //console.log('INFORMACIÓN DE CHATS: ', this.chats);
+              this.getTawkChats();
               this._changeDetectorRef.markForCheck();
           });
 
@@ -3889,6 +3889,21 @@ export class TawkComponent {
               this._changeDetectorRef.markForCheck();
           });
   }
+  
+    getTawkChats() {
+    this._chatService.getTawktoChatList().subscribe({
+        next: (data) => {
+        console.log(data);
+        if (data && Array.isArray(data) && data.length > 0) {
+            this.chats = data;
+            this.filteredChats = this.chats;
+        } else {
+            console.error('Data is empty or not in expected format.');
+        }
+        },
+        error: (error) => console.error(error)
+    });
+    }
 
   filterChats(query: string): void {
       if ( !query ) {
@@ -3900,7 +3915,7 @@ export class TawkComponent {
   }
 
   goConversations(id:string) {
-    this.router.navigateByUrl(`/home/comunicaciones/tawk/${id}`)
+    //this.router.navigateByUrl(`/home/comunicaciones/tawk/${id}`)
   }
 
   openNewChat(): void {
