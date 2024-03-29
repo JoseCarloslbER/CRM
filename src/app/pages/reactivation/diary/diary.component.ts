@@ -103,8 +103,9 @@ export class DiaryComponent implements OnInit, AfterViewInit, OnDestroy {
     this.moduleServices.getDataTableDiary(filtros).subscribe({
       next: (data: any) => {
         this.events = data.map(data => {
-          const fechaActual = new Date();
-          const formattedDate = new DatePipe('en-US').transform(fechaActual, 'yyyy-MM-ddTHH:mm:ss.SSSZ');
+          const fechaHoraStr = data.activity_date + ' ' + data.activity_hour;
+          const fechaHora = new Date(fechaHoraStr);
+          const formattedDate = new DatePipe('en-US').transform(fechaHora, 'yyyy-MM-ddTHH:mm:ss.SSSZ');
 
           return {
             data: data,
