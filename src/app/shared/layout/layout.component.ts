@@ -13,6 +13,8 @@ import { SearchComponent } from './common/search/search.component';
 import { ShortcutsComponent } from './common/shortcuts/shortcuts.component';
 import { QuickChatComponent } from './common/quick-chat/quick-chat.component';
 import { AuthenticationService } from 'app/authentication/authentication.service';
+import { MaterialModule } from '../material/material.module';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
     selector: 'layout',
@@ -21,6 +23,7 @@ import { AuthenticationService } from 'app/authentication/authentication.service
     encapsulation: ViewEncapsulation.None,
     standalone: true,
     imports: [
+        MatTooltipModule,
         QuickChatComponent,
         RouterModule, FuseLoadingBarComponent, FuseVerticalNavigationComponent, NotificationsComponent, UserComponent, NgIf, MatIconModule, MatButtonModule, SearchComponent, ShortcutsComponent, MessagesComponent, RouterOutlet],
 })

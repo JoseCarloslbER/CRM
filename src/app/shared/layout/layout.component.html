@@ -1,8 +1,6 @@
 <fuse-loading-bar></fuse-loading-bar>
-
 <fuse-vertical-navigation class="dark bg-gray-900 print:hidden" [mode]="isScreenSmall ? 'over' : 'side'"
     [name]="'mainNavigation'" [navigation]="menu" [opened]="!isScreenSmall">
-
     <ng-container fuseVerticalNavigationContentHeader>
         <div class="flex items-center w-full p-4 pl-6">
             <div class="flex items-center justify-center cursor-pointer" [routerLink]="['/home/dashboard/principal']"
@@ -10,13 +8,16 @@
                 <img class="logo-crm" src="../../../../assets/images/logo/logo-sidebar-crm.png">
             </div>
 
-            <div class="flex items-center ml-auto">
-                <user [showAvatar]="false"></user>
+            <div class="flex items-center ml-auto me-2" [routerLink]="['/home/admin/perfil']">
+                <button mat-menu-item [routerLink]="['/home/admin/perfil']">
+                    <mat-icon matTooltip="Ver perfil" [svgIcon]="'heroicons_outline:user-circle'"></mat-icon> 
+                </button>
             </div>
 
-            <div matTooltip="Cerrar sesión">
-                <button matTooltip="Cerrar sesión" mat-menu-item (click)="signOut()">
-                    <mat-icon matTooltip="Cerrar sesión" [svgIcon]="'heroicons_outline:arrow-right-on-rectangle'"></mat-icon>
+            <div>
+                <button mat-menu-item (click)="signOut()">
+                    <mat-icon matTooltip="Cerrar sesión"
+                        [svgIcon]="'heroicons_outline:arrow-right-on-rectangle'"></mat-icon>
                 </button>
             </div>
         </div>
@@ -37,7 +38,8 @@
 </fuse-vertical-navigation>
 
 <div class="flex flex-col flex-auto w-full min-w-0">
-    <div style="height: 50px!important;" class="relative flex flex-0 items-center w-full px-4 md:px-6 z-49 shadow dark:shadow-none dark:border-b bg-card dark:bg-transparent print:hidden colorHeader">
+    <div style="height: 50px!important;"
+        class="relative flex flex-0 items-center w-full px-4 md:px-6 z-49 shadow dark:shadow-none dark:border-b bg-card dark:bg-transparent print:hidden colorHeader">
         <button mat-icon-button (click)="toggleNavigation('mainNavigation')">
             <mat-icon class="color-icon-header" [svgIcon]="'heroicons_outline:bars-3'"></mat-icon>
         </button>

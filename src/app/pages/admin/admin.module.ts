@@ -20,8 +20,9 @@ import { ModalNewPriceComponent } from './main-products/price/modal-new-price/mo
 import { NewDiscountComponent } from './main-products/discounts/new-discount/new-discount.component';
 import { BonusesComponent } from './bonuses/bonuses.component';
 import { NewBonusComponent } from './bonuses/new-bonus/new-bonus.component';
-
-
+import { ProfileComponent } from './profile/profile.component';
+import { SettingsAccountComponent } from './profile/account/account.component';
+import { SettingsSecurityComponent } from './profile/security/security.component';
 
 @NgModule({
   declarations: [
@@ -42,8 +43,10 @@ import { NewBonusComponent } from './bonuses/new-bonus/new-bonus.component';
     ModalNewPriceComponent,
     NewDiscountComponent,
     BonusesComponent,
-    NewBonusComponent
-  
+    NewBonusComponent,
+    ProfileComponent,
+    SettingsAccountComponent,
+    SettingsSecurityComponent
   ],
   imports: [
     CommonModule,
