@@ -1,43 +1,48 @@
-import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { OpenModalsService } from 'app/shared/services/openModals.service';
+import { Subject } from 'rxjs';
 
 @Component({
-    selector       : 'settings-security',
-    templateUrl    : './security.component.html',
+    selector: 'settings-security',
+    templateUrl: './security.component.html',
 })
-export class SettingsSecurityComponent implements OnInit
-{
+export class SettingsSecurityComponent implements OnInit, OnDestroy {
+    private onDestroy = new Subject<void>();
     securityForm: UntypedFormGroup;
 
-    /**
-     * Constructor
-     */
     constructor(
+        private notificationService: OpenModalsService,
         private _formBuilder: UntypedFormBuilder,
-    )
-    {
-    }
+    ) { }
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Lifecycle hooks
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * On init
-     */
-    ngOnInit(): void
-    {
-        // Create the form
+    ngOnInit(): void {
         this.securityForm = this._formBuilder.group({
-            currentPassword  : [''],
-            newPassword      : [''],
-            twoStep          : [true],
+            currentPassword: [''],
+            newPassword: ['', [Validators.required, Validators.minLength(8)]],
+            twoStep: [true],
             askPasswordChange: [false],
         });
+    }
+
+    actionSave() {
+        this.completionMessage(true)
+    }
+
+    completionMessage(edit = false) {
+        this.notificationService
+            .notificacion(
+                'Éxito',
+                `Registro ${edit ? 'editado' : 'guardado'}.`,
+                'save',
+            )
+    }
+
+    cancel() {
+    }
+
+    ngOnDestroy(): void {
+        this.onDestroy.next();
+        this.onDestroy.unsubscribe();
     }
 }
