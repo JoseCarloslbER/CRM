@@ -14,6 +14,7 @@ export interface Chat
         isMine?: boolean;
         value?: string;
         createdAt?: string;
+        userName?: string;
     }[];
 }
 

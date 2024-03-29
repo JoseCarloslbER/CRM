@@ -110,6 +110,7 @@ export class VoipComponent implements AfterViewInit {
           });
           webPhone.on('accepted', function(event) {
               toggleCallPanel('connected');
+              //AQUI DE DETECTA QUE UNA LLAMADA ESTÁ ACTIVA, DEBEMOS REGISTRAR LA ACTIVIDAD DE LLAMADA EN ESTE PUNTO
           });
           webPhone.on('hangup', function(event) {
               toggleCallPanel('dial');

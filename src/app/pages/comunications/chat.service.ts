@@ -1,6 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, filter, map, Observable, of, switchMap, take, tap, throwError } from 'rxjs';
+import { environment } from 'environments/environment.dev';
+import * as entityChatSlack from './comunications-interface';
+import * as quickChat from '../../shared/layout/common/quick-chat/quick-chat.types'
+import CryptoJS from 'crypto-js';
 
 @Injectable({providedIn: 'root'})
 export class ChatService
@@ -11,12 +15,55 @@ export class ChatService
     private _contacts: BehaviorSubject<any[]> = new BehaviorSubject(null);
     private _profile: BehaviorSubject<any> = new BehaviorSubject(null);
 
-    /**
-     * Constructor
-     */
-    constructor(private _httpClient: HttpClient)
-    {
+    constructor(private http: HttpClient) { }
+    private apiUrl = `${environment.apiURL}communication/`;
+    
+    public getSlackChatList(): Observable<quickChat.Chat> {
+        const url = `${this.apiUrl}slack/`;
+        const user_data = localStorage.getItem('UserAbrevia')
+        let user_slack_id = null
+
+        if (user_data) {
+            const bytes = CryptoJS.AES.decrypt(user_data, 'secretKey');
+            const decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+            user_slack_id = decryptedData.user_id_slack !=  undefined || decryptedData.user_id_slack != '' ?  decryptedData.user_id_slack : null;
+        }
+
+        return this.http.get<any>(url).pipe(
+            map((response: any) => {
+            const chat: quickChat.Chat = {
+                id: "39944b00-1ffe-4ffb-8ca6-13c292812e06", // Asigna un ID de chat si es necesario
+                contactId: "", // Asigna un ID de contacto si es necesario
+                unreadCount: null, // Asigna el recuento de mensajes no leídos si es necesario
+                muted: false, // Asigna si el chat está silenciado si es necesario
+                lastMessage: null, // Asigna el último mensaje si es necesario
+                lastMessageAt: null, // Asigna la fecha del último mensaje si es necesario
+                messages: [] // Inicializa el arreglo de mensajes
+            };
+
+            response['data'].forEach((data: any) => {
+                const message = {
+                    id: "39944b00-1ffe-4ffb-8ca6-13c292812e06", // Asigna un ID de mensaje si es necesario
+                    chatId: "f73a5a34-a723-4b35-8439-5289e0164c83", // Asigna un ID de chat si es necesario
+                    contactId: data.user_id,
+                    isMine: user_slack_id != null && data.user_id == user_slack_id ? true : false,
+                    value: data.text,
+                    createdAt: data.message_date,
+                    userName:  data.user_name
+                };
+                chat.messages.push(message);
+            });
+
+            return chat; // Devuelve el chat en un arreglo
+            })
+        );
     }
+
+    public postDataSlack(data:any): Observable<any> {
+		const url = `${this.apiUrl}slack/`;
+        return this.http.post<any>(url, data)
+	}
+
 
     // -----------------------------------------------------------------------------------------------------
     // @ Accessors
@@ -71,7 +118,7 @@ export class ChatService
      */
     getChats(): Observable<any>
     {
-        return this._httpClient.get<any[]>('api/apps/chat/chats').pipe(
+        return this.http.get<any[]>('api/apps/chat/chats').pipe(
             tap((response: any[]) =>
             {
                 this._chats.next(response);
@@ -86,7 +133,7 @@ export class ChatService
      */
     getContact(id: string): Observable<any>
     {
-        return this._httpClient.get<any>('api/apps/chat/contacts', {params: {id}}).pipe(
+        return this.http.get<any>('api/apps/chat/contacts', {params: {id}}).pipe(
             tap((response: any) =>
             {
                 this._contact.next(response);
@@ -99,7 +146,7 @@ export class ChatService
      */
     getContacts(): Observable<any>
     {
-        return this._httpClient.get<any[]>('api/apps/chat/anys').pipe(
+        return this.http.get<any[]>('api/apps/chat/anys').pipe(
             tap((response: any[]) =>
             {
                 this._contacts.next(response);
@@ -112,7 +159,7 @@ export class ChatService
      */
     getProfile(): Observable<any>
     {
-        return this._httpClient.get<any>('api/apps/chat/profile').pipe(
+        return this.http.get<any>('api/apps/chat/profile').pipe(
             tap((response: any) =>
             {
                 this._profile.next(response);
@@ -127,7 +174,7 @@ export class ChatService
      */
     getChatById(id: string): Observable<any>
     {
-        return this._httpClient.get<any>('api/apps/chat/chat', {params: {id}}).pipe(
+        return this.http.get<any>('api/apps/chat/chat', {params: {id}}).pipe(
             map((chat) =>
             {
                 // Update the chat
@@ -158,7 +205,7 @@ export class ChatService
     {
         return this.chats$.pipe(
             take(1),
-            switchMap(chats => this._httpClient.patch<any>('api/apps/chat/chat', {
+            switchMap(chats => this.http.patch<any>('api/apps/chat/chat', {
                 id,
                 chat,
             }).pipe(

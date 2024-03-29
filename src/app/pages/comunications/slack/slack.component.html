@@ -4,7 +4,7 @@
             <mat-drawer-content class="flex flex-col overflow-hidden">
                 <div class="flex flex-0 items-center h-18 px-4 md:px-6 border-b bg-gray-50 dark:bg-transparent">
                     <div class="flex items-center ml-2 lg:ml-0 mr-2 cursor-pointer">
-                        <div class="ml-4 text-lg font-medium leading-5 truncate">Conversación</div>
+                        <div class="ml-4 text-lg font-medium leading-5 truncate">Conversación interna Slack</div>
                     </div>
                 </div>
 
@@ -26,6 +26,7 @@
                                                 'items-start': !message.isMine,
                                                 'mt-0.5': i > 0 && chat.messages[i - 1].isMine === message.isMine,
                                                 'mt-3': i > 0 && chat.messages[i - 1].isMine !== message.isMine}">
+                                <div class="font-medium" *ngIf="!message.isMine" [innerHTML]="message.userName"></div>
                                 <div class="relative max-w-3/4 px-3 py-2 rounded-lg" [ngClass]="{'bg-blue-500 text-blue-50': message.isMine,
                                                     'bg-gray-500 text-gray-50': !message.isMine}">
                                     <ng-container *ngIf="last || chat.messages[i + 1].isMine !== message.isMine">
@@ -55,10 +56,10 @@
                 <div class="flex items-end p-4 border-t bg-gray-50 dark:bg-transparent">
                     <mat-form-field class="fuse-mat-dense fuse-mat-rounded fuse-mat-bold w-full ml-4"
                         subscriptSizing="dynamic">
-                        <textarea matInput cdkTextareaAutosize #messageInput></textarea>
+                        <textarea matInput cdkTextareaAutosize #messageInput  [(ngModel)]="message"></textarea>
                     </mat-form-field>
                     <div class="flex items-center h-11 my-px ml-4">
-                        <button mat-icon-button>
+                        <button mat-icon-button (click)="setSlackMessage()">
                             <mat-icon [svgIcon]="'heroicons_outline:paper-airplane'"></mat-icon>
                         </button>
                     </div>

@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, ElementRef, NgZone, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, Subscriber, takeUntil } from 'rxjs';
 import { Chat } from 'app/shared/layout/common/quick-chat/quick-chat.types';
 import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
 import { ChatService } from '../chat.service';
@@ -286,8 +286,11 @@ export class SlackComponent implements OnInit, OnDestroy {
         private _fuseMediaWatcherService: FuseMediaWatcherService,
     ) { }
 
+    message: string = '';
+
     ngOnInit(): void {
-        this.chat = this.chatsasd;
+        //this.chat = this.chatsasd;
+        this.getSlackChats()
         this._fuseMediaWatcherService.onMediaChange$
             .pipe(takeUntil(this.onDestroy))
             .subscribe(({ matchingAliases }) => {
@@ -295,6 +298,32 @@ export class SlackComponent implements OnInit, OnDestroy {
                 else this.drawerMode = 'over';
                 this._changeDetectorRef.markForCheck();
             });
+    }
+
+    getSlackChats(){
+        this._chatService.getSlackChatList().subscribe({
+            next: (data) => {
+                this.chat = data
+            },
+            error: (error) => console.error(error)
+        });
+    }
+
+    setSlackMessage(){
+        const postData = { message: this.message }
+
+        if(this.message == ''){
+            console.log('debe retorar');
+            return false;
+        }
+
+        this._chatService.postDataSlack(postData).subscribe({
+            next: (data)=>{
+                this.getSlackChats();
+                this.message = '';
+            },
+            error: (error) => console.log(error)
+        })
     }
 
     resetChat(): void {
