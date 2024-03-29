@@ -24,7 +24,7 @@ export class NewUserComponent implements OnInit, OnDestroy {
     email: ['', Validators.pattern(/^\S+@\S+\.\S+$/)],
     phone_number: ['', Validators.required],
     voice_identifier: ['', Validators.required],
-    user_id_slack: ['', Validators.required],
+    user_id_slack: ['', [Validators.required]],
     password : ['', Validators.required],
     user_rol : ['', Validators.required],
   });
@@ -58,6 +58,8 @@ export class NewUserComponent implements OnInit, OnDestroy {
       next: (response: any) => {
         this.objEditData = response;
         this.formData.patchValue(this.objEditData);
+        this.formData.get('password').clearValidators();
+        this.formData.get('password').updateValueAndValidity(); // Actualizar los validadores
       },
       error: (error) => {
         this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
@@ -133,6 +135,12 @@ export class NewUserComponent implements OnInit, OnDestroy {
     
     if (formControl) formControl.setValue(sanitizedValue, { emitEvent: false });
 	}
+
+  preventWhitespace(event: KeyboardEvent): void {
+    if (event.key === ' ') {
+      event.preventDefault();
+    }
+  }
 
   toBack() {
     this.router.navigateByUrl(`/home/admin/usuarios`)

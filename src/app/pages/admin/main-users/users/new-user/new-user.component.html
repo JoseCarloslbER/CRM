@@ -39,8 +39,8 @@
                     <div class="col-md-6">
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Usuario slack</mat-label>
-                            <input formControlName="user_id_slack" type="text" matInput>
-                        </mat-form-field>
+                            <input formControlName="user_id_slack" type="text" matInput (keydown.space)="preventWhitespace($event)">
+                          </mat-form-field>
                         
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Apellido</mat-label>
@@ -56,7 +56,7 @@
                         </mat-form-field>
 
                         <mat-form-field class="gt-xs:pr-3 inputNewRegister">
-                            <mat-label>Contraseña</mat-label>
+                            <mat-label>{{objEditData?.messagePassword || 'Contraseña'}}</mat-label>
                             <input formControlName="password" matInput>
                         </mat-form-field>
 
@@ -186,16 +186,12 @@
                             </mat-expansion-panel-header>
                         </mat-expansion-panel>
                     </mat-accordion>
-
-
                 </div>
-
-
             </div>
 
             <div class="row d-flex justify-content-end align-items-center mb-3 mt-5">
                 <div class="d-flex justify-content-end col-md-3 col-xl-3 col-12 pt-md-2 mt-6">
-                    <button class="btn-action-add" (click)="actionSave()">
+                    <button class="btn-action-add" [disabled]="!formData.valid" (click)="actionSave()">
                         <span>Guardar</span>
                     </button>
                 </div>

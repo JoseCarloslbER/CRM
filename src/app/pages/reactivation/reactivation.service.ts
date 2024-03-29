@@ -5,7 +5,6 @@ import { BehaviorSubject, Observable, Subject, map } from 'rxjs';
 import { PatchDataActivities, PostDataActivities } from '../management/management-interface';
 import * as entity from './reactivation-interface';
 import { Mapper } from './mapper';
-import * as entityGeneral from '../../shared/interfaces/general-interface';
 
 @Injectable({
   providedIn: 'root'
@@ -30,7 +29,7 @@ export class ReactivationService {
   // PENDING CALLS AND DIALY
 
   public getDataTableCalls(): Observable<any> {
-    const url = `${environment.apiURL}manage/activity/?activity_type_id=fde5d736-c7ad-4ccc-9037-d742aa3b8a44`;
+    const url = `${environment.apiURL}manage/activity/?activity_type_id=fde5d736-c7ad-4ccc-9037-d742aa3b8a44&call_pending=true`;
 
     return this.http.get<entity.TableDataCalls[]>(url).pipe(
     	map((response) => Mapper.getDataTableMapper(response))

@@ -1,7 +1,7 @@
 import * as entity from './admin-interface';
 
 export class Mapper {
-	static getDataTableMapper(response: entity.TableDataUsers[]) : entity.TableDataUsersMapper[]{
+	static getDataTableMapper(response: entity.TableDataUsers[]) : entity.TableDataUsersMapper[] {
 		let dataList : entity.TableDataUsersMapper[] = [];
 
 		response.forEach((data: any): void => {
@@ -9,10 +9,11 @@ export class Mapper {
 				id: data?.id || '-',
 				userName : `${data?.first_name && data?.last_name ? data.first_name.toUpperCase() + ' ' + data.last_name.toUpperCase() : data.username.toUpperCase() }`,
 				logo : data?.logo ? data?.logo.includes('default') ? `../../../assets/images/user-default.png` : data?.logo : `../../../assets/images/user-default.png`,
-				role: data?.role?.name || '-',
+				role: data?.user_rol?.rol_name || '-',
 				email: data?.email || '-',
 				ip: data?.voice_identifier || '-',
 				ext: data?.ext || '-',
+				idSlack : data.user_id_slack
 			});
 		});
 
@@ -20,8 +21,6 @@ export class Mapper {
 	}
 
 	static getDataUserMapper(response: any): any {
-		console.log(response);
-		
 		return {
 			id: response?.id,
 			username: response?.username || '-',
@@ -31,7 +30,8 @@ export class Mapper {
 			phone_number: response?.phone_number || '-',
 			voice_identifier: response?.voice_identifier || '-',
 			user_id_slack : response?.user_id_slack  || '-',
-			password : response?.password  || '-',
+			user_rol : response?.user_rol?.rol_id  || '-',
+			messagePassword : 'Actualizar contraseña',
 		}
 	};
 }

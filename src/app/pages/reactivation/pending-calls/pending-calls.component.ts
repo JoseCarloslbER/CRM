@@ -90,8 +90,6 @@ export class PendingCallsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   seeCampaignsResults(data:any) {
-    console.log(data);
-    
     this.moduleServices.sendData(data);
     this.router.navigateByUrl('/home/reactivacion/resultados-campanias/calls');
   }

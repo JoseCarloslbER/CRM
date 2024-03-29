@@ -1989,6 +1989,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     };
   }
 
+
   selectOption(option: string) {
     this.filterDayMonthYear = option;
     this.searchWithFilters();

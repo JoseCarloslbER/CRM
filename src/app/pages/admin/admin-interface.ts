@@ -124,6 +124,7 @@ export interface TableDataUsersMapper {
   email : string;
   ip : string;
   ext : string;
+  idSlack : string;
 }
 
 // END USERS 

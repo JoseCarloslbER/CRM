@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
@@ -24,6 +24,7 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   public displayedColumns: string[] = [
     'userName',
+    'slack',
     'role',
     'ip',
     'email',

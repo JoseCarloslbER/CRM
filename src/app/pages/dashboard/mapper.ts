@@ -20,6 +20,7 @@ export class Mapper {
 			totalClosedQuotesSales : response?.total_cerradas_ventas,
 			latestRegisteredCompanies: response.ultimas_empresas.map((data:any) => {
 				return {
+					id : data?.company_id || '-',
 					name : data?.company_name || '-',
 					date : data?.register_date_format || '-',
 					country : data?.country_name_format.includes('Sin país definido') ? '-' : data?.country_name_format
@@ -33,6 +34,7 @@ export class Mapper {
 			}),
 			customersPurchasedMost: response.empresas_mas_compran.map(data => {
 				return {
+					id : data?.company_id || '-',
 					name : data?.company_name || '-',
 					amount: '$' + parseFloat(data.total_sales).toLocaleString('en-US', {
 						minimumFractionDigits: 2,
