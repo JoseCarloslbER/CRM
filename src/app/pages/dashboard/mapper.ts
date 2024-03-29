@@ -332,12 +332,12 @@ export class Mapper {
 				minimumFractionDigits: 2,
 				maximumFractionDigits: 2
 			}),
-			totalQuoteMade : response?.total_prospectos_alcanzados || 0,
+			totalQuoteMade : response?.total_cotizaciones_realizadas || 0,
 			costQuote : '$' + response?.costo_promedio_cotizacion.toLocaleString('en-US', {
 				minimumFractionDigits: 2,
 				maximumFractionDigits: 2
 			}),
-			totalAmountQuotesMade : '$' + response?.total_cotizaciones_realizadas.toLocaleString('en-US', {
+			totalAmountQuotesMade : '$' + response?.monto_total_cotizaciones_realizadas.toLocaleString('en-US', {
 				minimumFractionDigits: 2,
 				maximumFractionDigits: 2
 			}),
@@ -375,6 +375,7 @@ export class Mapper {
 					companiesMain : { amount : data.companies?.length, alls : data?.companies || [] },
 					quotesMade : { 
 						left : {  
+							amount: data.number_quotes_lead,
 							totalAmount: '$' + parseFloat(data.amout_quotes_lead).toLocaleString('en-US', {
 								minimumFractionDigits: 2,
 								maximumFractionDigits: 2
