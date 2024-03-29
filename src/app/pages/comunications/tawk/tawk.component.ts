@@ -5,17 +5,17 @@ import { ChatService } from '../chat.service';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-tawk',
-  templateUrl: './tawk.component.html',
-  styleUrl: './tawk.component.scss'
+    selector: 'app-tawk',
+    templateUrl: './tawk.component.html',
+    styleUrl: './tawk.component.scss'
 })
 export class TawkComponent {
-  drawerComponent: 'profile' | 'new-chat';
-  drawerOpened: boolean = false;
-  filteredChats: Chat[];
-  selectedChat: Chat;
-  private _unsubscribeAll: Subject<any> = new Subject<any>();
-  chats2 : any[] = [
+    drawerComponent: 'profile' | 'new-chat';
+    drawerOpened: boolean = false;
+    filteredChats: Chat[];
+    selectedChat: Chat;
+    private _unsubscribeAll: Subject<any> = new Subject<any>();
+    chats2 : any[] = [
     {
         "id": "ff6bc7f1-449a-4419-af62-b89ce6cae0aa",
         "contactId": "9d3f0e7f-dcbd-4e56-a5e8-87b8154e9edf",
@@ -3855,88 +3855,88 @@ export class TawkComponent {
             }
         ]
     }
-  ]
+    ]
 
-  chats:any[] = []
+    chats:any[] = []
 
-  profile = {
+    profile = {
     "id": "cfaad35d-07a3-4447-a6c3-d8c3d54fd5df",
     "name": "Brian Hughes",
     "email": "hughes.brian@company.com",
     "avatar": "assets/images/avatars/brian-hughes.jpg",
     "about": "Hi there! I'm using FuseChat."
-}
-
-  constructor(
-      private _chatService: ChatService,
-      private _changeDetectorRef: ChangeDetectorRef,
-      private router: Router,
-  ) { }
-
-  ngOnInit(): void {
-      this._chatService.chats$
-          .pipe(takeUntil(this._unsubscribeAll))
-          .subscribe((chats: Chat[]) => {
-              //console.log('INFORMACIÓN DE CHATS: ', this.chats);
-              this.getTawkChats();
-              this._changeDetectorRef.markForCheck();
-          });
-
-      this._chatService.chat$
-          .pipe(takeUntil(this._unsubscribeAll))
-          .subscribe((chat: Chat) => {
-              this.selectedChat = chat;
-              this._changeDetectorRef.markForCheck();
-          });
-  }
-  
-    getTawkChats() {
-    this._chatService.getTawktoChatList().subscribe({
-        next: (data) => {
-        console.log(data);
-        if (data && Array.isArray(data) && data.length > 0) {
-            this.chats = data;
-            this.filteredChats = this.chats;
-        } else {
-            console.error('Data is empty or not in expected format.');
-        }
-        },
-        error: (error) => console.error(error)
-    });
     }
 
-  filterChats(query: string): void {
-      if ( !query ) {
-          this.filteredChats = this.chats;
-          return;
-      }
+    constructor(
+        private _chatService: ChatService,
+        private _changeDetectorRef: ChangeDetectorRef,
+        private router: Router,
+    ) { }
 
-      this.filteredChats = this.chats.filter(chat => chat.contact.name.toLowerCase().includes(query.toLowerCase()));
-  }
+    ngOnInit(): void {
+        this._chatService.chats$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((chats: Chat[]) => {
+                //console.log('INFORMACIÓN DE CHATS: ', this.chats);
+                this.getTawkChats();
+                this._changeDetectorRef.markForCheck();
+            });
 
-  goConversations(id:string) {
+        this._chatService.chat$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((chat: Chat) => {
+                this.selectedChat = chat;
+                this._changeDetectorRef.markForCheck();
+            });
+    }
+
+    getTawkChats() {
+        this._chatService.getTawktoChatList().subscribe({
+            next: (data) => {
+            console.log(data);
+            if (data && Array.isArray(data) && data.length > 0) {
+                this.chats = data;
+                this.filteredChats = this.chats;
+            } else {
+                console.error('Data is empty or not in expected format.');
+            }
+            },
+            error: (error) => console.error(error)
+        });
+    }
+
+    filterChats(query: string): void {
+        if ( !query ) {
+            this.filteredChats = this.chats;
+            return;
+        }
+
+        this.filteredChats = this.chats.filter(chat => chat.contact.name.toLowerCase().includes(query.toLowerCase()));
+    }
+
+    goConversations(id:string) {
     //this.router.navigateByUrl(`/home/comunicaciones/tawk/${id}`)
-  }
+    }
 
-  openNewChat(): void {
-      this.drawerComponent = 'new-chat';
-      this.drawerOpened = true;
-      this._changeDetectorRef.markForCheck();
-  }
+    openNewChat(): void {
+        this.drawerComponent = 'new-chat';
+        this.drawerOpened = true;
+        this._changeDetectorRef.markForCheck();
+    }
 
-  openProfile(): void {
-      this.drawerComponent = 'profile';
-      this.drawerOpened = true;
-      this._changeDetectorRef.markForCheck();
-  }
+    openProfile(): void {
+        this.drawerComponent = 'profile';
+        this.drawerOpened = true;
+        this._changeDetectorRef.markForCheck();
+    }
 
-  trackByFn(index: number, item: any) {
-      return item.id || index;
-  }
+    trackByFn(index: number, item: any) {
+        return item.id || index;
+    }
 
-  ngOnDestroy(): void { 
-      this._unsubscribeAll.next(null);
-      this._unsubscribeAll.complete();
-      this._chatService.resetChat();
-  }
+    ngOnDestroy(): void { 
+        this._unsubscribeAll.next(null);
+        this._unsubscribeAll.complete();
+        this._chatService.resetChat();
+    }
 }
