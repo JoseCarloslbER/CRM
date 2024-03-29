@@ -2,12 +2,19 @@ import { ChangeDetectorRef, Component, ElementRef, HostListener, NgZone, OnDestr
 import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
 import { Subject, takeUntil } from 'rxjs';
 import { ChatService } from '../../chat.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AdminService } from 'app/pages/admin/admin.service';
+import { OpenModalsService } from 'app/shared/services/openModals.service';
+import { ComunicationsService } from '../../comunications.service';
 
 @Component({
     selector       : 'chat-conversation',
     templateUrl    : './conversation.component.html',
 })
 export class ConversationComponent implements OnInit, OnDestroy {
+    private onDestroy = new Subject<void>();
+
+
     @ViewChild('messageInput') messageInput: ElementRef;
     chat: any;
     drawerMode: 'over' | 'side' = 'side';
@@ -269,7 +276,12 @@ export class ConversationComponent implements OnInit, OnDestroy {
         private _changeDetectorRef: ChangeDetectorRef,
         private _chatService: ChatService,
         private _fuseMediaWatcherService: FuseMediaWatcherService,
-        private _ngZone: NgZone
+        private _ngZone: NgZone,
+        private activatedRoute: ActivatedRoute,
+        private router: Router,
+        private notificationService: OpenModalsService,
+        private moduleServices: ComunicationsService
+
     ) { }
 
     @HostListener('input')
@@ -286,6 +298,7 @@ export class ConversationComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
+        this.getId();
         console.log('CONVERSACIÓN: ', this.conversation);
         this.chat = this.conversation;
         this._fuseMediaWatcherService.onMediaChange$
@@ -296,6 +309,25 @@ export class ConversationComponent implements OnInit, OnDestroy {
                 this._changeDetectorRef.markForCheck();
             });
     }
+
+    getId() {
+        this.activatedRoute.params.pipe(takeUntil(this.onDestroy)).subscribe((params: any) => {
+          if (params.id) this.getdataChat(params.id);
+        });
+      }
+    
+      getdataChat(id: string) {
+        this.moduleServices.getDataTawkTo(id).subscribe({
+          next: ({ chat }: any) => {
+            console.log('SERVICIO', chat.data);
+            // this.chat = chat.data
+          },
+          error: (error) => {
+            this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
+            console.error(error)
+          }
+        })
+      }
 
     openContactInfo(): void {
         this.drawerOpened = true;
@@ -317,8 +349,8 @@ export class ConversationComponent implements OnInit, OnDestroy {
         return item.id || index;
     }
 
-    ngOnDestroy(): void {
-        this._unsubscribeAll.next(null);
-        this._unsubscribeAll.complete();
-    }
+  ngOnDestroy(): void {
+    this.onDestroy.next();
+    this.onDestroy.unsubscribe();
+  }
 }

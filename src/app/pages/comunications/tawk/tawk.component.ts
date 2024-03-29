@@ -3915,7 +3915,7 @@ export class TawkComponent {
     }
 
     goConversations(id:string) {
-    //this.router.navigateByUrl(`/home/comunicaciones/tawk/${id}`)
+    this.router.navigateByUrl(`/home/comunicaciones/tawk/${id}`)
     }
 
     openNewChat(): void {

@@ -97,6 +97,15 @@ export class Mapper {
 						name : data?.company?.company_name || '-', 
 						logo : data?.company ? data?.company?.logo.includes('default') ? `../../../assets/images/default.png` : data?.company?.logo : `../../../assets/images/default.png`
 					},
+					companyInfo: {
+						company_name: data?.company?.company_name || '-',
+						tax_id_number: data?.company?.tax_id_number || '-',
+						payment_method_id: data?.company?.payment_method?.payment_method_id || '-',
+						way_to_pay_id: data?.company?.way_to_pay?.way_to_pay_id || '-',
+						payment_condition_id: data?.company?.payment_condition?.payment_condition_id || '-',
+						invoice_use_id: data?.company?.invoice_use?.invoice_use_id || '-',
+						invoice_status : data?.invoice_status?.status_id || '-'
+					},
 					status : data?.status?.description ||'-',
 					quoteNumber : data?.quote_number || '-',
 					moneyInAccount: data?.money_in_account,

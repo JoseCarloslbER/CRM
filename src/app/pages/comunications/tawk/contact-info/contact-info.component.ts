@@ -12,6 +12,6 @@ export class ContactInfoComponent implements OnInit {
     constructor(){ }
     
     ngOnInit(): void {
-        console.log('INFORMACIÓN DE CONTACTO', this.chat);
+        // console.log('INFORMACIÓN DE CONTACTO', this.chat);
     }
 }
