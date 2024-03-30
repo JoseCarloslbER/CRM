@@ -214,6 +214,7 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
       subtotalControl: new FormControl({ value: datos?.subtotal || '', disabled: true }, Validators.required),
       discountControl: new FormControl({ value: datos?.discount || 0, disabled: true }),
       totalControl: new FormControl({ value: datos?.total || '', disabled: true }, Validators.required),
+      ivaControl: new FormControl({ value: datos?.tax || '', disabled: true }),
       typePriceControl: new FormControl({ value: datos?.typePrice || this.optionFormValues.length >= 1 ? 2 : 1, disabled: false }, Validators.required),
       dateControl: new FormControl({ value: datos?.date || '', disabled: false }, Validators.required),
       product: []

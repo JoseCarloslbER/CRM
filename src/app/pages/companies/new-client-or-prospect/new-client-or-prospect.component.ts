@@ -4,7 +4,6 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import * as entityGeneral from '../../../shared/interfaces/general-interface';
 import * as entity from '../companies-interface';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
-import { CompaniesService } from '../companies.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalFastQuoteComponent } from '../prospects/modal-fast-quote/modal-fast-quote.component';
@@ -12,6 +11,7 @@ import { TableDataOrigin } from 'app/pages/config/config-interface';
 import { CatalogsService } from 'app/shared/services/catalogs.service';
 import { ModalNewProductComponent } from '../../admin/main-products/products/modal-new-product/modal-new-product.component';
 import moment from 'moment';
+import { CompaniesService } from '../companies.service';
 
 @Component({
   selector: 'app-new-client-or-prospect',
@@ -374,6 +374,7 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
       subtotalControl: new FormControl({ value: datos?.subtotal || '', disabled: true }, Validators.required),
       discountControl: new FormControl({ value: datos?.discount || 0, disabled: true }),
       totalControl: new FormControl({ value: datos?.total || '', disabled: true }, Validators.required),
+      ivaControl: new FormControl({ value: datos?.total || '', disabled: true }),
       typePriceControl: new FormControl({ value: datos?.typePrice || this.optionFormValues.length >= 1 ? 2 : 1, disabled: false }, Validators.required),
       dateControl: new FormControl({ value: datos?.date || '', disabled: false }, Validators.required),
       product: []
