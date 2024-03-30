@@ -9,7 +9,7 @@
         <div class="grid sm:grid-cols-4 gap-6 w-full mt-8">
             <div class="sm:col-span-4">
                 <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
-                    <mat-label>Contraseña actual</mat-label>
+                    <mat-label>nueva contraseña</mat-label>
                     <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:key'" matPrefix></mat-icon>
                     <input [formControlName]="'currentPassword'" type="password" matInput>
                 </mat-form-field>
@@ -17,10 +17,10 @@
 
             <div class="sm:col-span-4">
                 <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
-                    <mat-label>Contraseña actual</mat-label>
+                    <mat-label>confirmar contraseña</mat-label>
                     <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:key'" matPrefix></mat-icon>
                     <input [formControlName]="'newPassword'" type="password" matInput>
-                  </mat-form-field>
+                </mat-form-field>
 
 
                 <div class="mt-1 text-md text-hint">Mínimo 8 caracteres. Debe incluir números, letras y especiales.</div>
@@ -29,7 +29,7 @@
 
         <div class="my-10 border-t"></div>
         <div class="w-full">
-            <div class="text-xl">Preferencias de seguridad</div>
+            <div class="text-xl">Preferencias de seguridad  -- PRÓXIMAMENTE --  </div>
             <div class="text-secondary">Mantenga su cuenta más segura con las siguientes preferencias.</div>
         </div>
 
@@ -49,7 +49,7 @@
                 <div class="flex-auto cursor-pointer" (click)="askPasswordChangeToggle.toggle()">
                     <div class="leading-6 font-medium">Solicite cambiar la contraseña cada 6 meses</div>
                     <div class="text-md text-secondary">
-                        Una forma sencilla pero eficaz de estar protegido contra la fuga de datos y el robo de contraseñas.
+                        Una forma sencilla pero eficaz de estar protegido y mantener tu cuenta segura.
                     </div>
                 </div>
                 <mat-slide-toggle class="ml-4" [color]="'primary'" [formControlName]="'askPasswordChange'"
