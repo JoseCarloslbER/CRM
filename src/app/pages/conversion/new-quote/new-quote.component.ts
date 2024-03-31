@@ -224,6 +224,7 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
       datos.optionProducts.forEach((productData: any, productIndex: number) => {
         const productInstance: any = this.createProductInstance(productData);
         instance.product.push(productInstance);
+        this.enableProductFields(productInstance); ///PARA HABILITAR CAMPOS CUANDO SE EDITA
       });
     } else {
       const newProductInstance: any = this.createProductInstance();
@@ -269,7 +270,7 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
     const productInstance: any = {
       ...(productData && { id: productData.id }),
       placesControl: new FormControl(
-        { value: productData?.unitPri || '', disabled: true },
+        { value: productData?.places || '', disabled: true },
         [Validators.required, (control: FormControl) => control.value > 0 ? null : { 'positiveNumber': true }]
       ),
       productControl: new FormControl({ value: productData?.product || '', disabled: false }, Validators.required),
@@ -452,6 +453,14 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
       });
+      //PARA CALCULAR IVA --------------------------------------------------
+      /*let total_number = subtotal - discount;
+      let tax = total_number - (total_number / 1.16);
+
+      productInstance.ivaControl.setValue((tax).toLocaleString('en-US', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      }));*/
 
       productInstance.totalControl.setValue(total);
     }

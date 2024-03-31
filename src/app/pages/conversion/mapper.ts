@@ -114,7 +114,10 @@ export class Mapper {
 			quoteOptions : response.quote_options.map((data:any) => {
 				return {
 					id: data?.quote_option_id || '',
-					subtotal : data?.subtotal,
+					subtotal : parseFloat(data?.subtotal,).toLocaleString('en-US', {
+						minimumFractionDigits: 2,
+						maximumFractionDigits: 2
+					}),
 					discount : parseFloat(data?.discount).toLocaleString('en-US', {
 						minimumFractionDigits: 2,
 						maximumFractionDigits: 2
