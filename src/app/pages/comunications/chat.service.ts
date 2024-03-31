@@ -98,9 +98,6 @@ export class ChatService
 
                     // Agrega el contacto al chat
                     chat.contact = contact;
-
-                    // Agrega el chat al arreglo de chats
-                    chats.push(chat);
     
                     data.messages.forEach((messageData: any) => {
                         const message = {
