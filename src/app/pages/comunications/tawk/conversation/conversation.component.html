@@ -28,7 +28,6 @@
                         </div>
                         <div class="ml-4 text-lg font-medium leading-5 truncate">{{chat?.contact?.name || '-'}}</div>
                     </div>
-
                     <button class="ml-auto" mat-icon-button [matMenuTriggerFor]="conversationHeaderMenu">
                         <mat-icon [svgIcon]="'heroicons_outline:ellipsis-vertical'"></mat-icon>
                         <mat-menu #conversationHeaderMenu>
@@ -36,14 +35,14 @@
                                 <mat-icon [svgIcon]="'heroicons_outline:user-circle'"></mat-icon>
                                 Información de contacto
                             </button>
-                            <button mat-menu-item>
-                                <mat-icon [svgIcon]="'heroicons_outline:backspace'"></mat-icon>
-                                Borrar mensajes
+                            <button mat-menu-item (click)="goBack()" >
+                                <mat-icon>arrow_back</mat-icon>
+                                Regresar
                             </button>
-                            <button mat-menu-item>
+                            <!--<button mat-menu-item>
                                 <mat-icon [svgIcon]="'heroicons_outline:trash'"></mat-icon>
                                 Borrar chat
-                            </button>
+                            </button>-->
                         </mat-menu>
                     </button>
                 </div>
@@ -92,7 +91,7 @@
                     </div>
                 </div>
 
-                <div class="flex items-end p-4 border-t bg-gray-50 dark:bg-transparent">
+                <!--<div class="flex items-end p-4 border-t bg-gray-50 dark:bg-transparent">
                     <mat-form-field class="fuse-mat-dense fuse-mat-rounded fuse-mat-bold w-full ml-4"
                         subscriptSizing="dynamic">
                         <textarea matInput cdkTextareaAutosize #messageInput></textarea>
@@ -102,7 +101,7 @@
                             <mat-icon [svgIcon]="'heroicons_outline:paper-airplane'"></mat-icon>
                         </button>
                     </div>
-                </div>
+                </div>-->
             </mat-drawer-content>
         </mat-drawer-container>
     </ng-container>

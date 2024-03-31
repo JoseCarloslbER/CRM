@@ -6,6 +6,7 @@ import * as entity from './comunications-interface';
 import * as entityGeneral from '../../shared/interfaces/general-interface';
 import { Mapper } from './mapper';
 import { TableDataActivities } from '../management/management-interface';
+import * as quickChat from '../../shared/layout/common/quick-chat/quick-chat.types'
 
 @Injectable({
   providedIn: 'root'
@@ -27,13 +28,23 @@ export class ComunicationsService {
   }
 
 
-  public getDataTawkTo(filter:string): Observable<any> {
+  public getDataTawkTo(filter:string): Observable<quickChat.Chat> {
     const url = `${this.apiUrl}tawkto-chat/?chat_id=${filter}`;
+    
+    return this.http.get<any>(url).pipe(
+      map((response: any) => {
+          const chats: quickChat.Chat[] = [];
 
-    return this.http.get<any>(url)
-    // .pipe(
-		// 	map((response) => Mapper.GetDatadetailsActivityMapper(response))
-		// );
+          response['chat'].forEach((data: any) => {
+              chats.push(data);
+          });
+          console.log(chats[0])
+          return chats[0];
+      })
+  );
+
+    /*return this.http.get<any>(url)
+    .pipe(map((response) => Mapper.GetDatadetailsActivityMapper(response)));*/
 	}
 
   public getDataId(id:string): Observable<any> {

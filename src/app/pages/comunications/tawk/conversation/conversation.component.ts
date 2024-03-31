@@ -299,13 +299,13 @@ export class ConversationComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.getId();
-        console.log('CONVERSACIÓN: ', this.conversation);
-        this.chat = this.conversation;
+        //console.log('CONVERSACIÓN: ', this.conversation);
+        //this.chat = this.conversation;
         this._fuseMediaWatcherService.onMediaChange$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(({matchingAliases}) => {
                 if ( matchingAliases.includes('lg') ) this.drawerMode = 'side';
-                 else this.drawerMode = 'over';
+                else this.drawerMode = 'over';
                 this._changeDetectorRef.markForCheck();
             });
     }
@@ -318,9 +318,9 @@ export class ConversationComponent implements OnInit, OnDestroy {
     
       getdataChat(id: string) {
         this.moduleServices.getDataTawkTo(id).subscribe({
-          next: ({ chat }: any) => {
-            console.log('SERVICIO', chat.data);
-            // this.chat = chat.data
+          next: (chat) => {
+            //console.log('SERVICIO', chat);
+            this.chat = chat
           },
           error: (error) => {
             this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
@@ -347,6 +347,10 @@ export class ConversationComponent implements OnInit, OnDestroy {
 
     trackByFn(index: number, item: any) {
         return item.id || index;
+    }
+
+    goBack() {
+        this.router.navigateByUrl(`/home/comunicaciones/tawk`)
     }
 
   ngOnDestroy(): void {
