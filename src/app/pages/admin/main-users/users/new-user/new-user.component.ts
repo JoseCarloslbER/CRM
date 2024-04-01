@@ -58,6 +58,7 @@ export class NewUserComponent implements OnInit, OnDestroy {
       next: (response: any) => {
         this.objEditData = response;
         this.formData.patchValue(this.objEditData);
+        this.formData.get('user_rol').disable();
         this.formData.get('password').clearValidators();
         this.formData.get('password').updateValueAndValidity(); // Actualizar los validadores
       },

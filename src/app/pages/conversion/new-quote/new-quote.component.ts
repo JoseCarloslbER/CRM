@@ -73,7 +73,7 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
     );
 
     this.moduleCompanieServices.getData().pipe(takeUntil(this.onDestroy)).subscribe((data) => {
-     if (data) {
+      if (data) {
         this.companySelected = data.id
         this.company.patchValue(data.name);
         this.company.disable()
@@ -90,6 +90,23 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
         if (selectedCompany) this.getCatalogContact(selectedCompany.company_id);
       });
     });
+
+    this.formData.get('tax_include').valueChanges.pipe(takeUntil(this.onDestroy)).subscribe(resp => {
+      if (!resp) {
+        this.optionFormValues.forEach(control => {
+          control.ivaControl.setValue('');
+        });
+      } else {
+        this.optionFormValues.forEach(control => {
+          let total_number = control?.subtotalControl?.value - control?.discountControl?.value;
+          let tax = total_number - (total_number / 1.16);
+          control.ivaControl.setValue((tax).toLocaleString('en-US', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+          }));
+        });
+      }
+    })
   }
 
   getId() {
@@ -180,8 +197,8 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
     objData.quote_options = options;
 
     console.log(objData);
-    if (this.objEditData) this.saveDataPatch(objData)
-    else this.saveDataPost(objData)
+    // if (this.objEditData) this.saveDataPatch(objData)
+    // else this.saveDataPost(objData)
   }
 
   saveDataPost(objData) {
@@ -304,7 +321,7 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
     });
 
     productInstance.unitPriceControl.valueChanges.subscribe((newUnitPrice: any) => {
-      if (!isNaN(newUnitPrice) ) {
+      if (!isNaN(newUnitPrice)) {
         this.updateProductTotalPriceManually(productInstance, newUnitPrice);
         this.updateSubtotal();
       }
@@ -367,6 +384,7 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
       }));
+
     } else {
       productInstance.totalPriceControl.setValue(listPrice.toLocaleString('en-US', {
         minimumFractionDigits: 2,
@@ -378,6 +396,8 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
   updateSubtotal(value?: any) {
     this.optionFormValues.forEach((optionInstance: any) => {
       let subtotal = 0;
+      const discountValue = optionInstance.discountControl.value;
+      const discount = this.parseNumber(discountValue) || 0;
 
       optionInstance.product.forEach((productInstance: any) => {
         subtotal += this.parseNumber(productInstance.totalPriceControl.value) || 0;
@@ -388,14 +408,25 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
           minimumFractionDigits: 2,
           maximumFractionDigits: 2
         }));
+
         optionInstance.totalControl.setValue(subtotal.toLocaleString('en-US', {
           minimumFractionDigits: 2,
           maximumFractionDigits: 2
         }));
-      }
 
-      const discountValue = optionInstance.discountControl.value;
-      const discount = this.parseNumber(discountValue) || 0;
+        if (this.formData.get('tax_include').value) {
+          console.log('CALCULAR IVA');
+          let total_number = subtotal - discount;
+          let tax = total_number - (total_number / 1.16);
+          console.log('tax', tax);
+          optionInstance.ivaControl.setValue((tax).toLocaleString('en-US', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+          }));
+        } else {
+          optionInstance.ivaControl.setValue('');
+        }
+      }
 
       if (value && optionInstance?.product.length >= 1) {
         optionInstance.discountControl.enable();
@@ -447,20 +478,28 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
         maximumFractionDigits: 2
       });
 
+
       productInstance.discountControl.setValue(total);
+
     } else {
+
+      if (this.formData.get('tax_include').value) {
+        console.log('CALCULAR IVA');
+        console.log(productInstance);
+        let total_number = subtotal - discount;
+        let tax = total_number - (total_number / 1.16);
+        productInstance.ivaControl.setValue((tax).toLocaleString('en-US', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        }));
+      } else {
+        productInstance.ivaControl.setValue('');
+      }
+
       const total = (subtotal - discount).toLocaleString('en-US', {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
       });
-      //PARA CALCULAR IVA --------------------------------------------------
-      /*let total_number = subtotal - discount;
-      let tax = total_number - (total_number / 1.16);
-
-      productInstance.ivaControl.setValue((tax).toLocaleString('en-US', {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2
-      }));*/
 
       productInstance.totalControl.setValue(total);
     }

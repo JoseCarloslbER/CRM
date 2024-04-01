@@ -47,7 +47,7 @@
                             <input formControlName="last_name" matInput>
                         </mat-form-field>
                     
-                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
+                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister" >
                             <mat-label>Rol</mat-label>
                             <mat-select formControlName="user_rol" placeholder="Seleccionar">
                                 <mat-option [value]="cat.rol_id  "
@@ -55,7 +55,7 @@
                             </mat-select>
                         </mat-form-field>
 
-                        <mat-form-field class="gt-xs:pr-3 inputNewRegister">
+                        <mat-form-field class="gt-xs:pr-3 inputNewRegister" *ngIf="!objEditData">
                             <mat-label>{{objEditData?.messagePassword || 'Contraseña'}}</mat-label>
                             <input formControlName="password" matInput>
                         </mat-form-field>
