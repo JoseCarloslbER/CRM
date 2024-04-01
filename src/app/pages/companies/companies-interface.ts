@@ -105,6 +105,7 @@ export interface PostDataCompany {
   comments: string;
   register_date: string;
   register_user: string;
+  logo?: File;
 }
 
 export interface GetDataCompanyMapper {
@@ -124,6 +125,7 @@ export interface GetDataCompanyMapper {
   company_size: string
   web_page: string
   comments: string
+  logo?: File
 }
 
 export interface GetDataDetailsCompanyMapper {

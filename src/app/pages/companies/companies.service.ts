@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'environments/environment.dev';
 import { BehaviorSubject, Observable, map } from 'rxjs';
@@ -87,13 +87,51 @@ export class CompaniesService {
   public postData(data:entity.PostDataCompany): Observable<any> {
 		const url = `${this.apiUrl}company/`;
 
-    return this.http.post<any>(url, data)
+    // Obtenemos los valores del formulario
+    const objData = new FormData();
+    Object.entries(data).forEach(([key, value]) => {
+      if (key === 'company_contacts') {
+        value.forEach((contact, index) => {
+          Object.entries(contact).forEach(([contactKey, contactValue]) => {
+            if (typeof contactValue === 'string') {
+              objData.append(`company_contacts[${index}][${contactKey}]`, contactValue);
+            }
+          });
+        });
+      } else {
+        objData.append(key, value);
+      }
+    });
+
+    // Configura manualmente el Content-Type en FormData
+    //objData.set('Content-Type', 'multipart/form-data');
+
+    return this.http.post<any>(url, data.logo != null ? objData : data)
 	}
 
   public patchData(id:string, data:entity.GetDataCompanyMapper): Observable<any> {
 		const url = `${this.apiUrl}company/${id}/`;
 
-    return this.http.patch<any>(url, data)
+    // Obtenemos los valores del formulario
+    const objData = new FormData();
+    Object.entries(data).forEach(([key, value]) => {
+      if (key === 'company_contacts') {
+        value.forEach((contact, index) => {
+          Object.entries(contact).forEach(([contactKey, contactValue]) => {
+            if (typeof contactValue === 'string') {
+              objData.append(`company_contacts[${index}][${contactKey}]`, contactValue);
+            }
+          });
+        });
+      } else {
+        objData.append(key, value);
+      }
+    });
+
+    // Configura manualmente el Content-Type en FormData
+    //objData.set('Content-Type', 'multipart/form-data');
+
+    return this.http.patch<any>(url, data.logo != null ? objData : data)
 	}
  
   public deleteData(id:string): Observable<any> {

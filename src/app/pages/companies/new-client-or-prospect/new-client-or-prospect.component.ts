@@ -35,7 +35,7 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
   public formData = this.formBuilder.group({
     company_name: ['', Validators.required],
     platform: ['', Validators.required],
-    phone_number: [''],
+    phone_number: ['', Validators.required],
     email: [''],
     tax_id_number: [''],
     state: [''],
@@ -48,7 +48,8 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     company_type: [''],
     company_size: [''],
     web_page: ['https://', [Validators.required, Validators.pattern(/^(ftp|http|https):\/\/[^ "]+$/)]],
-    comments: ['']
+    comments: [''],
+    logo: [null]
   });
 
   public taxInclude = new FormControl(true)
@@ -223,7 +224,6 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
   actionSave() {
     let contacts: entity.CompanyContacts[] = [...this.getContactsValue()];
     let options: any[] = [...this.getOptionsValues()];
-
 
     let objData: any = {
       ...this.formData.value
@@ -765,6 +765,13 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
         currentOption.product[productIndex].unitPriceControl.setValue('');
       }
     }, 300);
+  }
+
+  onFileChange(event: any) {
+    const file = (event.target as HTMLInputElement).files[0];
+    if (file) {
+      this.formData.patchValue({ logo: file });
+    }
   }
 
   ngOnDestroy(): void {

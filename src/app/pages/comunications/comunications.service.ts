@@ -38,7 +38,7 @@ export class ComunicationsService {
           response['chat'].forEach((data: any) => {
               chats.push(data);
           });
-          console.log(chats[0])
+          //console.log(chats[0])
           return chats[0];
       })
   );

@@ -10,7 +10,7 @@
 
     <div class="row form-padding d-flex">
         <p class="mb-6">*Campos obligatorios</p>
-        <form class="col-12" [formGroup]="formData">
+        <form class="col-12" [formGroup]="formData" enctype="multipart/form-data">
             <div>
                 <div class="row">
                     <div class="col-md-4">
@@ -144,14 +144,14 @@
                                 <div class="col-md-8">
                                     <div class="d-flex flex-column inputNewRegister">
                                         <mat-label class="mb-1">Imagen</mat-label>
-                                        <input type="file" name="eta">
+                                        <input type="file" (change)="onFileChange($event)" name="logo" accept="image/*">
                                     </div>
                                 </div>
-                                <div class="col-md-4 d-flex align-items-center justify-content-end">
+                                <!--<div class="col-md-4 d-flex align-items-center justify-content-end">
                                     <button class="btn-action-add">
                                         <span>Subir</span>
                                     </button>
-                                </div>
+                                </div>-->
                             </div>
                         </div>
                     </div>
