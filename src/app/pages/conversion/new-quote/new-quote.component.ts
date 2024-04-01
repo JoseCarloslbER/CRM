@@ -119,6 +119,8 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
   getDataById(id: string) {
     this.moduleServices.getDataId(id).subscribe({
       next: (response: any) => {
+        console.log(response);
+        
         this.objEditData = response;
         this.formData.patchValue(this.objEditData);
         this.company.patchValue(this.objEditData.company.name);
@@ -197,8 +199,8 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
     objData.quote_options = options;
 
     console.log(objData);
-    // if (this.objEditData) this.saveDataPatch(objData)
-    // else this.saveDataPost(objData)
+    if (this.objEditData) this.saveDataPatch(objData)
+    else this.saveDataPost(objData)
   }
 
   saveDataPost(objData) {
@@ -229,7 +231,7 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
     const instance: any = {
       ...(datos && { id: datos?.id }),
       subtotalControl: new FormControl({ value: datos?.subtotal || '', disabled: true }, Validators.required),
-      discountControl: new FormControl({ value: datos?.discount || 0, disabled: true }),
+      discountControl: new FormControl({ value: datos?.discount || 0, disabled: datos?.discount ? false : true }),
       totalControl: new FormControl({ value: datos?.total || '', disabled: true }, Validators.required),
       ivaControl: new FormControl({ value: datos?.tax || '', disabled: true }),
       typePriceControl: new FormControl({ value: datos?.typePrice || this.optionFormValues.length >= 1 ? 2 : 1, disabled: false }, Validators.required),
@@ -241,7 +243,7 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
       datos.optionProducts.forEach((productData: any, productIndex: number) => {
         const productInstance: any = this.createProductInstance(productData);
         instance.product.push(productInstance);
-        this.enableProductFields(productInstance); ///PARA HABILITAR CAMPOS CUANDO SE EDITA
+        this.enableProductFields(productInstance); 
       });
     } else {
       const newProductInstance: any = this.createProductInstance();
@@ -274,7 +276,8 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
         type_price: control.typePriceControl.value,
         deadline: formattedDate,
         option_products: productValues,
-        quote_option: index + 1
+        quote_option: index + 1,
+        tax: parseFloat(control.ivaControl.value),
       }
 
       return obj;
@@ -287,12 +290,12 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
     const productInstance: any = {
       ...(productData && { id: productData.id }),
       placesControl: new FormControl(
-        { value: productData?.places || '', disabled: true },
+        { value: productData?.places || '', disabled: productData?.places ? false : true },
         [Validators.required, (control: FormControl) => control.value > 0 ? null : { 'positiveNumber': true }]
       ),
       productControl: new FormControl({ value: productData?.product || '', disabled: false }, Validators.required),
       unitPriceControl: new FormControl(
-        { value: productData?.unitPri || '', disabled: true },
+        { value: productData?.unitPri || '', disabled: productData?.unitPri ? false : true },
         [Validators.required, (control: FormControl) => parseFloat(control.value.replace(/,/g, '')) > 0 ? null : { 'positiveNumber': true }]
       ),
       totalPriceControl: new FormControl({ value: productData?.total || '', disabled: true }, Validators.required),
@@ -415,10 +418,8 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
         }));
 
         if (this.formData.get('tax_include').value) {
-          console.log('CALCULAR IVA');
           let total_number = subtotal - discount;
           let tax = total_number - (total_number / 1.16);
-          console.log('tax', tax);
           optionInstance.ivaControl.setValue((tax).toLocaleString('en-US', {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2

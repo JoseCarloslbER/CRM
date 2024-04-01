@@ -97,6 +97,8 @@ export class Mapper {
 	}
 
 	static GetDataTableCompanyMapper(response: entity.TableDataQuote) {
+		console.log(response);
+		
 		return {
 			id : response.quote_id || '-',
 			regiterDate : moment(response?.register_date).format('DD-MM-YYYY'),
@@ -114,6 +116,10 @@ export class Mapper {
 			quoteOptions : response.quote_options.map((data:any) => {
 				return {
 					id: data?.quote_option_id || '',
+					tax : parseFloat(data?.tax,).toLocaleString('en-US', {
+						minimumFractionDigits: 2,
+						maximumFractionDigits: 2
+					}),
 					subtotal : parseFloat(data?.subtotal,).toLocaleString('en-US', {
 						minimumFractionDigits: 2,
 						maximumFractionDigits: 2
