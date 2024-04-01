@@ -27,7 +27,7 @@ export class ModalNewContactComponent implements OnInit, OnDestroy {
     email: ['', Validators.pattern(/^\S+@\S+\.\S+$/)],
     local_phone: ['', Validators.required],
     position: ['', Validators.required],
-    movil_phone: ['', Validators.required],
+    phone_number: ['', [Validators.required, Validators.pattern(/^\d{10}$/)]],
     ext: ['', Validators.required],
   });
 

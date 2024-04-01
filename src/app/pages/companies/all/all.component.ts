@@ -5,12 +5,12 @@ import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { Subject, debounceTime, takeUntil } from 'rxjs';
-import { CompaniesService } from '../companies.service';
 import * as entity from '../companies-interface';
 import { DataCatBusiness } from 'app/shared/interfaces/general-interface';
 import * as entityGeneral from '../../../shared/interfaces/general-interface';
 import moment from 'moment';
 import { CatalogsService } from 'app/shared/services/catalogs.service';
+import { CompaniesService } from '../companies.service';
 
 @Component({
   selector: 'app-all',
@@ -158,14 +158,13 @@ export class AllComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   editData(data: any) {
-    console.log(data);
-
     if (data.status == 'Prospecto') {
       this.router.navigateByUrl(`/home/empresas/editar-prospecto/${data.id}`)
     } else  if (data.status == 'Cliente') {
       this.router.navigateByUrl(`/home/empresas/editar-cliente/${data.id}`)
+    } else {
+      this.router.navigateByUrl(`/home/empresas/editar-lead/${data.id}`)
     }
-    
   }
 
   cambiarOpcion(opcion: string) {

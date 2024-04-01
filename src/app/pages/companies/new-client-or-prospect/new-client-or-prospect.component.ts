@@ -23,7 +23,7 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
   private formatTimer: ReturnType<typeof setTimeout>;
 
   public addContact = new FormControl(true)
-  public movilPhoneContact = new FormControl('', Validators.required)
+  public movilPhoneContact = new FormControl('', [Validators.required , Validators.pattern(/^\d{10}$/)])
   public nameContact = new FormControl('', Validators.required)
   public contacts: any[] = []
   public valuesContacts: any[] = []
@@ -35,7 +35,7 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
   public formData = this.formBuilder.group({
     company_name: ['', Validators.required],
     platform: ['', Validators.required],
-    phone_number: ['', Validators.required],
+    phone_number: ['', [Validators.required, Validators.pattern(/^\d{10}$/)]],
     email: [''],
     tax_id_number: [''],
     state: [''],
@@ -116,6 +116,24 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
         this.getCatalogs();
 
       } else this.asignValidators(false);
+    })
+
+    this.taxInclude?.valueChanges.pipe(takeUntil(this.onDestroy)).subscribe(resp => {
+      if (!resp) {
+        this.optionFormValues.forEach(control => {
+          control.ivaControl.setValue('');
+        });
+      } else {
+        this.optionFormValues.forEach(control => {
+          let total_number = parseFloat(control?.subtotalControl?.value.replace(/,/g, '')) - control?.discountControl?.value;
+          let tax = total_number - (total_number / 1.16);
+          
+          control.ivaControl.setValue((tax).toLocaleString('en-US', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+          }));
+        });
+      }
     })
   }
 
@@ -303,13 +321,15 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
   }
 
   addFormContact(datos?: any) {
+  console.log('addFormContact', datos);
+    
     const instance: any = {
       ...(datos && { id: datos.id }),
       fullNameControl: new FormControl({ value: datos?.nombre || '', disabled: false }, Validators.required),
       emailControl: new FormControl({ value: datos?.correo || '', disabled: false }, [Validators.required, Validators.pattern(/^\S+@\S+\.\S+$/)]),
-      localPhone: new FormControl({ value: datos?.correo || '', disabled: false }, Validators.required),
+      localPhone: new FormControl({ value: datos?.correo || '', disabled: false }, [Validators.required, Validators.pattern(/^\d{10}$/)]),
       positionControl: new FormControl({ value: datos?.correo || '', disabled: false }, Validators.required),
-      movilPhoneControl: new FormControl({ value: datos?.correo || '', disabled: false }, Validators.required),
+      movilPhoneControl: new FormControl({ value: datos?.correo || '', disabled: false }, [Validators.required, Validators.pattern(/^\d{10}$/)]),
       extControl: new FormControl({ value: datos?.correo || '', disabled: false }),
     };
 
@@ -359,7 +379,8 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
         type_price: control.typePriceControl.value,
         deadline: formattedDate,
         option_products: productValues,
-        quote_option: index + 1
+        quote_option: index + 1,
+        tax: parseFloat(control.ivaControl.value),
       }
 
       return obj;
@@ -372,9 +393,9 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     const instance: any = {
       ...(datos && { id: datos?.id }),
       subtotalControl: new FormControl({ value: datos?.subtotal || '', disabled: true }, Validators.required),
-      discountControl: new FormControl({ value: datos?.discount || 0, disabled: true }),
+      discountControl: new FormControl({ value: datos?.discount || 0, disabled: datos?.discount ? false : true }),
       totalControl: new FormControl({ value: datos?.total || '', disabled: true }, Validators.required),
-      ivaControl: new FormControl({ value: datos?.total || '', disabled: true }),
+      ivaControl: new FormControl({ value: datos?.tax || '', disabled: true }),
       typePriceControl: new FormControl({ value: datos?.typePrice || this.optionFormValues.length >= 1 ? 2 : 1, disabled: false }, Validators.required),
       dateControl: new FormControl({ value: datos?.date || '', disabled: false }, Validators.required),
       product: []
@@ -384,6 +405,7 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
       datos.optionProducts.forEach((productData: any, productIndex: number) => {
         const productInstance: any = this.createProductInstance(productData);
         instance.product.push(productInstance);
+        this.enableProductFields(productInstance); 
       });
     } else {
       const newProductInstance: any = this.createProductInstance();
@@ -398,12 +420,12 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     const productInstance: any = {
       ...(productData && { id: productData.id }),
       placesControl: new FormControl(
-        { value: productData?.unitPri || '', disabled: true },
+        { value: productData?.places || '', disabled: productData?.places ? false : true },
         [Validators.required, (control: FormControl) => control.value > 0 ? null : { 'positiveNumber': true }]
       ),
       productControl: new FormControl({ value: productData?.product || '', disabled: false }, Validators.required),
       unitPriceControl: new FormControl(
-        { value: productData?.unitPri || '', disabled: true },
+        { value: productData?.unitPri || '', disabled: productData?.unitPri ? false : true },
         [Validators.required, (control: FormControl) => parseFloat(control.value.replace(/,/g, '')) > 0 ? null : { 'positiveNumber': true }]
       ),
       totalPriceControl: new FormControl({ value: productData?.total || '', disabled: true }, Validators.required),
@@ -432,7 +454,7 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     });
 
     productInstance.unitPriceControl.valueChanges.subscribe((newUnitPrice: any) => {
-      if (!isNaN(newUnitPrice) ) {
+      if (!isNaN(newUnitPrice)) {
         this.updateProductTotalPriceManually(productInstance, newUnitPrice);
         this.updateSubtotal();
       }
@@ -506,6 +528,8 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
   updateSubtotal(value?: any) {
     this.optionFormValues.forEach((optionInstance: any) => {
       let subtotal = 0;
+      const discountValue = optionInstance.discountControl.value;
+      const discount = this.parseNumber(discountValue) || 0;
 
       optionInstance.product.forEach((productInstance: any) => {
         subtotal += this.parseNumber(productInstance.totalPriceControl.value) || 0;
@@ -516,14 +540,23 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
           minimumFractionDigits: 2,
           maximumFractionDigits: 2
         }));
+
         optionInstance.totalControl.setValue(subtotal.toLocaleString('en-US', {
           minimumFractionDigits: 2,
           maximumFractionDigits: 2
         }));
-      }
 
-      const discountValue = optionInstance.discountControl.value;
-      const discount = this.parseNumber(discountValue) || 0;
+        if (this.taxInclude?.value) {
+          let total_number = subtotal - discount;
+          let tax = total_number - (total_number / 1.16);
+          optionInstance.ivaControl.setValue((tax).toLocaleString('en-US', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+          }));
+        } else {
+          optionInstance.ivaControl.setValue('');
+        }
+      }
 
       if (value && optionInstance?.product.length >= 1) {
         optionInstance.discountControl.enable();
@@ -576,7 +609,21 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
       });
 
       productInstance.discountControl.setValue(total);
+
     } else {
+
+      if (this.taxInclude?.value) {
+        console.log(productInstance);
+        let total_number = subtotal - discount;
+        let tax = total_number - (total_number / 1.16);
+        productInstance.ivaControl.setValue((tax).toLocaleString('en-US', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        }));
+      } else {
+        productInstance.ivaControl.setValue('');
+      }
+
       const total = (subtotal - discount).toLocaleString('en-US', {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
@@ -729,20 +776,19 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     return save
   }
 
-  configInput(event: Event, type: string, control?: string): void {
+  configInput(event: Event, type: string, control?: string, index?:number): void {
     const inputElement = event.target as HTMLInputElement;
     const inputValue = inputElement.value;
     const sanitizedValue = inputValue.replace(/\D/g, '');
 
     if (type == 'movilPhoneContact') {
       this.movilPhoneContact?.patchValue(sanitizedValue, { emitEvent: false });
-
     } else if (type == 'form') {
       const formControl = this.formData.get(control);
       if (formControl) formControl.setValue(sanitizedValue, { emitEvent: false });
 
-    } else {
-      this.valuesContacts[0][control]?.patchValue(sanitizedValue, { emitEvent: false });
+    } else if (index !== undefined  && this.valuesContacts[index]) {
+      this.valuesContacts[index][control]?.patchValue(sanitizedValue, { emitEvent: false });
     }
   }
 

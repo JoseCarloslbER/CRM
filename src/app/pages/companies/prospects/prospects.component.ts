@@ -4,12 +4,12 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { Router } from '@angular/router';
-import { CompaniesService } from '../companies.service';
 import { Subject, debounceTime, takeUntil } from 'rxjs';
 import * as entity from '../companies-interface';
 import * as entityGeneral from '../../../shared/interfaces/general-interface';
 import moment from 'moment';
 import { CatalogsService } from 'app/shared/services/catalogs.service';
+import { CompaniesService } from '../companies.service';
 @Component({
   selector: 'app-prospects',
   templateUrl: './prospects.component.html',

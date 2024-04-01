@@ -22,7 +22,7 @@ export class NewUserComponent implements OnInit, OnDestroy {
     first_name: ['', Validators.required],
     last_name: ['', Validators.required],
     email: ['', Validators.pattern(/^\S+@\S+\.\S+$/)],
-    phone_number: ['', Validators.required],
+    phone_number: ['', [Validators.required, Validators.pattern(/^\d{10}$/)]],
     voice_identifier: ['', Validators.required],
     user_id_slack: ['', [Validators.required]],
     password : ['', Validators.required],

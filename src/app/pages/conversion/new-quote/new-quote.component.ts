@@ -98,8 +98,9 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
         });
       } else {
         this.optionFormValues.forEach(control => {
-          let total_number = control?.subtotalControl?.value - control?.discountControl?.value;
+          let total_number = parseFloat(control?.subtotalControl?.value.replace(/,/g, '')) - control?.discountControl?.value;
           let tax = total_number - (total_number / 1.16);
+          
           control.ivaControl.setValue((tax).toLocaleString('en-US', {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2
@@ -119,8 +120,6 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
   getDataById(id: string) {
     this.moduleServices.getDataId(id).subscribe({
       next: (response: any) => {
-        console.log(response);
-        
         this.objEditData = response;
         this.formData.patchValue(this.objEditData);
         this.company.patchValue(this.objEditData.company.name);
@@ -479,13 +478,11 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
         maximumFractionDigits: 2
       });
 
-
       productInstance.discountControl.setValue(total);
 
     } else {
 
       if (this.formData.get('tax_include').value) {
-        console.log('CALCULAR IVA');
         console.log(productInstance);
         let total_number = subtotal - discount;
         let tax = total_number - (total_number / 1.16);
