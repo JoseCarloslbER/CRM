@@ -60,6 +60,7 @@ export interface PostDataActivities {
   type_activity: string;
   campaign: string;
   status: string;
+  document?: File;
 }
 
 export interface PatchDataActivities {
@@ -73,5 +74,6 @@ export interface PatchDataActivities {
   type_activity: string;
   campaign: string;
   status: string;
+  document?: File;
 }
 

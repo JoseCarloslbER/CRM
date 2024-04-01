@@ -35,16 +35,26 @@ export class ManagementmentService {
 
   public postData(data:entity.PostDataActivities): Observable<any> {
 		const url = `${this.apiUrl}activity/`;
+    
+    const objData = new FormData();
+    Object.entries(data).forEach(([key, value]) => {
+      objData.append(key, value);
+    });
 
-    return this.http.post<any>(url, data)
+    return this.http.post<any>(url, data.document != null ? objData : data)
 	}
 
   public patchData(id:string, data:entity.PatchDataActivities): Observable<any> {
 		const url = `${this.apiUrl}activity/${id}/`;
 
-    return this.http.patch<any>(url, data)
+    const objData = new FormData();
+    Object.entries(data).forEach(([key, value]) => {
+      objData.append(key, value);
+    });
+
+    return this.http.patch<any>(url, data.document != null ? objData : data)
 	}
- 
+
   public deleteData(id:string): Observable<any> {
 		const url = `${this.apiUrl}activity/${id}/`;
 

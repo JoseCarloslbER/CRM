@@ -35,6 +35,7 @@ export class ModalNewActivityComponent implements OnInit, AfterViewInit, OnDestr
     type_activity: ['', Validators.required],
     campaign: [''],
     quote: [{ value: '', disable: true }],
+    document: [null]
   });
 
   public company = new FormControl(null);
@@ -169,10 +170,9 @@ export class ModalNewActivityComponent implements OnInit, AfterViewInit, OnDestr
     }
 
     objData.activity_date = moment(this.formData.get('activity_date').value).format('YYYY-MM-DD');
-
+    console.log(objData);
     if (this.data.type == 'activities') {
       objData.process = 'Actividades';
-      console.log(objData);
       this.saveDataPostPatchActivities(objData);
 
     } else if (this.data.type == 'calls') {
@@ -243,4 +243,12 @@ export class ModalNewActivityComponent implements OnInit, AfterViewInit, OnDestr
     this.onDestroy.next();
     this.onDestroy.unsubscribe();
   }
+
+  onFileChange(event: any) {
+    const file = (event.target as HTMLInputElement).files[0];
+    if (file) {
+      this.formData.patchValue({ document: file });
+    }
+  }
+
 }

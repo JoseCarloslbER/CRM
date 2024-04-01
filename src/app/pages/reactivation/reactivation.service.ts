@@ -45,13 +45,23 @@ export class ReactivationService {
   public postDataCallOrDaily(data:PostDataActivities): Observable<any> {
 		const url = `${environment.apiURL}manage/activity/`;
 
-    return this.http.post<any>(url, data)
+    const objData = new FormData();
+    Object.entries(data).forEach(([key, value]) => {
+      objData.append(key, value);
+    });
+
+    return this.http.post<any>(url, data.document != null ? objData : data)
 	}
 
   public patchDataCallOrDaily(id:string, data:PatchDataActivities): Observable<any> {
 		const url = `${environment.apiURL}manage/activity/${id}/`;
 
-    return this.http.patch<any>(url, data)
+    const objData = new FormData();
+    Object.entries(data).forEach(([key, value]) => {
+      objData.append(key, value);
+    });
+
+    return this.http.patch<any>(url, data.document != null ? objData : data)
 	}
  
   public deleteDataCallOrDaily(id:string): Observable<any> {
