@@ -91,6 +91,27 @@ export interface DataCatStatus {
   module: string;
 }
 
+export interface DataUser {
+  id: string;
+  email: string;
+  username: string;
+  last_login: string;
+  first_name: string;
+  is_connected: boolean;
+  last_name: string;
+  date_joined: string;
+  phone_number: string;
+  voice_identifier: string;
+  profile_picture: string;
+  last_access: string;
+  user_id_slack: string;
+  user_rol: {
+    rol_id: string
+    rol_name: string
+    permissions: any
+  }
+}
+
 export interface DataCatCampaing {
   campaign_code: string;
   campaign_name: string;

@@ -122,16 +122,26 @@ export class AdminService {
 			map((response) => Mapper.getDataUserMapper(response)));
   }
 
-  public postDataUser(data): Observable<any> {
+  public postDataUser(data:entity.PostDataUser): Observable<any> {
     const url = `${environment.apiURL}auth/user/`;
 
-    return this.http.post<any>(url, data)
+    const objData = new FormData();
+    Object.entries(data).forEach(([key, value]) => {
+      objData.append(key, value);
+    });
+
+    return this.http.patch<any>(url, data.document != null ? objData : data)
   }
 
-  public patchDataUser(id: string, data): Observable<any> {
+  public patchDataUser(id: string, data:entity.PatchDataUser): Observable<any> {
     const url = `${environment.apiURL}auth/user/${id}/`;
 
-    return this.http.patch<any>(url, data)
+    const objData = new FormData();
+    Object.entries(data).forEach(([key, value]) => {
+      objData.append(key, value);
+    });
+
+    return this.http.patch<any>(url, data.profile_picture != null ? objData : data)
   }
 
   public deleteDataUser(id: string): Observable<any> {

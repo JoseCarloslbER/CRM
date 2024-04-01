@@ -23,6 +23,9 @@
                                 <ng-container *ngIf="chat.on">
                                     <div class="absolute bottom-0 right-0 flex-0 w-2 h-2 -ml-0.5 rounded-full ring-2 ring-bg-card dark:ring-gray-900 dark:bg-primary-500 text-on-primary" style="background: rgb(84, 202, 54);"></div>
                                 </ng-container>
+                                <ng-container *ngIf="!chat.on">
+                                    <div class="absolute bottom-0 right-0 flex-0 w-2 h-2 -ml-0.5 rounded-full ring-2 ring-bg-card dark:ring-gray-900 dark:bg-primary-500 text-on-primary" style="background: rgb(187, 187, 187);"></div>
+                                </ng-container>
                                 <ng-container>
                                     <img class="w-full h-full rounded-full object-cover" [src]="chat.photo"/>
                                 </ng-container>

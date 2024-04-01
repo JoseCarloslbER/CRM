@@ -9,6 +9,7 @@ import { FuseScrollbarDirective } from '@fuse/directives/scrollbar';
 import { Subject } from 'rxjs';
 import { Chat } from './quick-chat.types';
 import { MaterialModule } from 'app/shared/material/material.module';
+import { CatalogsService } from 'app/shared/services/catalogs.service';
 
 @Component({
     selector     : 'quick-chat',
@@ -30,122 +31,26 @@ export class QuickChatComponent implements OnInit, OnDestroy {
     opened: boolean = false;
     selectedChat: Chat;
 
-    chats:any = [
-        {
-            id: 1,
-            photo : '../../../../../assets/images/user-lateral.png',
-            name : 'Rogelio',
-            on: true
-        },
-        {
-            id: 2,
-            photo : '../../../../../assets/images/user-lateral.png',
-            name : 'Daniela',
-            on: false
-        },
-        {
-            id: 3,
-            photo : '../../../../../assets/images/user-lateral.png',
-            name : 'Raul',
-            on: false
-        },
-        {
-            id: 4,
-            photo : '../../../../../assets/images/user-lateral.png',
-            name : 'Estefania',
-            on: true
-        },
-        {
-            id: 5,
-            photo : '../../../../../assets/images/user-lateral.png',
-            name : 'Luisa',
-            on: false
-        },
-        {
-            id: 6,
-            photo : '../../../../../assets/images/user-lateral.png',
-            name : 'Polo',
-            on: true
-        },
-        {
-            id: 7,
-            photo : '../../../../../assets/images/user-lateral.png',
-            name : 'Plegio',
-            on: false
-        },
-        {
-            id: 8,
-            photo : '../../../../../assets/images/user-lateral.png',
-            name : 'Susana',
-            on: false
-        },
-        {
-            id: 9,
-            photo : '../../../../../assets/images/user-lateral.png',
-            name : 'Yulia',
-            on: false
-        },
-        {
-            id: 10,
-            photo : '../../../../../assets/images/user-lateral.png',
-            name : 'Juliana',
-            on: true
-        },
-        {
-            id: 10,
-            photo : '../../../../../assets/images/user-lateral.png',
-            name : 'Ramon',
-            on: false
-        },
-        {
-            id: 5,
-            photo : '../../../../../assets/images/user-lateral.png',
-            name : 'Luisa',
-            on: true
-        },
-        {
-            id: 6,
-            photo : '../../../../../assets/images/user-lateral.png',
-            name : 'Polo',
-            on: false
-        },
-        {
-            id: 7,
-            photo : '../../../../../assets/images/user-lateral.png',
-            name : 'Plegio',
-            on: true
-        },
-        {
-            id: 8,
-            photo : '../../../../../assets/images/user-lateral.png',
-            name : 'Susana',
-            on: false
-        },
-        {
-            id: 9,
-            photo : '../../../../../assets/images/user-lateral.png',
-            name : 'Yulia',
-            on: true
-        },
-        {
-            id: 10,
-            photo : '../../../../../assets/images/user-lateral.png',
-            name : 'Juliana',
-            on: false
-        },
-        {
-            id: 10,
-            photo : '../../../../../assets/images/user-lateral.png',
-            name : 'Ramon',
-            on: true
-        },
-    ]
+    chats:any = []
 
-    constructor() { }
+    constructor(
+        private catalogsServices: CatalogsService
+    ) { }
 
     ngOnInit(): void {
+        this.catalogsServices.getCatUsers().subscribe(data => {
+            console.log(data);
+            this.chats = data.map(data => {
+                return {
+                    id: data.id,
+                    photo: data?.profile_picture?.includes('default') ? `../../../assets/images/user-lateral.png` : data.profile_picture,
+                    name: `${data?.first_name && data?.last_name ? data.first_name.toUpperCase() + ' ' + data.last_name.toUpperCase() : data.username.toUpperCase() || '-'}`,
+                    on: data.is_connected
+                }
+            })
+        })
+        
         const config: MutationObserverInit = {};
-
         if (this.elementoObservado) this.mutationObserver.observe(this.elementoObservado.nativeElement, config);
     }
   

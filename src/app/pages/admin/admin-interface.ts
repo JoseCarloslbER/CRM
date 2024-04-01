@@ -140,4 +140,28 @@ export interface TableDataRoles {
 export interface TableDataRolesMapper {
 }
 
-// END ROLES 
+export interface PostDataUser {
+  first_name : string
+  user_id_slack : string
+  username : string
+  last_name : string
+  email : string
+  phone_number : string
+  voice_identifier : string
+  profile_picture : string
+  document?: File;
+}
+
+export interface PatchDataUser {
+  id? : string
+  first_name? : string
+  user_id_slack? : string
+  username? : string
+  last_name? : string
+  email? : string
+  phone_number? : string
+  voice_identifier? : string
+  profile_picture? : File
+}
+
+// END ROLES }

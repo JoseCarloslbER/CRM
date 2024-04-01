@@ -10,10 +10,14 @@ import { environment } from 'environments/environment.dev';
 export class CatalogsService {
 	constructor(private http: HttpClient) { }
 
-	// CATALOGS
+	public getDataUser(id:string): Observable<entityGeneral.DataUser> {
+		const url = `${environment.apiURL}auth/user/${id}/`;
+
+		return this.http.get<entityGeneral.DataUser>(url)
+	}
+
 	public getCatStatus(filtro?:string): Observable<entityGeneral.DataCatStatus[]> {
 		const url = `${environment.apiURL}settings/status/${filtro ? `?${filtro}` : ''}`;
-
 
 		return this.http.get<entityGeneral.DataCatStatus[]>(url)
 	}
@@ -22,6 +26,12 @@ export class CatalogsService {
 		const url = `${environment.apiURL}auth/user/`;
 
 		return this.http.get<entityGeneral.DataCatAgents[]>(url)
+	}
+
+	public getCatUsers(): Observable<entityGeneral.DataUser[]> {
+		const url = `${environment.apiURL}auth/user/`;
+
+		return this.http.get<entityGeneral.DataUser[]>(url)
 	}
 
 	public getCatCompany(filters?: any): Observable<entityGeneral.DataCatCompany[]> {
