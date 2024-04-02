@@ -94,6 +94,12 @@ export class CatalogsService {
 		return this.http.get<entityGeneral.DataCatCountry[]>(url)
 	}
 
+	public getCatPlatform(): Observable<entityGeneral.DataCatPlatform[]> {
+		const url = `${environment.apiURL}settings/platform/`;
+
+		return this.http.get<entityGeneral.DataCatPlatform[]>(url)
+	}
+
 	public getCatProductCategory(): Observable<entityGeneral.DataCatProductCategory[]> {
 		const url = `${environment.apiURL}settings/product-category/`;
 

@@ -5,8 +5,8 @@ import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatTabGroup } from '@angular/material/tabs';
 import { Subject, takeUntil } from 'rxjs';
-import { CompaniesService } from '../../companies.service';
 import * as entity from '../../companies-interface';
+import { CompaniesService } from '../../companies.service';
 
 @Component({
   selector: 'app-detail-client',
@@ -45,6 +45,7 @@ export class DetailClientComponent implements OnInit {
   ];
 
   public objEditData: any;
+  public phoneCompany: string = '';
 
   constructor(
     private moduleServices: CompaniesService,
@@ -68,12 +69,18 @@ export class DetailClientComponent implements OnInit {
       next: (response: entity.GetDataDetailsCompanyMapper) => {
         console.log(response);
         this.objEditData = response;
+        this.phoneCompany = response.phone;
       },
       error: (error) => {
         this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
         console.error(error)
       }
     })
+  }
+
+  call(data) {
+    console.log(data);
+    
   }
 
   selectTab(index: number) {

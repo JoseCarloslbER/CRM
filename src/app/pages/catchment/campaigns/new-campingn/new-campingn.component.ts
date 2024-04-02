@@ -4,7 +4,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { Subject, debounceTime, takeUntil } from 'rxjs';
 import { CatchmentService } from '../../catchment.service';
-import * as entity from '../../catchment-interface';
 import * as entityGeneral from '../../../../shared/interfaces/general-interface';
 import moment from 'moment';
 import { CatalogsService } from 'app/shared/services/catalogs.service';
@@ -17,8 +16,10 @@ export class NewCampingnComponent implements OnInit, AfterViewInit, OnDestroy {
   private onDestroy = new Subject<void>();
 
   public formFilters = this.formBuilder.group({
-    type: [''],
-    business: ['']
+    business: [null],
+    country: [''],
+    size: [''],
+    createdBy: [''],
   });
 
   public formData = this.formBuilder.group({
@@ -50,6 +51,9 @@ export class NewCampingnComponent implements OnInit, AfterViewInit, OnDestroy {
   public catalogAgents: entityGeneral.DataCatAgents[] = [];
   public catalogSolutions: entityGeneral.DataCatSolutions[] = [];
   public catalogCompanies: entityGeneral.DataCatCompany[] = [];
+  public catalogCountry: entityGeneral.DataCatCountry[] = [];
+  public catalogCompanySize: entityGeneral.DataCatCompanySize[] = [];
+  public catalogPlatform: entityGeneral.DataCatPlatform[] = [];
 
   public fechaHoy = new Date();
   public toppings = new FormControl('');
@@ -149,6 +153,34 @@ export class NewCampingnComponent implements OnInit, AfterViewInit, OnDestroy {
       },
       error: (error) => console.error(error)
     });
+   
+    this.catalogsServices.getCatCountry().subscribe({
+      next: (data: entityGeneral.DataCatCountry[]) => {
+        this.catalogCountry = data;
+      },
+      error: (error) => console.error(error)
+    });
+    
+    this.catalogsServices.getCatPlatform().subscribe({
+      next: (data: entityGeneral.DataCatPlatform[]) => {
+        this.catalogPlatform = data;
+      },
+      error: (error) => console.error(error)
+    });
+    
+    this.catalogsServices.getCatCountry().subscribe({
+      next: (data: entityGeneral.DataCatCountry[]) => {
+        this.catalogCountry = data;
+      },
+      error: (error) => console.error(error)
+    });
+    
+    this.catalogsServices.getCatCompanySize().subscribe({
+      next: (data: entityGeneral.DataCatCompanySize[]) => {
+        this.catalogCompanySize = data;
+      },
+      error: (error) => console.error(error)
+    });
 
     this.catalogsServices.getCatSolutions().subscribe({
       next: (data: entityGeneral.DataCatSolutions[]) => {
@@ -158,14 +190,18 @@ export class NewCampingnComponent implements OnInit, AfterViewInit, OnDestroy {
     });
 
     this.searchCompanies()
-
   }
 
   searchCompanies() {
     let filters = '';
 
-    if (this.formFilters.get('type')?.value) filters += `campaign_type_id=${this.formFilters.get('type').value}&`;
-    if (this.formFilters.get('business')?.value) filters += `business_id=${this.formFilters.get('business').value}&`;
+    if (this.formFilters.get('business')?.value) {
+      const businessIds = this.formFilters.get('business').value.join(','); 
+      filters += `business_id=${businessIds}&`;
+    }    
+    if (this.formFilters.get('country')?.value) filters += `country_id=${this.formFilters.get('country').value}&`;
+    if (this.formFilters.get('size')?.value) filters += `company_size_id=${this.formFilters.get('size').value}&`;
+    if (this.formFilters.get('createdBy')?.value) filters += `platform_id=${this.formFilters.get('createdBy').value}&`;
 
     this.catalogsServices.getCatCompany(filters).subscribe({
       next: (data: entityGeneral.DataCatCompany[]) => {
@@ -174,7 +210,7 @@ export class NewCampingnComponent implements OnInit, AfterViewInit, OnDestroy {
       error: (error) => console.error(error)
     });
   }
-
+    
   actionSave() {
     let objData: any = {
       ...this.cleanData(),
@@ -182,11 +218,6 @@ export class NewCampingnComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     console.log(objData);
-    
-
-    // objData.end_date = moment(this.formData.get('end_date').value).format('YYYY-MM-DD')
-    // objData.start_date = moment(this.formData.get('start_date').value).format('YYYY-MM-DD')
-
     if (this.idData && this.url.includes('editar')) this.saveDataPatch(objData)
     else this.saveDataPost(objData)
   }
@@ -260,8 +291,7 @@ export class NewCampingnComponent implements OnInit, AfterViewInit, OnDestroy {
       this.formData.valid
       ||
       this.objEditData && 
-      this.formCompanies.get('companies')?.value && this.formData.valid)
-    {
+      this.formCompanies.get('companies')?.value && this.formData.valid) {
       action = false
     }
 
