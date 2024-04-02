@@ -51,22 +51,24 @@
                     <input (input)="configInput($event, 'voice_identifier')" maxlength="5" type="text" formControlName="voice_identifier" matInput>
                 </mat-form-field>
             </div>
-          
+            
             <div class="sm:col-span-2">
                 <div class="flex-auto gt-xs:pr-3 width-100 mt-4 mb-4">
                     <div class="row d-flex up">
                         <div class="col-md-8">
                             <div class="d-flex flex-column inputNewRegister">
-                                <mat-label class="mb-1">Imagen</mat-label>
+                                <mat-label class="mb-1">{{ user.profile_picture ? 'Cambiar imagen' : 'Imagen'}}</mat-label>
                                 <input type="file" (change)="onFileChange($event)" name="logo" accept="image/*">
                             </div>
                         </div>
-                        <!-- <div class="col-md-4 d-flex align-items-center justify-content-end">
-                            <button class="btn-action-add">
-                                <span>Subir</span>
-                            </button>
-                        </div> -->
                     </div>
+                </div>
+            </div>
+              
+            <div class="sm:col-span-4">
+                <div class="d-flex flex-column inputNewRegister">
+                    <mat-label class="mb-1">Imagen actual</mat-label>
+                    <img style="width: 350px" [src]="user.profile_picture" alt="">    
                 </div>
             </div>
         </div>
