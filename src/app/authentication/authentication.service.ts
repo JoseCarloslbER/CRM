@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { OpenModalsService } from 'app/shared/services/openModals.service';
 import CryptoJS from 'crypto-js';
 import { environment } from 'environments/environment.dev';
 import { Observable, catchError, map, of } from 'rxjs';
@@ -12,6 +13,7 @@ export class AuthenticationService {
   private apiUrl = `${environment.apiURL}auth/`;
 
   constructor(
+    private notificationService: OpenModalsService,
     private http: HttpClient
   ) { }
 
@@ -39,6 +41,7 @@ export class AuthenticationService {
         }
       }),
       catchError((error) => {
+        this.notificationService.notificacion('Error', `${error?.error?.error}`, '', 'mat_outline:error')
         console.error('Error during login', error);
         return of(false);
       })

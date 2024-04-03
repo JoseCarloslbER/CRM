@@ -197,6 +197,12 @@ export class QuotesComponent implements OnInit {
       }
     });
   }
+  
+  editData(id:string) {
+    this.router.navigateByUrl(`/home/conversion/editar-cotizacion/${id}`)
+  }
+
+  
 
   billing(data: any) {
     this.dialog.open(ModalBillingComponent, {

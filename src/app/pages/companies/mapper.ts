@@ -59,7 +59,7 @@ export class Mapper {
 			state: response?.state?.state_id,
 			owner_user: response?.owner_user?.id,
 			country: response?.country?.country_id,
-			campaign: response?.campaign?.campaign_id || '-',
+			campaign: response?.campaign?.campaign_id,
 			business: response?.business?.business_id,
 			city: response?.city?.city_id,
 			address: response?.address,

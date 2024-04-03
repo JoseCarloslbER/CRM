@@ -128,6 +128,7 @@ export class Mapper {
 									maximumFractionDigits: 2
 								}),
 								places: optionData?.option_products[0]?.quantity || 0,
+								campaign: data?.campaign?.campaign_name || '-',
 								validity: moment(optionData.deadline).format('DD-MM-YYYY')
 							}];
 						}
@@ -161,6 +162,8 @@ export class Mapper {
 				}
 			}),
 			quoteLeads : response?.quotes_leads.map(data => {
+				console.log('data', data);
+				
 				return {
 					id : data.quote_id,
 					companyName : {
@@ -187,6 +190,8 @@ export class Mapper {
 					},
 					optionOne: (() => {
 						const optionData = data?.quote_options[0];
+						console.log(optionData);
+						
 						if (optionData) {
 							return [{
 								listPrice: '$' + parseFloat(optionData?.option_products[0]?.product?.list_price).toLocaleString('en-US', {
@@ -199,6 +204,7 @@ export class Mapper {
 									maximumFractionDigits: 2
 								}),
 								places: optionData?.option_products[0]?.quantity || 0,
+								campaign: data?.campaign?.campaign_name || '-',
 								validity: moment(optionData.deadline).format('DD-MM-YYYY')
 							}];
 						}
@@ -270,6 +276,7 @@ export class Mapper {
 									minimumFractionDigits: 2,
 									maximumFractionDigits: 2
 								}),
+								campaign: data?.campaign?.campaign_name || '-',
 								places: optionData?.option_products[0]?.quantity || 0,
 								validity: moment(optionData.deadline).format('DD-MM-YYYY')
 							}];
@@ -316,6 +323,7 @@ export class Mapper {
 									minimumFractionDigits: 2,
 									maximumFractionDigits: 2
 								}),
+								campaign: data?.campaign?.campaign_name || '-',
 								places: optionData?.option_products[0]?.quantity || 0,
 								validity: moment(optionData.deadline).format('DD-MM-YYYY')
 							}];
