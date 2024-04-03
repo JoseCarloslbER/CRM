@@ -72,8 +72,10 @@ export class QuotesComponent implements OnInit {
   getDataTable() {
     this.moduleServicesQuote.getDataDetailQuoteTable(`company_id=${ this.idCompany }`).subscribe({
       next: ( data : TableDataQuoteMapperResponse) => {
+        console.log(data);
+        
         this.dataSource.data = data.dataList
-        this.companyData = data.dataList[0].companyName
+        this.companyData = data?.dataList[0]?.companyName
       },
       error: (error) => console.error(error)
     })
