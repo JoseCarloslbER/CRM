@@ -5,7 +5,7 @@
    
     <div class="return-header">
         <mat-icon svgIcon="mat_solid:arrow_back" (click)="toBack()"></mat-icon>
-        <p class="titulo-modal form-padding-title">Registrar nuevo {{ title }}</p>
+        <p class="titulo-modal form-padding-title">{{ objEditData ? 'Editar' : 'Registrar nuevo'}} {{ title }}</p>
     </div>
 
     <div class="row form-padding d-flex">
@@ -26,7 +26,7 @@
 
                         <mat-form-field class="gt-xs:pr-3 inputNewRegister" *ngIf="addContact?.value">
                             <mat-label>RFC</mat-label>
-                            <input formControlName="tax_id_number" maxlength="12" matInput>
+                            <input formControlName="tax_id_number" maxlength="13" matInput>
                             <mat-error
                                 *ngIf="formData.get('tax_id_number').hasError('minlength') || formData.get('tax_id_number').hasError('maxlength')">RFC
                                 debe tener exactamente 12 caracteres</mat-error>
@@ -76,7 +76,7 @@
                             <input formControlName="web_page" matInput type="url">
                         </mat-form-field>
 
-                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister" *ngIf="addContact?.value">
+                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Correo</mat-label>
                             <input formControlName="email" matInput type="email">
                         </mat-form-field>
@@ -105,7 +105,7 @@
                             </mat-select>
                         </mat-form-field>
                         
-                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
+                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister" *ngIf="addContact?.value">
                             <mat-label>Comentario</mat-label>
                             <textarea formControlName="comments" matInput style="height: 118px;"></textarea>
                         </mat-form-field>
@@ -123,6 +123,11 @@
                                 <mat-option [value]="cat.platform_id" *ngFor="let cat of catOrigin">{{cat?.platform_name
                                     || '-'}}</mat-option>
                             </mat-select>
+                        </mat-form-field>
+
+                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister" *ngIf="!addContact?.value">
+                            <mat-label>Comentario</mat-label>
+                            <textarea formControlName="comments" matInput style="height: 118px;"></textarea>
                         </mat-form-field>
 
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister" *ngIf="addContact?.value">

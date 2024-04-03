@@ -19,6 +19,7 @@ export interface TableDataCompany {
   payment_method?: entityGeneral.DataCatPaymentMethod
   way_to_pay?: entityGeneral.DataCatWayToPay
   company_name: string;
+  campaign: any;
   slug: string;
   tax_id_number: string;
   email: string;
@@ -59,7 +60,7 @@ export interface TableDataCompanyMapper {
   business : string;
   lastContactDate : string;
   history : string;
-  campaing : string;
+  campaign : string;
   quotes : {
     amount : string;
     totalAmount : string;
@@ -118,6 +119,7 @@ export interface GetDataCompanyMapper {
   state: string
   owner_user: string
   country: string
+  campaign: string
   business: string
   city: string
   address: string

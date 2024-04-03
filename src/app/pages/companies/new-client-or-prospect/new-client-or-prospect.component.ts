@@ -23,8 +23,8 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
   private formatTimer: ReturnType<typeof setTimeout>;
 
   public addContact = new FormControl(true)
-  public movilPhoneContact = new FormControl('', [Validators.required , Validators.pattern(/^\d{10}$/)])
-  public nameContact = new FormControl('', Validators.required)
+  public movilPhoneContact = new FormControl('', [Validators.pattern(/^\d{10}$/)])
+  public nameContact = new FormControl('')
   public contacts: any[] = []
   public valuesContacts: any[] = []
 
@@ -36,7 +36,7 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     company_name: ['', Validators.required],
     platform: ['', Validators.required],
     phone_number: ['', [Validators.required, Validators.pattern(/^\d{10}$/)]],
-    email: [''],
+    email: ['', Validators.required],
     tax_id_number: [''],
     state: [''],
     campaign: [''],
@@ -48,7 +48,7 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     company_type: [''],
     company_size: [''],
     web_page: ['https://', [Validators.required, Validators.pattern(/^(ftp|http|https):\/\/[^ "]+$/)]],
-    comments: [''],
+    comments: ['', Validators.required],
     logo: [null]
   });
 
@@ -91,7 +91,6 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
   verifyType() {
     this.getId()
 
-    console.log(this.url);
     if (this.url.includes('prospecto') && this.url.includes('dashboard')) {
       this.addContact.patchValue(false)
       this.title = 'prospecto';
@@ -144,6 +143,22 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     });
   }
 
+  getDataById(id: string) {
+    this.moduleServices.getDataId(id).pipe(takeUntil(this.onDestroy)).subscribe({
+      next: (response: any) => {
+        console.log(response);
+        
+        this.isCompleted(response)
+        this.objEditData = response;
+        this.formData.patchValue({ ...this.objEditData });
+      },
+      error: (error) => {
+        this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
+        console.error(error)
+      }
+    })
+  }
+
   getCatalogsInitial() {
     this.catalogsServices.getCatOrigin().pipe(takeUntil(this.onDestroy)).subscribe({
       next: (data: TableDataOrigin[]) => {
@@ -167,19 +182,6 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     });
   }
 
-  getDataById(id: string) {
-    this.moduleServices.getDataId(id).pipe(takeUntil(this.onDestroy)).subscribe({
-      next: (response: any) => {
-        this.isCompleted(response)
-        this.objEditData = response;
-        this.formData.patchValue({ ...this.objEditData });
-      },
-      error: (error) => {
-        this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
-        console.error(error)
-      }
-    })
-  }
 
   getCatalogs() {
     this.getCatalogsInitial()
@@ -264,13 +266,13 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
 
     console.log('OBJETO :', objData);
 
-    if (this.dashboardQuote) {
-      this.saveDataQuotePost({
-        company: objData,
-        quote_options: options
-      })
-    } else if (this.objEditData) this.saveDataPatch(objData);
-    else this.saveDataPost(objData);
+    // if (this.dashboardQuote) {
+    //   this.saveDataQuotePost({
+    //     company: objData,
+    //     quote_options: options
+    //   })
+    // } else if (this.objEditData) this.saveDataPatch(objData);
+    // else this.saveDataPost(objData);
   }
 
   saveDataPost(objData) {
@@ -721,7 +723,6 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
       newFormGroup.get('company_type')?.setValidators(Validators.required);
       newFormGroup.get('company_size')?.setValidators(Validators.required);
       newFormGroup.get('business')?.setValidators(Validators.required);
-      newFormGroup.get('email')?.setValidators([Validators.required, Validators.pattern(/^\S+@\S+\.\S+$/)]);
       newFormGroup.get('tax_id_number')?.setValidators([Validators.required, Validators.minLength(12), Validators.maxLength(12)]);
     } else {
       newFormGroup.get('country')?.clearValidators();
@@ -730,7 +731,6 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
       newFormGroup.get('company_type')?.clearValidators();
       newFormGroup.get('company_size')?.clearValidators();
       newFormGroup.get('business')?.clearValidators();
-      newFormGroup.get('email')?.clearValidators();
       newFormGroup.get('tax_id_number')?.clearValidators();
     }
 

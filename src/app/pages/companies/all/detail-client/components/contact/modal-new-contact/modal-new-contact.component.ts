@@ -25,10 +25,10 @@ export class ModalNewContactComponent implements OnInit, OnDestroy {
   public formData = this.formBuilder.group({
     full_name: ['', Validators.required],
     email: ['', Validators.pattern(/^\S+@\S+\.\S+$/)],
-    local_phone: ['', Validators.required],
+    local_phone: [''],
     position: ['', Validators.required],
     phone_number: ['', [Validators.required, Validators.pattern(/^\d{10}$/)]],
-    ext: ['', Validators.required],
+    ext: [''],
   });
 
   public objEditData : any;

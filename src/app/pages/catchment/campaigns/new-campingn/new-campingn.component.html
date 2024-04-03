@@ -92,7 +92,7 @@
                             <mat-form-field class="flex-auto input-default">
                                 <mat-label>Giro</mat-label>
                                 <mat-select formControlName="business" placeholder="Seleccionar" multiple>
-                                    <!-- <mat-option value="">Todos</mat-option> -->
+                                    <mat-option value="">Todos</mat-option>
                                     <mat-option [value]="cat.business_id"
                                         *ngFor="let cat of catBusiness">{{cat?.business_name || '-'}}</mat-option>
                                 </mat-select>

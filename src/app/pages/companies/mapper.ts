@@ -5,6 +5,9 @@ import moment from 'moment';
 
 export class Mapper {
 	static getDataTableMapper(response: entity.TableDataCompany[]): entity.TableDataCompanyMapper[] {
+
+		console.log(response);
+		
 		let dataList: entity.TableDataCompanyMapper[] = [];
 
 		response.forEach((data: entity.TableDataCompany): void => {
@@ -22,7 +25,7 @@ export class Mapper {
 				origin: data?.platform?.platform_name || '-',
 				category: data?.company_type?.type_name || '-',
 				business: data?.business?.business_name || '-',
-				campaing: data?.campaing?.campaign_name || '-',
+				campaign: data?.campaign?.campaign_name || '-',
 				quotes: {
 					amount: data.amout_quotes,
 					totalAmount: '$' + parseFloat(data.total_quotes).toLocaleString('en-US', {
@@ -56,6 +59,7 @@ export class Mapper {
 			state: response?.state?.state_id,
 			owner_user: response?.owner_user?.id,
 			country: response?.country?.country_id,
+			campaign: response?.campaign?.campaign_id || '-',
 			business: response?.business?.business_id,
 			city: response?.city?.city_id,
 			address: response?.address,
@@ -77,7 +81,7 @@ export class Mapper {
 			web: response?.web_page || '-',
 			business: response?.business?.business_name || '-',
 			category: response?.company_size?.size_name || '-',
-			campaign: response?.campaing?.campaign_name || '-',
+			campaign: response?.campaign?.campaign_name || '-',
 			owner: `${response?.owner_user?.first_name && response?.owner_user?.last_name ? response.owner_user?.first_name.toUpperCase() + ' ' + response.owner_user?.last_name.toUpperCase() : response.owner_user?.username.toUpperCase() || '-'}`,
 			email: response?.email || '-',
 			phone: response?.phone_number || '-',

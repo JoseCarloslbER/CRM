@@ -66,8 +66,6 @@ export class NewCampingnComponent implements OnInit, AfterViewInit, OnDestroy {
   private idData: string = '';
   private objEditData: any;
   private objcampaingType: any;
-  private enableCompanies: boolean = false;
-
 
   constructor(
     private notificationService: OpenModalsService,

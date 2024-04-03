@@ -59,7 +59,6 @@ export class Mapper {
 				actions: data?.status?.status_id == '5fb730e9-3802-461f-a4f3-592ff04c4387' ? ['Aceptar', 'Rechazar'] : 
 				data?.status?.status_id == '3944df8e-d359-4569-b712-ea174be69cca' ? ['Rechazar', 'Cancelar', 'Cerrar como venta'] : [],
 				status_id: data?.status?.status_id,
-				// btnEdit: data?.status?.status_id == '5fb730e9-3802-461f-a4f3-592ff04c4387' || data?.status?.status_id == '3944df8e-d359-4569-b712-ea174be69cca'? true : false,
 				actionStatusId: data?.status?.status_id,
 				actionName: data?.status?.status_id,
 				closeSale: data.quote_options.map((dataClose, index) => {
@@ -100,13 +99,13 @@ export class Mapper {
 		console.log(response);
 		
 		return {
-			id : response.quote_id || '-',
+			id : response.quote_id || '',
 			regiterDate : moment(response?.register_date).format('DD-MM-YYYY'),
 			quoteNumber : response?.quote_number || '-',
-			contact : response?.contact?.contact_id || '-',
+			contact : response?.contact?.contact_id || '',
 			user : response?.user?.id || '-',
-			campaign : response?.campaign?.campaign_id || '-',
-			payment_method : response?.payment_method?.payment_method_id || '-',
+			campaign : response?.campaign?.campaign_id || '',
+			payment_method : response?.payment_method?.payment_method_id || '',
 			tax_include : response?.tax_include,
 			company : {
 				id : response.company?.company_id,
@@ -114,6 +113,8 @@ export class Mapper {
 				logo : response?.company?.logo ? response?.company?.logo.includes('default') ? `../../../assets/images/default.png` : response?.company?.logo : `../../../assets/images/default.png` 
 			},
 			quoteOptions : response.quote_options.map((data:any) => {
+				console.log('data', data);
+				
 				return {
 					id: data?.quote_option_id || '',
 					tax : parseFloat(data?.tax,).toLocaleString('en-US', {
@@ -134,10 +135,9 @@ export class Mapper {
 					}),
 					typePrice : data?.type_price,
 					date : moment(data.deadline).format('YYYY-MM-DD'),
-					totalProducts : data.option_products.reduce((total, item) => {
-						const totalNumber = parseFloat(item.total.replace(',', ''));
-						return total + totalNumber;
-					}, 0),
+
+					totalProducts : 'aqui la suma del total',
+				
 					optionProducts : data?.option_products.map(dataProduct => {
 						return {
 							id : dataProduct?.option_product_id,
@@ -148,7 +148,7 @@ export class Mapper {
 								minimumFractionDigits: 2,
 								maximumFractionDigits: 2
 							}),
-							total : parseFloat(dataProduct?.total).toLocaleString('en-US', {
+							total : parseFloat(data?.total).toLocaleString('en-US', {
 								minimumFractionDigits: 2,
 								maximumFractionDigits: 2
 							}),

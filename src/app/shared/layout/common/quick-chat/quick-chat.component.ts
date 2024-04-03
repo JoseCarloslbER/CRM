@@ -39,7 +39,6 @@ export class QuickChatComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.catalogsServices.getCatUsers().subscribe(data => {
-            console.log(data);
             this.chats = data.map(data => {
                 return {
                     id: data.id,

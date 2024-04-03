@@ -30,7 +30,7 @@ export class ProspectsComponent implements OnInit, AfterViewInit, OnDestroy {
     'origin',
     'category',
     'business',
-    'campaing',
+    'campaign',
     'quotes',
     'sales',
     'lastContactDate',
