@@ -100,11 +100,12 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
         this.optionFormValues.forEach(control => {
           let total_number = parseFloat(control?.subtotalControl?.value.replace(/,/g, '')) - control?.discountControl?.value;
           let tax = total_number - (total_number / 1.16);
-          
-          control.ivaControl.setValue((tax).toLocaleString('en-US', {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2
-          }));
+          if (tax) {
+            control.ivaControl.setValue((tax).toLocaleString('en-US', {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2
+            }));
+          }
         });
       }
     })
@@ -242,7 +243,7 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
       datos.optionProducts.forEach((productData: any, productIndex: number) => {
         const productInstance: any = this.createProductInstance(productData);
         instance.product.push(productInstance);
-        this.enableProductFields(productInstance); 
+        this.enableProductFields(productInstance);
       });
     } else {
       const newProductInstance: any = this.createProductInstance();

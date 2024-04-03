@@ -136,7 +136,11 @@ export class Mapper {
 					typePrice : data?.type_price,
 					date : moment(data.deadline).format('YYYY-MM-DD'),
 
-					totalProducts : 'aqui la suma del total',
+					totalProducts : data.option_products.reduce((total, item) => {
+						const totalNumber = parseFloat(item.total.replace(',', ''));
+						return total + totalNumber;
+					}, 0),
+
 				
 					optionProducts : data?.option_products.map(dataProduct => {
 						return {
@@ -148,7 +152,7 @@ export class Mapper {
 								minimumFractionDigits: 2,
 								maximumFractionDigits: 2
 							}),
-							total : parseFloat(data?.total).toLocaleString('en-US', {
+							total : parseFloat(dataProduct?.total).toLocaleString('en-US', {
 								minimumFractionDigits: 2,
 								maximumFractionDigits: 2
 							}),
