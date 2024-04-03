@@ -266,13 +266,13 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
 
     console.log('OBJETO :', objData);
 
-    // if (this.dashboardQuote) {
-    //   this.saveDataQuotePost({
-    //     company: objData,
-    //     quote_options: options
-    //   })
-    // } else if (this.objEditData) this.saveDataPatch(objData);
-    // else this.saveDataPost(objData);
+    if (this.dashboardQuote) {
+      this.saveDataQuotePost({
+        company: objData,
+        quote_options: options
+      })
+    } else if (this.objEditData) this.saveDataPatch(objData);
+    else this.saveDataPost(objData);
   }
 
   saveDataPost(objData) {
