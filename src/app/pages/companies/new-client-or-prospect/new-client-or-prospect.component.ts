@@ -741,6 +741,9 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
   get canSave() {
     let save: boolean = true;
 
+    console.log(this.formData);
+    
+
     if (this.formData.valid) {
       if (this.valuesContacts.length) {
         this.valuesContacts.forEach(control => {
