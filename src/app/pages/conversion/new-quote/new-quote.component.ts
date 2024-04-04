@@ -121,6 +121,8 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
   getDataById(id: string) {
     this.moduleServices.getDataId(id).subscribe({
       next: (response: any) => {
+        console.log(response);
+        
         this.objEditData = response;
         this.formData.patchValue(this.objEditData);
         this.company.patchValue(this.objEditData.company.name);
@@ -234,7 +236,7 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
       discountControl: new FormControl({ value: datos?.discount || 0, disabled: datos?.discount ? false : true }),
       totalControl: new FormControl({ value: datos?.total || '', disabled: true }, Validators.required),
       ivaControl: new FormControl({ value: datos?.tax || '', disabled: true }),
-      typePriceControl: new FormControl({ value: datos?.typePrice || this.optionFormValues.length >= 1 ? 2 : 1, disabled: false }, Validators.required),
+      typePriceControl: new FormControl({ value: datos?.typePrice ? datos.typePrice : this.optionFormValues.length >= 1 && !this.objEditData ? 2 : 1, disabled: false }, Validators.required),
       dateControl: new FormControl({ value: datos?.date || '', disabled: false }, Validators.required),
       product: []
     };

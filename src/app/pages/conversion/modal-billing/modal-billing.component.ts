@@ -22,7 +22,7 @@ export class ModalBillingComponent implements OnInit, OnDestroy {
     way_to_pay_id: [null, Validators.required],
     payment_condition_id: [null, Validators.required],
     invoice_use_id: [null, Validators.required],
-    tax_id_number: [null, [Validators.required, Validators.minLength(12), Validators.maxLength(12)]],
+    tax_id_number: [null, [Validators.required, Validators.minLength(13), Validators.maxLength(13)]],
   });
 
   public catWayToPay: entityGeneral.DataCatWayToPay[] = [];

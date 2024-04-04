@@ -35,7 +35,7 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
   public formData = this.formBuilder.group({
     company_name: ['', Validators.required],
     platform: ['', Validators.required],
-    phone_number: ['', [Validators.required, Validators.pattern(/^\d{10}$/)]],
+    phone_number: ['', [Validators.pattern(/^\d{10}$/)]],
     email: ['', Validators.required],
     tax_id_number: [''],
     state: [''],
@@ -47,7 +47,7 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     address: [''],
     company_type: [''],
     company_size: [''],
-    web_page: ['https://', [Validators.required, Validators.pattern(/^(ftp|http|https):\/\/[^ "]+$/)]],
+    web_page: ['https://', [Validators.pattern(/^(ftp|http|https):\/\/[^ "]+$/)]],
     comments: ['', Validators.required],
     logo: [null]
   });
@@ -398,7 +398,7 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
       discountControl: new FormControl({ value: datos?.discount || 0, disabled: datos?.discount ? false : true }),
       totalControl: new FormControl({ value: datos?.total || '', disabled: true }, Validators.required),
       ivaControl: new FormControl({ value: datos?.tax || '', disabled: true }),
-      typePriceControl: new FormControl({ value: datos?.typePrice || this.optionFormValues.length >= 1 ? 2 : 1, disabled: false }, Validators.required),
+      typePriceControl: new FormControl({ value: datos?.typePrice ? datos.typePrice : this.optionFormValues.length >= 1 && !this.objEditData ? 2 : 1, disabled: false }, Validators.required),
       dateControl: new FormControl({ value: datos?.date || '', disabled: false }, Validators.required),
       product: []
     };
@@ -723,7 +723,7 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
       newFormGroup.get('company_type')?.setValidators(Validators.required);
       newFormGroup.get('company_size')?.setValidators(Validators.required);
       newFormGroup.get('business')?.setValidators(Validators.required);
-      newFormGroup.get('tax_id_number')?.setValidators([Validators.required, Validators.minLength(12), Validators.maxLength(12)]);
+      newFormGroup.get('tax_id_number')?.setValidators([Validators.required, Validators.minLength(13), Validators.maxLength(13)]);
     } else {
       newFormGroup.get('country')?.clearValidators();
       newFormGroup.get('state')?.clearValidators();
