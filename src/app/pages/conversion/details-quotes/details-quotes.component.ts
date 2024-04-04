@@ -46,8 +46,6 @@ export class DetailsQuotesComponent implements OnInit {
       next: (response: GetDataQuoteMapper) => {
         this.objEditData = response;
         this.quotesOptions = response.quoteOptions;
-        console.log('quotesOptions', this.quotesOptions);
-        
       },
       error: (error) => {
         this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')

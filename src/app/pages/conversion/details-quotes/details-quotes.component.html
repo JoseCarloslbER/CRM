@@ -36,7 +36,6 @@
                     <div class="row content">
                         <div class="col-md-8 header-content-quote">
                             <div class="header-option ">
-                                <br>
                                 <div class="title d-flex align-items-center gap-2" *ngIf="ii == 0">
                                     <h1 class="fuente font-bold">Opción {{ i + 1 }}: </h1>
                                     <span class="fuente">{{ option.typePrice == 1 ? 'Normal' : 'Promoción'}}</span>
@@ -48,28 +47,47 @@
                         </div>
 
                         <div class="col-md-2 header-content-quote">
-                            <br>
                             <span class="fuente">
                                 {{ product?.places }} lugares
                             </span>
                         </div>
                         <div class="col-md-2 header-content-quote">
-                            <br>
-                            <span class="fuente">
+                            <div class="mb-3 d-flex flex-column">
+                                <span class="fuente font-bold">
+                                    <!-- Total -->
+                                    <!-- {{ option?.discount ? 'Subtotal' : 'Total'}} -->
+                                </span>
+                                <span class=" fuente">
+                                    ${{ product?.total }} <br>
+                                    <!-- <span *ngIf="isLast">
+                                        (IVA Incluido)
+                                    </span> -->
+                                </span>
+                            </div>
+
+                            <div class="mb-3" *ngIf="option?.discount && isLast">
+                                <span class="fuente font-bold">
+                                    Descuento
+                                </span>
+    
+                                <span class=" fuente" >
+                                    ${{ option?.discount }} <br>
+                                </span>
+                            </div>
+
+                          <div class="mb-3" *ngIf=" isLast">
+                            <span class="fuente font-bold">
                                 Total
                             </span>
-                            <br>
-                            <span class="text-center fuente">
-                                ${{ product?.total }} <br>
-                                <span *ngIf="isLast">
-                                    (IVA Incluido)
-                                </span>
+                           
+                            <span class=" fuente">
+                                {{ option?.total }} <br>
+                                <!-- {{ option?.total | currency }} <br> -->
                             </span>
+                          </div>
                         </div>
                     </div>
                 </div>
-                <div class="total-quote mt-5 d-flex justify-content-end font-bold gap-1" style="font-size: 16px;">TOTAL : <span class="font-medium">{{option?.totalProducts | currency}}</span></div>
-                <!-- <br> -->
                 <hr>
             </div>
 

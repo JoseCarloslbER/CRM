@@ -96,7 +96,7 @@ export class Mapper {
 	}
 
 	static GetDataTableCompanyMapper(response: entity.TableDataQuote) {
-		console.log(response);
+		console.log(response.quote_options);
 		
 		return {
 			id : response.quote_id || '',
@@ -113,7 +113,7 @@ export class Mapper {
 				logo : response?.company?.logo ? response?.company?.logo.includes('default') ? `../../../assets/images/default.png` : response?.company?.logo : `../../../assets/images/default.png` 
 			},
 			quoteOptions : response.quote_options.map((data:any) => {
-				console.log('data', data);
+				// console.log('data', data);
 				
 				return {
 					id: data?.quote_option_id || '',
@@ -125,10 +125,10 @@ export class Mapper {
 						minimumFractionDigits: 2,
 						maximumFractionDigits: 2
 					}),
-					discount : parseFloat(data?.discount).toLocaleString('en-US', {
+					discount : data?.discount > 0 ?  parseFloat(data?.discount).toLocaleString('en-US', {
 						minimumFractionDigits: 2,
 						maximumFractionDigits: 2
-					}),
+					}) : null,
 					total : parseFloat(data?.total).toLocaleString('en-US', {
 						minimumFractionDigits: 2,
 						maximumFractionDigits: 2
@@ -140,7 +140,6 @@ export class Mapper {
 						const totalNumber = parseFloat(item.total.replace(',', ''));
 						return total + totalNumber;
 					}, 0),
-
 				
 					optionProducts : data?.option_products.map(dataProduct => {
 						return {

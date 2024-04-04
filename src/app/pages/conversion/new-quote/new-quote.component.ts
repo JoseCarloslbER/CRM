@@ -274,7 +274,8 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
         ...({ quote_option_id: control.id }),
         subtotal: parseFloat(control.subtotalControl.value.replace(/,/g, '')),
         total: parseFloat(control.totalControl.value.replace(/,/g, '')),
-        discount: control.discountControl.value,
+        discount: typeof control?.discountControl?.value == 'number' ? control.discountControl.value : parseFloat(control?.discountControl?.value?.replace(/,/g, '')) ,
+
         type_price: control.typePriceControl.value,
         deadline: formattedDate,
         option_products: productValues,
