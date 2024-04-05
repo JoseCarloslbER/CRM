@@ -1,38 +1,29 @@
 <div class="relative flex flex-auto w-full bg-card dark:bg-transparent">
-
-    <!-- Mails list -->
     <ng-container *ngIf="mails && mails.length > 0; else noMails">
         <div class="relative flex flex-auto flex-col w-full min-w-0 lg:min-w-90 lg:max-w-90 border-r z-10">
-
-            <!-- Header -->
-            <div
-                class="relative flex flex-0 items-center justify-between h-16 px-4 border-b bg-gray-50 dark:bg-transparent">
+            <div class="relative flex flex-0 items-center justify-between h-16 px-4 border-b bg-gray-50 dark:bg-transparent">
 
                 <div class="flex items-center">
-                    <!-- Sidebar toggle button -->
                     <button mat-icon-button (click)="mailboxComponent.drawer.toggle()">
                         <mat-icon [svgIcon]="'heroicons_outline:bars-3'"></mat-icon>
                     </button>
-                    <!-- Category name -->
-                    <div class="ml-2 font-semibold uppercase">{{category.name}}</div>
+                    <div class="ml-2 font-semibold uppercase">{{category?.name || '-'}}</div>
                 </div>
 
-                <!-- Pagination -->
                 <div class="flex items-center">
-                    <!-- Info -->
                     <div class="flex items-center mr-3 text-md font-medium">
-                        <span>{{pagination.startIndex + 1}}</span>
+                        <span>{{pagination?.startIndex + 1}}</span>
                         <span class="mx-1 text-secondary">-</span>
-                        <span>{{pagination.endIndex + 1}}</span>
+                        <span>{{pagination?.endIndex + 1}}</span>
                         <span class="mx-1 text-secondary">of</span>
-                        <span>{{pagination.totalResults}}</span>
+                        <span>{{pagination?.totalResults}}</span>
                     </div>
-                    <!-- Previous page button -->
-                    <a class="w-8 h-8 min-h-8" mat-icon-button [disabled]="pagination.currentPage === 1"
+
+                    <a class="w-8 h-8 min-h-8" mat-icon-button [disabled]="pagination?.currentPage === 1"
                         [routerLink]="['../' + (pagination.currentPage > 1 ? pagination.currentPage - 1 : 1 )]">
                         <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:chevron-left'"></mat-icon>
                     </a>
-                    <!-- Next page button-->
+
                     <a class="w-8 h-8 min-h-8" mat-icon-button
                         [disabled]="pagination.currentPage === pagination.lastPage"
                         [routerLink]="['../' + (pagination.currentPage < pagination.lastPage ? pagination.currentPage + 1 : pagination.lastPage )]">
@@ -40,22 +31,15 @@
                     </a>
                 </div>
 
-                <!-- Loading bar -->
                 <mat-progress-bar class="absolute inset-x-0 bottom-0 h-0.5" *ngIf="mailsLoading"
                     [mode]="'indeterminate'"></mat-progress-bar>
             </div>
 
-            <!-- Mail list -->
             <div class="overflow-y-auto" #mailList>
-
-                <!-- Item loop -->
                 <ng-container *ngFor="let mail of mails; let i = index; trackBy: trackByFn">
-
-                    <!-- Item -->
                     <a class="relative flex border-t first:border-0 hover:bg-hover" [routerLink]="[mail.id]"
                         (click)="onMailSelected(mail)">
 
-                        <!-- Item content -->
                         <div class="flex flex-col items-start justify-start w-full py-6 pr-4 pl-5 border-l-4 border-transparent"
                             [ngClass]="{'border-primary': mail.unread,
                                         'bg-primary-50 dark:bg-black dark:bg-opacity-5': selectedMail && selectedMail.id === mail.id}">

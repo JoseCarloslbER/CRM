@@ -1,13 +1,18 @@
 import { inject } from '@angular/core';
 import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, Routes, UrlMatchResult, UrlSegment } from '@angular/router';
-import { MailboxDetailsComponent } from 'app/modules/admin/apps/mailbox/details/details.component';
-import { MailboxEmptyDetailsComponent } from 'app/modules/admin/apps/mailbox/empty-details/empty-details.component';
-import { MailboxListComponent } from 'app/modules/admin/apps/mailbox/list/list.component';
-import { MailboxComponent } from 'app/modules/admin/apps/mailbox/mailbox.component';
-import { MailboxService } from 'app/modules/admin/apps/mailbox/mailbox.service';
-import { MailboxSettingsComponent } from 'app/modules/admin/apps/mailbox/settings/settings.component';
+// import { MailboxDetailsComponent } from 'app/modules/admin/apps/mailbox/details/details.component';
+// import { MailboxEmptyDetailsComponent } from 'app/modules/admin/apps/mailbox/empty-details/empty-details.component';
+// import { MailboxListComponent } from 'app/modules/admin/apps/mailbox/list/list.component';
+// import { MailboxComponent } from 'app/modules/admin/apps/mailbox/mailbox.component';
+// import { MailboxService } from 'app/modules/admin/apps/mailbox/mailbox.service';
+// import { MailboxSettingsComponent } from 'app/modules/admin/apps/mailbox/settings/settings.component';
 import { isEqual } from 'lodash-es';
 import { catchError, finalize, forkJoin, throwError } from 'rxjs';
+import { MailboxService } from './mailbox.service';
+import { MailboxComponent } from './mailbox.component';
+import { MailboxListComponent } from './list/list.component';
+import { MailboxEmptyDetailsComponent } from './empty-details/empty-details.component';
+import { MailboxDetailsComponent } from './details/details.component';
 
 /**
  * Mailbox custom route matcher
@@ -258,19 +263,19 @@ export default [
     {
         path     : '',
         component: MailboxComponent,
-        resolve  : {
-            filters: () => inject(MailboxService).getFilters(),
-            folders: () => inject(MailboxService).getFolders(),
-            labels : () => inject(MailboxService).getLabels(),
-        },
+        // resolve  : {
+        //     filters: () => inject(MailboxService).getFilters(),
+        //     folders: () => inject(MailboxService).getFolders(),
+        //     labels : () => inject(MailboxService).getLabels(),
+        // },
         children : [
             {
                 component            : MailboxListComponent,
                 matcher              : mailboxRouteMatcher,
                 runGuardsAndResolvers: mailboxRunGuardsAndResolvers,
-                resolve              : {
-                    mails: mailsResolver,
-                },
+                // resolve              : {
+                //     mails: mailsResolver,
+                // },
                 children             : [
                     {
                         path     : '',
@@ -280,15 +285,11 @@ export default [
                     {
                         path     : ':id',
                         component: MailboxDetailsComponent,
-                        resolve  : {
-                            mail: mailResolver,
-                        },
+                        // resolve  : {
+                        //     mail: mailResolver,
+                        // },
                     },
                 ],
-            },
-            {
-                path     : 'settings',
-                component: MailboxSettingsComponent,
             },
         ],
     },

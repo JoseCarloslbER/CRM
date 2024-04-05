@@ -27,10 +27,10 @@ const comunicationsRoutes: Routes = [
 				path     : 'tawk/:id',
 				component: ConversationComponent,
 			},
-			{
-				path     : 'correos',
-				component: MailboxComponent,
-			},
+			// {
+			// 	path     : 'correos',
+			// 	component: MailboxComponent,
+			// },
 		]
 	
 	}

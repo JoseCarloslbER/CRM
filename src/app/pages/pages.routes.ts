@@ -43,6 +43,8 @@ const pageRoutes: Routes = [
 				path: 'configuracion',
 				loadChildren: () => import('./config/config.module').then((m) => m.ConfigModule),
 			},
+			{path: 'mailbox', loadChildren: () => import('app/pages/comunications/mailbox/mailbox.routes')},
+
 		],
 	},
 ];
