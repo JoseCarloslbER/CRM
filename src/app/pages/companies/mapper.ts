@@ -5,9 +5,6 @@ import moment from 'moment';
 
 export class Mapper {
 	static getDataTableMapper(response: entity.TableDataCompany[]): entity.TableDataCompanyMapper[] {
-
-		console.log(response);
-		
 		let dataList: entity.TableDataCompanyMapper[] = [];
 
 		response.forEach((data: entity.TableDataCompany): void => {
@@ -49,6 +46,8 @@ export class Mapper {
 	}
 
 	static getDataTableCompanyMapper(response: entity.TableDataCompany): entity.GetDataCompanyMapper {
+		console.log(response);
+		
 		return {
 			id: response?.company_id,
 			company_name: response?.company_name,
@@ -59,7 +58,7 @@ export class Mapper {
 			state: response?.state?.state_id,
 			owner_user: response?.owner_user?.id,
 			country: response?.country?.country_id,
-			campaign: response?.campaign?.campaign_id,
+			campaign: response?.campaign?.campaing_id,
 			business: response?.business?.business_id,
 			city: response?.city?.city_id,
 			address: response?.address,
@@ -102,6 +101,8 @@ export class Mapper {
 	static GetDatadetailsActivityMapper(response: TableDataActivities[]): entity.GetDataDetailsHistoryMapper[] {
 		let dataList: entity.GetDataDetailsHistoryMapper[] = [];
 
+		console.log('response', response);
+		
 		response.forEach((data: TableDataActivities, index): void => {
 			const dateTimeString = `${data.activity_date}T${data.activity_hour}`;
 			const dateTime = DateTime.fromISO(dateTimeString);
@@ -109,12 +110,15 @@ export class Mapper {
 
 			dataList.push({
 				id: data?.activity_id || '-',
-				activity: `Actividad ${index + 1}`,
+				activity: `Act ${index + 1}`,
 				agent: `${data?.user?.first_name && data?.user?.last_name ? data.user?.first_name.toUpperCase() + ' ' + data.user?.last_name.toUpperCase() : data.user?.username.toUpperCase() || '-'}`,
 				description: data?.description || '-',
 				dateNames: relativeFormat,
 				date: relativeFormat,
 				dateName: dateTimeString,
+				activityName : data.type_activity.activity,
+				color : data.type_activity.color,
+				icon : data.type_activity.icon,
 			});
 		});
 

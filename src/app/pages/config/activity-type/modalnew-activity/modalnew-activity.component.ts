@@ -17,12 +17,12 @@ export class ModalnewActivityComponent {
 
   public name = new FormControl('', Validators.required);
   public icon = new FormControl('', Validators.required);
-  public color = new FormControl('', Validators.required);
+  public color = new FormControl('#000000', Validators.required);
   public activityType = new FormControl('', Validators.required);
 
-  private objEditData: any;
+  public objEditData: any;
 
-  public type: string = '';
+  public typeName: string = '';
 
   public icons: any[] = [
     { name: 'phone_iphone' },
@@ -68,27 +68,25 @@ export class ModalnewActivityComponent {
   }
 
   assignInformation() {
+    console.log('assignInformation');
     this.objEditData = this.data.info;
-    this.color.patchValue(this.objEditData.color)
-
-    if (this.data.type == 'activity') {
+    if (this.data?.type == 'activity') {
       this.name.patchValue(this.objEditData.activity)
       this.icon.patchValue(this.objEditData.icon)
-      this.type = 'actividad'
+      this.typeName = 'actividad'
     } else {
       this.name.patchValue(this.objEditData.sub_activity)
       this.activityType.setValue(this.objEditData.type_activity);
-      this.type = 'subactividad'
+      this.typeName = 'subactividad'
     }
+    this.color.patchValue(this.objEditData.color)
   }
 
   getCatalogs() {
     this.moduleServices.getTableDataActivityType().subscribe({
       next: (data: entity.TableDataActivityType[]) => {
         this.activityTypes = data;
-        console.log('activityTypes', this.activityTypes);
         this.assignInformation();
-
       },
       error: (error) => console.error(error)
     });
@@ -143,6 +141,14 @@ export class ModalnewActivityComponent {
       )
       .afterClosed()
       .subscribe((_) => this.closeModal());
+  }
+
+  get canSave() {
+    if (this.name.value && this.icon.value) {
+      return false 
+    } else {
+      return true
+    }
   }
 
   closeModal() {

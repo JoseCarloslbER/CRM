@@ -41,14 +41,16 @@
                       
                           <div class="relative flex flex-auto">
                             <ng-container>
-                              <div class="flex shrink-0 items-center justify-center w-10 h-10 mr-4 rounded-full star-color">
-                                <mat-icon class="icon-size-6 text-white" svgIcon="heroicons_solid:star"></mat-icon>
+                              <div [style.background]="activity.color" class="flex shrink-0 items-center justify-center w-10 h-10 mr-4 rounded-full">
                               </div>
                             </ng-container>
                       
                             <div class="flex flex-col flex-auto items-start">
                               <ng-container *ngIf="activity?.activity">
-                                <div class="history-title">{{activity.activity}}</div>
+                                <div class="history-title d-flex align-items-center">
+                                  <mat-icon class="column-icon">{{activity.icon}}</mat-icon>
+                                  {{activity.activityName }}
+                                </div>
                               </ng-container>
                       
                               <div class="flex flex-col sm:flex-row sm:items-center mt-2 sm:mt-1 sm:space-x-2 text-md leading-5">

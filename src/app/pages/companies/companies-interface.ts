@@ -155,6 +155,9 @@ export interface GetDataDetailsHistoryMapper {
   dateNames : string;
   date : string;
   dateName : string;
+  activityName : string;
+  color : string;
+  icon : string;
 }
 
 export interface CompanyContacts {
