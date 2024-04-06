@@ -1,8 +1,8 @@
 
 .c-moda-info {
     .contenedor-scroll-tabla {
-        overflow:  scroll!important;
-        height: 700px;
+        overflow-y: scroll !important;
+        height: 600px!important;
         padding-right: 0;
         position: relative;
     }

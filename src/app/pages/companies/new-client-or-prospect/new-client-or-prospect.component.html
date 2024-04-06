@@ -26,10 +26,10 @@
 
                         <mat-form-field class="gt-xs:pr-3 inputNewRegister" *ngIf="addContact?.value">
                             <mat-label>RFC</mat-label>
-                            <input formControlName="tax_id_number" maxlength="13" matInput>
-                            <mat-error
-                                *ngIf="formData.get('tax_id_number').hasError('minlength') || formData.get('tax_id_number').hasError('maxlength')">RFC
-                                debe tener 13 caracteres</mat-error>
+                            <input formControlName="tax_id_number" maxlength="13" matInput pattern="^\d{12,13}$">
+                            <mat-error *ngIf="formData.get('tax_id_number').invalid && formData.get('tax_id_number').touched">
+                                RFC debe tener 12 o 13 caracteres
+                            </mat-error>
                         </mat-form-field>
 
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister" *ngIf="addContact?.value">
@@ -39,8 +39,6 @@
                                     *ngFor="let cat of catBusiness">{{cat?.business_name || '-'}}</mat-option>
                             </mat-select>
                         </mat-form-field>
-
-
                         
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister" *ngIf="addContact?.value">
                             <mat-label>Estado</mat-label>

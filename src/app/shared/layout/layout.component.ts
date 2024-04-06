@@ -316,7 +316,7 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     goMailbox() {
-        this.router.navigateByUrl('/home/reactivacion/correos')
+        this.router.navigateByUrl('/home/mailbox/inbox/1')
     }
   
     gocalendar() {
