@@ -47,7 +47,7 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     address: [''],
     company_type: [''],
     company_size: [''],
-    web_page: ['https://', [Validators.pattern(/^(ftp|http|https):\/\/[^ "]+$/)]],
+    web_page: [''],
     comments: ['', Validators.required],
     logo: [null]
   });
@@ -723,7 +723,7 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
       newFormGroup.get('company_type')?.setValidators(Validators.required);
       newFormGroup.get('company_size')?.setValidators(Validators.required);
       newFormGroup.get('business')?.setValidators(Validators.required);
-      newFormGroup.get('tax_id_number')?.setValidators([Validators.required, Validators.pattern(/^\d{12,13}$/)]);
+      newFormGroup.get('tax_id_number')?.setValidators([Validators.required, Validators.pattern(/^[a-zA-Z0-9]{12,13}$/)]);
     } else {
       newFormGroup.get('country')?.clearValidators();
       newFormGroup.get('state')?.clearValidators();
