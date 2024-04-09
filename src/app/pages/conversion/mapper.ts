@@ -3,6 +3,8 @@ import moment from 'moment';
 
 export class Mapper {
 	static getDataTableMapper(response: entity.TableDataQuoteResponse) : entity.TableDataQuoteMapperResponse {
+		console.log('MAPPER', response.quotes_data[0]);
+		
 		let dataList :entity.TableDataQuoteMapper[] = [];
 
 		response.quotes_data.forEach((data: entity.TableDataQuote): void => {
@@ -43,6 +45,8 @@ export class Mapper {
 						}
 				}),
 				products: data.quote_options.map(option => {
+					console.log('optionoptionoption', option);
+					
 					const places = option.option_products.reduce((acc, product) => acc + product.quantity, 0);
 					const productNames = option.option_products.map(product => product.product?.name || '-');
 				  
@@ -50,6 +54,7 @@ export class Mapper {
 					  type: option.type_price === 1 ? 'Normal' : 'Promoción',
 					  places: places,
 					  product: productNames,
+					  selected: option.selected,
 					  total: '$' + parseFloat(option.total).toLocaleString('en-US', {
 						minimumFractionDigits: 2,
 						maximumFractionDigits: 2

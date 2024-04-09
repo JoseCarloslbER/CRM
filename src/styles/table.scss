@@ -658,6 +658,14 @@
 	}
 }
 
+.btn-check-quote {
+	box-shadow: none!important;
+	mat-icon {
+		font-size: 25px!important;
+		color: #048d2a !important;
+	}
+}
+
 .btn-wallet {
 	background: #026A1F;
 }

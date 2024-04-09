@@ -47,7 +47,7 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     address: [''],
     company_type: [''],
     company_size: [''],
-    web_page: ['https://', [Validators.pattern(/^(ftp|http|https):\/\/[^ "]+$/)]],
+    web_page: ['', [Validators.pattern(/^(ftp|http|https):\/\/[^ "]+$/)]],
     comments: ['', Validators.required],
     logo: [null]
   });
@@ -814,6 +814,20 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
         currentOption.product[productIndex].unitPriceControl.setValue('');
       }
     }, 300);
+  }
+
+  addPrefix() {
+    const webPageControl = this.formData.get('web_page');
+    if (webPageControl && !webPageControl.value.startsWith('https://')) {
+      webPageControl.setValue('https://');
+    }
+  }
+
+  removePrefix() {
+    const webPageControl = this.formData.get('web_page');
+    if (webPageControl && webPageControl.value === 'https://') {
+      webPageControl.setValue('');
+    }
   }
 
   onFileChange(event: any) {

@@ -59,6 +59,7 @@ export interface TableDataQuoteMapper {
   };
   companyNameMain: string;
   status: string;
+  
   stateCountry: string;
   information: {
     name: string;

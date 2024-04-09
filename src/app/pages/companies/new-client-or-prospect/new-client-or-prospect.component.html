@@ -73,7 +73,7 @@
 
                         <mat-form-field class="gt-xs:pr-3 inputNewRegister">
                             <mat-label>Página web</mat-label>
-                            <input formControlName="web_page" matInput type="url">
+                            <input formControlName="web_page" matInput type="url" (focus)="addPrefix()" (blur)="removePrefix()">
                         </mat-form-field>
 
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
@@ -205,7 +205,7 @@
                             </mat-form-field>
     
                             <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
-                                <mat-label>Extención</mat-label>
+                                <mat-label>Extensión</mat-label>
                                 <input (input)="configInput($event, '', 'extControl', i)" maxlength="5" type="text" matInput [formControl]="ejecucion.extControl">
                             </mat-form-field>
                         </div>

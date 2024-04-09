@@ -35,7 +35,8 @@
                                     <mat-select placeholder="Seleccionar" formControlName="agent">
                                         <mat-option value="">Todos</mat-option>
                                         <mat-option [value]="cat.id" *ngFor="let cat of catAgents">
-                                            {{cat.first_name && cat.last_name ? cat?.first_name + ' ' + cat?.last_name : cat?.username |titlecase }}</mat-option>
+                                            {{cat.first_name && cat.last_name ? cat?.first_name + ' ' + cat?.last_name :
+                                            cat?.username |titlecase }}</mat-option>
                                     </mat-select>
                                 </mat-form-field>
                             </div>
@@ -93,11 +94,10 @@
                 <span (click)="selectOption('Mes')" [class.selected]="filterDayMonthYear === 'Mes'">Mes</span>
                 <span (click)="selectOption('Año')" [class.selected]="filterDayMonthYear === 'Año'">Año</span>
             </div>
-            
+
             <div class="row mt-5">
                 <div class="col-12 contenedor-scroll-tabla">
-                    <table mat-table #table [dataSource]="dataSource"
-                        class="w-100 tabla-personalizada-default">
+                    <table mat-table #table [dataSource]="dataSource" class="w-100 tabla-personalizada-default">
                         <caption></caption>
 
                         <ng-container matColumnDef="dateAndHour">
@@ -144,8 +144,8 @@
                                     <div class="table-column-totalPrice mb-3">
                                         <h1 class="font-bold">{{ info.name }} <span
                                                 class="font-normal">{{info.total}}</span> </h1>
-                                        <h1 class="font-bold">Vence: <span
-                                                class="font-normal">{{info.expire}}</span> </h1>
+                                        <h1 class="font-bold">Vence: <span class="font-normal">{{info.expire}}</span>
+                                        </h1>
                                     </div>
                                 </div>
 
@@ -163,6 +163,7 @@
                                                 <th scope="col">Lugares</th>
                                                 <th scope="col">Producto</th>
                                                 <th scope="col">Precio</th>
+                                                <th scope="col">Seleccionada</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -171,6 +172,13 @@
                                                 <td>{{item.places}}</td>
                                                 <td>{{item.product.join(', ')}}</td>
                                                 <td>{{item.total}}</td>
+                                                <td >
+                                                    <div class="btn-check-quote" *ngIf="item?.selected">
+                                                        <mat-icon matTooltip="Seleccioanda">task_alt</mat-icon>
+                                                    </div>
+
+                                                    <p *ngIf="!item?.selected">-</p>
+                                                </td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -188,13 +196,14 @@
 
                         <ng-container matColumnDef="actions">
                             <th mat-header-cell *matHeaderCellDef>Acciones</th>
-                            <td mat-cell *matCellDef="let element" >
-                                <div class="colum-table-select" 
-                                *ngIf="element?.actionStatusId == '5fb730e9-3802-461f-a4f3-592ff04c4387' || 
-                                element?.actionStatusId == '3944df8e-d359-4569-b712-ea174be69cca'">                                            
-                                <mat-form-field class="flex-auto input-default">
+                            <td mat-cell *matCellDef="let element">
+                                <div class="colum-table-select" *ngIf="element?.actionStatusId == '5fb730e9-3802-461f-a4f3-592ff04c4387' || 
+                                element?.actionStatusId == '3944df8e-d359-4569-b712-ea174be69cca'">
+                                    <mat-form-field class="flex-auto input-default">
                                         <mat-select placeholder="Seleccionar">
-                                            <mat-option [value]="element.actionName" class="border-bottom" [value]="action" *ngFor="let action of element?.actions" (click)="getActions(action, element)">{{action}}</mat-option>
+                                            <mat-option [value]="element.actionName" class="border-bottom"
+                                                [value]="action" *ngFor="let action of element?.actions"
+                                                (click)="getActions(action, element)">{{action}}</mat-option>
                                         </mat-select>
                                     </mat-form-field>
                                 </div>
@@ -207,26 +216,24 @@
                                 <div class="c-column-btns" *ngIf="element.actionName != 'Eliminado'">
 
                                     <div class="btn-edit" (click)="editData(element.id)"
-                                    *ngIf="element?.actionStatusId == '5fb730e9-3802-461f-a4f3-592ff04c4387' || element?.actionStatusId == '3944df8e-d359-4569-b712-ea174be69cca'"
-                                    >
+                                        *ngIf="element?.actionStatusId == '5fb730e9-3802-461f-a4f3-592ff04c4387' || element?.actionStatusId == '3944df8e-d359-4569-b712-ea174be69cca'">
                                         <mat-icon matTooltip="Editar">edit_square</mat-icon>
                                     </div>
 
-                                    <div class="btn-delete" (click)="deleteData(element.id)" 
-                                *ngIf="element?.actionStatusId == '5fb730e9-3802-461f-a4f3-592ff04c4387' || element?.actionStatusId == '3944df8e-d359-4569-b712-ea174be69cca'"
-                                    >
+                                    <div class="btn-delete" (click)="deleteData(element.id)"
+                                        *ngIf="element?.actionStatusId == '5fb730e9-3802-461f-a4f3-592ff04c4387' || element?.actionStatusId == '3944df8e-d359-4569-b712-ea174be69cca'">
                                         <mat-icon matTooltip="Eliminar">delete</mat-icon>
                                     </div>
 
-                                    <div class="btn-wallet" (click)="moneyAccount(element)" 
-                                    *ngIf="(element?.actionStatusId == '2b95f05d-64d4-4b36-a51c-a3ca7c6bdc72' && !element?.moneyInAccount)"
-                                    >
+
+
+                                    <div class="btn-wallet" (click)="moneyAccount(element)"
+                                        *ngIf="(element?.actionStatusId == '2b95f05d-64d4-4b36-a51c-a3ca7c6bdc72' && !element?.moneyInAccount)">
                                         <mat-icon matTooltip="Dinero en cuenta">wallet</mat-icon>
                                     </div>
 
-                                    <div class="btn-receipt" (click)="billing(element)" 
-                                    *ngIf="element.actionStatusId == 'f4fa3c48-8b48-4d39-ad09-a6699a66459f' && !element?.isBilled"
-                                    >
+                                    <div class="btn-receipt" (click)="billing(element)"
+                                        *ngIf="element.actionStatusId == 'f4fa3c48-8b48-4d39-ad09-a6699a66459f' && !element?.isBilled">
                                         <mat-icon matTooltip="Facturación">receipt_long</mat-icon>
                                     </div>
 

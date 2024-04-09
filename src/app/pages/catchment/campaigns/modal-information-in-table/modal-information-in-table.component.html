@@ -4,7 +4,7 @@
     </div>
 
     <div class="row d-flex">
-        <div class="col-12 contenedor-scroll-tabla">
+        <div class="col-12 table-container">
             <table mat-table #table [dataSource]="dataSource" *ngIf="data.type == 'agents'"
                 class="w-100 tabla-personalizada-default-white">
                 <caption></caption>
@@ -56,7 +56,8 @@
                     <td mat-cell *matCellDef="let element">
                         <div class="d-flex flex-column table-column-img text-center">
                             <img [src]="element.companyMain.img" alt="">
-                            <span class="text-line-bottom cursor-pointer" (click)="seeData(element?.company?.company_id)">
+                            <span class="text-line-bottom cursor-pointer"
+                                (click)="seeData(element?.company?.company_id)">
                                 {{ element?.companyMain?.name || '-' }}
                             </span>
                         </div>
