@@ -95,7 +95,11 @@
                             </thead>
                             <tbody>
                                 <tr *ngFor="let item of element.products">
-                                    <td>{{item.type}}</td>
+                                    <td>{{item.type}}
+                                        <div class="btn-check-quote" *ngIf="item?.selected">
+                                            <mat-icon matTooltip="Seleccioanda">task_alt</mat-icon>
+                                        </div>
+                                    </td>
                                     <td>{{item.places}}</td>
                                     <td>{{item.product}}</td>
                                     <td>{{item.total}}</td>
