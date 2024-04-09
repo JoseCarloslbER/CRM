@@ -26,7 +26,7 @@
 
                         <mat-form-field class="gt-xs:pr-3 inputNewRegister" *ngIf="addContact?.value">
                             <mat-label>RFC</mat-label>
-                            <input formControlName="tax_id_number" maxlength="13" matInput pattern="^\d{12,13}$">
+                            <input formControlName="tax_id_number" maxlength="13" matInput pattern="^[a-zA-Z0-9]{12,13}$">
                             <mat-error *ngIf="formData.get('tax_id_number').invalid && formData.get('tax_id_number').touched">
                                 RFC debe tener 12 o 13 caracteres
                             </mat-error>

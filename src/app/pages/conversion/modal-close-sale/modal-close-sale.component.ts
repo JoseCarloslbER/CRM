@@ -21,7 +21,7 @@ export class ModalCloseSaleComponent implements OnInit, OnDestroy {
     way_to_pay_id: [null, Validators.required],
     payment_condition_id: [null, Validators.required],
     invoice_use_id: [null, Validators.required],
-    tax_id_number: [null, [Validators.required, Validators.pattern(/^\d{12,13}$/)]],
+    tax_id_number: [null, [Validators.required, Validators.pattern(/^[a-zA-Z0-9]{12,13}$/)]],
   });
 
   public catWayToPay: entityGeneral.DataCatWayToPay[] = [];
