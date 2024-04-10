@@ -43,7 +43,7 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     owner_user: [''],
     country: [''],
     business: [''],
-    city: [''],
+    city: [{ value: null, disabled: true }],
     address: [''],
     company_type: [''],
     company_size: [''],
@@ -117,6 +117,18 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
       } else this.asignValidators(false);
     })
 
+    this.formData.get('state').valueChanges.pipe(takeUntil(this.onDestroy)).subscribe((content: string) => {
+      console.log(content);
+      this.formData.get('city').enable()
+      this.catalogsServices.getCatCity(content).subscribe({
+        next: (data: entityGeneral.DataCatCity[]) => {
+          this.catCities = data;
+        },
+        error: (error) => console.error(error)
+      });
+
+    })
+
     this.taxInclude?.valueChanges.pipe(takeUntil(this.onDestroy)).subscribe(resp => {
       if (!resp) {
         this.optionFormValues.forEach(control => {
@@ -126,7 +138,7 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
         this.optionFormValues.forEach(control => {
           let total_number = parseFloat(control?.subtotalControl?.value.replace(/,/g, '')) - control?.discountControl?.value;
           let tax = total_number - (total_number / 1.16);
-          
+
           control.ivaControl.setValue((tax).toLocaleString('en-US', {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2
@@ -147,7 +159,7 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     this.moduleServices.getDataId(id).pipe(takeUntil(this.onDestroy)).subscribe({
       next: (response: any) => {
         console.log(response);
-        
+
         this.isCompleted(response)
         this.objEditData = response;
         this.formData.patchValue({ ...this.objEditData });
@@ -181,7 +193,6 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
       error: (error) => console.error(error)
     });
   }
-
 
   getCatalogs() {
     this.getCatalogsInitial()
@@ -221,12 +232,6 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
       error: (error) => console.error(error)
     });
 
-    this.catalogsServices.getCatCity().subscribe({
-      next: (data: entityGeneral.DataCatCity[]) => {
-        this.catCities = data;
-      },
-      error: (error) => console.error(error)
-    });
 
     this.catalogsServices.getCatBusiness().subscribe({
       next: (data: entityGeneral.DataCatBusiness[]) => {
@@ -323,8 +328,8 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
   }
 
   addFormContact(datos?: any) {
-  console.log('addFormContact', datos);
-    
+    console.log('addFormContact', datos);
+
     const instance: any = {
       ...(datos && { id: datos.id }),
       fullNameControl: new FormControl({ value: datos?.nombre || '', disabled: false }, Validators.required),
@@ -407,7 +412,7 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
       datos.optionProducts.forEach((productData: any, productIndex: number) => {
         const productInstance: any = this.createProductInstance(productData);
         instance.product.push(productInstance);
-        this.enableProductFields(productInstance); 
+        this.enableProductFields(productInstance);
       });
     } else {
       const newProductInstance: any = this.createProductInstance();
@@ -713,36 +718,44 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     if (data.country || data.company_type || data.city) this.addContact.patchValue(true);
   }
 
-  asignValidators(accion = false) {
-    const newFormGroup = this.formBuilder.group({ ...this.formData.getRawValue() });
-
+  asignValidators(accion: boolean) {
     if (accion) {
-      newFormGroup.get('country')?.setValidators(Validators.required);
-      newFormGroup.get('state')?.setValidators(Validators.required);
-      newFormGroup.get('city')?.setValidators(Validators.required);
-      newFormGroup.get('company_type')?.setValidators(Validators.required);
-      newFormGroup.get('company_size')?.setValidators(Validators.required);
-      newFormGroup.get('business')?.setValidators(Validators.required);
-      newFormGroup.get('tax_id_number')?.setValidators([Validators.required, Validators.pattern(/^[a-zA-Z0-9]{12,13}$/)]);
+      this.formData.get('country')?.setValidators(Validators.required);
+      this.formData.get('state')?.setValidators(Validators.required);
+      this.formData.get('city')?.setValidators(Validators.required);
+      this.formData.get('company_type')?.setValidators(Validators.required);
+      this.formData.get('company_size')?.setValidators(Validators.required);
+      this.formData.get('business')?.setValidators(Validators.required);
+      this.formData.get('tax_id_number')?.setValidators([Validators.required, Validators.pattern(/^[a-zA-Z0-9]{12,13}$/)]);
     } else {
-      newFormGroup.get('country')?.clearValidators();
-      newFormGroup.get('state')?.clearValidators();
-      newFormGroup.get('city')?.clearValidators();
-      newFormGroup.get('company_type')?.clearValidators();
-      newFormGroup.get('company_size')?.clearValidators();
-      newFormGroup.get('business')?.clearValidators();
-      newFormGroup.get('tax_id_number')?.clearValidators();
-    }
+      this.formData.get('country')?.clearValidators();
+      this.formData.get('state')?.clearValidators();
+      this.formData.get('city')?.clearValidators();
+      this.formData.get('company_type')?.clearValidators();
+      this.formData.get('company_size')?.clearValidators();
+      this.formData.get('business')?.clearValidators();
+      this.formData.get('tax_id_number')?.clearValidators();
 
-    newFormGroup.updateValueAndValidity();
-    this.formData = newFormGroup;
+      const form = {
+        ...this.formData.value,
+        country : '',
+        state : '',
+        city : '',
+        company_type : '',
+        company_size : '',
+        business : '',
+        tax_id_number : '',
+      }
+      this.formData.reset(form);
+    }
   }
+  
 
   get canSave() {
     let save: boolean = true;
 
     console.log(this.formData);
-    
+
 
     if (this.formData.valid) {
       if (this.valuesContacts.length) {
@@ -779,7 +792,7 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     return save
   }
 
-  configInput(event: Event, type: string, control?: string, index?:number): void {
+  configInput(event: Event, type: string, control?: string, index?: number): void {
     const inputElement = event.target as HTMLInputElement;
     const inputValue = inputElement.value;
     const sanitizedValue = inputValue.replace(/\D/g, '');
@@ -790,7 +803,7 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
       const formControl = this.formData.get(control);
       if (formControl) formControl.setValue(sanitizedValue, { emitEvent: false });
 
-    } else if (index !== undefined  && this.valuesContacts[index]) {
+    } else if (index !== undefined && this.valuesContacts[index]) {
       this.valuesContacts[index][control]?.patchValue(sanitizedValue, { emitEvent: false });
     }
   }

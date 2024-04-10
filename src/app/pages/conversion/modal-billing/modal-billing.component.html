@@ -27,8 +27,10 @@
                     <div class="col-md-4">
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>RFC</mat-label>
-                            <input formControlName="tax_id_number" maxlength="13" matInput pattern="^[a-zA-Z0-9]{12,13}$">
-                            <mat-error *ngIf="formData.get('tax_id_number').invalid && formData.get('tax_id_number').touched">
+                            <input formControlName="tax_id_number" maxlength="13" matInput
+                                pattern="^[a-zA-Z0-9]{12,13}$">
+                            <mat-error
+                                *ngIf="formData.get('tax_id_number').invalid && formData.get('tax_id_number').touched">
                                 RFC debe tener 12 o 13 caracteres
                             </mat-error>
                         </mat-form-field>
@@ -82,10 +84,8 @@
 
                     <div class="col-md-4">
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
-                            <mat-label>Producto</mat-label>
-                            <mat-select formControlName="" placeholder="Seleccionar">
-                                <mat-option value="">C001 - Seguridad de edificios, locales, instalaciones y áreas de trabajo</mat-option>
-                            </mat-select>
+                            <mat-label>Producto*</mat-label>
+                            <input formControlName="" matInput>
                         </mat-form-field>
                     </div>
 
@@ -93,7 +93,7 @@
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Unidad</mat-label>
                             <mat-select formControlName="" placeholder="Seleccionar">
-                                <mat-option>E48 - Servicio</mat-option>
+                                <mat-option>PZ</mat-option>
                             </mat-select>
                         </mat-form-field>
                     </div>
@@ -102,7 +102,7 @@
                         <div class="row">
                             <div class="col-md-2">
                                 <div class="flex-auto input-default inputNewRegister">
-                                    <mat-label>Lugares:</mat-label>
+                                    <mat-label>Lugares: <br> {{ optionSelected[0].places }}</mat-label>
                                 </div>
                             </div>
                             <div class="col-md-8">
@@ -113,7 +113,7 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="flex-auto input-default inputNewRegister">
-                                    <mat-label>Precio:</mat-label>
+                                    <mat-label>Precio: <br> {{ optionSelected[0].total }}</mat-label>
                                 </div>
                             </div>
                         </div>

@@ -308,8 +308,6 @@ export class FuseVerticalNavigationComponent implements OnChanges, OnInit, After
     ngOnInit(): void
     {
 
-        console.log('navigationnavigationnavigation', this.navigation);
-        
         // Make sure the name input is not an empty string
         if ( this.name === '' )
         {

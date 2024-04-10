@@ -78,8 +78,9 @@ export class DetailClientComponent implements OnInit {
     })
   }
 
-  call(data) {
-    console.log(data);
+  goCall() {
+    console.log(this.objEditData.phone);
+    this.router.navigateByUrl(`/home/comunicaciones/voip/${this.objEditData.phone}`)
     
   }
 

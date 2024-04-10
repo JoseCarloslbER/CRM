@@ -3,8 +3,6 @@ import moment from 'moment';
 
 export class Mapper {
 	static getDataTableMapper(response: entity.TableDataQuoteResponse) : entity.TableDataQuoteMapperResponse {
-		console.log('MAPPER', response.quotes_data[0]);
-		
 		let dataList :entity.TableDataQuoteMapper[] = [];
 
 		response.quotes_data.forEach((data: entity.TableDataQuote): void => {
@@ -45,8 +43,6 @@ export class Mapper {
 						}
 				}),
 				products: data.quote_options.map(option => {
-					console.log('optionoptionoption', option);
-					
 					const places = option.option_products.reduce((acc, product) => acc + product.quantity, 0);
 					const productNames = option.option_products.map(product => product.product?.name || '-');
 				  
@@ -101,8 +97,6 @@ export class Mapper {
 	}
 
 	static GetDataTableCompanyMapper(response: entity.TableDataQuote) {
-		console.log(response.quote_options);
-		
 		return {
 			id : response.quote_id || '',
 			regiterDate : moment(response?.register_date).format('DD-MM-YYYY'),
@@ -118,8 +112,6 @@ export class Mapper {
 				logo : response?.company?.logo ? response?.company?.logo.includes('default') ? `../../../assets/images/default.png` : response?.company?.logo : `../../../assets/images/default.png` 
 			},
 			quoteOptions : response.quote_options.map((data:any) => {
-				// console.log('data', data);
-				
 				return {
 					id: data?.quote_option_id || '',
 					tax : parseFloat(data?.tax,).toLocaleString('en-US', {

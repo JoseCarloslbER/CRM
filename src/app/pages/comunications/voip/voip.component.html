@@ -20,7 +20,9 @@
                 <div id="dial">
                     <h4>Marcar</h4>
                     <form class="row g-2">
-                    <div class="col-sm-9"><input id="dial-number" type="text" name="number" class="form-control" placeholder="Ingrese número a llamar ejemplo (+525526110700)" /></div>
+                    <div class="col-sm-9">
+                        <input id="dial-number" type="text" name="number" class="form-control" placeholder="Ingrese número a llamar ejemplo (+525526110700)" [(ngModel)]="phone" />
+                    </div>
                     <div class="col-sm-2 text-end">
                         <button id="call" type="button" class="btn-action-green">
                             <span>Llamar</span>

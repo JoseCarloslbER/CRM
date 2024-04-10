@@ -31,6 +31,7 @@ export class ModalBillingComponent implements OnInit, OnDestroy {
   public catInvoiceUse: entityGeneral.DataCatInvoiceUse[] = [];
 
   public objEditData: any;
+  public optionSelected: any;
 
   constructor(
     private moduleServices: ConversionService,
@@ -50,6 +51,9 @@ export class ModalBillingComponent implements OnInit, OnDestroy {
     if (this.data.info) {
       this.objEditData = this.data?.info;
       this.formData.patchValue(this.data?.info?.companyInfo)
+      this.optionSelected = this.data.info.products.filter((data:any) => data.selected);
+      console.log('optionSelected', this.optionSelected);
+      
     }
     setTimeout(() => {
       this.getCatalogs()
@@ -97,7 +101,7 @@ export class ModalBillingComponent implements OnInit, OnDestroy {
     }
 
     console.log(objData);
-    this.saveDataPost(objData);
+    // this.saveDataPost(objData);
   }
 
   saveDataPost(objData: any) {

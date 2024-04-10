@@ -24,6 +24,10 @@ const comunicationsRoutes: Routes = [
 				component: VoipComponent,
 			},
 			{
+				path: 'voip/:phone',
+				component: VoipComponent,
+			},
+			{
 				path     : 'tawk/:id',
 				component: ConversationComponent,
 			},

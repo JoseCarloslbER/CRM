@@ -148,8 +148,8 @@ export class CatalogsService {
 		return this.http.get<entityGeneral.DataCatState[]>(url)
 	}
 
-	public getCatCity(): Observable<entityGeneral.DataCatCity[]> {
-		const url = `${environment.apiURL}settings/city/`;
+	public getCatCity(idState?:string): Observable<entityGeneral.DataCatCity[]> {
+		const url = `${environment.apiURL}settings/city/?state_id=${idState}`;
 
 		return this.http.get<entityGeneral.DataCatCity[]>(url)
 	}
