@@ -89,13 +89,21 @@
                                     cat?.username |titlecase }}</mat-option> </mat-select>
                         </mat-form-field>
 
-                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister" *ngIf="addContact?.value">
-                            <mat-label>Ciudad</mat-label>
-                            <mat-select formControlName="city" placeholder="Seleccionar">
-                                <mat-option [value]="cat.city_id" *ngFor="let cat of catCities">{{cat?.city_name ||
-                                    '-'}}</mat-option>
-                            </mat-select>
-                        </mat-form-field>
+                        <form class="example-form" *ngIf="addContact?.value">
+                            <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
+                                <mat-label>Buscar ciudad</mat-label>
+                                <input type="text" placeholder="Buscar por nombre..." matInput [formControl]="city"
+                                    [matAutocomplete]="auto">
+                                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                                    <mat-option *ngFor="let cat of filteredOptions | async" [value]="cat.city_name"
+                                        (click)="companySelected = cat.city_id">
+                                        {{ cat.city_name || '-' }}
+                                    </mat-option>
+                                </mat-autocomplete>
+                                <mat-icon class="cursor-pointer" *ngIf="citySelected" matTooltip="Limpiar"
+                                    (click)="cleanCompany()">close</mat-icon>
+                            </mat-form-field>
+                        </form>
 
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister" *ngIf="addContact?.value">
                             <mat-label>Tamaño de empresa</mat-label>

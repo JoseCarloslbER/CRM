@@ -1,6 +1,6 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ConversionService } from '../conversion.service';
@@ -14,6 +14,7 @@ import { CatalogsService } from 'app/shared/services/catalogs.service';
 export class ModalBillingComponent implements OnInit, OnDestroy {
   private onDestroy = new Subject<void>();
 
+  public comments = new FormControl(null);
 
   public formData = this.formBuilder.group({
     company_name: [null, Validators.required],
@@ -23,6 +24,16 @@ export class ModalBillingComponent implements OnInit, OnDestroy {
     payment_condition_id: [null, Validators.required],
     invoice_use_id: [null, Validators.required],
     tax_id_number: [null, [Validators.required, Validators.pattern(/^[a-zA-Z0-9]{12,13}$/)]],
+    serie: [null, Validators.required],
+    unitCode: [null, Validators.required],
+    description: [null, Validators.required],
+  });
+  
+  public formDataTwo = this.formBuilder.group({
+    factura_externa: [false],
+    serie: [null, Validators.required],
+    unitCode: [null, Validators.required],
+    description: [null, Validators.required],
   });
 
   public catWayToPay: entityGeneral.DataCatWayToPay[] = [];
@@ -97,11 +108,13 @@ export class ModalBillingComponent implements OnInit, OnDestroy {
       status_id: 'f4fa3c48-8b48-4d39-ad09-a6699a66459f',
       quote_id : this.objEditData.id,
       company_id : this.objEditData.companyName.id,
-      invoice_status_id : '0e202967-7cba-4899-9038-d91b9a14f57e'
+      invoice_status_id : '0e202967-7cba-4899-9038-d91b9a14f57e',
+      ...this.formDataTwo.value,
+      comments : this.comments.value
     }
 
     console.log(objData);
-    // this.saveDataPost(objData);
+    this.saveDataPost(objData); 
   }
 
   saveDataPost(objData: any) {

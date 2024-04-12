@@ -8,9 +8,15 @@
     }
     
     .scroll {
-        height: 515px;
+        height: 650px;
         overflow: auto;
         padding: 5px;
+    }
+
+    .btn-check-quote {
+        mat-icon {
+            font-size: 20px!important;
+        }
     }
 
     .c-pipeline-header {
@@ -183,8 +189,8 @@
 
     .status {
         display: flex;
-        flex-direction: column;
         justify-content: center;
+        gap: 10px;
         align-items: center;
         margin-top: 10px;
         h2 {

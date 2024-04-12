@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
-import { Subject, takeUntil } from 'rxjs';
+import { Observable, Subject, map, startWith, takeUntil } from 'rxjs';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import * as entityGeneral from '../../../shared/interfaces/general-interface';
 import * as entity from '../companies-interface';
@@ -21,6 +21,7 @@ import { CompaniesService } from '../companies.service';
 export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDestroy {
   private onDestroy = new Subject<void>();
   private formatTimer: ReturnType<typeof setTimeout>;
+  public filteredOptions: Observable<any[]>;
 
   public addContact = new FormControl(true)
   public movilPhoneContact = new FormControl('', [Validators.pattern(/^\d{10}$/)])
@@ -31,6 +32,11 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
   public url = document.location.href;
   public modalTitle: string = '';
   public esClient: boolean = false;
+
+  // public city = new FormControl(null);
+  public city = new FormControl({ value: null, disabled: true });
+  public citySelected: string = '';
+
 
   public formData = this.formBuilder.group({
     company_name: ['', Validators.required],
@@ -43,7 +49,7 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     owner_user: [''],
     country: [''],
     business: [''],
-    city: [{ value: null, disabled: true }],
+    // city: [{ value: null, disabled: true }],
     address: [''],
     company_type: [''],
     company_size: [''],
@@ -86,10 +92,16 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
 
   ngOnInit(): void {
     this.verifyType()
+
+    this.filteredOptions = this.city.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filter(value))
+    );
   }
 
   verifyType() {
     this.getId()
+
 
     if (this.url.includes('prospecto') && this.url.includes('dashboard')) {
       this.addContact.patchValue(false)
@@ -118,15 +130,15 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     })
 
     this.formData.get('state').valueChanges.pipe(takeUntil(this.onDestroy)).subscribe((content: string) => {
-      console.log(content);
-      this.formData.get('city').enable()
-      this.catalogsServices.getCatCity(content).subscribe({
-        next: (data: entityGeneral.DataCatCity[]) => {
-          this.catCities = data;
-        },
-        error: (error) => console.error(error)
-      });
-
+      if (content) {
+        this.city.enable()
+        this.catalogsServices.getCatCity(content).subscribe({
+          next: (data: entityGeneral.DataCatCity[]) => {
+            this.catCities = data;
+          },
+          error: (error) => console.error(error)
+        });
+      }
     })
 
     this.taxInclude?.valueChanges.pipe(takeUntil(this.onDestroy)).subscribe(resp => {
@@ -251,7 +263,8 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     let options: any[] = [...this.getOptionsValues()];
 
     let objData: any = {
-      ...this.formData.value
+      ...this.formData.value,
+      city : this.citySelected
     }
 
     if ((!contacts.length && !this.addContact.value)) {
@@ -722,7 +735,8 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     if (accion) {
       this.formData.get('country')?.setValidators(Validators.required);
       this.formData.get('state')?.setValidators(Validators.required);
-      this.formData.get('city')?.setValidators(Validators.required);
+      // this.formData.get('city')?.setValidators(Validators.required);
+      this.city.setValidators(Validators.required)
       this.formData.get('company_type')?.setValidators(Validators.required);
       this.formData.get('company_size')?.setValidators(Validators.required);
       this.formData.get('business')?.setValidators(Validators.required);
@@ -730,7 +744,8 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     } else {
       this.formData.get('country')?.clearValidators();
       this.formData.get('state')?.clearValidators();
-      this.formData.get('city')?.clearValidators();
+      // this.formData.get('city')?.clearValidators();
+      this.city.clearValidators()
       this.formData.get('company_type')?.clearValidators();
       this.formData.get('company_size')?.clearValidators();
       this.formData.get('business')?.clearValidators();
@@ -738,18 +753,18 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
 
       const form = {
         ...this.formData.value,
-        country : '',
-        state : '',
-        city : '',
-        company_type : '',
-        company_size : '',
-        business : '',
-        tax_id_number : '',
+        country: '',
+        state: '',
+        city: '',
+        company_type: '',
+        company_size: '',
+        business: '',
+        tax_id_number: '',
       }
       this.formData.reset(form);
     }
   }
-  
+
 
   get canSave() {
     let save: boolean = true;
@@ -757,7 +772,7 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     console.log(this.formData);
 
 
-    if (this.formData.valid) {
+    if (this.formData.valid && this.city.valid) {
       if (this.valuesContacts.length) {
         this.valuesContacts.forEach(control => {
           if (
@@ -849,6 +864,12 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
       this.formData.patchValue({ logo: file });
     }
   }
+
+  private _filter(value: any): any[] {
+    const filterValue = value?.toLowerCase();
+    return this.catCities.filter(option => option?.city_name?.toLowerCase()?.includes(filterValue));
+  }
+
 
   ngOnDestroy(): void {
     this.onDestroy.next();

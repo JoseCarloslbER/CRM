@@ -99,7 +99,8 @@ export class PipelineComponent implements OnInit, OnDestroy {
     this.moduleServices.getPipeline(filters).subscribe({
       next: (data : any) => {
         this.dataPipele = data;
-        console.log(this.dataPipele);
+        console.log('quoteClients', this.dataPipele.quoteClients[0]);
+        console.log('leadsSales', this.dataPipele.leadsSales[0]);
         
       },
       error: (error) => console.error(error)
