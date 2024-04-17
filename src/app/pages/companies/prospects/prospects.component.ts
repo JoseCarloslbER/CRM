@@ -190,7 +190,7 @@ export class ProspectsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.notificationService
       .notificacion(
         'Éxito',
-        'Excel descargado.',
+        '¡Restablecimiento de contraseña enviado!',
         'save',
         'heroicons_outline:document-arrow-down'
       )

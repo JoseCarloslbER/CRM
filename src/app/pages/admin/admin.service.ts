@@ -185,4 +185,38 @@ export class AdminService {
   }
 
   // END ROLES 
+
+  // ROLES
+
+  public getDataTableBonus() {
+		const url = `${environment.apiURL}admin/bonus/`;
+
+    return this.http.get<entity.TableDataUsers[]>(url)
+	}
+
+  public getDataBonusId(id: string) {
+    const url = `${environment.apiURL}admin/bonus/${id}/`;
+
+    return this.http.get<any>(url)
+  }
+
+  public postDataBonus(data:entity.PostDataUser): Observable<any> {
+    const url = `${environment.apiURL}admin/bonus/`;
+
+    return this.http.post<any>(url, data)
+  }
+
+  public patchDataBonus(id: string, data:entity.PatchDataUser): Observable<any> {
+    const url = `${environment.apiURL}admin/bonus/${id}/`;
+
+    return this.http.patch<any>(url, data)
+  }
+
+  public deleteDataBonus(id: string): Observable<any> {
+    const url = `${environment.apiURL}admin/bonus/${id}/`;
+
+    return this.http.delete<any>(url)
+  }
+
+  // END ROLES 
 }

@@ -109,7 +109,7 @@
                             <div class="pipeline-content-card card-formal-padding" *ngFor="let dataOption of data?.optionOne">
                                 <div class="d-flex align-items-center gap-2">
                                     <div class="text-end">
-                                        <h1>Cotización:</h1>
+                                        <h1>Coti.:</h1>
                                     </div>
                                     <div class="text-start">
                                         <span class="font-bold">#{{ data?.quoteNumber }}</span>
@@ -120,7 +120,7 @@
                                         <h1>Op {{ i + 1}}:</h1>
                                     </div>
                                     <div class="text-start">
-                                        <span>{{ option?.amount }} / Qty: {{ option?.places }}</span>
+                                        <span class="text-option">{{ option?.amount }} / Qty: {{ option?.places }}</span>
                                     </div>
                                 </div>
 
@@ -134,7 +134,7 @@
                                 </div>
                                 <div class="d-flex align-items-center gap-2">
                                     <div class="text-end">
-                                        <h1>Campaña:</h1>
+                                        <h1>Camp.:</h1>
                                     </div>
                                     <div class="text-start"><span>{{ dataOption?.campaign }}</span></div>
                                 </div>
@@ -205,7 +205,7 @@
                             <div class="pipeline-content-card card-formal-padding" *ngFor="let dataOption of data?.optionOne">
                                 <div class="d-flex align-items-center gap-2">
                                     <div class="text-end">
-                                        <h1>Cotización:</h1>
+                                        <h1>Coti.:</h1>
                                     </div>
                                     <div class="text-start">
                                         <span class="font-bold">#{{ data?.quoteNumber }}</span>
@@ -216,7 +216,7 @@
                                         <h1>Op {{ i + 1}}:</h1>
                                     </div>
                                     <div class="text-start">
-                                        <span>{{ option?.amount }} / Qty: {{ option?.places }}</span>
+                                        <span class="text-option">{{ option?.amount }} / Qty: {{ option?.places }}</span>
                                     </div>
                                 </div>
 
@@ -230,7 +230,7 @@
                                 </div>
                                 <div class="d-flex align-items-center gap-2">
                                     <div class="text-end">
-                                        <h1>Campaña:</h1>
+                                        <h1>Camp.:</h1>
                                     </div>
                                     <div class="text-start"><span>{{ dataOption?.campaign }}</span></div>
                                 </div>
@@ -299,7 +299,7 @@
                             <div class="pipeline-content-card card-formal-padding" *ngFor="let dataOption of data?.optionOne">
                                 <div class="d-flex align-items-center gap-2">
                                     <div class="text-end">
-                                        <h1>Cotización:</h1>
+                                        <h1>Coti.:</h1>
                                     </div>
                                     <div class="text-start">
                                         <span class="font-bold">#{{ data?.quoteNumber }}</span>
@@ -309,8 +309,8 @@
                                     <div class="text-end">
                                         <h1>Op {{ i + 1}}:</h1>
                                     </div>
-                                    <div class="text-start d-flex align-items-start gap-1">
-                                        <span>{{ option?.amount }} / Qty: {{ option?.places }}</span>
+                                    <div class="text-start d-flex align-items-center gap-1">
+                                        <span class="text-option">{{ option?.amount }} / Qty: {{ option?.places }}</span>
                                         <div class="btn-check-quote" *ngIf="option?.selected">
                                             <mat-icon matTooltip="Seleccionada">task_alt</mat-icon>
                                         </div>
@@ -328,7 +328,7 @@
                                 
                                 <div class="d-flex align-items-center gap-2">
                                     <div class="text-end">
-                                        <h1>Campaña:</h1>
+                                        <h1>Camp.:</h1>
                                     </div>
                                     <div class="text-start"><span>{{ data?.campaign }}</span></div>
                                 </div>
@@ -389,7 +389,7 @@
                             <div class="pipeline-content-card card-formal-padding" *ngFor="let dataOption of data?.optionOne">
                                 <div class="d-flex align-items-center gap-2">
                                     <div class="text-end">
-                                        <h1>Cotización:</h1>
+                                        <h1>Coti.:</h1>
                                     </div>
                                     <div class="text-start">
                                         <span class="font-bold">#{{ data?.quoteNumber }}</span>
@@ -400,7 +400,7 @@
                                         <h1>Op {{ i + 1}}:</h1>
                                     </div>
                                     <div class="text-start d-flex align-items-center gap-2">
-                                        <span>{{ option?.amount }} / Qty: {{ option?.places }}</span>
+                                        <span class="text-option">{{ option?.amount }} / Qty: {{ option?.places }}</span>
                                         <div class="btn-check-quote" *ngIf="option?.selected">
                                             <mat-icon matTooltip="Seleccionada">task_alt</mat-icon>
                                         </div>
@@ -417,7 +417,7 @@
                                 </div>
                                 <div class="d-flex align-items-center gap-2">
                                     <div class="text-end">
-                                        <h1>Campaña:</h1>
+                                        <h1>Camp.:</h1>
                                     </div>
                                     <div class="text-start"><span>{{ data?.campaign }}</span></div>
                                 </div>

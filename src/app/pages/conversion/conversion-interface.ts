@@ -65,6 +65,12 @@ export interface TableDataQuoteMapper {
     name: string;
     quoteNumber: number;
   };
+  actionurl: boolean;
+  actionDelete: boolean;
+  actionEdit: boolean;
+  showSelect: boolean;
+  showMoney: boolean;
+  showBilling: boolean;
   totalPrice: {
     name: string;
     expire: string;

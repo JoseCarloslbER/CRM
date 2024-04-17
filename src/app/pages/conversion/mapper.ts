@@ -4,6 +4,8 @@ import moment from 'moment';
 export class Mapper {
 	static getDataTableMapper(response: entity.TableDataQuoteResponse) : entity.TableDataQuoteMapperResponse {
 		let dataList :entity.TableDataQuoteMapper[] = [];
+		console.log('MAPPER', response.quotes_data[0]);
+		
 
 		response.quotes_data.forEach((data: entity.TableDataQuote): void => {
 			dataList.push({
@@ -32,6 +34,24 @@ export class Mapper {
 					name : data?.status?.description || '-',
 					quoteNumber : data?.quote_number || 0
 				}, 
+
+				actionurl : data?.invoice_status?.status_id == '0e202967-7cba-4899-9038-d91b9a14f57e' ? true : false,
+				actionEdit : data?.status?.status_id == '5fb730e9-3802-461f-a4f3-592ff04c4387'
+				|| data?.status?.status_id == '3944df8e-d359-4569-b712-ea174be69cca'
+				? true : false,
+				actionDelete : data?.status?.status_id == '5fb730e9-3802-461f-a4f3-592ff04c4387'
+				|| data?.status?.status_id == '3944df8e-d359-4569-b712-ea174be69cca'
+				? true : false,
+				showSelect : data?.status?.status_id == '5fb730e9-3802-461f-a4f3-592ff04c4387'
+				|| data?.status?.status_id == '3944df8e-d359-4569-b712-ea174be69cca'
+				? true : false,
+				showMoney : data?.status?.status_id == '2b95f05d-64d4-4b36-a51c-a3ca7c6bdc72'
+				&& data?.money_in_account
+				? true : false,
+				showBilling : data?.status?.status_id == 'f4fa3c48-8b48-4d39-ad09-a6699a66459f'
+				&& !data?.invoice_status?.description.includes('Facturada')
+				? true : false,
+
 				totalPrice: data.quote_options.map((data, index) => {
 						return {
 							name : `OP${index + 1}:`,

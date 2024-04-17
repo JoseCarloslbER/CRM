@@ -137,9 +137,6 @@ export interface TableDataRoles {
   permissions: any
 }
 
-export interface TableDataRolesMapper {
-}
-
 export interface PostDataUser {
   first_name : string
   user_id_slack : string
@@ -164,4 +161,53 @@ export interface PatchDataUser {
   profile_picture? : File
 }
 
-// END ROLES }
+// END ROLES 
+
+// BONUS
+
+export interface TableDataBonus {
+  bonus_id: string,
+  bonus_percentage: any,
+  bonus_meta: any
+  bonus_name: any
+  assigned_activity: any
+  deadline: any
+  type_bonus_percentage: any
+  type_bonus_meta: any
+  base_percentage_bonus: any
+  fixed_base_income: any
+  result_scale_meta: any
+  result_total: any
+  campaign: any
+  status: any
+}
+
+export interface PostDataUser {
+  bonus_name : string
+  assigned_activity : string
+  deadline : string
+  type_bonus_percentage : string
+  type_bonus_meta : string
+  base_percentage_bonus : string
+  fixed_base_income : string
+  result_scale_meta : string
+  result_total: File;
+  campaign: File;
+  status: File;
+}
+
+export interface PatchDataUser {
+  bonus_name : string
+  assigned_activity : string
+  deadline : string
+  type_bonus_percentage : string
+  type_bonus_meta : string
+  base_percentage_bonus : string
+  fixed_base_income : string
+  result_scale_meta : string
+  result_total: File;
+  campaign: File;
+  status: File;
+}
+
+// END BONUS 

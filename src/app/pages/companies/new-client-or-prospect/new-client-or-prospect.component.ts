@@ -91,6 +91,7 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
   ) { }
 
   ngOnInit(): void {
+    this.completionMessage()
     this.verifyType()
 
     this.filteredOptions = this.city.valueChanges.pipe(
