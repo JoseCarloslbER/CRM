@@ -97,7 +97,22 @@
                             <div class="content-accordion">
                                 <div class="input-check mt-1">
                                     <mat-checkbox class="mb-2" [checked]="true">
-                                        Ver dashboard
+                                        Principal
+                                    </mat-checkbox>
+                                </div>
+                                <div class="input-check mt-1">
+                                    <mat-checkbox class="mb-2" [checked]="true">
+                                        Pipeline
+                                    </mat-checkbox>
+                                </div>
+                                <div class="input-check mt-1">
+                                    <mat-checkbox class="mb-2" [checked]="true">
+                                        Campañas
+                                    </mat-checkbox>
+                                </div>
+                                <div class="input-check mt-1">
+                                    <mat-checkbox class="mb-2" [checked]="true">
+                                        Metas
                                     </mat-checkbox>
                                 </div>
                             </div>
@@ -108,9 +123,41 @@
                         <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
                             <mat-expansion-panel-header>
                                 <mat-panel-title>
-                                    Negocios
+                                    Campañas
                                 </mat-panel-title>
                             </mat-expansion-panel-header>
+                            <div class="content-accordion">
+                                <div class="input-check mt-1">
+                                    <mat-checkbox class="mb-2" [checked]="true">
+                                        Ver listado
+                                    </mat-checkbox>
+                                </div>
+                                <div class="input-check mt-1">
+                                    <mat-checkbox class="mb-2" [checked]="true">
+                                        Registrar campaña
+                                    </mat-checkbox>
+                                </div>
+                                <div class="input-check mt-1">
+                                    <mat-checkbox class="mb-2" [checked]="true">
+                                        Editar
+                                    </mat-checkbox>
+                                </div>
+                                <div class="input-check mt-1">
+                                    <mat-checkbox class="mb-2" [checked]="true">
+                                        Clonar
+                                    </mat-checkbox>
+                                </div>
+                                <div class="input-check mt-1">
+                                    <mat-checkbox class="mb-2" [checked]="true">
+                                        Eliminar
+                                    </mat-checkbox>
+                                </div>
+                                <div class="input-check mt-1">
+                                    <mat-checkbox class="mb-2" [checked]="true">
+                                        Ver resultados
+                                    </mat-checkbox>
+                                </div>
+                            </div>
                         </mat-expansion-panel>
                     </mat-accordion>
 
@@ -121,6 +168,48 @@
                                     Cotizaciones
                                 </mat-panel-title>
                             </mat-expansion-panel-header>
+                            <div class="content-accordion">
+                                <div class="input-check mt-1">
+                                    <mat-checkbox class="mb-2" [checked]="true">
+                                        Ver listado
+                                    </mat-checkbox>
+                                </div>
+                                <div class="input-check mt-1">
+                                    <mat-checkbox class="mb-2" [checked]="true">
+                                        Registrar nueva
+                                    </mat-checkbox>
+                                </div>
+                                <div class="input-check mt-1">
+                                    <mat-checkbox class="mb-2" [checked]="true">
+                                        Rechazar
+                                    </mat-checkbox>
+                                </div>
+                                <div class="input-check mt-1">
+                                    <mat-checkbox class="mb-2" [checked]="true">
+                                        Cancelar
+                                    </mat-checkbox>
+                                </div>
+                                <div class="input-check mt-1">
+                                    <mat-checkbox class="mb-2" [checked]="true">
+                                        Editar
+                                    </mat-checkbox>
+                                </div>
+                                <div class="input-check mt-1">
+                                    <mat-checkbox class="mb-2" [checked]="true">
+                                        Eliminar
+                                    </mat-checkbox>
+                                </div>
+                                <div class="input-check mt-1">
+                                    <mat-checkbox class="mb-2" [checked]="true">
+                                        Generar factura
+                                    </mat-checkbox>
+                                </div>
+                                <div class="input-check mt-1">
+                                    <mat-checkbox class="mb-2" [checked]="true">
+                                        Subir comprobante de pago
+                                    </mat-checkbox>
+                                </div>
+                            </div>
                         </mat-expansion-panel>
                     </mat-accordion>
 
@@ -135,22 +224,22 @@
                             <div class="content-accordion">
                                 <div class="input-check mt-1">
                                     <mat-checkbox class="mb-2" [checked]="true">
-                                        Ver empresas
+                                        Ver listado
                                     </mat-checkbox>
                                 </div>
                                 <div class="input-check mt-1">
                                     <mat-checkbox class="mb-2" [checked]="true">
-                                        Editar empresas
+                                        Registrar empresa
                                     </mat-checkbox>
                                 </div>
                                 <div class="input-check mt-1">
                                     <mat-checkbox class="mb-2" [checked]="true">
-                                        Registrar empresas
+                                        Editar
                                     </mat-checkbox>
                                 </div>
                                 <div class="input-check mt-1">
                                     <mat-checkbox class="mb-2" [checked]="false">
-                                        Eliminar empresas
+                                        Eliminar
                                     </mat-checkbox>
                                 </div>
                             </div>
@@ -161,29 +250,119 @@
                         <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
                             <mat-expansion-panel-header>
                                 <mat-panel-title>
-                                    Campañas
+                                    Reactivación
                                 </mat-panel-title>
                             </mat-expansion-panel-header>
-                        </mat-expansion-panel>
-                    </mat-accordion>
-
-                    <mat-accordion class="mb-5 inputNewaccordion">
-                        <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
-                            <mat-expansion-panel-header>
-                                <mat-panel-title>
-                                    Notificaciones
-                                </mat-panel-title>
-                            </mat-expansion-panel-header>
-                        </mat-expansion-panel>
-                    </mat-accordion>
-
-                    <mat-accordion class="mb-5 inputNewaccordion">
-                        <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
-                            <mat-expansion-panel-header>
-                                <mat-panel-title>
+                            <div class="input-check mt-1">
+                                <mat-checkbox class="mb-2" [checked]="true">
                                     Llamadas pendientes
+                                </mat-checkbox>
+                            </div>
+                            <div class="input-check mt-1">
+                                <mat-checkbox class="mb-2" [checked]="false">
+                                    Agenda
+                                </mat-checkbox>
+                            </div>
+                            <div class="input-check mt-1">
+                                <mat-checkbox class="mb-2" [checked]="false">
+                                    Actividades
+                                </mat-checkbox>
+                            </div>
+                        </mat-expansion-panel>
+                    </mat-accordion>
+
+                    <mat-accordion class="mb-5 inputNewaccordion">
+                        <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    Comunicaciones
                                 </mat-panel-title>
                             </mat-expansion-panel-header>
+                            <div class="input-check mt-1">
+                                <mat-checkbox class="mb-2" [checked]="true">
+                                    Slack
+                                </mat-checkbox>
+                            </div>
+                            <div class="input-check mt-1">
+                                <mat-checkbox class="mb-2" [checked]="false">
+                                    Tawk.to
+                                </mat-checkbox>
+                            </div>
+                            <div class="input-check mt-1">
+                                <mat-checkbox class="mb-2" [checked]="true">
+                                    Voip
+                                </mat-checkbox>
+                            </div>
+                            <div class="input-check mt-1">
+                                <mat-checkbox class="mb-2" [checked]="false">
+                                    Email
+                                </mat-checkbox>
+                            </div>
+                        </mat-expansion-panel>
+                    </mat-accordion>
+
+                    <mat-accordion class="mb-5 inputNewaccordion">
+                        <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    Admin
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <div class="input-check mt-1">
+                                <mat-checkbox class="mb-2" [checked]="true">
+                                    Bonos
+                                </mat-checkbox>
+                            </div>
+                            <div class="input-check mt-1">
+                                <mat-checkbox class="mb-2" [checked]="false">
+                                    Usuarios
+                                </mat-checkbox>
+                            </div>
+                            <div class="input-check mt-1">
+                                <mat-checkbox class="mb-2" [checked]="false">
+                                    Productos
+                                </mat-checkbox>
+                            </div>
+                        </mat-expansion-panel>
+                    </mat-accordion>
+
+                    <mat-accordion class="mb-5 inputNewaccordion">
+                        <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    Categorias
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <div class="input-check mt-1">
+                                <mat-checkbox class="mb-2" [checked]="true">
+                                    Tipos de actividad
+                                </mat-checkbox>
+                            </div>
+                            <div class="input-check mt-1">
+                                <mat-checkbox class="mb-2" [checked]="false">
+                                    Formas de pago
+                                </mat-checkbox>
+                            </div>
+                            <div class="input-check mt-1">
+                                <mat-checkbox class="mb-2" [checked]="false">
+                                    Categoria de productos
+                                </mat-checkbox>
+                            </div>
+                            <div class="input-check mt-1">
+                                <mat-checkbox class="mb-2" [checked]="false">
+                                    Empresas
+                                </mat-checkbox>
+                            </div>
+                            <div class="input-check mt-1">
+                                <mat-checkbox class="mb-2" [checked]="false">
+                                    Tipos de campañas
+                                </mat-checkbox>
+                            </div>
+                            <div class="input-check mt-1">
+                                <mat-checkbox class="mb-2" [checked]="false">
+                                    Soluciones
+                                </mat-checkbox>
+                            </div>
                         </mat-expansion-panel>
                     </mat-accordion>
                 </div>
