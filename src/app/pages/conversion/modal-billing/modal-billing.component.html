@@ -1,7 +1,7 @@
 <div class="container-fluid p-0 overflow-hidden">
 
     <div class="modal-header">
-        <p class="titulo-modal">Facturar cotización</p>
+        <p class="titulo-modal">Facturar cotización - Cot # {{objEditData?.quoteNumber}}</p>
         <mat-icon class="cursos-pointer" svgIcon="mat_outline:cancel" (click)="closeModal()"></mat-icon>
     </div>
 
@@ -84,24 +84,29 @@
                     <div class="col-md-4">
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Serie</mat-label>
-                            <input formControlName="serie" matInput>
+                            <input formControlName="serie" matInput value="A">
                         </mat-form-field>
                     </div>
 
                     <div class="col-md-4">
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Producto</mat-label>
-                            <input matInput [value]="optionSelected[0]?.product[0]">
+                            <input matInput value="80101500 - Servicios de consultoria de negocios">
+                            <!-- <input matInput [value]="optionSelected[0]?.product[0]"> -->
                         </mat-form-field>
                     </div>
 
                     <div class="col-md-4">
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
+                            <mat-label>Serie</mat-label>
+                            <input formControlName="unitCode" matInput value="E48 - Servicio">
+                        </mat-form-field>
+                        <!-- <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Unidad</mat-label>
                             <mat-select formControlName="unitCode" placeholder="Seleccionar">
                                 <mat-option value="PZ">PZ</mat-option>
                             </mat-select>
-                        </mat-form-field>
+                        </mat-form-field> -->
                     </div>
 
                     <div class="col-12">
@@ -130,9 +135,9 @@
             </div>
 
             <div class="row d-flex justify-content-end">
-                <div class="d-flex justify-content-end col-md-2 col-xl-2 col-12 pt-md-2">
-                    <button class="btn-action-add" (click)="actionSave()">
-                        <span>Guardar</span>
+                <div class="d-flex justify-content-end col-md-3 col-xl-3 col-12 pt-md-2">
+                    <button class="btn-action-add" (click)="seePreBilling()">
+                        <span>Ver pre-factura</span>
                     </button>
                 </div>
             </div>

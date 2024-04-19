@@ -6,6 +6,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ConversionService } from '../conversion.service';
 import * as entityGeneral from '../../../shared/interfaces/general-interface';
 import { CatalogsService } from 'app/shared/services/catalogs.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-modal-billing',
@@ -31,8 +32,8 @@ export class ModalBillingComponent implements OnInit, OnDestroy {
   
   public formDataTwo = this.formBuilder.group({
     factura_externa: [false],
-    serie: [null, Validators.required],
-    unitCode: [null, Validators.required],
+    serie: ['A', Validators.required],
+    unitCode: ['E48 - Servicio', Validators.required],
     description: [null, Validators.required],
   });
 
@@ -41,6 +42,7 @@ export class ModalBillingComponent implements OnInit, OnDestroy {
   public catPaymentCondiction: entityGeneral.DataCatPaymentCondition[] = [];
   public catInvoiceUse: entityGeneral.DataCatInvoiceUse[] = [];
 
+  public objData: any;
   public objEditData: any;
   public optionSelected: any;
 
@@ -49,6 +51,7 @@ export class ModalBillingComponent implements OnInit, OnDestroy {
     private catalogsServices: CatalogsService,
     private formBuilder: FormBuilder,
     private notificationService: OpenModalsService,
+    private router: Router,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogRef: MatDialogRef<any>
   ) { }
@@ -104,7 +107,7 @@ export class ModalBillingComponent implements OnInit, OnDestroy {
   }
 
   actionSave() {
-    let objData: any = {
+    this.objData  = {
       status_id: 'f4fa3c48-8b48-4d39-ad09-a6699a66459f',
       quote_id : this.objEditData.id,
       company_id : this.objEditData.companyName.id,
@@ -113,8 +116,8 @@ export class ModalBillingComponent implements OnInit, OnDestroy {
       comments : this.comments.value
     }
 
-    console.log(objData);
-    this.saveDataPost(objData); 
+    // console.log(objData);
+    // this.saveDataPost(objData); 
   }
 
   saveDataPost(objData: any) {
@@ -128,6 +131,12 @@ export class ModalBillingComponent implements OnInit, OnDestroy {
         console.error(error)
       }
     })
+  }
+
+  seePreBilling() {
+    this.moduleServices.sendData(this.objEditData);
+    this.router.navigateByUrl('/home/conversion/pre-factura');
+    this.closeModal()
   }
 
   completionMessage() {

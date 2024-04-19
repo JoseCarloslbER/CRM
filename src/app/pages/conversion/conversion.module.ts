@@ -12,6 +12,7 @@ import { ModalUploadDocumentComponent } from './modal-upload-document/modal-uplo
 import { ModalCloseSaleComponent } from './modal-close-sale/modal-close-sale.component';
 import { ModalBillingComponent } from './modal-billing/modal-billing.component';
 import { ModalEmailComponent } from './details-quotes/modal-email/modal-email.component';
+import { PreBillComponent } from './pre-bill/pre-bill.component';
 
 
 @NgModule({
@@ -23,7 +24,9 @@ import { ModalEmailComponent } from './details-quotes/modal-email/modal-email.co
     NewQuoteComponent,
     ModalCloseSaleComponent,
     ModalBillingComponent,
-    ModalEmailComponent
+    ModalEmailComponent,
+    PreBillComponent
+
   ],
   imports: [
     CommonModule,

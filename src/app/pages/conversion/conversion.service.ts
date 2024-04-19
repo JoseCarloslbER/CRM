@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'environments/environment.dev';
-import { Observable, map } from 'rxjs';
+import { BehaviorSubject, Observable, map } from 'rxjs';
 import * as entity from './conversion-interface';
 import { Mapper } from './mapper';
 
@@ -9,10 +9,19 @@ import { Mapper } from './mapper';
   providedIn: 'root'
 })
 export class ConversionService {
+  private dataSubject = new BehaviorSubject<any>(null);
 
   private apiUrl = `${environment.apiURL}conversion/`;
 
   constructor(private http: HttpClient) { }
+
+  public sendData(data: any) {
+    this.dataSubject.next(data);
+  }
+ 
+  public getData() {
+    return this.dataSubject.asObservable();
+  }
 
    public getDataTable(filters?:string): Observable<entity.TableDataQuoteMapperResponse> {
     const url = `${this.apiUrl}quote/${filters ? `?${filters}` : ''}`;

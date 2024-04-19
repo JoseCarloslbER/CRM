@@ -41,6 +41,7 @@ export interface TableDataQuoteMapper {
   actionStatusId: string;
   status_id: string;
   moneyInAccount: boolean;
+  quoteNumber: number;
   isBilled: any;
   closeSale: object;
   companyInfo: {
