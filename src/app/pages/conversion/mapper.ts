@@ -5,8 +5,6 @@ export class Mapper {
 	static getDataTableMapper(response: entity.TableDataQuoteResponse): entity.TableDataQuoteMapperResponse {
 		let dataList: entity.TableDataQuoteMapper[] = [];
 		console.log('MAPPER', response.quotes_data[0]);
-
-
 		response.quotes_data.forEach((data: entity.TableDataQuote): void => {
 			dataList.push({
 				id: data?.quote_id || '-',
@@ -16,9 +14,12 @@ export class Mapper {
 				isBilled: data?.invoice_status?.description.includes('Facturada') ? true : false,
 				companyInfo: {
 					company_name: data?.company?.company_name || '-',
+					cfdi: data?.company?.invoice_use?.invoice_use_name || '-',
 					tax_id_number: data?.company?.tax_id_number || '-',
 					payment_method_id: data?.company?.payment_method?.payment_method_id || '-',
+					paymentMethod: data?.company?.payment_method?.payment_name || '-',
 					way_to_pay_id: data?.company?.way_to_pay?.way_to_pay_id || '-',
+					waytoPay: data?.company?.way_to_pay?.way_to_pay_name || '-',
 					payment_condition_id: data?.company?.payment_condition?.payment_condition_id || '-',
 					invoice_use_id: data?.company?.invoice_use?.invoice_use_id || '-',
 					invoice_status: data?.invoice_status?.status_id || '-'
@@ -63,19 +64,55 @@ export class Mapper {
 						})
 					}
 				}),
-				products: data.quote_options.map(option => {
+				products: data.quote_options.map((option:any) => {
 					const places = option.option_products.reduce((acc, product) => acc + product.quantity, 0);
 					const productNames = option.option_products.map(product => product.product?.name || '-');
 					let tax = parseFloat(option.subtotal) - parseFloat(option.tax)
+
 					return {
 						type: option.type_price === 1 ? 'Normal' : 'Promoción',
 						places: places,
 						product: productNames,
 						selected: option.selected,
+						totalIva: '$' + parseFloat(option.total).toLocaleString('en-US', {
+							minimumFractionDigits: 2,
+							maximumFractionDigits: 2
+						}),
 						total: '$' + tax.toLocaleString('en-US', {
 							minimumFractionDigits: 2,
 							maximumFractionDigits: 2
 						}),
+						totalBill: '$' + parseFloat(option.total).toLocaleString('en-US', {
+							minimumFractionDigits: 2,
+							maximumFractionDigits: 2
+						}),
+						iva: '$' + parseFloat(option.tax).toLocaleString('en-US', {
+							minimumFractionDigits: 2,
+							maximumFractionDigits: 2
+						}),
+						discount: '$' + parseFloat(option.discount).toLocaleString('en-US', {
+							minimumFractionDigits: 2,
+							maximumFractionDigits: 2
+						}),
+						subtotal: '$' + parseFloat(option.subtotal).toLocaleString('en-US', {
+							minimumFractionDigits: 2,
+							maximumFractionDigits: 2
+						}),
+
+						productsOptions : option.option_products.map((product:any) => {
+							return {
+								places : product.quantity,
+								description : product.product.code + ' - ' + product.product.name,
+								unitPrice: '$' + parseFloat(product.price).toLocaleString('en-US', {
+									minimumFractionDigits: 2,
+									maximumFractionDigits: 2
+								}),
+								total: '$' + parseFloat(product.total).toLocaleString('en-US', {
+									minimumFractionDigits: 2,
+									maximumFractionDigits: 2
+								}),
+							}
+						})
 					};
 				}),
 				actions: data?.status?.status_id == '5fb730e9-3802-461f-a4f3-592ff04c4387' ? ['Aceptar', 'Rechazar'] :

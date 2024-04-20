@@ -68,6 +68,11 @@ export class ModalBillingComponent implements OnInit, OnDestroy {
       this.optionSelected = this.data.info.products.filter((data:any) => data.selected);
       console.log('optionSelected', this.optionSelected);
       
+
+      if (this.objEditData.editBill) {
+        this.formDataTwo.patchValue(this.objEditData?.formDataTwo)
+        this.comments.patchValue(this.objEditData?.formDataTwo?.comments)
+      }
     }
     setTimeout(() => {
       this.getCatalogs()
@@ -107,14 +112,7 @@ export class ModalBillingComponent implements OnInit, OnDestroy {
   }
 
   actionSave() {
-    this.objData  = {
-      status_id: 'f4fa3c48-8b48-4d39-ad09-a6699a66459f',
-      quote_id : this.objEditData.id,
-      company_id : this.objEditData.companyName.id,
-      invoice_status_id : '0e202967-7cba-4899-9038-d91b9a14f57e',
-      ...this.formDataTwo.value,
-      comments : this.comments.value
-    }
+    
 
     // console.log(objData);
     // this.saveDataPost(objData); 
@@ -134,7 +132,31 @@ export class ModalBillingComponent implements OnInit, OnDestroy {
   }
 
   seePreBilling() {
-    this.moduleServices.sendData(this.objEditData);
+    let objData  = {
+      status_id: 'f4fa3c48-8b48-4d39-ad09-a6699a66459f',
+      quote_id : this.objEditData.id,
+      company_id : this.objEditData.companyName.id,
+      invoice_status_id : '0e202967-7cba-4899-9038-d91b9a14f57e',
+      ...this.formDataTwo.value,
+      comments : this.comments.value
+    }
+
+    let formDataTwo = {
+      ...this.formDataTwo.value,
+      comments : this.comments.value
+    }
+
+    
+    this.objEditData.comments = this.comments.value;
+    this.objEditData.editBill = true;
+    this.objEditData.formDataTwo = formDataTwo;
+    console.log(this.objEditData);
+
+    this.moduleServices.sendData({
+      actionSave : objData,
+      allInfo : this.objEditData
+    });
+
     this.router.navigateByUrl('/home/conversion/pre-factura');
     this.closeModal()
   }

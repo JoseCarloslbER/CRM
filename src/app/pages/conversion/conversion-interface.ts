@@ -45,10 +45,13 @@ export interface TableDataQuoteMapper {
   isBilled: any;
   closeSale: object;
   companyInfo: {
+    cfdi: string;
     company_name: string;
     tax_id_number: string;
     payment_method_id: string;
     way_to_pay_id: string;
+    waytoPay: string;
+    paymentMethod: string;
     payment_condition_id: string;
     invoice_use_id: string;
     invoice_status: string;
