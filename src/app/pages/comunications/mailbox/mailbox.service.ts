@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, map, Observable, of, switchMap, take, tap, throwError } from 'rxjs';
 import { Mail, MailCategory, MailFilter, MailFolder, MailLabel } from './mailbox.types';
+import { environment } from 'environments/environment.dev';
 
 @Injectable({providedIn: 'root'})
 export class MailboxService
@@ -17,6 +18,7 @@ export class MailboxService
     private _pagination: BehaviorSubject<any> = new BehaviorSubject(null);
 
     constructor(private _httpClient: HttpClient) { }
+    private apiUrl = `${environment.apiURL}mail/`;
 
     get category$(): Observable<MailCategory> {
         return this._category.asObservable();
@@ -35,6 +37,7 @@ export class MailboxService
     }
 
     get mails$(): Observable<Mail[]> {
+        console.log('mails', this._mails.asObservable())
         return this._mails.asObservable();
     }
 
@@ -261,4 +264,12 @@ export class MailboxService
             )),
         );
     }
+
+    getEmailList(): Observable<Mail[]> {
+        const url = `${this.apiUrl}emails/?page=1&page_size=1`;
+        return this._httpClient.get<any>(url).pipe(
+            map((response: any) => response.results)
+        );
+    }
+
 }

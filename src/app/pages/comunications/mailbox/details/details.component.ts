@@ -176,7 +176,7 @@ export class MailboxDetailsComponent implements OnInit, OnDestroy
  
     ngOnInit(): void {
 
-        console.log('AQUI TOY');
+        //console.log('AQUI TOY');
         
         this.labelColors = labelColorDefs;
 
@@ -196,10 +196,10 @@ export class MailboxDetailsComponent implements OnInit, OnDestroy
 
         this._mailboxService.mail$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((mail: Mail) =>
-            {
-                this.mail = this.mailDummy;
-            });
+            .subscribe((mail: Mail) => {
+                console.log('details', mail)
+                this.mail = mail;
+        });
 
         this._mailboxService.selectedMailChanged
             .pipe(takeUntil(this._unsubscribeAll))
@@ -207,7 +207,7 @@ export class MailboxDetailsComponent implements OnInit, OnDestroy
                 this.replyFormActive = false;
             });
     }
-   
+
     getCurrentFolder(): any {
         return this._activatedRoute.snapshot.paramMap.get('folder');
     }
