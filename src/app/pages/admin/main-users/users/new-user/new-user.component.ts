@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, QueryList, ViewChildren, ElementRef  } from '@angular/core';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -12,6 +12,7 @@ import * as entityGeneral from '../../../../../shared/interfaces/general-interfa
   templateUrl: './new-user.component.html',
 })
 export class NewUserComponent implements OnInit, OnDestroy {
+  @ViewChildren('accordion') accordions: QueryList<ElementRef>;
   private onDestroy = new Subject<void>();
   public panelOpenState = false;
 
@@ -32,6 +33,7 @@ export class NewUserComponent implements OnInit, OnDestroy {
   public objEditData : any;
 
   public catRoles: entityGeneral.DataCatRol[] = [];
+  public checkboxesJSON: any[] = [];
 
   constructor(
     private moduleServices: AdminService,
@@ -81,13 +83,18 @@ export class NewUserComponent implements OnInit, OnDestroy {
   }
 
   actionSave() {
+    let permissions = this.obtenerCheckboxes();
     let objData: any = {
       ...this.formData.value,
+      permissions: {
+        permissions
+      }
     }
     
     console.log('OBJETO :', objData);
-    if (this.objEditData) this.saveDataPatch(objData);
-    else this.saveDataPost(objData);
+
+    //if (this.objEditData) this.saveDataPatch(objData);
+    //else this.saveDataPost(objData);
   }
 
   saveDataPost(objData) {
@@ -140,6 +147,20 @@ export class NewUserComponent implements OnInit, OnDestroy {
     if (event.key === ' ') {
       event.preventDefault();
     }
+  }
+
+  obtenerCheckboxes() {
+    this.accordions.forEach(accordion => {
+      const checkboxes = accordion.nativeElement.querySelectorAll('mat-checkbox');
+      checkboxes.forEach(checkbox => {
+        this.checkboxesJSON.push({
+          permiso: checkbox.textContent.trim().toLowerCase().replace(/ /g, '_'),
+          concedido: checkbox.querySelector('input').checked
+        });
+      });
+    });
+    //console.log(this.checkboxesJSON);
+    return this.checkboxesJSON;
   }
 
   toBack() {
