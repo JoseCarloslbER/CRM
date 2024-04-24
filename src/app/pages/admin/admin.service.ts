@@ -130,7 +130,7 @@ export class AdminService {
       objData.append(key, value);
     });
 
-    return this.http.patch<any>(url, data.document != null ? objData : data)
+    return this.http.post<any>(url, data.document != null ? objData : data)
   }
 
   public patchDataUser(id: string, data:entity.PatchDataUser): Observable<any> {

@@ -2,7 +2,10 @@ import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Subject } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
+import { CatalogsService } from 'app/shared/services/catalogs.service';
+import * as entityGeneral from '../../../../shared/interfaces/general-interface';
+import { AdminService } from '../../admin.service';
 
 @Component({
   selector: 'app-new-bonus',
@@ -13,24 +16,40 @@ export class NewBonusComponent implements OnInit, AfterViewInit, OnDestroy {
   private onDestroy = new Subject<void>();
 
   public fechaHoy = new Date();
-  public toppings = new FormControl('');
+  public radioType = new FormControl('');
   public toppingList: string[] = ['Empresa A', 'Empresa B', 'Empresa C'];
-  public valuesSpecifications: any[] = [];
+  public valuesScales: any[] = [];
+  public valuesGoalScales: any[] = [];
 
   public url = document.location.href;
-  public isGoal : boolean = false;
+  public isGoal: boolean = false;
   public modalTitle: string = '';
 
+  public catalogAgents: entityGeneral.DataCatAgents[] = [];
+  public catalogSolutions: entityGeneral.DataCatSolutions[] = [];
 
-  public formulario = this.formBuilder.group({
-    scaleType: ['', Validators.required],
-    percentage: ['', Validators.required],
-    amount: ['', Validators.required],
+  public formData = this.formBuilder.group({
+    bonus_name: ['TEST', Validators.required],
+    campaign: ['e0d25f3e-8c85-4d38-a1ff-fc3cb6207628'],
+    assigned_activity: [''],
+    base_percentage_bonus: [''],
+    fixed_base_income: [''],
+    bonus_user: [''],
+    bonus_solution: [''],
+    init_date: [''],
+    deadline: [''],
+    type_bonus_porcentage: ['1'],
+    type_bonus_meta: ['1', Validators.required],
   });
 
+  public catCampaign: entityGeneral.DataCatCampaing[] = [];
+
+  objEditData :any
   constructor(
     private notificationService: OpenModalsService,
+    private catalogsServices: CatalogsService,
     private formBuilder: FormBuilder,
+    private moduleServices: AdminService,
     private router: Router
   ) { }
 
@@ -43,70 +62,179 @@ export class NewBonusComponent implements OnInit, AfterViewInit, OnDestroy {
     else {
       this.modalTitle = 'Registrar nuevo bono'
     }
-    
+
     if (this.url.includes('editar')) this.modalTitle = this.modalTitle.replace('Registrar', 'Editar');
     if (this.url.includes('clonar')) this.modalTitle = this.modalTitle.replace('Registrar', 'Clonar');
+
+    this.getCatalogs()
   }
 
   ngAfterViewInit(): void {
-    this.addFormSpecifications();
+    this.addFormScale();
+
+    this.radioType.valueChanges.pipe(takeUntil(this.onDestroy)).subscribe(content => {
+      if (content == '1') {
+        this.formData.get('assigned_activity').disable()
+        this.formData.get('assigned_activity').patchValue('')
+        this.formData.get('campaign').enable()
+      } else {
+        this.formData.get('assigned_activity').enable()
+        this.formData.get('campaign').disable()
+        this.formData.get('campaign').patchValue('')
+      }
+    })
   }
 
-  addFormSpecifications(datos?: any) {
+  getCatalogs() {
+    this.catalogsServices.getCatCampaing().subscribe({
+      next: (data: entityGeneral.DataCatCampaing[]) => {
+        this.catCampaign = data;
+      },
+      error: (error) => console.error(error)
+    });
+
+    this.catalogsServices.getCatAgents().subscribe({
+      next: (data: entityGeneral.DataCatAgents[]) => {
+        this.catalogAgents = data;
+      },
+      error: (error) => console.error(error)
+    });
+
+    this.catalogsServices.getCatSolutions().subscribe({
+      next: (data: entityGeneral.DataCatSolutions[]) => {
+        this.catalogSolutions = data;
+      },
+      error: (error) => console.error(error)
+    });
+  }
+
+  actionSave() {
+    let scales: any[] = [...this.getScaleValue()];
+    let bonusMeta: any[] = [...this.getScaleMetaValue()];
+
+    let objData = {
+      ...this.formData.value,
+      bonus_percentage: scales,
+      bonus_meta: bonusMeta
+    }
+
+    console.log('objData', objData);
+
+    if (this.objEditData) this.saveDataPatch(objData);
+    else this.saveDataPost(objData);
+  }
+
+  saveDataPost(objData) {
+    this.moduleServices.postDataBonus(objData).subscribe({
+      next: () => {
+        this.completionMessage()
+      },
+      error: (error) => {
+        this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
+        console.error(error)
+      }
+    })
+  }
+
+  saveDataPatch(objData) {
+    this.moduleServices.patchDataBonus(this.objEditData.id, objData).subscribe({
+      next: () => {
+        this.completionMessage(true)
+      },
+      error: (error) => {
+        this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
+        console.error(error)
+      }
+    })
+  }
+
+
+  addFormScale(datos?: any) {
     const instance: any = {
       ...(datos && { id: datos.id }),
-      scaleTypeControl: new FormControl({ value: datos?.scaleType || '', disabled: false }, Validators.required),
-      percentageControl: new FormControl({ value: datos?.percentage || '', disabled: false }, Validators.required),
-      amountControl: new FormControl({ value: datos?.amount || '', disabled: false }),
+      scaleNumberControl: new FormControl({ value: datos?.type_bonus_porcentage || '', disabled: false }, Validators.required),
     };
 
-    this.valuesSpecifications.push(instance);
+
+    this.valuesScales.push(instance);
+    console.log(this.valuesScales);
+
+    let scales: any[] = [...this.getScaleValue()];
+    
+    console.log('scales', scales);
+
+    this.valuesGoalScales = []
+
+    scales.forEach((scale: any) => {
+      const instanceGoals: any = {
+        // ...(datos && { id: datos.id }),
+        // scaleNumberControl: new FormControl({ value: scale?.scale_number || '', disabled: false }, Validators.required),
+        minValueControl: new FormControl({ value: datos?.minValue || '', disabled: false }, Validators.required),
+        maxValueControl: new FormControl({ value: datos?.maxValue || '', disabled: false }, Validators.required),
+      };
+
+      this.valuesGoalScales.push(instanceGoals)
+
+      console.log('valuesGoalScales', this.valuesGoalScales);
+
+    });
+
   }
 
-  getSpecificationsValue() {
-    const specificationsValues = (e: any) => {
+  getScaleValue() {
+    const scaleValues = (e: any) => {
       let obj = {
-        scaleType: e.scaleTypeControl.value,
-        percentage: e.percentageControl.value,
-        amount: e.amountControl.value,
+        percentage : e.scaleNumberControl.value,
       }
 
       return obj
     };
 
-    return this.valuesSpecifications.map(specificationsValues);
+    return this.valuesScales.map(scaleValues);
   }
 
-  deleteSpecifications(index:number) {
-    this.valuesSpecifications.splice(index, 1)
+  getScaleMetaValue() {
+    let count = 1
+    const scaleMetaValues = (e: any) => {
+      let obj = {
+        scale_number: count,
+        min_number: e.minValueControl.value,
+        max_number: e.maxValueControl.value,
+      }
+
+      count++
+      return obj
+    };
+
+    return this.valuesGoalScales.map(scaleMetaValues);
   }
-  
-  getSpecifications() {
+
+  deleteScale(index: number) {
+    this.valuesScales.splice(index, 1)
+  }
+
+  getScale() {
     let cont = 0;
     let contactInfo: any[] = [];
 
-    for (const _ of this.valuesSpecifications) {
-      contactInfo.push(this.getSpecificationsValue()[cont])
+    for (const _ of this.valuesScales) {
+      contactInfo.push(this.getScaleValue()[cont])
       cont++;
     }
     console.log(contactInfo);
   }
 
-
-  save(){
+  completionMessage(edit = false) {
     this.notificationService
       .notificacion(
         'Éxito',
-        `Registro ${this.url.includes('editar') ? 'editado' : 'guardado'}.`,
+        `Registro ${edit ? 'editado' : 'guardado'}.`,
         'save',
       )
       .afterClosed()
-      .subscribe((_) => {
-        this.toBack()
-      });
+      .subscribe((_) => this.toBack());
   }
-
-  toBack(){
+  toBack() {
     this.router.navigateByUrl(`/home/${this.isGoal ? 'dashboard/metas' : 'admin/bonos'}`)
   }
 

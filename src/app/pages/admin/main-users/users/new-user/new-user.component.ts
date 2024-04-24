@@ -81,6 +81,8 @@ export class NewUserComponent implements OnInit, OnDestroy {
   }
 
   actionSave() {
+    console.log(this.objEditData);
+    
     let objData: any = {
       ...this.formData.value,
     }
@@ -91,6 +93,8 @@ export class NewUserComponent implements OnInit, OnDestroy {
   }
 
   saveDataPost(objData) {
+    console.log('saveDataPost');
+    
     this.moduleServices.postDataUser(objData).subscribe({
       next: () => {
         this.completionMessage()

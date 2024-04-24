@@ -23,14 +23,14 @@ export class Mapper {
 	static getDataUserMapper(response: any): any {
 		return {
 			id: response?.id,
-			username: response?.username || '-',
-			first_name: response?.first_name || '-',
-			last_name: response?.last_name || '-',
-			email: response?.email || '-',
-			phone_number: response?.phone_number || '-',
-			voice_identifier: response?.voice_identifier || '-',
-			user_id_slack : response?.user_id_slack  || '-',
-			user_rol : response?.user_rol?.rol_id  || '-',
+			username: response?.username || '',
+			first_name: response?.first_name || '',
+			last_name: response?.last_name || '',
+			email: response?.email || '',
+			phone_number: response?.phone_number || '',
+			voice_identifier: response?.voice_identifier || '',
+			user_id_slack : response?.user_id_slack  || '',
+			user_rol : response?.user_rol?.rol_id  || '',
 			messagePassword : 'Actualizar contraseña',
 		}
 	};

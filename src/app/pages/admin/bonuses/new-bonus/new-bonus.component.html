@@ -6,28 +6,30 @@
 
     <div class="row form-padding d-flex">
         <p class="mb-6">*Campos obligatorios</p>
-        <form class="col-12">
+        <form class="col-12" [formGroup]="formData">
             <div>
                 <div class="row">
                     <div class="row">
                         <div class="col-md-6">
                             <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
-                                <mat-label>Nombre del bono*</mat-label>
-                                <input matInput>
+                                <mat-label>Nombre del bono</mat-label>
+                                <input formControlName="bonus_name" matInput>
                             </mat-form-field>
                         </div>
                     </div>
 
                     <div class="row mb-5">
                         <div class="flex flex-col mt-8 gt-sm:mt-0 gt-sm:ml-16 inputsRadioGroupBold">
-                            <mat-radio-group class="d-flex row">
+                            <mat-radio-group [formControl]="radioType" class="d-flex row">
                                 <div class="col-md-6">
-                                    <mat-radio-button class="mb-2"> <span class="font-14-500-4B5062">Campaña
-                                            asignada</span> </mat-radio-button>
+                                    <mat-radio-button value="1" class="mb-2">
+                                        <span class="font-14-500-4B5062">Campaña asignada</span>
+                                    </mat-radio-button>
                                 </div>
                                 <div class="col-md-6">
-                                    <mat-radio-button class="mb-2"> <span class="font-14-500-4B5062">Actividad
-                                            asignada</span> </mat-radio-button>
+                                    <mat-radio-button value="2" class="mb-2">
+                                        <span class="font-14-500-4B5062">Actividad asignada</span>
+                                    </mat-radio-button>
                                 </div>
                             </mat-radio-group>
                         </div>
@@ -36,10 +38,9 @@
                     <div class="col-md-6">
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Campaña a la que aplica*</mat-label>
-                            <mat-select placeholder="Seleccionar">
-                                <mat-option value="">campaña 1</mat-option>
-                                <mat-option value="">campaña 2</mat-option>
-                                <mat-option value="">campaña 3</mat-option>
+                            <mat-select formControlName="campaign" placeholder="Seleccionar">
+                                <mat-option [value]="cat.campaign_id" *ngFor="let cat of catCampaign">{{
+                                    cat?.campaign_name || '-'}}</mat-option>
                             </mat-select>
                         </mat-form-field>
                     </div>
@@ -47,56 +48,108 @@
                     <div class="col-md-6">
                         <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                             <mat-label>Actividad asignada*</mat-label>
-                            <mat-select placeholder="Seleccionar">
-                                <mat-option value="">Actividad 1</mat-option>
-                                <mat-option value="">Actividad 2</mat-option>
-                                <mat-option value="">Actividad 3</mat-option>
+                            <mat-select formControlName="assigned_activity" placeholder="Seleccionar">
+                                <mat-option value="1">Seguimiento a clientes</mat-option>
+                                <mat-option value="2">Creación de costizaciones</mat-option>
                             </mat-select>
                         </mat-form-field>
                     </div>
                 </div>
                 <hr>
+
                 <div class="separationSection">
-                    <h1>Aplicar</h1>
+                    <h1>Porcentaje del bono</h1>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="flex flex-col gt-sm:mt-0 gt-sm:ml-16 inputsRadioGroupBold">
+                                <mat-radio-group formControlName="type_bonus_porcentage" class="d-flex row">
+                                    <div class="col-md-6">
+                                        <mat-radio-button value="1" class="mb-2">
+                                            <span class="font-14-500-4B5062">Sobre avance</span>
+                                        </mat-radio-button>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <mat-radio-button value="2" class="mb-2">
+                                            <span class="font-14-500-4B5062">Sobre ventas</span>
+                                        </mat-radio-button>
+                                    </div>
+                                </mat-radio-group>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="row d-flex flex-column align-items-end"
+                                *ngFor="let control of valuesScales; let i = index;">
+                                <div class="col-md-8 d-flex align-items-center">
+                                    <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
+                                        <mat-label>Escala {{ i + 1 }}</mat-label>
+                                        <input [formControl]="control.scaleNumberControl" class="text-right" type="number" matInput>
+                                        <span matPrefix>%</span>
+                                    </mat-form-field>
+
+                                    <div
+                                        class="d-flex align-items-center justify-content-center c-column-btns ms-5 mb-3">
+                                        <div class="btn-delete" (click)="deleteScale(i)">
+                                            <mat-icon matTooltip="Eliminar">delete</mat-icon>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-md-4 d-flex align-items-center justify-content-start mt-5 mb-6">
+                    <button class="btn-gray color-385A6D" (click)="addFormScale()">
+                        <span>Agegar escala</span>
+                    </button>
+                </div>
+
+                <br>
+
+                <div class="row">
+                    <h1>Meta del bono</h1>
                     <div class="row">
                         <div class="col-md-6">
                             <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
-                                <mat-label>Solución(es)* que aplica</mat-label>
-                                <mat-select placeholder="Seleccionar">
-                                    <mat-option value="">solucion 1</mat-option>
-                                    <mat-option value="">solucion 2</mat-option>
-                                    <mat-option value="">solucion 3</mat-option>
+                                <mat-label>Sobre avance</mat-label>
+                                <mat-select formControlName="type_bonus_meta" placeholder="Seleccionar">
+                                    <mat-option value="1">Cantidad de llamadas logradas</mat-option>
+                                    <mat-option value="2">Cantidad de cotizaciones realizadas</mat-option>
+                                    <mat-option value="3">Cantidad de empresas captadas</mat-option>
                                 </mat-select>
                             </mat-form-field>
                         </div>
+                    </div>
 
+                    <div class="row" *ngFor="let control of valuesGoalScales; let i = index;">
                         <div class="col-md-6">
-                            <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
-                                <mat-label>Agente(s) a quién aplica*</mat-label>
-                                <input matInput>
-                            </mat-form-field>
+                            <div class="flex flex-col gt-sm:mt-0 gt-sm:ml-16 inputsRadioGroupBold">
+                                <h1 class="mb-0">Escala {{ i + 1}}</h1>
+                            </div>
                         </div>
-
+    
                         <div class="col-md-6">
-                            <div class="row promotion">
-                                <span>Fecha de vigencia del bono</span>
-                                <div class="col-md-12">
-                                    <div class="row p-0">
-                                        <div class="col-md-6">
-                                            <mat-form-field class="flex-auto inputNewRegister width-100">
-                                                <mat-label>Fecha</mat-label>
-                                                <input matInput [matDatepicker]="picker1">
-                                                <mat-datepicker-toggle matSuffix
-                                                    [for]="picker1"></mat-datepicker-toggle>
-                                                <mat-datepicker #picker1></mat-datepicker>
-                                            </mat-form-field>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <div class="d-flex flex-column c-input-time">
-                                                <mat-label>Hora</mat-label>
-                                                <input class="input-time" type="time" name="eta">
-                                            </div>
+                            <div class="row d-flex flex-column align-items-end">
+                                <div class="col-md-12 d-flex align-items-center">
+                                    <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister me-5">
+                                        <mat-label>Valor minimo</mat-label>
+                                        <input [formControl]="control.minValueControl" class="text-right" type="number" matInput>
+                                        <span matPrefix>%</span>
+                                    </mat-form-field>
+    
+                                    <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
+                                        <mat-label>Valor máximo</mat-label>
+                                        <input [formControl]="control.maxValueControl" class="text-right" type="number" matInput>
+                                        <span matPrefix>%</span>
+                                    </mat-form-field>
+    
+                                    <div class="d-flex align-items-center justify-content-center c-column-btns ms-5 mb-3">
+                                        <div class="btn-delete" (click)="deleteScale(i)">
+                                            <mat-icon matTooltip="Eliminar">delete</mat-icon>
                                         </div>
                                     </div>
                                 </div>
@@ -105,106 +158,85 @@
                     </div>
                 </div>
 
-                <div class="separationSection">
-                    <h1>Especificaciones</h1>
-                    <div class="row" *ngFor="let ejecucion of valuesSpecifications; let i = index;">
+                <hr>
 
+                <div class="row">
+                    <h1>Base del procentaje del bono</h1>
+                    <div class="row">
                         <div class="col-md-6">
                             <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
-                                <mat-label>Tipo de Bono</mat-label>
-                                <mat-select placeholder="Seleccionar">
-                                    <mat-option value="">bono 1</mat-option>
-                                    <mat-option value="">bono 2</mat-option>
-                                    <mat-option value="">bono 3</mat-option>
+                                <mat-label>Base del porcentaje</mat-label>
+                                <mat-select formControlName="base_percentage_bonus" placeholder="Seleccionar">
+                                    <mat-option value="1">Cantidad de llamadas logradas</mat-option>
+                                    <mat-option value="1">Contactos alcanzados</mat-option>
+                                    <mat-option value="1">Cotizaciones realizadas
+                                    </mat-option>
                                 </mat-select>
                             </mat-form-field>
                         </div>
-                        <div class="col-md-2">
+
+                        <div class="col-md-6">
                             <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
-                                <mat-label>Monto invertido*</mat-label>
-                                <input class="text-right" matInput>
-                                <span matPrefix>%</span>
-                            </mat-form-field>
-                        </div>
-                        <div class="col-md-2">
-                            <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
-                                <mat-label>Monto invertido*</mat-label>
-                                <input class="text-right" matInput>
+                                <mat-label>Importe</mat-label>
+                                <input formControlName="fixed_base_income" class="text-right" matInput>
                                 <span matPrefix>$</span>
                             </mat-form-field>
                         </div>
-
-                        <div class="col-md-2 d-flex align-items-center justify-content-center c-column-btns mt-5">
-                            <div class="btn-delete" (click)="deleteSpecifications(i)">
-                                <mat-icon matTooltip="Eliminar">delete</mat-icon>
-                            </div>
-                        </div>
                     </div>
                 </div>
 
-                <div class="col-md-4 d-flex align-items-center justify-content-start mt-5 mb-6">
-                    <button class="btn-gray color-385A6D" (click)="addFormSpecifications()">
-                        <span>Agegar escala</span>
-                    </button>
-                </div>
-                <br>
-                <div class="row ">
-                    <div class="col-md-6">
-                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
-                            <mat-label>Base del bono*</mat-label>
-                            <mat-select placeholder="Seleccionar">
-                                <mat-option value="">campaña 1</mat-option>
-                                <mat-option value="">campaña 2</mat-option>
-                                <mat-option value="">campaña 3</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-
-                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
-                            <mat-label>Meta del bono*</mat-label>
-                            <mat-select placeholder="Seleccionar">
-                                <mat-option value="">campaña 1</mat-option>
-                                <mat-option value="">campaña 2</mat-option>
-                                <mat-option value="">campaña 3</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-
-                    <div class="col-md-6">
-                        <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
-                            <mat-label>Monto*</mat-label>
-                            <input class="text-right" matInput>
-                            <span matPrefix>$</span>
-                        </mat-form-field>
-
-                        <div class="row">
-                            <div class="col-md-6">
-                                <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
-                                    <mat-label>Cantidad</mat-label>
-                                    <input class="text-right" matInput>
-                                </mat-form-field>
-                            </div>
-                            <div class="col-md-6">
-                                <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
-                                    <mat-label>Monto</mat-label>
-                                    <input class="text-right" matInput>
-                                    <span matPrefix>$</span>
-                                </mat-form-field>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <hr>
                 <div class="row">
-                    <div class="col-12">
-                        <mat-form-field class="flex-auto input-default inputNewRegister">
-                            <mat-label>Texto</mat-label>
-                            <textarea matInput style="height: 150px;"></textarea>
-                        </mat-form-field>
+                    <h1>Aplicar</h1>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
+                                <mat-label>Soluciones</mat-label>
+                                <mat-select formControlName="bonus_solution" multiple>
+                                    <mat-option [value]="cat.solution_id"
+                                    *ngFor="let cat of catalogSolutions">{{cat?.solution_name ||
+                                    '-'}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-md-6">
+                            <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
+                                <mat-label>Agentes</mat-label>
+                                <mat-select formControlName="bonus_user" multiple>
+                                    <mat-option [value]="cat.id" *ngFor="let cat of catalogAgents">{{cat.first_name
+                                        && cat.last_name ? cat?.first_name + ' ' + cat?.last_name : cat?.username |
+                                        titlecase }}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
                     </div>
                 </div>
+
+                <div class="row promotion">
+                    <span>Fecha de vigencia del bono </span>
+                    <div class="col-md-6">
+                        <div class="row p-0">
+                            <div class="col-md-12">
+                                <mat-form-field class="flex-auto input-default inputNewRegister">
+                                    <mat-date-range-input [rangePicker]="campaignOnePicker"
+                                    [comparisonStart]="formData.value['init_date']"
+                                    [comparisonEnd]="formData.value['deadline']">
+                                        <input matStartDate placeholder="Del" formControlName="init_date" />
+                                        <input matEndDate placeholder="Al" formControlName="deadline" />
+                                    </mat-date-range-input>
+
+                                    <mat-datepicker-toggle matIconSuffix
+                                        [for]="campaignOnePicker"></mat-datepicker-toggle>
+                                    <mat-date-range-picker #campaignOnePicker></mat-date-range-picker>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="row d-flex justify-content-end align-items-center mb-3 mt-5">
                     <div class="d-flex justify-content-end col-md-3 col-xl-3 col-12 pt-md-2 mt-6">
-                        <button class="btn-action-add" (click)="save()">
+                        <button class="btn-action-add" (click)="actionSave()">
                             <span>Guardar</span>
                         </button>
                     </div>
