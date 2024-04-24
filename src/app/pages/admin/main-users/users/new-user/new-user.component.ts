@@ -83,7 +83,6 @@ export class NewUserComponent implements OnInit, OnDestroy {
   }
 
   actionSave() {
-    let permissions = this.obtenerCheckboxes();
     let objData: any = {
       ...this.formData.value,
       permissions: {
@@ -98,6 +97,8 @@ export class NewUserComponent implements OnInit, OnDestroy {
   }
 
   saveDataPost(objData) {
+    console.log('saveDataPost');
+    
     this.moduleServices.postDataUser(objData).subscribe({
       next: () => {
         this.completionMessage()
