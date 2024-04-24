@@ -34,7 +34,7 @@ export class ModalBillingComponent implements OnInit, OnDestroy {
     factura_externa: [false],
     serie: ['A', Validators.required],
     unitCode: ['E48 - Servicio', Validators.required],
-    description: [null, Validators.required],
+    descriptionProduct: [null, Validators.required],
   });
 
   public catWayToPay: entityGeneral.DataCatWayToPay[] = [];
@@ -67,7 +67,8 @@ export class ModalBillingComponent implements OnInit, OnDestroy {
       this.formData.patchValue(this.data?.info?.companyInfo)
       this.optionSelected = this.data.info.products.filter((data:any) => data.selected);
       console.log('optionSelected', this.optionSelected);
-      
+      const descriptionProduct = this.optionSelected[0].product[0];
+      this.formDataTwo.patchValue({descriptionProduct: descriptionProduct}) 
 
       if (this.objEditData.editBill) {
         this.formDataTwo.patchValue(this.objEditData?.formDataTwo)

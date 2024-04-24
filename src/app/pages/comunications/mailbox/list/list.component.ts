@@ -23,8 +23,10 @@ export class MailboxListComponent implements OnInit, OnDestroy {
     categoryDummy: MailCategory = {
         "type": "folder",
         "name": "inbox"
-    };    mailsDummy: Mail[] = [
-        {
+    };    
+    
+    mailsDummy: Mail[] = [
+        /*{
             "id": "f9c4c091-3ac4-4df9-ac5d-aec7b07c8e3f",
             "type": "mail",
             "from": {
@@ -311,7 +313,7 @@ export class MailboxListComponent implements OnInit, OnDestroy {
             ],
             "ccCount": 0,
             "bccCount": 0
-        }
+        }*/
     ];
     mails: Mail[]
     mailsLoading: boolean = false;
@@ -344,10 +346,18 @@ export class MailboxListComponent implements OnInit, OnDestroy {
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((mails: Mail[]) =>
             {
-                this.mails = this.mailsDummy;
-                console.log(this.mails);
+                //this.mails = this.mailsDummy;
+                this.mails = mails;
+                console.log(mails);
                 
             });
+
+        this._mailboxService.getEmailList()
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((mails: Mail[]) => {
+                this.mails = mails;
+                console.log(this.mails);
+        });
 
         this._mailboxService.mailsLoading$
             .pipe(takeUntil(this._unsubscribeAll))
@@ -372,12 +382,13 @@ export class MailboxListComponent implements OnInit, OnDestroy {
     }
 
     onMailSelected(mail: Mail) {
-        // if ( mail.unread ) {
-        //     mail.unread = false;
-        //     this._mailboxService.updateMail(mail.id, {unread: false}).subscribe();
-        // }
+        console.log('list', mail)
+        if ( mail.unread ) {
+            mail.unread = false;
+            //this._mailboxService.updateMail(mail.id, {unread: false}).subscribe();
+        }
 
-        // this._mailboxService.selectedMailChanged.next(mail);
+        this._mailboxService.selectedMailChanged.next(mail);
     }
 
     trackByFn(index: number, item: any) {
