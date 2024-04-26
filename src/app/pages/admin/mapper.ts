@@ -20,6 +20,7 @@ export class Mapper {
 		return dataList
 	}
 
+
 	static getDataUserMapper(response: any): any {
 		return {
 			id: response?.id,
@@ -34,4 +35,27 @@ export class Mapper {
 			messagePassword : 'Actualizar contraseña',
 		}
 	};
+
+		
+	static getDataBonusMapper(response: entity.TableDataBonus[]) : entity.TableDataBonusMapper[] {
+		console.log('response:', response);
+		
+		let dataList : entity.TableDataBonusMapper[] = [];
+
+		response.forEach((data: entity.TableDataBonus): void => {
+			dataList.push({
+				id: data.bonus_id,
+				name : data?.bonus_name || '-',
+				assignedTask : 'pendiente',
+				period : 'pendiente',
+				solutions : 'pendiente',
+				bonusType : 'pendiente',
+				agents : 'pendiente',
+				base : data?.base_percentage_bonus || '-',
+				goal : data?.type_bonus_meta || '-',
+			});
+		});
+
+		return dataList
+	}
 }

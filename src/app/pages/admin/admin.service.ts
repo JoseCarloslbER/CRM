@@ -118,8 +118,7 @@ export class AdminService {
   public getDataUsertId(id: string) {
     const url = `${environment.apiURL}auth/user/${id}/`;
 
-    return this.http.get<any>(url).pipe(
-			map((response) => Mapper.getDataUserMapper(response)));
+    return this.http.get<any>(url).pipe(map((response) => Mapper.getDataUserMapper(response)));
   }
 
   public postDataUser(data:entity.PostDataUser): Observable<any> {
@@ -188,10 +187,12 @@ export class AdminService {
 
   // ROLES
 
-  public getDataTableBonus() {
+  public getDataTableBonus(filters?:string) {
 		const url = `${environment.apiURL}admin/bonus/`;
 
-    return this.http.get<entity.TableDataUsers[]>(url)
+    return this.http.get<entity.TableDataBonus[]>(url)
+      .pipe(map((response) => Mapper.getDataBonusMapper(response)));
+
 	}
 
   public getDataBonusId(id: string) {
@@ -200,13 +201,13 @@ export class AdminService {
     return this.http.get<any>(url)
   }
 
-  public postDataBonus(data:entity.PostDataUser): Observable<any> {
+  public postDataBonus(data:entity.PostDataBonus): Observable<any> {
     const url = `${environment.apiURL}admin/bonus/`;
 
     return this.http.post<any>(url, data)
   }
 
-  public patchDataBonus(id: string, data:entity.PatchDataUser): Observable<any> {
+  public patchDataBonus(id: string, data:entity.PatchDataBonus): Observable<any> {
     const url = `${environment.apiURL}admin/bonus/${id}/`;
 
     return this.http.patch<any>(url, data)

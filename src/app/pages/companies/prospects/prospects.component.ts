@@ -48,7 +48,6 @@ export class ProspectsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public searchBar = new FormControl('')
 
-
   public catBusiness: entityGeneral.DataCatBusiness[] = [];
   public catStatus: entityGeneral.DataCatStatus[] = [];
   public catCampaing: entityGeneral.DataCatCampaing[] = [];

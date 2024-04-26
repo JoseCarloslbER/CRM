@@ -1,18 +1,22 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { Subject } from 'rxjs';
+import { Subject, debounceTime, takeUntil } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
+import { AdminService } from '../admin.service';
+import * as entity from '../admin-interface';
+import moment from 'moment';
+import { filter } from 'lodash';
 
 @Component({
   selector: 'app-bonuses',
   templateUrl: './bonuses.component.html',
   styleUrl: './bonuses.component.scss'
 })
-export class BonusesComponent implements OnInit, OnDestroy {
+export class BonusesComponent implements OnInit, AfterViewInit, OnDestroy {
   private onDestroy = new Subject<void>();
 
   public dataSource = new MatTableDataSource<any>([]);
@@ -26,43 +30,26 @@ export class BonusesComponent implements OnInit, OnDestroy {
     'assignedTask',
     'periodThe',
     'solutions',
-    'bonoType',
+    'bonusType',
     'agent',
     'base',
-    'meta',
-    'comments',
+    'goal',
     'acciones'
   ];
-  
-  public dataDummy: any[] = [
-    {
-      name : 'Apr 2020',
-      assignedTask : 'Campaña X',
-      agent : 'Ver agentes',
-      bonoType : '$000',
-      base : 'Fija',
-      meta : 'Contactos logrados',
-      comments : 'Lorem ipsum',
-      periodThe : [
-        {
-          del : '03/01/2023',
-          al :  ' 03/01/2023'
-        }
-      ],
-      solutions : [
-        {
-          sol1 : 'Solución X',
-          sol2 :  ' Solución Y'
-        }
-      ],
-    }
-  ]
+
+  public formFilters = this.formBuilder.group({
+    rangeDateStart: [{ value: '', disabled: false }],
+    rangeDateEnd: [{ value: '', disabled: false }],
+  });
+
+  public searchBar = new FormControl('')
 
   public fechaHoy = new Date();
 
   public isBono :boolean = true;
   
   constructor(
+    private moduleServices: AdminService,
     private notificationService: OpenModalsService,
     private formBuilder: FormBuilder,
     private dialog: MatDialog,
@@ -70,35 +57,68 @@ export class BonusesComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.dataSource.data = this.dataDummy
+    this.searchWithFilters();
+  }
+
+  ngAfterViewInit(): void {
+    this.searchBar.valueChanges.pipe(takeUntil(this.onDestroy), debounceTime(500)).subscribe((content: string) => {
+      this.applyFilter(content); 
+    })
+  }
+
+  searchWithFilters() {
+    let filters: string = '';
+
+    if (this.formFilters.get('rangeDateStart').value && this.formFilters.get('rangeDateEnd').value) {
+      filters += `register_date_start=${moment(this.formFilters.get('rangeDateStart').value).format('YYYY-MM-DD')}&`,
+        filters += `register_date_end=${moment(this.formFilters.get('rangeDateEnd').value).format('YYYY-MM-DD')}&`
+    }
+
+    this.getDataTable(filters)
+  }
+
+  getDataTable(filters?: string) {
+    console.log(filters);
+    
+    this.moduleServices.getDataTableBonus(filters).subscribe({
+      next: (data: entity.TableDataBonusMapper[]) => {
+        this.dataSource.data = data;
+        console.log(data);
+      },
+      error: (error) => console.error(error)
+    })
   }
 
   newData() {
     this.router.navigateByUrl(`/home/admin/nuevo-bono`)
   }
 
-  deleteData() {
+  deleteData(id: string) {
     this.notificationService
-      .notificacion(
-        'Pregunta',
-        '¿Estás seguro de eliminar el registro?',
-        'question',
-      )
-      .afterClosed()
-      .subscribe((_) => {
-        this.notificationService
-          .notificacion(
-            'Éxito',
-            'Registro eliminado.',
-            'delete',
-          )
-          .afterClosed()
-          .subscribe((_) => {
-
-          });
-      });
+    .notificacion(
+      'Pregunta',
+      '¿Estás seguro de eliminar el registro?',
+      'question',
+    )
+    .afterClosed()
+    .subscribe((response) => {
+      if (response) {
+        this.moduleServices.deleteDataUser(id).subscribe({
+          next: () => {
+              this.notificationService
+              .notificacion(
+                'Éxito',
+                'Registro eliminado.',
+                'delete',
+              )
+              .afterClosed()
+              .subscribe((_) => this.getDataTable());
+          },
+          error: (error) => console.error(error)
+        })
+      }
+    });
   }
-
 
   douwnloadExel(){
     this.notificationService
@@ -112,6 +132,11 @@ export class BonusesComponent implements OnInit, OnDestroy {
           .subscribe((_) => {
 
           });
+  }
+
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim().toLowerCase();
+    this.dataSource.filter = filterValue;
   }
 
   ngOnDestroy(): void {

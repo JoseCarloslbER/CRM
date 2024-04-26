@@ -182,7 +182,11 @@ export interface TableDataBonus {
   status: any
 }
 
-export interface PostDataUser {
+export interface TableDataBonusMapper {
+  
+}
+
+export interface PostDataBonus {
   bonus_name : string
   assigned_activity : string
   deadline : string
@@ -196,7 +200,7 @@ export interface PostDataUser {
   status: File;
 }
 
-export interface PatchDataUser {
+export interface PatchDataBonus {
   bonus_name : string
   assigned_activity : string
   deadline : string

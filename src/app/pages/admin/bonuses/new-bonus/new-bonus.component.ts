@@ -16,7 +16,7 @@ export class NewBonusComponent implements OnInit, AfterViewInit, OnDestroy {
   private onDestroy = new Subject<void>();
 
   public fechaHoy = new Date();
-  public radioType = new FormControl('');
+  public radioType = new FormControl('1');
   public toppingList: string[] = ['Empresa A', 'Empresa B', 'Empresa C'];
   public valuesScales: any[] = [];
   public valuesGoalScales: any[] = [];
@@ -29,17 +29,28 @@ export class NewBonusComponent implements OnInit, AfterViewInit, OnDestroy {
   public catalogSolutions: entityGeneral.DataCatSolutions[] = [];
 
   public formData = this.formBuilder.group({
-    bonus_name: ['TEST', Validators.required],
-    campaign: ['e0d25f3e-8c85-4d38-a1ff-fc3cb6207628'],
-    assigned_activity: [''],
+    bonus_name: ['TEST'],
+    type_bonus_porcentage: ['1'],
+    type_bonus_meta: ['1'],
+    campaign: ['', Validators.required],
+    assigned_activity: [{ value : '' , disabled : true }, Validators.required],
     base_percentage_bonus: [''],
     fixed_base_income: [''],
     bonus_user: [''],
     bonus_solution: [''],
     init_date: [''],
     deadline: [''],
-    type_bonus_porcentage: ['1'],
-    type_bonus_meta: ['1', Validators.required],
+    // bonus_name: ['TEST', Validators.required],
+    // type_bonus_porcentage: ['1', Validators.required],
+    // type_bonus_meta: ['1', Validators.required],
+    // campaign: ['', Validators.required],
+    // assigned_activity: [{ value : '' , disabled : true }],
+    // base_percentage_bonus: ['', Validators.required],
+    // fixed_base_income: ['', Validators.required],
+    // bonus_user: ['', Validators.required],
+    // bonus_solution: ['', Validators.required],
+    // init_date: ['', Validators.required],
+    // deadline: ['', Validators.required],
   });
 
   public catCampaign: entityGeneral.DataCatCampaing[] = [];
@@ -76,12 +87,19 @@ export class NewBonusComponent implements OnInit, AfterViewInit, OnDestroy {
       if (content == '1') {
         this.formData.get('assigned_activity').disable()
         this.formData.get('assigned_activity').patchValue('')
+        this.formData.get('assigned_activity')?.clearValidators();
         this.formData.get('campaign').enable()
-      } else {
-        this.formData.get('assigned_activity').enable()
+        this.formData.get('campaign')?.setValidators(Validators.required);
+     } else {
         this.formData.get('campaign').disable()
         this.formData.get('campaign').patchValue('')
+        this.formData.get('campaign')?.clearValidators();
+        this.formData.get('assigned_activity').enable()
+        this.formData.get('assigned_activity')?.setValidators(Validators.required);
       }
+
+      this.formData.get('campaign')?.updateValueAndValidity();
+      this.formData.get('assigned_activity')?.updateValueAndValidity();
     })
   }
 
@@ -209,6 +227,16 @@ export class NewBonusComponent implements OnInit, AfterViewInit, OnDestroy {
     return this.valuesGoalScales.map(scaleMetaValues);
   }
 
+  asignValidators(accion: boolean) {
+    if (accion) {
+      this.formData.get('campaign')?.setValidators(Validators.required);
+      this.formData.get('assigned_activity')?.setValidators(Validators.required);
+    } else {
+      this.formData.get('campaign')?.clearValidators();
+      this.formData.get('assigned_activity')?.clearValidators();
+    }
+  }
+
   deleteScale(index: number) {
     this.valuesScales.splice(index, 1)
   }
@@ -234,6 +262,7 @@ export class NewBonusComponent implements OnInit, AfterViewInit, OnDestroy {
       .afterClosed()
       .subscribe((_) => this.toBack());
   }
+
   toBack() {
     this.router.navigateByUrl(`/home/${this.isGoal ? 'dashboard/metas' : 'admin/bonos'}`)
   }
