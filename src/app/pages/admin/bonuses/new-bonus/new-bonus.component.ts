@@ -33,7 +33,7 @@ export class NewBonusComponent implements OnInit, AfterViewInit, OnDestroy {
     type_bonus_porcentage: ['1'],
     type_bonus_meta: ['1'],
     campaign: ['', Validators.required],
-    assigned_activity: [{ value : '' , disabled : true }, Validators.required],
+    assigned_activity: [{ value: '', disabled: true }, Validators.required],
     base_percentage_bonus: [''],
     fixed_base_income: [''],
     bonus_user: [''],
@@ -55,7 +55,7 @@ export class NewBonusComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public catCampaign: entityGeneral.DataCatCampaing[] = [];
 
-  objEditData :any
+  objEditData: any
   constructor(
     private notificationService: OpenModalsService,
     private catalogsServices: CatalogsService,
@@ -90,7 +90,7 @@ export class NewBonusComponent implements OnInit, AfterViewInit, OnDestroy {
         this.formData.get('assigned_activity')?.clearValidators();
         this.formData.get('campaign').enable()
         this.formData.get('campaign')?.setValidators(Validators.required);
-     } else {
+      } else {
         this.formData.get('campaign').disable()
         this.formData.get('campaign').patchValue('')
         this.formData.get('campaign')?.clearValidators();
@@ -166,7 +166,6 @@ export class NewBonusComponent implements OnInit, AfterViewInit, OnDestroy {
     })
   }
 
-
   addFormScale(datos?: any) {
     const instance: any = {
       ...(datos && { id: datos.id }),
@@ -178,7 +177,7 @@ export class NewBonusComponent implements OnInit, AfterViewInit, OnDestroy {
     console.log(this.valuesScales);
 
     let scales: any[] = [...this.getScaleValue()];
-    
+
     console.log('scales', scales);
 
     this.valuesGoalScales = []
@@ -202,7 +201,7 @@ export class NewBonusComponent implements OnInit, AfterViewInit, OnDestroy {
   getScaleValue() {
     const scaleValues = (e: any) => {
       let obj = {
-        percentage : e.scaleNumberControl.value,
+        percentage: e.scaleNumberControl.value,
       }
 
       return obj

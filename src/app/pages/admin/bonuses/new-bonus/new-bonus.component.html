@@ -80,8 +80,10 @@
                         </div>
 
                         <div class="col-md-6">
+                            <!-- <ng-container *ngFor="let activity of calls; let i = index; let first = first; let last = last; trackBy: trackByFn"> -->
+
                             <div class="row d-flex flex-column align-items-end"
-                                *ngFor="let control of valuesScales; let i = index;">
+                                *ngFor="let control of valuesScales; let i = index; let first = first">
                                 <div class="col-md-8 d-flex align-items-center">
                                     <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                                         <mat-label>Escala {{ i + 1 }}</mat-label>
@@ -89,15 +91,15 @@
                                         <span matPrefix>%</span>
                                     </mat-form-field>
 
-                                    <div
-                                        class="d-flex align-items-center justify-content-center c-column-btns ms-5 mb-3">
-                                        <div class="btn-delete" (click)="deleteScale(i)">
+                                    <div class="d-flex align-items-center justify-content-center c-column-btns ms-5 mb-3">
+                                        <!-- <div *ngIf="valuesScales.length != 1" class="btn-delete" (click)="deleteScale(i)">
+                                            <mat-icon matTooltip="Eliminar">delete</mat-icon>
+                                        </div> -->
+                                        <div *ngIf="!first" class="btn-delete" (click)="deleteScale(i)">
                                             <mat-icon matTooltip="Eliminar">delete</mat-icon>
                                         </div>
                                     </div>
                                 </div>
-
-
                             </div>
                         </div>
 
@@ -127,7 +129,7 @@
                         </div>
                     </div>
 
-                    <div class="row" *ngFor="let control of valuesGoalScales; let i = index;">
+                    <div class="row" *ngFor="let control of valuesGoalScales; let i = index; let first = first">
                         <div class="col-md-6">
                             <div class="flex flex-col gt-sm:mt-0 gt-sm:ml-16 inputsRadioGroupBold scalee">
                                 <h1 class="mb-0">Escala {{ i + 1}}</h1>
@@ -140,17 +142,20 @@
                                     <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister me-5">
                                         <mat-label>Valor minimo</mat-label>
                                         <input [formControl]="control.minValueControl" class="text-right" type="number" matInput>
-                                        <span matPrefix>%</span>
+                                        <span matPrefix>$</span>
                                     </mat-form-field>
     
                                     <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                                         <mat-label>Valor máximo</mat-label>
                                         <input [formControl]="control.maxValueControl" class="text-right" type="number" matInput>
-                                        <span matPrefix>%</span>
+                                        <span matPrefix>$</span>
                                     </mat-form-field>
     
                                     <div class="d-flex align-items-center justify-content-center c-column-btns ms-5 mb-3">
-                                        <div class="btn-delete" (click)="deleteScale(i)">
+                                        <!-- <div  class="btn-delete" (click)="deleteScale(i)">
+                                            <mat-icon matTooltip="Eliminar">delete</mat-icon>
+                                        </div> -->
+                                        <div  *ngIf="!first" class="btn-delete" (click)="deleteScale(i)">
                                             <mat-icon matTooltip="Eliminar">delete</mat-icon>
                                         </div>
                                     </div>
