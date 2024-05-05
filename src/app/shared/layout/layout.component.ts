@@ -283,6 +283,7 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     user: any;
     userName:string = ''
     photo:string = ''
+    permissions:any = ''
     
     constructor(
         private adminServices: AuthenticationService,
@@ -297,6 +298,8 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
             this.user = this.adminServices.getDecryptedUser();
             this.userName = this.user?.first_name && this.user?.last_name ? this.user?.first_name.toUpperCase() + ' ' + this.user?.last_name.toUpperCase() : this.user?.username.toUpperCase();
             this.photo = this.user?.profile_picture ? this.user?.profile_picture.includes('default') ? `../../../assets/images/user-default.png` : this.user?.profile_picture : `../../../assets/images/user-default.png`
+            this.permissions = this.user?.permissions.permissions
+            this.menu = this.filtrarMenu();
         }, 500);
     }
 
@@ -308,7 +311,7 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     get currentYear(): number {
         return new Date().getFullYear();
     }
-     
+
     signOut() {
         this.adminServices.logout().subscribe(response => {
             if (response) this.router.navigateByUrl('/autenticacion/login');
@@ -318,7 +321,7 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     goMailbox() {
         this.router.navigateByUrl('/home/mailbox/inbox/1')
     }
-  
+
     gocalendar() {
         this.router.navigateByUrl('/home/reactivacion/agenda')
     }
@@ -327,4 +330,41 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
         this.onDestroy.next();
         this.onDestroy.unsubscribe();
     }
+
+    filtrarMenu() {
+        let menuFiltrado = JSON.parse(JSON.stringify(this.menu));
+        menuFiltrado = menuFiltrado.filter(item => {
+            if (item.children) {
+                item.children = item.children.filter(child => {
+
+                    if (child.link !== undefined) {
+                        const nombreEnlace = this.obtenerNombre(child.link);
+                        return this.permissions.find(permiso => permiso.permiso.includes(nombreEnlace) && permiso.acceso);
+                    }
+
+                    if(child.children){
+                        child.children = child.children.filter(child2 => {
+                            const nombreEnlace2 = this.obtenerNombre(child2.link);
+                            return this.permissions.find(permiso => permiso.permiso.includes(nombreEnlace2) && permiso.acceso);
+                        });
+                        return child.children.length > 0;
+                    }
+
+                });
+                return item.children.length > 0;
+            } else {
+                const nombreEnlace = this.obtenerNombre(item.link);
+                return this.permissions.find(permiso => permiso.permiso.includes(nombreEnlace) && permiso.acceso);
+            }
+        });
+        
+        return menuFiltrado;
+    }
+    
+    
+    obtenerNombre(url: string) {
+        const partes = url.split('/');
+        return partes[partes.length - 1];
+    }
+    
 }

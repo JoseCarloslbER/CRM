@@ -183,6 +183,7 @@ export interface DataTableCompanies {
 export interface TableDataCompanies {
   company: string,
   contact: string,
+  quotes: string,
   status: string,
 
 }

@@ -156,15 +156,19 @@ export class NewUserComponent implements OnInit, OnDestroy {
     this.accordions.forEach(accordion => {
       const checkboxes = accordion.nativeElement.querySelectorAll('mat-checkbox');
       checkboxes.forEach(checkbox => {
+        const permiso = checkbox.textContent.trim().toLowerCase().replace(/ /g, '_');
+        const acceso = checkbox.querySelector('input').checked;
+        const url = checkbox.getAttribute('data-url');
+  
         this.checkboxesJSON.push({
-          permiso: checkbox.textContent.trim().toLowerCase().replace(/ /g, '_'),
-          concedido: checkbox.querySelector('input').checked
+          permiso: url,
+          acceso: acceso,
         });
       });
     });
-    //console.log(this.checkboxesJSON);
     return this.checkboxesJSON;
   }
+  
 
   toBack() {
     this.router.navigateByUrl(`/home/admin/usuarios`)
