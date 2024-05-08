@@ -172,30 +172,20 @@ export class NewBonusComponent implements OnInit, AfterViewInit, OnDestroy {
       scaleNumberControl: new FormControl({ value: datos?.type_bonus_porcentage || '', disabled: false }, Validators.required),
     };
 
-
     this.valuesScales.push(instance);
-    console.log(this.valuesScales);
-
     let scales: any[] = [...this.getScaleValue()];
-
-    console.log('scales', scales);
 
     this.valuesGoalScales = []
 
     scales.forEach((scale: any) => {
       const instanceGoals: any = {
         // ...(datos && { id: datos.id }),
-        // scaleNumberControl: new FormControl({ value: scale?.scale_number || '', disabled: false }, Validators.required),
         minValueControl: new FormControl({ value: datos?.minValue || '', disabled: false }, Validators.required),
         maxValueControl: new FormControl({ value: datos?.maxValue || '', disabled: false }, Validators.required),
       };
 
       this.valuesGoalScales.push(instanceGoals)
-
-      console.log('valuesGoalScales', this.valuesGoalScales);
-
     });
-
   }
 
   getScaleValue() {
@@ -236,8 +226,8 @@ export class NewBonusComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  deleteScale(index: number) {
-    this.valuesScales.splice(index, 1)
+  deleteScale() {
+    this.valuesScales.pop()
   }
 
   getScale() {
@@ -248,7 +238,6 @@ export class NewBonusComponent implements OnInit, AfterViewInit, OnDestroy {
       contactInfo.push(this.getScaleValue()[cont])
       cont++;
     }
-    console.log(contactInfo);
   }
 
   completionMessage(edit = false) {

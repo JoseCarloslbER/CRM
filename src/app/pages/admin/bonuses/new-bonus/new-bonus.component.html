@@ -80,35 +80,27 @@
                         </div>
 
                         <div class="col-md-6">
-                            <!-- <ng-container *ngFor="let activity of calls; let i = index; let first = first; let last = last; trackBy: trackByFn"> -->
-
                             <div class="row d-flex flex-column align-items-end"
                                 *ngFor="let control of valuesScales; let i = index; let first = first">
                                 <div class="col-md-8 d-flex align-items-center">
                                     <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                                         <mat-label>Escala {{ i + 1 }}</mat-label>
-                                        <input [formControl]="control.scaleNumberControl" class="text-right" type="number" matInput>
+                                        <input [formControl]="control.scaleNumberControl" class="text-right"
+                                            type="number" matInput>
                                         <span matPrefix>%</span>
                                     </mat-form-field>
-
-                                    <div class="d-flex align-items-center justify-content-center c-column-btns ms-5 mb-3">
-                                        <!-- <div *ngIf="valuesScales.length != 1" class="btn-delete" (click)="deleteScale(i)">
-                                            <mat-icon matTooltip="Eliminar">delete</mat-icon>
-                                        </div> -->
-                                        <div *ngIf="!first" class="btn-delete" (click)="deleteScale(i)">
-                                            <mat-icon matTooltip="Eliminar">delete</mat-icon>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
 
-                <div class="col-md-4 d-flex align-items-center justify-content-start mt-5 mb-6">
+                <div class="col-md-6 gap-3 d-flex align-items-center justify-content-start mt-5 mb-6">
                     <button class="btn-gray color-385A6D" (click)="addFormScale()">
                         <span>Agegar escala</span>
+                    </button>
+                    <button [disabled]="valuesScales.length == 1" class="btn-delete-red" (click)="deleteScale()">
+                        <span>Eliminar escala</span>
                     </button>
                 </div>
 
@@ -121,9 +113,12 @@
                             <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                                 <mat-label>Sobre avance</mat-label>
                                 <mat-select formControlName="type_bonus_meta" placeholder="Seleccionar">
-                                    <mat-option value="Cantidad de llamadas logradas">Cantidad de llamadas logradas</mat-option>
-                                    <mat-option value="Cantidad de cotizaciones realizadas">Cantidad de cotizaciones realizadas</mat-option>
-                                    <mat-option value="Cantidad de empresas captadas">Cantidad de empresas captadas</mat-option>
+                                    <mat-option value="Cantidad de llamadas logradas">Cantidad de llamadas
+                                        logradas</mat-option>
+                                    <mat-option value="Cantidad de cotizaciones realizadas">Cantidad de cotizaciones
+                                        realizadas</mat-option>
+                                    <mat-option value="Cantidad de empresas captadas">Cantidad de
+                                        empresas captadas</mat-option>
                                 </mat-select>
                             </mat-form-field>
                         </div>
@@ -135,30 +130,23 @@
                                 <h1 class="mb-0">Escala {{ i + 1}}</h1>
                             </div>
                         </div>
-    
+
                         <div class="col-md-6">
                             <div class="row d-flex flex-column align-items-end">
                                 <div class="col-md-12 d-flex align-items-center">
                                     <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister me-5">
                                         <mat-label>Valor minimo</mat-label>
-                                        <input [formControl]="control.minValueControl" class="text-right" type="number" matInput>
+                                        <input [formControl]="control.minValueControl" class="text-right" type="number"
+                                            matInput>
                                         <span matPrefix>$</span>
                                     </mat-form-field>
-    
+
                                     <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                                         <mat-label>Valor máximo</mat-label>
-                                        <input [formControl]="control.maxValueControl" class="text-right" type="number" matInput>
+                                        <input [formControl]="control.maxValueControl" class="text-right" type="number"
+                                            matInput>
                                         <span matPrefix>$</span>
                                     </mat-form-field>
-    
-                                    <div class="d-flex align-items-center justify-content-center c-column-btns ms-5 mb-3">
-                                        <!-- <div  class="btn-delete" (click)="deleteScale(i)">
-                                            <mat-icon matTooltip="Eliminar">delete</mat-icon>
-                                        </div> -->
-                                        <div  *ngIf="!first" class="btn-delete" (click)="deleteScale(i)">
-                                            <mat-icon matTooltip="Eliminar">delete</mat-icon>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -200,8 +188,8 @@
                                 <mat-label>Soluciones</mat-label>
                                 <mat-select formControlName="bonus_solution" multiple>
                                     <mat-option [value]="cat.solution_id"
-                                    *ngFor="let cat of catalogSolutions">{{cat?.solution_name ||
-                                    '-'}}</mat-option>
+                                        *ngFor="let cat of catalogSolutions">{{cat?.solution_name ||
+                                        '-'}}</mat-option>
                                 </mat-select>
                             </mat-form-field>
                         </div>
@@ -226,8 +214,8 @@
                             <div class="col-md-12">
                                 <mat-form-field class="flex-auto input-default inputNewRegister">
                                     <mat-date-range-input [rangePicker]="campaignOnePicker"
-                                    [comparisonStart]="formData.value['init_date']"
-                                    [comparisonEnd]="formData.value['deadline']">
+                                        [comparisonStart]="formData.value['init_date']"
+                                        [comparisonEnd]="formData.value['deadline']">
                                         <input matStartDate placeholder="Del" formControlName="init_date" />
                                         <input matEndDate placeholder="Al" formControlName="deadline" />
                                     </mat-date-range-input>
@@ -243,7 +231,7 @@
 
                 <div class="row d-flex justify-content-end align-items-center mb-3 mt-5">
                     <div class="d-flex justify-content-end col-md-3 col-xl-3 col-12 pt-md-2 mt-6">
-                        <button class="btn-action-add" [disabled]="!formData.valid"  (click)="actionSave()">
+                        <button class="btn-action-add" [disabled]="!formData.valid" (click)="actionSave()">
                             <span>Guardar</span>
                         </button>
                     </div>
