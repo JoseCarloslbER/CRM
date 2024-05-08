@@ -166,27 +166,43 @@ export class NewBonusComponent implements OnInit, AfterViewInit, OnDestroy {
     })
   }
 
-  addFormScale(datos?: any) {
+  addFormScale() {
     const instance: any = {
-      ...(datos && { id: datos.id }),
-      scaleNumberControl: new FormControl({ value: datos?.type_bonus_porcentage || '', disabled: false }, Validators.required),
+      scaleNumberControl: new FormControl('', Validators.required),
     };
-
+  
+    if (this.valuesScales.length > 0) {
+      const previousValue = this.valuesScales[this.valuesScales.length - 1].scaleNumberControl.value;
+  
+      instance.scaleNumberControl.valueChanges.subscribe(newValue => {
+        console.log('newValue', newValue);
+        
+        if (newValue <= previousValue || newValue > 100 ) {
+          instance.scaleNumberControl.setErrors({ 'invalidValue': true });
+        } else {
+          instance.scaleNumberControl.setErrors(null);
+        }
+      });
+    }
+  
     this.valuesScales.push(instance);
+  
     let scales: any[] = [...this.getScaleValue()];
-
     this.valuesGoalScales = []
-
+  
     scales.forEach((scale: any) => {
+      const lastMinValue = this.valuesGoalScales[this.valuesGoalScales.length - 1]?.minValueControl.value || 0;
+      const lastMaxValue = this.valuesGoalScales[this.valuesGoalScales.length - 1]?.maxValueControl.value || 0;
+  
       const instanceGoals: any = {
-        // ...(datos && { id: datos.id }),
-        minValueControl: new FormControl({ value: datos?.minValue || '', disabled: false }, Validators.required),
-        maxValueControl: new FormControl({ value: datos?.maxValue || '', disabled: false }, Validators.required),
+        minValueControl: new FormControl({ value: lastMinValue, disabled: false }, Validators.required),
+        maxValueControl: new FormControl({ value: lastMaxValue, disabled: false }, Validators.required),
       };
-
-      this.valuesGoalScales.push(instanceGoals)
+  
+      this.valuesGoalScales.push(instanceGoals);
     });
   }
+  
 
   getScaleValue() {
     const scaleValues = (e: any) => {
