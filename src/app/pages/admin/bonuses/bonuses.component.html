@@ -84,8 +84,8 @@
                         <th mat-header-cell *matHeaderCellDef>Perodo del al </th>
                         <td mat-cell *matCellDef="let element">
                             <div class="table-column-date-start-end">
-                                <span> {{ element.period }} </span>
-                                <span> {{ element.period }} </span>
+                                <span> {{ element?.period?.start || '-' }} </span>
+                                <span> {{ element?.period?.end || '-' }} </span>
                             </div>
                         </td>
                     </ng-container>
@@ -111,7 +111,7 @@
                         <th mat-header-cell *matHeaderCellDef>Agentes</th>
                         <td mat-cell *matCellDef="let element">
                             <div class="seeAll">
-                                {{ element.agents }}
+                                <span *ngIf="element?.agents?.alls?.length" (click)="seeDataModal('agents', element?.agents)">Ver todos</span>
                             </div>
                         </td>
                     </ng-container>
@@ -135,7 +135,7 @@
                         <td mat-cell *matCellDef="let element">
                             <div class="c-column-btns ">
                                 <!-- <div class="btn-see">
-                                    <mat-icon matTooltip="Ver" (click)="deleteData(element)">visibility</mat-icon>
+                                    <mat-icon matTooltip="Ver">visibility</mat-icon>
                                 </div> -->
 
                                 <div class="btn-edit">
@@ -146,7 +146,7 @@
                                     <mat-icon matTooltip="Copiar">content_copy</mat-icon>
                                 </div> -->
 
-                                <div class="btn-delete" (click)="deleteData(element)">
+                                <div class="btn-delete" (click)="deleteData(element.id)">
                                     <mat-icon matTooltip="Eliminar">delete</mat-icon>
                                 </div>
                             </div>

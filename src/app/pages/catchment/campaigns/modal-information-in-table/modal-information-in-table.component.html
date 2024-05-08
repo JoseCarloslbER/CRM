@@ -13,7 +13,7 @@
                     <th mat-header-cell *matHeaderCellDef>Agente</th>
                     <td mat-cell *matCellDef="let element">
                         <div class="d-flex flex-column table-column-img text-center">
-                            <img [src]="element.agent.img" alt="">
+                            <img [src]="element?.agent?.img || element" alt="">
                             <span class="text-line-bottom">
                                 {{ element?.agent?.name || '-' }}
                             </span>

@@ -172,8 +172,11 @@ export interface TableDataBonus {
   bonus_name: any
   assigned_activity: any
   deadline: any
+  bonus_solution: any
+  bonus_user: any
   type_bonus_percentage: any
   type_bonus_meta: any
+  init_date: any
   base_percentage_bonus: any
   fixed_base_income: any
   result_scale_meta: any

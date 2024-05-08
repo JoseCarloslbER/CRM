@@ -9,7 +9,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { AdminService } from '../admin.service';
 import * as entity from '../admin-interface';
 import moment from 'moment';
-import { filter } from 'lodash';
+import * as entityGeneral from '../../../shared/interfaces/general-interface';
+import { ModalInformationInTableComponent } from 'app/pages/catchment/campaigns/modal-information-in-table/modal-information-in-table.component';
 
 @Component({
   selector: 'app-bonuses',
@@ -70,16 +71,14 @@ export class BonusesComponent implements OnInit, AfterViewInit, OnDestroy {
     let filters: string = '';
 
     if (this.formFilters.get('rangeDateStart').value && this.formFilters.get('rangeDateEnd').value) {
-      filters += `register_date_start=${moment(this.formFilters.get('rangeDateStart').value).format('YYYY-MM-DD')}&`,
-        filters += `register_date_end=${moment(this.formFilters.get('rangeDateEnd').value).format('YYYY-MM-DD')}&`
+      filters += `deadline_start=${moment(this.formFilters.get('rangeDateStart').value).format('YYYY-MM-DD')}&`,
+        filters += `deadline_end=${moment(this.formFilters.get('rangeDateEnd').value).format('YYYY-MM-DD')}&`
     }
 
     this.getDataTable(filters)
   }
 
   getDataTable(filters?: string) {
-    console.log(filters);
-    
     this.moduleServices.getDataTableBonus(filters).subscribe({
       next: (data: entity.TableDataBonusMapper[]) => {
         this.dataSource.data = data;
@@ -103,7 +102,7 @@ export class BonusesComponent implements OnInit, AfterViewInit, OnDestroy {
     .afterClosed()
     .subscribe((response) => {
       if (response) {
-        this.moduleServices.deleteDataUser(id).subscribe({
+        this.moduleServices.deleteDataBonus(id).subscribe({
           next: () => {
               this.notificationService
               .notificacion(
@@ -117,6 +116,19 @@ export class BonusesComponent implements OnInit, AfterViewInit, OnDestroy {
           error: (error) => console.error(error)
         })
       }
+    });
+  }
+
+  seeDataModal(type: string, data: any) {
+    this.dialog.open(ModalInformationInTableComponent, {
+      data: {
+        type: type,
+        info: data
+      },
+      disableClose: true,
+      width: '1000px',
+      maxHeight: '700px',
+      panelClass: 'custom-dialog',
     });
   }
 

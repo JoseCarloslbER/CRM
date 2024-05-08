@@ -188,7 +188,9 @@ export class AdminService {
   // ROLES
 
   public getDataTableBonus(filters?:string) {
-		const url = `${environment.apiURL}admin/bonus/`;
+		// const url = `${environment.apiURL}admin/bonus/`;
+    const url = `${this.apiUrl}bonus/${filters ? `?${filters}` : ''}`;
+
 
     return this.http.get<entity.TableDataBonus[]>(url)
       .pipe(map((response) => Mapper.getDataBonusMapper(response)));

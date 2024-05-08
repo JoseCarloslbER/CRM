@@ -1,3 +1,4 @@
+import moment from 'moment';
 import * as entity from './admin-interface';
 
 export class Mapper {
@@ -38,19 +39,21 @@ export class Mapper {
 
 		
 	static getDataBonusMapper(response: entity.TableDataBonus[]) : entity.TableDataBonusMapper[] {
-		console.log('response:', response);
-		
 		let dataList : entity.TableDataBonusMapper[] = [];
 
 		response.forEach((data: entity.TableDataBonus): void => {
 			dataList.push({
 				id: data.bonus_id,
 				name : data?.bonus_name || '-',
-				assignedTask : 'pendiente',
-				period : 'pendiente',
-				solutions : 'pendiente',
-				bonusType : 'pendiente',
-				agents : 'pendiente',
+				assignedTask : data.campaign?.campaign_name || data.assigned_activity,
+				period : {
+					start : moment(data.init_date).format('DD-MM-YYYY'),
+					end : moment(data.deadline).format('DD-MM-YYYY')
+				},
+				solutions : data?.bonus_solution[0]?.solution?.solution_name || '-',
+				bonusType : data.campaign ? 'Campaña' : 'Actividad',
+				agents: {alls : data?.bonus_user},
+
 				base : data?.base_percentage_bonus || '-',
 				goal : data?.type_bonus_meta || '-',
 			});

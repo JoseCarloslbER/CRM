@@ -52,18 +52,32 @@ export class ModalInformationInTableComponent implements OnInit, OnDestroy {
 
   getAgents() {
     this.displayedColumns = this.agentInfoColumns;
-
-    let agentData = [this.data.info.main, ...this.data.info.alls.map(all => all.user)];
+    let agentData :any
+    if (this.data.info.main) {
+      agentData = [this.data.info.main, ...this.data.info.alls.map(all => all.user)];
+    } else {
+      agentData = [...this.data.info.alls.map(all => all.user)];
+    }
 
     agentData.forEach((data: any, index) => {
-      if (index == 0) data.main = true;
-      data.agent = { img: data.profile_picture.includes('default')
-          ? `../../../assets/images${data.profile_picture}`
+      console.log('data', data);
+
+      if (this.data.info.main) {
+        if (index == 0) data.main = true;
+      }
+      data.agent = { 
+        img: data.profile_picture.includes('default')
+          ? `../../../../../assets/images/user-default.png`
           : data.profile_picture,
         name: `${data.first_name && data.last_name ? data?.first_name.toUpperCase() + ' ' + data?.last_name.toUpperCase() : data?.username.toUpperCase()}`,
       };
+
       data.rol = { main: data.main, rol: data.rol_name }
+
     })
+
+    console.log(agentData);
+    
 
     this.dataSource.data = agentData;
   }

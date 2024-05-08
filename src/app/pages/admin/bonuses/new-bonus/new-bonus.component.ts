@@ -29,9 +29,9 @@ export class NewBonusComponent implements OnInit, AfterViewInit, OnDestroy {
   public catalogSolutions: entityGeneral.DataCatSolutions[] = [];
 
   public formData = this.formBuilder.group({
-    bonus_name: ['TEST'],
+    bonus_name: [''],
     type_bonus_porcentage: ['1'],
-    type_bonus_meta: ['1'],
+    type_bonus_meta: [''],
     campaign: ['', Validators.required],
     assigned_activity: [{ value: '', disabled: true }, Validators.required],
     base_percentage_bonus: [''],
@@ -40,17 +40,6 @@ export class NewBonusComponent implements OnInit, AfterViewInit, OnDestroy {
     bonus_solution: [''],
     init_date: [''],
     deadline: [''],
-    // bonus_name: ['TEST', Validators.required],
-    // type_bonus_porcentage: ['1', Validators.required],
-    // type_bonus_meta: ['1', Validators.required],
-    // campaign: ['', Validators.required],
-    // assigned_activity: [{ value : '' , disabled : true }],
-    // base_percentage_bonus: ['', Validators.required],
-    // fixed_base_income: ['', Validators.required],
-    // bonus_user: ['', Validators.required],
-    // bonus_solution: ['', Validators.required],
-    // init_date: ['', Validators.required],
-    // deadline: ['', Validators.required],
   });
 
   public catCampaign: entityGeneral.DataCatCampaing[] = [];
@@ -81,7 +70,9 @@ export class NewBonusComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    this.addFormScale();
+    setTimeout(() => {
+      this.addFormScale();
+    }, 500);
 
     this.radioType.valueChanges.pipe(takeUntil(this.onDestroy)).subscribe(content => {
       if (content == '1') {
