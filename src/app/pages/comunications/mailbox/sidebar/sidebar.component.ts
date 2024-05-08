@@ -175,10 +175,10 @@ export class MailboxSidebarComponent implements OnInit, OnDestroy
                         icon: "heroicons_outline:inbox",
                         link: "/apps/mailbox/inbox",
                         badge: {
-                            title: "27"
+                            title: "5"
                         }
                     },
-                    {
+                    /*{
                         id: "7c004a19-4506-48ef-93ab-f16381302e3b",
                         title: "Enviados",
                         type: "basic",
@@ -217,7 +217,7 @@ export class MailboxSidebarComponent implements OnInit, OnDestroy
                         badge: {
                             title: "1"
                         }
-                    },
+                    },*/
                 ],
             },
         ];

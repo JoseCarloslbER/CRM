@@ -17,8 +17,14 @@ export class MailboxService
     private _mail: BehaviorSubject<Mail> = new BehaviorSubject(null);
     private _pagination: BehaviorSubject<any> = new BehaviorSubject(null);
 
-    constructor(private _httpClient: HttpClient) { }
+    constructor(private _httpClient: HttpClient) { 
+        this.selectedMailChanged.subscribe(mail => {
+            //console.log('Mail recibido en MailboxService:', mail);
+        });
+    }
     private apiUrl = `${environment.apiURL}mail/`;
+
+    selectedMail$: Observable<any> = this.selectedMailChanged.asObservable();
 
     get category$(): Observable<MailCategory> {
         return this._category.asObservable();
@@ -37,7 +43,6 @@ export class MailboxService
     }
 
     get mails$(): Observable<Mail[]> {
-        console.log('mails', this._mails.asObservable())
         return this._mails.asObservable();
     }
 
@@ -266,7 +271,7 @@ export class MailboxService
     }
 
     getEmailList(): Observable<Mail[]> {
-        const url = `${this.apiUrl}emails/?page=1&page_size=1`;
+        const url = `${this.apiUrl}emails/?page=1&page_size=5`;
         return this._httpClient.get<any>(url).pipe(
             map((response: any) => response.results)
         );

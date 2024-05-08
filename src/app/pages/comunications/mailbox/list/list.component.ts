@@ -382,7 +382,7 @@ export class MailboxListComponent implements OnInit, OnDestroy {
     }
 
     onMailSelected(mail: Mail) {
-        console.log('list', mail)
+        console.log('select', mail)
         if ( mail.unread ) {
             mail.unread = false;
             //this._mailboxService.updateMail(mail.id, {unread: false}).subscribe();

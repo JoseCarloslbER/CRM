@@ -194,11 +194,16 @@ export class MailboxDetailsComponent implements OnInit, OnDestroy
                 this.labels = this.labelsDummy;
             });
 
+        this._mailboxService.selectedMail$.subscribe((mail: any) => {
+            //console.log('Mail recibido en details.component.ts:', mail);
+            this.mail = mail;
+        });
+
         this._mailboxService.mail$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((mail: Mail) => {
-                console.log('details', mail)
-                this.mail = mail;
+                //console.log('details', mail)
+                //this.mail = this.mailDummy;
         });
 
         this._mailboxService.selectedMailChanged
