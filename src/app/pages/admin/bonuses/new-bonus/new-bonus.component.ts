@@ -166,93 +166,35 @@ export class NewBonusComponent implements OnInit, AfterViewInit, OnDestroy {
     })
   }
 
-  // addFormScale() {
-  //   // Crea una nueva escala para valuesScales
-  //   const instance: any = {
-  //     scaleNumberControl: new FormControl('', Validators.required),
-  //   };
-  
-  //   // Asegura que exista al menos una escala anterior en valuesScales
-  //   if (this.valuesScales.length > 0) {
-  //     const previousValue = this.valuesScales[this.valuesScales.length - 1].scaleNumberControl.value;
-  
-  //     // Suscribe al evento de cambios en el nuevo control
-  //     instance.scaleNumberControl.valueChanges.subscribe(newValue => {
-  //       if (newValue <= previousValue) {
-  //         instance.scaleNumberControl.setErrors({ 'invalidValue': true });
-  //       } else {
-  //         instance.scaleNumberControl.setErrors(null);
-  //       }
-  //     });
-  //   }
-  
-  //   // Agrega la nueva escala a valuesScales
-  //   this.valuesScales.push(instance);
-  
-  //   // Si hay escalas existentes en valuesGoalScales
-  //   if (this.valuesGoalScales.length > 0) {
-  //     // Obtener el último conjunto de valores en valuesGoalScales
-  //     const lastValues = this.valuesGoalScales[this.valuesGoalScales.length - 1];
-  
-  //     // Crear un nuevo conjunto de formControls para la nueva escala
-  //     const newInstanceGoals: any = {
-  //       minValueControl: new FormControl(lastValues.minValueControl.value, Validators.required),
-  //       maxValueControl: new FormControl(lastValues.maxValueControl.value, Validators.required)
-  //     };
-  
-  //     // Agregar el nuevo conjunto de formControls a valuesGoalScales
-  //     this.valuesGoalScales.push(newInstanceGoals);
-  //   } else {
-  //     // Si no hay escalas existentes, simplemente inicializa valuesGoalScales con un conjunto de formControls vacíos
-  //     const newInstanceGoals: any = {
-  //       minValueControl: new FormControl('', Validators.required),
-  //       maxValueControl: new FormControl('', Validators.required)
-  //     };
-  
-  //     this.valuesGoalScales.push(newInstanceGoals);
-  //   }
-  // }
-  
   addFormScale() {
-    // Crea una nueva escala para valuesScales
     const instance: any = {
       scaleNumberControl: new FormControl('', Validators.required),
     };
   
-    // Asegura que exista al menos una escala anterior en valuesScales
     if (this.valuesScales.length > 0) {
       const previousValue = this.valuesScales[this.valuesScales.length - 1].scaleNumberControl.value;
   
-      // Suscribe al evento de cambios en el nuevo control
       instance.scaleNumberControl.valueChanges.subscribe(newValue => {
-        if (newValue <= previousValue) {
-          instance.scaleNumberControl.setErrors({ 'invalidValue': true });
-        } else {
-          instance.scaleNumberControl.setErrors(null);
-        }
+        if (newValue <= previousValue) instance.scaleNumberControl.setErrors({ 'invalidValue': true });
+         else instance.scaleNumberControl.setErrors(null);
       });
     }
   
-    // Agrega la nueva escala a valuesScales
     this.valuesScales.push(instance);
   
-    // Determinar si es una nueva escala o una escala existente
     const isNewScale = this.valuesScales.length > this.valuesGoalScales.length;
   
     if (!isNewScale) {
-      // Si es una escala existente, mantener los valores actuales
       const lastValues = this.valuesGoalScales[this.valuesGoalScales.length - 1];
   
-      // Crear un nuevo conjunto de formControls para la nueva escala
       const newInstanceGoals: any = {
         minValueControl: new FormControl(lastValues.minValueControl.value, Validators.required),
         maxValueControl: new FormControl(lastValues.maxValueControl.value, Validators.required)
       };
   
-      // Agregar el nuevo conjunto de formControls a valuesGoalScales
       this.valuesGoalScales.push(newInstanceGoals);
+
     } else {
-      // Si es una nueva escala, inicializar con formControls vacíos
       const newInstanceGoals: any = {
         minValueControl: new FormControl('', Validators.required),
         maxValueControl: new FormControl('', Validators.required)
@@ -261,8 +203,6 @@ export class NewBonusComponent implements OnInit, AfterViewInit, OnDestroy {
       this.valuesGoalScales.push(newInstanceGoals);
     }
   }
-  
-  
 
   getScaleValue() {
     const scaleValues = (e: any) => {
