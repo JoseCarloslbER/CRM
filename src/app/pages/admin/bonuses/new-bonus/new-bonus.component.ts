@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { CatalogsService } from 'app/shared/services/catalogs.service';
 import * as entityGeneral from '../../../../shared/interfaces/general-interface';
@@ -43,13 +43,15 @@ export class NewBonusComponent implements OnInit, AfterViewInit, OnDestroy {
   });
 
   public catCampaign: entityGeneral.DataCatCampaing[] = [];
+  private idData: string = '';
+  private objEditData: any;
 
-  objEditData: any
   constructor(
     private notificationService: OpenModalsService,
     private catalogsServices: CatalogsService,
     private formBuilder: FormBuilder,
     private moduleServices: AdminService,
+    private activatedRoute: ActivatedRoute,
     private router: Router
   ) { }
 
@@ -67,6 +69,7 @@ export class NewBonusComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.url.includes('clonar')) this.modalTitle = this.modalTitle.replace('Registrar', 'Clonar');
 
     this.getCatalogs()
+    this.getId();
   }
 
   ngAfterViewInit(): void {
@@ -91,6 +94,30 @@ export class NewBonusComponent implements OnInit, AfterViewInit, OnDestroy {
 
       this.formData.get('campaign')?.updateValueAndValidity();
       this.formData.get('assigned_activity')?.updateValueAndValidity();
+    })
+  }
+
+  getId() {
+    this.activatedRoute.params.subscribe(({ id }: any) => {
+      if (id) {
+        this.idData = id;
+        this.getDataById();
+      }
+    });
+  }
+
+  getDataById() {
+    this.moduleServices.getDataBonusId(this.idData).subscribe({
+      next: (response: any) => {
+        this.objEditData = response;
+        console.log(this.objEditData);
+        this.formData.patchValue(response)
+      
+      },
+      error: (error) => {
+        this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
+        console.error(error)
+      }
     })
   }
 
@@ -222,6 +249,8 @@ export class NewBonusComponent implements OnInit, AfterViewInit, OnDestroy {
 
     return this.valuesGoalScales.map(scaleMetaValues);
   }
+
+
 
   asignValidators(accion: boolean) {
     if (accion) {
