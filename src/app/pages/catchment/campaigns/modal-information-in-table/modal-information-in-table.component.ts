@@ -31,6 +31,7 @@ export class ModalInformationInTableComponent implements OnInit, OnDestroy {
   private companyInfoColumns: string[] = [
     'company',
     'contact',
+    'quoteNumber',
     'companyPhase'
   ]
 
@@ -88,12 +89,19 @@ export class ModalInformationInTableComponent implements OnInit, OnDestroy {
     let companyData = [...this.data.info];
 
     companyData.forEach((data: any) => {
+      let quotes = "";
+
+      data?.quotes.forEach((quote: any) => {
+        quotes += "# " + quote.quote_number + " / "
+      })
+
       data.companyMain = { img: data.company.logo.includes('default')
           ? `../../../assets/images${data.company.logo}`
           : data.company.logo,
         name: `${data.company.company_name}`,
       };
       data.companyPhase = data?.company?.company_phase?.phase_name;
+      data.quoteNumber  = quotes;
       data.contact = {
         name  : data?.company?.company_contacts[0]?.full_name,
         email : data?.company?.company_contacts[0]?.email,
