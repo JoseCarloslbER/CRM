@@ -61,4 +61,27 @@ export class Mapper {
 
 		return dataList
 	}
+
+	
+	static getDataBonusIdMapper(response: any): any {
+		console.log(response);
+		return {
+			id: response?.bonus_id,
+			bonus_name: response?.bonus_name,
+			type_bonus_percentage: response?.type_bonus_percentage,
+			type_bonus_meta: response?.type_bonus_meta,
+			campaign: response?.campaign.campaign_id,
+			assigned_activity: response?.assigned_activity,
+			base_percentage_bonus: response?.base_percentage_bonus,
+			fixed_base_income: parseFloat(response?.fixed_base_income,).toLocaleString('en-US', {
+				minimumFractionDigits: 2,
+				maximumFractionDigits: 2
+			}),
+			init_date: response?.init_date,
+			deadline: response?.deadline,
+			bonus_solution : response.bonus_solution.map(data => data.solution.solution_id),
+			bonus_user : response.bonus_user.map(data => data.user.id),
+
+		}
+	};
 }

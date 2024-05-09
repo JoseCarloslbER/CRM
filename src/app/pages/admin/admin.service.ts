@@ -192,12 +192,14 @@ export class AdminService {
 
     return this.http.get<entity.TableDataBonus[]>(url)
       .pipe(map((response) => Mapper.getDataBonusMapper(response)));
+
 	}
 
   public getDataBonusId(id: string) {
     const url = `${this.apiUrl}bonus/${id}/`;
 
     return this.http.get<any>(url)
+      .pipe(map((response) => Mapper.getDataBonusIdMapper(response)));
   }
 
   public postDataBonus(data:entity.PostDataBonus): Observable<any> {

@@ -30,7 +30,7 @@ export class NewBonusComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public formData = this.formBuilder.group({
     bonus_name: [''],
-    type_bonus_porcentage: ['1'],
+    type_bonus_percentage: ['1'],
     type_bonus_meta: [''],
     campaign: ['', Validators.required],
     assigned_activity: [{ value: '', disabled: true }, Validators.required],
@@ -94,6 +94,11 @@ export class NewBonusComponent implements OnInit, AfterViewInit, OnDestroy {
 
       this.formData.get('campaign')?.updateValueAndValidity();
       this.formData.get('assigned_activity')?.updateValueAndValidity();
+    })
+
+    this.formData.get('type_bonus_percentage').valueChanges.subscribe(data => {
+      console.log(data);
+      
     })
   }
 
