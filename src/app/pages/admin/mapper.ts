@@ -65,6 +65,7 @@ export class Mapper {
 	
 	static getDataBonusIdMapper(response: any): any {
 		console.log(response);
+		
 		return {
 			id: response?.bonus_id,
 			bonus_name: response?.bonus_name,
@@ -81,7 +82,21 @@ export class Mapper {
 			deadline: response?.deadline,
 			bonus_solution : response.bonus_solution.map(data => data.solution.solution_id),
 			bonus_user : response.bonus_user.map(data => data.user.id),
-
+			valuesScales: response.bonus_percentage.map((data: any) => {
+				return {
+					id: data.scale_percentage_id,
+					percentage: data.percentage,
+					scale_number: data.scale_number,
+				}
+			}),
+			valuesGoalScales: response.bonus_meta.map((data: any) => {
+				return {
+					id: data.scale_meta_id,
+					max_value: data.max_value,
+					min_value: data.min_value,
+					scale_number: data.scale_number,
+				}
+			})
 		}
 	};
 }

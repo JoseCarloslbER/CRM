@@ -1,14 +1,16 @@
+import moment from 'moment';
 import * as entity from './catchment-interface';
 
 export class Mapper {
-	// static getDataTableCampaingMapper(response: entity.TableDataCampaing[]) {
 	static getDataTableCampaingMapper(response: entity.TableDataCampaing[]) : entity.TableDataCampaingMapper[] {
 		let dataList : any[] = [];
+		console.log(response);
+		
 
 		response.forEach((data: entity.TableDataCampaing): void => {
 			dataList.push({
 				id: data.campaign_id,
-				dateStartEnd: {start: data.start_date, end: data.end_date},
+				dateStartEnd: {start: moment(data.start_date).format('DD/MM/YYYY'), end: moment(data.end_date).format('DD/MM/YYYY')},
 				name: data?.campaign_name || '-',
 				code: data?.campaign_code || '-',
 				companyType : data?.campaign_type?.campaign_type_name || '-',
@@ -50,8 +52,8 @@ export class Mapper {
 					goal_number_sales: data?.goal_number_sales,
 					goal_amount: data?.goal_amount,
 					amount_invested: data?.amount_invested,
-					start_date: data?.start_date,
-					end_date: data?.end_date,
+					start_date: moment(data.start_date).format('DD/MM/YYYY'),
+					end_date: moment(data.end_date).format('DD/MM/YYYY'),
 					total_companies: data?.total_companies,
 					number_quotes_lead: data?.number_quotes_lead,
 					number_quotes_client: data?.number_quotes_client,
@@ -64,6 +66,8 @@ export class Mapper {
 			});
 		});
 
+		console.log('dataList', dataList);
+		
 		return dataList
 	}
 	

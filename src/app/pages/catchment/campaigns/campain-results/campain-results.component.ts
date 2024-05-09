@@ -42,8 +42,6 @@ export class CampainResultsComponent implements OnInit, OnDestroy {
   getDataCampaign() {
     this.moduleCatchmentServices.getData().pipe(takeUntil(this.onDestroy)).subscribe((data) => {
       this.campaingData = data?.campaingData;
-      console.log('getDataCampaign', this.campaingData);
-      
     });
   }
   

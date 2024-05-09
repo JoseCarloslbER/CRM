@@ -73,10 +73,6 @@ export class NewBonusComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    setTimeout(() => {
-      this.addFormScale();
-    }, 500);
-
     this.radioType.valueChanges.pipe(takeUntil(this.onDestroy)).subscribe(content => {
       if (content == '1') {
         this.formData.get('assigned_activity').disable()
@@ -95,11 +91,6 @@ export class NewBonusComponent implements OnInit, AfterViewInit, OnDestroy {
       this.formData.get('campaign')?.updateValueAndValidity();
       this.formData.get('assigned_activity')?.updateValueAndValidity();
     })
-
-    this.formData.get('type_bonus_percentage').valueChanges.subscribe(data => {
-      console.log(data);
-      
-    })
   }
 
   getId() {
@@ -107,7 +98,7 @@ export class NewBonusComponent implements OnInit, AfterViewInit, OnDestroy {
       if (id) {
         this.idData = id;
         this.getDataById();
-      }
+      } else  this.addFormScale();
     });
   }
 
@@ -117,7 +108,19 @@ export class NewBonusComponent implements OnInit, AfterViewInit, OnDestroy {
         this.objEditData = response;
         console.log(this.objEditData);
         this.formData.patchValue(response)
-      
+
+        if (response.valuesScales.length) {
+          response.valuesScales.forEach((scale: any) => {
+            this.addFormScale({ percentage: scale.percentage });
+          });
+        }
+  
+        if (response.valuesGoalScales.length) {
+          response.valuesGoalScales.forEach((goalScale: any) => {
+            this.addFormScale({ min_value: goalScale.min_value, max_value: goalScale.max_value });
+          });
+        }
+
       },
       error: (error) => {
         this.notificationService.notificacion('Error', `Hable con el administrador.`, '', 'mat_outline:error')
@@ -156,10 +159,9 @@ export class NewBonusComponent implements OnInit, AfterViewInit, OnDestroy {
     let objData = {
       ...this.formData.value,
       bonus_percentage: scales,
-      bonus_meta: bonusMeta
+      bonus_meta: bonusMeta,
+      fixed_base_income : parseFloat(this.formData.get('fixed_base_income').value.replace(/,/g, '')) 
     }
-
-    console.log('objData', objData);
 
     if (this.objEditData) this.saveDataPatch(objData);
     else this.saveDataPost(objData);
@@ -189,50 +191,62 @@ export class NewBonusComponent implements OnInit, AfterViewInit, OnDestroy {
     })
   }
 
-  addFormScale() {
-    const instance: any = {
-      scaleNumberControl: new FormControl('', Validators.required),
-    };
+  addFormScale(datos?: any) {
+    const instance: any = {};
   
-    if (this.valuesScales.length > 0) {
-      const previousValue = this.valuesScales[this.valuesScales.length - 1].scaleNumberControl.value;
+    if (datos && datos.hasOwnProperty('percentage')) {
+      instance.scaleNumberControl = new FormControl(datos.percentage, Validators.required);
   
-      instance.scaleNumberControl.valueChanges.subscribe(newValue => {
-        if (newValue <= previousValue) instance.scaleNumberControl.setErrors({ 'invalidValue': true });
-         else instance.scaleNumberControl.setErrors(null);
-      });
+      if (this.valuesScales.length > 0) {
+        const previousValue = this.valuesScales[this.valuesScales.length - 1].scaleNumberControl.value;
+        instance.scaleNumberControl.valueChanges.subscribe(newValue => {
+          console.log(newValue);
+          
+          if (newValue <= previousValue || newValue > 100) instance.scaleNumberControl.setErrors({ 'invalidValue': true });
+           else instance.scaleNumberControl.setErrors(null);
+        });
+      }
+  
+      this.valuesScales.push(instance);
+    }
+    
+    else if (datos && datos.hasOwnProperty('min_value') && datos.hasOwnProperty('max_value')) {
+      instance.minValueControl = new FormControl(datos.min_value, Validators.required);
+      instance.maxValueControl = new FormControl(datos.max_value, Validators.required);
+      this.valuesGoalScales.push(instance);
     }
   
-    this.valuesScales.push(instance);
+    else {
+      instance.scaleNumberControl = new FormControl('', Validators.required);
+      if (this.valuesScales.length > 0) {
+        const previousValue = this.valuesScales[this.valuesScales.length - 1].scaleNumberControl.value;
+        instance.scaleNumberControl.valueChanges.subscribe(newValue => {
+          console.log(newValue);
+          
+          if (newValue <= previousValue  || newValue > 100) instance.scaleNumberControl.setErrors({ 'invalidValue': true });
+           else instance.scaleNumberControl.setErrors(null);
+        });
+      }
   
-    const isNewScale = this.valuesScales.length > this.valuesGoalScales.length;
+      this.valuesScales.push(instance);
+      const isNewScale = this.valuesScales.length > this.valuesGoalScales.length;
   
-    if (!isNewScale) {
-      const lastValues = this.valuesGoalScales[this.valuesGoalScales.length - 1];
-  
-      const newInstanceGoals: any = {
-        minValueControl: new FormControl(lastValues.minValueControl.value, Validators.required),
-        maxValueControl: new FormControl(lastValues.maxValueControl.value, Validators.required)
-      };
-  
-      this.valuesGoalScales.push(newInstanceGoals);
-
-    } else {
-      const newInstanceGoals: any = {
-        minValueControl: new FormControl('', Validators.required),
-        maxValueControl: new FormControl('', Validators.required)
-      };
-  
-      this.valuesGoalScales.push(newInstanceGoals);
+      if (!isNewScale) {
+        const lastValues = this.valuesGoalScales[this.valuesGoalScales.length - 1];
+        instance.minValueControl = new FormControl(lastValues.minValueControl.value, Validators.required);
+        instance.maxValueControl = new FormControl(lastValues.maxValueControl.value, Validators.required);
+        this.valuesGoalScales.push(instance);
+      } else {
+        instance.minValueControl = new FormControl('', Validators.required);
+        instance.maxValueControl = new FormControl('', Validators.required);
+        this.valuesGoalScales.push(instance);
+      }
     }
   }
 
   getScaleValue() {
     const scaleValues = (e: any) => {
-      let obj = {
-        percentage: e.scaleNumberControl.value,
-      }
-
+      let obj = { percentage: e.scaleNumberControl.value }
       return obj
     };
 
@@ -244,18 +258,16 @@ export class NewBonusComponent implements OnInit, AfterViewInit, OnDestroy {
     const scaleMetaValues = (e: any) => {
       let obj = {
         scale_number: count,
-        min_number: e.minValueControl.value,
-        max_number: e.maxValueControl.value,
+        min_value: e.minValueControl.value,
+        max_value: e.maxValueControl.value,
       }
 
-      count++
+      count++;
       return obj
     };
 
     return this.valuesGoalScales.map(scaleMetaValues);
   }
-
-
 
   asignValidators(accion: boolean) {
     if (accion) {
@@ -280,6 +292,22 @@ export class NewBonusComponent implements OnInit, AfterViewInit, OnDestroy {
       contactInfo.push(this.getScaleValue()[cont])
       cont++;
     }
+  }
+
+  formatInput(event: any) {
+    setTimeout(() => {
+      
+      let value = event.target.value;
+      let numericValue = parseFloat(value.replace(/[^\d.]/g, ''));
+      if (!isNaN(numericValue)) {
+        const formattedValue = numericValue.toLocaleString('en-US', {
+          style: 'currency',
+          currency: 'USD',
+          minimumFractionDigits: 2
+        });
+        this.formData.get('fixed_base_income').patchValue(formattedValue, { emitEvent: false });
+      }
+    }, 1500);
   }
 
   completionMessage(edit = false) {

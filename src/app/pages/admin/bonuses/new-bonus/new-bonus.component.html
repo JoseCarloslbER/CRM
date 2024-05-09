@@ -98,7 +98,7 @@
                     <button class="btn-gray color-385A6D" (click)="addFormScale()">
                         <span>Agegar escala</span>
                     </button>
-                    <button [disabled]="valuesScales.length == 1" class="btn-delete-red" (click)="deleteScale()">
+                    <button *ngIf="valuesScales.length > 1" class="btn-delete-red" (click)="deleteScale()">
                         <span>Eliminar escala</span>
                     </button>
                 </div>
@@ -172,7 +172,7 @@
                         <div class="col-md-6">
                             <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                                 <mat-label>Importe</mat-label>
-                                <input formControlName="fixed_base_income" class="text-right" matInput>
+                                <input formControlName="fixed_base_income" class="text-right" matInput (input)="formatInput($event)">
                                 <span matPrefix>$</span>
                             </mat-form-field>
                         </div>

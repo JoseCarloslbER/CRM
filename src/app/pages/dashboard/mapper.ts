@@ -129,12 +129,12 @@ export class Mapper {
 											maximumFractionDigits: 2
 										}),
 										places: resp?.option_products[0]?.quantity || 0,
-										validity: moment(resp.deadline).format('DD-MM-YYYY')
+										validity: resp.deadline
 									}
 								}),
 								optionsValidity: data.quote_options.map(resp => {
 									return {
-										validity: moment(resp.deadline).format('DD-MM-YYYY')
+										validity: resp.deadline
 									}
 								}),
 								listPrice: '$' + parseFloat(optionData?.option_products[0]?.product?.list_price).toLocaleString('en-US', {
@@ -144,7 +144,7 @@ export class Mapper {
 								platform: data?.company?.platform?.platform_name,
 								places: optionData?.option_products[0]?.quantity || 0,
 								campaign: data?.campaign?.campaign_name || '-',
-								validity: moment(optionData.deadline).format('DD-MM-YYYY')
+								validity: optionData.deadline
 							}];
 						}
 					})(),
@@ -158,7 +158,7 @@ export class Mapper {
 							totalPrice: {
 								id: dataClose?.quote_option_id,
 								name: `OP${index + 1}:`,
-								expire: moment(dataClose.deadline).format('MM-DD-YYYY'),
+								expire: dataClose.deadline,
 								total: '$' + parseFloat(dataClose.total).toLocaleString('en-US', {
 									minimumFractionDigits: 2,
 									maximumFractionDigits: 2
@@ -223,7 +223,7 @@ export class Mapper {
 								}),
 								optionsValidity: data.quote_options.map(resp => {
 									return {
-										validity: moment(resp.deadline).format('DD-MM-YYYY')
+										validity: resp.deadline
 									}
 								}),
 								listPrice: '$' + parseFloat(optionData?.option_products[0]?.product?.list_price).toLocaleString('en-US', {
@@ -245,7 +245,7 @@ export class Mapper {
 							totalPrice: {
 								id: dataClose?.quote_option_id,
 								name: `OP${index + 1}:`,
-								expire: moment(dataClose.deadline).format('MM-DD-YYYY'),
+								expire: dataClose.deadline,
 								total: '$' + parseFloat(dataClose.total).toLocaleString('en-US', {
 									minimumFractionDigits: 2,
 									maximumFractionDigits: 2
@@ -265,6 +265,8 @@ export class Mapper {
 				}
 			}),
 			leadsSales: response?.quotes_sales_leads.map(data => {
+				console.log(data.payment_date);
+				
 				return {
 					id: data.quote_id,
 					companyName: {
@@ -276,7 +278,7 @@ export class Mapper {
 					quoteNumber: data?.quote_number || '-',
 					moneyInAccount: data?.money_in_account,
 					actionName: data?.status?.description,
-					paymentDate: moment(data?.payment_date).format('DD-MM-YYYY'),
+					paymentDate: data?.payment_date,
 					isBilled: data?.invoice_status?.description.includes('Facturada') ? true : false,
 					companyInfo: {
 						company_name: data?.company?.company_name || '-',
@@ -297,6 +299,8 @@ export class Mapper {
 						if (optionData) {
 							return [{
 								options: data.quote_options.map(resp => {
+									console.log('resp', resp);
+									
 									return {
 										listPrice: '$' + parseFloat(resp?.option_products[0]?.product?.list_price).toLocaleString('en-US', {
 											minimumFractionDigits: 2,
@@ -312,7 +316,7 @@ export class Mapper {
 								}),
 								optionsValidity: data.quote_options.map(resp => {
 									return {
-										validity: moment(resp.deadline).format('DD-MM-YYYY')
+										validity: resp.deadline,
 									}
 								}),
 								listPrice: '$' + parseFloat(optionData?.option_products[0]?.product?.list_price).toLocaleString('en-US', {
@@ -342,7 +346,7 @@ export class Mapper {
 					quoteNumber: data?.quote_number || '-',
 					moneyInAccount: data?.money_in_account,
 					actionName: data?.status?.description,
-					paymentDate: moment(data?.payment_date).format('DD-MM-YYYY'),
+					paymentDate: data?.payment_date,
 					isBilled: data?.invoice_status?.description.includes('Facturada') ? true : false,
 					companyInfo: {
 						company_name: data?.company?.company_name || '-',
