@@ -17,7 +17,7 @@ export class Mapper {
 					minimumFractionDigits: 2,
 					maximumFractionDigits: 2
 				}),
-				registrationDate: data.register_date ? moment(data.register_date).format('DD-MM-YYYY') :'-',
+				registrationDate: data.register_date ? moment(data.register_date).format('DD/MM/YYYY') :'-',
 				country: data.country?.country_name || '-',
 				origin: data?.platform?.platform_name || '-',
 				category: data?.company_type?.type_name || '-',

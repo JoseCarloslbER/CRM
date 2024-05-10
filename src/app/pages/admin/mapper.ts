@@ -47,8 +47,8 @@ export class Mapper {
 				name : data?.bonus_name || '-',
 				assignedTask : data.campaign?.campaign_name || data.assigned_activity,
 				period : {
-					start : moment(data.init_date).format('DD-MM-YYYY'),
-					end : moment(data.deadline).format('DD-MM-YYYY')
+					start : moment(data.init_date).format('DD/MM/YYYY'),
+					end : moment(data.deadline).format('DD/MM/YYYY')
 				},
 				solutions : data?.bonus_solution[0]?.solution?.solution_name || '-',
 				bonusType : data.campaign ? 'Campaña' : 'Actividad',
@@ -71,7 +71,7 @@ export class Mapper {
 			bonus_name: response?.bonus_name,
 			type_bonus_percentage: response?.type_bonus_percentage,
 			type_bonus_meta: response?.type_bonus_meta,
-			campaign: response?.campaign.campaign_id,
+			campaign: response?.campaign?.campaign_id,
 			assigned_activity: response?.assigned_activity,
 			base_percentage_bonus: response?.base_percentage_bonus,
 			fixed_base_income: parseFloat(response?.fixed_base_income,).toLocaleString('en-US', {

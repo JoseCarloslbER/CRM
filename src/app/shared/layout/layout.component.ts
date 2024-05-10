@@ -296,6 +296,8 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     ngAfterViewInit(): void {
         setTimeout(() => {
             this.user = this.adminServices.getDecryptedUser();
+            console.log(this.user);
+            
             this.userName = this.user?.first_name && this.user?.last_name ? this.user?.first_name.toUpperCase() + ' ' + this.user?.last_name.toUpperCase() : this.user?.username.toUpperCase();
             this.photo = this.user?.profile_picture ? this.user?.profile_picture.includes('default') ? `../../../assets/images/user-default.png` : this.user?.profile_picture : `../../../assets/images/user-default.png`
             this.permissions = this.user?.permissions.permissions

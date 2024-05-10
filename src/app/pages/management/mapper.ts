@@ -15,8 +15,8 @@ export class Mapper {
 				activity_hour: data?.activity_hour || '-',
 				description: data?.description || '-',
 				process: data?.process || '-',
-				register: moment(data.activity_date).format('DD-MM-YYYY'),
-				endDate: moment(data.end_date).format('DD-MM-YYYY'),
+				register: moment(data.activity_date).format('DD/MM/YYYY'),
+				endDate: moment(data.end_date).format('DD/MM/YYYY'),
 				finish: data?.finish || false,
 				activityType: data?.type_activity?.activity || '-',
 				agent: data?.user?.first_name && data?.user?.last_name ? data.user?.first_name.toUpperCase() + ' ' + data.user?.last_name.toUpperCase() : data?.user?.username.toUpperCase() || '-'

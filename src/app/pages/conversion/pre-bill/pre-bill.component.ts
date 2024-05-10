@@ -29,7 +29,7 @@ export class PreBillComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.dateBill = moment(this.date).format('DD-MM-YYYY')
+    this.dateBill = moment(this.date).format('DD/MM/YYYY')
     
     this.moduleServices.getData().pipe(takeUntil(this.onDestroy)).subscribe((data) => {
       console.log('DATOS A FACTURAR: ', data);
