@@ -188,9 +188,7 @@ export class AdminService {
   // ROLES
 
   public getDataTableBonus(filters?:string) {
-		// const url = `${environment.apiURL}admin/bonus/`;
     const url = `${this.apiUrl}bonus/${filters ? `?${filters}` : ''}`;
-
 
     return this.http.get<entity.TableDataBonus[]>(url)
       .pipe(map((response) => Mapper.getDataBonusMapper(response)));
@@ -198,28 +196,28 @@ export class AdminService {
 	}
 
   public getDataBonusId(id: string) {
-    const url = `${environment.apiURL}admin/bonus/${id}/`;
+    const url = `${this.apiUrl}bonus/${id}/`;
 
     return this.http.get<any>(url)
+      .pipe(map((response) => Mapper.getDataBonusIdMapper(response)));
   }
 
   public postDataBonus(data:entity.PostDataBonus): Observable<any> {
-    const url = `${environment.apiURL}admin/bonus/`;
+    const url = `${this.apiUrl}bonus/`;
 
     return this.http.post<any>(url, data)
   }
 
   public patchDataBonus(id: string, data:entity.PatchDataBonus): Observable<any> {
-    const url = `${environment.apiURL}admin/bonus/${id}/`;
+    const url = `${this.apiUrl}bonus/${id}/`;
 
     return this.http.patch<any>(url, data)
   }
 
   public deleteDataBonus(id: string): Observable<any> {
-    const url = `${environment.apiURL}admin/bonus/${id}/`;
+    const url = `${this.apiUrl}bonus/${id}/`;
 
     return this.http.delete<any>(url)
   }
-
   // END ROLES 
 }

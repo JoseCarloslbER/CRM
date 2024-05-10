@@ -92,6 +92,10 @@ export class BonusesComponent implements OnInit, AfterViewInit, OnDestroy {
     this.router.navigateByUrl(`/home/admin/nuevo-bono`)
   }
 
+  editData(id: string) {
+    this.router.navigateByUrl(`home/admin/editar-bono/${id}`)
+  }
+  
   deleteData(id: string) {
     this.notificationService
     .notificacion(

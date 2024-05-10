@@ -63,14 +63,14 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="flex flex-col gt-sm:mt-0 gt-sm:ml-16">
-                                <mat-radio-group formControlName="type_bonus_porcentage" class="d-flex row">
+                                <mat-radio-group formControlName="type_bonus_percentage" class="d-flex row">
                                     <div class="col-md-6">
-                                        <mat-radio-button value="1" class="mb-2">
+                                        <mat-radio-button [value]="1" class="mb-2">
                                             <span class="font-14-500-4B5062">Sobre avance</span>
                                         </mat-radio-button>
                                     </div>
                                     <div class="col-md-6">
-                                        <mat-radio-button value="2" class="mb-2">
+                                        <mat-radio-button [value]="2" class="mb-2">
                                             <span class="font-14-500-4B5062">Sobre ventas</span>
                                         </mat-radio-button>
                                     </div>
@@ -98,7 +98,7 @@
                     <button class="btn-gray color-385A6D" (click)="addFormScale()">
                         <span>Agegar escala</span>
                     </button>
-                    <button [disabled]="valuesScales.length == 1" class="btn-delete-red" (click)="deleteScale()">
+                    <button *ngIf="valuesScales.length > 1" class="btn-delete-red" (click)="deleteScale()">
                         <span>Eliminar escala</span>
                     </button>
                 </div>
@@ -108,15 +108,15 @@
                 <div class="row">
                     <h1>Meta del bono</h1>
                     <div class="row">
-                        <div class="col-md-6" *ngIf="formData.get('type_bonus_porcentage').value == '1'">
+                        <div class="col-md-6" *ngIf="formData.get('type_bonus_percentage').value == '1'">
                             <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                                 <mat-label>Sobre avance</mat-label>
                                 <mat-select formControlName="type_bonus_meta" placeholder="Seleccionar">
-                                    <mat-option value="1">Cantidad de llamadas
+                                    <mat-option [value]="1">Cantidad de llamadas
                                         logradas</mat-option>
-                                    <mat-option value="2">Cantidad de cotizaciones
+                                    <mat-option [value]="2">Cantidad de cotizaciones
                                         realizadas</mat-option>
-                                    <mat-option value="3">Cantidad de
+                                    <mat-option [value]="3">Cantidad de
                                         empresas captadas</mat-option>
                                 </mat-select>
                             </mat-form-field>
@@ -161,9 +161,9 @@
                             <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                                 <mat-label>Base del porcentaje</mat-label>
                                 <mat-select formControlName="base_percentage_bonus" placeholder="Seleccionar">
-                                    <mat-option value="1">Cantidad de llamadas logradas</mat-option>
-                                    <mat-option value="1">Contactos alcanzados</mat-option>
-                                    <mat-option value="1">Cotizaciones realizadas
+                                    <mat-option [value]="1">Cantidad de llamadas logradas</mat-option>
+                                    <mat-option [value]="2">Contactos alcanzados</mat-option>
+                                    <mat-option [value]="3">Cotizaciones realizadas
                                     </mat-option>
                                 </mat-select>
                             </mat-form-field>
@@ -172,7 +172,7 @@
                         <div class="col-md-6">
                             <mat-form-field class="flex-auto gt-xs:pr-3 inputNewRegister">
                                 <mat-label>Importe</mat-label>
-                                <input formControlName="fixed_base_income" class="text-right" matInput>
+                                <input formControlName="fixed_base_income" class="text-right" matInput (input)="formatInput($event)">
                                 <span matPrefix>$</span>
                             </mat-form-field>
                         </div>

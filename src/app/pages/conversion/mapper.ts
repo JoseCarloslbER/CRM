@@ -8,7 +8,7 @@ export class Mapper {
 		response.quotes_data.forEach((data: entity.TableDataQuote): void => {
 			dataList.push({
 				id: data?.quote_id || '-',
-				dateAndHour: data.register_date ? moment(data.register_date).format('MM-DD-YYYY HH:mm:ss') : '-',
+				dateAndHour: data.register_date ? moment(data.register_date).format('DD/MM/YYYY HH:mm:ss') : '-',
 				moneyInAccount: data?.money_in_account,
 				quoteNumber: data?.quote_number,
 				isBilled: data?.invoice_status?.description.includes('Facturada') ? true : false,
@@ -57,7 +57,7 @@ export class Mapper {
 				totalPrice: data.quote_options.map((data, index) => {
 					return {
 						name: `OP${index + 1}:`,
-						expire: moment(data.deadline).format('MM-DD-YYYY'),
+						expire: moment(data.deadline).format('DD/MM/YYYY'),
 						total: '$' + parseFloat(data.total).toLocaleString('en-US', {
 							minimumFractionDigits: 2,
 							maximumFractionDigits: 2
@@ -128,7 +128,7 @@ export class Mapper {
 						totalPrice: {
 							id: dataClose?.quote_option_id,
 							name: `OP${index + 1}:`,
-							expire: moment(dataClose.deadline).format('MM-DD-YYYY'),
+							expire: moment(dataClose.deadline).format('DD/MM/YYYY'),
 							total: '$' + parseFloat(dataClose.total).toLocaleString('en-US', {
 								minimumFractionDigits: 2,
 								maximumFractionDigits: 2
