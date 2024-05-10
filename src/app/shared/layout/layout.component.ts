@@ -333,16 +333,17 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
 
     filtrarMenu() {
         let menuFiltrado = JSON.parse(JSON.stringify(this.menu));
+        console.log(this.permissions)
         menuFiltrado = menuFiltrado.filter(item => {
             if (item.children) {
                 item.children = item.children.filter(child => {
 
-                    if (child.link !== undefined) {
+                    if ( child.link !== undefined && this.permissions != undefined ) {
                         const nombreEnlace = this.obtenerNombre(child.link);
                         return this.permissions.find(permiso => permiso.permiso.includes(nombreEnlace) && permiso.acceso);
                     }
 
-                    if(child.children){
+                    if( child.children && this.permissions != undefined ){
                         child.children = child.children.filter(child2 => {
                             const nombreEnlace2 = this.obtenerNombre(child2.link);
                             return this.permissions.find(permiso => permiso.permiso.includes(nombreEnlace2) && permiso.acceso);

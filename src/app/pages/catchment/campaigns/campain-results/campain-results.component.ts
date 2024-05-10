@@ -41,6 +41,20 @@ export class CampainResultsComponent implements OnInit, OnDestroy {
   
   getDataCampaign() {
     this.moduleCatchmentServices.getData().pipe(takeUntil(this.onDestroy)).subscribe((data) => {
+
+      let companies = data?.campaingData?.companies;
+      let quotes = "";
+
+      companies.forEach((company : any) => {
+        quotes = "";
+        
+        company?.quotes.forEach((quote: any) => {
+          quotes += "# " + quote.quote_number + " / "
+        });
+
+        company.quoteNumber  = quotes;
+      });
+
       this.campaingData = data?.campaingData;
     });
   }

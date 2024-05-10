@@ -49,7 +49,7 @@ export class ModalInformationInTableComponent implements OnInit, OnDestroy {
     this.campaignName = this.data.campaingName;
 
     if (this.data.type == 'agents') this.getAgents()
-     else this.getCompanies()
+      else this.getCompanies()
   }
 
 
