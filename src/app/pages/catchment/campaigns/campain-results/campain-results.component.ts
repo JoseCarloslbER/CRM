@@ -61,4 +61,9 @@ export class CampainResultsComponent implements OnInit, OnDestroy {
     this.onDestroy.next();
     this.onDestroy.unsubscribe();
   }
+
+  seeData(id: string) {
+    this.router.navigateByUrl(`home/empresas/detalles-empresa/${id}`)
+  }
+
 }

@@ -140,13 +140,15 @@
                         <thead>
                           <tr>
                             <th scope="col">Nombre</th>
+                            <th scope="col"># Cot.</th>
                             <th scope="col">Cotizado</th>
                             <th scope="col">Vendido</th>
                           </tr>
                         </thead>
                         <tbody>
                           <tr *ngFor="let data of campaingData?.companies">
-                            <td class="color-3487E9">{{data?.company?.company_name || '-'}}</td>
+                            <td class="color-3487E9 cursor-pointer" (click)="seeData(data?.company?.company_id)">{{data?.company?.company_name || '-'}}</td>
+                            <td>{{data.quoteNumber || ''}}</td>
                             <td>{{data.total_quote | currency}}</td>
                             <td>{{data.total_sale | currency}}</td>
                           </tr>

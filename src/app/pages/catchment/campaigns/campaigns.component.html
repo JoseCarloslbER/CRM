@@ -142,7 +142,7 @@
                             <div class="table-column-status table-column-lead-width mb-4">
                                 {{ element?.companiesMain?.amount || '0' }}
                             </div>
-                            <span *ngIf="element?.companiesMain?.alls?.length" (click)="seeDataModal('companies', element?.companiesMain?.alls)">Ver empresas</span>
+                            <span *ngIf="element?.companiesMain?.alls?.length" (click)="seeDataModal('companies', element?.companiesMain?.alls, element?.name)">Ver empresas</span>
                         </div>
                     </td>
                 </ng-container>

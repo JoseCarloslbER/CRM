@@ -19,6 +19,7 @@ export class ModalInformationInTableComponent implements OnInit, OnDestroy {
   public longitudPagina = 50;
   public total = 0;
   public indicePagina = 0;
+  public campaignName = "";
 
   public displayedColumns: string[]
 
@@ -45,6 +46,7 @@ export class ModalInformationInTableComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     console.log('MODAL : ', this.data.info);
+    this.campaignName = this.data.campaingName;
 
     if (this.data.type == 'agents') this.getAgents()
      else this.getCompanies()
