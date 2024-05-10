@@ -157,7 +157,7 @@ export class Mapper {
 	static GetDataTableCompanyMapper(response: entity.TableDataQuote) {
 		return {
 			id: response.quote_id || '',
-			regiterDate: moment(response?.register_date).format('DD-MM-YYYY'),
+			regiterDate: moment(response?.register_date).format('DD/MM/YYYY'),
 			quoteNumber: response?.quote_number || '-',
 			contact: response?.contact?.contact_id || '',
 			user: response?.user?.id || '-',

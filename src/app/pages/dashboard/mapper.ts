@@ -382,7 +382,7 @@ export class Mapper {
 								}),
 								optionsValidity: data.quote_options.map(resp => {
 									return {
-										validity: moment(resp.deadline).format('DD-MM-YYYY')
+										validity: moment(resp.deadline).format('DD/MM/YYYY')
 									}
 								}),
 								listPrice: '$' + parseFloat(optionData?.option_products[0]?.product?.list_price).toLocaleString('en-US', {
