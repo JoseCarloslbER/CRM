@@ -139,7 +139,9 @@ export class PipelineComponent implements OnInit, OnDestroy {
 
   seeData(id: string) {
     console.log(id);
-    this.router.navigateByUrl(`/home/empresas/detalles-empresa/${id}`);
+    //this.router.navigateByUrl(`/home/empresas/detalles-empresa/${id}`);
+    const url = `home/empresas/detalles-empresa/${id}`;
+    window.open(url, '_blank');
   }
 
   moneyAccount(data:any) {

@@ -116,7 +116,9 @@ export class ModalInformationInTableComponent implements OnInit, OnDestroy {
   }
 
   seeData(id: string) {
-    this.router.navigateByUrl(`/home/empresas/detalles-empresa/${id}`);
+    //this.router.navigateByUrl(`/home/empresas/detalles-empresa/${id}`);
+    const url = `home/empresas/detalles-empresa/${id}`;
+    window.open(url, '_blank');
     this.closeModal()
   }
 

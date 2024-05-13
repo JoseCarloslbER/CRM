@@ -150,7 +150,9 @@ export class AllComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   seeData(id: string) {
-    this.router.navigateByUrl(`home/empresas/detalles-empresa/${id}`)
+    //this.router.navigateByUrl(`home/empresas/detalles-empresa/${id}`)
+    const url = `home/empresas/detalles-empresa/${id}`;
+    window.open(url, '_blank');
   }
 
   newData() {
