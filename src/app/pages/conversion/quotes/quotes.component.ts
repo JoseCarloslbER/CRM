@@ -156,7 +156,9 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   seeData(id:string) {
-    this.router.navigateByUrl(`/home/conversion/detalle-cotizacion/${id}`)
+    //this.router.navigateByUrl(`/home/conversion/detalle-cotizacion/${id}`)
+    const url = `/home/conversion/detalle-cotizacion/${id}`;
+    window.open(url, '_blank');
   }
 
   seeDataCompany(id: string) {
