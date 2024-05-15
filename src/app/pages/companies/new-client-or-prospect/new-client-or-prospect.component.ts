@@ -719,7 +719,9 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
   }
 
   toQuoteDetail(id: String) {
-    this.router.navigateByUrl(`/home/conversion/detalle-cotizacion/${id}`)
+    //this.router.navigateByUrl(`/home/conversion/detalle-cotizacion/${id}`)
+    const url = `/home/conversion/detalle-cotizacion/${id}`;
+    window.open(url, '_blank');
   }
 
   enableOrDisableInputs(accion = false) {
