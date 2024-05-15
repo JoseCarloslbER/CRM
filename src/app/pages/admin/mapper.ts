@@ -80,6 +80,12 @@ export class Mapper {
 			}),
 			init_date: response?.init_date,
 			deadline: response?.deadline,
+
+			// init_date: moment(response.init_date).format('DD-MM-YYYY'),
+			
+			// deadline: moment(response.deadline).format('DD-MM-YYYY'),
+
+
 			bonus_solution : response.bonus_solution.map(data => data.solution.solution_id),
 			bonus_user : response.bonus_user.map(data => data.user.id),
 			valuesScales: response.bonus_percentage.map((data: any) => {

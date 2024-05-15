@@ -14,6 +14,7 @@ import { ModalCloseSaleComponent } from '../modal-close-sale/modal-close-sale.co
 import { CatalogsService } from 'app/shared/services/catalogs.service';
 import { ModalBillingComponent } from '../modal-billing/modal-billing.component';
 import { TableDataQuoteMapperResponse } from '../conversion-interface';
+import { filter } from 'lodash';
 
 @Component({
   selector: 'app-quotes',
@@ -64,7 +65,7 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public fechaHoy = new Date();
 
-  public totalQuotes : number = 0;
+  public totalQuotes: number = 0;
   public filterDayMonthYear: string = 'Mes'
 
   constructor(
@@ -103,12 +104,12 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  searchWithFilters() {
+  searchWithFilters(excel?: boolean) {
     let filters = '';
 
     if (this.filterDayMonthYear == 'Día') filters += `current_day=true&`
-      else if (this.filterDayMonthYear == 'Mes') filters += `current_month=true&`
-        else filters += `current_year=true&`
+    else if (this.filterDayMonthYear == 'Mes') filters += `current_month=true&`
+    else filters += `current_year=true&`
     if (this.formFilters.get('status').value) filters += `status_id=${this.formFilters.get('status').value}&`;
     if (this.formFilters.get('agent').value) filters += `user_id=${this.formFilters.get('agent').value}&`;
     if (this.formFilters.get('rangeDateStart').value && this.formFilters.get('rangeDateEnd').value) {
@@ -116,56 +117,58 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
         filters += `register_date_end=${moment(this.formFilters.get('rangeDateEnd').value).format('YYYY-MM-DD')}&`
     }
 
-    this.getDataTable(filters)
+    if (excel) {
+      filters += `download=true`
+      this.downloadExcel(filters)
+    } else this.getDataTable(filters)
   }
 
-  getDataTable(filters:string) {
+  getDataTable(filters: string) {
     this.moduleServices.getDataTable(filters).subscribe({
-      next: ( data : TableDataQuoteMapperResponse) => {
+      next: (data: TableDataQuoteMapperResponse) => {
         this.dataSource.data = data.dataList;
         console.log(data.dataList);
-        
+
         this.totalQuotes = data.totalQuotes;
       },
       error: (error) => console.error(error)
     })
   }
 
-  getActions(type:string, data:any) {
+  getActions(type: string, data: any) {
     if (type == 'Aceptar') {
       this.acceptQuote({
-        company_id : data.companyName.id,
-        quote_id : data.id,
-        status_id : '3944df8e-d359-4569-b712-ea174be69cca'
-      }) 
-    } else if(type == 'Cerrar como venta') {
+        company_id: data.companyName.id,
+        quote_id: data.id,
+        status_id: '3944df8e-d359-4569-b712-ea174be69cca'
+      })
+    } else if (type == 'Cerrar como venta') {
       this.closeSale(data)
     } else if (type == 'Rechazar') {
       this.rejectQuote({
-        company_id : data.companyName.id,
-        quote_id : data.id,
-        status_id : '92014f59-ea76-41ea-bbad-396c4fe3dd73'
-      }) 
+        company_id: data.companyName.id,
+        quote_id: data.id,
+        status_id: '92014f59-ea76-41ea-bbad-396c4fe3dd73'
+      })
     } else if (type == 'Cancelar') {
       this.cancelQuote({
-        company_id : data.companyName.id,
-        quote_id : data.id,
-        status_id : '0830d65c-8fb3-488b-aa3f-56f0ebbd6983'
-      }) 
+        company_id: data.companyName.id,
+        quote_id: data.id,
+        status_id: '0830d65c-8fb3-488b-aa3f-56f0ebbd6983'
+      })
     }
   }
 
-  seeData(id:string) {
+  seeData(id: string) {
     this.router.navigateByUrl(`/home/conversion/detalle-cotizacion/${id}`)
   }
 
   seeDataCompany(id: string) {
-    //this.router.navigateByUrl(`/home/empresas/detalles-empresa/${id}`);
     const url = `home/empresas/detalles-empresa/${id}`;
     window.open(url, '_blank');
   }
 
-  editData(id:string) {
+  editData(id: string) {
     this.router.navigateByUrl(`/home/conversion/editar-cotizacion/${id}`)
   }
 
@@ -178,125 +181,125 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
     this.searchWithFilters();
   }
 
-  acceptQuote(data : any) {
+  acceptQuote(data: any) {
     this.notificationService
-    .notificacion(
-      'Pregunta',
-      '¿Estás seguro de aceptar la cotización?',
-      'question',
-    )
-    .afterClosed()
-    .subscribe((response) => {
-      if (response) {
-        this.moduleServices.acceptQuote({quote : data}).subscribe({
-          next: () => {
+      .notificacion(
+        'Pregunta',
+        '¿Estás seguro de aceptar la cotización?',
+        'question',
+      )
+      .afterClosed()
+      .subscribe((response) => {
+        if (response) {
+          this.moduleServices.acceptQuote({ quote: data }).subscribe({
+            next: () => {
               this.notificationService
-              .notificacion(
-                'Éxito',
-                'Cotización aceptada.',
-                'save',
-              )
-              .afterClosed()
-              .subscribe((_) => this.searchWithFilters());
-          },
-          error: (error) => console.error(error)
-        })
-      }
-    });
+                .notificacion(
+                  'Éxito',
+                  'Cotización aceptada.',
+                  'save',
+                )
+                .afterClosed()
+                .subscribe((_) => this.searchWithFilters());
+            },
+            error: (error) => console.error(error)
+          })
+        }
+      });
   }
 
-  rejectQuote(data : any) {
+  rejectQuote(data: any) {
     this.notificationService
-    .notificacion(
-      'Pregunta',
-      '¿Estás seguro de rechazar la cotización?',
-      'question',
-    )
-    .afterClosed()
-    .subscribe((response) => {
-      if (response) {
-        this.moduleServices.rejectQuote({ quote : data }).subscribe({
-          next: () => {
+      .notificacion(
+        'Pregunta',
+        '¿Estás seguro de rechazar la cotización?',
+        'question',
+      )
+      .afterClosed()
+      .subscribe((response) => {
+        if (response) {
+          this.moduleServices.rejectQuote({ quote: data }).subscribe({
+            next: () => {
               this.notificationService
-              .notificacion(
-                'Éxito',
-                'Cotización rechazada.',
-                'save',
-              )
-              .afterClosed()
-              .subscribe((_) => this.searchWithFilters());
-          },
-          error: (error) => console.error(error)
-        })
-      }
-    });
-  }
- 
-  cancelQuote(data : any) {
-    this.notificationService
-    .notificacion(
-      'Pregunta',
-      '¿Estás seguro de cancelar la cotización?',
-      'question',
-    )
-    .afterClosed()
-    .subscribe((response) => {
-      if (response) {
-        this.moduleServices.cancelQuote({ quote : data }).subscribe({
-          next: () => {
-              this.notificationService
-              .notificacion(
-                'Éxito',
-                'Cotización rechazada.',
-                'save',
-              )
-              .afterClosed()
-              .subscribe((_) => this.searchWithFilters());
-          },
-          error: (error) => console.error(error)
-        })
-      }
-    });
+                .notificacion(
+                  'Éxito',
+                  'Cotización rechazada.',
+                  'save',
+                )
+                .afterClosed()
+                .subscribe((_) => this.searchWithFilters());
+            },
+            error: (error) => console.error(error)
+          })
+        }
+      });
   }
 
-  moneyAccount(data:any) {
-    let objData:any = {
+  cancelQuote(data: any) {
+    this.notificationService
+      .notificacion(
+        'Pregunta',
+        '¿Estás seguro de cancelar la cotización?',
+        'question',
+      )
+      .afterClosed()
+      .subscribe((response) => {
+        if (response) {
+          this.moduleServices.cancelQuote({ quote: data }).subscribe({
+            next: () => {
+              this.notificationService
+                .notificacion(
+                  'Éxito',
+                  'Cotización rechazada.',
+                  'save',
+                )
+                .afterClosed()
+                .subscribe((_) => this.searchWithFilters());
+            },
+            error: (error) => console.error(error)
+          })
+        }
+      });
+  }
+
+  moneyAccount(data: any) {
+    let objData: any = {
       payment_date: new Date(),
-      status_id : 'f4fa3c48-8b48-4d39-ad09-a6699a66459f',
-      quote_id : data.id,
-      company_id : data.companyName.id,
+      status_id: 'f4fa3c48-8b48-4d39-ad09-a6699a66459f',
+      quote_id: data.id,
+      company_id: data.companyName.id,
     }
     console.log('moneyAccount', objData);
-    
+
     this.notificationService
-    .notificacion(
-      'Pregunta',
-      '¿Estás seguro que el dinero ya está en la cuenta bancaria?',
-      'question',
-    )
-    .afterClosed()
-    .subscribe((response) => {
-      if (response) {
-        this.moduleServices.moneyAccount({quote: objData}).subscribe({
-          next: () => {
+      .notificacion(
+        'Pregunta',
+        '¿Estás seguro que el dinero ya está en la cuenta bancaria?',
+        'question',
+      )
+      .afterClosed()
+      .subscribe((response) => {
+        if (response) {
+          this.moduleServices.moneyAccount({ quote: objData }).subscribe({
+            next: () => {
               this.notificationService
-              .notificacion(
-                'Éxito',
-                'Dinero en cuenta, pago confirmado.',
-                'save',
-              )
-              .afterClosed()
-              .subscribe((_) => this.searchWithFilters());
-          },
-          error: (error) => console.error(error)
-        })
-      }
-    });
+                .notificacion(
+                  'Éxito',
+                  'Dinero en cuenta, pago confirmado.',
+                  'save',
+                )
+                .afterClosed()
+                .subscribe((_) => this.searchWithFilters());
+            },
+            error: (error) => console.error(error)
+          })
+        }
+      });
   }
 
   closeSale(data: any) {
     console.log(data);
-    
+
     this.dialog.open(ModalCloseSaleComponent, {
       data: {
         info: data,
@@ -306,8 +309,8 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
       maxHeight: '628px',
       panelClass: 'custom-dialog',
     })
-    .afterClosed()
-    .subscribe((_) => this.searchWithFilters());
+      .afterClosed()
+      .subscribe((_) => this.searchWithFilters());
   }
 
   billing(data: any) {
@@ -320,8 +323,8 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
       maxHeight: '628px',
       panelClass: 'custom-dialog',
     })
-    .afterClosed()
-    .subscribe((_) => this.searchWithFilters());
+      .afterClosed()
+      .subscribe((_) => this.searchWithFilters());
   }
 
   addUpladFile() {
@@ -332,68 +335,68 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
       maxHeight: '628px',
       panelClass: 'custom-dialog',
     })
-  .afterClosed()
-  .subscribe((_) => this.searchWithFilters());
+      .afterClosed()
+      .subscribe((_) => this.searchWithFilters());
   }
 
   deleteData(id: string) {
     this.notificationService
-    .notificacion(
-      'Pregunta',
-      '¿Estás seguro de eliminar el registro?',
-      'question',
-    )
-    .afterClosed()
-    .subscribe((response) => {
-      if (response) {
-        this.moduleServices.deleteData(id).subscribe({
-          next: () => {
+      .notificacion(
+        'Pregunta',
+        '¿Estás seguro de eliminar el registro?',
+        'question',
+      )
+      .afterClosed()
+      .subscribe((response) => {
+        if (response) {
+          this.moduleServices.deleteData(id).subscribe({
+            next: () => {
               this.notificationService
-              .notificacion(
-                'Éxito',
-                'Registro eliminado.',
-                'delete',
-              )
-              .afterClosed()
-              .subscribe((_) => this.searchWithFilters());
-          },
-          error: (error) => console.error(error)
-        })
-      }
-    });
+                .notificacion(
+                  'Éxito',
+                  'Registro eliminado.',
+                  'delete',
+                )
+                .afterClosed()
+                .subscribe((_) => this.searchWithFilters());
+            },
+            error: (error) => console.error(error)
+          })
+        }
+      });
   }
 
   downloadPdf() {
     this.notificationService
-    .notificacion(
-      'Éxito',
-      'PDF descargado.',
-      'save',
-      'mat_outline:picture_as_pdf'
-    )
-    .afterClosed()
-    .subscribe((_) => {
-    });
+      .notificacion(
+        'Éxito',
+        'PDF descargado.',
+        'save',
+        'mat_outline:picture_as_pdf'
+      )
+      .afterClosed()
+      .subscribe((_) => {
+      });
   }
 
-  douwnloadExel(){
+  downloadExcel(filters: string) {
+    window.open(`https://backend.abrevia.io/api/v1/conversion/quote/?${filters}`)
     this.notificationService
-          .notificacion(
-            'Éxito',
-            'Excel descargado.',
-            'save',
-            'heroicons_outline:document-arrow-down'
-          )
-          .afterClosed()
-          .subscribe((_) => {
-          });
+      .notificacion(
+        'Éxito',
+        'Excel descargado.',
+        'save',
+        'heroicons_outline:document-arrow-down'
+      )
+      .afterClosed()
+      .subscribe((_) => { });
   }
 
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim().toLowerCase();
     this.dataSource.filter = filterValue;
   }
-  
+
   ngOnDestroy(): void {
     this.onDestroy.next();
     this.onDestroy.unsubscribe();

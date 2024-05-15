@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'environments/environment.dev';
-import { BehaviorSubject, Observable, map } from 'rxjs';
+import { BehaviorSubject, Observable, map, tap } from 'rxjs';
 import * as entity from './conversion-interface';
 import { Mapper } from './mapper';
 
@@ -30,6 +30,8 @@ export class ConversionService {
 			map((response) => Mapper.getDataTableMapper(response))
 		);
 	}
+  
+ 
 
   public getDataDetailQuoteTable(filters?:string): Observable<entity.TableDataQuoteMapperResponse> {
     const url = `${environment.apiURL}conversion/quote/${filters ? `?${filters}` : ''}`
@@ -111,5 +113,13 @@ export class ConversionService {
 		const url = `${environment.apiURL}mail/send-quote-email/?email_send=${data.email_send}&quote_id=${data.quote_id}&message=${data.message}`;
 
     return this.http.get<any>(url, data);
+	}
+
+  public douwnloadExel(filters:string){
+    const url = `${this.apiUrl}quote/${filters ? `?${filters}` : ''}`;
+    
+    return this.http.get<any>(url)
+    // return this.http.get<any>(url, { responseType: 'blob' });
+
 	}
 }

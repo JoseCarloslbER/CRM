@@ -4,38 +4,30 @@
             <div class="row mt-3 mb-2">
                 <div class="col-12">
                     <div class="section-title row d-flex justify-content-between align-items-center">
-                        <div class="col-md-7 col-sm-12 col-12 title">
+                        <div class="col-md-5 col-sm-12 col-12 title">
                             {{isBono ? 'Bonos' : 'Soluciones'}}
                         </div>
 
-                        <div class="col-md-5 col-sm-12 col-12 btns-section">
+                        <div class="col-md-7 col-sm-12 col-12 btns-section">
+                            <mat-form-field class="flex-auto input-default">
+                                <mat-label>Rango de fechas</mat-label>
+                                <mat-date-range-input [max]="fechaHoy" [rangePicker]="campaignOnePicker"
+                                    [comparisonStart]="formFilters.value['rangeDateStart']"
+                                    [comparisonEnd]="formFilters.value['rangeDateEnd']">
+                                    <input matStartDate placeholder="Inicio" formControlName="rangeDateStart" />
+                                    <input matEndDate placeholder="Final" formControlName="rangeDateEnd" />
+                                </mat-date-range-input>
+
+                                <mat-datepicker-toggle matIconSuffix [for]="campaignOnePicker"></mat-datepicker-toggle>
+                                <mat-date-range-picker #campaignOnePicker></mat-date-range-picker>
+                            </mat-form-field>
+
                             <button class="btn-yellow-newRegister ml-3 px-1 sm:px-4 min-w-10" (click)="newData()">
                                 <span class="hidden sm:inline-block">Registrar {{isBono ? 'nuevo bono' : 'nueva
                                     solución'}}</span>
                             </button>
                         </div>
                     </div>
-
-                    <form [formGroup]="formFilters">
-                        <div class="row d-flex align-items-center">
-                            <div class="flex col-sm-12 col-md-6 col-lg-3 col-12 pe-2">
-                                <mat-form-field class="flex-auto input-default">
-                                    <mat-label>Rango de fechas</mat-label>
-                                    <mat-date-range-input [max]="fechaHoy" [rangePicker]="campaignOnePicker"
-                                        [comparisonStart]="formFilters.value['rangeDateStart']"
-                                        [comparisonEnd]="formFilters.value['rangeDateEnd']">
-                                        <input matStartDate placeholder="Inicio" formControlName="rangeDateStart" />
-                                        <input matEndDate placeholder="Final" formControlName="rangeDateEnd" />
-                                    </mat-date-range-input>
-
-                                    <mat-datepicker-toggle matIconSuffix
-                                        [for]="campaignOnePicker"></mat-datepicker-toggle>
-                                    <mat-date-range-picker #campaignOnePicker></mat-date-range-picker>
-                                </mat-form-field>
-                            </div>
-                        </div>
-                    </form>
-
 
                     <div class="row d-flex justify-content-end">
                         <div class="col-md-8 col-xl-8 col-12 d-flex">

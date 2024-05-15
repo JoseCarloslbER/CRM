@@ -72,6 +72,8 @@ export class Mapper {
 	}
 	
 	static GetDataTableCampaingMapper(response: entity.TableDataCampaing) : entity.GetDataCampainMapper {
+		console.log(response);
+		
 		return {
 			id: response.campaign_id,
 			campaign_code : response.campaign_code,

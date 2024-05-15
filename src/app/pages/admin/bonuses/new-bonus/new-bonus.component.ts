@@ -35,7 +35,7 @@ export class NewBonusComponent implements OnInit, AfterViewInit, OnDestroy {
     campaign: ['', Validators.required],
     assigned_activity: [{ value: '', disabled: true }, Validators.required],
     base_percentage_bonus: [''],
-    fixed_base_income: [''],
+    fixed_base_income: ['0'],
     bonus_user: [''],
     bonus_solution: [''],
     init_date: [''],
@@ -156,6 +156,10 @@ export class NewBonusComponent implements OnInit, AfterViewInit, OnDestroy {
     let scales: any[] = [...this.getScaleValue()];
     let bonusMeta: any[] = [...this.getScaleMetaValue()];
 
+    console.log(this.formData.get('fixed_base_income').value);
+    console.log(parseFloat(this.formData.get('fixed_base_income').value.replace(/,/g, '')) );
+    
+    
     let objData = {
       ...this.formData.value,
       bonus_percentage: scales,
@@ -300,11 +304,11 @@ export class NewBonusComponent implements OnInit, AfterViewInit, OnDestroy {
       let value = event.target.value;
       let numericValue = parseFloat(value.replace(/[^\d.]/g, ''));
       if (!isNaN(numericValue)) {
-        const formattedValue = numericValue.toLocaleString('en-US', {
-          style: 'currency',
-          currency: 'USD',
-          minimumFractionDigits: 2
+        let formattedValue = numericValue.toLocaleString('en-US', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
         });
+
         this.formData.get('fixed_base_income').patchValue(formattedValue, { emitEvent: false });
       }
     }, 1500);
