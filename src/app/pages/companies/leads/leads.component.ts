@@ -4,7 +4,7 @@ import { FormBuilder, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Subject, debounceTime, takeUntil } from 'rxjs';
 import { CompaniesService } from '../companies.service';
 import * as entity from '../companies-interface';
@@ -24,6 +24,10 @@ export class LeadsComponent implements OnInit, AfterViewInit, OnDestroy {
   public longitudPagina = 50;
   public total = 0;
   public indicePagina = 0;
+  public pageSize = 20;
+  public currentPage = 0;
+  public pageNext = 1;
+  public pagePrevious = 0;
 
   public displayedColumns: string[] = [
     'companyName',
@@ -103,6 +107,11 @@ export class LeadsComponent implements OnInit, AfterViewInit, OnDestroy {
   searchWithFilters() {
     let filters = 'company_phase=20a3bf77-6669-40ec-b214-e31122d7eb7a&';
 
+    if(this.pageNext == null)
+      this.pageNext = 1
+
+    filters += `page=${this.pageNext}&`;
+
     if (this.formFilters.get('status').value) filters += `status_id=${this.formFilters.get('status').value}&`;
     if (this.formFilters.get('business').value) filters += `business_id=${this.formFilters.get('business').value}&`;
     if (this.formFilters.get('campaign').value) filters += `campaign_id=${this.formFilters.get('campaign').value}&`;
@@ -116,8 +125,12 @@ export class LeadsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   getDataTable(filters?: string) {
     this.moduleServices.getDataTable(filters).subscribe({
-      next: (data: entity.TableDataCompanyMapper[]) => {
-        this.dataSource.data = data;
+      next: (data: entity.TableDataCompaniesMapperResponse) => {
+        this.dataSource.data = data.dataList;
+        this.pageSize = data.pageSize;
+        this.pagePrevious = data.pagePrevious;
+        this.pageNext = data.pageNext;
+        this.total = data.count;
       },
       error: (error) => console.error(error)
     })
@@ -195,6 +208,12 @@ export class LeadsComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe((_) => {
 
       });
+  }
+
+  onPageChange(event: PageEvent) {
+    this.currentPage = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.searchWithFilters()
   }
 
   ngOnDestroy(): void {

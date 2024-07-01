@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Subject, Subscription } from 'rxjs';
 import { AdminService } from '../../admin.service';
 import * as entity from '../../admin-interface';
@@ -21,6 +21,10 @@ export class UsersComponent implements OnInit, OnDestroy {
   public longitudPagina = 50;
   public total = 0;
   public indicePagina = 0;
+  public pageSize = 20;
+  public currentPage = 0;
+  public pageNext = 1;
+  public pagePrevious = 0;
 
   public displayedColumns: string[] = [
     'userName',
@@ -51,7 +55,7 @@ export class UsersComponent implements OnInit, OnDestroy {
       next: (data: entity.TableDataUsersMapper[]) => {
         this.dataSource.data = data;
         console.log(data);
-      },
+      },  
       error: (error) => console.error(error)
     })
   }
@@ -85,6 +89,12 @@ export class UsersComponent implements OnInit, OnDestroy {
         })
       }
     });
+  }
+
+  onPageChange(event: PageEvent) {
+    this.currentPage = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.getDataTable()
   }
 
   ngOnDestroy(): void {

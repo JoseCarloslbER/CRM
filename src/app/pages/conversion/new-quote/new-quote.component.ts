@@ -85,6 +85,7 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     this.company.valueChanges.pipe(debounceTime(500)).subscribe(resp => {
+      console.log('resp', resp)
       this.filteredOptions.pipe(take(1)).subscribe(options => {
         const selectedCompany = options.find(cat => cat.company_name === resp);
         if (selectedCompany) this.getCatalogContact(selectedCompany.company_id);
@@ -141,7 +142,8 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
   getCatalogs() {
     this.catalogsServices.getCatCompany().subscribe({
       next: (data: entityGeneral.DataCatCompany[]) => {
-        this.catCompanies = data;
+        console.log(data)
+        this.catCompanies = data['data'];
       },
       error: (error) => console.error(error)
     });
@@ -549,7 +551,7 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private _filter(value: any): any[] {
     const filterValue = value?.toLowerCase();
-
+    console.log('CatCompanies => ', this.catCompanies)
     return this.catCompanies.filter(option => option?.company_name?.toLowerCase()?.includes(filterValue));
   }
 

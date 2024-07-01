@@ -2,8 +2,14 @@ import * as entityGeneral from '../../shared/interfaces/general-interface';
 import { TableDataCompany } from '../companies/companies-interface';
 
 export interface TableDataQuoteResponse {
-  total_quotes: number,
-  quotes_data : TableDataQuote[]
+  results: {
+    total_quotes: number,
+    quotes_data : TableDataQuote[]
+  },
+  count: number,
+  page_size: number,
+  next: number | 1,
+  previous: number | 1
 }
 
 export interface TableDataQuote {
@@ -31,7 +37,11 @@ export interface TableDataQuote {
 
 export interface TableDataQuoteMapperResponse {
   totalQuotes:number,
-  dataList : TableDataQuoteMapper[]
+  dataList : TableDataQuoteMapper[],
+  pageSize : number,
+  pagePrevious: number | null,
+  pageNext: number | null,
+  count: number | 0
 }
 
 export interface TableDataQuoteMapper {

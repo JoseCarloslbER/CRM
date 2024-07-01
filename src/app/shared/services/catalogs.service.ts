@@ -23,19 +23,19 @@ export class CatalogsService {
 	}
 
 	public getCatAgents(): Observable<entityGeneral.DataCatAgents[]> {
-		const url = `${environment.apiURL}auth/user/`;
+		const url = `${environment.apiURL}auth/user-list/`;
 
 		return this.http.get<entityGeneral.DataCatAgents[]>(url)
 	}
 
 	public getCatUsers(): Observable<entityGeneral.DataUser[]> {
-		const url = `${environment.apiURL}auth/user/`;
+		const url = `${environment.apiURL}auth/user-list/`;
 
 		return this.http.get<entityGeneral.DataUser[]>(url)
 	}
 
 	public getCatCompany(filters?: any): Observable<entityGeneral.DataCatCompany[]> {
-		const url = `${environment.apiURL}company/company/${filters ? `?${filters}` : ''}`;
+		const url = `${environment.apiURL}company/company-search/${filters ? `?${filters}` : ''}`;
 
 		return this.http.get<entityGeneral.DataCatCompany[]>(url)
 	}
@@ -59,7 +59,7 @@ export class CatalogsService {
 	}
 
 	public getCatProducts(): Observable<entityGeneral.DataCatProducts[]> {
-		const url = `${environment.apiURL}admin/product/`;
+		const url = `${environment.apiURL}admin/products-list/`;
 
 		return this.http.get<entityGeneral.DataCatProducts[]>(url)
 	}

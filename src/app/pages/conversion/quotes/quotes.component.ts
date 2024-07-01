@@ -2,7 +2,7 @@ import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular
 import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { ModalUploadDocumentComponent } from '../modal-upload-document/modal-upload-document.component';
@@ -36,6 +36,10 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
   public longitudPagina = 50;
   public total = 0;
   public indicePagina = 0;
+  public pageSize = 20;
+  public currentPage = 0;
+  public pageNext = 1;
+  public pagePrevious = 0;
 
   public displayedColumns: string[] = [
     'dateAndHour',
@@ -105,7 +109,12 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   searchWithFilters(excel?: boolean) {
-    let filters = '';
+    let filters = "";
+
+    if(this.pageNext == null)
+      this.pageNext = 1
+
+    filters += `page=${this.pageNext}&`;
 
     if (this.filterDayMonthYear == 'Día') filters += `current_day=true&`
     else if (this.filterDayMonthYear == 'Mes') filters += `current_month=true&`
@@ -124,12 +133,15 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getDataTable(filters: string) {
-    this.moduleServices.getDataTable(filters).subscribe({
+    this.moduleServices.getDataTable( filters ).subscribe({
       next: (data: TableDataQuoteMapperResponse) => {
+        console.log('dataList', data.dataList);
         this.dataSource.data = data.dataList;
-        console.log(data.dataList);
-
         this.totalQuotes = data.totalQuotes;
+        this.pageSize = data.pageSize;
+        this.pagePrevious = data.pagePrevious;
+        this.pageNext = data.pageNext;
+        this.total = data.count;
       },
       error: (error) => console.error(error)
     })
@@ -397,6 +409,12 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim().toLowerCase();
     this.dataSource.filter = filterValue;
+  }
+
+  onPageChange(event: PageEvent) {
+    this.currentPage = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.searchWithFilters()
   }
 
   ngOnDestroy(): void {

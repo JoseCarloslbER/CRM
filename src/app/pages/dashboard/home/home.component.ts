@@ -1773,7 +1773,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    this.getHomeStatics()
+    //this.getHomeStatics()
 
     setTimeout(() => {
       this.getCatalogs()
@@ -1823,7 +1823,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   getHomeStatics(filters?: string) {
     this.moduleServices.getHomeStatics(filters).subscribe({
       next: (data: entity.DatsStaticsMapper) => {
-        console.log(data);
+        console.log('data => ', data);
         
         this.objStatics = data;
         this.latestRegisteredCompanies = data.latestRegisteredCompanies

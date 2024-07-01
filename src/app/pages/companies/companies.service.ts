@@ -60,10 +60,10 @@ export class CompaniesService {
 		);
 	}
 
-  public getDataTable(filters?:string): Observable<entity.TableDataCompanyMapper[]> {
+  public getDataTable(filters?:string): Observable<entity.TableDataCompaniesMapperResponse> {
     const url = `${this.apiUrl}company/${filters ? `?${filters}` : ''}`;
     
-    return this.http.get<entity.TableDataCompany[]>(url).pipe(
+    return this.http.get<entity.TableDataCompantResponse>(url).pipe(
 			map((response) => Mapper.getDataTableMapper(response))
 		);
 	}

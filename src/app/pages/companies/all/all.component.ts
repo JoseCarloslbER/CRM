@@ -3,7 +3,7 @@ import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Subject, debounceTime, takeUntil } from 'rxjs';
 import * as entity from '../companies-interface';
 import { DataCatBusiness } from 'app/shared/interfaces/general-interface';
@@ -26,6 +26,10 @@ export class AllComponent implements OnInit, AfterViewInit, OnDestroy {
   public longitudPagina = 50;
   public total = 0;
   public indicePagina = 0;
+  public pageSize = 20;
+  public currentPage = 0;
+  public pageNext = 1;
+  public pagePrevious = 0;
 
   public displayedColumnsRecentlyAddedMoreBuyed: string[] = ['companyName', 'status', 'registrationDate', 'amount'];
  
@@ -124,7 +128,12 @@ export class AllComponent implements OnInit, AfterViewInit, OnDestroy {
 
   searchWithFilters() {
     let filters = '';
+    
+    if(this.pageNext == null)
+      this.pageNext = 1
 
+    filters += `page=${this.pageNext}&`;
+    
     if (this.formFilters.get('status').value) filters += `status_id=${this.formFilters.get('status').value}&`;
     if (this.formFilters.get('business').value) filters += `business_id=${this.formFilters.get('business').value}&`;
     if (this.formFilters.get('campaign').value) filters += `campaign_id=${this.formFilters.get('campaign').value}&`;
@@ -138,12 +147,17 @@ export class AllComponent implements OnInit, AfterViewInit, OnDestroy {
      
   getDataTable(filters?:string) {
     this.moduleServices.getDataTable(filters).subscribe({
-      next: (data: entity.TableDataCompanyMapper[]) => {
+      next: (data: entity.TableDataCompaniesMapperResponse) => {
         if (this.selectedProject == 'Todas') {
-          this.dataSource.data = data;
+          this.dataSource.data = data.dataList;
         } else {
-          this.dataSourceRecentlyAddedMoreBuyed.data = data;
+          this.dataSourceRecentlyAddedMoreBuyed.data = data.dataList;
         } 
+
+        this.pageSize = data.pageSize;
+        this.pagePrevious = data.pagePrevious;
+        this.pageNext = data.pageNext;
+
       },
       error: (error) => console.error(error)
     })
@@ -279,6 +293,12 @@ export class AllComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe((_) => {
 
       });
+  }
+
+  onPageChange(event: PageEvent) {
+    this.currentPage = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.searchWithFilters()
   }
 
   ngOnDestroy(): void {

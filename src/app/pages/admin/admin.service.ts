@@ -18,10 +18,10 @@ export class AdminService {
 
   // PRODUCTS 
 
-  public getDataTableProducts(): Observable<entity.DataProductTable[]> {
-    const url = `${this.apiUrl}product/`;
+  public getDataTableProducts(filters?:string): Observable<entity.TableDataProductResponse> {
+    const url = `${this.apiUrl}product/${filters ? `?${filters}` : ''}`;
 
-    return this.http.get<entity.DataProductTable[]>(url)
+    return this.http.get<entity.TableDataProductResponse>(url)
   }
 
   public postDataProduct(data: entity.PostDataProduct): Observable<any> {
@@ -111,7 +111,7 @@ export class AdminService {
   public getDataTableUsers() {
 		const url = `${environment.apiURL}auth/user/`;
 
-    return this.http.get<entity.TableDataUsers[]>(url).pipe(
+    return this.http.get<entity.TableDataUsersResponse>(url).pipe(
 			map((response) => Mapper.getDataTableMapper(response)));
 	}
 

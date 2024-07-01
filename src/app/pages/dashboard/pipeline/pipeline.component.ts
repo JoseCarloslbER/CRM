@@ -70,9 +70,9 @@ export class PipelineComponent implements OnInit, OnDestroy {
       error: (error) => console.error(error)
     });
  
-    this.catalogsServices.getCatCompany().subscribe({
+    this.catalogsServices.getCatCompany('page=1').subscribe({
       next: (data: entityGeneral.DataCatCompany[]) => {
-        this.catCompanies = data;
+        this.catCompanies = data['results']; //TEMPORAL, SE DEBE AGREGAR BUSCADOR
       },
       error: (error) => console.error(error)
     });

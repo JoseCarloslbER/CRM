@@ -1,6 +1,14 @@
 import * as entityGeneral from '../../shared/interfaces/general-interface';
 import { TableDataCampaing } from '../catchment/catchment-interface';
 
+export interface TableDataCompantResponse {
+  results: TableDataCompany[],
+  count: number,
+  page_size: number,
+  next: number | 1,
+  previous: number | 1
+}
+
 export interface TableDataCompany {
   company_id: string;
   company_type: entityGeneral.DataCatCompanyType;
@@ -47,6 +55,14 @@ export interface Status {
   status_id: string;
 }
 
+export interface TableDataCompaniesMapperResponse {
+  dataList : TableDataCompanyMapper[],
+  pageSize : number,
+  pagePrevious: number | null,
+  pageNext: number | null,
+  count: number | 0
+}
+
 export interface TableDataCompanyMapper {
   id:string
   companyName : string;
@@ -68,7 +84,7 @@ export interface TableDataCompanyMapper {
   sales : {
     amount : string;
     totalAmount : string;
-  }
+  },
 }
 
 export interface Contacts {

@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { Router } from '@angular/router';
@@ -22,6 +22,10 @@ export class ProspectsComponent implements OnInit, AfterViewInit, OnDestroy {
   public longitudPagina = 5;
   public total = 0;
   public indicePagina = 0;
+  public pageSize = 20;
+  public currentPage = 0;
+  public pageNext = 1;
+  public pagePrevious = 0;
 
   public displayedColumns: string[] = [
     'companyName',
@@ -115,9 +119,13 @@ export class ProspectsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   getDataTable(filters?: string) {
     this.moduleServices.getDataTable(filters).subscribe({
-      next: (data: entity.TableDataCompanyMapper[]) => {
+      next: (data: entity.TableDataCompaniesMapperResponse) => {
         console.log(data);
-        this.dataSource.data = data;
+        this.dataSource.data = data.dataList;
+        this.pageSize = data.pageSize;
+        this.pagePrevious = data.pagePrevious;
+        this.pageNext = data.pageNext;
+        this.total = data.count;
       },
       error: (error) => console.error(error)
     })
@@ -259,6 +267,12 @@ export class ProspectsComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe((_) => {
 
       });
+  }
+
+  onPageChange(event: PageEvent) {
+    this.currentPage = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.searchWithFilters()
   }
 
   ngOnDestroy(): void {

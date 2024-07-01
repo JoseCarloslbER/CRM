@@ -265,7 +265,8 @@
                                         'Empresas que más han comprado' }}
                                     </h1>
                                 </div>
-
+                                <mat-paginator [pageSize]="pageSize" [pageSizeOptions]="[20]" (page)="onPageChange($event)">
+                                </mat-paginator>
                                 <table mat-table #table [dataSource]="dataSourceRecentlyAddedMoreBuyed"
                                     class="w-100 tabla-personalizada-default">
                                     <caption></caption>
@@ -316,17 +317,17 @@
                                 </table>
                             </div>
 
-                            <!-- <div class="d-flex justify-content-end" style="background: none;"> 
+                            <!--<div class="d-flex justify-content-end" style="background: none;"> 
                                 <mat-paginator
                                     #paginator
                                     [length]="total"
                                     [pageIndex]="indicePagina"
                                     [pageSize]="longitudPagina"
-                                    [pageSizeOptions]="[5, 10, 25, 50, 100]"
+                                    [pageSizeOptions]="[20]"
                                     (page)="cambiaPagina($event)"
                                     class="w-100"
                                 ></mat-paginator>
-                            </div> -->
+                            </div>-->
                         </div>
 
 

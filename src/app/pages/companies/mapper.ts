@@ -2,12 +2,13 @@ import { DateTime } from 'luxon';
 import { TableDataActivities } from '../management/management-interface';
 import * as entity from './companies-interface';
 import moment from 'moment';
+import { result } from 'lodash';
 
 export class Mapper {
-	static getDataTableMapper(response: entity.TableDataCompany[]): entity.TableDataCompanyMapper[] {
+	static getDataTableMapper(response: entity.TableDataCompantResponse): entity.TableDataCompaniesMapperResponse {
 		let dataList: entity.TableDataCompanyMapper[] = [];
 
-		response.forEach((data: entity.TableDataCompany): void => {
+		response.results.forEach((data: entity.TableDataCompany): void => {
 			dataList.push({
 				id: data?.company_id || '-',
 				logo: data?.logo?.includes('default') ? `../../../assets/images/default.png` : data.logo,
@@ -42,7 +43,13 @@ export class Mapper {
 			});
 		});
 
-		return dataList
+		return {
+			dataList,
+			pageSize: response.page_size,
+			pagePrevious: response.previous,
+			pageNext: response.next,
+			count: response.count
+		}
 	}
 
 	static getDataTableCompanyMapper(response: entity.TableDataCompany): entity.GetDataCompanyMapper {

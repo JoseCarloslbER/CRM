@@ -110,6 +110,8 @@
 
     <div class="c-general-table section-content-padding">
         <div class="col-12 contenedor-scroll-tabla">
+            <mat-paginator [length]="total" [pageSize]="pageSize" [pageSizeOptions]="[20]" (page)="onPageChange($event)">
+            </mat-paginator>
             <table mat-table #table [dataSource]="dataSource" class="w-100 tabla-personalizada-default">
                 <caption></caption>
 

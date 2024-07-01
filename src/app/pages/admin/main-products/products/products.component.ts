@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { ModalNewProductComponent } from './modal-new-product/modal-new-product.component';
@@ -23,6 +23,11 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
   public longitudPagina = 50;
   public total = 0;
   public indicePagina = 0;
+  public pageSize = 20;
+  public currentPage = 0;
+  public pageNext = 1;
+  public pagePrevious = 0;
+  public filters = "page=1";
 
   public displayedColumns: string[] = [
     'code',
@@ -45,9 +50,9 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit(): void {
     this.updateSubscription = this.updateService.updateEvent$.subscribe(() => {
-      this.getDataTable();
+      this.getDataTable(this.filters);
     });
-    this.getDataTable();
+    this.getDataTable(this.filters);
   }
 
   ngAfterViewInit(): void {
@@ -56,11 +61,15 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
     })
   }
 
-  getDataTable() {
-    this.moduleServices.getDataTableProducts().subscribe({
-        next: (data : entity.DataProductTable[]) => {
+  getDataTable(filters: string) {    
+    this.moduleServices.getDataTableProducts(filters).subscribe({
+        next: (data : entity.TableDataProductResponse) => {
           console.log(data);
-          this.dataSource.data = data;
+          this.dataSource.data = data.results;
+          this.pageSize = data.page_size;
+          this.pagePrevious = data.previous;
+          this.pageNext = data.next;
+          this.total = data.count;
         },
         error: (error) => console.error(error)
       })
@@ -77,7 +86,7 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
       panelClass: 'custom-dialog'
     })
     .afterClosed()
-    .subscribe((_) => this.getDataTable());
+    .subscribe((_) => this.getDataTable(this.filters));
   }
 
   deleteData(id: string) {
@@ -99,7 +108,7 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
                 'delete',
               )
               .afterClosed()
-              .subscribe((_) => this.getDataTable());
+              .subscribe((_) => this.getDataTable(this.filters));
           },
           error: (error) => console.error(error)
         })
@@ -111,6 +120,13 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
       filterValue = filterValue.trim().toLowerCase();
       this.dataSource.filter = filterValue;
     }
+
+  onPageChange(event: PageEvent) {
+    this.currentPage = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.filters = "page=" + this.pageNext;
+    this.getDataTable(this.filters)
+  }
 
   ngOnDestroy(): void {
     this.onDestroy.next();

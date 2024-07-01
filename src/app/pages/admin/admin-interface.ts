@@ -4,6 +4,13 @@
 import * as entityGeneral from '../../shared/interfaces/general-interface';
 
 // PRODUCTS
+export interface TableDataProductResponse {
+  results:DataProductTable[],
+  count: number,
+  page_size: number,
+  next: number | 1,
+  previous: number | 1
+}
 
 export interface DataProductTable {
    code: string;
@@ -114,6 +121,14 @@ export interface TableDataUsers {
   voice_identifier: string,
   profile_picture: string,
   last_access: string
+}
+
+export interface TableDataUsersResponse {
+  results:TableDataUsersMapper[],
+  count: number,
+  page_size: number,
+  next: number | 1,
+  previous: number | 1
 }
 
 export interface TableDataUsersMapper {

@@ -2,10 +2,10 @@ import moment from 'moment';
 import * as entity from './admin-interface';
 
 export class Mapper {
-	static getDataTableMapper(response: entity.TableDataUsers[]) : entity.TableDataUsersMapper[] {
+	static getDataTableMapper(response: entity.TableDataUsersResponse) : entity.TableDataUsersMapper[] {
 		let dataList : entity.TableDataUsersMapper[] = [];
 
-		response.forEach((data: any): void => {
+		response.results.forEach((data: any): void => {
 			dataList.push({
 				id: data?.id || '-',
 				userName : `${data?.first_name && data?.last_name ? data.first_name.toUpperCase() + ' ' + data.last_name.toUpperCase() : data.username.toUpperCase() }`,
