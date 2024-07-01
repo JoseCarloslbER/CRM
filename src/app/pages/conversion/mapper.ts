@@ -4,8 +4,12 @@ import moment from 'moment';
 export class Mapper {
 	static getDataTableMapper(response: entity.TableDataQuoteResponse): entity.TableDataQuoteMapperResponse {
 		let dataList: entity.TableDataQuoteMapper[] = [];
-		console.log('MAPPER', response.results.quotes_data[0]);
-		response.results.quotes_data.forEach((data: entity.TableDataQuote): void => {
+		console.log('MAPPER', response);
+		response.results.quotes_data.forEach((data: entity.TableDataQuote, i = 0): void => {
+
+			console.log(data?.company?.logo.includes('default'), i);
+			console.log(data?.company?.company_name);
+			
 			dataList.push({
 				id: data?.quote_id || '-',
 				dateAndHour: data.register_date ? moment(data.register_date).format('DD/MM/YYYY HH:mm:ss') : '-',
