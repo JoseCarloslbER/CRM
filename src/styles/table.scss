@@ -90,7 +90,7 @@
 		justify-content: center;
 		align-items: center;
 		margin-bottom: 25px;
-		width: 90px;
+		min-width: 90px;
 		height: 30px;
 	}
 
@@ -222,6 +222,13 @@
 	font-weight: 700;
 }
 
+.c-paginator {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0; 
+}
+
 .tabla-personalizada-default {
 
 	td {
@@ -254,6 +261,19 @@
 
 	th.editable {
 		background-color: #e3e2e6;
+	}
+
+	>.ms-edge thead {
+		position: -webkit-sticky;
+	}
+
+	>thead {
+		position: sticky;
+		margin-bottom: 10px;
+		top: -1px;
+		z-index: 1;
+		background-color: white;
+		z-index: 9999;
 	}
 
 	.cursor-pointer {
@@ -304,6 +324,7 @@
 		background-color: lightgray;
 	}
 }
+
 
 .white-table {
 	.contenedor-scroll-tabla {
@@ -391,6 +412,12 @@
 	overflow-y: auto;
 }
 
+.contenedor-scroll-tabla-fiexd {
+	max-width: 100%;
+	overflow-y: auto;
+	height: calc(100vh - 335px)!important; 
+	padding-bottom: 50px!important;
+}
 
 .table-texto-largo {
 	line-height: 18px;
@@ -506,7 +533,8 @@
 
 .colum-tabla-tabla-content {
 	th {
-		background: white !important;
+		z-index: 0 !important;
+		background: none !important;
 		color: black;
 	}
 }
@@ -592,7 +620,12 @@
 }
 
 .c-general-table {
+	position: relative;
 	padding: 30px;
+
+	.mat-mdc-paginator-page-size {
+		display: none!important;
+	}
 }
 
 .interest-high {
@@ -655,11 +688,14 @@
 		cursor: pointer;
 		font-size: 15px;
 	}
+
 	div:nth-child(1) {
 		text-align: left;
+
 		h1 {
 			color: #24BB55;
 		}
+
 		mat-icon {
 			color: #24BB55;
 		}
@@ -669,6 +705,7 @@
 		h1 {
 			color: #244cbb;
 		}
+
 		mat-icon {
 			color: #244cbb;
 		}
@@ -678,6 +715,7 @@
 		h1 {
 			color: #da2f2f;
 		}
+
 		mat-icon {
 			color: #da2f2f;
 		}

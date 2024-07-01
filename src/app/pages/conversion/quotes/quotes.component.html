@@ -96,9 +96,7 @@
             </div>
 
             <div class="row mt-5">
-                <div class="col-12 contenedor-scroll-tabla">
-                    <mat-paginator [length]="total" [pageSize]="pageSize" [pageSizeOptions]="[20]" (page)="onPageChange($event)">
-                    </mat-paginator>
+                <div class="col-12 contenedor-scroll-tabla-fiexd">
                     <table mat-table #table [dataSource]="dataSource" class="w-100 tabla-personalizada-default">
                         <caption></caption>
 
@@ -261,9 +259,12 @@
                             </td>
                         </tr>
                         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row;  columns: displayedColumns"></tr>
                     </table>
                 </div>
+
+                <mat-paginator #paginator class="c-paginator"[length]="total" [pageSize]="pageSize" [pageSizeOptions]="[20]" (page)="onPageChange($event)">
+                </mat-paginator>
 
                 <!-- <div class="d-flex justify-content-end" style="background: none;"> 
                     <mat-paginator

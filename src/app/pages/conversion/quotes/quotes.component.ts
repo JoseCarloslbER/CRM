@@ -79,7 +79,10 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
     private formBuilder: FormBuilder,
     private dialog: MatDialog,
     private router: Router
-  ) { }
+  ) { 
+    // this.paginator._intl.itemsPerPageLabel = "Registros por página";
+
+  }
 
   ngOnInit(): void {
     this.searchWithFilters();
@@ -87,6 +90,8 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
+    this.paginator._intl.nextPageLabel = "Página siguiente";
+    this.paginator._intl.previousPageLabel = "Página anterior";
     this.searchBar.valueChanges.pipe(takeUntil(this.onDestroy), debounceTime(500)).subscribe((content: string) => {
       this.applyFilter(content)
     })
@@ -133,6 +138,7 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getDataTable(filters: string) {
+
     this.moduleServices.getDataTable( filters ).subscribe({
       next: (data: TableDataQuoteMapperResponse) => {
         console.log('dataList', data.dataList);

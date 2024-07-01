@@ -30,9 +30,7 @@ export class ConversionService {
 			map((response) => Mapper.getDataTableMapper(response))
 		);
 	}
-  
  
-
   public getDataDetailQuoteTable(filters?:string): Observable<entity.TableDataQuoteMapperResponse> {
     const url = `${environment.apiURL}conversion/quote/${filters ? `?${filters}` : ''}`
     
