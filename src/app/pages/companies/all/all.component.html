@@ -115,7 +115,7 @@
                 <mat-tab *ngIf="selectedProject == 'Todas'">
                     <ng-template matTabContent>
                         <div class="row">
-                            <div class="col-12 contenedor-scroll-tabla">
+                            <div class="col-12 contenedor-scroll-tabla-fiexd">
                                 <table mat-table #table [dataSource]="dataSource"
                                     class="w-100 tabla-personalizada-default">
                                     <caption></caption>
@@ -238,17 +238,8 @@
                                 </table>
                             </div>
 
-                            <!-- <div class="d-flex justify-content-end" style="background: none;"> 
-                                <mat-paginator
-                                    #paginator
-                                    [length]="total"
-                                    [pageIndex]="indicePagina"
-                                    [pageSize]="longitudPagina"
-                                    [pageSizeOptions]="[5, 10, 25, 50, 100]"
-                                    (page)="cambiaPagina($event)"
-                                    class="w-100"
-                                ></mat-paginator>
-                            </div> -->
+                            <mat-paginator #paginator class="c-paginator"[length]="total" [pageSize]="pageSize" [pageSizeOptions]="[20]" (page)="onPageChange($event)">
+                            </mat-paginator>
                         </div>
 
 
@@ -257,7 +248,7 @@
                 <mat-tab *ngIf="selectedProject != 'Todas'">
                     <ng-template matTabContent>
                         <div class="row">
-                            <div class="col-12 contenedor-scroll-tabla">
+                            <div class="col-12 contenedor-scroll-tabla-fiexd">
                                 <div class="table-header ">
                                     <h1 class="mb-5">
                                         {{ selectedProject == 'Agregadas recientemente' ?
@@ -265,8 +256,7 @@
                                         'Empresas que más han comprado' }}
                                     </h1>
                                 </div>
-                                <mat-paginator [pageSize]="pageSize" [pageSizeOptions]="[20]" (page)="onPageChange($event)">
-                                </mat-paginator>
+                               
                                 <table mat-table #table [dataSource]="dataSourceRecentlyAddedMoreBuyed"
                                     class="w-100 tabla-personalizada-default">
                                     <caption></caption>
@@ -317,20 +307,10 @@
                                 </table>
                             </div>
 
-                            <!--<div class="d-flex justify-content-end" style="background: none;"> 
-                                <mat-paginator
-                                    #paginator
-                                    [length]="total"
-                                    [pageIndex]="indicePagina"
-                                    [pageSize]="longitudPagina"
-                                    [pageSizeOptions]="[20]"
-                                    (page)="cambiaPagina($event)"
-                                    class="w-100"
-                                ></mat-paginator>
-                            </div>-->
+                            <mat-paginator #paginator class="c-paginator"[length]="total" [pageSize]="pageSize" [pageSizeOptions]="[20]" (page)="onPageChange($event)">
+                            </mat-paginator>
+
                         </div>
-
-
                     </ng-template>
                 </mat-tab>
             </mat-tab-group>

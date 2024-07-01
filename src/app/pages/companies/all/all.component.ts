@@ -98,6 +98,8 @@ export class AllComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
+    this.paginator._intl.nextPageLabel = "Página siguiente";
+    this.paginator._intl.previousPageLabel = "Página anterior";
     this.searchBar.valueChanges.pipe(takeUntil(this.onDestroy), debounceTime(500)).subscribe((content: string) => {
       this.applyFilter(content); 
     })
@@ -157,6 +159,7 @@ export class AllComponent implements OnInit, AfterViewInit, OnDestroy {
         this.pageSize = data.pageSize;
         this.pagePrevious = data.pagePrevious;
         this.pageNext = data.pageNext;
+        this.total = data.count;
 
       },
       error: (error) => console.error(error)

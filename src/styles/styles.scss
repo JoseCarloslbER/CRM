@@ -170,6 +170,11 @@ body.abrevia-splash-screen-hidden abrevia-splash-screen {
 
 .section-content-padding {
     padding: 10px 50px!important;
+    position: relative;
+
+    .mat-mdc-paginator-page-size {
+		display: none!important;
+	}
 }
 
 .form-padding {
