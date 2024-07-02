@@ -2,10 +2,10 @@ import moment from 'moment';
 import * as entity from './management-interface';
 
 export class Mapper {
-	static getDataTableMapper(response: entity.TableDataActivities[]) : entity.TableDataActivitiesMapper[] {
+	static getDataTableMapper(response: entity.TableDataActivitiesResponse) : entity.TableDataActivitiesMapperResponse {
 		let dataList :entity.TableDataActivitiesMapper[] = [];
 
-		response.forEach((data: entity.TableDataActivities): void => {	
+		response.results.forEach((data: any): void => {	
 			dataList.push({
 				id: data?.activity_id || '-',
 				companyName : data?.company?.company_name || '-',
@@ -23,7 +23,13 @@ export class Mapper {
 			});
 		});
 
-		return dataList
+		return {
+			dataList,
+			pageSize: response.page_size,
+			pagePrevious: response.previous,
+			pageNext: response.next,
+			count: response.count
+		}
 	}
 
 	static getDataMapper(response : entity.TableDataActivities) : entity.GetDataActivitiesMapper {

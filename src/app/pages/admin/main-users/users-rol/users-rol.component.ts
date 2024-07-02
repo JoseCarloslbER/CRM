@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Subject, Subscription } from 'rxjs';
 import { UpdateComponentsService } from 'app/shared/services/updateComponents.service';
 import { AdminService } from '../../admin.service';
@@ -20,6 +20,10 @@ export class UsersRolComponent implements OnInit, OnDestroy {
   public longitudPagina = 50;
   public total = 0;
   public indicePagina = 0;
+  public pageSize = 20;
+  public currentPage = 0;
+  public pageNext = 1;
+  public pagePrevious = 0;
 
   public displayedColumns: string[] = [
     'name',
@@ -34,17 +38,30 @@ export class UsersRolComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
+    this.getDataTable();
+    this.paginator._intl.nextPageLabel = "Página siguiente";
+    this.paginator._intl.previousPageLabel = "Página anterior";
     this.updateSubscription = this.updateService.updateEvent$.subscribe(() => {
       this.getDataTable();
     });
-    this.getDataTable();
   }
+  
 
   getDataTable() {
-    this.moduleServices.getDataTableRoles().subscribe({
+    let filters = '';
+    
+    if(this.pageNext == null)
+      this.pageNext = 1
+
+    filters += `page=${this.pageNext}&`;
+
+    this.moduleServices.getDataTableRoles(filters).subscribe({
       next: (data:any) => {
         this.dataSource.data = data;
-        console.log(data);
+        this.pageSize = data.pageSize;
+        this.pagePrevious = data.pagePrevious;
+        this.pageNext = data.pageNext;
+        this.total = data.count;
       },
       error: (error) => console.error(error)
     })
@@ -80,6 +97,13 @@ export class UsersRolComponent implements OnInit, OnDestroy {
       }
     });
   }
+
+  onPageChange(event: PageEvent) {
+    this.currentPage = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.getDataTable()
+  }
+
 
   ngOnDestroy(): void {
     this.onDestroy.next();

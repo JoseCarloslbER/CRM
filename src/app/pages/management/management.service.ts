@@ -17,10 +17,10 @@ export class ManagementmentService {
   ) { }
 
   // ACTIVITIES
-  public getDataTableActivities(filters?:string): Observable<entity.TableDataActivitiesMapper[]> {
+  public getDataTableActivities(filters?:string): Observable<entity.TableDataActivitiesMapperResponse> {
 		const url = `${this.apiUrl}activity/${filters ? `?${filters}` : ''}`;
 
-    return this.http.get<entity.TableDataActivities[]>(url).pipe(
+    return this.http.get<entity.TableDataActivitiesResponse>(url).pipe(
     	map((response) => Mapper.getDataTableMapper(response)),
     );
 	}

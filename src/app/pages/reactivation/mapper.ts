@@ -1,11 +1,11 @@
 import * as entity from './reactivation-interface';
 
 export class Mapper {
-	static getDataTableMapper(response: entity.TableDataCalls[]) : entity.TableDataCallsMapper[] {
+	static getDataTableMapper(response: entity.TableDataCAllsResponse) : entity.TableDataCallsMapperResponse {
 	
 		let dataList :entity.TableDataCallsMapper[] = [];
 
-		response.forEach((data: entity.TableDataCalls): void => {
+		response.results.forEach((data: any): void => {
 			dataList.push({
 				id: data?.activity_id || '-',
 				logo: data?.company ? data?.company?.logo.includes('default') ? `../../../assets/images/default.png` : data?.company?.logo : `../../../assets/images/default.png`,
@@ -38,7 +38,12 @@ export class Mapper {
 				comments: data?.description || '-',
 			});
 		});
-
-		return dataList
+		return {
+			dataList,
+			pageSize: response.page_size,
+			pagePrevious: response.previous,
+			pageNext: response.next,
+			count: response.count
+		}
 	}
 }

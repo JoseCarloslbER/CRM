@@ -234,8 +234,13 @@
                     </table>
                 </div>
 
-
+                <!-- <mat-paginator #paginator class="c-paginator" [length]="total" [pageSize]="pageSize"
+                    [pageSizeOptions]="[20]" (page)="onPageChange($event)">
+                </mat-paginator> -->
             </div>
+            <mat-paginator #paginator class="c-paginator" [length]="total" [pageSize]="pageSize" [pageSizeOptions]="[20]"
+                (page)="onPageChange($event)">
+            </mat-paginator>
         </div>
     </div>
 </div>

@@ -2,8 +2,9 @@ import moment from 'moment';
 import * as entity from './admin-interface';
 
 export class Mapper {
-	static getDataTableMapper(response: entity.TableDataUsersResponse) : entity.TableDataUsersMapper[] {
-		let dataList : entity.TableDataUsersMapper[] = [];
+	static getDataTableMapper(response: entity.TableDataUsersResponse) : entity.TableDataUsersMapper {
+		let dataList : entity.TableDataUsersMapperData[] = [];
+console.log('getDataTableMapper', response);
 
 		response.results.forEach((data: any): void => {
 			dataList.push({
@@ -14,11 +15,17 @@ export class Mapper {
 				email: data?.email || '-',
 				ip: data?.voice_identifier || '-',
 				ext: data?.ext || '-',
-				idSlack : data.user_id_slack
+				idSlack : data?.user_id_slack || '-'
 			});
 		});
 
-		return dataList
+		return {
+			dataList,
+			pageSize: response.page_size,
+			pagePrevious: response.previous,
+			pageNext: response.next,
+			count: response.count
+		}
 	}
 
 

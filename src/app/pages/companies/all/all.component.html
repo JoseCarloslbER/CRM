@@ -115,7 +115,7 @@
                 <mat-tab *ngIf="selectedProject == 'Todas'">
                     <ng-template matTabContent>
                         <div class="row">
-                            <div class="col-12 contenedor-scroll-tabla-fiexd">
+                            <div class="col-12 contenedor-scroll-tabla-fiexd-taps" style="margin-bottom: 70px!important;">
                                 <table mat-table #table [dataSource]="dataSource"
                                     class="w-100 tabla-personalizada-default">
                                     <caption></caption>
@@ -236,13 +236,11 @@
                                     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                                     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
                                 </table>
+                                <mat-paginator #paginator class="c-paginator" [length]="total" [pageSize]="pageSize"
+                                    [pageSizeOptions]="[20]" (page)="onPageChange($event)">
+                                </mat-paginator>
                             </div>
-
-                            <mat-paginator #paginator class="c-paginator"[length]="total" [pageSize]="pageSize" [pageSizeOptions]="[20]" (page)="onPageChange($event)">
-                            </mat-paginator>
                         </div>
-
-
                     </ng-template>
                 </mat-tab>
                 <mat-tab *ngIf="selectedProject != 'Todas'">
@@ -256,7 +254,7 @@
                                         'Empresas que más han comprado' }}
                                     </h1>
                                 </div>
-                               
+
                                 <table mat-table #table [dataSource]="dataSourceRecentlyAddedMoreBuyed"
                                     class="w-100 tabla-personalizada-default">
                                     <caption></caption>
@@ -307,7 +305,8 @@
                                 </table>
                             </div>
 
-                            <mat-paginator #paginator class="c-paginator"[length]="total" [pageSize]="pageSize" [pageSizeOptions]="[20]" (page)="onPageChange($event)">
+                            <mat-paginator #paginator class="c-paginator" [length]="total" [pageSize]="pageSize"
+                                [pageSizeOptions]="[20]" (page)="onPageChange($event)">
                             </mat-paginator>
 
                         </div>

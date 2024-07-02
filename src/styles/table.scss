@@ -230,6 +230,11 @@
 	display: flex!important;
 	justify-content: flex-end!important;
 	// box-shadow: 4px 6px 4px 4px #000000!important;
+	box-shadow: 0px 1px 6px -2px #000000 !important;
+
+	.mat-mdc-paginator-page-size {
+		display: none!important;
+	}
 }
 
 .tabla-personalizada-default {
@@ -276,7 +281,7 @@
 		top: -1px;
 		z-index: 1;
 		background-color: white;
-		z-index: 9999;
+		z-index: 9;
 	}
 
 	.cursor-pointer {
@@ -417,9 +422,16 @@
 
 .contenedor-scroll-tabla-fiexd {
 	max-width: 100%;
-	overflow-y: auto;
+	overflow: auto;
 	height: calc(100vh - 335px)!important; 
-	padding-bottom: 50px!important;
+	margin-bottom: 50px!important;
+}
+
+.contenedor-scroll-tabla-fiexd-taps {
+	max-width: 100%;
+	overflow: auto;
+	height: calc(100vh - 310px)!important; 
+	margin-bottom: 50px!important;
 }
 
 .table-texto-largo {

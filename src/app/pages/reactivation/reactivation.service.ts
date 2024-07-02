@@ -28,10 +28,10 @@ export class ReactivationService {
 
   // PENDING CALLS AND DIALY
 
-  public getDataTableCalls(): Observable<any> {
-    const url = `${environment.apiURL}manage/activity/?activity_type_id=fde5d736-c7ad-4ccc-9037-d742aa3b8a44&call_pending=true`;
+  public getDataTableCalls(filters?:string): Observable<any> {
+    const url = `${environment.apiURL}manage/activity/${filters ? `?${filters}` : ''}`;
 
-    return this.http.get<entity.TableDataCalls[]>(url).pipe(
+    return this.http.get<entity.TableDataCAllsResponse>(url).pipe(
     	map((response) => Mapper.getDataTableMapper(response))
     );
 	}

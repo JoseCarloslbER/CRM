@@ -108,8 +108,9 @@ export class AdminService {
 
   // USERS
 
-  public getDataTableUsers() {
-		const url = `${environment.apiURL}auth/user/`;
+  public getDataTableUsers(filters?:string) {
+		const url = `${environment.apiURL}auth/user/${filters ? `?${filters}` : ''}`;
+    
 
     return this.http.get<entity.TableDataUsersResponse>(url).pipe(
 			map((response) => Mapper.getDataTableMapper(response)));
@@ -153,10 +154,12 @@ export class AdminService {
 
   // ROLES
 
-  public getDataTableRoles() {
-		const url = `${environment.apiURL}settings/rol/`;
+  public getDataTableRoles(filters?:string) {
+		const url = `${environment.apiURL}settings/rol/${filters ? `?${filters}` : ''}`;
+    // const url = `${this.apiUrl}settings/rol/${filters ? `?${filters}` : ''}`;
 
-    return this.http.get<entity.TableDataUsers[]>(url)
+
+    return this.http.get<entity.TableDataUsers>(url)
 	}
 
   public getDataRolId(id: string) {

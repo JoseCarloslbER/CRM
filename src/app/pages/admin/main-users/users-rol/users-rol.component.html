@@ -1,5 +1,5 @@
-<div class="c-general-table p-0">
-    <div class="col-12 contenedor-scroll-tabla">
+<div class="c-general-table p-0" style="position: unset;">
+    <div class="col-12 contenedor-scroll-tabla-fiexd-taps">
         <table mat-table #table [dataSource]="dataSource" class="w-100 tabla-personalizada-default">
             <caption></caption>
 
@@ -26,7 +26,7 @@
                     </div>
                 </td>
             </ng-container>
-
+           
 
             <tr *matNoDataRow>
                 <td class="mat-cell" [attr.colspan]="displayedColumns.length">
@@ -37,4 +37,7 @@
             <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
         </table>
     </div>
+    <mat-paginator #paginator class="c-paginator" [length]="total" [pageSize]="pageSize"
+    [pageSizeOptions]="[20]" (page)="onPageChange($event)">
+</mat-paginator>
 </div>

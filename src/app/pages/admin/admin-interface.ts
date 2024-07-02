@@ -132,6 +132,13 @@ export interface TableDataUsersResponse {
 }
 
 export interface TableDataUsersMapper {
+  dataList : TableDataUsersMapperData[],
+  pageSize : number,
+  pagePrevious: number | null,
+  pageNext: number | null,
+  count: number | 0
+}
+export interface TableDataUsersMapperData {
   id : string;
   userName : string;
   logo : string;
@@ -141,6 +148,7 @@ export interface TableDataUsersMapper {
   ext : string;
   idSlack : string;
 }
+
 
 // END USERS 
 

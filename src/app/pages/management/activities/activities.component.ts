@@ -3,7 +3,7 @@ import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { ModalNewActivityComponent } from 'app/pages/companies/all/detail-client/components/history/modal-new-activity/modal-new-activity.component';
 import { Subject, Subscription, debounceTime, takeUntil } from 'rxjs';
 import { ManagementmentService } from '../management.service';
@@ -29,6 +29,10 @@ export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy {
   public longitudPagina = 50;
   public total = 0;
   public indicePagina = 0;
+  public pageSize = 20;
+  public currentPage = 0;
+  public pageNext = 1;
+  public pagePrevious = 0;
 
   public displayedColumns: string[] = [
     'name', 
@@ -68,14 +72,16 @@ export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
+    this.getDataTable();
     this.updateSubscription = this.updateService.updateEvent$.subscribe(() => {
       this.getDataTable();
     });
-    this.getDataTable();
     this.getCatalogs()
   }
 
   ngAfterViewInit(): void {
+    this.paginator._intl.nextPageLabel = "Página siguiente";
+    this.paginator._intl.previousPageLabel = "Página anterior";
     this.searchBar.valueChanges.pipe(takeUntil(this.onDestroy), debounceTime(500)).subscribe((content: string) => {
       this.applyFilter(content); 
     })
@@ -106,6 +112,11 @@ export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy {
 
   searchWithFilters() {
     let filters = '';
+        
+    if(this.pageNext == null)
+      this.pageNext = 1
+
+    filters += `page=${this.pageNext}&`;
 
     if (this.formFilters.get('status').value) filters += `status_id=${this.formFilters.get('status').value}&`;
     if (this.formFilters.get('agent').value) filters += `user_id=${this.formFilters.get('agent').value}&`;
@@ -120,8 +131,12 @@ export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy {
 
   getDataTable(filters?: any) {
     this.moduleServices.getDataTableActivities(filters).subscribe({
-      next: (data: entity.TableDataActivitiesMapper[]) => {
-        this.dataSource.data = data;
+      next: (data: entity.TableDataActivitiesMapperResponse) => {
+        this.dataSource.data = data.dataList;
+        this.pageSize = data.pageSize;
+        this.pagePrevious = data.pagePrevious;
+        this.pageNext = data.pageNext;
+        this.total = data.count;
         console.log(data);
       },
       error: (error) => console.error(error)
@@ -199,6 +214,12 @@ export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy {
           .subscribe((_) => {
 
           });
+  }
+
+  onPageChange(event: PageEvent) {
+    this.currentPage = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.searchWithFilters()
   }
 
   applyFilter(filterValue: string) {

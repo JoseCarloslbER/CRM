@@ -44,17 +44,29 @@ export class UsersComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
+    this.getDataTable();
+    this.paginator._intl.nextPageLabel = "Página siguiente";
+    this.paginator._intl.previousPageLabel = "Página anterior";
     this.updateSubscription = this.updateService.updateEvent$.subscribe(() => {
       this.getDataTable();
     });
-    this.getDataTable();
   }
 
   getDataTable() {
-    this.moduleServices.getDataTableUsers().subscribe({
-      next: (data: entity.TableDataUsersMapper[]) => {
-        this.dataSource.data = data;
-        console.log(data);
+    let filters = '';
+    
+    if(this.pageNext == null)
+      this.pageNext = 1
+
+    filters += `page=${this.pageNext}&`;
+
+    this.moduleServices.getDataTableUsers(filters).subscribe({
+      next: (data: entity.TableDataUsersMapper) => {
+        this.dataSource.data = data.dataList;
+        this.pageSize = data.pageSize;
+        this.pagePrevious = data.pagePrevious;
+        this.pageNext = data.pageNext;
+        this.total = data.count;
       },  
       error: (error) => console.error(error)
     })

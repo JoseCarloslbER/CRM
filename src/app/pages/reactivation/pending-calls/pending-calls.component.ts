@@ -5,7 +5,7 @@ import { FormBuilder, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { ModalNewActivityComponent } from 'app/pages/companies/all/detail-client/components/history/modal-new-activity/modal-new-activity.component';
 import { Subject, debounceTime, takeUntil } from 'rxjs';
 import { ReactivationService } from '../reactivation.service';
@@ -23,6 +23,10 @@ export class PendingCallsComponent implements OnInit, AfterViewInit, OnDestroy {
   public longitudPagina = 50;
   public total = 0;
   public indicePagina = 0;
+  public pageSize = 20;
+  public currentPage = 0;
+  public pageNext = 1;
+  public pagePrevious = 0;
 
   public displayedColumns: string[] = [
     'name',
@@ -59,15 +63,28 @@ export class PendingCallsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
+    this.paginator._intl.nextPageLabel = "Página siguiente";
+    this.paginator._intl.previousPageLabel = "Página anterior";
     this.searchBar.valueChanges.pipe(takeUntil(this.onDestroy), debounceTime(500)).subscribe((content:string) => {
       this.applyFilter(content)
     })
   }
 
   getDataTable() {
-    this.moduleServices.getDataTableCalls().subscribe({
-      next: (data: entity.TableDataCallsMapper[]) => {
-        this.dataSource.data = data;
+    let filters = 'activity_type_id=fde5d736-c7ad-4ccc-9037-d742aa3b8a44&call_pending=true';
+        
+    if(this.pageNext == null)
+      this.pageNext = 1
+
+    filters += `page=${this.pageNext}&`;
+
+    this.moduleServices.getDataTableCalls(filters).subscribe({
+      next: (data: entity.TableDataCallsMapperResponse) => {
+        this.dataSource.data = data.dataList;
+        this.pageSize = data.pageSize;
+        this.pagePrevious = data.pagePrevious;
+        this.pageNext = data.pageNext;
+        this.total = data.count;
         console.log(data);
       },
       error: (error) => console.error(error)
@@ -125,6 +142,13 @@ export class PendingCallsComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     });
   }
+
+  onPageChange(event: PageEvent) {
+    this.currentPage = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.getDataTable()
+  }
+
 
   ngOnDestroy(): void {
     this.onDestroy.next();

@@ -3,6 +3,14 @@ import { TableDataCampaing } from '../catchment/catchment-interface';
 import { TableDataCompany } from '../companies/companies-interface';
 import { TableDataActivityType } from '../config/config-interface';
 
+export interface TableDataActivitiesResponse {
+  results: TableDataCompany[],
+  count: number,
+  page_size: number,
+  next: number | 1,
+  previous: number | 1
+}
+
 export interface TableDataActivities {
   activity_id: string;
   quote: string;
@@ -19,6 +27,16 @@ export interface TableDataActivities {
   campaign: TableDataCampaing;
   status: string;
 }
+
+export interface TableDataActivitiesMapperResponse {
+  dataList : TableDataActivitiesMapper[],
+  pageSize : number,
+  pagePrevious: number | null,
+  pageNext: number | null,
+  count: number | 0
+}
+
+
 
 export interface TableDataActivitiesMapper {
   id: string;
