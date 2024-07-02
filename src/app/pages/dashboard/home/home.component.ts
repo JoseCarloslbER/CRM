@@ -1806,9 +1806,6 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   searchWithFilters() {
     let filters: string = '';
 
-    if (this.filterDayMonthYear == 'Día') filters += `current_day=true&`
-    else if (this.filterDayMonthYear == 'Mes') filters += `current_month=true&`
-    else filters += `current_year=true&`
     if (this.formFilters.get('user').value) filters += `user_id=${this.formFilters.get('user').value}&`;
     if (this.formFilters.get('business').value) filters += `business_id=${this.formFilters.get('business').value}&`;
     if (this.formFilters.get('campaign').value) filters += `campaign_id=${this.formFilters.get('campaign').value}&`;
@@ -1817,6 +1814,12 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
         filters += `register_date_end=${moment(this.formFilters.get('rangeDateEnd').value).format('YYYY-MM-DD')}&`
     }
 
+    if (!this.formFilters.get('user').value && !this.formFilters.get('business').value && !this.formFilters.get('campaign').value && !this.formFilters.get('rangeDateStart').value && !this.formFilters.get('rangeDateEnd').value) {
+      if (this.filterDayMonthYear == 'Día') filters += `current_day=true&`
+      else if (this.filterDayMonthYear == 'Mes') filters += `current_month=true&`
+      else filters += `current_year=true&`
+    }
+    
     this.getHomeStatics(filters)
   }
 

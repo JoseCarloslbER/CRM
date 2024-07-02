@@ -26,10 +26,10 @@ export class CatchmentService {
   }
 
   // CAMPAIGNS
-  public getDataTableCampaing(filters?:string): Observable<entity.TableDataCampaingMapper[]> {
+  public getDataTableCampaing(filters?:string): Observable<entity.TableDataCampaingMapperResponse> {
 		const url = `${this.apiUrl}campaign/${filters ? `?${filters}` : ''}`;
 
-    return this.http.get<entity.TableDataCampaing[]>(url).pipe(
+    return this.http.get<entity.TableDataCompantResponse>(url).pipe(
 			map((response) => Mapper.getDataTableCampaingMapper(response)),
 		);
 	}

@@ -21,126 +21,96 @@
 </div>
 
 <div class="row my-8">
-    <div class="col-12 contenedor-scroll-tabla">
+    <div class="col-12 contenedor-scroll-tabla-fiexd">
         <table mat-table #table [dataSource]="dataSource" class="w-100 tabla-personalizada-default">
             <caption></caption>
 
-            <ng-container matColumnDef="codeAndname">
-                <th mat-header-cell *matHeaderCellDef># Nombre</th>
+            <ng-container matColumnDef="companyName">
+                <th mat-header-cell *matHeaderCellDef>Nombre de la empresa</th>
                 <td mat-cell *matCellDef="let element">
-                    <div class="table-column-date-start-end">
-                        <span> {{ element?.code || '-' }} </span>
-                        <span> {{ element?.name || '-' }} </span>
+                    <div class="table-column-reck-solution">
+                        <img [src]="element.logo" alt="">
+                        <span class="cursor-pointer" (click)="seeData(element.id)">{{
+                            element.companyName }}</span>
                     </div>
                 </td>
             </ng-container>
 
-            <ng-container matColumnDef="dateStartEnd">
-                <th mat-header-cell *matHeaderCellDef>Fecha inicial y fecha final</th>
+            <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef>Estatus</th>
                 <td mat-cell *matCellDef="let element">
-                    <div class="table-column-date-start-end">
-                        <span> {{ element?.dateStartEnd?.start }} </span>
-                        <span> {{ element?.dateStartEnd?.end }} </span>
+                    <div class="table-column-status">
+                        {{ element.status }}
                     </div>
                 </td>
             </ng-container>
 
-            <ng-container matColumnDef="companyType">
-                <th mat-header-cell *matHeaderCellDef>Tipo de campaña</th>
+            <ng-container matColumnDef="country">
+                <th mat-header-cell *matHeaderCellDef>País</th>
                 <td mat-cell *matCellDef="let element">
-                    {{ element?.companyType || 'En proceso' }}
+                    {{ element.country }}
                 </td>
             </ng-container>
 
-            <ng-container matColumnDef="agents">
-                <th mat-header-cell *matHeaderCellDef>Agentes</th>
+            <ng-container matColumnDef="origin">
+                <th mat-header-cell *matHeaderCellDef>Origen</th>
                 <td mat-cell *matCellDef="let element">
-                    <div class="table-column-agent-see-all">
-                        <span> {{ element?.agents?.name || '' }} </span>
-                        <span *ngIf="element?.agents?.alls?.length" (click)="seeDataModal('agents', element?.agents)">Ver todos</span>
-                    </div>
+                    {{ element.origin }}
                 </td>
             </ng-container>
 
-            <ng-container matColumnDef="companies">
-                <th mat-header-cell *matHeaderCellDef>Empresas</th>
+            <ng-container matColumnDef="category">
+                <th mat-header-cell *matHeaderCellDef>Categoría</th>
                 <td mat-cell *matCellDef="let element">
-                    <div class="table-column-agent-see-all">
-                        <div class="table-column-status table-column-lead-width mb-4">
-                            {{ element?.companiesMain?.amount || '0' }}
-                        </div>
-                        <span (click)="seeDataModal('companies', element?.companiesMain?.alls)">Ver empresas</span>
-                    </div>
+                    {{ element.category }}
                 </td>
             </ng-container>
 
-            <ng-container matColumnDef="results">
-                <th mat-header-cell *matHeaderCellDef>Resultados</th>
+            <ng-container matColumnDef="business">
+                <th mat-header-cell *matHeaderCellDef>Giro</th>
                 <td mat-cell *matCellDef="let element">
-                    <div class="colum-tabla-see-results cursos-pointer" (click)="seeCampaignsResults(element)">
-                        Ver detalle de resultados
-                    </div>
+                    {{ element.business }}
                 </td>
             </ng-container>
 
-            <ng-container matColumnDef="amounInvested">
-                <th mat-header-cell *matHeaderCellDef>Monto invertido</th>
+            <ng-container matColumnDef="campaign">
+                <th mat-header-cell *matHeaderCellDef>Campaña</th>
                 <td mat-cell *matCellDef="let element">
-                    <div class="table-column-blue table-column-lead-width">
-                        {{element?.amounInvested || '-'}}
-                    </div>
+                    {{ element.campaign }}
                 </td>
             </ng-container>
 
-            <ng-container matColumnDef="totalCompanies">
-                <th mat-header-cell *matHeaderCellDef>Total de empresas alcanzados</th>
+            <ng-container matColumnDef="quotes">
+                <th mat-header-cell *matHeaderCellDef>Cotizaciones</th>
                 <td mat-cell *matCellDef="let element">
                     <div class="table-column-two-botton-row">
-                        <div class="table-column-lead"> {{ element?.totalCompanies || '0'}} </div>
+                        <div class="table-column-lead"> {{ element.quotes.amount }} </div>
+                        <div class="table-column-lead"> {{ element.quotes.totalAmount }} </div>
                     </div>
                 </td>
             </ng-container>
 
-            <!-- <ng-container matColumnDef="allQuotes">
-            <th mat-header-cell *matHeaderCellDef>
-                Total de cotizaciones realizadas 
-                <br>
-                L | C
-            </th>
-            <td mat-cell *matCellDef="let element"> 
-                <div class="table-column-three-buttons" *ngFor="let info of element.cotizaciones"> 
-                    <div class="d-flex align-items-center justify-content-between">  
-                        <div class="table-column-lead"> {{ info.left }} </div>
-                        <div class="table-column-lead"> {{ info.right }} </div> 
-                    </div> 
-                    <div class="table-column-lead-green"> {{ info.bottom }} </div> 
-                </div>
-            </td>
-        </ng-container> -->
-
-            <ng-container matColumnDef="quotesMade">
-                <th mat-header-cell *matHeaderCellDef>
-                    Cotizaciones realizadas
-                </th>
-                <td mat-cell *matCellDef="let element" class="d-flex d-flex gap-3">
-                    <div class="table-column-two-botton-row">
-                        <div class="table-column-lead"> {{ element?.quotesMade?.left?.amount || '0' }} </div>
-                        <div class="table-column-lead"> {{ element?.quotesMade?.left?.totalAmount || '-' }} </div>
-                    </div>
-                    <div class="table-column-two-botton-row">
-                        <div class="table-column-lead"> {{ element?.quotesMade?.right?.amount || '0' }} </div>
-                        <div class="table-column-lead"> {{ element?.quotesMade?.right?.totalAmount || '-' }} </div>
-                    </div>
-                </td>
-            </ng-container>
-
-            <ng-container matColumnDef="totalSalesAmount">
-                <th mat-header-cell *matHeaderCellDef>Monto total de ventas</th>
+            <ng-container matColumnDef="sales">
+                <th mat-header-cell *matHeaderCellDef>Ventas</th>
                 <td mat-cell *matCellDef="let element">
                     <div class="table-column-two-botton-row">
-                        <div class="table-column-lead">{{element?.totalSalesAmount?.amount || '0' }}</div>
-                        <div class="table-column-lead">{{element?.totalSalesAmount?.totalAmount || '-'}} </div>
+                        <div class="table-column-lead"> {{ element.sales.amount }} </div>
+                        <div class="table-column-lead"> {{ element.sales.totalAmount }} </div>
                     </div>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="lastContactDate">
+                <th mat-header-cell *matHeaderCellDef>Fecha de último contacto</th>
+                <td mat-cell *matCellDef="let element">
+                    {{ element.lastContactDate }}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="history">
+                <th mat-header-cell *matHeaderCellDef>Historial</th>
+                <td mat-cell *matCellDef="let element" class="table-texto-largo text-start">
+                    {{ element.history }}
                 </td>
             </ng-container>
 
@@ -148,16 +118,12 @@
                 <th mat-header-cell *matHeaderCellDef>Acciones</th>
                 <td mat-cell *matCellDef="let element">
                     <div class="c-column-btns">
-                        <!-- <div class="btn-see">
-                            <mat-icon matTooltip="Ver" (click)="seeData()">visibility</mat-icon>
-                        </div> -->
+                        <!-- <div class="btn-see" (click)="seeData(element)">
+                <mat-icon matTooltip="Editar">visibility</mat-icon>
+            </div> -->
 
                         <div class="btn-edit" (click)="editData(element.id)">
                             <mat-icon matTooltip="Editar">edit_square</mat-icon>
-                        </div>
-
-                        <div class="btn-copy">
-                            <mat-icon matTooltip="Clonar" (click)="cloneData(element.id)">content_copy</mat-icon>
                         </div>
 
                         <div class="btn-delete" (click)="deleteData(element.id)">
@@ -169,7 +135,7 @@
             </ng-container>
 
             <tr *matNoDataRow>
-                <td class="mat-cell" [attr.colspan]="displayedColumnsCampaign.length">
+                <td class="mat-cell" [attr.colspan]="displayedColumns.length">
                     <h5 class="text-center my-5">No se encontraron resultados.</h5>
                 </td>
             </tr>
@@ -177,5 +143,9 @@
             <tr mat-row *matRowDef="let row; columns: displayedColumnsCampaign"></tr>
         </table>
     </div>
+
+    <mat-paginator #paginator class="c-paginator" [length]="total" [pageSize]="pageSize" [pageSizeOptions]="[20]"
+    (page)="onPageChange($event)">
+</mat-paginator>
  
 </div>

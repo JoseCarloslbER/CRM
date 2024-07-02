@@ -8,6 +8,14 @@ export interface DataTableFilters {
   dateRange: string;
 }
 
+export interface TableDataCompantResponse {
+  results: TableDataCampaing[],
+  count: number,
+  page_size: number,
+  next: number | 1,
+  previous: number | 1
+}
+
 export interface TableDataCampaing {
   campaign_code: string;
   campaign_name: string;
@@ -44,6 +52,14 @@ export interface TableDataCampaing {
   owner_user: entityGeneral.Owner;
   campaign_type: Campaing;
   rol: Rol;
+}
+
+export interface TableDataCampaingMapperResponse {
+  dataList : TableDataCampaingMapper[],
+  pageSize : number,
+  pagePrevious: number | null,
+  pageNext: number | null,
+  count: number | 0
 }
 
 export interface TableDataCampaingMapper {

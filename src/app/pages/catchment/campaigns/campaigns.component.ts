@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -22,9 +22,13 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public dataSource = new MatTableDataSource<any>([]);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  public longitudPagina = 50;
+  public longitudPagina = 5;
   public total = 0;
   public indicePagina = 0;
+  public pageSize = 20;
+  public currentPage = 0;
+  public pageNext = 1;
+  public pagePrevious = 0;
 
   public displayedColumnsCampaign: string[] = [
     'codeAndname',
@@ -71,6 +75,8 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
+    this.paginator._intl.nextPageLabel = "Página siguiente";
+    this.paginator._intl.previousPageLabel = "Página anterior";
     this.searchBar.valueChanges.pipe(takeUntil(this.onDestroy), debounceTime(500)).subscribe((content: string) => {
       this.applyFilter(content); 
     });
@@ -115,9 +121,13 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   getDataTable(filters?: any) {
     this.moduleServices.getDataTableCampaing(filters).subscribe({
-      next: (data: entity.TableDataCampaingMapper[]) => {
+      next: (data: entity.TableDataCampaingMapperResponse) => {
         console.log('getDataTable' , data);
-        this.dataSource.data = data;
+        this.dataSource.data = data.dataList;
+        this.pageSize = data.pageSize;
+        this.pagePrevious = data.pagePrevious;
+        this.pageNext = data.pageNext;
+        this.total = data.count;
       },
       error: (error) => console.error(error)
     })
@@ -215,6 +225,13 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
 
       });
   }
+
+  onPageChange(event: PageEvent) {
+    this.currentPage = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.searchWithFilters()
+  }
+
 
   ngOnDestroy(): void {
     this.onDestroy.next();

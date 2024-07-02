@@ -86,59 +86,6 @@
                     </div>
                 </div>
 
-                <div class="row d-flex align-items-center">
-                    <form class="row" [formGroup]="formFilters">
-                        <div class="flex col-sm-12 col-md-3 col-lg-3 col-12 pe-2">
-                            <mat-form-field class="flex-auto input-default">
-                                <mat-label>Giro</mat-label>
-                                <mat-select formControlName="business" placeholder="Seleccionar" multiple>
-                                    <mat-option [value]="cat.business_id"
-                                        *ngFor="let cat of catBusiness">{{cat?.business_name || '-'}}</mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-
-                        <div class="flex col-sm-12 col-md-3 col-lg-3 col-12 pe-2">
-                            <mat-form-field class="flex-auto input-default">
-                                <mat-label>País</mat-label>
-                                <mat-select formControlName="country" placeholder="Seleccionar">
-                                    <mat-option value="">Todos</mat-option>
-                                    <mat-option [value]="cat.country_id"
-                                        *ngFor="let cat of catalogCountry">{{cat?.country_name || '-'}}</mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                        
-                        <div class="flex col-sm-12 col-md-3 col-lg-3 col-12 pe-2">
-                            <mat-form-field class="flex-auto input-default">
-                                <mat-label>Tamaño</mat-label>
-                                <mat-select formControlName="size" placeholder="Seleccionar">
-                                    <mat-option value="">Todos</mat-option>
-                                    <mat-option [value]="cat.company_size_id"
-                                        *ngFor="let cat of catalogCompanySize">{{cat?.size_name || '-'}}</mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                      
-                        <div class="flex col-sm-12 col-md-3 col-lg-3 col-12 pe-2">
-                            <mat-form-field class="flex-auto input-default">
-                                <mat-label>Captada por</mat-label>
-                                <mat-select formControlName="size" placeholder="Seleccionar">
-                                    <mat-option value="">Todos</mat-option>
-                                    <mat-option [value]="cat.platform_id"
-                                        *ngFor="let cat of catalogPlatform">{{cat?.platform_name || '-'}}</mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-
-
-                        <div class="d-flex justify-content-start col-md-2 col-xl-2 col-12 pt-md-2 mt-5 mb-5">
-                            <button class="btn-search" (click)="searchCompanies()">
-                                <span>Filtrar</span>
-                            </button>
-                        </div>
-                    </form>
-                </div>
 
                 <form [formGroup]="formCompanies" class="mt-5">
                     <div class="inputNewRegister">

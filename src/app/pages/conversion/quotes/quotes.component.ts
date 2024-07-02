@@ -82,8 +82,8 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.searchWithFilters();
     this.getCatalogs();
+    this.searchWithFilters();
   }
 
   ngAfterViewInit(): void {
@@ -118,14 +118,18 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
 
     filters += `page=${this.pageNext}&`;
 
-    if (this.filterDayMonthYear == 'Día') filters += `current_day=true&`
-    else if (this.filterDayMonthYear == 'Mes') filters += `current_month=true&`
-    else filters += `current_year=true&`
+
     if (this.formFilters.get('status').value) filters += `status_id=${this.formFilters.get('status').value}&`;
     if (this.formFilters.get('agent').value) filters += `user_id=${this.formFilters.get('agent').value}&`;
     if (this.formFilters.get('rangeDateStart').value && this.formFilters.get('rangeDateEnd').value) {
       filters += `register_date_start=${moment(this.formFilters.get('rangeDateStart').value).format('YYYY-MM-DD')}&`,
         filters += `register_date_end=${moment(this.formFilters.get('rangeDateEnd').value).format('YYYY-MM-DD')}&`
+    }
+
+    if (!this.formFilters.get('status').value && !this.formFilters.get('agent').value && !this.formFilters.get('rangeDateStart').value && !this.formFilters.get('rangeDateEnd').value) {
+      if (this.filterDayMonthYear == 'Día') filters += `current_day=true&`
+      else if (this.filterDayMonthYear == 'Mes') filters += `current_month=true&`
+      else filters += `current_year=true&`
     }
 
     if (excel) {

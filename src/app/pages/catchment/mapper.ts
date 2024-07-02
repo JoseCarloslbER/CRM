@@ -2,12 +2,12 @@ import moment from 'moment';
 import * as entity from './catchment-interface';
 
 export class Mapper {
-	static getDataTableCampaingMapper(response: entity.TableDataCampaing[]) : entity.TableDataCampaingMapper[] {
+	static getDataTableCampaingMapper(response: entity.TableDataCompantResponse) : entity.TableDataCampaingMapperResponse {
 		let dataList : any[] = [];
 		console.log(response);
 		
 
-		response.forEach((data: entity.TableDataCampaing): void => {
+		response.results.forEach((data: entity.TableDataCampaing): void => {
 			dataList.push({
 				id: data.campaign_id,
 				dateStartEnd: {start: moment(data.start_date).format('DD/MM/YYYY'), end: moment(data.end_date).format('DD/MM/YYYY')},
@@ -68,7 +68,13 @@ export class Mapper {
 
 		console.log('dataList', dataList);
 		
-		return dataList
+		return {
+			dataList,
+			pageSize: response.page_size,
+			pagePrevious: response.previous,
+			pageNext: response.next,
+			count: response.count
+		}
 	}
 	
 	static GetDataTableCampaingMapper(response: entity.TableDataCampaing) : entity.GetDataCampainMapper {
