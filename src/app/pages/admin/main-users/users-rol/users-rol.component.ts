@@ -101,9 +101,9 @@ export class UsersRolComponent implements OnInit, OnDestroy {
   onPageChange(event: PageEvent) {
     this.currentPage = event.pageIndex;
     this.pageSize = event.pageSize;
+    this.pageNext = this.currentPage + 1;
     this.getDataTable()
   }
-
 
   ngOnDestroy(): void {
     this.onDestroy.next();

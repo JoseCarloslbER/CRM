@@ -229,6 +229,7 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
   onPageChange(event: PageEvent) {
     this.currentPage = event.pageIndex;
     this.pageSize = event.pageSize;
+    this.pageNext = this.currentPage + 1;
     this.searchWithFilters()
   }
 

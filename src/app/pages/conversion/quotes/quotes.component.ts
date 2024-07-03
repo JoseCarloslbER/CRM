@@ -33,13 +33,13 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public dataSource = new MatTableDataSource<any>([]);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  public longitudPagina = 50;
-  public total = 0;
-  public indicePagina = 0;
-  public pageSize = 20;
-  public currentPage = 0;
-  public pageNext = 1;
-  public pagePrevious = 0;
+  public longitudPagina:number = 50;
+  public total:number = 0;
+  public indicePagina:number = 0;
+  public pageSize:number = 20;
+  public currentPage:number = 0;
+  public pageNext:number = 1;
+  public pagePrevious:number = 0;
 
   public displayedColumns: string[] = [
     'dateAndHour',
@@ -109,15 +109,16 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
       error: (error) => console.error(error)
     });
   }
+  // pagina 2 el previo es null 
+  // else this.pageNext = this.pageNext - 1;
+  // if (this.pagePrevious) this.pageNext = this.pagePrevious
 
   searchWithFilters(excel?: boolean) {
     let filters = "";
 
-    if(this.pageNext == null)
-      this.pageNext = 1
+    if(this.pageNext == null) this.pageNext = 1
 
     filters += `page=${this.pageNext}&`;
-
 
     if (this.formFilters.get('status').value) filters += `status_id=${this.formFilters.get('status').value}&`;
     if (this.formFilters.get('agent').value) filters += `user_id=${this.formFilters.get('agent').value}&`;
@@ -138,6 +139,8 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
     } else this.getDataTable(filters)
   }
 
+  1881
+
   getDataTable(filters: string) {
 
     this.moduleServices.getDataTable( filters ).subscribe({
@@ -148,6 +151,10 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
         this.pagePrevious = data.pagePrevious;
         this.pageNext = data.pageNext;
         this.total = data.count;
+
+        console.log('response', this.pageNext);
+        console.log('response', this.pagePrevious);
+        
       },
       error: (error) => console.error(error)
     })
@@ -420,7 +427,8 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
   onPageChange(event: PageEvent) {
     this.currentPage = event.pageIndex;
     this.pageSize = event.pageSize;
-    this.searchWithFilters()
+    this.pageNext = this.currentPage + 1;
+    this.searchWithFilters();
   }
 
   ngOnDestroy(): void {

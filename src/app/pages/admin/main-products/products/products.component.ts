@@ -124,6 +124,7 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
   onPageChange(event: PageEvent) {
     this.currentPage = event.pageIndex;
     this.pageSize = event.pageSize;
+    this.pageNext = this.currentPage + 1;
     this.filters = "page=" + this.pageNext;
     this.getDataTable(this.filters)
   }
