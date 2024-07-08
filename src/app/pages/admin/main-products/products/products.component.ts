@@ -27,6 +27,11 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
   public currentPage = 0;
   public pageNext = 1;
   public pagePrevious = 0;
+  // COPIAR ESTO 
+  public pageIndex: number = 1;
+  public totalPages: number = 0;
+  // 
+
   public filters = "page=1";
 
   public displayedColumns: string[] = [
@@ -40,13 +45,15 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public searchBar = new FormControl('')
 
+  // COPIAR ESTO 
+  public paginateNumber = new FormControl('')
+  // 
   constructor(
     private updateService: UpdateComponentsService,
     private moduleServices: AdminService,
     private notificationService: OpenModalsService,
     private dialog: MatDialog,
   ) { }
-
 
   ngOnInit(): void {
     this.updateSubscription = this.updateService.updateEvent$.subscribe(() => {
@@ -56,26 +63,78 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
+    this.paginator._intl.nextPageLabel = "Página siguiente";
+    this.paginator._intl.previousPageLabel = "Página anterior";
     this.searchBar.valueChanges.pipe(takeUntil(this.onDestroy), debounceTime(500)).subscribe((content: string) => {
       this.applyFilter(content)
     })
+
+    // COPIAR ESTO 
+    this.paginateNumber.valueChanges.pipe(takeUntil(this.onDestroy), debounceTime(500)).subscribe((content: any) => {
+      this.pageIndex = (content - 1)
+      if (content <= this.totalPages) this.onPageChange();
+    })
+    // 
   }
 
-  getDataTable(filters: string) {    
+  // COPIAR ESTO 
+  searchWithFilters(excel?: boolean) {
+    let filters = "";
+
+    filters += `page=${this.currentPage + 1}&`;
+    this.getDataTable(filters)
+  }
+  // 
+
+  getDataTable(filters: string) {
     this.moduleServices.getDataTableProducts(filters).subscribe({
-        next: (data : entity.TableDataProductResponse) => {
-          console.log(data);
-          this.dataSource.data = data.results;
-          this.pageSize = data.page_size;
-          this.pagePrevious = data.previous;
-          this.pageNext = data.next;
-          this.total = data.count;
-        },
-        error: (error) => console.error(error)
-      })
+      next: (data: entity.TableDataProductResponse) => {
+        console.log(data);
+        this.dataSource.data = data.results;
+        this.pageSize = data.page_size;
+        this.pagePrevious = data.previous;
+        this.pageNext = data.next;
+        this.total = data.count;
+        // COPIAR ESTO 
+        this.pageIndex = this.currentPage;
+        this.totalPages = Math.ceil(this.total / this.pageSize);
+        // 
+      },
+      error: (error) => console.error(error)
+    })
+  }
+  // COPIAR ESTO 
+  
+  isNumber(value) {
+    if (isNaN(value)) {
+      return ''
+    } else {
+      return value
+    }
   }
 
-  editData(data:any) {
+  onPageChange(event?: PageEvent) {
+    if (event) {
+      this.currentPage = event.pageIndex;
+      this.pageSize = event.pageSize;
+    } else {
+      if (this.pageIndex < 1) this.pageIndex = 1;
+      if (this.pageIndex > this.totalPages) {
+        this.pageIndex = this.currentPage + 1;
+        return;
+      }
+      this.currentPage = this.pageIndex - 1;
+    }
+    this.pageNext = this.currentPage + 1;
+    this.searchWithFilters();
+  }
+
+ 
+  // 
+
+
+
+  editData(data: any) {
     this.dialog.open(ModalNewProductComponent, {
       data: {
         info: data
@@ -85,49 +144,42 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
       maxHeight: '628px',
       panelClass: 'custom-dialog'
     })
-    .afterClosed()
-    .subscribe((_) => this.getDataTable(this.filters));
+      .afterClosed()
+      .subscribe((_) => this.getDataTable(this.filters));
   }
 
   deleteData(id: string) {
     this.notificationService
-    .notificacion(
-      'Pregunta',
-      '¿Estás seguro de eliminar el registro?',
-      'question',
-    )
-    .afterClosed()
-    .subscribe((response) => {
-      if (response) {
-        this.moduleServices.deleteDataProduct(id).subscribe({
-          next: () => {
+      .notificacion(
+        'Pregunta',
+        '¿Estás seguro de eliminar el registro?',
+        'question',
+      )
+      .afterClosed()
+      .subscribe((response) => {
+        if (response) {
+          this.moduleServices.deleteDataProduct(id).subscribe({
+            next: () => {
               this.notificationService
-              .notificacion(
-                'Éxito',
-                'Registro eliminado.',
-                'delete',
-              )
-              .afterClosed()
-              .subscribe((_) => this.getDataTable(this.filters));
-          },
-          error: (error) => console.error(error)
-        })
-      }
-    });
+                .notificacion(
+                  'Éxito',
+                  'Registro eliminado.',
+                  'delete',
+                )
+                .afterClosed()
+                .subscribe((_) => this.getDataTable(this.filters));
+            },
+            error: (error) => console.error(error)
+          })
+        }
+      });
   }
 
   applyFilter(filterValue: string) {
-      filterValue = filterValue.trim().toLowerCase();
-      this.dataSource.filter = filterValue;
-    }
-
-  onPageChange(event: PageEvent) {
-    this.currentPage = event.pageIndex;
-    this.pageSize = event.pageSize;
-    this.pageNext = this.currentPage + 1;
-    this.filters = "page=" + this.pageNext;
-    this.getDataTable(this.filters)
+    filterValue = filterValue.trim().toLowerCase();
+    this.dataSource.filter = filterValue;
   }
+
 
   ngOnDestroy(): void {
     this.onDestroy.next();

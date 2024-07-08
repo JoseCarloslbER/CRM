@@ -1,18 +1,19 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
 import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { Subject, Subscription } from 'rxjs';
+import { Subject, Subscription, debounceTime, takeUntil } from 'rxjs';
 import { AdminService } from '../../admin.service';
 import * as entity from '../../admin-interface';
 import { UpdateComponentsService } from 'app/shared/services/updateComponents.service';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
 })
-export class UsersComponent implements OnInit, OnDestroy {
+export class UsersComponent implements OnInit, AfterViewInit, OnDestroy {
   private onDestroy = new Subject<void>();
   private updateSubscription: Subscription;
 
@@ -25,6 +26,8 @@ export class UsersComponent implements OnInit, OnDestroy {
   public currentPage = 0;
   public pageNext = 1;
   public pagePrevious = 0;
+  public pageIndex: number = 0;
+  public totalPages: number = 0;
 
   public displayedColumns: string[] = [
     'userName',
@@ -36,6 +39,9 @@ export class UsersComponent implements OnInit, OnDestroy {
     'acciones'
   ];
  
+  public paginateNumber = new FormControl('')
+
+
   constructor(
     private moduleServices: AdminService,
     private updateService: UpdateComponentsService,
@@ -45,21 +51,30 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getDataTable();
-    this.paginator._intl.nextPageLabel = "Página siguiente";
-    this.paginator._intl.previousPageLabel = "Página anterior";
+
     this.updateSubscription = this.updateService.updateEvent$.subscribe(() => {
       this.getDataTable();
     });
   }
 
-  getDataTable() {
-    let filters = '';
-    
-    if(this.pageNext == null)
-      this.pageNext = 1
+  ngAfterViewInit(): void {
+    this.paginator._intl.nextPageLabel = "Página siguiente";
+    this.paginator._intl.previousPageLabel = "Página anterior";
+    this.paginateNumber.valueChanges.pipe(takeUntil(this.onDestroy), debounceTime(500)).subscribe((content: any) => {
+      this.pageIndex = (content - 1)
+      if (content <= this.totalPages) this.onPageChange();
+    })
+  }
 
-    filters += `page=${this.pageNext}&`;
+  searchWithFilters(excel?: boolean) {
+    let filters = "";
 
+    filters += `page=${this.currentPage + 1}&`; 
+    this.getDataTable(filters)
+  }
+
+
+  getDataTable(filters?: string) {
     this.moduleServices.getDataTableUsers(filters).subscribe({
       next: (data: entity.TableDataUsersMapper) => {
         this.dataSource.data = data.dataList;
@@ -67,9 +82,36 @@ export class UsersComponent implements OnInit, OnDestroy {
         this.pagePrevious = data.pagePrevious;
         this.pageNext = data.pageNext;
         this.total = data.count;
+        this.pageIndex = this.currentPage;
+        this.totalPages = Math.ceil(this.total / this.pageSize);
       },  
       error: (error) => console.error(error)
     })
+  }
+
+
+  isNumber(value) {
+    if (isNaN(value)) {
+      return ''
+    } else {
+      return value
+    }
+  }
+
+  onPageChange(event?: PageEvent) {
+    if (event) {
+      this.currentPage = event.pageIndex;
+      this.pageSize = event.pageSize;
+    } else {
+      if (this.pageIndex < 1) this.pageIndex = 1;
+      if (this.pageIndex > this.totalPages) {
+        this.pageIndex = this.currentPage + 1;
+        return;
+      }
+      this.currentPage = this.pageIndex - 1;
+    }
+    this.pageNext = this.currentPage + 1;
+    this.searchWithFilters();
   }
 
   editData(id:string) {
@@ -103,12 +145,6 @@ export class UsersComponent implements OnInit, OnDestroy {
     });
   }
 
-  onPageChange(event: PageEvent) {
-    this.currentPage = event.pageIndex;
-    this.pageSize = event.pageSize;
-    this.pageNext = this.currentPage + 1;
-    this.getDataTable()
-  }
 
   ngOnDestroy(): void {
     this.onDestroy.next();

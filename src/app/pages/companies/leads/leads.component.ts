@@ -28,6 +28,8 @@ export class LeadsComponent implements OnInit, AfterViewInit, OnDestroy {
   public currentPage = 0;
   public pageNext = 1;
   public pagePrevious = 0;
+  public pageIndex: number = 1;
+  public totalPages: number = 0;
 
   public displayedColumns: string[] = [
     'companyName',
@@ -53,6 +55,7 @@ export class LeadsComponent implements OnInit, AfterViewInit, OnDestroy {
   });
 
   public searchBar = new FormControl('')
+  public paginateNumber = new FormControl('')
 
   public fechaHoy = new Date();
 
@@ -80,6 +83,11 @@ export class LeadsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.paginator._intl.previousPageLabel = "Página anterior";
     this.searchBar.valueChanges.pipe(takeUntil(this.onDestroy), debounceTime(500)).subscribe((content: string) => {
       this.applyFilter(content); 
+    })
+
+    this.paginateNumber.valueChanges.pipe(takeUntil(this.onDestroy), debounceTime(500)).subscribe((content: any) => {
+      this.pageIndex = (content - 1)
+      if (content <= this.totalPages) this.onPageChange();
     })
   }
 
@@ -112,7 +120,7 @@ export class LeadsComponent implements OnInit, AfterViewInit, OnDestroy {
     if(this.pageNext == null)
       this.pageNext = 1
 
-    filters += `page=${this.pageNext}&`;
+    filters += `page=${this.currentPage + 1}&`;
 
     if (this.formFilters.get('status').value) filters += `status_id=${this.formFilters.get('status').value}&`;
     if (this.formFilters.get('business').value) filters += `business_id=${this.formFilters.get('business').value}&`;
@@ -133,10 +141,38 @@ export class LeadsComponent implements OnInit, AfterViewInit, OnDestroy {
         this.pagePrevious = data.pagePrevious;
         this.pageNext = data.pageNext;
         this.total = data.count;
+        this.pageIndex = this.currentPage;
+        this.totalPages = Math.ceil(this.total / this.pageSize);
       },
       error: (error) => console.error(error)
     })
   }
+
+  
+  isNumber(value) {
+    if (isNaN(value)) {
+      return ''
+    } else {
+      return value
+    }
+  }
+
+  onPageChange(event?: PageEvent) {
+    if (event) {
+      this.currentPage = event.pageIndex;
+      this.pageSize = event.pageSize;
+    } else {
+      if (this.pageIndex < 1) this.pageIndex = 1;
+      if (this.pageIndex > this.totalPages) {
+        this.pageIndex = this.currentPage + 1;
+        return;
+      }
+      this.currentPage = this.pageIndex - 1;
+    }
+    this.pageNext = this.currentPage + 1;
+    this.searchWithFilters();
+  }
+
 
   editData(id: string) {
     this.router.navigateByUrl(`/home/empresas/editar-lead/${id}`)
@@ -210,13 +246,6 @@ export class LeadsComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe((_) => {
 
       });
-  }
-
-  onPageChange(event: PageEvent) {
-    this.currentPage = event.pageIndex;
-    this.pageSize = event.pageSize;
-    this.pageNext = this.currentPage + 1;
-    this.searchWithFilters()
   }
 
   ngOnDestroy(): void {

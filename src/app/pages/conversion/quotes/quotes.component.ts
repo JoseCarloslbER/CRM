@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { OpenModalsService } from 'app/shared/services/openModals.service';
-import { FormBuilder, FormControl } from '@angular/forms';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -33,13 +33,14 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public dataSource = new MatTableDataSource<any>([]);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  public longitudPagina:number = 50;
-  public total:number = 0;
-  public indicePagina:number = 0;
-  public pageSize:number = 20;
-  public currentPage:number = 0;
-  public pageNext:number = 1;
-  public pagePrevious:number = 0;
+  public longitudPagina: number = 50;
+  public total: number = 0;
+  public pageSize: number = 20;
+  public currentPage: number = 0;
+  public pageNext: number = 1;
+  public pagePrevious: number = 0;
+  public pageIndex: number = 1;
+  public totalPages: number = 0;
 
   public displayedColumns: string[] = [
     'dateAndHour',
@@ -61,6 +62,7 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
   });
 
   public searchBar = new FormControl('')
+  public paginateNumber = new FormControl('')
 
   public actions = new FormControl('')
 
@@ -92,6 +94,11 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
     this.searchBar.valueChanges.pipe(takeUntil(this.onDestroy), debounceTime(500)).subscribe((content: string) => {
       this.applyFilter(content)
     })
+
+    this.paginateNumber.valueChanges.pipe(takeUntil(this.onDestroy), debounceTime(500)).subscribe((content: any) => {
+      this.pageIndex = (content - 1)
+      if (content <= this.totalPages) this.onPageChange();
+    })
   }
 
   getCatalogs() {
@@ -109,16 +116,13 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
       error: (error) => console.error(error)
     });
   }
-  // pagina 2 el previo es null 
-  // else this.pageNext = this.pageNext - 1;
-  // if (this.pagePrevious) this.pageNext = this.pagePrevious
+
 
   searchWithFilters(excel?: boolean) {
     let filters = "";
 
-    if(this.pageNext == null) this.pageNext = 1
+    filters += `page=${this.currentPage + 1}&`;
 
-    filters += `page=${this.pageNext}&`;
 
     if (this.formFilters.get('status').value) filters += `status_id=${this.formFilters.get('status').value}&`;
     if (this.formFilters.get('agent').value) filters += `user_id=${this.formFilters.get('agent').value}&`;
@@ -139,11 +143,24 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
     } else this.getDataTable(filters)
   }
 
-  1881
+  onPageChange(event?: PageEvent) {
+    if (event) {
+      this.currentPage = event.pageIndex;
+      this.pageSize = event.pageSize;
+    } else {
+      if (this.pageIndex < 1) this.pageIndex = 1;
+      if (this.pageIndex > this.totalPages) {
+        this.pageIndex = this.currentPage + 1;
+        return;
+      }
+      this.currentPage = this.pageIndex - 1;
+    }
+    this.pageNext = this.currentPage + 1;
+    this.searchWithFilters();
+  }
 
   getDataTable(filters: string) {
-
-    this.moduleServices.getDataTable( filters ).subscribe({
+    this.moduleServices.getDataTable(filters).subscribe({
       next: (data: TableDataQuoteMapperResponse) => {
         this.dataSource.data = data.dataList;
         this.totalQuotes = data.totalQuotes;
@@ -151,14 +168,21 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
         this.pagePrevious = data.pagePrevious;
         this.pageNext = data.pageNext;
         this.total = data.count;
-
-        console.log('response', this.pageNext);
-        console.log('response', this.pagePrevious);
-        
+        this.pageIndex = this.currentPage;
+        this.totalPages = Math.ceil(this.total / this.pageSize);
       },
       error: (error) => console.error(error)
-    })
+    });
   }
+  
+  isNumber(value) {
+    if (isNaN(value)) {
+      return ''
+    } else {
+      return value
+    }
+  }
+
 
   getActions(type: string, data: any) {
     if (type == 'Aceptar') {
@@ -184,7 +208,7 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  seeData(id:string) {
+  seeData(id: string) {
     //this.router.navigateByUrl(`/home/conversion/detalle-cotizacion/${id}`)
     const url = `/home/conversion/detalle-cotizacion/${id}`;
     window.open(url, '_blank');
@@ -325,8 +349,6 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   closeSale(data: any) {
-    console.log(data);
-
     this.dialog.open(ModalCloseSaleComponent, {
       data: {
         info: data,
@@ -424,12 +446,15 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
     this.dataSource.filter = filterValue;
   }
 
-  onPageChange(event: PageEvent) {
-    this.currentPage = event.pageIndex;
-    this.pageSize = event.pageSize;
-    this.pageNext = this.currentPage + 1;
-    this.searchWithFilters();
-  }
+  // onPageChange(event?: PageEvent) {
+  //   this.currentPage = event.pageIndex;
+  //   this.pageSize = event.pageSize;
+  //   this.pageNext = this.currentPage + 1;
+
+  //   this.searchWithFilters();
+  // }
+
+
 
   ngOnDestroy(): void {
     this.onDestroy.next();
