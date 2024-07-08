@@ -110,12 +110,9 @@ export class AllComponent implements OnInit, AfterViewInit, OnDestroy {
     })
 
     this.paginateNumber.valueChanges.pipe(takeUntil(this.onDestroy), debounceTime(500)).subscribe((content: any) => {
-      this.pageIndex = (content - 1)
-      if (content <= this.totalPages) {
-        console.log('llamar pagina');
-        this.onPageChange();
-        
-      }
+      this.pageIndex = content
+      // this.pageIndex = (content - 1)
+      if (content <= this.totalPages) this.onPageChange();
     })
   }
 

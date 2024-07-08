@@ -27,10 +27,8 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
   public currentPage = 0;
   public pageNext = 1;
   public pagePrevious = 0;
-  // COPIAR ESTO 
   public pageIndex: number = 1;
   public totalPages: number = 0;
-  // 
 
   public filters = "page=1";
 
@@ -45,9 +43,7 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public searchBar = new FormControl('')
 
-  // COPIAR ESTO 
   public paginateNumber = new FormControl('')
-  // 
   constructor(
     private updateService: UpdateComponentsService,
     private moduleServices: AdminService,
@@ -69,41 +65,34 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
       this.applyFilter(content)
     })
 
-    // COPIAR ESTO 
     this.paginateNumber.valueChanges.pipe(takeUntil(this.onDestroy), debounceTime(500)).subscribe((content: any) => {
-      this.pageIndex = (content - 1)
+      this.pageIndex = content;
+      // this.pageIndex = (content - 1)
       if (content <= this.totalPages) this.onPageChange();
     })
-    // 
   }
 
-  // COPIAR ESTO 
   searchWithFilters(excel?: boolean) {
     let filters = "";
 
     filters += `page=${this.currentPage + 1}&`;
     this.getDataTable(filters)
   }
-  // 
 
   getDataTable(filters: string) {
     this.moduleServices.getDataTableProducts(filters).subscribe({
       next: (data: entity.TableDataProductResponse) => {
-        console.log(data);
         this.dataSource.data = data.results;
         this.pageSize = data.page_size;
         this.pagePrevious = data.previous;
         this.pageNext = data.next;
         this.total = data.count;
-        // COPIAR ESTO 
         this.pageIndex = this.currentPage;
         this.totalPages = Math.ceil(this.total / this.pageSize);
-        // 
       },
       error: (error) => console.error(error)
     })
   }
-  // COPIAR ESTO 
   
   isNumber(value) {
     if (isNaN(value)) {

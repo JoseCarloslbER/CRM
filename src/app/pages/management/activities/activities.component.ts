@@ -90,7 +90,8 @@ export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy {
     })
 
     this.paginateNumber.valueChanges.pipe(takeUntil(this.onDestroy), debounceTime(500)).subscribe((content: any) => {
-      this.pageIndex = (content - 1)
+      this.pageIndex = content;
+      // this.pageIndex = (content - 1)
       console.log(content);
 
       if (content <= this.totalPages) this.onPageChange();

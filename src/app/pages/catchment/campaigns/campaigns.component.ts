@@ -85,7 +85,8 @@ export class CampaignsComponent implements OnInit, AfterViewInit, OnDestroy {
     });
 
     this.paginateNumber.valueChanges.pipe(takeUntil(this.onDestroy), debounceTime(500)).subscribe((content: any) => {
-      this.pageIndex = (content - 1)
+      this.pageIndex = content
+      // this.pageIndex = (content - 1)
       if (content <= this.totalPages) this.onPageChange();
     })
   }

@@ -96,7 +96,8 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
     })
 
     this.paginateNumber.valueChanges.pipe(takeUntil(this.onDestroy), debounceTime(500)).subscribe((content: any) => {
-      this.pageIndex = (content - 1)
+      // this.pageIndex = (content - 1)
+      this.pageIndex = content
       if (content <= this.totalPages) this.onPageChange();
     })
   }
@@ -116,7 +117,6 @@ export class QuotesComponent implements OnInit, AfterViewInit, OnDestroy {
       error: (error) => console.error(error)
     });
   }
-
 
   searchWithFilters(excel?: boolean) {
     let filters = "";

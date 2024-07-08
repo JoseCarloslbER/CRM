@@ -61,7 +61,8 @@ export class UsersComponent implements OnInit, AfterViewInit, OnDestroy {
     this.paginator._intl.nextPageLabel = "Página siguiente";
     this.paginator._intl.previousPageLabel = "Página anterior";
     this.paginateNumber.valueChanges.pipe(takeUntil(this.onDestroy), debounceTime(500)).subscribe((content: any) => {
-      this.pageIndex = (content - 1)
+      this.pageIndex = content
+      // this.pageIndex = (content - 1)
       if (content <= this.totalPages) this.onPageChange();
     })
   }

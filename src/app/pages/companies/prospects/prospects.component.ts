@@ -85,7 +85,8 @@ export class ProspectsComponent implements OnInit, AfterViewInit, OnDestroy {
     })
 
     this.paginateNumber.valueChanges.pipe(takeUntil(this.onDestroy), debounceTime(500)).subscribe((content: any) => {
-      this.pageIndex = (content - 1)
+      this.pageIndex = content
+      // this.pageIndex = (content - 1)
       if (content <= this.totalPages) this.onPageChange();
     })
   }
@@ -117,7 +118,6 @@ export class ProspectsComponent implements OnInit, AfterViewInit, OnDestroy {
     let filters: string = 'company_phase=ec43fa4e-1ade-46ea-9841-1692074ce8cd&';
 
     filters += `page=${this.currentPage + 1}&`;
-
 
     if (this.formFilters.get('status').value) filters += `status_id=${this.formFilters.get('status').value}&`;
     if (this.formFilters.get('business').value) filters += `business_id=${this.formFilters.get('business').value}&`;
@@ -170,7 +170,6 @@ export class ProspectsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   seeData(id: string) {
-    //this.router.navigateByUrl(`/home/empresas/detalles-empresa/${id}`)
     const url = `home/empresas/detalles-empresa/${id}`;
     window.open(url, '_blank');
   }
