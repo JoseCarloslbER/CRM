@@ -143,7 +143,6 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
   getCatalogs() {
     this.catalogsServices.getCatCompany().subscribe({
       next: (data: entityGeneral.DataCatCompany[]) => {
-        console.log(data)
         this.catCompanies = data['data'];
       },
       error: (error) => console.error(error)
@@ -552,6 +551,8 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private _filter(value: any): any[] {
+    console.log('_filter', value);
+
     const filterValue = value?.toLowerCase();
     console.log('CatCompanies => ', this.catCompanies)
     return this.catCompanies.filter(option => option?.company_name?.toLowerCase()?.includes(filterValue));
