@@ -100,8 +100,10 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
         });
       } else {
         this.optionFormValues.forEach(control => {
-          let total_number = parseFloat(control?.subtotalControl?.value.replace(/,/g, '')) - control?.discountControl?.value;
-          let tax = total_number - (total_number / 1.16);
+          let subtotal = parseFloat(control?.subtotalControl?.value.replace(/,/g, ''))
+          let discount = control?.discountControl?.value;
+          let tax = (subtotal - discount) * 0.16;
+
           if (tax) {
             control.ivaControl.setValue((tax).toLocaleString('en-US', {
               minimumFractionDigits: 2,
@@ -424,8 +426,7 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
         }));
 
         if (this.formData.get('tax_include').value) {
-          let total_number = subtotal - discount;
-          let tax = total_number - (total_number / 1.16);
+          let tax = (subtotal - discount) * 0.16;
           optionInstance.ivaControl.setValue((tax).toLocaleString('en-US', {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2
@@ -486,13 +487,11 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
       });
 
       productInstance.discountControl.setValue(total);
-
     } else {
 
       if (this.formData.get('tax_include').value) {
         console.log(productInstance);
-        let total_number = subtotal - discount;
-        let tax = total_number - (total_number / 1.16);
+        let tax = (subtotal - discount) * 0.16;
         productInstance.ivaControl.setValue((tax).toLocaleString('en-US', {
           minimumFractionDigits: 2,
           maximumFractionDigits: 2
@@ -551,10 +550,7 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private _filter(value: any): any[] {
-    console.log('_filter', value);
-
     const filterValue = value?.toLowerCase();
-    console.log('CatCompanies => ', this.catCompanies)
     return this.catCompanies.filter(option => option?.company_name?.toLowerCase()?.includes(filterValue));
   }
 
