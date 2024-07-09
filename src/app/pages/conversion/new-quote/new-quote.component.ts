@@ -423,12 +423,20 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
         }));
 
         if (this.formData.get('tax_include').value) {
-          let total_number = subtotal - discount;
-          let tax = total_number - (total_number / 1.16);
+          subtotal = subtotal - discount;
+          let tax = subtotal * 0.16;
+          let total_number = subtotal + tax;
+          
           optionInstance.ivaControl.setValue((tax).toLocaleString('en-US', {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2
           }));
+
+          optionInstance.totalControl.setValue((total_number).toLocaleString('en-US', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+          }));
+
         } else {
           optionInstance.ivaControl.setValue('');
         }
