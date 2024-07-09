@@ -162,7 +162,7 @@
 
                                 <div *ngIf="control.product?.length > 1"
                                     class="col-md-1 d-flex align-items-center justify-content-center c-column-btns">
-                                    <div class="btn-delete mb-3" (click)="deleteProductValue(productIndex)">
+                                    <div class="btn-delete mb-3" (click)="deleteProductValue(productIndex, i)">
                                         <mat-icon matTooltip="Eliminar">delete</mat-icon>
                                     </div>
                                 </div>

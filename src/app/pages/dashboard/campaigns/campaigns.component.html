@@ -474,17 +474,6 @@
                         <tr mat-header-row *matHeaderRowDef="displayedColumnsCampaign"></tr>
                         <tr mat-row *matRowDef="let row; columns: displayedColumnsCampaign"></tr>
                     </table>
-                    <!-- <div class="d-flex justify-content-end" style="background: none;"> 
-                        <mat-paginator
-                            #paginator
-                            [length]="total"
-                            [pageIndex]="indicePagina"
-                            [pageSize]="longitudPagina"
-                            [pageSizeOptions]="[5, 10, 25, 50, 100]"
-                            (page)="cambiaPagina($event)"
-                            class="w-100"
-                        ></mat-paginator>
-                    </div> -->
                 </div>
             </div>
         </div>

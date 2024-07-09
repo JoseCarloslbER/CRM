@@ -40,18 +40,21 @@
                         <div class="my-8 space-y-8">
                             <div class="flex flex-col">
                                 <div class="flex items-center">
-                                    <div class="icon-goal flex items-center justify-center w-14 h-14 rounded-3 text-white">
+                                    <div
+                                        class="icon-goal flex items-center justify-center w-14 h-14 rounded-3 text-white">
                                         <mat-icon class="text-current" [svgIcon]="'heroicons_outline:user'"></mat-icon>
                                     </div>
                                     <div class="flex-auto ml-4 leading-none">
                                         <div class="d-flex align-items-center justify-content-between">
-                                            <div class="mt-2 font-medium text-2xl text-start">{{element.goals.bono}}</div>
+                                            <div class="mt-2 font-medium text-2xl text-start">{{element.goals.bono}}
+                                            </div>
                                             <div class="flex items-end justify-end min-w-18 mt-auto ml-6">
                                                 <div class="text-lg leading-none">96%</div>
                                             </div>
                                         </div>
-                                        <mat-progress-bar class="mt-3 rounded-full" [color]="'success'" 
-                                        [mode]="'determinate'" [value]="(element.goals.expenses  * 100) / element.goals.expensesLimit"></mat-progress-bar>
+                                        <mat-progress-bar class="mt-3 rounded-full" [color]="'success'"
+                                            [mode]="'determinate'"
+                                            [value]="(element.goals.expenses  * 100) / element.goals.expensesLimit"></mat-progress-bar>
                                     </div>
                                 </div>
                             </div>
@@ -100,17 +103,6 @@
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
             </table>
-            <!-- <div class="d-flex justify-content-end" style="background: none;"> 
-                <mat-paginator
-                    #paginator
-                    [length]="total"
-                    [pageIndex]="indicePagina"
-                    [pageSize]="longitudPagina"
-                    [pageSizeOptions]="[5, 10, 25, 50, 100]"
-                    (page)="cambiaPagina($event)"
-                    class="w-100"
-                ></mat-paginator>
-            </div> -->
         </div>
 
 
@@ -129,7 +121,7 @@
                         {{element.bonusName}}
                     </td>
                 </ng-container>
-         
+
                 <ng-container matColumnDef="taskAssigned">
                     <th mat-header-cell *matHeaderCellDef>Tarea asignada</th>
                     <td mat-cell *matCellDef="let element">
@@ -162,14 +154,14 @@
                         {{element.compliance}}
                     </td>
                 </ng-container>
-         
+
                 <ng-container matColumnDef="bonusAchieved">
                     <th mat-header-cell *matHeaderCellDef>Bono logrado</th>
                     <td mat-cell *matCellDef="let element" class="color-green-goals">
                         {{element.bonusAchieved}}
                     </td>
                 </ng-container>
-            
+
                 <tr *matNoDataRow>
                     <td class="mat-cell" [attr.colspan]="displayedColumnsGoals.length">
                         <h5 class="text-center my-5">No se encontraron resultados.</h5>
@@ -178,23 +170,8 @@
                 <tr mat-header-row *matHeaderRowDef="displayedColumnsGoals"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumnsGoals"></tr>
             </table>
-
-            <!-- <div class="d-flex justify-content-end" style="background: none;"> 
-            <mat-paginator
-                #paginatorGoalHistory
-                [length]="totalGoals"
-                [pageIndex]="indicePaginaGoals"
-                [pageSize]="longitudPaginaGoals"
-                [pageSizeOptions]="[5, 10, 25, 50, 100]"
-                (page)="cambiaPagina($event)"
-                class="w-100"
-            ></mat-paginator>
-        </div> -->
         </div>
-
     </div>
-
-
     <br>
     <br>
     <br>

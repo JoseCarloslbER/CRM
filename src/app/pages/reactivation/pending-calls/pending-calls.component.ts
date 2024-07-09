@@ -27,6 +27,8 @@ export class PendingCallsComponent implements OnInit, AfterViewInit, OnDestroy {
   public currentPage = 0;
   public pageNext = 1;
   public pagePrevious = 0;
+  public pageIndex: number = 1;
+  public totalPages: number = 0;
 
   public displayedColumns: string[] = [
     'name',
@@ -49,6 +51,7 @@ export class PendingCallsComponent implements OnInit, AfterViewInit, OnDestroy {
   public fechaHoy = new Date();
 
   public searchBar = new FormControl('')
+  public paginateNumber = new FormControl('')
 
   constructor(
     private moduleServices: ReactivationService,
@@ -59,7 +62,7 @@ export class PendingCallsComponent implements OnInit, AfterViewInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.getDataTable()
+    this.searchWithFilters()
   }
 
   ngAfterViewInit(): void {
@@ -68,16 +71,21 @@ export class PendingCallsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.searchBar.valueChanges.pipe(takeUntil(this.onDestroy), debounceTime(500)).subscribe((content:string) => {
       this.applyFilter(content)
     })
+
+    this.paginateNumber.valueChanges.pipe(takeUntil(this.onDestroy), debounceTime(500)).subscribe((content: any) => {
+      this.pageIndex = content 
+      if (content <= this.totalPages) this.onPageChange();
+    })
   }
 
-  getDataTable() {
-    let filters = 'activity_type_id=fde5d736-c7ad-4ccc-9037-d742aa3b8a44&call_pending=true';
-        
-    if(this.pageNext == null)
-      this.pageNext = 1
+  searchWithFilters(excel?: boolean) {
+    let filters = "activity_type_id=fde5d736-c7ad-4ccc-9037-d742aa3b8a44&call_pending=true&";
 
-    filters += `page=${this.pageNext}&`;
+    filters += `page=${this.currentPage + 1}`;
+    this.getDataTable(filters)
+  }
 
+  getDataTable(filters?: string) {
     this.moduleServices.getDataTableCalls(filters).subscribe({
       next: (data: entity.TableDataCallsMapperResponse) => {
         this.dataSource.data = data.dataList;
@@ -85,11 +93,37 @@ export class PendingCallsComponent implements OnInit, AfterViewInit, OnDestroy {
         this.pagePrevious = data.pagePrevious;
         this.pageNext = data.pageNext;
         this.total = data.count;
-        console.log(data);
+        this.pageIndex = this.currentPage;
+        this.totalPages = Math.ceil(this.total / this.pageSize);
       },
       error: (error) => console.error(error)
     })
   }
+
+  isNumber(value) {
+    if (isNaN(value)) {
+      return ''
+    } else {
+      return value
+    }
+  }
+
+  onPageChange(event?: PageEvent) {
+    if (event) {
+      this.currentPage = event.pageIndex;
+      this.pageSize = event.pageSize;
+    } else {
+      if (this.pageIndex < 1) this.pageIndex = 1;
+      if (this.pageIndex > this.totalPages) {
+        this.pageIndex = this.currentPage + 1;
+        return;
+      }
+      this.currentPage = this.pageIndex - 1;
+    }
+    this.pageNext = this.currentPage + 1;
+    this.searchWithFilters();
+  }
+
 
   newOrEditData(data = null) {
     this.dialog.open(ModalNewActivityComponent, {
@@ -103,7 +137,7 @@ export class PendingCallsComponent implements OnInit, AfterViewInit, OnDestroy {
       panelClass: 'custom-dialog',
     })  
     .afterClosed()
-    .subscribe((_) => this.getDataTable());
+    .subscribe((_) => this.searchWithFilters());
   }
 
   seeCampaignsResults(data:any) {
@@ -135,21 +169,13 @@ export class PendingCallsComponent implements OnInit, AfterViewInit, OnDestroy {
                 'delete',
               )
               .afterClosed()
-              .subscribe((_) => this.getDataTable());
+              .subscribe((_) => this.searchWithFilters());
           },
           error: (error) => console.error(error)
         })
       }
     });
   }
-
-  onPageChange(event: PageEvent) {
-    this.currentPage = event.pageIndex;
-    this.pageSize = event.pageSize;
-    this.pageNext = this.currentPage + 1;
-    this.getDataTable()
-  }
-
 
   ngOnDestroy(): void {
     this.onDestroy.next();

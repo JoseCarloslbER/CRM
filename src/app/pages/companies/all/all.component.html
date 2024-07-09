@@ -236,9 +236,21 @@
                                     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                                     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
                                 </table>
-                                <mat-paginator #paginator class="c-paginator" [length]="total" [pageSize]="pageSize"
-                                    [pageSizeOptions]="[20]" (page)="onPageChange($event)">
-                                </mat-paginator>
+                                <div class="c-paginator" >
+                                    <div class="c-c-paginator">
+                                            <mat-paginator #paginator  
+                                            [length]="total" 
+                                            [pageSize]="pageSize"
+                                            [pageSizeOptions]="[20]" 
+                                            (page)="onPageChange($event)" 
+                                            [pageIndex]="paginateNumber?.value <= totalPages ? pageIndex : '' ">
+                                        </mat-paginator>
+                                        
+                                        <mat-form-field class="page-index">
+                                            <input [placeholder]="'Páginas: ' + isNumber(totalPages)" matInput placeholder="Página" type="number" min="1" minlength="1" [formControl]="paginateNumber">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </ng-template>
@@ -305,9 +317,21 @@
                                 </table>
                             </div>
 
-                            <mat-paginator #paginator class="c-paginator" [length]="total" [pageSize]="pageSize"
-                                [pageSizeOptions]="[20]" (page)="onPageChange($event)">
-                            </mat-paginator>
+                            <div class="c-paginator" >
+                                <div class="c-c-paginator">
+                                        <mat-paginator #paginator  
+                                        [length]="total" 
+                                        [pageSize]="pageSize"
+                                        [pageSizeOptions]="[20]" 
+                                        (page)="onPageChange($event)" 
+                                        [pageIndex]="paginateNumber?.value <= totalPages ? pageIndex : '' ">
+                                    </mat-paginator>
+                                    
+                                    <mat-form-field class="page-index">
+                                        <input [placeholder]="'Páginas: ' + isNumber(totalPages)" matInput placeholder="Página" type="number" min="1" minlength="1" [formControl]="paginateNumber">
+                                    </mat-form-field>
+                                </div>
+                            </div>
 
                         </div>
                     </ng-template>

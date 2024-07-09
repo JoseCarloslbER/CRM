@@ -10,6 +10,7 @@ import * as entityGeneral from '../../../shared/interfaces/general-interface';
 import moment from 'moment';
 import { CatalogsService } from 'app/shared/services/catalogs.service';
 import { CompaniesService } from 'app/pages/companies/companies.service';
+import { cloneDeep } from 'lodash';
 
 @Component({
   selector: 'app-new-quote',
@@ -99,8 +100,10 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
         });
       } else {
         this.optionFormValues.forEach(control => {
-          let total_number = parseFloat(control?.subtotalControl?.value.replace(/,/g, '')) - control?.discountControl?.value;
-          let tax = total_number - (total_number / 1.16);
+          let subtotal = parseFloat(control?.subtotalControl?.value.replace(/,/g, ''))
+          let discount = control?.discountControl?.value;
+          let tax = (subtotal - discount) * 0.16;
+
           if (tax) {
             control.ivaControl.setValue((tax).toLocaleString('en-US', {
               minimumFractionDigits: 2,
@@ -123,7 +126,7 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
     this.moduleServices.getDataId(id).subscribe({
       next: (response: any) => {
         console.log(response);
-        
+
         this.objEditData = response;
         this.formData.patchValue(this.objEditData);
         this.company.patchValue(this.objEditData.company.name);
@@ -142,7 +145,6 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
   getCatalogs() {
     this.catalogsServices.getCatCompany().subscribe({
       next: (data: entityGeneral.DataCatCompany[]) => {
-        console.log(data)
         this.catCompanies = data['data'];
       },
       error: (error) => console.error(error)
@@ -276,7 +278,7 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
         ...({ quote_option_id: control.id }),
         subtotal: parseFloat(control.subtotalControl.value.replace(/,/g, '')),
         total: parseFloat(control.totalControl.value.replace(/,/g, '')),
-        discount: typeof control?.discountControl?.value == 'number' ? control.discountControl.value : parseFloat(control?.discountControl?.value?.replace(/,/g, '')) ,
+        discount: typeof control?.discountControl?.value == 'number' ? control.discountControl.value : parseFloat(control?.discountControl?.value?.replace(/,/g, '')),
 
         type_price: control.typePriceControl.value,
         deadline: formattedDate,
@@ -340,9 +342,9 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
     this.optionFormValues.splice(index, 1)
   }
 
-  deleteProductValue(index: number) {
-    this.optionFormValues.forEach(data => {
-      console.log(data);
+  deleteProductValue(index: number, indexOption: number) {
+    for (let i = 0; i < this.optionFormValues.length; i++) {
+      let data = this.optionFormValues[indexOption];
       let productOption = data.product.splice(index, 1)
       let unitPrice = productOption[0].totalPriceControl?.value;
       let totalPrice = data.totalControl?.value;
@@ -352,7 +354,8 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
       });
       data.subtotalControl.setValue(result)
       data.totalControl.setValue(result)
-    })
+      break;
+    }
   }
 
   updateProductPrice(productInstance: any, selectedProduct: any) {
@@ -423,10 +426,8 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
         }));
 
         if (this.formData.get('tax_include').value) {
-          subtotal = subtotal - discount;
-          let tax = subtotal * 0.16;
-          let total_number = subtotal + tax;
-          
+          let total_number = subtotal - discount;
+          let tax = total_number - (total_number / 1.16);
           optionInstance.ivaControl.setValue((tax).toLocaleString('en-US', {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2
@@ -493,13 +494,11 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
       });
 
       productInstance.discountControl.setValue(total);
-
     } else {
 
       if (this.formData.get('tax_include').value) {
         console.log(productInstance);
-        let total_number = subtotal - discount;
-        let tax = total_number - (total_number / 1.16);
+        let tax = (subtotal - discount) * 0.16;
         productInstance.ivaControl.setValue((tax).toLocaleString('en-US', {
           minimumFractionDigits: 2,
           maximumFractionDigits: 2
@@ -559,7 +558,6 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private _filter(value: any): any[] {
     const filterValue = value?.toLowerCase();
-    console.log('CatCompanies => ', this.catCompanies)
     return this.catCompanies.filter(option => option?.company_name?.toLowerCase()?.includes(filterValue));
   }
 

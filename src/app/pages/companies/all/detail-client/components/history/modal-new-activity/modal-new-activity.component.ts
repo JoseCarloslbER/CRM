@@ -145,7 +145,7 @@ export class ModalNewActivityComponent implements OnInit, AfterViewInit, OnDestr
 
     this.catalogsServices.getCatCompany().subscribe({
       next: (data: entityGeneral.DataCatCompany[]) => {
-        this.catCompanies = data;
+        this.catCompanies = data['data'];
       },
       error: (error) => console.error(error)
     });
@@ -206,7 +206,10 @@ export class ModalNewActivityComponent implements OnInit, AfterViewInit, OnDestr
   }
 
   private _filter(value: any): any[] {
+    console.log('_filter', value);
+    
     const filterValue = value?.toLowerCase();
+    console.log('CatCompanies => ', this.catCompanies)
 
     return this.catCompanies.filter(option => option?.company_name?.toLowerCase()?.includes(filterValue));
   }
