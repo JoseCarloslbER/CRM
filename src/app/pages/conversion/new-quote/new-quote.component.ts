@@ -318,7 +318,7 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
     this.optionFormValues[optionIndex]?.product.push(newProductInstance);
   }
 
-  private setupProductControlSubscriptions(productInstance: any) {
+  setupProductControlSubscriptions(productInstance: any) {
     productInstance.productControl.valueChanges.subscribe((selectedProduct: any) => {
       this.updateProductPrice(productInstance, selectedProduct);
       this.updateSubtotal();
@@ -415,18 +415,20 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
       })
 
       if (subtotal) {
+      let tax = (subtotal - discount) * 0.16;
         optionInstance.subtotalControl.setValue(subtotal.toLocaleString('en-US', {
           minimumFractionDigits: 2,
           maximumFractionDigits: 2
         }));
 
-        optionInstance.totalControl.setValue(subtotal.toLocaleString('en-US', {
+        let total = (subtotal - discount) + tax;
+        
+        optionInstance.totalControl.setValue(total.toLocaleString('en-US', {
           minimumFractionDigits: 2,
           maximumFractionDigits: 2
         }));
 
         if (this.formData.get('tax_include').value) {
-          let tax = (subtotal - discount) * 0.16;
           optionInstance.ivaControl.setValue((tax).toLocaleString('en-US', {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2
@@ -437,9 +439,12 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
       }
 
       if (value && optionInstance?.product.length >= 1) {
-        optionInstance.discountControl.enable();
+        let tax = (subtotal - discount) * 0.16;
 
-        const total = (subtotal - discount).toLocaleString('en-US', {
+        optionInstance.discountControl.enable();
+        let totalPrice = (subtotal - discount) + tax;
+
+        const total = (totalPrice).toLocaleString('en-US', {
           minimumFractionDigits: 2,
           maximumFractionDigits: 2
         });
@@ -509,7 +514,7 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  private setupOptionControlSubscriptions(optionInstance: any) {
+  setupOptionControlSubscriptions(optionInstance: any) {
     optionInstance.discountControl.valueChanges.subscribe((newDiscount: any) => {
       this.updateTotalWithDiscount(optionInstance, newDiscount);
     });
@@ -549,7 +554,7 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
     return parseFloat(typeof value === 'string' ? value.replace(/,/g, '') : value) || 0;
   }
 
-  private _filter(value: any): any[] {
+  _filter(value: any): any[] {
     const filterValue = value?.toLowerCase();
     return this.catCompanies.filter(option => option?.company_name?.toLowerCase()?.includes(filterValue));
   }
