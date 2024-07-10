@@ -36,7 +36,8 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
     user: ['', Validators.required],
     campaign: [''],
     payment_method: ['', Validators.required],
-    tax_include: [true, Validators.required],
+    tax_include: [false, Validators.required],
+    // tax_include: [true, Validators.required],
   });
 
   public catCompanies: any[] = [];
@@ -360,25 +361,34 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
 
   updateProductPrice(productInstance: any, selectedProduct: any) {
     const selectedProductInfo = this.catProducts.find(product => product.product_id === selectedProduct);
+    let listPriceTwo: any
 
     if (selectedProductInfo) {
       const listPrice: any = selectedProductInfo.list_price;
       const placesValue = productInstance.placesControl.value;
 
-      productInstance.unitPriceControl.setValue(parseFloat(listPrice).toLocaleString('en-US', {
+      let totalPrice: any
+      if (!this.formData.get('tax_include').value) {
+        let iva: any = listPrice * 0.16;
+        let listPriceTwo = Number(listPrice);
+        totalPrice = (listPriceTwo + iva);
+      } else {
+        totalPrice = listPrice
+      }
+
+      productInstance.unitPriceControl.setValue(parseFloat(totalPrice).toLocaleString('en-US', {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
       }));
 
       if (placesValue) {
-        const newTotal = listPrice * placesValue;
-
+        const newTotal = totalPrice * placesValue;
         productInstance.totalPriceControl.setValue(newTotal.toLocaleString('en-US', {
           minimumFractionDigits: 2,
           maximumFractionDigits: 2
         }));
       } else {
-        productInstance.totalPriceControl.setValue(parseFloat(listPrice).toLocaleString('en-US', {
+        productInstance.totalPriceControl.setValue(parseFloat(totalPrice).toLocaleString('en-US', {
           minimumFractionDigits: 2,
           maximumFractionDigits: 2
         }));
@@ -386,8 +396,20 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+    // FUNCION LISTA ADAPTADA AL IVA 
   updateProductTotalPrice(productInstance: any, newPlacesValue: number) {
+    console.log('entroi aqui updateProductTotalPrice', );
+    
     const listPrice = parseFloat(productInstance.unitPriceControl.value.replace(/,/g, ''));
+    let totalPrice: any;
+
+    // if (!this.formData.get('tax_include').value) {
+    //   let iva: any = listPrice * 0.16;
+    //   let listPriceTwo = Number(listPrice);
+    //   totalPrice = (listPriceTwo + iva);
+    // } else {
+    //   totalPrice = listPrice
+    // }
 
     if (newPlacesValue && listPrice) {
       const newTotal = listPrice * newPlacesValue;
@@ -395,8 +417,9 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
       }));
-
+      
     } else {
+      console.log('updateProductTotalPice ENTRO 2');
       productInstance.totalPriceControl.setValue(listPrice.toLocaleString('en-US', {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
@@ -407,6 +430,7 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
   updateSubtotal(value?: any) {
     this.optionFormValues.forEach((optionInstance: any) => {
       let subtotal = 0;
+      let total = 0;
       const discountValue = optionInstance.discountControl.value;
       const discount = this.parseNumber(discountValue) || 0;
 
@@ -415,14 +439,19 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
       })
 
       if (subtotal) {
-      let tax = (subtotal - discount) * 0.16;
+        let tax = (subtotal - discount) * 0.16;
+
         optionInstance.subtotalControl.setValue(subtotal.toLocaleString('en-US', {
           minimumFractionDigits: 2,
           maximumFractionDigits: 2
         }));
 
-        let total = (subtotal - discount) + tax;
-        
+        if (this.formData.get('tax_include').value) {
+          total = (subtotal - discount) + tax;
+        } else {
+          total = (subtotal - discount);
+        }
+
         optionInstance.totalControl.setValue(total.toLocaleString('en-US', {
           minimumFractionDigits: 2,
           maximumFractionDigits: 2
@@ -440,9 +469,15 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
 
       if (value && optionInstance?.product.length >= 1) {
         let tax = (subtotal - discount) * 0.16;
+        let totalPrice :any;
+
+        if (this.formData.get('tax_include').value) {
+          totalPrice = (subtotal - discount) + tax;
+        } else {
+          totalPrice = (subtotal - discount);
+        }
 
         optionInstance.discountControl.enable();
-        let totalPrice = (subtotal - discount) + tax;
 
         const total = (totalPrice).toLocaleString('en-US', {
           minimumFractionDigits: 2,
@@ -459,21 +494,31 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
+  // funcion lista 
   updateProductTotalPriceManually(productInstance: any, newUnitPrice: any) {
     const placesValue = productInstance.placesControl.value;
+    let totalPrice: any;
+
+    // if (!this.formData.get('tax_include').value) {
+    //   let iva: any = newUnitPrice * 0.16;
+    //   let listPriceTwo = Number(newUnitPrice);
+    //   totalPrice = (listPriceTwo + iva);
+    // } else {
+    //   totalPrice = newUnitPrice
+    // }
 
     if (newUnitPrice && placesValue) {
       const newTotal = newUnitPrice * placesValue;
       productInstance.totalPriceControl.setValue(newTotal.toLocaleString('en-US', {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2
-      }));
-    } else if (newUnitPrice) {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        }));
+      } else if (newUnitPrice) {
       productInstance.totalPriceControl.setValue(parseFloat(newUnitPrice).toLocaleString('en-US', {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2
-      }));
-    } else if (!newUnitPrice) {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        }));
+      } else if (!newUnitPrice) {
       productInstance.totalPriceControl.setValue(parseFloat('0').toLocaleString('en-US', {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
@@ -495,7 +540,6 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
 
       if (this.formData.get('tax_include').value) {
-        console.log(productInstance);
         let tax = (subtotal - discount) * 0.16;
         productInstance.ivaControl.setValue((tax).toLocaleString('en-US', {
           minimumFractionDigits: 2,
