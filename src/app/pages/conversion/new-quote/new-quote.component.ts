@@ -87,7 +87,6 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     this.company.valueChanges.pipe(debounceTime(500)).subscribe(resp => {
-      console.log('resp', resp)
       this.filteredOptions.pipe(take(1)).subscribe(options => {
         const selectedCompany = options.find(cat => cat.company_name === resp);
         if (selectedCompany) this.getCatalogContact(selectedCompany.company_id);
@@ -126,8 +125,6 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
   getDataById(id: string) {
     this.moduleServices.getDataId(id).subscribe({
       next: (response: any) => {
-        console.log(response);
-
         this.objEditData = response;
         this.formData.patchValue(this.objEditData);
         this.company.patchValue(this.objEditData.company.name);
@@ -319,18 +316,23 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
     this.optionFormValues[optionIndex]?.product.push(newProductInstance);
   }
 
+  // ****************************************************
+
   setupProductControlSubscriptions(productInstance: any) {
+    // CUANDO SE SELECCIONA UN PRODCUTO 
     productInstance.productControl.valueChanges.subscribe((selectedProduct: any) => {
       this.updateProductPrice(productInstance, selectedProduct);
       this.updateSubtotal();
       this.enableProductFields(productInstance);
     });
 
+    // CUADNO SE INGRESA LUGAREES 
     productInstance.placesControl.valueChanges.subscribe((newPlacesValue: number) => {
       this.updateProductTotalPrice(productInstance, newPlacesValue);
       this.updateSubtotal(newPlacesValue);
     });
 
+    // CUANDO SE CAMBIA EL PRECIO UNITARIO 
     productInstance.unitPriceControl.valueChanges.subscribe((newUnitPrice: any) => {
       if (!isNaN(newUnitPrice)) {
         this.updateProductTotalPriceManually(productInstance, newUnitPrice);
@@ -339,29 +341,9 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  deleteOptionValue(index: number) {
-    this.optionFormValues.splice(index, 1)
-  }
-
-  deleteProductValue(index: number, indexOption: number) {
-    for (let i = 0; i < this.optionFormValues.length; i++) {
-      let data = this.optionFormValues[indexOption];
-      let productOption = data.product.splice(index, 1)
-      let unitPrice = productOption[0].totalPriceControl?.value;
-      let totalPrice = data.totalControl?.value;
-      let result = (parseFloat(totalPrice.replace(/,/g, '')) - parseFloat(unitPrice.replace(/,/g, ''))).toLocaleString('en-US', {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2
-      });
-      data.subtotalControl.setValue(result)
-      data.totalControl.setValue(result)
-      break;
-    }
-  }
-
   updateProductPrice(productInstance: any, selectedProduct: any) {
+    // SACAR INFO DEL PRODCTO SELECCIONADO
     const selectedProductInfo = this.catProducts.find(product => product.product_id === selectedProduct);
-    let listPriceTwo: any
 
     if (selectedProductInfo) {
       const listPrice: any = selectedProductInfo.list_price;
@@ -376,18 +358,27 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
         totalPrice = listPrice
       }
 
+      // INSERTAR DATO EN PRECIO UNITARIO 
+      console.log('insertar info del producto');
+      
       productInstance.unitPriceControl.setValue(parseFloat(totalPrice).toLocaleString('en-US', {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
       }));
 
+
       if (placesValue) {
         const newTotal = totalPrice * placesValue;
+
+        // INSERTAR DATOS EN PRECIO TOTAL CON LUAGRES INSERTADOS
         productInstance.totalPriceControl.setValue(newTotal.toLocaleString('en-US', {
           minimumFractionDigits: 2,
           maximumFractionDigits: 2
         }));
+
       } else {
+
+         // INSERTAR DATOS EN PRECIO TOTAL SIN LUGARES INSERRTADOS
         productInstance.totalPriceControl.setValue(parseFloat(totalPrice).toLocaleString('en-US', {
           minimumFractionDigits: 2,
           maximumFractionDigits: 2
@@ -396,30 +387,21 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-    // FUNCION LISTA ADAPTADA AL IVA 
   updateProductTotalPrice(productInstance: any, newPlacesValue: number) {
-    console.log('entroi aqui updateProductTotalPrice', );
-    
     const listPrice = parseFloat(productInstance.unitPriceControl.value.replace(/,/g, ''));
-    let totalPrice: any;
-
-    // if (!this.formData.get('tax_include').value) {
-    //   let iva: any = listPrice * 0.16;
-    //   let listPriceTwo = Number(listPrice);
-    //   totalPrice = (listPriceTwo + iva);
-    // } else {
-    //   totalPrice = listPrice
-    // }
 
     if (newPlacesValue && listPrice) {
       const newTotal = listPrice * newPlacesValue;
+
+      // INSERTAR DATOS EN PRECIO TOTAL 
       productInstance.totalPriceControl.setValue(newTotal.toLocaleString('en-US', {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
       }));
       
     } else {
-      console.log('updateProductTotalPice ENTRO 2');
+
+      // INSERTAR DATOS EN PRECIO TOTAL 
       productInstance.totalPriceControl.setValue(listPrice.toLocaleString('en-US', {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
@@ -441,6 +423,7 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
       if (subtotal) {
         let tax = (subtotal - discount) * 0.16;
 
+        // INSERTAR DATOS EN SUBTOTAL
         optionInstance.subtotalControl.setValue(subtotal.toLocaleString('en-US', {
           minimumFractionDigits: 2,
           maximumFractionDigits: 2
@@ -452,6 +435,7 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
           total = (subtotal - discount);
         }
 
+        // INSERTAR DATOS EN TOTAL
         optionInstance.totalControl.setValue(total.toLocaleString('en-US', {
           minimumFractionDigits: 2,
           maximumFractionDigits: 2
@@ -484,6 +468,7 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
           maximumFractionDigits: 2
         });
 
+        // INSERTAR DATOS EN TOTAL
         optionInstance.totalControl.setValue(total);
 
       } else if (!value && discount && optionInstance?.product.length < 2) {
@@ -494,31 +479,26 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  // funcion lista 
   updateProductTotalPriceManually(productInstance: any, newUnitPrice: any) {
     const placesValue = productInstance.placesControl.value;
-    let totalPrice: any;
-
-    // if (!this.formData.get('tax_include').value) {
-    //   let iva: any = newUnitPrice * 0.16;
-    //   let listPriceTwo = Number(newUnitPrice);
-    //   totalPrice = (listPriceTwo + iva);
-    // } else {
-    //   totalPrice = newUnitPrice
-    // }
 
     if (newUnitPrice && placesValue) {
       const newTotal = newUnitPrice * placesValue;
+
+      // INSERTAR DATOS EN PRECIO TOTAL CON LUGARES
       productInstance.totalPriceControl.setValue(newTotal.toLocaleString('en-US', {
           minimumFractionDigits: 2,
           maximumFractionDigits: 2
         }));
       } else if (newUnitPrice) {
+
+        // INSERTAR DATOS EN SIN LUGARES
       productInstance.totalPriceControl.setValue(parseFloat(newUnitPrice).toLocaleString('en-US', {
           minimumFractionDigits: 2,
           maximumFractionDigits: 2
         }));
       } else if (!newUnitPrice) {
+        // INSERTAR DATOS EN PRECIO TOTAL 0 SI NO SE INSERTA NADA
       productInstance.totalPriceControl.setValue(parseFloat('0').toLocaleString('en-US', {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
@@ -554,7 +534,30 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
         maximumFractionDigits: 2
       });
 
+      // INSERTAR EN TOTAL CON DESCUENTO 
       productInstance.totalControl.setValue(total);
+    }
+  }
+
+  // ****************************************************
+
+  deleteOptionValue(index: number) {
+    this.optionFormValues.splice(index, 1)
+  }
+
+  deleteProductValue(index: number, indexOption: number) {
+    for (let i = 0; i < this.optionFormValues.length; i++) {
+      let data = this.optionFormValues[indexOption];
+      let productOption = data.product.splice(index, 1)
+      let unitPrice = productOption[0].totalPriceControl?.value;
+      let totalPrice = data.totalControl?.value;
+      let result = (parseFloat(totalPrice.replace(/,/g, '')) - parseFloat(unitPrice.replace(/,/g, ''))).toLocaleString('en-US', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      });
+      data.subtotalControl.setValue(result)
+      data.totalControl.setValue(result)
+      break;
     }
   }
 
