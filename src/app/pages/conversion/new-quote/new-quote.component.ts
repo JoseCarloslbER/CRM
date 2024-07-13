@@ -90,140 +90,140 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     this.company.valueChanges.pipe(debounceTime(500)).subscribe(resp => {
-        this.filteredOptions.pipe(take(1)).subscribe(options => {
-            const selectedCompany = options.find(cat => cat.company_name === resp);
-            if (selectedCompany) this.getCatalogContact(selectedCompany.company_id);
-        });
+      this.filteredOptions.pipe(take(1)).subscribe(options => {
+        const selectedCompany = options.find(cat => cat.company_name === resp);
+        if (selectedCompany) this.getCatalogContact(selectedCompany.company_id);
+      });
     });
 
     this.formData.get('tax_include').valueChanges.pipe(takeUntil(this.onDestroy)).subscribe(resp => {
-        this.optionFormValues.forEach(control => {
-            control.product.forEach((productInstance: any) => {
-                const unitPrice = parseFloat(productInstance.unitPriceControl.value.replace(/,/g, ''));
-                const placesValue = productInstance.placesControl.value;
+      this.optionFormValues.forEach(control => {
+        control.product.forEach((productInstance: any) => {
+          const unitPrice = parseFloat(productInstance.unitPriceControl.value.replace(/,/g, ''));
+          const placesValue = productInstance.placesControl.value;
 
-                if (resp) {
-                    let listPrice = unitPrice / 1.16;
-                    productInstance.unitPriceControl.setValue(listPrice.toLocaleString('en-US', {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2
-                    }));
-
-                    if (placesValue) {
-                        const total = listPrice * placesValue;
-                        productInstance.totalPriceControl.setValue(total.toLocaleString('en-US', {
-                            minimumFractionDigits: 2,
-                            maximumFractionDigits: 2
-                        }));
-                    }
-                } else {
-                    let totalPrice = unitPrice * 1.16;
-                    productInstance.unitPriceControl.setValue(totalPrice.toLocaleString('en-US', {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2
-                    }));
-
-                    if (placesValue) {
-                        const total = totalPrice * placesValue;
-                        productInstance.totalPriceControl.setValue(total.toLocaleString('en-US', {
-                            minimumFractionDigits: 2,
-                            maximumFractionDigits: 2
-                        }));
-                    }
-                }
-            });
-
-            if (!resp) {
-                this.optionFormValues.forEach(control => {
-                    control.ivaControl.setValue('');
-                });
-            } else {
-                this.optionFormValues.forEach(control => {
-                    let subtotal = parseFloat(control?.subtotalControl?.value.replace(/,/g, ''));
-                    let discount = this.parseNumber(control?.discountControl?.value) || 0;
-                    let tax = (subtotal - discount) * 0.16;
-
-                    if (tax) {
-                        control.ivaControl.setValue((tax).toLocaleString('en-US', {
-                            minimumFractionDigits: 2,
-                            maximumFractionDigits: 2
-                        }));
-                    }
-                });
-            }
-
-            this.updateSubtotal();
-        });
-    });
-}
-
-updateSubtotal(value?: any) {
-    this.optionFormValues.forEach((optionInstance: any) => {
-        let subtotal = 0;
-        let total = 0;
-        const discountValue = optionInstance.discountControl.value;
-        const discount = this.parseNumber(discountValue) || 0;
-
-        optionInstance.product.forEach((productInstance: any) => {
-            subtotal += this.parseNumber(productInstance.totalPriceControl.value) || 0;
-        });
-
-        if (subtotal) {
-            let tax = (subtotal - discount) * 0.16;
-
-            optionInstance.subtotalControl.setValue(subtotal.toLocaleString('en-US', {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2
+          if (resp) {
+            let listPrice = unitPrice / 1.16;
+            productInstance.unitPriceControl.setValue(listPrice.toLocaleString('en-US', {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2
             }));
 
-            if (this.formData.get('tax_include').value) {
-                total = (subtotal - discount) + tax;
-            } else {
-                total = (subtotal - discount);
-            }
-
-            optionInstance.totalControl.setValue(total.toLocaleString('en-US', {
+            if (placesValue) {
+              const total = listPrice * placesValue;
+              productInstance.totalPriceControl.setValue(total.toLocaleString('en-US', {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2
+              }));
+            }
+          } else {
+            let totalPrice = unitPrice * 1.16;
+            productInstance.unitPriceControl.setValue(totalPrice.toLocaleString('en-US', {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2
             }));
 
-            if (this.formData.get('tax_include').value) {
-                optionInstance.ivaControl.setValue((tax).toLocaleString('en-US', {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2
-                }));
-            } else {
-                optionInstance.ivaControl.setValue('');
-            }
-        }
-
-        if (value && optionInstance?.product.length >= 1) {
-            let tax = (subtotal - discount) * 0.16;
-            let totalPrice: any;
-
-            if (this.formData.get('tax_include').value) {
-                totalPrice = (subtotal - discount) + tax;
-            } else {
-                totalPrice = (subtotal - discount);
-            }
-
-            optionInstance.discountControl.enable();
-
-            const total = (totalPrice).toLocaleString('en-US', {
+            if (placesValue) {
+              const total = totalPrice * placesValue;
+              productInstance.totalPriceControl.setValue(total.toLocaleString('en-US', {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2
-            });
+              }));
+            }
+          }
+        });
 
-            optionInstance.totalControl.setValue(total);
-        } else if (!value && discount && optionInstance?.product.length < 2) {
-            optionInstance.discountControl.disable();
-            optionInstance.discountControl.patchValue(0);
+        if (!resp) {
+          this.optionFormValues.forEach(control => {
+            control.ivaControl.setValue('');
+          });
         } else {
-            // Restaurar el valor del descuento si se pierde
-            optionInstance.discountControl.setValue(discountValue);
+          this.optionFormValues.forEach(control => {
+            let subtotal = parseFloat(control?.subtotalControl?.value.replace(/,/g, ''));
+            let discount = this.parseNumber(control?.discountControl?.value) || 0;
+            let tax = (subtotal - discount) * 0.16;
+
+            if (tax) {
+              control.ivaControl.setValue((tax).toLocaleString('en-US', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+              }));
+            }
+          });
         }
+
+        this.updateSubtotal();
+      });
     });
-}
+  }
+
+  updateSubtotal(value?: any) {
+    this.optionFormValues.forEach((optionInstance: any) => {
+      let subtotal = 0;
+      let total = 0;
+      const discountValue = optionInstance.discountControl.value;
+      const discount = this.parseNumber(discountValue) || 0;
+
+      optionInstance.product.forEach((productInstance: any) => {
+        subtotal += this.parseNumber(productInstance.totalPriceControl.value) || 0;
+      });
+
+      if (subtotal) {
+        let tax = (subtotal - discount) * 0.16;
+
+        optionInstance.subtotalControl.setValue(subtotal.toLocaleString('en-US', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        }));
+
+        if (this.formData.get('tax_include').value) {
+          total = (subtotal - discount) + tax;
+        } else {
+          total = (subtotal - discount);
+        }
+
+        optionInstance.totalControl.setValue(total.toLocaleString('en-US', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        }));
+
+        if (this.formData.get('tax_include').value) {
+          optionInstance.ivaControl.setValue((tax).toLocaleString('en-US', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+          }));
+        } else {
+          optionInstance.ivaControl.setValue('');
+        }
+      }
+
+      if (value && optionInstance?.product.length >= 1) {
+        let tax = (subtotal - discount) * 0.16;
+        let totalPrice: any;
+
+        if (this.formData.get('tax_include').value) {
+          totalPrice = (subtotal - discount) + tax;
+        } else {
+          totalPrice = (subtotal - discount);
+        }
+
+        optionInstance.discountControl.enable();
+
+        const total = (totalPrice).toLocaleString('en-US', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        });
+
+        optionInstance.totalControl.setValue(total);
+      } else if (!value && discount && optionInstance?.product.length < 2) {
+        optionInstance.discountControl.disable();
+        optionInstance.discountControl.patchValue(0);
+      } else {
+        // Restaurar el valor del descuento si se pierde
+        optionInstance.discountControl.setValue(discountValue);
+      }
+    });
+  }
 
 
   getId() {
@@ -567,7 +567,6 @@ updateSubtotal(value?: any) {
       this.updateSubtotal();
     });
   }
-
 
   updateProductTotalPriceManually(productInstance: any, newUnitPrice: any) {
     const placesValue = productInstance.placesControl.value;

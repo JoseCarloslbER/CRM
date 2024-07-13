@@ -142,21 +142,78 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     })
 
     this.taxInclude?.valueChanges.pipe(takeUntil(this.onDestroy)).subscribe(resp => {
-      if (!resp) {
-        this.optionFormValues.forEach(control => {
-          control.ivaControl.setValue('');
-        });
-      } else {
-        this.optionFormValues.forEach(control => {
-          let total_number = parseFloat(control?.subtotalControl?.value.replace(/,/g, '')) - control?.discountControl?.value;
-          let tax = total_number - (total_number / 1.16);
+      this.optionFormValues.forEach(control => {
+        control.product.forEach((productInstance: any) => {
+          const unitPrice = parseFloat(productInstance.unitPriceControl.value.replace(/,/g, ''));
+          const placesValue = productInstance.placesControl.value;
 
-          control.ivaControl.setValue((tax).toLocaleString('en-US', {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2
-          }));
+          if (resp) {
+            let listPrice = unitPrice / 1.16;
+            productInstance.unitPriceControl.setValue(listPrice.toLocaleString('en-US', {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2
+            }));
+
+            if (placesValue) {
+              const total = listPrice * placesValue;
+              productInstance.totalPriceControl.setValue(total.toLocaleString('en-US', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+              }));
+            }
+          } else {
+            let totalPrice = unitPrice * 1.16;
+            productInstance.unitPriceControl.setValue(totalPrice.toLocaleString('en-US', {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2
+            }));
+
+            if (placesValue) {
+              const total = totalPrice * placesValue;
+              productInstance.totalPriceControl.setValue(total.toLocaleString('en-US', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+              }));
+            }
+          }
         });
-      }
+
+        if (!resp) {
+          this.optionFormValues.forEach(control => {
+            control.ivaControl.setValue('');
+          });
+        } else {
+          this.optionFormValues.forEach(control => {
+            let subtotal = parseFloat(control?.subtotalControl?.value.replace(/,/g, ''));
+            let discount = this.parseNumber(control?.discountControl?.value) || 0;
+            let tax = (subtotal - discount) * 0.16;
+
+            if (tax) {
+              control.ivaControl.setValue((tax).toLocaleString('en-US', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+              }));
+            }
+          });
+        }
+
+        this.updateSubtotal();
+      });
+      // if (!resp) {
+      //   this.optionFormValues.forEach(control => {
+      //     control.ivaControl.setValue('');
+      //   });
+      // } else {
+      //   this.optionFormValues.forEach(control => {
+      //     let total_number = parseFloat(control?.subtotalControl?.value.replace(/,/g, '')) - control?.discountControl?.value;
+      //     let tax = total_number - (total_number / 1.16);
+
+      //     control.ivaControl.setValue((tax).toLocaleString('en-US', {
+      //       minimumFractionDigits: 2,
+      //       maximumFractionDigits: 2
+      //     }));
+      //   });
+      // }
     })
   }
 
@@ -341,8 +398,6 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
   }
 
   addFormContact(datos?: any) {
-    console.log('addFormContact', datos);
-
     const instance: any = {
       ...(datos && { id: datos.id }),
       fullNameControl: new FormControl({ value: datos?.nombre || '', disabled: false }, Validators.required),
@@ -766,7 +821,6 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
       this.formData.reset(form);
     }
   }
-
 
   get canSave() {
     let save: boolean = true;
