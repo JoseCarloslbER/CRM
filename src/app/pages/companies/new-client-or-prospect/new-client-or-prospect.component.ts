@@ -177,15 +177,13 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
 
         control.product.forEach(productInstance => {
           let listPrice = parseFloat(productInstance.unitPriceControl.value.replace(/,/g, ''));
-          let listPriceOriginal = parseFloat(productInstance.originalUnitPrice.value.replace(/,/g, ''));
 
           let newUnitPrice: number;
 
-          if (this.taxInclude.value && this.changeIva) {
-            newUnitPrice = listPriceOriginal;
-
-          } else if (!this.taxInclude.value && this.changeIva) {
-            newUnitPrice = listPriceOriginal * 1.16;
+          if (this.formData.get('tax_include').value && this.changeIva) {
+            newUnitPrice = listPrice / 1.16;
+          } else if (!this.formData.get('tax_include').value && this.changeIva) {
+            newUnitPrice = listPrice * 1.16;
           } else {
             newUnitPrice = listPrice;
           }
