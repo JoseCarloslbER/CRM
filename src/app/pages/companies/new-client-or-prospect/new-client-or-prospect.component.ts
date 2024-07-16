@@ -79,6 +79,7 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
   public optionFormValues: any[] = [];
   public company = new FormControl(null);
   public catProducts: entityGeneral.DataCatProducts[] = [];
+  private changeIva: boolean = false;
 
   constructor(
     private notificationService: OpenModalsService,
@@ -142,79 +143,131 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     })
 
     this.taxInclude?.valueChanges.pipe(takeUntil(this.onDestroy)).subscribe(resp => {
+      this.changeIva = true
+      this.recalculateFormValues()
+
+    })
+  }
+
+  recalculateFormValues() {
+    if (this.optionFormValues[0].subtotalControl.value) {
+
       this.optionFormValues.forEach(control => {
-        control.product.forEach((productInstance: any) => {
-          const unitPrice = parseFloat(productInstance.unitPriceControl.value.replace(/,/g, ''));
-          const placesValue = productInstance.placesControl.value;
+        let subtotal = parseFloat(control?.subtotalControl?.value.replace(/,/g, ''));
+        let discount = control?.discountControl?.value;
+        let taxMain = (subtotal - discount) * 0.16;
+        let total: number = subtotal - discount;
 
-          if (resp) {
-            let listPrice = unitPrice / 1.16;
-            productInstance.unitPriceControl.setValue(listPrice.toLocaleString('en-US', {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2
-            }));
+        if (this.taxInclude.value) {
+          control.ivaControl.setValue((taxMain).toLocaleString('en-US', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+          }));
 
-            if (placesValue) {
-              const total = listPrice * placesValue;
-              productInstance.totalPriceControl.setValue(total.toLocaleString('en-US', {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2
-              }));
-            }
-          } else {
-            let totalPrice = unitPrice * 1.16;
-            productInstance.unitPriceControl.setValue(totalPrice.toLocaleString('en-US', {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2
-            }));
+          total += taxMain;
 
-            if (placesValue) {
-              const total = totalPrice * placesValue;
-              productInstance.totalPriceControl.setValue(total.toLocaleString('en-US', {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2
-              }));
-            }
-          }
-        });
-
-        if (!resp) {
-          this.optionFormValues.forEach(control => {
-            control.ivaControl.setValue('');
-          });
         } else {
-          this.optionFormValues.forEach(control => {
-            let subtotal = parseFloat(control?.subtotalControl?.value.replace(/,/g, ''));
-            let discount = this.parseNumber(control?.discountControl?.value) || 0;
-            let tax = (subtotal - discount) * 0.16;
-
-            if (tax) {
-              control.ivaControl.setValue((tax).toLocaleString('en-US', {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2
-              }));
-            }
-          });
+          control.ivaControl.setValue('');
         }
 
-        this.updateSubtotal();
-      });
-      // if (!resp) {
-      //   this.optionFormValues.forEach(control => {
-      //     control.ivaControl.setValue('');
-      //   });
-      // } else {
-      //   this.optionFormValues.forEach(control => {
-      //     let total_number = parseFloat(control?.subtotalControl?.value.replace(/,/g, '')) - control?.discountControl?.value;
-      //     let tax = total_number - (total_number / 1.16);
+        control.totalControl.setValue(total.toLocaleString('en-US', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        }));
 
-      //     control.ivaControl.setValue((tax).toLocaleString('en-US', {
-      //       minimumFractionDigits: 2,
-      //       maximumFractionDigits: 2
-      //     }));
-      //   });
-      // }
-    })
+        control.product.forEach(productInstance => {
+          let listPrice = parseFloat(productInstance.unitPriceControl.value.replace(/,/g, ''));
+          let listPriceOriginal = parseFloat(productInstance.originalUnitPrice.value.replace(/,/g, ''));
+
+          let newUnitPrice: number;
+
+          if (this.taxInclude.value && this.changeIva) {
+            newUnitPrice = listPriceOriginal;
+
+          } else if (!this.taxInclude.value && this.changeIva) {
+            newUnitPrice = listPriceOriginal * 1.16;
+          } else {
+            newUnitPrice = listPrice;
+          }
+
+          productInstance.unitPriceControl.setValue(newUnitPrice.toLocaleString('en-US', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+          }));
+
+        });
+      });
+    }
+  }
+
+  updateSubtotal(value?: any) {
+    this.optionFormValues.forEach((optionInstance: any) => {
+      let subtotal = 0;
+      let total = 0;
+      const discountValue = optionInstance.discountControl.value;
+      const discount = this.parseNumber(discountValue) || 0;
+
+      optionInstance.product.forEach((productInstance: any) => {
+        subtotal += this.parseNumber(productInstance.totalPriceControl.value) || 0;
+      });
+
+      if (subtotal) {
+        let tax = (subtotal - discount) * 0.16;
+
+        optionInstance.subtotalControl.setValue(subtotal.toLocaleString('en-US', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        }));
+
+        if (this.taxInclude.value) {
+          total = (subtotal - discount) + tax;
+        } else {
+          let subtotalSinIva = subtotal / 1.16;
+          let subtotalConDescuento = subtotalSinIva - discount;
+          let taxIva = subtotalConDescuento * 0.16;
+          total = subtotalConDescuento + taxIva;
+        }
+
+        setTimeout(() => {
+          optionInstance.totalControl.setValue(total.toLocaleString('en-US', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+          }));
+        }, 100);
+
+        if (this.taxInclude.value) {
+          optionInstance.ivaControl.setValue((tax).toLocaleString('en-US', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+          }));
+        } else {
+          optionInstance.ivaControl.setValue('');
+        }
+      }
+
+      if (value && optionInstance?.product.length >= 1) {
+        let tax = (subtotal - discount) * 0.16;
+        let totalPrice: any;
+
+        if (this.taxInclude.value) {
+          totalPrice = (subtotal - discount) + tax;
+        } else {
+          totalPrice = (subtotal - discount);
+        }
+
+        // optionInstance.discountControl.enable();
+
+        const total = (totalPrice).toLocaleString('en-US', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        });
+
+        optionInstance.totalControl.setValue(total);
+      } else if (!value && discount && optionInstance?.product.length < 2) {
+      } else {
+        optionInstance.discountControl.setValue(discountValue);
+      }
+    });
   }
 
   getId() {
@@ -321,7 +374,7 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
 
     let objData: any = {
       ...this.formData.value,
-      city : this.citySelected
+      city: this.citySelected
     }
 
     if ((!contacts.length && !this.addContact.value)) {
@@ -468,7 +521,7 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     const instance: any = {
       ...(datos && { id: datos?.id }),
       subtotalControl: new FormControl({ value: datos?.subtotal || '', disabled: true }, Validators.required),
-      discountControl: new FormControl({ value: datos?.discount || 0, disabled: datos?.discount ? false : true }),
+      discountControl: new FormControl({ value: datos?.discount || 0, disabled: false }),
       totalControl: new FormControl({ value: datos?.total || '', disabled: true }, Validators.required),
       ivaControl: new FormControl({ value: datos?.tax || '', disabled: true }),
       typePriceControl: new FormControl({ value: datos?.typePrice ? datos.typePrice : this.optionFormValues.length >= 1 && !this.objEditData ? 2 : 1, disabled: false }, Validators.required),
@@ -504,6 +557,7 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
         [Validators.required, (control: FormControl) => parseFloat(control.value.replace(/,/g, '')) > 0 ? null : { 'positiveNumber': true }]
       ),
       totalPriceControl: new FormControl({ value: productData?.total || '', disabled: true }, Validators.required),
+      originalUnitPrice: new FormControl({ value: productData?.totalOrigin || '', disabled: true }, Validators.required),
     };
 
     this.setupProductControlSubscriptions(productInstance);
@@ -516,7 +570,7 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     this.optionFormValues[optionIndex]?.product.push(newProductInstance);
   }
 
-  private setupProductControlSubscriptions(productInstance: any) {
+  setupProductControlSubscriptions(productInstance: any) {
     productInstance.productControl.valueChanges.subscribe((selectedProduct: any) => {
       this.updateProductPrice(productInstance, selectedProduct);
       this.updateSubtotal();
@@ -561,21 +615,34 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     if (selectedProductInfo) {
       const listPrice: any = selectedProductInfo.list_price;
       const placesValue = productInstance.placesControl.value;
+      productInstance.originalUnitPrice.setValue(listPrice)
 
-      productInstance.unitPriceControl.setValue(parseFloat(listPrice).toLocaleString('en-US', {
+      let totalPrice: any
+      if (!this.taxInclude.value) {
+        let iva: any = listPrice * 0.16;
+        let listPriceTwo = Number(listPrice);
+        totalPrice = (listPriceTwo + iva);
+      } else {
+        totalPrice = listPrice
+      }
+
+      productInstance.unitPriceControl.setValue(parseFloat(totalPrice).toLocaleString('en-US', {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
       }));
 
+
       if (placesValue) {
-        const newTotal = listPrice * placesValue;
+        const newTotal = totalPrice * placesValue;
 
         productInstance.totalPriceControl.setValue(newTotal.toLocaleString('en-US', {
           minimumFractionDigits: 2,
           maximumFractionDigits: 2
         }));
+
       } else {
-        productInstance.totalPriceControl.setValue(parseFloat(listPrice).toLocaleString('en-US', {
+
+        productInstance.totalPriceControl.setValue(parseFloat(totalPrice).toLocaleString('en-US', {
           minimumFractionDigits: 2,
           maximumFractionDigits: 2
         }));
@@ -588,11 +655,14 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
 
     if (newPlacesValue && listPrice) {
       const newTotal = listPrice * newPlacesValue;
+
       productInstance.totalPriceControl.setValue(newTotal.toLocaleString('en-US', {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
       }));
+
     } else {
+
       productInstance.totalPriceControl.setValue(listPrice.toLocaleString('en-US', {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
@@ -600,67 +670,19 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     }
   }
 
-  updateSubtotal(value?: any) {
-    this.optionFormValues.forEach((optionInstance: any) => {
-      let subtotal = 0;
-      const discountValue = optionInstance.discountControl.value;
-      const discount = this.parseNumber(discountValue) || 0;
-
-      optionInstance.product.forEach((productInstance: any) => {
-        subtotal += this.parseNumber(productInstance.totalPriceControl.value) || 0;
-      })
-
-      if (subtotal) {
-        optionInstance.subtotalControl.setValue(subtotal.toLocaleString('en-US', {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2
-        }));
-
-        optionInstance.totalControl.setValue(subtotal.toLocaleString('en-US', {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2
-        }));
-
-        if (this.taxInclude?.value) {
-          let total_number = subtotal - discount;
-          let tax = total_number - (total_number / 1.16);
-          optionInstance.ivaControl.setValue((tax).toLocaleString('en-US', {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2
-          }));
-        } else {
-          optionInstance.ivaControl.setValue('');
-        }
-      }
-
-      if (value && optionInstance?.product.length >= 1) {
-        optionInstance.discountControl.enable();
-
-        const total = (subtotal - discount).toLocaleString('en-US', {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2
-        });
-
-        optionInstance.totalControl.setValue(total);
-
-      } else if (!value && discount && optionInstance?.product.length < 2) {
-        optionInstance.discountControl.disable();
-        optionInstance.discountControl.patchValue(0);
-      }
-
-    });
-  }
 
   updateProductTotalPriceManually(productInstance: any, newUnitPrice: any) {
     const placesValue = productInstance.placesControl.value;
 
     if (newUnitPrice && placesValue) {
       const newTotal = newUnitPrice * placesValue;
+
       productInstance.totalPriceControl.setValue(newTotal.toLocaleString('en-US', {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
       }));
     } else if (newUnitPrice) {
+
       productInstance.totalPriceControl.setValue(parseFloat(newUnitPrice).toLocaleString('en-US', {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
@@ -673,9 +695,11 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
     }
   }
 
+
   updateTotalWithDiscount(productInstance: any, newDiscount: any) {
     const subtotal = this.parseNumber(productInstance?.subtotalControl?.value) || 0;
     const discount = this.parseNumber(newDiscount) || 0;
+    let tax: any
 
     if (subtotal < discount) {
       const total = (subtotal).toLocaleString('en-US', {
@@ -684,27 +708,39 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
       });
 
       productInstance.discountControl.setValue(total);
-
     } else {
 
-      if (this.taxInclude?.value) {
-        console.log(productInstance);
-        let total_number = subtotal - discount;
-        let tax = total_number - (total_number / 1.16);
+      let total: any
+
+      if (this.taxInclude.value) {
+        tax = (subtotal - discount) * 0.16;
+
         productInstance.ivaControl.setValue((tax).toLocaleString('en-US', {
           minimumFractionDigits: 2,
           maximumFractionDigits: 2
         }));
+
+        total = ((subtotal - discount) + tax).toLocaleString('en-US', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        });
+
       } else {
         productInstance.ivaControl.setValue('');
+
+        let subtotalSinIva = subtotal / 1.16;
+        let subtotalConDescuento = subtotalSinIva - discount;
+        let taxIva = subtotalConDescuento * 0.16;
+        let resultadoFinal = subtotalConDescuento + taxIva;
+        total = (resultadoFinal).toLocaleString('en-US', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        });
+
       }
 
-      const total = (subtotal - discount).toLocaleString('en-US', {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2
-      });
-
       productInstance.totalControl.setValue(total);
+      productInstance.totalControl.patchData(total);
     }
   }
 
@@ -774,7 +810,6 @@ export class NewClientOrProspectComponent implements OnInit, AfterViewInit, OnDe
   }
 
   toQuoteDetail(id: String) {
-    //this.router.navigateByUrl(`/home/conversion/detalle-cotizacion/${id}`)
     const url = `/home/conversion/detalle-cotizacion/${id}`;
     window.open(url, '_blank');
   }
