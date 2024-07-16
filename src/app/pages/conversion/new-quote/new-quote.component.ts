@@ -124,7 +124,10 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
         if (this.formData.get('tax_include').value) {
           total = (subtotal - discount) + tax;
         } else {
-          total = (subtotal - discount);
+          let subtotalSinIva = subtotal / 1.16;
+          let subtotalConDescuento = subtotalSinIva - discount;
+          let taxIva = subtotalConDescuento * 0.16;
+          total = subtotalConDescuento + taxIva;
         }
 
         setTimeout(() => {
@@ -174,30 +177,26 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
 
   recalculateFormValues() {
 
-    console.log(this.optionFormValues[0]);
     if (this.optionFormValues[0].subtotalControl.value) {
 
       this.optionFormValues.forEach(control => {
-        console.log('control', control);
+        // console.log('control', control);
 
         // OBTENER SUBTOTAL 
         let subtotal = parseFloat(control?.subtotalControl?.value.replace(/,/g, ''));
         // console.log('subtotal', subtotal);
         // OBTENER DECUENTO
         let discount = control?.discountControl?.value;
-        console.log('discount', discount);
+        // console.log('discount', discount);
         // CALCUALR IVA 
         let taxMain = (subtotal - discount) * 0.16;
-        console.log('tax', taxMain);
+        // console.log('tax', taxMain);
         // SACAR TOTAL 
         let total: number = subtotal - discount;
         // console.log('total', total);
 
         // VALIDAR IVA EN SI O NO 
         if (this.formData.get('tax_include').value) {
-          // INSERTAR EL IVA EN EL INPUT SI ESTA EN SI
-          console.log('insertar iva', taxMain);
-
           control.ivaControl.setValue((taxMain).toLocaleString('en-US', {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2
@@ -206,15 +205,9 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
           total += taxMain;
 
         } else {
-          // LIMPAIR IVA SI ESTA EN NO 
           control.ivaControl.setValue('');
+          
         }
-
-        // if (this.formData.get('tax_include').value) {
-        // }
-
-        console.log('INSERTAR TOTAL: ', total);
-        console.log('taxMain', taxMain);
 
         control.totalControl.setValue(total.toLocaleString('en-US', {
           minimumFractionDigits: 2,
@@ -222,36 +215,20 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
         }));
 
 
-        // if (discount) {
-        //   console.log('INSERTAR DESCUENOT', discount);
-        //   control.discountControl.patchValue(discount.toLocaleString('en-US', {
-        //     minimumFractionDigits: 2,
-        //     maximumFractionDigits: 2
-        //   }));
-        // }
-
-
         control.product.forEach(productInstance => {
-          console.log(productInstance);
 
           let listPrice = parseFloat(productInstance.unitPriceControl.value.replace(/,/g, ''));
-          // let discount = parseFloat(productInstance.unitPriceControl.value.replace(/,/g, ''));
           let listPriceOriginal = parseFloat(productInstance.originalUnitPrice.value.replace(/,/g, ''));
-          // let originalPrice = productInstance.originalUnitPrice;
-          // console.log('originalPrice', originalPrice);
 
           let newUnitPrice: number;
 
           if (this.formData.get('tax_include').value && this.changeIva) {
-            // console.log('Precio original sin IVA');
-            newUnitPrice = listPriceOriginal; // Precio original sin IVA
+            newUnitPrice = listPriceOriginal; 
 
           } else if (!this.formData.get('tax_include').value && this.changeIva) {
-            // console.log('Precio con IVA');
-            newUnitPrice = listPriceOriginal * 1.16; // Precio con IVA
+            newUnitPrice = listPriceOriginal * 1.16; 
           } else {
-            // console.log('Mantiene el precio actual si no hay cambio en IVA');
-            newUnitPrice = listPrice; // Mantiene el precio actual si no hay cambio en IVA
+            newUnitPrice = listPrice; 
           }
 
           productInstance.unitPriceControl.setValue(newUnitPrice.toLocaleString('en-US', {
@@ -519,7 +496,7 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
       }
 
       // INSERTAR DATO EN PRECIO UNITARIO 
-      console.log('insertar info del producto');
+      // console.log('insertar info del producto');
 
       productInstance.unitPriceControl.setValue(parseFloat(totalPrice).toLocaleString('en-US', {
         minimumFractionDigits: 2,
@@ -623,22 +600,33 @@ export class NewQuoteComponent implements OnInit, AfterViewInit, OnDestroy {
           maximumFractionDigits: 2
         });
       } else {
+        console.log('NO INCLUYE EL IVA');
+        
         productInstance.ivaControl.setValue('');
-        total = (subtotal - discount).toLocaleString('en-US', {
+
+        let subtotalSinIva = subtotal / 1.16;
+        let subtotalConDescuento = subtotalSinIva - discount;
+        let taxIva = subtotalConDescuento * 0.16;
+        let resultadoFinal = subtotalConDescuento + taxIva;
+        total = (resultadoFinal).toLocaleString('en-US', {
           minimumFractionDigits: 2,
           maximumFractionDigits: 2
         });
+        
       }
 
       // const total = (total).toLocaleString('en-US', {
       //   minimumFractionDigits: 2,
       //   maximumFractionDigits: 2
       // });
-      console.log('TOTAL', total);
+      // console.log('TOTAL', total);
       
 
       // INSERTAR EN TOTAL CON DESCUENTO 
+      console.log('TOTAL A INSERTAR ' ,total);
+      
       productInstance.totalControl.setValue(total);
+      productInstance.totalControl.patchData(total);
     }
   }
 
