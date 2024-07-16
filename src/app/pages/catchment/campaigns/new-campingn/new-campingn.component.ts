@@ -151,7 +151,7 @@ export class NewCampingnComponent implements OnInit, AfterViewInit, OnDestroy {
       },
       error: (error) => console.error(error)
     });
-   
+
     this.catalogsServices.getCatCountry().subscribe({
       next: (data: entityGeneral.DataCatCountry[]) => {
         this.catalogCountry = data;
@@ -203,7 +203,8 @@ export class NewCampingnComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.catalogsServices.getCatCompany(filters).subscribe({
       next: (data: entityGeneral.DataCatCompany[]) => {
-        this.catalogCompanies = data;
+        //console.log(data['data'])
+        this.catalogCompanies = data['data'];
       },
       error: (error) => console.error(error)
     });
